@@ -71,6 +71,7 @@ Requisitos: Node.js 18+ e uma chave da OpenRouter (https://openrouter.ai/keys). 
 ```bash
 npm install
 cp .env.example .env        # cole sua OPENROUTER_API_KEY
+npm run models              # mostra a configuração de modelos e valida a chave
 
 npm test                    # 108 testes determinísticos, sem custo de API
 npm run materialize         # regenera o dataset a partir dos .brd
@@ -80,6 +81,99 @@ npm run aggregate           # agrega réplicas em média com IC95%
 ```
 
 Para replicar a campanha inteira (3 réplicas de cada), rode os comandos de avaliação e juiz três vezes com `--out report-eval-real-N.json` / `--out report-judge-real-N.json` e agregue. O script usado na campanha original está em [`resultados/campanha-2026-07-02/run.sh`](resultados/campanha-2026-07-02/run.sh). A aleatoriedade da parte estatística usa semente fixa: os mesmos dados produzem os mesmos números em qualquer máquina.
+
+## Grau de dificuldade e custo
+
+O experimento foi desenhado para ser reproduzível por qualquer pessoa com experiência básica de terminal. Não há banco de dados, não há Docker, não há dependência de GPU: é Node.js puro com duas bibliotecas pequenas.
+
+| Etapa | Exige | Tempo | Custo de API |
+| --- | --- | --- | --- |
+| Entender (ler docs e dataset) | um navegador | livre | nenhum |
+| Verificar (testes + reagregação dos dados publicados) | Node 18+ | ~2 min | nenhum |
+| Replicar 1 corrida (avaliação + juiz nos 24 exercícios) | chave OpenRouter | ~20 min | por volta de US$ 1 |
+| Replicar a campanha completa (3 réplicas de cada) | chave OpenRouter | ~1h30 (sem supervisão) | tipicamente abaixo de US$ 5 |
+
+## Transparência dos modelos
+
+A tabela abaixo é a configuração oficial da campanha, idêntica à da produção da EducaOFF. Cada agente tem o seu modelo e a sua temperatura, e as temperaturas diferem de propósito: o aluno avançado precisa ser quase determinístico, o aluno com dificuldades precisa de diversidade para os erros emergirem, e o juiz precisa de julgamento estável.
+
+| Passo do experimento | Agente | Modelo | Temperatura | Máx. tokens |
+| --- | --- | --- | --- | --- |
+| Caminho de resolução correto | 3a, aluno avançado | `google/gemini-3.5-flash` | 0,2 | 16.000 |
+| Misconceptions (erros previstos) | 3b, aluno com dificuldades | `google/gemini-3.5-flash` | 0,7 | 24.000 |
+| Dicas em 4 níveis | 3c, aluno mediano | `google/gemini-3.5-flash` | 0,4 | 16.000 |
+| Julgamento de validade e importância | juiz cego | `z-ai/glm-4.5` | 0,1 | 32.000 |
+| Contingência (1 retentativa em falha) | fallback | `deepseek/deepseek-chat` | 0,3 | 16.000 |
+
+Três decisões merecem justificativa. Primeira: o juiz é de **família diferente** do gerador (GLM contra Gemini), porque modelos de linguagem tendem a avaliar melhor a produção da própria família (Panickssery et al. 2024); um juiz da mesma família seria uma câmara de eco. Segunda: a montagem do grafo (GraphForge) **não usa modelo nenhum**, é um algoritmo determinístico, então nenhuma parte da estrutura depende de IA. Terceira: todos os modelos são acessados pela OpenRouter, o que permite reproduzir com **uma única chave** e trocar qualquer modelo sem tocar em código.
+
+Para ver a configuração ativa na sua máquina e validar a chave: `npm run models`. Para trocar modelos ou temperaturas, edite o `.env` (o `.env.example` documenta cada variável). A definição está centralizada na tabela `AGENTS` de [`llm.js`](llm.js).
+
+## A arquitetura do juiz cego
+
+O juiz é a peça que separa "o sistema inventou bobagem" de "o sistema enxergou um erro real que o especialista não catalogou". Ele são duas funções sobre o mesmo modelo (GLM-4.5, temperatura 0,1), cada uma com um prompt fixo e saída em JSON estruturado:
+
+```mermaid
+flowchart TB
+    subgraph entrada [" itens julgados às cegas, um por vez "]
+        E1["extras do sistema<br/>(erros que só ele previu)"]
+        E2["erros do próprio especialista<br/>(calibração positiva)"]
+        E3["distratores: a resposta certa<br/>+ um valor absurdo (controle)"]
+    end
+    entrada --> J1["JUIZ DE VALIDADE<br/>recebe só: enunciado + resposta correta + resposta errada candidata<br/>NUNCA sabe a origem do item"]
+    J1 --> V["veredito por item:<br/>válido / implausível / é a resposta certa / impossível<br/>+ nome do erro + 1 frase de justificativa"]
+    P["erros do especialista que o<br/>sistema NÃO cobriu (perdidos)"] --> J2["JUIZ DE IMPORTÂNCIA<br/>cego à cobertura: julga só o quanto<br/>o erro importa pedagogicamente"]
+    J2 --> I["central / periférico / mecânico"]
+    style J1 fill:#EEEDFE,stroke:#7F77DD
+    style J2 fill:#EEEDFE,stroke:#7F77DD
+```
+
+O que valida o próprio juiz, dentro de cada rodada: os erros do especialista funcionam como régua positiva (devem pontuar alto; pontuaram 99%) e os distratores como régua negativa (devem pontuar zero; pontuaram 0%). Se os distratores passassem, o juiz seria um carimbo e nenhum número dele valeria. Os prompts completos das duas funções estão em [`judge-misconceptions.js`](judge-misconceptions.js), e o repositório também prevê calibração contra rótulos humanos (κ de Cohen) quando existir um arquivo `human-judge-labels.json` no corpus.
+
+## Como os agentes e o GraphForge são invocados
+
+O fluxo de ponta a ponta, no código, é este:
+
+```
+run-ctat-eval.mjs
+  └── authorFromBrd(brdXml)                          [author-from-ctat.js]
+        ├── parseBrdToRobotInput(brd)  → Envelope A  [parse-ctat-brd.js]
+        └── authorFromEnvelopeA(envelopeA)
+              ├── simulateStudentsReal(envelopeA)    [simulate-students-real.js]
+              │     ├── agent3a_advancedStudent(state)   ┐
+              │     ├── agent3b_atRiskStudent(state)     ├ [agents3-students.js,
+              │     └── agent3c_averageStudent(state)    ┘  código de produção]
+              ├── buildGraphForgeConfig(iface, traces)   [author-graph.js]
+              ├── graphForge(config)  → o grafo          [graphforge.js, determinístico]
+              └── normalizeEducaoff(graph) → esquema neutro para comparação
+```
+
+Quem quiser usar as peças como biblioteca (por exemplo, para autorar um grafo de um único exercício e inspecioná-lo) precisa de meia dúzia de linhas:
+
+```js
+import "dotenv/config";
+import fs from "node:fs";
+import { authorFromEnvelopeA } from "./author-from-ctat.js";
+import { simulateStudentsReal } from "./simulate-students-real.js";
+
+const envelopeA = JSON.parse(fs.readFileSync(
+  "datasets/frac-numberline-6.17/problems/00bubble/envelope-a.json", "utf8"));
+
+const { graph, neutral, traces } = await authorFromEnvelopeA(envelopeA, {
+  simulate: simulateStudentsReal,   // os 3 agentes reais; omita para usar o modo simplificado
+});
+console.log(JSON.stringify(graph, null, 2));   // o grafo de comportamento completo
+```
+
+E para comparar esse grafo com o do especialista do mesmo exercício:
+
+```js
+import { compareGraphs } from "./metrics.js";
+const expert = JSON.parse(fs.readFileSync(
+  "datasets/frac-numberline-6.17/problems/00bubble/envelope-b.json", "utf8"));
+const cmp = compareGraphs(expert, neutral);
+console.log(cmp.recallMisconceptionsConceptual, cmp.detail.missingMisconceptions, cmp.detail.extraMisconceptions);
+```
 
 ## Estrutura do repositório
 

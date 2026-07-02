@@ -466,6 +466,10 @@
 <p class="cap">Figura 8. O protocolo do juiz. Ele é cego à origem dos itens, é calibrado (os erros do próprio especialista devem pontuar alto) e tem controles negativos (os distratores DEVEM pontuar zero; se não pontuarem, o juiz é um carimbo e nada do que ele diz vale). Além disso, o juiz usa um modelo de IA de família diferente da que gera os grafos, por causa do viés de auto-preferência documentado em Panickssery et al. (2024).</p>
 </div>
 
+<h3>O que o juiz é por dentro</h3>
+<p>O juiz não é uma pessoa: são duas funções de julgamento sobre um modelo de linguagem (GLM-4.5, da Z.ai, com temperatura 0,1 para dar julgamento estável). A primeira função avalia <b>validade</b>: recebe apenas o enunciado, a resposta correta e uma resposta errada candidata, e devolve um JSON com o veredito (válido, implausível, "na verdade é a resposta certa" ou impossível), o nome do erro quando válido e uma frase de justificativa. A segunda função avalia <b>importância</b>: recebe um erro do especialista que o sistema não cobriu e o classifica como central, periférico ou mecânico, sem saber que se trata de uma lacuna. Os prompts das duas funções são fixos e estão publicados no repositório do experimento.</p>
+<p>A escolha do modelo é uma decisão metodológica: o juiz é de <b>família diferente</b> dos modelos que geram os grafos (GLM contra Gemini). Modelos de linguagem tendem a avaliar melhor a produção da própria família, um viés documentado por Panickssery et al. (2024); um juiz da mesma família seria uma câmara de eco. E o julgamento é sempre <b>item a item</b>, nunca do grafo inteiro, o que permite saber exatamente qual erro passou e qual falhou.</p>
+
 <h2 id="s9">9. Rigor: pré-registro, réplicas e revisão adversarial</h2>
 
 <h3>Pré-registro com emenda transparente</h3>
@@ -505,6 +509,19 @@
 </svg>
 <p class="cap">Figura 9. O desenho da campanha de 2026-07-02: 6 corridas oficiais (3 de avaliação e 3 do juiz), 144 grafos autorados pelos agentes reais, 498 julgamentos do juiz.</p>
 </div>
+
+<h3>Transparência dos modelos utilizados</h3>
+<p>Todos os modelos de IA do experimento são acessados por um único provedor (OpenRouter), o que permite reproduzir tudo com uma chave só. A configuração abaixo é a oficial da campanha, idêntica à da produção da plataforma. As temperaturas diferem de propósito: o aluno avançado precisa ser quase determinístico, o aluno com dificuldades precisa de variedade para os erros emergirem, e o juiz precisa de estabilidade.</p>
+<table>
+<tr><th>Passo do experimento</th><th>Agente</th><th>Modelo</th><th class="num">Temperatura</th></tr>
+<tr><td>Caminho de resolução correto</td><td>3a, aluno avançado</td><td><code>google/gemini-3.5-flash</code></td><td class="num">0,2</td></tr>
+<tr><td>Misconceptions (erros previstos)</td><td>3b, aluno com dificuldades</td><td><code>google/gemini-3.5-flash</code></td><td class="num">0,7</td></tr>
+<tr><td>Dicas em 4 níveis</td><td>3c, aluno mediano</td><td><code>google/gemini-3.5-flash</code></td><td class="num">0,4</td></tr>
+<tr><td>Julgamento (validade e importância)</td><td>juiz cego</td><td><code>z-ai/glm-4.5</code></td><td class="num">0,1</td></tr>
+<tr><td>Contingência (1 retentativa em falha)</td><td>fallback</td><td><code>deepseek/deepseek-chat</code></td><td class="num">0,3</td></tr>
+<tr><td>Montagem do grafo (GraphForge)</td><td>nenhum</td><td>algoritmo determinístico, sem IA</td><td class="num">n/a</td></tr>
+</table>
+<p>No pacote de reprodução, o comando <code>npm run models</code> imprime essa configuração e valida a chave; qualquer modelo ou temperatura pode ser trocado pelo arquivo <code>.env</code>, sem tocar em código. Replicar uma corrida completa (avaliação e juiz nos 24 exercícios) custa por volta de 1 dólar de API e leva cerca de 20 minutos; a campanha inteira, com 3 réplicas de cada, fica tipicamente abaixo de 5 dólares.</p>
 
 <h3>Revisão adversarial (um red team de metodologia)</h3>
 <p>Duas vezes durante o desenvolvimento, um time de agentes revisores independentes recebeu a missão de <b>atacar</b> o experimento: procurar contaminação, viés de métrica, código divergente, conclusão acima do que os dados aguentam. Não foi enfeite. A primeira rodada derrubou uma conclusão nossa que estava otimista demais ("a diferença é só complementar") e achou 2 problemas de fidelidade na forma de usar os agentes. A segunda achou, com reprodução passo a passo, uma divergência entre dois módulos que calculavam a mesma coisa de jeitos diferentes. Tudo foi corrigido e coberto por testes de regressão antes da campanha final. A suíte completa do backend fecha em <b>1.250 testes verdes</b>.</p>
