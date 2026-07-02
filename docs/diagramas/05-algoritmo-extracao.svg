@@ -1,0 +1,63 @@
+<svg viewBox="0 0 700 910" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Segoe UI,Arial" role="img">
+<title>Fluxograma detalhado do algoritmo de extração (parseBrd e a divisão em envelopes)</title>
+<desc>parseBrd lê o XML, extrai enunciado, nós, arestas (classificando cada aresta por actionType) e KCs; o resultado bruto é então dividido por parseBrdToRobotInput (Envelope A) e parseBrdToExpertNeutral (Envelope B).</desc>
+<defs>
+<marker id="ax" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/></marker>
+<style>
+.t{font-size:12.5px;font-weight:600;fill:#0f172a}.s{font-size:10px;fill:#475569}
+.mono{font-size:10px;font-family:ui-monospace,Menlo,monospace;fill:#334155}
+.lab{font-size:10px;fill:#64748b}.ph{font-size:10.5px;font-weight:600;fill:#94a3b8}
+.arr{stroke:#94a3b8;stroke-width:1.6;fill:none}.dash{stroke:#ef4444;stroke-width:1.4;fill:none;stroke-dasharray:5 4}
+.gray rect{fill:#f1f5f9;stroke:#94a3b8}.blue rect{fill:#dbeafe;stroke:#3b82f6}
+.amber rect{fill:#fef3c7;stroke:#d97706}.green rect{fill:#d1fae5;stroke:#10b981}.red rect{fill:#fee2e2;stroke:#ef4444}
+rect{stroke-width:1.2}.dia{fill:#fef3c7;stroke:#d97706;stroke-width:1.2}
+</style>
+</defs>
+<text class="ph" x="22" y="96">parseBrd</text>
+<g class="gray"><rect x="235" y="14" width="230" height="42" rx="8"/><text class="t" x="350" y="35" text-anchor="middle" dominant-baseline="central">expert.brd (XML)</text></g>
+<path class="arr" d="M350 56 L350 82" marker-end="url(#ax)"/>
+<g class="blue"><rect x="150" y="84" width="400" height="46" rx="8"/><text class="t" x="350" y="100" text-anchor="middle" dominant-baseline="central">1 · parse(xml) e localizar &lt;stateGraph&gt;</text><text class="s" x="350" y="118" text-anchor="middle" dominant-baseline="central">node-html-parser, lowerCaseTagName:false</text></g>
+<path class="dash" d="M550 107 L575 107" marker-end="url(#ax)"/>
+<g class="red"><rect x="577" y="88" width="112" height="40" rx="8"/><text class="s" x="633" y="108" text-anchor="middle" dominant-baseline="central">ausente → lança erro</text></g>
+<path class="arr" d="M350 130 L350 156" marker-end="url(#ax)"/>
+<g class="blue"><rect x="150" y="158" width="400" height="46" rx="8"/><text class="t" x="350" y="174" text-anchor="middle" dominant-baseline="central">2 · enunciado ← startNodeMessages</text><text class="s" x="350" y="192" text-anchor="middle" dominant-baseline="central">a mensagem com Selection = "statement" → Input</text></g>
+<path class="arr" d="M350 204 L350 230" marker-end="url(#ax)"/>
+<g class="blue"><rect x="150" y="232" width="400" height="46" rx="8"/><text class="t" x="350" y="248" text-anchor="middle" dominant-baseline="central">3 · nós ← cada &lt;node&gt;</text><text class="s" x="350" y="266" text-anchor="middle" dominant-baseline="central">{ id: uniqueID, text, done: doneState }</text></g>
+<path class="arr" d="M350 278 L350 304" marker-end="url(#ax)"/>
+<g class="blue"><rect x="150" y="306" width="400" height="54" rx="8"/><text class="t" x="350" y="324" text-anchor="middle" dominant-baseline="central">4 · arestas ← cada &lt;edge&gt;</text><text class="s" x="350" y="343" text-anchor="middle" dominant-baseline="central">SAI (Selection/Action/Input) · buggy · success · hints · actionType</text></g>
+<path class="arr" d="M350 360 L350 384" marker-end="url(#ax)"/>
+<polygon class="dia" points="350,386 478,438 350,490 222,438"/>
+<text class="t" x="350" y="430" text-anchor="middle" dominant-baseline="central">actionType</text>
+<text class="t" x="350" y="447" text-anchor="middle" dominant-baseline="central">contém "erro"?</text>
+<path class="arr" d="M222 438 L182 438" marker-end="url(#ax)"/>
+<text class="lab" x="202" y="430" text-anchor="middle">não</text>
+<g class="blue"><rect x="22" y="418" width="158" height="40" rx="8"/><text class="s" x="101" y="438" text-anchor="middle" dominant-baseline="central">isCorrect = true (passo)</text></g>
+<path class="arr" d="M478 438 L518 438" marker-end="url(#ax)"/>
+<text class="lab" x="498" y="430" text-anchor="middle">sim</text>
+<g class="amber"><rect x="520" y="418" width="168" height="40" rx="8"/><text class="s" x="604" y="438" text-anchor="middle" dominant-baseline="central">isCorrect = false (erro)</text></g>
+<path class="arr" d="M350 490 L350 514" marker-end="url(#ax)"/>
+<g class="blue"><rect x="150" y="516" width="400" height="46" rx="8"/><text class="t" x="350" y="532" text-anchor="middle" dominant-baseline="central">5 · KCs ← cada &lt;productionRule&gt;</text><text class="s" x="350" y="550" text-anchor="middle" dominant-baseline="central">{ ruleName, label }</text></g>
+<path class="arr" d="M350 562 L350 586" marker-end="url(#ax)"/>
+<g class="green"><rect x="120" y="588" width="460" height="46" rx="8"/><text class="t" x="350" y="604" text-anchor="middle" dominant-baseline="central">raw = { statement, nodes, edges (isCorrect), skills }</text><text class="s" x="350" y="622" text-anchor="middle" dominant-baseline="central">matéria-prima — ainda NÃO é envelope</text></g>
+<text class="ph" x="22" y="678">divisão em envelopes</text>
+<path class="arr" d="M350 634 L350 652 L185 652 L185 672" marker-end="url(#ax)"/>
+<path class="arr" d="M350 634 L350 652 L515 652 L515 672" marker-end="url(#ax)"/>
+<g class="blue"><rect x="40" y="674" width="290" height="38" rx="8"/><text class="mono" x="185" y="693" text-anchor="middle" dominant-baseline="central">parseBrdToRobotInput</text></g>
+<g class="amber"><rect x="370" y="674" width="290" height="38" rx="8"/><text class="mono" x="515" y="693" text-anchor="middle" dominant-baseline="central">parseBrdToExpertNeutral</text></g>
+<path class="arr" d="M185 712 L185 730" marker-end="url(#ax)"/>
+<path class="arr" d="M515 712 L515 730" marker-end="url(#ax)"/>
+<g class="blue"><rect x="40" y="732" width="290" height="160" rx="10"/></g>
+<text class="s" x="56" y="754" dominant-baseline="central">components ← Selections distintas</text>
+<text class="s" x="56" y="778" dominant-baseline="central">correctAnswer ← regra de prioridade</text>
+<text class="lab" x="70" y="795" dominant-baseline="central">addpoint &gt; fração &gt; último input</text>
+<text class="s" x="56" y="819" dominant-baseline="central">knowledgeComponents ← ruleName</text>
+<text class="t" x="56" y="852" dominant-baseline="central" fill="#1d4ed8">→ Envelope A (o robô VÊ)</text>
+<text class="lab" x="56" y="874" dominant-baseline="central">sem erros · sem dicas · sem arestas</text>
+<g class="amber"><rect x="370" y="732" width="290" height="160" rx="10"/></g>
+<text class="s" x="386" y="754" dominant-baseline="central">steps ← arestas corretas (ordenadas)</text>
+<text class="s" x="386" y="778" dominant-baseline="central">misconceptions ← arestas de erro</text>
+<text class="lab" x="400" y="795" dominant-baseline="central">wrongAnswer = Input · marca mecânica</text>
+<text class="s" x="386" y="819" dominant-baseline="central">transitions ← backbone START→…→GOAL</text>
+<text class="t" x="386" y="852" dominant-baseline="central" fill="#b45309">→ normalizeNeutral = Envelope B</text>
+<text class="lab" x="386" y="874" dominant-baseline="central">+ hintsPerCorrectStep · skills</text>
+</svg>

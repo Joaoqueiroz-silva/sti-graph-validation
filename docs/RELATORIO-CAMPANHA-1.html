@@ -1,0 +1,726 @@
+<meta charset="utf-8">
+<title>Validação de grafos: 1ª avaliação completa</title>
+<style>
+  :root{
+    --azul:#2a78d6; --azul-esc:#185FA5; --azul-claro:#E6F1FB;
+    --verde:#1baf7a; --verde-esc:#0F6E56; --verde-claro:#E1F5EE;
+    --ambar:#BA7517; --ambar-claro:#FAEEDA;
+    --verm:#A32D2D; --verm-claro:#FCEBEB;
+    --roxo:#534AB7; --roxo-claro:#EEEDFE;
+    --ink:#1a1a1a; --mut:#5f5e5a; --line:#e1e0d9; --bg:#ffffff; --card:#fafaf8;
+  }
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 24px 80px;line-height:1.65;font-size:16px}
+  h1{font-size:28px;font-weight:650;line-height:1.25;margin:8px 0 4px}
+  h2{font-size:22px;font-weight:650;margin:56px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+  h3{font-size:17px;font-weight:650;margin:28px 0 8px}
+  h1,h2,h3{text-wrap:balance}
+  table{display:block;overflow-x:auto}
+  p{margin:10px 0}
+  .kicker{color:var(--mut);font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+  .sub{color:var(--mut);font-size:15px;margin-bottom:24px}
+  .box{border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:18px 0;background:var(--card)}
+  .box.azul{background:var(--azul-claro);border-color:#B5D4F4}
+  .box.verde{background:var(--verde-claro);border-color:#9FE1CB}
+  .box.verm{background:var(--verm-claro);border-color:#F7C1C1}
+  .box h3{margin-top:2px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14.5px}
+  th{background:var(--card);text-align:left;font-weight:650}
+  th,td{border:1px solid var(--line);padding:8px 10px;vertical-align:top}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .fig{margin:22px 0;text-align:center}
+  .fig svg{max-width:100%;height:auto}
+  .cap{font-size:13px;color:var(--mut);margin-top:6px;text-align:center}
+  code{background:#f1efe8;border-radius:4px;padding:1px 6px;font-size:.88em;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0}
+  .kpi{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--card)}
+  .kpi .v{font-size:26px;font-weight:650;line-height:1.1}
+  .kpi .l{font-size:13px;color:var(--mut);margin-top:4px}
+  .kpi.good .v{color:var(--verde-esc)} .kpi.bad .v{color:var(--verm)}
+  ol li,ul li{margin:6px 0}
+  .toc{columns:2;column-gap:32px;font-size:14.5px}
+  .toc a{color:var(--azul-esc);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  blockquote{border-left:3px solid var(--azul);margin:14px 0;padding:4px 16px;color:var(--mut);background:var(--card);border-radius:0}
+  .pill{display:inline-block;border-radius:20px;padding:2px 12px;font-size:12.5px;font-weight:600;margin-right:6px}
+  .pill.d{background:var(--verm-claro);color:var(--verm)}
+  .pill.m{background:var(--ambar-claro);color:var(--ambar)}
+  @media print{.wrap{max-width:100%}h2{break-after:avoid}.fig{break-inside:avoid}}
+</style>
+<div class="wrap">
+
+<p class="kicker">Relatório técnico · EducaOFF / STI Unplugged · Experimento OE-A</p>
+<h1>Validação de grafos de comportamento: a primeira avaliação completa</h1>
+<p class="sub">Este relatório documenta a primeira avaliação completa dos grafos de comportamento gerados pelos agentes da plataforma EducaOFF, comparados com grafos autorados por um especialista humano sobre os mesmos 24 exercícios. Campanha de 2026-07-02, com três réplicas de cada medição, métricas pré-registradas e revisão adversarial.</p>
+
+<div class="box azul">
+<h3>Síntese dos resultados</h3>
+<p>Pegamos <b>24 exercícios de frações</b> que um <b>especialista humano</b> preparou na ferramenta acadêmica CTAT, da Carnegie Mellon, e pedimos que os <b>agentes de IA da EducaOFF</b> construíssem o mesmo tipo de "mapa pedagógico" para cada um deles. Esse mapa se chama <i>grafo de comportamento</i>: ele diz ao tutor qual é o caminho certo de resolução, quais erros o aluno pode cometer e que dica dar em cada situação. O detalhe importante: os agentes trabalharam <b>às cegas</b>. Eles viram só a interface do exercício, nunca o trabalho do humano. No final, comparamos os dois mapas. Quatro resultados resumem a avaliação:</p>
+<div class="kpis">
+  <div class="kpi good"><div class="v">0 / 72</div><div class="l">grafos do robô com defeito estrutural. A estrutura saiu impecável em todos.</div></div>
+  <div class="kpi good"><div class="v">87%</div><div class="l">dos erros que só o robô previu (e o humano não catalogou) são válidos segundo um juiz cego [IC95% 79 a 92]</div></div>
+  <div class="kpi bad"><div class="v">38%</div><div class="l">é o quanto o robô cobre do catálogo de erros do especialista [31 a 44]</div></div>
+  <div class="kpi bad"><div class="v">56%</div><div class="l">dos erros que o robô deixou passar são importantes de remediar [48 a 64]</div></div>
+</div>
+<p>Lendo os quatro em conjunto: o sistema constrói mapas com estrutura perfeita, e o que ele inventa é quase tão válido quanto o que o especialista cataloga. Mas ele ainda enxerga só um terço do que o especialista enxerga, e mais da metade do que ele perde faz falta. Para saber se essa cobertura parcial é aceitável, falta uma régua que ainda não temos: o quanto dois especialistas humanos discordam entre si. Isso exige 2 ou 3 especialistas por exercício, e nesta primeira rodada tivemos um.</p>
+</div>
+
+<h2 id="toc">Sumário</h2>
+<div class="toc">
+<p>
+1. <a href="#s1">Contexto: tutores e grafos de comportamento</a><br>
+2. <a href="#s2">A pergunta de pesquisa</a><br>
+3. <a href="#s3">O desenho do experimento</a><br>
+4. <a href="#s4">O protocolo de autoria cega</a><br>
+5. <a href="#s5">Como o robô constrói o grafo</a><br>
+6. <a href="#s6">As métricas: por que completude, e não F1</a><br>
+7. <a href="#s7">O detector de alucinação estrutural</a><br>
+8. <a href="#s8">O juiz cego</a><br>
+9. <a href="#s9">Rigor: pré-registro, réplicas e revisão adversarial</a><br>
+10. <a href="#s10">Resultados completos</a><br>
+11. <a href="#s11">O que aprendemos e o que falta</a><br>
+12. <a href="#s12">Técnicas e fontes: como cada artigo foi usado</a><br>
+13. <a href="#s13">Apêndice: como reproduzir tudo</a>
+</p>
+</div>
+
+<h2 id="s1">1. Contexto: tutores inteligentes e grafos de comportamento</h2>
+
+<p>A EducaOFF gera <b>Sistemas Tutores Inteligentes (STIs)</b>: exercícios interativos em que o aluno resolve um problema passo a passo e o sistema reage como um bom professor particular. Ele reconhece a resposta certa, percebe <i>qual</i> erro o aluno cometeu, explica por que aquilo é um engano e vai dando dicas graduais, sem entregar a resposta de bandeja.</p>
+
+<p>Para o tutor conseguir fazer isso, cada exercício precisa de um mapa por trás. Esse mapa é o <b>grafo de comportamento</b>: um diagrama com o caminho de resolução correto, os erros típicos que os alunos cometem (as <i>misconceptions</i>, como inverter numerador e denominador numa fração) e, para cada erro, um desvio de remediação. Esse desvio é o <i>scaffold</i>: a explicação que corrige aquele erro específico e devolve o aluno ao caminho.</p>
+
+<div class="fig">
+<svg viewBox="0 0 840 320" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Anatomia de um grafo de comportamento</title>
+<defs>
+<marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker>
+<marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#A32D2D"/></marker>
+<marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0F6E56"/></marker>
+</defs>
+<g>
+<rect x="20" y="120" width="90" height="46" rx="23" fill="#F1EFE8" stroke="#888780"/>
+<text x="65" y="147" text-anchor="middle" font-size="14" font-weight="600" fill="#444441">início</text>
+<rect x="170" y="112" width="150" height="62" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="245" y="137" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0C447C">passo 1</text>
+<text x="245" y="156" text-anchor="middle" font-size="12" fill="#185FA5">identificar denominador = 5</text>
+<rect x="380" y="112" width="150" height="62" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="455" y="137" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0C447C">passo 2</text>
+<text x="455" y="156" text-anchor="middle" font-size="12" fill="#185FA5">marcar 1/5 na reta</text>
+<rect x="590" y="120" width="90" height="46" rx="23" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="635" y="147" text-anchor="middle" font-size="14" font-weight="600" fill="#085041">objetivo</text>
+<line x1="110" y1="143" x2="164" y2="143" stroke="#5f5e5a" stroke-width="2" marker-end="url(#a1)"/>
+<line x1="320" y1="143" x2="374" y2="143" stroke="#5f5e5a" stroke-width="2" marker-end="url(#a1)"/>
+<line x1="530" y1="143" x2="584" y2="143" stroke="#5f5e5a" stroke-width="2" marker-end="url(#a1)"/>
+</g>
+<rect x="330" y="230" width="250" height="60" rx="10" fill="#FCEBEB" stroke="#E24B4A"/>
+<text x="455" y="253" text-anchor="middle" font-size="13" font-weight="600" fill="#791F1F">remediação (scaffold)</text>
+<text x="455" y="272" text-anchor="middle" font-size="12" fill="#A32D2D">"5/1 inverte a fração. O 5 é o total de partes"</text>
+<path d="M480 174 L505 226" stroke="#A32D2D" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+<text x="530" y="205" font-size="12" fill="#A32D2D">erro: aluno digita "5/1"</text>
+<path d="M400 226 L430 178" stroke="#0F6E56" stroke-width="2" fill="none" marker-end="url(#a3)"/>
+<text x="330" y="205" font-size="12" fill="#0F6E56">volta e tenta de novo</text>
+<rect x="150" y="30" width="190" height="48" rx="10" fill="#FAEEDA" stroke="#EF9F27"/>
+<text x="245" y="50" text-anchor="middle" font-size="12.5" font-weight="600" fill="#633806">dicas em 4 níveis</text>
+<text x="245" y="67" text-anchor="middle" font-size="11.5" fill="#854F0B">"em quantas partes o pão foi dividido?"</text>
+<line x1="245" y1="78" x2="245" y2="108" stroke="#BA7517" stroke-width="1.6" stroke-dasharray="4 3"/>
+</svg>
+<p class="cap">Figura 1. A anatomia de um grafo de comportamento: o caminho correto em azul, um erro previsto com sua remediação em vermelho (formando um ciclo saudável de volta ao passo) e as dicas em âmbar. O exercício real: distribuir um pão entre 5 pessoas e dizer que fração cada um recebe.</p>
+</div>
+
+<h3>Grafo de conhecimento e grafo de comportamento</h3>
+
+<p>Antes de seguir, vale desfazer uma confusão comum, porque são dois mapas com nomes parecidos e papéis diferentes:</p>
+
+<ul>
+<li>O <b>grafo de conhecimento</b> é o mapa do currículo. Os nós são habilidades (os <i>knowledge components</i>, ou KCs, como "identificar o denominador" e "dividir a reta em partes iguais") e as setas dizem o que é pré-requisito do quê. Ele responde "o que o aluno precisa saber, e em que ordem". Um mesmo grafo de conhecimento serve para muitos exercícios.</li>
+<li>O <b>grafo de comportamento</b> é o mapa de UM exercício. Os nós são os passos e estados daquele problema específico, e as setas são as ações possíveis do aluno: acertar, errar de um jeito conhecido, receber a remediação e voltar. Ele responde "como este exercício se resolve, e como o tutor reage a cada ação".</li>
+</ul>
+
+<div class="fig">
+<svg viewBox="0 0 840 330" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Grafo de conhecimento e grafo de comportamento lado a lado</title>
+<defs>
+<marker id="k1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0F6E56"/></marker>
+<marker id="k2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker>
+</defs>
+<rect x="15" y="14" width="390" height="280" rx="12" fill="#ffffff" stroke="#9FE1CB"/>
+<text x="210" y="42" text-anchor="middle" font-size="14.5" font-weight="650" fill="#085041">grafo de CONHECIMENTO</text>
+<text x="210" y="61" text-anchor="middle" font-size="12" fill="#0F6E56">"o que saber" · vale para muitos exercícios</text>
+<rect x="60" y="82" width="140" height="44" rx="9" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="130" y="109" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">entender fração</text>
+<rect x="230" y="82" width="150" height="44" rx="9" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="305" y="102" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">identificar numerador</text>
+<text x="305" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">e denominador</text>
+<rect x="60" y="160" width="140" height="44" rx="9" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="130" y="180" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">dividir a reta</text>
+<text x="130" y="196" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">em partes iguais</text>
+<rect x="230" y="160" width="150" height="44" rx="9" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="305" y="180" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">localizar fração</text>
+<text x="305" y="196" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">na reta numérica</text>
+<line x1="200" y1="104" x2="224" y2="104" stroke="#0F6E56" stroke-width="2" marker-end="url(#k1)"/>
+<line x1="130" y1="126" x2="130" y2="154" stroke="#0F6E56" stroke-width="2" marker-end="url(#k1)"/>
+<path d="M305 126 L305 154" stroke="#0F6E56" stroke-width="2" fill="none" marker-end="url(#k1)"/>
+<path d="M200 182 L224 182" stroke="#0F6E56" stroke-width="2" fill="none" marker-end="url(#k1)"/>
+<text x="210" y="240" text-anchor="middle" font-size="11.5" fill="#0F6E56">setas = pré-requisito ("precisa saber antes")</text>
+<text x="210" y="272" text-anchor="middle" font-size="11.5" font-weight="600" fill="#085041">no experimento: entra PRONTO, como etiquetas (KCs)</text>
+<rect x="435" y="14" width="390" height="280" rx="12" fill="#ffffff" stroke="#B5D4F4"/>
+<text x="630" y="42" text-anchor="middle" font-size="14.5" font-weight="650" fill="#042C53">grafo de COMPORTAMENTO</text>
+<text x="630" y="61" text-anchor="middle" font-size="12" fill="#185FA5">"como resolver" · um por exercício</text>
+<rect x="460" y="90" width="70" height="38" rx="19" fill="#F1EFE8" stroke="#888780"/>
+<text x="495" y="113" text-anchor="middle" font-size="11.5" font-weight="600" fill="#444441">início</text>
+<rect x="555" y="86" width="105" height="46" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="607" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0C447C">passo 1</text>
+<text x="607" y="122" text-anchor="middle" font-size="10.5" fill="#185FA5">KC: denominador</text>
+<rect x="685" y="86" width="105" height="46" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="737" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0C447C">passo 2</text>
+<text x="737" y="122" text-anchor="middle" font-size="10.5" fill="#185FA5">KC: localizar na reta</text>
+<line x1="530" y1="109" x2="549" y2="109" stroke="#5f5e5a" stroke-width="2" marker-end="url(#k2)"/>
+<line x1="660" y1="109" x2="679" y2="109" stroke="#5f5e5a" stroke-width="2" marker-end="url(#k2)"/>
+<rect x="555" y="180" width="180" height="50" rx="9" fill="#FCEBEB" stroke="#E24B4A"/>
+<text x="645" y="200" text-anchor="middle" font-size="11.5" font-weight="600" fill="#791F1F">erro previsto: "5/1"</text>
+<text x="645" y="217" text-anchor="middle" font-size="10.5" fill="#A32D2D">remediação e volta ao passo</text>
+<path d="M620 132 L635 174" stroke="#A32D2D" stroke-width="1.8" fill="none"/>
+<path d="M600 174 L607 138" stroke="#0F6E56" stroke-width="1.8" fill="none" marker-end="url(#k1)"/>
+<text x="630" y="262" text-anchor="middle" font-size="11.5" fill="#185FA5">setas = ações do aluno (acerto, erro, retorno)</text>
+<text x="630" y="280" text-anchor="middle" font-size="11.5" font-weight="600" fill="#042C53">no experimento: é ISTO que o robô constrói e que comparamos</text>
+<line x1="415" y1="154" x2="425" y2="154" stroke="#c3c2b7" stroke-width="1"/>
+</svg>
+<p class="cap">Figura 2. Os dois mapas lado a lado. O grafo de conhecimento organiza habilidades e pré-requisitos; o grafo de comportamento descreve a resolução de um exercício específico, com cada passo etiquetado por uma habilidade.</p>
+</div>
+
+<p><b>Neste experimento, o que os agentes criam (e o que é comparado com o especialista) é o grafo de COMPORTAMENTO.</b> O grafo de conhecimento não é construído aqui: as habilidades (KCs) já chegam prontas no Envelope A, extraídas do próprio CTAT (por exemplo, "DivNumLine" e "IdenDenominator"), e o robô as usa como etiquetas nos passos. Vale registrar com honestidade o limite atual da plataforma: quando um agente descobre uma habilidade nova durante a geração, ela ainda não é adicionada de volta a um grafo de conhecimento (essa "segunda saída" está documentada como trabalho futuro). O escopo deste primeiro estudo é, deliberadamente, o grafo de comportamento.</p>
+
+<p>Hoje, esses grafos são gerados automaticamente por uma linha de montagem de agentes de IA, o chamado pipeline multiagente. A pergunta desta pesquisa é simples de fazer e difícil de responder: <b>esses grafos gerados automaticamente estão corretos?</b></p>
+
+<h2 id="s2">2. A pergunta de pesquisa</h2>
+
+<p>A dificuldade central é que <b>não existe "o grafo certo"</b>. Dois professores experientes, diante do mesmo exercício, produzem grafos diferentes. Um cataloga mais erros, o outro divide a resolução em mais passos, e os dois podem estar pedagogicamente corretos. A literatura reconhece isso: parte da discordância entre avaliadores competentes reflete ambiguidade legítima da tarefa, não descuido (Amidei et al., 2018). Então não dá para "corrigir a prova" do robô contra um gabarito absoluto, porque o gabarito absoluto não existe.</p>
+
+<p>A saída metodológica é <b>cercar a resposta por três lados</b>. São três perguntas independentes, cada uma sensível a um tipo diferente de defeito. Um grafo ruim teria de enganar as três ao mesmo tempo:</p>
+
+<div class="fig">
+<svg viewBox="0 0 840 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Os três níveis da validação</title>
+<rect x="20" y="40" width="250" height="180" rx="12" fill="#EEEDFE" stroke="#7F77DD"/>
+<text x="145" y="70" text-anchor="middle" font-size="15" font-weight="650" fill="#26215C">Nível 1: estrutural</text>
+<text x="145" y="96" text-anchor="middle" font-size="13" fill="#3C3489">"O grafo é bem-formado?"</text>
+<text x="145" y="126" text-anchor="middle" font-size="12.5" fill="#534AB7">sem gabarito, de graça:</text>
+<text x="145" y="146" text-anchor="middle" font-size="12.5" fill="#534AB7">ciclos patológicos, nós órfãos,</text>
+<text x="145" y="164" text-anchor="middle" font-size="12.5" fill="#534AB7">becos sem saída…</text>
+<text x="145" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#26215C">detector de alucinação (§7)</text>
+<rect x="295" y="40" width="250" height="180" rx="12" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="420" y="70" text-anchor="middle" font-size="15" font-weight="650" fill="#042C53">Nível 2: comparativo</text>
+<text x="420" y="96" text-anchor="middle" font-size="13" fill="#0C447C">"Bate com o especialista?"</text>
+<text x="420" y="126" text-anchor="middle" font-size="12.5" fill="#185FA5">precisa do grafo humano (CTAT):</text>
+<text x="420" y="146" text-anchor="middle" font-size="12.5" fill="#185FA5">completude, validade dos extras,</text>
+<text x="420" y="164" text-anchor="middle" font-size="12.5" fill="#185FA5">equivalência funcional</text>
+<text x="420" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#042C53">ESTE RELATÓRIO (§6, §8, §10)</text>
+<rect x="570" y="40" width="250" height="180" rx="12" fill="#F1EFE8" stroke="#888780"/>
+<text x="695" y="70" text-anchor="middle" font-size="15" font-weight="650" fill="#2C2C2A">Nível 3: aprendizagem</text>
+<text x="695" y="96" text-anchor="middle" font-size="13" fill="#444441">"O tutor ensina de verdade?"</text>
+<text x="695" y="126" text-anchor="middle" font-size="12.5" fill="#5F5E5A">precisa de alunos reais:</text>
+<text x="695" y="146" text-anchor="middle" font-size="12.5" fill="#5F5E5A">curvas de aprendizagem (AFM),</text>
+<text x="695" y="164" text-anchor="middle" font-size="12.5" fill="#5F5E5A">ganho pré/pós</text>
+<text x="695" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#2C2C2A">trabalho futuro</text>
+<text x="420" y="262" text-anchor="middle" font-size="13.5" fill="#5f5e5a">Um grafo ruim teria de passar nos três ao mesmo tempo. É a validade convergente do Design Science.</text>
+</svg>
+<p class="cap">Figura 3. A validação em três níveis. Esta primeira avaliação cobre por completo os níveis 1 e 2.</p>
+</div>
+
+<p>E como comparar com o especialista sem tratar o especialista como perfeito? Usamos a lógica de <b>não-inferioridade</b> (Lakens, 2017), emprestada dos ensaios clínicos. Em vez de exigir que o robô seja idêntico ao humano, exigimos que a distância entre robô e humano seja parecida com a distância entre dois humanos. Se dois especialistas discordam entre si numa certa medida, e o robô discorda deles mais ou menos na mesma medida, então o robô está dentro da variação normal da profissão.</p>
+
+<p>Essa régua da discordância humana (chamamos de "banda HH", de humano com humano) exige pelo menos 2, idealmente 3 especialistas por exercício. O motivo é estatístico: com um único par de especialistas há uma única medida de discordância, o que não basta para estimar uma faixa (Shavelson e Webb, 1991). <b>Nesta primeira campanha tivemos 1 especialista.</b> Por isso, com toda a honestidade, o veredito final de não-inferioridade fica em aberto. O que já dá para medir muito bem, e medimos, está nas próximas seções.</p>
+
+<h2 id="s3">3. O desenho do experimento: a "interface fixa"</h2>
+
+<p>A ideia que torna a comparação justa veio do orientador: <b>fixar a interface</b>. Especialista e robô trabalham sobre exatamente o mesmo exercício, com os mesmos campos de resposta. O que muda é só quem constrói o mapa por trás.</p>
+
+<ul>
+<li><b>O corpus:</b> 24 problemas de frações na reta numérica (6º ano), todos com a mesma interface, preparados por um especialista no <b>CTAT</b> (Cognitive Tutor Authoring Tools, da Carnegie Mellon, a ferramenta acadêmica de referência para tutores desse tipo; Aleven et al., 2009 e 2016). Cada problema exporta um arquivo <code>.brd</code>, que é um XML contendo a interface e também o grafo do especialista.</li>
+<li><b>O robô:</b> os agentes da EducaOFF recebem só a interface e autoram o grafo do zero.</li>
+<li><b>A comparação:</b> os dois grafos são traduzidos para um <b>esquema neutro</b> comum, uma "língua franca", e só então comparados pelas métricas pré-registradas.</li>
+</ul>
+
+<div class="fig">
+<svg viewBox="0 0 840 360" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Fluxo geral do experimento</title>
+<defs><marker id="b1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker></defs>
+<rect x="330" y="16" width="180" height="56" rx="10" fill="#F1EFE8" stroke="#888780"/>
+<text x="420" y="40" text-anchor="middle" font-size="13.5" font-weight="600" fill="#2C2C2A">arquivo .brd do CTAT</text>
+<text x="420" y="58" text-anchor="middle" font-size="12" fill="#5F5E5A">(24 problemas de frações)</text>
+<line x1="420" y1="72" x2="420" y2="100" stroke="#5f5e5a" stroke-width="2" marker-end="url(#b1)"/>
+<rect x="320" y="104" width="200" height="44" rx="10" fill="#EEEDFE" stroke="#7F77DD"/>
+<text x="420" y="131" text-anchor="middle" font-size="13" font-weight="600" fill="#26215C">parser divide em 2 envelopes</text>
+<path d="M370 148 L230 190" stroke="#5f5e5a" stroke-width="2" fill="none" marker-end="url(#b1)"/>
+<path d="M470 148 L610 190" stroke="#5f5e5a" stroke-width="2" fill="none" marker-end="url(#b1)"/>
+<rect x="60 " y="194" width="330" height="64" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="225" y="218" text-anchor="middle" font-size="13" font-weight="600" fill="#0C447C">Envelope A: SÓ a interface</text>
+<text x="225" y="238" text-anchor="middle" font-size="12" fill="#185FA5">enunciado + campos + resposta correta + habilidades</text>
+<rect x="450" y="194" width="330" height="64" rx="10" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="615" y="218" text-anchor="middle" font-size="13" font-weight="600" fill="#085041">Envelope B: o grafo do especialista</text>
+<text x="615" y="238" text-anchor="middle" font-size="12" fill="#0F6E56">caminho + erros catalogados + dicas (LACRADO)</text>
+<line x1="225" y1="258" x2="225" y2="290" stroke="#5f5e5a" stroke-width="2" marker-end="url(#b1)"/>
+<line x1="615" y1="258" x2="615" y2="290" stroke="#5f5e5a" stroke-width="2" marker-end="url(#b1)"/>
+<rect x="90" y="294" width="270" height="50" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="225" y="315" text-anchor="middle" font-size="13" font-weight="600" fill="#0C447C">robô autora o grafo ÀS CEGAS</text>
+<text x="225" y="333" text-anchor="middle" font-size="12" fill="#185FA5">(nunca vê o Envelope B)</text>
+<rect x="480" y="294" width="270" height="50" rx="10" fill="#F1EFE8" stroke="#888780"/>
+<text x="615" y="315" text-anchor="middle" font-size="13" font-weight="600" fill="#2C2C2A">comparador (esquema neutro)</text>
+<text x="615" y="333" text-anchor="middle" font-size="12" fill="#5F5E5A">só aqui os dois grafos se encontram</text>
+<path d="M360 330 L474 330" stroke="#5f5e5a" stroke-width="2" fill="none" marker-end="url(#b1)"/>
+</svg>
+<p class="cap">Figura 4. O fluxo geral: um mesmo arquivo .brd vira dois envelopes. O robô só vê o A. O B só aparece na hora da comparação.</p>
+</div>
+
+<h2 id="s4">4. O protocolo de autoria cega</h2>
+
+<p>Se o robô visse qualquer pedacinho do trabalho do especialista, o experimento inteiro perderia o valor. Seria como deixar o aluno colar na prova. Por isso, a regra mais dura de todo o desenho:</p>
+
+<div class="box verm">
+<p><b>O robô NUNCA vê o Envelope B.</b> E isso é garantido por código, não por boa vontade:</p>
+<ol>
+<li>O parser tem <b>duas funções separadas</b>: <code>parseBrdToRobotInput</code> extrai só o Envelope A, e <code>parseBrdToExpertNeutral</code> extrai só o B. O caminho do robô importa apenas a primeira.</li>
+<li>Existe uma <b>lista de campos proibidos</b> (misconceptions, dicas, arestas, feedback, mensagens de erro e afins), e a função <code>findLeaksInRobotInput</code> varre o Envelope A procurando qualquer um deles.</li>
+<li>Um <b>teste automatizado</b> quebra a build se o Envelope A contiver qualquer campo do B. E há um controle negativo: um envelope contaminado de propósito, que o teste PRECISA acusar. Se o detector de vazamento parar de funcionar, a gente fica sabendo.</li>
+</ol>
+</div>
+
+<p>Um detalhe que vale registrar com honestidade: o Envelope A inclui a <b>resposta correta</b> do exercício. Isso é intencional. Para prever erros plausíveis, o robô precisa saber o que é o acerto, exatamente como um professor sabe. O que ele não recebe é o catálogo de erros, as dicas e a estrutura montada pelo especialista.</p>
+
+<h2 id="s5">5. Como o robô constrói o grafo</h2>
+
+<p>A autoria acontece em duas fases bem diferentes, e essa separação importa muito para a ciência:</p>
+
+<ol>
+<li><b>Fase criativa (IA):</b> três "alunos simulados" resolvem o exercício. São os mesmos agentes da linha de produção da EducaOFF, sem nenhuma alteração de código:
+  <ul>
+  <li><b>Agente 3a, o aluno avançado:</b> resolve tudo perfeitamente e produz o caminho correto, passo a passo;</li>
+  <li><b>Agente 3b, o aluno com dificuldades:</b> erra de formas realistas e produz as misconceptions, cada uma com a resposta errada concreta que o aluno digitaria;</li>
+  <li><b>Agente 3c, o aluno mediano:</b> acerta, mas hesita, e é dessa hesitação que saem as dicas em 4 níveis.</li>
+  </ul></li>
+<li><b>Fase determinística (algoritmo clássico, sem IA):</b> o <b>GraphForge</b> monta o grafo a partir desses três insumos. Ele cria os nós de passo, um scaffold para cada misconception, as arestas de erro e de retorno, e garante por construção que tudo se conecta do início ao objetivo. É o mesmo código da produção, byte a byte.</li>
+</ol>
+
+<div class="fig">
+<svg viewBox="0 0 840 260" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Como o robô autora</title>
+<defs><marker id="c1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker></defs>
+<rect x="20" y="20" width="220" height="50" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="130" y="42" text-anchor="middle" font-size="13" font-weight="600" fill="#0C447C">Envelope A (a interface)</text>
+<text x="130" y="60" text-anchor="middle" font-size="11.5" fill="#185FA5">única entrada do robô</text>
+<g>
+<rect x="300" y="16" width="160" height="52" rx="10" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="380" y="38" text-anchor="middle" font-size="12.5" font-weight="600" fill="#085041">3a · aluno avançado</text>
+<text x="380" y="56" text-anchor="middle" font-size="11.5" fill="#0F6E56">→ caminho correto</text>
+<rect x="300" y="82" width="160" height="52" rx="10" fill="#FCEBEB" stroke="#E24B4A"/>
+<text x="380" y="104" text-anchor="middle" font-size="12.5" font-weight="600" fill="#791F1F">3b · aluno com dificuldade</text>
+<text x="380" y="122" text-anchor="middle" font-size="11.5" fill="#A32D2D">→ erros (misconceptions)</text>
+<rect x="300" y="148" width="160" height="52" rx="10" fill="#FAEEDA" stroke="#EF9F27"/>
+<text x="380" y="170" text-anchor="middle" font-size="12.5" font-weight="600" fill="#633806">3c · aluno mediano</text>
+<text x="380" y="188" text-anchor="middle" font-size="11.5" fill="#854F0B">→ dicas (4 níveis)</text>
+</g>
+<path d="M240 45 L294 42" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<path d="M240 55 L294 105" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<path d="M230 66 L294 170" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<rect x="540" y="76" width="180" height="66" rx="10" fill="#EEEDFE" stroke="#7F77DD"/>
+<text x="630" y="100" text-anchor="middle" font-size="13.5" font-weight="600" fill="#26215C">GraphForge</text>
+<text x="630" y="119" text-anchor="middle" font-size="11.5" fill="#534AB7">montador DETERMINÍSTICO</text>
+<text x="630" y="134" text-anchor="middle" font-size="11.5" fill="#534AB7">(algoritmo, sem IA)</text>
+<path d="M460 42 L534 92" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<path d="M460 108 L534 109" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<path d="M460 174 L534 126" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#c1)"/>
+<rect x="560" y="200" width="140" height="46" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="630" y="228" text-anchor="middle" font-size="13" font-weight="600" fill="#0C447C">grafo do robô</text>
+<line x1="630" y1="142" x2="630" y2="194" stroke="#5f5e5a" stroke-width="2" marker-end="url(#c1)"/>
+</svg>
+<p class="cap">Figura 5. A autoria em duas fases: a criatividade fica com a IA (o que pode dar errado, que dica ajuda) e a montagem fica com um algoritmo determinístico. Como a estrutura nunca depende da IA, ela pode ser perfeita por construção. Os três agentes são exatamente os que rodam na plataforma EducaOFF, sem nenhuma modificação.</p>
+</div>
+
+<p><b>Um cuidado de fidelidade:</b> os agentes de produção foram feitos para gabaritos genéricos, com variáveis do tipo {A} e {B}. O experimento usa exercícios concretos ("1/5"). Para usar os agentes sem mexer no código deles, a instrução de contexto viaja como dado, pelo mesmo canal que eles já leem, pedindo para instanciar os valores. Além disso, a orquestração imita a produção: o agente 3c só roda quando rodaria na produção. Esses dois pontos foram consertos apontados pela revisão adversarial (seção 9), o que mostra que ela funcionou.</p>
+
+<h2 id="s6">6. As métricas: por que "completude", e não F1</h2>
+
+<p>A primeira versão do experimento usava o <b>F1</b>, a métrica clássica de comparação de conjuntos. No meio do caminho, a análise metodológica mostrou que, para uma ferramenta <i>generativa</i>, o F1 é a régua errada. O motivo é fácil de entender com um exemplo:</p>
+
+<blockquote><p>Imagine que o especialista catalogou 10 erros e o robô previu 7: cobriu 4 dos 10 do especialista e trouxe 3 novos. O F1 trata esses 3 novos como defeito, automaticamente. Mas e se forem erros REAIS de aluno, que o especialista simplesmente não anotou? Nesse caso o robô não errou: ele enriqueceu o mapa. Uma métrica de conjunto não tem como saber a diferença. Quem tem que decidir é um julgamento pedagógico.</p></blockquote>
+
+<div class="fig">
+<svg viewBox="0 0 840 330" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Os três territórios da comparação</title>
+<ellipse cx="300" cy="150" rx="180" ry="105" fill="#E1F5EE" stroke="#1D9E75" stroke-width="2" opacity="0.85"/>
+<ellipse cx="530" cy="150" rx="180" ry="105" fill="#E6F1FB" stroke="#378ADD" stroke-width="2" opacity="0.7"/>
+<text x="205" y="70" font-size="14" font-weight="650" fill="#085041">especialista catalogou</text>
+<text x="600" y="70" font-size="14" font-weight="650" fill="#0C447C">robô previu</text>
+<text x="415" y="145" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1a1a">cobertos</text>
+<text x="415" y="163" text-anchor="middle" font-size="12" fill="#5f5e5a">(acertos)</text>
+<text x="255" y="150" text-anchor="middle" font-size="13" font-weight="600" fill="#0F6E56">perdidos</text>
+<text x="255" y="168" text-anchor="middle" font-size="11.5" fill="#0F6E56">→ juiz de IMPORTÂNCIA</text>
+<text x="585" y="150" text-anchor="middle" font-size="13" font-weight="600" fill="#185FA5">extras</text>
+<text x="585" y="168" text-anchor="middle" font-size="11.5" fill="#185FA5">→ juiz de VALIDADE</text>
+<text x="420" y="290" text-anchor="middle" font-size="13" fill="#5f5e5a">O F1 mistura os três territórios num número só. O veredito 2D trata cada um do jeito certo:</text>
+<text x="420" y="310" text-anchor="middle" font-size="13" fill="#5f5e5a">mede a cobertura, manda os extras para um juiz de validade e os perdidos para um juiz de importância.</text>
+</svg>
+<p class="cap">Figura 6. Os três territórios da comparação entre os dois grafos.</p>
+</div>
+
+<p>A métrica primária virou então o <b>veredito 2D</b>, registrado em emenda formal do pré-registro antes de qualquer coleta com humanos:</p>
+
+<ul>
+<li><b>Eixo X, a completude:</b> que fração do catálogo do especialista o robô cobre. Formalmente é um recall direcional, com base na similaridade assimétrica de Tversky (1977). O casamento entre erros usa uma <b>âncora semântica</b>: "2/8", "1/4" e "0,25" contam como a mesma resposta. A versão oficial é a <b>conceitual</b>, que tira do denominador os erros mecânicos de interface (resposta em branco, clique residual tipo "-1"), porque esses não são concepções erradas de matemática.</li>
+<li><b>Eixo Y, a validade dos extras:</b> dos erros que só o robô previu, que fração um juiz cego considera pedagogicamente válida (seção 8).</li>
+<li><b>O canto bom é (alto, alto):</b> cobre o que o humano cobre, e o que adiciona presta.</li>
+</ul>
+
+<p>Ao lado da primária, continuam sendo reportadas (como linhas auditáveis): o F1 clássico, o recall de passos separado do recall de misconceptions (porque são falhas independentes: dá para acertar todos os erros e perder um passo, e vice-versa), a <b>equivalência funcional</b> (dada a mesma resposta de aluno, os dois tutores reagem igual? medida com concordância e κ de Cohen) e a <b>inclusão de traços</b> (o caminho do especialista "cabe" dentro do caminho do robô? medida ignorando diferenças de granularidade, uma ideia que vem da teoria de equivalência de processos de van Glabbeek).</p>
+
+<h2 id="s7">7. O detector de alucinação estrutural</h2>
+
+<p>Antes de perguntar se o grafo bate com o do especialista, existe uma pergunta mais barata: <b>o grafo é bem-formado?</b> Boa parte das "alucinações" de IA em grafos dá para detectar de graça, sem gabarito nenhum, só olhando a forma. É como um engenheiro que reprova a planta de uma casa onde a escada não leva a lugar algum: ele não precisa conhecer a casa "certa" para saber que aquilo está errado. Criamos um módulo dedicado a isso, o <code>graph-hallucination.js</code>, com duas classes de sinal:</p>
+
+<table>
+<tr><th style="width:110px">Classe</th><th>Sinais</th><th>Consequência</th></tr>
+<tr><td><span class="pill d">DUROS</span></td><td>ciclo patológico (um loop que não passa por remediação, ou seja, raciocínio circular), nó inalcançável (uma ilha), beco sem saída (o aluno fica preso), scaffold órfão (remediação para um erro que não existe), aresta órfã (aponta para nó inexistente), ciclo no caminho correto, grafo sem início ou sem objetivo</td><td><b>Barram o grafo.</b> Grafo inválido não chega ao aluno.</td></tr>
+<tr><td><span class="pill m">MOLES</span></td><td>over-branching (um passo com saídas demais em relação aos outros), erro sem remediação, self-loop, aresta duplicada</td><td>Somam um score de alucinação. Vira anomalia quando o score passa do limiar µ+λσ da banda histórica (ideia do Continuous Monitoring, arXiv 2509.03857).</td></tr>
+</table>
+
+<div class="fig">
+<svg viewBox="0 0 840 340" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Defeitos estruturais que o detector pega</title>
+<defs>
+<marker id="d1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker>
+<marker id="d2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#A32D2D"/></marker>
+</defs>
+<g>
+<rect x="20" y="130" width="80" height="42" rx="21" fill="#F1EFE8" stroke="#888780"/>
+<text x="60" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#444441">início</text>
+<rect x="150" y="128" width="100" height="46" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="200" y="155" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0C447C">passo 1</text>
+<rect x="310" y="128" width="100" height="46" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="360" y="155" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0C447C">passo 2</text>
+<rect x="470" y="128" width="100" height="46" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="520" y="155" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0C447C">passo 3</text>
+<rect x="640" y="130" width="90" height="42" rx="21" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="685" y="156" text-anchor="middle" font-size="12.5" font-weight="600" fill="#085041">objetivo</text>
+<line x1="100" y1="151" x2="144" y2="151" stroke="#5f5e5a" stroke-width="2" marker-end="url(#d1)"/>
+<line x1="250" y1="151" x2="304" y2="151" stroke="#5f5e5a" stroke-width="2" marker-end="url(#d1)"/>
+<line x1="410" y1="151" x2="464" y2="151" stroke="#5f5e5a" stroke-width="2" marker-end="url(#d1)"/>
+<line x1="570" y1="151" x2="634" y2="151" stroke="#5f5e5a" stroke-width="2" marker-end="url(#d1)"/>
+</g>
+<path d="M395 128 C 420 70, 300 70, 328 124" stroke="#A32D2D" stroke-width="2.2" fill="none" marker-end="url(#d2)"/>
+<text x="362" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#A32D2D">ciclo patológico (volta sem remediação)</text>
+<rect x="120" y="240" width="110" height="46" rx="9" fill="#FCEBEB" stroke="#E24B4A" stroke-dasharray="5 4"/>
+<text x="175" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#791F1F">nó-ilha</text>
+<text x="175" y="278" text-anchor="middle" font-size="11" fill="#A32D2D">nada chega até ele</text>
+<rect x="330" y="240" width="130" height="46" rx="9" fill="#FCEBEB" stroke="#E24B4A" stroke-dasharray="5 4"/>
+<text x="395" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#791F1F">beco sem saída</text>
+<text x="395" y="278" text-anchor="middle" font-size="11" fill="#A32D2D">aluno fica preso</text>
+<path d="M440 174 L410 236" stroke="#A32D2D" stroke-width="2" fill="none" marker-end="url(#d2)"/>
+<rect x="560" y="240" width="170" height="46" rx="9" fill="#FCEBEB" stroke="#E24B4A" stroke-dasharray="5 4"/>
+<text x="645" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#791F1F">scaffold órfão</text>
+<text x="645" y="278" text-anchor="middle" font-size="11" fill="#A32D2D">remedia erro que não existe</text>
+<text x="420" y="325" text-anchor="middle" font-size="12.5" fill="#5f5e5a">Todos estes defeitos são detectados sem olhar o grafo do especialista. É pura teoria dos grafos.</text>
+</svg>
+<p class="cap">Figura 7. Quatro defeitos duros num grafo hipotético. Nenhum deles apareceu em nenhum grafo do robô durante a campanha.</p>
+</div>
+
+<p><b>A prova de força bruta:</b> geramos <b>10.000 configurações aleatórias</b> de exercício (a técnica se chama property-based testing, com a biblioteca fast-check) e verificamos que o montador determinístico nunca produz nenhuma violação dura. Em outras palavras, a estrutura do grafo é limpa por construção. A IA pode errar no conteúdo, mas não consegue quebrar a forma. O detector também foi plugado como <b>trava de produção</b>, no validador da linha de montagem: se um dia algo mudar e um grafo defeituoso aparecer, ele será barrado antes de chegar a qualquer aluno.</p>
+
+<h2 id="s8">8. O juiz cego: separando "diferente" de "pior"</h2>
+
+<p>Quando o robô prevê um erro que o especialista não catalogou, existem duas leituras possíveis. Ou o robô inventou bobagem (alucinação de conteúdo), ou ele enxergou um erro real de aluno que o humano não anotou (enriquecimento). Nenhuma métrica automática decide isso sozinha. É preciso julgamento pedagógico. Montamos um <b>juiz cego</b> com quatro proteções contra autoengano:</p>
+
+<div class="fig">
+<svg viewBox="0 0 840 400" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>O protocolo do juiz cego</title>
+<defs><marker id="e1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker></defs>
+<rect x="20" y="20" width="230" height="54" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="135" y="42" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0C447C">extras do robô</text>
+<text x="135" y="60" text-anchor="middle" font-size="11.5" fill="#185FA5">erros que só o robô previu</text>
+<rect x="20" y="88" width="230" height="54" rx="10" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="135" y="110" text-anchor="middle" font-size="12.5" font-weight="600" fill="#085041">erros do próprio especialista</text>
+<text x="135" y="128" text-anchor="middle" font-size="11.5" fill="#0F6E56">calibração: a régua do "válido"</text>
+<rect x="20" y="156" width="230" height="54" rx="10" fill="#F1EFE8" stroke="#888780"/>
+<text x="135" y="178" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2C2C2A">distratores (controle negativo)</text>
+<text x="135" y="196" text-anchor="middle" font-size="11.5" fill="#5F5E5A">a resposta certa + um absurdo (987654)</text>
+<path d="M250 47 L344 116" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#e1)"/>
+<path d="M250 115 L344 122" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#e1)"/>
+<path d="M250 183 L344 130" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#e1)"/>
+<rect x="350" y="88" width="200" height="66" rx="10" fill="#EEEDFE" stroke="#7F77DD"/>
+<text x="450" y="110" text-anchor="middle" font-size="13" font-weight="650" fill="#26215C">JUIZ CEGO</text>
+<text x="450" y="128" text-anchor="middle" font-size="11.5" fill="#534AB7">não sabe a origem de nada;</text>
+<text x="450" y="144" text-anchor="middle" font-size="11.5" fill="#534AB7">família de IA diferente do gerador</text>
+<line x1="550" y1="121" x2="614" y2="121" stroke="#5f5e5a" stroke-width="2" marker-end="url(#e1)"/>
+<rect x="620" y="60" width="200" height="120" rx="10" fill="#fafaf8" stroke="#e1e0d9"/>
+<text x="720" y="84" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1a1a1a">veredito por item</text>
+<text x="720" y="106" text-anchor="middle" font-size="12" fill="#0F6E56">válido (erro plausível de aluno)</text>
+<text x="720" y="126" text-anchor="middle" font-size="12" fill="#A32D2D">implausível / impossível</text>
+<text x="720" y="146" text-anchor="middle" font-size="12" fill="#854F0B">"na verdade é a resposta certa"</text>
+<text x="720" y="166" text-anchor="middle" font-size="11" fill="#898781">1 frase de justificativa cada</text>
+<rect x="20" y="250" width="800" height="120" rx="10" fill="#EEEDFE" stroke="#CECBF6"/>
+<text x="40" y="278" font-size="13" font-weight="650" fill="#26215C">O segundo juiz: a importância dos PERDIDOS (a pergunta que decide entre complementar e pior)</text>
+<text x="40" y="302" font-size="12.5" fill="#3C3489">Dos erros do especialista que o robô NÃO cobriu, quantos eram CENTRAIS (um tutor precisa detectar),</text>
+<text x="40" y="320" font-size="12.5" fill="#3C3489">quantos periféricos (baixa prioridade) e quantos mecânicos (artefato de interface)?</text>
+<text x="40" y="348" font-size="12.5" font-weight="600" fill="#26215C">Se o robô perde sobretudo periféricos, a diferença é complementar. Se perde centrais, a lacuna importa.</text>
+</svg>
+<p class="cap">Figura 8. O protocolo do juiz. Ele é cego à origem dos itens, é calibrado (os erros do próprio especialista devem pontuar alto) e tem controles negativos (os distratores DEVEM pontuar zero; se não pontuarem, o juiz é um carimbo e nada do que ele diz vale). Além disso, o juiz usa um modelo de IA de família diferente da que gera os grafos, por causa do viés de auto-preferência documentado em Panickssery et al. (2024).</p>
+</div>
+
+<h2 id="s9">9. Rigor: pré-registro, réplicas e revisão adversarial</h2>
+
+<h3>Pré-registro com emenda transparente</h3>
+<p>As métricas, a margem de não-inferioridade e as regras de análise foram escritas <b>antes</b> de olhar os resultados. Isso é o pré-registro. Quando a análise metodológica mostrou que o F1 era a régua errada, não reescrevemos o documento por baixo dos panos: registramos uma <b>emenda datada</b> (2026-07-02), antes de qualquer coleta com especialistas humanos, explicando a troca e o porquê. É a prática padrão de ciência aberta.</p>
+
+<h3>Réplicas e intervalos de confiança</h3>
+<p>Agentes de IA são estocásticos: a mesma pergunta gera respostas um pouco diferentes a cada rodada. Um número tirado de uma corrida única é anedota, não evidência. Por isso a campanha rodou <b>tudo em triplicata</b>, e cada número deste relatório vem acompanhado de um intervalo de confiança de 95% (bootstrap agrupado por problema para as métricas contínuas, intervalo de Wilson para as proporções do juiz).</p>
+
+<div class="fig">
+<svg viewBox="0 0 840 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>O desenho da campanha</title>
+<defs><marker id="f1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f5e5a"/></marker></defs>
+<rect x="20" y="30" width="180" height="50" rx="10" fill="#F1EFE8" stroke="#888780"/>
+<text x="110" y="52" text-anchor="middle" font-size="13" font-weight="600" fill="#2C2C2A">24 problemas</text>
+<text x="110" y="70" text-anchor="middle" font-size="11.5" fill="#5F5E5A">frações · CTAT 6.17</text>
+<g>
+<rect x="280" y="40" width="200" height="44" rx="9" fill="#E6F1FB" stroke="#378ADD"/>
+<text x="380" y="59" text-anchor="middle" font-size="12" font-weight="600" fill="#0C447C">avaliação × 3 corridas</text>
+<text x="380" y="75" text-anchor="middle" font-size="11" fill="#185FA5">72 comparações robô×especialista</text>
+<rect x="280" y="104" width="200" height="44" rx="9" fill="#EEEDFE" stroke="#7F77DD"/>
+<text x="380" y="123" text-anchor="middle" font-size="12" font-weight="600" fill="#26215C">juiz cego × 3 corridas</text>
+<text x="380" y="139" text-anchor="middle" font-size="11" fill="#534AB7">498 julgamentos individuais</text>
+</g>
+<path d="M200 50 L274 60" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#f1)"/>
+<path d="M200 62 L274 124" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#f1)"/>
+<rect x="560" y="60" width="260" height="90" rx="10" fill="#E1F5EE" stroke="#1D9E75"/>
+<text x="690" y="86" text-anchor="middle" font-size="13" font-weight="600" fill="#085041">agregador estatístico</text>
+<text x="690" y="106" text-anchor="middle" font-size="11.5" fill="#0F6E56">média com IC95% (bootstrap de cluster)</text>
+<text x="690" y="123" text-anchor="middle" font-size="11.5" fill="#0F6E56">proporções do juiz com IC de Wilson</text>
+<text x="690" y="140" text-anchor="middle" font-size="11.5" fill="#0F6E56">semente fixa: resultado reproduzível</text>
+<path d="M480 62 L554 90" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#f1)"/>
+<path d="M480 126 L554 118" stroke="#5f5e5a" stroke-width="1.8" fill="none" marker-end="url(#f1)"/>
+<rect x="20" y="200" width="800" height="80" rx="10" fill="#fafaf8" stroke="#e1e0d9"/>
+<text x="40" y="226" font-size="12.5" font-weight="600" fill="#1a1a1a">Reprodutibilidade embutida:</text>
+<text x="40" y="246" font-size="12" fill="#5f5e5a">• a aleatoriedade dos testes estatísticos usa semente fixa, então os mesmos dados dão os mesmos números em qualquer máquina</text>
+<text x="40" y="264" font-size="12" fill="#5f5e5a">• os 9 relatórios brutos e o agregado estão versionados no repositório; há um pacote standalone p/ reprodução com 1 chave de API</text>
+</svg>
+<p class="cap">Figura 9. O desenho da campanha de 2026-07-02: 6 corridas oficiais (3 de avaliação e 3 do juiz), 144 grafos autorados pelos agentes reais, 498 julgamentos do juiz.</p>
+</div>
+
+<h3>Revisão adversarial (um red team de metodologia)</h3>
+<p>Duas vezes durante o desenvolvimento, um time de agentes revisores independentes recebeu a missão de <b>atacar</b> o experimento: procurar contaminação, viés de métrica, código divergente, conclusão acima do que os dados aguentam. Não foi enfeite. A primeira rodada derrubou uma conclusão nossa que estava otimista demais ("a diferença é só complementar") e achou 2 problemas de fidelidade na forma de usar os agentes. A segunda achou, com reprodução passo a passo, uma divergência entre dois módulos que calculavam a mesma coisa de jeitos diferentes. Tudo foi corrigido e coberto por testes de regressão antes da campanha final. A suíte completa do backend fecha em <b>1.250 testes verdes</b>.</p>
+
+<h2 id="s10">10. Resultados completos</h2>
+
+<h3>10.1 Nível 1, a estrutura: impecável</h3>
+<div class="box verde">
+<p><b>Zero violações duras e zero sinais moles em todos os 72 grafos que passaram pelo detector</b> na campanha. E zero também nos 10.000 grafos dos testes de propriedade. A banda histórica do score de alucinação ficou em µ=0 e σ=0, o que na prática significa: daqui para frente, qualquer sinal mole em um grafo novo já conta como anomalia. A estrutura do robô não é apenas boa. Ela é limpa por construção, e agora existe um detector de guarda para o caso de isso mudar um dia.</p>
+</div>
+
+<h3>10.2 Nível 2, a comparação com o especialista (24 problemas × 3 réplicas, IC95%)</h3>
+
+<p>Os números abaixo são dos agentes reais da plataforma, comparados com o grafo do especialista. Cada linha traz a média das 72 comparações (24 problemas, 3 corridas) e o intervalo de confiança.</p>
+
+<table>
+<tr><th>Métrica</th><th class="num">Resultado</th><th>Como ler</th></tr>
+<tr><td><b>Completude conceitual (eixo X oficial)</b></td><td class="num"><b>0,376</b> [0,310 a 0,440]</td><td>o robô cobre cerca de 38% do catálogo de erros conceituais do especialista</td></tr>
+<tr><td>Completude crua</td><td class="num">0,234 [0,194 a 0,273]</td><td>a mesma conta, mas contando também os erros mecânicos de interface no denominador</td></tr>
+<tr><td>Completude de passos (separada)</td><td class="num">0,510 [0,497 a 0,525]</td><td>metade dos passos do caminho do especialista aparece no grafo do robô</td></tr>
+<tr><td>Equivalência funcional (concordância)</td><td class="num">0,396 [0,345 a 0,450]</td><td>diante da mesma resposta de aluno, os dois tutores reagem igual em ~40% dos casos da bateria</td></tr>
+<tr><td>Inclusão de traços</td><td class="num">0,461 [0,431 a 0,490]</td><td>o caminho do especialista "cabe" em boa parte dentro do caminho do robô, descontando granularidade</td></tr>
+<tr><td>F1 estrutural / F1 conceitual (auditáveis)</td><td class="num">0,485 [0,459 a 0,512] / 0,548 [0,518 a 0,578]</td><td>as métricas clássicas, mantidas ao lado para comparação com a literatura</td></tr>
+</table>
+
+<div class="box">
+<p><b>Nota de robustez:</b> em paralelo, como checagem de engenharia, rodamos também uma versão simplificada do robô (os três alunos numa única chamada de IA, em vez dos três agentes separados). Os agentes reais da plataforma ficaram iguais ou melhores em tudo, com vantagem estatisticamente significativa na cobertura de passos e no F1. Ou seja: a metodologia oficial usa o produto de verdade, e isso não custa nada em qualidade. Os dados dessa checagem estão junto com os demais, nos resultados versionados da campanha.</p>
+</div>
+
+<h3>10.3 Uma comparação aberta, para ver como funciona</h3>
+
+<p>Os agregados escondem o que acontece em cada exercício. Vale abrir um caso real da campanha, o problema da temporada de futebol (<code>04soccerSeason</code>): "Alisha torceu o tornozelo e jogou apenas 3/4 da temporada. Use a reta numérica para representar essa fração." A resposta correta é 3/4. A tabela abaixo mostra, lado a lado, o catálogo de erros do especialista e o que os agentes previram nesse exercício (primeira corrida):</p>
+
+<table>
+<tr><th>Resposta errada</th><th>Especialista catalogou?</th><th>Agentes previram?</th><th>Desfecho</th></tr>
+<tr><td class="num"><b>2/4</b></td><td>sim</td><td>sim</td><td>coberto: os dois preveem que o aluno marque a fração errada vizinha</td></tr>
+<tr><td class="num"><b>3</b></td><td>sim</td><td>sim</td><td>coberto: os dois preveem que o aluno digite só o numerador</td></tr>
+<tr><td class="num"><b>4</b></td><td>sim</td><td>não</td><td><b>perdido:</b> o aluno que digita só o denominador escaparia da remediação do sistema</td></tr>
+<tr><td class="num"><b>4/4</b></td><td>não</td><td>sim</td><td><b>extra:</b> o juiz cego classificou como erro válido (o aluno confunde o total de partes com a fração pedida)</td></tr>
+<tr><td class="num">"-1", "-" (em branco, clique residual)</td><td>sim</td><td>não</td><td>mecânicos de interface: ficam fora da conta conceitual</td></tr>
+</table>
+
+<p>A conta deste exercício: o especialista tem 3 erros conceituais, os agentes cobriram 2, então a completude conceitual é 0,67. O extra 4/4 passou pelo juiz cego e foi considerado válido, enquanto o distrator (a própria resposta correta, 3/4) foi rejeitado na mesma rodada, como deveria. É esse processo, repetido 24 vezes por corrida e 3 corridas, que produz os agregados da seção anterior.</p>
+
+<h3>10.4 O quadro completo, exercício por exercício</h3>
+
+<p>A tabela traz os 24 exercícios, ordenados pela completude conceitual (média das 3 corridas). As colunas de erros perdidos e extras vêm da primeira corrida, como amostra; os mecânicos de interface já estão filtrados:</p>
+
+<table>
+<tr><th>Exercício</th><th class="num">Completude conceitual</th><th>Erros do especialista que faltaram</th><th>Extras dos agentes</th></tr>
+<tr><td><code>14centimeter</code></td><td class="num">0,67</td><td>10</td><td>3</td></tr>
+<tr><td><code>16bonusQuestion</code></td><td class="num">0,67</td><td>6</td><td>6/7</td></tr>
+<tr><td><code>00bubble</code></td><td class="num">0,56</td><td>-/5</td><td>4, 6</td></tr>
+<tr><td><code>02watermelon</code></td><td class="num">0,56</td><td>4</td><td>1</td></tr>
+<tr><td><code>04soccerSeason</code></td><td class="num">0,56</td><td>4</td><td>1</td></tr>
+<tr><td><code>13cleanRoom</code></td><td class="num">0,56</td><td>4</td><td>1/4</td></tr>
+<tr><td><code>20birthday</code></td><td class="num">0,50</td><td>15, 8</td><td>7</td></tr>
+<tr><td><code>21mnm</code></td><td class="num">0,50</td><td>1/3, 1</td><td>2, 5</td></tr>
+<tr><td><code>22biscuit</code></td><td class="num">0,50</td><td>1/2</td><td>nenhum</td></tr>
+<tr><td><code>03summerBooks</code></td><td class="num">0,44</td><td>2/5, 5</td><td>4, 2</td></tr>
+<tr><td><code>07pizza</code></td><td class="num">0,44</td><td>1/2, 5</td><td>3</td></tr>
+<tr><td><code>06lemonade</code></td><td class="num">0,33</td><td>1/7, 7</td><td>5, 8</td></tr>
+<tr><td><code>18gum</code></td><td class="num">0,33</td><td>11, 6</td><td>6/11</td></tr>
+<tr><td><code>01watermelon</code></td><td class="num">0,33</td><td>0, 1</td><td>3, 5</td></tr>
+<tr><td><code>19Painting</code></td><td class="num">0,25</td><td>1/4, 5, 4</td><td>6, 2</td></tr>
+<tr><td><code>12apples</code></td><td class="num">0,22</td><td>7/6</td><td>3</td></tr>
+<tr><td><code>05flu</code></td><td class="num">0,22</td><td>2/5, 3, 5</td><td>7, 2, 4</td></tr>
+<tr><td><code>08dentists</code></td><td class="num">0,22</td><td>3/5, 4, 5</td><td>5/4, 1/5, 4/9</td></tr>
+<tr><td><code>10children</code></td><td class="num">0,22</td><td>2, 3</td><td>5, 3/2</td></tr>
+<tr><td><code>11project</code></td><td class="num">0,22</td><td>4/7, 5, 7</td><td>2, 1</td></tr>
+<tr><td><code>15fishStick</code></td><td class="num">0,20</td><td>3/7, 9/7, 10, 7</td><td>6, 8</td></tr>
+<tr><td><code>17pencils</code></td><td class="num">0,20</td><td>5/7, 17, 12, 5</td><td>24, 5/12</td></tr>
+<tr><td><code>23textbookPack</code></td><td class="num">0,20</td><td>3/2, 13, 8, 5</td><td>13/16, 8/13</td></tr>
+<tr><td><code>09mathCompetition</code></td><td class="num">0,11</td><td>4/7, 9, 14</td><td>14/9, 9/5, 13</td></tr>
+</table>
+
+<p>Dois padrões saltam da tabela. Primeiro, a variação é grande (de 0,11 a 0,67), e os exercícios com pior cobertura são justamente os que têm catálogos maiores e mais específicos (frações impróprias, numeradores grandes, como <code>09mathCompetition</code> e <code>17pencils</code>). Segundo, um erro se repete na coluna do meio quase sempre: o aluno que responde só com o denominador (o "4", o "5", o "7"). O especialista cataloga esse erro em quase todo exercício, e os agentes raramente o preveem. Esse tipo de diagnóstico, que aponta exatamente ONDE melhorar o agente de erros, é o que a métrica agregada sozinha não daria.</p>
+
+<h3>10.5 O juiz cego (3 corridas, 498 julgamentos)</h3>
+
+<table>
+<tr><th>Origem do item julgado</th><th class="num">Válidos</th><th class="num">IC95% (Wilson)</th><th>Interpretação</th></tr>
+<tr><td><b>Extras do robô</b> (erros que só ele previu)</td><td class="num"><b>87%</b> (91/105)</td><td class="num">[79%, 92%]</td><td>o que o robô adiciona é sólido</td></tr>
+<tr><td>Erros do próprio especialista (calibração)</td><td class="num">99% (247/249)</td><td class="num">[97%, 100%]</td><td>a régua do "válido" funciona</td></tr>
+<tr><td>Distrator: a resposta correta</td><td class="num">0% (0/72)</td><td class="num">[0%, 5%]</td><td rowspan="2">o juiz discrimina, não é carimbo</td></tr>
+<tr><td>Distrator: valor absurdo</td><td class="num">0% (0/72)</td><td class="num">[0%, 5%]</td></tr>
+</table>
+
+<h3>10.6 O resultado decisivo: a importância do que o sistema perde</h3>
+
+<div class="box verm">
+<p>Somando as 3 corridas, houve <b>151 erros conceituais do especialista que o sistema não cobriu</b>. O juiz de importância classificou cada um deles:</p>
+<p style="font-size:18px"><b>56% centrais</b> [48 a 64] · 42% periféricos · 2% mecânicos</p>
+<p>Ou seja: <b>mais da metade do que o sistema deixa passar é erro que um bom tutor precisa saber remediar.</b> A tese confortável de que a diferença entre sistema e especialista seria apenas "complementar" (cada um cobre erros diferentes, sem prejuízo) não se sustenta sem qualificação. A lacuna de cobertura importa.</p>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 840 460" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,Arial" role="img">
+<title>Veredito 2D final</title>
+<rect x="524" y="50" width="196" height="105" fill="#E1F5EE"/>
+<text x="622" y="95" text-anchor="middle" font-size="13" font-weight="600" fill="#085041">canto bom</text>
+<text x="622" y="113" text-anchor="middle" font-size="11.5" fill="#0F6E56">(completo e válido)</text>
+<g stroke="#e1e0d9" stroke-width="1">
+<line x1="100" y1="50" x2="100" y2="400"/><line x1="255" y1="50" x2="255" y2="400"/><line x1="410" y1="50" x2="410" y2="400"/><line x1="565" y1="50" x2="565" y2="400"/><line x1="720" y1="50" x2="720" y2="400"/>
+<line x1="100" y1="50" x2="720" y2="50"/><line x1="100" y1="137" x2="720" y2="137"/><line x1="100" y1="225" x2="720" y2="225"/><line x1="100" y1="312" x2="720" y2="312"/>
+</g>
+<line x1="100" y1="400" x2="720" y2="400" stroke="#c3c2b7"/>
+<line x1="100" y1="50" x2="100" y2="400" stroke="#c3c2b7"/>
+<g font-size="11.5" fill="#898781" text-anchor="middle">
+<text x="100" y="420">0</text><text x="255" y="420">0,25</text><text x="410" y="420">0,50</text><text x="565" y="420">0,75</text><text x="720" y="420">1,0</text>
+</g>
+<g font-size="11.5" fill="#898781" text-anchor="end">
+<text x="92" y="404">0</text><text x="92" y="316">0,25</text><text x="92" y="229">0,50</text><text x="92" y="141">0,75</text><text x="92" y="54">1,0</text>
+</g>
+<text x="410" y="448" text-anchor="middle" font-size="13" fill="#52514e">X: completude conceitual (quanto do catálogo do especialista o robô cobre)</text>
+<text x="34" y="225" text-anchor="middle" font-size="13" fill="#52514e" transform="rotate(-90 34 225)">Y: validade dos extras (juiz cego)</text>
+<circle cx="720" cy="53.5" r="7" fill="#1baf7a" stroke="#ffffff" stroke-width="2"/>
+<text x="704" y="76" text-anchor="end" font-size="12" fill="#0F6E56">especialista (régua): validade 0,99</text>
+<circle cx="100" cy="400" r="6" fill="#898781"/>
+<text x="116" y="386" font-size="12" fill="#898781">distratores: 0 (controle ok)</text>
+<line x1="292" y1="95.5" x2="373" y2="95.5" stroke="#2a78d6" stroke-width="2.2"/>
+<line x1="292" y1="89" x2="292" y2="102" stroke="#2a78d6" stroke-width="2.2"/>
+<line x1="373" y1="89" x2="373" y2="102" stroke="#2a78d6" stroke-width="2.2"/>
+<line x1="333" y1="78" x2="333" y2="126.5" stroke="#2a78d6" stroke-width="2.2"/>
+<line x1="326" y1="78" x2="340" y2="78" stroke="#2a78d6" stroke-width="2.2"/>
+<line x1="326" y1="126.5" x2="340" y2="126.5" stroke="#2a78d6" stroke-width="2.2"/>
+<circle cx="333" cy="95.5" r="9" fill="#2a78d6" stroke="#ffffff" stroke-width="2.5"/>
+<text x="333" y="160" text-anchor="middle" font-size="14" font-weight="650" fill="#185FA5">robô: (0,38 · 0,87)</text>
+<text x="333" y="180" text-anchor="middle" font-size="12.5" fill="#52514e">válido, mas incompleto</text>
+<text x="110" y="66" font-size="11.5" fill="#898781">barras = IC95%</text>
+</svg>
+<p class="cap">Figura 10. O veredito 2D final da campanha. O robô está no canto "válido mas incompleto": no eixo Y (0,87) ele fica quase na régua do especialista (0,99); no eixo X (0,38) aparece a lacuna de cobertura.</p>
+</div>
+
+<h3>10.7 Conclusão da primeira avaliação</h3>
+<blockquote><p><b>O pipeline multiagente constrói grafos de comportamento com estrutura impecável, e os erros que ele prevê são pedagogicamente válidos em nível próximo ao de um especialista. Por outro lado, ele cobre cerca de 38% do catálogo de erros de um especialista experiente, e mais da metade do que deixa de cobrir é importante.</b> Se essa cobertura parcial está dentro da variação normal entre especialistas humanos, só a banda humano-humano poderá dizer (e ela exige 2 a 3 especialistas por exercício). Por isso, o veredito formal de não-inferioridade permanece em aberto nesta primeira avaliação, por desenho e por honestidade.</p></blockquote>
+
+<h2 id="s11">11. O que aprendemos e o que falta</h2>
+
+<h3>Aprendizados que já mudaram o produto</h3>
+<ul>
+<li><b>Trava de alucinação em produção:</b> o detector estrutural agora barra qualquer grafo defeituoso antes de chegar a um aluno. Hoje ele não barra nada, porque o gerador é limpo. É defesa em profundidade.</li>
+<li><b>Régua separada de qualidade:</b> boa parte do "F1 baixo" do começo (0,17!) era problema de medição, não dos agentes: um bug de encanamento, grafias diferentes da mesma fração contando como erros diferentes, erros mecânicos de interface contando como conceituais. Corrigida a régua, o número praticamente triplicou sem mudar uma linha dos agentes. A lição: antes de melhorar o modelo, confira a régua.</li>
+<li><b>A metodologia usa os agentes de verdade:</b> os grafos avaliados vêm dos mesmos agentes que rodam na plataforma EducaOFF, sem simplificação e sem ajuste especial para o experimento. A checagem de robustez (seção 10.2) confirmou que isso não custa qualidade.</li>
+</ul>
+
+<h3>Os dois próximos passos, em ordem de importância</h3>
+<ol>
+<li><b>A banda humano-humano:</b> recrutar 2 ou 3 especialistas para autorar, no CTAT e sem ver o trabalho uns dos outros, umas 10 das 24 interfaces. Com isso vêm três coisas: a régua da discordância natural entre profissionais, a margem de tolerância derivada dos dados (como a emenda do pré-registro exige) e o veredito formal de não-inferioridade.</li>
+<li><b>Atacar a cobertura por engenharia, com um "ensemble de erros":</b> o especialista catalogou os erros dele ao longo de anos de experiência; o robô teve uma conversa. A hipótese natural é rodar o agente de erros várias vezes e juntar os resultados (sem duplicatas, usando a âncora semântica). Se a cobertura subir de 38% para perto da banda humana com poucas rodadas, a lacuna era de amostragem, e não de capacidade.</li>
+</ol>
+<p>Mais adiante vem o Nível 3, com alunos reais e curvas de aprendizagem. Está fora do escopo desta primeira avaliação.</p>
+
+<h2 id="s12">12. Técnicas e fontes: como cada artigo foi usado</h2>
+
+<p>Nenhuma técnica deste estudo foi inventada do zero. Cada peça da metodologia resolve um problema específico, e veio de uma literatura específica. Esta seção explica, bloco por bloco, qual era o problema, de onde veio a solução e como ela foi aplicada aqui.</p>
+
+<h3>12.1 O paradigma dos tutores e dos grafos</h3>
+<p>O grafo de comportamento não é uma invenção nossa. Ele é o formato central dos <i>example-tracing tutors</i>, descritos por Aleven, McLaren, Sewall e Koedinger (2009; 2016) e implementados na ferramenta CTAT, da Carnegie Mellon. Usamos essa literatura de três formas. Primeiro, ela define o objeto: o que um grafo de comportamento precisa ter (caminho correto, ações incorretas com feedback dirigido, dicas em sequência, habilidades anotadas). Segundo, ela nos dá o especialista: os 24 grafos de referência foram autorados no próprio CTAT, então a comparação é contra o padrão-ouro da área, no formato nativo dele. Terceiro, ela legitima o desenho do nosso gerador: o recurso "Mass Production" do CTAT já criava grafos a partir de um gabarito com variáveis, que é exatamente a lógica do GraphForge da EducaOFF.</p>
+<p>Por trás disso está uma premissa clássica: erros de alunos não são aleatórios, são sistemáticos e catalogáveis. Isso vem de Brown e Burton (1978), que mostraram que erros de subtração seguem "procedimentos com bugs", e de VanLehn (1990). É essa premissa que faz valer a pena catalogar misconceptions em um grafo.</p>
+
+<h3>12.2 As métricas de comparação</h3>
+<p>O problema: como medir a semelhança entre dois grafos quando um deles não é gabarito perfeito e quando "ter itens a mais" pode ser virtude? A resposta veio de Tversky (1977), num artigo clássico de psicologia sobre similaridade. Ele mostrou que semelhança não precisa ser simétrica ("a Coreia do Norte parece com a China" não é o mesmo que "a China parece com a Coreia do Norte") e propôs um modelo com pesos separados para o que falta de cada lado. Nossa completude é exatamente o caso assimétrico dele: penaliza o que o sistema deixa de cobrir do especialista, e não penaliza o que o sistema tem a mais. O que o sistema tem a mais vai para o juiz cego decidir.</p>
+<p>Para comparar os caminhos de resolução sem punir diferenças de granularidade (um grafo divide em 3 passos o que o outro faz em 5), usamos a ideia de inclusão de traços da teoria de equivalência de processos (van Glabbeek): projetamos os dois caminhos nas respostas essenciais, descartamos os passos intermediários sem conteúdo e verificamos quanto do caminho do especialista aparece, na ordem, dentro do caminho do sistema. E mantemos as distâncias clássicas de edição de grafos (Sanfeliu e Fu, 1983; Zhang e Shasha, 1989) como métricas auditáveis, para que qualquer leitor da área consiga comparar nossos números com a literatura.</p>
+
+<h3>12.3 A estatística</h3>
+<p>O problema: como concluir algo defensável quando o "gabarito" é um humano que também erra, e o sistema medido é estocástico? Três fontes estruturam a resposta. De Lakens (2017; 2018) vem o arcabouço de não-inferioridade e equivalência: em vez de perguntar "o sistema é igual ao especialista?", pergunta-se "a distância entre sistema e especialista cabe dentro de uma margem pré-registrada?", e essa margem deve ser derivada da variação entre os próprios humanos. De Shavelson e Webb (1991), a Teoria da Generalizabilidade, vem a exigência de 2 a 3 especialistas por exercício para estimar essa variação: é uma questão de graus de liberdade, não de gosto. E de Amidei, Piwek e Willis (2018) vem o cuidado de interpretação: discordância entre juízes competentes é, em parte, ambiguidade legítima da tarefa, então a banda humana é referência, não teto rígido.</p>
+<p>No plano operacional, as réplicas em triplicata tratam a natureza estocástica dos agentes, o bootstrap agrupado por exercício respeita o fato de que medições do mesmo problema não são independentes, o intervalo de Wilson dá intervalos confiáveis para proporções com amostras pequenas, e o κ de Cohen (com a escala de Landis e Koch, 1977) mede concordância descontando o acaso, tanto na equivalência funcional quanto na futura calibração do juiz contra rótulos humanos.</p>
+
+<h3>12.4 O juiz de IA</h3>
+<p>O problema: decidir se um erro previsto só pelo sistema é invenção ou enriquecimento exige julgamento pedagógico em escala, e usar IA para julgar IA tem um risco documentado. Panickssery et al. (2024) e Hosking et al. (2024) mostraram que modelos de linguagem tendem a avaliar melhor textos produzidos pela própria família de modelos. Nossa proteção: o juiz é de uma família diferente da que gera os grafos, e nunca sabe a origem do item que julga. Do GraphEval (arXiv 2407.10793) veio o formato do julgamento: em vez de pedir uma nota para o grafo inteiro, cada item é julgado individualmente, com justificativa. Isso dá explicabilidade (sabemos QUAL item falhou) e permite os controles que validam o próprio juiz: os erros do especialista servem de régua positiva e os distratores de régua negativa, dentro da mesma rodada.</p>
+
+<h3>12.5 A detecção de alucinação estrutural</h3>
+<p>O problema: agentes generativos podem produzir estruturas absurdas, e esperar o gabarito para descobrir isso é caro. Quatro trabalhos recentes moldaram nossa solução. O survey de dados gerados por LLM (arXiv 2601.17717) propõe medir validade estrutural como violações por checagem, que é o formato do nosso relatório intrínseco. O Continuous Monitoring (arXiv 2509.03857) compara saídas de IA contra uma referência determinística com limiar dinâmico µ+λσ, que adotamos para o score de sinais moles; e o mesmo artigo admite que a própria referência pode estar errada, um alerta que transformamos em argumento central do estudo (o especialista também não é gabarito perfeito, daí a não-inferioridade). O SentinelAgent (arXiv 2505.24201) organiza anomalias de sistemas multiagente por nó, aresta e caminho, taxonomia que seguimos ao definir os sinais duros. E o HalluMat (arXiv 2512.22396) mostra que camadas combinadas de detecção reduzem alucinação de forma aditiva; a camada semântica dele (fragmentação por comunidades) ficou registrada como trabalho futuro.</p>
+
+<h3>12.6 Referências completas</h3>
+<table>
+<tr><th style="width:44%">Fonte</th><th>Uso neste estudo</th></tr>
+<tr><td>Aleven, McLaren, Sewall e Koedinger (2009; 2016), <i>IJAIED</i></td><td>paradigma example-tracing, CTAT, precedente Mass Production (§12.1)</td></tr>
+<tr><td>Brown e Burton (1978); VanLehn (1990)</td><td>erros sistemáticos e catalogáveis (§12.1)</td></tr>
+<tr><td>Tversky (1977), <i>Psychological Review</i></td><td>similaridade assimétrica, base da completude (§12.2)</td></tr>
+<tr><td>van Glabbeek, espectro linear time–branching time</td><td>inclusão de traços sem punir granularidade (§12.2)</td></tr>
+<tr><td>Sanfeliu e Fu (1983); Zhang e Shasha (1989)</td><td>distância de edição de grafos, métrica auditável (§12.2)</td></tr>
+<tr><td>Lakens (2017; 2018)</td><td>não-inferioridade e margem pré-registrada (§12.3)</td></tr>
+<tr><td>Shavelson e Webb (1991)</td><td>por que 2 a 3 especialistas na banda humana (§12.3)</td></tr>
+<tr><td>Amidei, Piwek e Willis (2018), <i>COLING</i></td><td>discordância legítima entre juízes (§12.3)</td></tr>
+<tr><td>Landis e Koch (1977)</td><td>escala do κ de concordância (§12.3)</td></tr>
+<tr><td>Panickssery et al. (2024); Hosking et al. (2024)</td><td>viés de autopreferência, juiz de família diferente (§12.4)</td></tr>
+<tr><td>GraphEval (arXiv 2407.10793, 2024)</td><td>julgamento item a item com justificativa (§12.4)</td></tr>
+<tr><td>Survey LLM-generated data (arXiv 2601.17717, 2026)</td><td>validade estrutural como violações por checagem (§12.5)</td></tr>
+<tr><td>Continuous Monitoring via Deterministic KG (arXiv 2509.03857, 2025)</td><td>limiar µ+λσ e falibilidade da referência (§12.5)</td></tr>
+<tr><td>SentinelAgent (arXiv 2505.24201, 2025)</td><td>taxonomia nó, aresta e caminho (§12.5)</td></tr>
+<tr><td>HalluMat (arXiv 2512.22396, 2025)</td><td>camadas combinadas; Louvain como trabalho futuro (§12.5)</td></tr>
+<tr><td>Cen, Koedinger e Junker (2006); Koedinger et al. (2012); Corbett e Anderson (1995)</td><td>instrumentos do Nível 3 com alunos reais (trabalho futuro)</td></tr>
+</table>
+
+<h2 id="s13">13. Apêndice: como reproduzir tudo</h2>
+
+<table>
+<tr><th style="width:38%">Artefato</th><th>Onde está</th></tr>
+<tr><td>Código do experimento (módulo completo)</td><td><code>backend/evaluation/</code>: parser (<code>parse-ctat-brd.js</code>), autoria cega (<code>author-from-ctat.js</code>, <code>simulate-students-real.js</code>), métricas (<code>metrics.js</code>, <code>functional-equivalence.js</code>), detector (<code>graph-hallucination.js</code>), juiz (<code>judge-misconceptions.js</code>), estatística (<code>stats.js</code>), runners e agregador</td></tr>
+<tr><td>Corpus (24 problemas .brd + interface)</td><td><code>backend/evaluation/cases/ctat-6.17/</code></td></tr>
+<tr><td>Dataset estruturado (envelopes A/B + metadados)</td><td><code>backend/evaluation/datasets/frac-numberline-6.17/</code></td></tr>
+<tr><td><b>Dados brutos desta campanha</b> (9 relatórios + agregado + banda)</td><td><code>backend/evaluation/results/campanha-2026-07-02/</code></td></tr>
+<tr><td>Pré-registro + emenda</td><td><code>docs/PRE-REGISTRO-VALIDACAO-GRAFOS.md</code></td></tr>
+<tr><td>Metodologia completa (nível acadêmico)</td><td><code>docs/METODOLOGIA-VALIDACAO-GRAFOS.md</code> e <code>docs/METODOLOGIA-VALIDACAO-DETALHADA.md</code></td></tr>
+<tr><td>Estúdio de Validação (rodar tudo pela interface web)</td><td><code>https://educaoff.com.br/api/evaluation/validation/ui</code></td></tr>
+<tr><td>Pacote standalone reprodutível (qualquer pesquisador, 1 chave de API)</td><td>botão "baixar experimento (.zip)" no estúdio, ou <code>/api/evaluation/validation/download-experiment</code></td></tr>
+</table>
+
+<p><b>Comandos (na VPS, em <code>backend/</code>):</b></p>
+<p><code>npx vitest run</code> roda os 1.250 testes (inclui os 10.000 grafos dos testes de propriedade)<br>
+<code>node -r dotenv/config evaluation/run-ctat-eval.mjs cases/ctat-6.17 --real</code> roda 1 corrida de avaliação<br>
+<code>node -r dotenv/config evaluation/run-judge.mjs cases/ctat-6.17 --real</code> roda 1 corrida do juiz<br>
+<code>node evaluation/aggregate-campaign.mjs &lt;pasta-dos-reports&gt;</code> gera o agregado com IC95%</p>
+
+<p class="sub" style="margin-top:40px;border-top:1px solid var(--line);padding-top:16px">Relatório gerado em 2026-07-02 · Experimento OE-A (validação de grafos de comportamento) · EducaOFF / STI Unplugged · resultados da campanha versionados em <code>results/campanha-2026-07-02</code> · métricas pré-registradas com emenda datada · revisado adversarialmente antes da coleta.</p>
+
+</div>
