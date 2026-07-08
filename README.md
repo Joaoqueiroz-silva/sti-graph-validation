@@ -82,6 +82,10 @@ npm run aggregate           # agrega réplicas em média com IC95%
 
 Para replicar a campanha inteira (3 réplicas de cada), rode os comandos de avaliação e juiz três vezes com `--out report-eval-real-N.json` / `--out report-judge-real-N.json` e agregue. O script usado na campanha original está em [`resultados/campanha-2026-07-02/run.sh`](resultados/campanha-2026-07-02/run.sh). A aleatoriedade da parte estatística usa semente fixa: os mesmos dados produzem os mesmos números em qualquer máquina.
 
+## Campanha 2: comparação entre modelos geradores (2026-07-08)
+
+A pedido da orientação, o experimento foi repetido trocando o modelo dos três agentes, com protocolo idêntico e juiz único neutro às três famílias (`mistralai/mistral-large-2512`): baseline Gemini 3.5 Flash contra `z-ai/glm-5.2` e `deepseek/deepseek-v4-pro`, 3 réplicas de avaliação e de julgamento por braço. Resultado em resumo: nenhum modelo altera o quadro geral ("válido, porém incompleto"); a completude conceitual ficou estatisticamente indistinguível entre os três (Gemini 0,368, DeepSeek 0,371, GLM-5.2 0,415, com os intervalos se sobrepondo), o Gemini foi significativamente melhor que o DeepSeek em passos, equivalência funcional e F1, e o GLM-5.2 obteve a maior validade dos extras no juiz comum (80% contra 71% do baseline), ao custo de ~10× o tempo de geração. Dados brutos em [`resultados/campanha-2026-07-08-multimodelo/`](resultados/campanha-2026-07-08-multimodelo/). Observação metodológica relevante: o juiz Mistral mostrou-se mais rígido que o GLM-4.5 da campanha 1 (validade dos extras 71-80% contra 87%; importância "central" 97-99% contra 56%), o que confirma que níveis absolutos de julgamento não são comparáveis entre juízes diferentes e reforça a necessidade da calibração humana em curso.
+
 ## Grau de dificuldade e custo
 
 O experimento foi desenhado para ser reproduzível por qualquer pessoa com experiência básica de terminal. Não há banco de dados, não há Docker, não há dependência de GPU: é Node.js puro com duas bibliotecas pequenas.
