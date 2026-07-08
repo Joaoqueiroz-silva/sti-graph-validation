@@ -60,6 +60,20 @@ function perProblemMean(reports, field) {
 const realEval = list(/^report-eval-real-.*\.json$/);
 const shimEval = list(/^report-eval-shim-.*\.json$/);
 
+// ── BRAÇOS MULTI-MODELO (campanha 2): report-eval-<braço>-N.json ─────────────
+// Detecta os braços presentes na pasta (além de real/shim) e agrega cada um.
+// Convenção de slug: gemini, glm52, dsv4pro, ... (sem hífen interno).
+const armNames = [...new Set(
+  fs.readdirSync(dir)
+    .map((f) => f.match(/^report-eval-([a-z0-9]+)-\d+\.json$/))
+    .filter(Boolean)
+    .map((m) => m[1])
+    .filter((a) => a !== "real" && a !== "shim")
+)].sort();
+const arms = Object.fromEntries(
+  armNames.map((a) => [a, list(new RegExp(`^report-eval-${a}-.*\\.json$`))])
+);
+
 const line = "═".repeat(74);
 console.log(
   `${line}\nCAMPANHA — RÉPLICAS (eval)  real=${realEval.length} corridas · shim=${shimEval.length} corridas\n${line}`
@@ -107,6 +121,53 @@ for (const [field, label] of METRICS) {
     summary.eval.paired[field] = cd;
     const eqv = cd.lower > -0.05 && cd.upper < 0.05 ? "≈ equivalente (|Δ|<0.05)" : "Δ relevante";
     console.log(`   Δ(real−shim) : ${ci(cd)} → ${eqv}`);
+  }
+}
+
+// ── TABELA MULTI-MODELO (uma linha por braço, por métrica) ───────────────────
+if (armNames.length) {
+  console.log(`\n${line}\nCOMPARAÇÃO ENTRE MODELOS GERADORES (braços: ${armNames.join(", ")})\n${line}`);
+  summary.arms = {};
+  for (const [field, label] of METRICS) {
+    console.log(`\n▸ ${label}`);
+    for (const a of armNames) {
+      const rows = evalRows(arms[a], field);
+      if (!rows.length) continue;
+      const c = bootstrapCI(rows);
+      (summary.arms[a] ||= {})[field] = c;
+      console.log(`   ${a.padEnd(10)}: ${ci(c)}  n=${c.n}`);
+    }
+    // diferença pareada de cada braço vs o primeiro (baseline alfabético ou 'gemini' se existir)
+    const base = armNames.includes("gemini") ? "gemini" : armNames[0];
+    for (const a of armNames.filter((x) => x !== base)) {
+      const mb = perProblemMean(arms[base], field);
+      const ma = perProblemMean(arms[a], field);
+      const diffRows = [];
+      for (const [id, vb] of mb) if (ma.has(id)) diffRows.push({ value: ma.get(id) - vb, cluster: id });
+      if (diffRows.length) {
+        const cd = bootstrapCI(diffRows);
+        console.log(`   Δ(${a}−${base}): ${ci(cd)}${cd.lower > 0 || cd.upper < 0 ? "  ← significativo" : ""}`);
+      }
+    }
+  }
+  // juiz por braço: report-judge-<braço>-N.json
+  for (const a of armNames) {
+    const judgeArm = list(new RegExp(`^report-judge-${a}-.*\\.json$`));
+    if (!judgeArm.length) continue;
+    let k = 0, n = 0, central = 0, nMiss = 0;
+    for (const rep of judgeArm) {
+      const g = rep.pooled?.["robo-extra"];
+      if (g) { k += g.valid; n += g.n; }
+      const mi = rep.missingImportance;
+      if (mi) { central += mi.central; nMiss += mi.n; }
+    }
+    const wv = wilsonCI(k, n);
+    const wc = wilsonCI(central, nMiss);
+    (summary.arms[a] ||= {}).judge = { validadeExtras: wv, perdidosCentrais: wc };
+    console.log(
+      `\n▸ juiz [${a}]: extras válidos = ${(wv.p * 100).toFixed(0)}% [${(wv.lower * 100).toFixed(0)}, ${(wv.upper * 100).toFixed(0)}] (${k}/${n})` +
+      `  ·  perdidos centrais = ${(wc.p * 100).toFixed(0)}% [${(wc.lower * 100).toFixed(0)}, ${(wc.upper * 100).toFixed(0)}] (${central}/${nMiss})`
+    );
   }
 }
 
