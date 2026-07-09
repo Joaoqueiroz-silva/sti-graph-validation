@@ -82,9 +82,18 @@ npm run aggregate           # agrega réplicas em média com IC95%
 
 Para replicar a campanha inteira (3 réplicas de cada), rode os comandos de avaliação e juiz três vezes com `--out report-eval-real-N.json` / `--out report-judge-real-N.json` e agregue. O script usado na campanha original está em [`resultados/campanha-2026-07-02/run.sh`](resultados/campanha-2026-07-02/run.sh). A aleatoriedade da parte estatística usa semente fixa: os mesmos dados produzem os mesmos números em qualquer máquina.
 
-## Campanha 2: comparação entre modelos geradores (2026-07-08)
+## Campanha 2: comparação entre modelos geradores (2026-07-08/09)
 
-A pedido da orientação, o experimento foi repetido trocando o modelo dos três agentes, com protocolo idêntico e juiz único neutro às três famílias (`mistralai/mistral-large-2512`): baseline Gemini 3.5 Flash contra `z-ai/glm-5.2` e `deepseek/deepseek-v4-pro`, 3 réplicas de avaliação e de julgamento por braço. Resultado em resumo: nenhum modelo altera o quadro geral ("válido, porém incompleto"); a completude conceitual ficou estatisticamente indistinguível entre os três (Gemini 0,368, DeepSeek 0,371, GLM-5.2 0,415, com os intervalos se sobrepondo), o Gemini foi significativamente melhor que o DeepSeek em passos, equivalência funcional e F1, e o GLM-5.2 obteve a maior validade dos extras no juiz comum (80% contra 71% do baseline), ao custo de ~10× o tempo de geração. Dados brutos em [`resultados/campanha-2026-07-08-multimodelo/`](resultados/campanha-2026-07-08-multimodelo/). Observação metodológica relevante: o juiz Mistral mostrou-se mais rígido que o GLM-4.5 da campanha 1 (validade dos extras 71-80% contra 87%; importância "central" 97-99% contra 56%), o que confirma que níveis absolutos de julgamento não são comparáveis entre juízes diferentes e reforça a necessidade da calibração humana em curso.
+A pedido da orientação, o experimento foi repetido trocando o modelo dos três agentes, com protocolo idêntico, mesma infraestrutura e juiz único neutro às quatro famílias (`mistralai/mistral-large-2512`): baseline Gemini 3.5 Flash contra `z-ai/glm-5.2`, `deepseek/deepseek-v4-pro` e `anthropic/claude-sonnet-5`, com 3 réplicas de avaliação e de julgamento por braço (24 corridas no total).
+
+| Modelo | Completude conceitual | Passos | Inclusão de traços | Extras válidos (juiz) |
+| --- | --- | --- | --- | --- |
+| Claude Sonnet 5 | 0,416 [0,342; 0,490] | 0,500 | **0,503** (única melhora significativa sobre o baseline) | 75% [67; 81] |
+| GLM-5.2 | 0,415 [0,325; 0,510] | 0,501 | 0,475 | **80%** [73; 86] |
+| DeepSeek V4 Pro | 0,371 [0,296; 0,450] | 0,477 (pior, significativo) | 0,458 | 75% [68; 81] |
+| Gemini 3.5 Flash (baseline) | 0,368 [0,302; 0,443] | **0,508** | 0,444 | 71% [62; 79] |
+
+Síntese: nenhum modelo altera o quadro geral ("válido, porém incompleto"). A completude conceitual é estatisticamente indistinguível entre os quatro (todas as diferenças pareadas contra o baseline cruzam zero), com um padrão sugestivo: os dois modelos de maior porte (Sonnet 5 e GLM-5.2) empatam no topo (~0,415) e os dois de menor porte (~0,37), apontando efeito de porte pequeno e não significativo com este N. Quatro famílias batendo no mesmo teto de cobertura reforçam que a lacuna é do método de amostragem única, não do modelo. O Sonnet 5 obteve a única melhora significativa contra o baseline (inclusão de traços, Δ +0,059 [0,017; 0,102]); o Gemini segue melhor em F1 e equivalência funcional, com o menor custo e a maior velocidade. Dados brutos em [`resultados/campanha-2026-07-08-multimodelo/`](resultados/campanha-2026-07-08-multimodelo/). Observação metodológica: o juiz Mistral é mais rígido que o GLM-4.5 da campanha 1 (níveis absolutos de julgamento não são comparáveis entre juízes), o que reforça a calibração humana em curso.
 
 ## Grau de dificuldade e custo
 
