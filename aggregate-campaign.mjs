@@ -16,7 +16,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { bootstrapCI, wilsonCI, mean } from "./stats.js";
+import { bootstrapCI, wilsonCI, mean, holm } from "./stats.js";
 
 const dir = process.argv[2] || ".";
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
@@ -128,6 +128,7 @@ for (const [field, label] of METRICS) {
 if (armNames.length) {
   console.log(`\n${line}\nCOMPARAÇÃO ENTRE MODELOS GERADORES (braços: ${armNames.join(", ")})\n${line}`);
   summary.arms = {};
+  const pairedTests = [];
   for (const [field, label] of METRICS) {
     console.log(`\n▸ ${label}`);
     for (const a of armNames) {
@@ -146,9 +147,26 @@ if (armNames.length) {
       for (const [id, vb] of mb) if (ma.has(id)) diffRows.push({ value: ma.get(id) - vb, cluster: id });
       if (diffRows.length) {
         const cd = bootstrapCI(diffRows);
-        console.log(`   Δ(${a}−${base}): ${ci(cd)}${cd.lower > 0 || cd.upper < 0 ? "  ← significativo" : ""}`);
+        pairedTests.push({ label: `${field}: ${a}−${base}`, p: cd.pBoot, ci: cd });
+        console.log(`   Δ(${a}−${base}): ${ci(cd)}  p=${cd.pBoot}${cd.lower > 0 || cd.upper < 0 ? "  ← IC exclui 0" : ""}`);
       }
     }
+  }
+
+  // ── CORREÇÃO DE MÚLTIPLAS COMPARAÇÕES (Holm) sobre TODOS os testes pareados ──
+  // (P1-2 do parecer: 7 métricas × braços = família de testes; sem correção,
+  //  ~1 falso positivo esperado a cada 20 testes.)
+  if (pairedTests.length) {
+    const adj = holm(pairedTests.map((t) => ({ label: t.label, p: t.p })));
+    console.log(`\n▸ correção de Holm sobre as ${adj.length} comparações pareadas (α=0,05):`);
+    const survivors = adj.filter((t) => t.reject);
+    for (const t of adj) {
+      if (t.reject) console.log(`   SOBREVIVE  ${t.label}  (p=${t.p}, p-Holm=${t.pAdj})`);
+    }
+    if (!survivors.length) console.log("   nenhuma comparação sobrevive à correção");
+    for (const t of adj.filter((x) => !x.reject && x.p <= 0.05))
+      console.log(`   cai        ${t.label}  (p=${t.p} → p-Holm=${t.pAdj})`);
+    summary.holm = adj;
   }
   // juiz por braço: report-judge-<braço>-N.json
   for (const a of armNames) {

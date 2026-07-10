@@ -120,6 +120,12 @@ export function bootstrapCI(rows, opts = {}) {
     if (sample.length) means.push(mean(sample.map((d) => d.value)));
   }
   means.sort((a, b) => a - b);
+  // p-valor bootstrap bicaudal para H0: média = 0 (2·min das caudas; piso 1/B).
+  // Usado na correção de múltiplas comparações (Holm) da campanha multimodelo.
+  const B = means.length || 1;
+  const propBelow = means.filter((x) => x <= 0).length / B;
+  const propAbove = means.filter((x) => x >= 0).length / B;
+  const pBoot = Math.max(1 / B, 2 * Math.min(propBelow, propAbove));
   return {
     mean: r(m),
     lower: r(percentile(means, alpha / 2)),
@@ -127,7 +133,28 @@ export function bootstrapCI(rows, opts = {}) {
     sd: r(Math.sqrt(mean(clean.map((d) => (d.value - m) ** 2)))),
     n: clean.length,
     nClusters: clusters.length,
+    pBoot: Math.round(Math.min(1, pBoot) * 10000) / 10000,
   };
+}
+
+/**
+ * Correção de Holm (step-down) para múltiplas comparações.
+ * @param {Array<{label:string, p:number}>} tests
+ * @returns mesma lista com pAdj (Holm) e reject (α=0.05), ordem original preservada.
+ */
+export function holm(tests, alpha = 0.05) {
+  const idx = tests.map((t, i) => ({ ...t, i })).sort((a, b) => a.p - b.p);
+  const m = tests.length;
+  let prev = 0;
+  for (let k = 0; k < idx.length; k++) {
+    const adj = Math.min(1, (m - k) * idx[k].p);
+    idx[k].pAdj = Math.max(adj, prev); // monotonicidade
+    prev = idx[k].pAdj;
+    idx[k].reject = idx[k].pAdj <= alpha;
+  }
+  const out = new Array(m);
+  for (const t of idx) out[t.i] = { label: t.label, p: t.p, pAdj: Math.round(t.pAdj*10000)/10000, reject: t.reject };
+  return out;
 }
 
 /** IC de Wilson para uma proporção (k/n) — bom p/ taxas do juiz com n pequeno. */

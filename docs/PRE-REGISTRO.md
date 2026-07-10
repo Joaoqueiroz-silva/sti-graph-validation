@@ -167,3 +167,52 @@ Anti-contaminação (Envelopes A/B; teste de leak), âncora `canonAnswer`, corpu
 conceitual-vs-mecânica (§8/1), o bootstrap de cluster semeado e a equivalência funcional (§5 —
 que ganha a inclusão de traços _stutter-insensitive_ como sub-métrica, colapsando nós no-op antes
 de medir inclusão, para não medir granularidade).
+
+---
+
+## EMENDA 2 — 2026-07-10 (pós-parecer interno, antes da coleta humana)
+
+### E2.1 Cronologia completa das decisões (blindagem do pré-registro)
+
+| Data | Evento | Natureza |
+| --- | --- | --- |
+| 2026-06-26 | Pré-registro original (F1 primário, δ provisório 0,10) | pré-dados |
+| 2026-06-27 | Âncora semântica `canonAnswer` fixada; equivalência funcional definida | pré-dados humanos |
+| 2026-07-02 | EMENDA 1: primária F1 → completude direcional; veredito 2D; banda HH direcional | antes da campanha 1 oficial |
+| 2026-07-02 | Campanha 1 executada (3 réplicas eval + 3 juiz) | coleta automatizada |
+| 2026-07-08/09 | Campanha 2 multimodelo (4 braços × 6 corridas, juiz neutro único) | coleta automatizada |
+| 2026-07-10 | EMENDA 2 (esta): correção de Holm adotada; distratores difíceis; guarda de equivalência | pós-parecer, ANTES de qualquer coleta com especialistas humanos |
+
+Nenhum dado de especialista humano (banda HH) ou de anotador humano (kappa do juiz)
+foi coletado até a data desta emenda.
+
+### E2.2 Correção para comparações múltiplas (adotada a partir da campanha 2)
+
+Toda família de comparações pareadas entre braços de modelo é corrigida por
+Holm (step-down) sobre p-valores bootstrap bicaudais, com α=0,05. Reanálise da
+campanha 2 sob esta regra: sobrevivem apenas as três inferioridades do braço
+DeepSeek (passos, F1 estrutural e F1 conceitual, todas p-Holm=0,0105); a melhora
+de inclusão de traços do braço Sonnet 5, significativa sem correção (p=0,003),
+não sobrevive (p-Holm=0,054) e passa a ser reportada como sugestiva.
+
+### E2.3 Controles negativos endurecidos e guarda de equivalência
+
+Aos dois distratores originais somam-se dois DIFÍCEIS por exercício: a forma
+não-canônica da resposta correta (ex.: 6/8 quando a resposta é 3/4) e o valor
+impossível no contexto (fração negativa de grandeza física). Auditoria de
+2026-07-10 (juiz Mistral, 24 exercícios): correta 0/24 aprovados, absurdo 0/24,
+impossível 1/24, e **equivalente 24/24 aprovados (falha total na fronteira
+fina)**. Verificação retrospectiva: a falha não contaminou as campanhas (dos 669
+excedentes julgados, 6 eram equivalentes à resposta correta e nenhum foi
+aprovado). Mitigação por construção: guarda determinística pela âncora semântica
+(candidato com a mesma âncora da resposta correta → "na_verdade_correta", sem
+consultar o LLM), coberta por teste. O relatório de validade do juiz passa a
+reportar a taxa de rejeição dos quatro distratores por rodada.
+
+### E2.4 Pacote de anotação humana congelado
+
+O conjunto de 370 itens únicos para a anotação humana (kappa juiz-humano) foi
+gerado e congelado nesta data a partir dos julgamentos das duas campanhas,
+embaralhado com semente fixa (20260710) e deduplicado por âncora; o anotador
+não tem acesso aos vereditos do juiz antes de concluir (`anotacao-humana/` no
+repositório do experimento).

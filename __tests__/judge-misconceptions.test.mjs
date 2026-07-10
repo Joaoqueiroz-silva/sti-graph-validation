@@ -12,10 +12,34 @@ import {
 } from "../judge-misconceptions.js";
 
 describe("makeDistractors (controle negativo)", () => {
-  it("inclui a resposta correta e um valor absurdo", () => {
+  it("inclui os fáceis (correta, absurdo) e os DIFÍCEIS (equivalente, impossível)", () => {
     const d = makeDistractors("1/4");
-    expect(d.map((x) => x.source)).toEqual(["distrator-correta", "distrator-absurdo"]);
+    expect(d.map((x) => x.source)).toEqual([
+      "distrator-correta",
+      "distrator-equivalente",
+      "distrator-impossivel",
+      "distrator-absurdo",
+    ]);
     expect(d[0].candidate).toBe("1/4");
+    expect(d[1].candidate).toBe("2/8"); // mesma âncora, outra grafia: a fronteira fina
+    expect(d[2].candidate).toBe("-1/4"); // impossível no contexto físico
+  });
+
+  it("distrator equivalente sobrevive ao dedup semântico do buildJudgeItems", () => {
+    const items = buildJudgeItems({ robotExtras: [], expertConceptual: [], distractors: makeDistractors("1/4") });
+    const sources = items.map((i) => i.source);
+    expect(sources).toContain("distrator-correta");
+    expect(sources).toContain("distrator-equivalente");
+  });
+});
+
+describe("guarda determinística de equivalência (P0-3)", () => {
+  it("candidato equivalente à resposta correta é rejeitado SEM chamar o LLM", async () => {
+    const { judgeMisconception } = await import("../judge-misconceptions.js");
+    // sem chave de API no ambiente de teste: se o LLM fosse chamado, lançaria erro
+    const r = await judgeMisconception("Marque 3/4 na reta.", "3/4", "6/8");
+    expect(r.valid).toBe(false);
+    expect(r.category).toBe("na_verdade_correta");
   });
 });
 
@@ -49,7 +73,7 @@ describe("judgeItems — CEGUEIRA", () => {
     const judged = await judgeItems("P", "1/4", items, { judge: fakeJudge });
     // o juiz recebeu apenas candidatos — nenhuma string de origem
     for (const a of seenArgs) {
-      expect(["3", "0", "1/4", "987654"]).toContain(a.candidate);
+      expect(["3", "0", "1/4", "2/8", "-1/4", "987654"]).toContain(a.candidate);
       expect(JSON.stringify(a)).not.toMatch(/robo-extra|especialista|distrator/);
     }
     // os itens julgados preservam a origem (para a análise, não para o juiz)

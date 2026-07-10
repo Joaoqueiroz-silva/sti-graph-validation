@@ -46,6 +46,21 @@ Essa resposta errada é uma misconception pedagogicamente válida?`;
 
 /** Juiz LLM (cross-family) para uma única resposta candidata. CEGO à origem. */
 export async function judgeMisconception(problem, correctAnswer, candidate, opts = {}) {
+  // GUARDA DETERMINÍSTICA (P0-3, auditoria 2026-07-10): o juiz de LLM aprovou 24/24
+  // frações equivalentes à resposta correta (6/8 quando a correta é 3/4) como
+  // "misconception válida" — ele não reconhece equivalência matemática na fronteira
+  // fina. Nos dados das campanhas isso não mordeu (0/669 extras aprovados eram
+  // equivalentes), mas a classe é eliminada por construção: mesma âncora semântica
+  // da resposta correta → "na_verdade_correta", sem consultar o LLM.
+  if (canonAnswer(candidate) !== "" && canonAnswer(candidate) === canonAnswer(correctAnswer)) {
+    return {
+      candidate: String(candidate),
+      valid: false,
+      category: "na_verdade_correta",
+      misconceptionName: "",
+      reason: "equivalente à resposta correta (guarda determinística por âncora semântica)",
+    };
+  }
   const cfg = getAgentConfig(opts.configKey || "agent9_review");
   const llm = createLLM(cfg);
   const raw = await callLLM(llm, SYSTEM, buildUser(problem, correctAnswer, candidate), {
@@ -118,13 +133,33 @@ export function summarizeImportance(judged) {
   };
 }
 
-/** Distratores (controle negativo): a resposta correta + um valor absurdo. */
+/**
+ * Distratores (controles negativos do juiz). Dois FÁCEIS (linha de base) e dois
+ * DIFÍCEIS (P0-3 do parecer de 2026-07-10: distratores triviais só provam
+ * discriminação grosseira; os difíceis testam a fronteira fina do instrumento):
+ *   - fácil 1: a própria resposta correta → espera-se "na_verdade_correta";
+ *   - fácil 2: valor absurdo (987654) → espera-se "implausivel";
+ *   - DIFÍCIL 1: forma NÃO-canônica da resposta correta (ex.: 6/8 quando a
+ *     resposta é 3/4) → parece um erro, mas É a resposta certa; o juiz que a
+ *     aprovar como misconception falhou na fronteira mais traiçoeira;
+ *   - DIFÍCIL 2: valor impossível no contexto (fração negativa numa grandeza
+ *     física, ex.: -3/4 de um pão) → plausível na sintaxe, impossível na semântica.
+ */
 export function makeDistractors(correctAnswer) {
   const out = [];
-  if (correctAnswer != null && String(correctAnswer).trim() !== "") {
-    out.push({ candidate: String(correctAnswer), source: "distrator-correta" }); // espera-se na_verdade_correta
+  const c = String(correctAnswer ?? "").trim();
+  if (c !== "") {
+    out.push({ candidate: c, source: "distrator-correta" });
+    const fr = c.match(/^(\d+)\/(\d+)$/);
+    if (fr) {
+      out.push({ candidate: `${2 * parseInt(fr[1], 10)}/${2 * parseInt(fr[2], 10)}`, source: "distrator-equivalente" });
+      out.push({ candidate: `-${c}`, source: "distrator-impossivel" });
+    } else if (/^\d+$/.test(c)) {
+      out.push({ candidate: `${2 * parseInt(c, 10)}/2`, source: "distrator-equivalente" });
+      out.push({ candidate: `-${c}`, source: "distrator-impossivel" });
+    }
   }
-  out.push({ candidate: "987654", source: "distrator-absurdo" }); // espera-se implausivel/impossivel
+  out.push({ candidate: "987654", source: "distrator-absurdo" });
   return out;
 }
 
@@ -135,15 +170,18 @@ export function makeDistractors(correctAnswer) {
 export function buildJudgeItems({ robotExtras = [], expertConceptual = [], distractors = [] }) {
   const seen = new Set();
   const items = [];
-  const add = (candidate, source) => {
-    const k = canonAnswer(candidate);
-    if (k === "" || seen.has(k)) return;
+  const add = (candidate, source, raw = false) => {
+    // Itens semânticos deduplicam por âncora (2/8 ≡ 1/4). DISTRATORES deduplicam
+    // pela grafia crua: o distrator-equivalente é PROPOSITALMENTE a mesma âncora
+    // da resposta correta com outra grafia, e seria engolido pelo dedup semântico.
+    const k = raw ? "raw:" + String(candidate) : canonAnswer(candidate);
+    if (k === "" || k === "raw:" || seen.has(k)) return;
     seen.add(k);
     items.push({ candidate: String(candidate), source });
   };
   for (const w of robotExtras) add(w, "robo-extra");
   for (const w of expertConceptual) add(w, "especialista");
-  for (const d of distractors) add(d.candidate, d.source);
+  for (const d of distractors) add(d.candidate, d.source, true);
   return items;
 }
 
