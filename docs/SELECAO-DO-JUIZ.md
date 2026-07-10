@@ -25,6 +25,25 @@ longo: inviável para ~500 julgamentos por corrida). Escolha: o Mistral Large
 (tier mais alto da família com latência de 1,9 s); o Medium ficou como
 contingência das corridas de julgamento.
 
+## Equivalência entre candidatos (bancada de 2026-07-10)
+
+Para verificar se a escolha do juiz enviesa o instrumento, três candidatos julgaram
+a mesma amostra estratificada de 45 itens (18 excedentes do sistema, 18 erros do
+especialista, 9 distratores; semente fixa 77), e a concordância foi medida par a par:
+
+| Par de juízes | Concordância bruta | κ de Cohen | Interpretação (Landis e Koch) |
+| --- | --- | --- | --- |
+| Mistral Large × Mistral Medium | 0,867 | **0,700** | substancial |
+| Mistral Large × Qwen3.7-plus | 0,844 | **0,644** | substancial |
+| Mistral Medium × Qwen3.7-plus | 0,844 | **0,644** | substancial |
+
+As taxas de aprovação são quase idênticas (67%, 67% e 69%): não há juiz
+sistematicamente mais severo entre os candidatos. A concordância substancial
+inclusive entre famílias distintas (Mistral × Qwen) indica que a escolha do
+Mistral Large, feita por latência e custo, não introduz viés detectável de
+veredito nesta amostra. A âncora definitiva de validade segue sendo a anotação
+humana em curso.
+
 ## Auditoria com distratores difíceis (2026-07-10)
 
 Endurecimento dos controles (P0-3): além da resposta correta e do valor absurdo,

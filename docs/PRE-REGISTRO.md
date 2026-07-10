@@ -174,14 +174,14 @@ de medir inclusão, para não medir granularidade).
 
 ### E2.1 Cronologia completa das decisões (blindagem do pré-registro)
 
-| Data | Evento | Natureza |
-| --- | --- | --- |
-| 2026-06-26 | Pré-registro original (F1 primário, δ provisório 0,10) | pré-dados |
-| 2026-06-27 | Âncora semântica `canonAnswer` fixada; equivalência funcional definida | pré-dados humanos |
-| 2026-07-02 | EMENDA 1: primária F1 → completude direcional; veredito 2D; banda HH direcional | antes da campanha 1 oficial |
-| 2026-07-02 | Campanha 1 executada (3 réplicas eval + 3 juiz) | coleta automatizada |
-| 2026-07-08/09 | Campanha 2 multimodelo (4 braços × 6 corridas, juiz neutro único) | coleta automatizada |
-| 2026-07-10 | EMENDA 2 (esta): correção de Holm adotada; distratores difíceis; guarda de equivalência | pós-parecer, ANTES de qualquer coleta com especialistas humanos |
+| Data          | Evento                                                                                  | Natureza                                                        |
+| ------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| 2026-06-26    | Pré-registro original (F1 primário, δ provisório 0,10)                                  | pré-dados                                                       |
+| 2026-06-27    | Âncora semântica `canonAnswer` fixada; equivalência funcional definida                  | pré-dados humanos                                               |
+| 2026-07-02    | EMENDA 1: primária F1 → completude direcional; veredito 2D; banda HH direcional         | antes da campanha 1 oficial                                     |
+| 2026-07-02    | Campanha 1 executada (3 réplicas eval + 3 juiz)                                         | coleta automatizada                                             |
+| 2026-07-08/09 | Campanha 2 multimodelo (4 braços × 6 corridas, juiz neutro único)                       | coleta automatizada                                             |
+| 2026-07-10    | EMENDA 2 (esta): correção de Holm adotada; distratores difíceis; guarda de equivalência | pós-parecer, ANTES de qualquer coleta com especialistas humanos |
 
 Nenhum dado de especialista humano (banda HH) ou de anotador humano (kappa do juiz)
 foi coletado até a data desta emenda.
@@ -216,3 +216,22 @@ gerado e congelado nesta data a partir dos julgamentos das duas campanhas,
 embaralhado com semente fixa (20260710) e deduplicado por âncora; o anotador
 não tem acesso aos vereditos do juiz antes de concluir (`anotacao-humana/` no
 repositório do experimento).
+
+### E2.5 Estatuto exploratório versus confirmatório (esclarecimento de cronologia)
+
+Para eliminar ambiguidade apontada em revisão: a troca da métrica primária
+(F1 → completude, Emenda 1) foi decidida APÓS corridas exploratórias de junho de
+2026 (nas quais resultados de agentes já haviam sido observados) e ANTES das
+campanhas confirmatórias de julho. As campanhas 1 e 2 são confirmatórias sob a
+métrica vigente; a escolha da métrica, porém, não foi cega aos dados
+exploratórios, e o relatório declara isso textualmente (Seção 3.8). A única
+decisão integralmente cega remanescente é o teste de não-inferioridade, cuja
+margem será derivada da banda interespecialistas ainda não coletada.
+
+### E2.6 Equivalência entre juízes candidatos
+
+Bancada de 2026-07-10 (45 itens estratificados, semente 77): κ de Cohen par a
+par entre Mistral Large, Mistral Medium e Qwen3.7-plus entre 0,644 e 0,700
+(concordância substancial), com taxas de aprovação de 67 a 69%. A escolha do
+juiz por latência/custo não introduz viés de veredito detectável na amostra.
+Dados em `resultados/bancada-juizes-2026-07-10/` no repositório.
