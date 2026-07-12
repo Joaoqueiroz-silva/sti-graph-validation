@@ -1,8 +1,17 @@
-# Pré-registro — Validação dos Grafos de Comportamento (CTAT × EducaOFF)
+# Plano de análise e histórico de decisões — Validação dos Grafos de Comportamento (CTAT × EducaOFF)
 
-> **Status:** rascunho para revisão do pesquisador (João). Pré-registrar **antes** de coletar
-> grafos de especialistas humanos adicionais. Evidência do objetivo **OE-A** da dissertação / §5.3
-> do artigo. Implementação: `backend/evaluation/` (ver `docs/HANDOFF-VALIDACAO-GRAFOS.md`).
+> **O que este documento É:** o plano de análise do estudo e o registro cronológico, datado e
+> justificado, de todas as decisões metodológicas (protocolo retrospectivamente documentado).
+>
+> **O que este documento NÃO é:** um pré-registro confirmatório. Ele foi tornado público junto
+> dos resultados da campanha 1, a métrica primária mudou depois de execuções exploratórias de
+> junho e a correção de Holm foi adotada depois da campanha multimodelo. Em consequência, TODAS
+> as campanhas de 2026-07 são classificadas como EXPLORATÓRIAS. O primeiro estudo confirmatório
+> exigirá registro público imutável (OSF) ANTES da coleta, em corpus novo e não inspecionado —
+> roteiro em `docs/DEPOSITO-OSF.md`.
+>
+> Evidência do objetivo **OE-A** da dissertação / §5.3 do artigo.
+> Implementação: raiz deste repositório (espelho em `backend/evaluation/` do monorepo).
 
 ## 1. Pergunta e hipótese
 
@@ -235,3 +244,81 @@ par entre Mistral Large, Mistral Medium e Qwen3.7-plus entre 0,644 e 0,700
 (concordância substancial), com taxas de aprovação de 67 a 69%. A escolha do
 juiz por latência/custo não introduz viés de veredito detectável na amostra.
 Dados em `resultados/bancada-juizes-2026-07-10/` no repositório.
+
+---
+
+## EMENDA 3 — 2026-07-12 (reanálise G2 do plano mestre; antes da coleta humana)
+
+_Origem: parecer externo de 2026-07-12 (MAJOR REVISION) e plano mestre de revisão._
+
+### E3.1 Reclassificação: TODAS as campanhas de julho são exploratórias
+
+Substitui a frase de E2.5 "as campanhas 1 e 2 são confirmatórias sob a métrica
+vigente". Critério: um estudo só é confirmatório com protocolo público e imutável
+anterior aos dados, o que não ocorreu (este documento nasceu junto dos resultados).
+As campanhas 1 e 2 passam a ser reportadas como **exploratórias**, sem exceção.
+O cabeçalho do documento foi reescrito na mesma data para "plano de análise e
+histórico de decisões". Nenhum resultado foi alterado por esta reclassificação.
+
+### E3.2 Unidade de análise e teste pareado (substitui o pBoot)
+
+- **Unidade inferencial = exercício (n=24).** As 3 réplicas são agregadas por média
+  dentro de cada exercício ANTES de qualquer comparação. Os "n=72" das tabelas da
+  v2.1 eram medições aninhadas, não unidades independentes.
+- **Teste pareado = permutação por troca de sinais, EXATA** (enumeração das 2^24
+  atribuições; `signFlipTest` em `stats.js`), sobre as diferenças por exercício.
+- **Famílias de hipóteses:** primária = completude conceitual, braço × baseline
+  (m=3, Holm); secundária/exploratória = demais métricas (m=12, Holm separado).
+- O `pBoot` (contagem de cruzamentos de zero no bootstrap percentil) fica
+  **depreciado para teste de hipótese**: não constrói a distribuição sob H0 e seu
+  piso 1/B produziu os três p-Holm=0,0105 idênticos da v2.1. Permanece no código
+  apenas para reproduzir a tag `legacy-campaigns-2026-07`.
+- Consequência empírica da reanálise: das três "inferioridades do DeepSeek" da
+  v2.1, **apenas uma sobrevive** ao teste exato com Holm (recall de passos,
+  p-Holm=0,035); as demais comparações não rejeitam H0.
+
+### E3.3 Estimativas do juiz sobre itens únicos
+
+Os julgamentos repetidos entre réplicas não são independentes. As taxas de
+validade passam a ser estimadas sobre **itens únicos** (deduplicação por
+exercício + âncora canônica), com decisão agregada por **maioria** entre réplicas
+e IC por **bootstrap de cluster no exercício**. A autoconsistência do juiz
+(unanimidade nos itens julgados ≥2 vezes) é reportada como métrica separada.
+O pooling de Wilson sobre julgamentos repetidos fica depreciado para esses grupos.
+
+### E3.4 Não-inferioridade: "não estimável" e métrica correta no runner
+
+- `nonInferiority` com nHH=0 retornava "inconclusivo" com `reliable=true` e
+  IC/diff nulos. Corrigido: **nao_estimavel**, `reliable` exige banda HH presente,
+  nenhum número fabricado (o estimando não é identificado sem dados HH).
+- O runner passava a completude **bruta** ao teste, divergindo da primária
+  declarada (conceitual, E1.1). Corrigido; a bruta segue como sensibilidade.
+- Ambos os defeitos foram apontados pelo parecer externo e estão cobertos por
+  testes de regressão.
+
+### E3.5 Fonte única dos números públicos
+
+Todos os números do relatório passam a ser gerados por `analysis/reanalyze.mjs`
+a partir dos dados brutos congelados (gate G2: nenhuma transcrição manual).
+A reconciliação formal dos números da v2.1 está em `analysis/derived/TABELAS.md`;
+o total "47%" da Tabela 7 da v2.1 **não é reproduzível** de nenhuma definição
+testada e fica registrado como inconsistência de transcrição (valor auditado:
+37% em execução única; 64% na união de 3, este último confere).
+
+### E3.6 Vocabulário defensável
+
+- "equivalência funcional" → **"concordância de classificação de respostas"**
+  (a bateria atual, autorreferente, não tem célula surpresa×surpresa por
+  construção; κ≈0 é o resultado honesto e motiva a bateria independente G6).
+- "detector de alucinação estrutural" → **"verificador de invariantes"** (as
+  invariantes são as implementadas; sensibilidade a defeitos será demonstrada
+  por mutation testing, G8).
+- Adotada a matriz de formulações do plano mestre (§10) para todo o relatório.
+
+### Cronologia atualizada
+
+| Data       | Evento                                                                      | Natureza                              |
+| ---------- | --------------------------------------------------------------------------- | ------------------------------------- |
+| 2026-07-12 | Parecer externo (MAJOR REVISION) recebido                                   | revisão                                |
+| 2026-07-12 | Congelamento G0 (`legacy-campaigns-2026-07` + manifesto SHA-256)            | governança                             |
+| 2026-07-12 | EMENDA 3: reclassificação exploratória, permutação exata, juiz deduplicado | pós-parecer, ANTES da coleta humana    |
