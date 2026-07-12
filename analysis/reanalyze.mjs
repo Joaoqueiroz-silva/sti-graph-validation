@@ -127,7 +127,8 @@ const METRICS = [
   ["recallMisconceptions", "completude bruta (sensibilidade)"],
   ["recallSteps", "completude de passos"],
   ["stepInclusion", "inclusão de traços"],
-  ["f1", "F1 (auditável)"],
+  ["f1", "F1 estrutural (auditável)"],
+  ["f1Conceptual", "F1 conceitual (auditável)"],
   ["functionalAgreement", "concordância de classificação (bruta)"],
   ["functionalKappa", "concordância de classificação (κ)"],
 ];
@@ -237,7 +238,11 @@ function pairedComparison(runsA, runsB, field) {
   };
 }
 
-const realVsShim = pairedComparison(c1Real, c1Shim, "recallMisconceptionsConceptual");
+const realVsShim = {
+  conceptual: pairedComparison(c1Real, c1Shim, "recallMisconceptionsConceptual"),
+  steps: pairedComparison(c1Real, c1Shim, "recallSteps"),
+  f1: pairedComparison(c1Real, c1Shim, "f1"),
+};
 
 // ─── 3. Campanha 2: braços × baseline, permutação exata + Holm ──────────────
 
@@ -645,7 +650,9 @@ for (const [slug, j] of Object.entries(judgeC2)) md += missRow(`C2 ${ARM_LABELS[
 
 md += `\n## Nota estrutural sobre a bateria (motivação da bateria independente)\n\nA bateria atual é a união das respostas dos dois grafos: todo item pertence ao catálogo de pelo menos um lado, então a célula surpresa×surpresa é IMPOSSÍVEL por construção (verificável na matriz acima). Sem verdadeiros negativos, a concordância esperada por acaso é alta e o κ fica estruturalmente deprimido. Este é o achado negativo que motiva a bateria independente congelada (G6 do plano mestre).\n`;
 
-md += `\n## Real × shim (campanha 1, completude conceitual)\n\nΔ médio ${realVsShim.meanDiff}, IC 95% [${realVsShim.ci.lower}; ${realVsShim.ci.upper}], p exato ${fmtP(realVsShim.p)} (n=${realVsShim.nExercises}).\n`;
+md += `\n## Real × shim (campanha 1; Δ = produção − simplificado)\n\n`;
+for (const [k, v] of Object.entries(realVsShim))
+  md += `- ${k}: Δ ${v.meanDiff}, IC 95% [${v.ci.lower}; ${v.ci.upper}], p exato ${fmtP(v.p)} (n=${v.nExercises})\n`;
 
 md += `\n## Tabela 7 reconstruída — cobertura micro por tipo de erro (baseline C2)\n\nInstâncias conceituais do especialista (pooled); "1 execução" = média das 3 execuções isoladas; "união de 3" = coberta por qualquer réplica.\n\n| Tipo de erro | Ocorrências | Cobertura (1 exec) | Cobertura (união de 3) |\n|---|---|---|---|\n`;
 for (const t of tabela7)

@@ -10,7 +10,8 @@ Fonte: dados brutos da tag `legacy-campaigns-2026-07`. Unidade = exercício (n=2
 | completude bruta (sensibilidade) | 0.234 | [0.195; 0.273] |
 | completude de passos | 0.51 | [0.497; 0.525] |
 | inclusão de traços | 0.461 | [0.433; 0.49] |
-| F1 (auditável) | 0.485 | [0.459; 0.511] |
+| F1 estrutural (auditável) | 0.485 | [0.459; 0.511] |
+| F1 conceitual (auditável) | 0.548 | [0.517; 0.578] |
 | concordância de classificação (bruta) | 0.396 | [0.345; 0.449] |
 | concordância de classificação (κ) | 0.007 | [-0.069; 0.089] |
 
@@ -92,9 +93,11 @@ Matriz de confusão agregada (linhas = especialista, colunas = robô):
 
 A bateria atual é a união das respostas dos dois grafos: todo item pertence ao catálogo de pelo menos um lado, então a célula surpresa×surpresa é IMPOSSÍVEL por construção (verificável na matriz acima). Sem verdadeiros negativos, a concordância esperada por acaso é alta e o κ fica estruturalmente deprimido. Este é o achado negativo que motiva a bateria independente congelada (G6 do plano mestre).
 
-## Real × shim (campanha 1, completude conceitual)
+## Real × shim (campanha 1; Δ = produção − simplificado)
 
-Δ médio -0.073, IC 95% [-0.165; 0.031], p exato 0.1731 (n=24).
+- conceptual: Δ -0.073, IC 95% [-0.165; 0.031], p exato 0.1731 (n=24)
+- steps: Δ 0.089, IC 95% [0.055; 0.13], p exato 6.10e-5 (n=24)
+- f1: Δ 0.05, IC 95% [0.003; 0.106], p exato 0.0737 (n=24)
 
 ## Tabela 7 reconstruída — cobertura micro por tipo de erro (baseline C2)
 
