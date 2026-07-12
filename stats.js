@@ -48,6 +48,27 @@ export function nonInferiority(data, opts = {}) {
   const { margin = 0.1, iterations = 2000, seed = 12345 } = opts;
   const HH = data.filter((d) => d.pairType === "HH").map((d) => d.value);
   const RH = data.filter((d) => d.pairType === "RH").map((d) => d.value);
+
+  // 2026-07-12 (plano mestre §5.6): sem banda humano-humano o estimando NÃO É
+  // IDENTIFICADO. Antes este caso saía como "inconclusivo" com reliable=true e
+  // diff/IC nulos, como se um teste tivesse sido executado. Agora: não estimável,
+  // sem números fabricados.
+  if (HH.length === 0 || RH.length === 0) {
+    return {
+      meanHH: HH.length ? r(mean(HH)) : null,
+      meanRH: RH.length ? r(mean(RH)) : null,
+      diff: null,
+      ci: null,
+      margin,
+      verdict: "nao_estimavel",
+      reason: HH.length === 0 ? "sem pares humano-humano (nHH=0)" : "sem pares robo-humano (nRH=0)",
+      nExercises: [...new Set(data.map((d) => d.exercise))].length,
+      nHH: HH.length,
+      nRH: RH.length,
+      reliable: false,
+    };
+  }
+
   const meanHH = mean(HH);
   const meanRH = mean(RH);
   const diff = meanRH - meanHH;
@@ -87,8 +108,10 @@ export function nonInferiority(data, opts = {}) {
     nExercises: exercises.length,
     nHH: HH.length,
     nRH: RH.length,
-    // Inferência só é confiável com um nº razoável de exercícios (cluster bootstrap).
-    reliable: exercises.length >= 10,
+    // 2026-07-12: confiável exige (a) exercícios suficientes pro cluster bootstrap
+    // E (b) banda humano-humano presente — nHH=0 nunca chega aqui (guard acima),
+    // mas a regra fica explícita por defesa em profundidade.
+    reliable: exercises.length >= 10 && HH.length > 0,
   };
 }
 
@@ -120,8 +143,11 @@ export function bootstrapCI(rows, opts = {}) {
     if (sample.length) means.push(mean(sample.map((d) => d.value)));
   }
   means.sort((a, b) => a - b);
-  // p-valor bootstrap bicaudal para H0: média = 0 (2·min das caudas; piso 1/B).
-  // Usado na correção de múltiplas comparações (Holm) da campanha multimodelo.
+  // DEPRECIADO 2026-07-12 (plano mestre §5.4): este p-valor conta estimativas
+  // bootstrap que cruzam zero SEM construir a distribuição sob H0, e o piso 1/B
+  // produz p-valores idênticos artificiais após Holm (os três p=0,0105 da v2.1).
+  // Para teste de hipótese pareado use signFlipTest(); pBoot permanece só para
+  // reproduzir os números legados da tag legacy-campaigns-2026-07.
   const B = means.length || 1;
   const propBelow = means.filter((x) => x <= 0).length / B;
   const propAbove = means.filter((x) => x >= 0).length / B;
@@ -135,6 +161,58 @@ export function bootstrapCI(rows, opts = {}) {
     nClusters: clusters.length,
     pBoot: Math.round(Math.min(1, pBoot) * 10000) / 10000,
   };
+}
+
+/**
+ * Teste de permutação pareado por troca de sinais (sign-flip), construído sob H0.
+ *
+ * 2026-07-12 (plano mestre §5.4): o teste canônico para "condição A difere da
+ * condição B?" com pareamento por exercício. Recebe as DIFERENÇAS por exercício
+ * (uma por exercício, réplicas já agregadas), estatística = média. Sob H0 a
+ * diferença de cada exercício tem sinal simétrico, então a distribuição nula é
+ * gerada trocando sinais aleatoriamente. p bicaudal com correção add-one
+ * ((c+1)/(B+1), Phipson & Smyth 2010), que nunca produz p=0 artificial.
+ *
+ * Para ≤ 24 exercícios (2^24 ≈ 16,7M, alguns segundos) enumera TODAS as 2^n
+ * trocas: p EXATO, sem Monte Carlo — cobre o corpus atual (24 exercícios).
+ * Acima disso, amostra `iterations` trocas com semente fixa.
+ *
+ * @param {number[]} diffs diferenças pareadas, uma por exercício
+ * @param {{iterations?:number, seed?:number}} opts
+ */
+export function signFlipTest(diffs, opts = {}) {
+  const { iterations = 100000, seed = 20260712 } = opts;
+  const clean = diffs.filter((d) => Number.isFinite(d));
+  const n = clean.length;
+  if (n === 0) return { meanDiff: null, p: null, n: 0, exact: false };
+  const obs = Math.abs(mean(clean));
+
+  let count = 0;
+  let total = 0;
+  let exact = false;
+  if (n <= 24) {
+    // enumeração completa das 2^n atribuições de sinal
+    exact = true;
+    total = 2 ** n;
+    for (let mask = 0; mask < total; mask++) {
+      let s = 0;
+      for (let i = 0; i < n; i++) s += (mask >> i) & 1 ? -clean[i] : clean[i];
+      if (Math.abs(s / n) >= obs - 1e-12) count++;
+    }
+  } else {
+    const rng = mulberry32(seed);
+    total = iterations;
+    for (let b = 0; b < total; b++) {
+      let s = 0;
+      for (let i = 0; i < n; i++) s += rng() < 0.5 ? -clean[i] : clean[i];
+      if (Math.abs(s / n) >= obs - 1e-12) count++;
+    }
+  }
+  // add-one só na variante amostrada; na enumeração completa a identidade
+  // (mask=0) já está contada e o p é exato.
+  // p sem arredondamento: precisão importa no step-down de Holm; quem exibe, arredonda.
+  const p = exact ? count / total : (count + 1) / (total + 1);
+  return { meanDiff: r(mean(clean)), p, n, exact };
 }
 
 /**

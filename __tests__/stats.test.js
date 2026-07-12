@@ -57,3 +57,67 @@ describe("nonInferiority", () => {
     expect(a.ci).toEqual(b.ci);
   });
 });
+
+// ─── Regressões do parecer 2026-07-12 (plano mestre §5.4 e §5.6) ────────────
+
+import { signFlipTest } from "../stats.js";
+
+describe("nHH=0 → não estimável (regressão do parecer 2026-07-12)", () => {
+  const soRH = Array.from({ length: 24 }, (_, i) => ({
+    value: 0.4,
+    exercise: `ex${i}`,
+    pairType: "RH",
+  }));
+
+  it("sem pares HH: verdict=nao_estimavel, reliable=false, sem IC fabricado", () => {
+    const r = nonInferiority(soRH, { margin: 0.1 });
+    expect(r.verdict).toBe("nao_estimavel");
+    expect(r.reliable).toBe(false);
+    expect(r.ci).toBeNull();
+    expect(r.diff).toBeNull();
+    expect(r.nHH).toBe(0);
+    expect(r.reason).toMatch(/nHH=0/);
+  });
+
+  it("antes: 24 exercícios sem HH saíam reliable=true — nunca mais", () => {
+    const r = nonInferiority(soRH, { margin: 0.1 });
+    expect(r.reliable).not.toBe(true);
+  });
+});
+
+describe("signFlipTest: permutação pareada construída sob H0", () => {
+  it("diferenças todas positivas e grandes → p exato mínimo (2/2^n)", () => {
+    const diffs = Array.from({ length: 10 }, () => 0.2);
+    const r = signFlipTest(diffs);
+    expect(r.exact).toBe(true);
+    // só a identidade e a inversão total empatam |média| ≥ obs
+    expect(r.p).toBeCloseTo(2 / 2 ** 10, 10);
+    expect(r.meanDiff).toBeCloseTo(0.2, 10);
+  });
+
+  it("diferenças simétricas em torno de zero → p alto (sem efeito)", () => {
+    const diffs = [0.1, -0.1, 0.05, -0.05, 0.02, -0.02, 0.08, -0.08];
+    const r = signFlipTest(diffs);
+    expect(r.p).toBeGreaterThan(0.5);
+  });
+
+  it("nunca produz p=0 (piso natural da enumeração/add-one)", () => {
+    const r = signFlipTest([0.5, 0.5, 0.5]);
+    expect(r.p).toBeGreaterThan(0);
+  });
+
+  it("n=24 (o corpus real) ainda é exato", () => {
+    const diffs = Array.from({ length: 24 }, (_, i) => (i % 2 ? 0.01 : 0.012));
+    const r = signFlipTest(diffs);
+    expect(r.exact).toBe(true);
+    expect(r.n).toBe(24);
+  });
+
+  it("determinístico na variante amostrada (n>24)", () => {
+    const diffs = Array.from({ length: 30 }, (_, i) => (i % 3 ? 0.05 : -0.02));
+    const a = signFlipTest(diffs, { iterations: 20000, seed: 7 });
+    const b = signFlipTest(diffs, { iterations: 20000, seed: 7 });
+    expect(a.exact).toBe(false);
+    expect(a.p).toBe(b.p);
+  });
+});

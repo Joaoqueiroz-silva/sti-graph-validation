@@ -205,11 +205,14 @@ async function main() {
   }
 
   // Agrega os pares para a não-inferioridade — métrica PRIMÁRIA = COMPLETUDE
-  // (recall de misconceptions, direcional; handoff 2026-06-30 T4/T8). F1 auditável ao lado.
+  // CONCEITUAL (recall de misconceptions excluindo erros mecânicos de interface),
+  // como definido na EMENDA 1 do plano de análise. 2026-07-12: o revisor flagrou
+  // que aqui entrava a completude BRUTA, divergindo do desfecho declarado; a bruta
+  // segue no registro como análise de sensibilidade (campo `raw`).
   const data = results.flatMap((r) =>
     r.pairs.map((p) => ({
-      value: p.cmp.recallMisconceptions,
-      conceptual: p.cmp.recallMisconceptionsConceptual,
+      value: p.cmp.recallMisconceptionsConceptual ?? p.cmp.recallMisconceptions,
+      raw: p.cmp.recallMisconceptions,
       steps: p.cmp.recallSteps,
       f1: p.cmp.similarity,
       exercise: p.exercise,
@@ -227,7 +230,7 @@ async function main() {
   console.log(`problemas=${ni.nExercises}  pares HH (direcionais)=${ni.nHH}  RH=${ni.nRH}`);
   const isRH = (d) => d.pairType === "RH";
   console.log(
-    `COMPLETUDE misc RH = ${meanOf(isRH, "value")} (conceitual=${meanOf(isRH, "conceptual")})  |  ` +
+    `COMPLETUDE misc CONCEITUAL RH = ${meanOf(isRH, "value")} (bruta=${meanOf(isRH, "raw")})  |  ` +
       `passos RH = ${meanOf(isRH, "steps")}  |  banda HH = ${fmt(ni.meanHH)}  |  [F1 auditável = ${meanOf(isRH, "f1")}]`
   );
   const feRows = results.flatMap((r) =>
@@ -251,7 +254,7 @@ async function main() {
   const nHallu = results.filter((r) => r.hallu?.hallucinationFlag).length;
   const softTotal = results.reduce((s, r) => s + (r.halluScore?.score || 0), 0);
   console.log(
-    `veredito 2D: X=completude CONCEITUAL ${meanOf(isRH, "conceptual")} (cru=${meanOf(isRH, "value")}) · Y=validade dos extras → run-judge.mjs (juiz cego)`
+    `veredito 2D: X=completude CONCEITUAL ${meanOf(isRH, "value")} (bruta=${meanOf(isRH, "raw")}) · Y=validade dos extras → run-judge.mjs (juiz cego)`
   );
   console.log(
     `alucinação estrutural: DUROS=${nHallu}/${results.length} grafos barrados · score MOLES total=${softTotal}`
