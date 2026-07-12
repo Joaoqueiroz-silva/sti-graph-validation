@@ -15,6 +15,7 @@
  */
 
 import { parseBrdToRobotInput } from "./parse-ctat-brd.js";
+import { buildEnvelopeA2 } from "./interface-input.js";
 import { simulateStudents } from "./simulate-students.js";
 import { authorGraphForInterface } from "./author-graph.js";
 import { normalizeEducaoff } from "./schema.js";
@@ -28,6 +29,27 @@ import { normalizeEducaoff } from "./schema.js";
 export async function authorFromBrd(brdXml, opts = {}) {
   // Envelope A — a ÚNICA coisa que o robô pode ver (extraída do .brd).
   const envelopeA = parseBrdToRobotInput(brdXml, opts);
+  return authorFromEnvelopeA(envelopeA, opts);
+}
+
+/**
+ * 2026-07-12 (W1/G4): autoria a partir da FONTE INDEPENDENTE do grafo — o Envelope A v2
+ * vem de interface-input.js (interface.html + answer-key da mass production), NUNCA do
+ * `.brd` do especialista. É o caminho que responde ao parecer externo (entrada dos
+ * agentes não pode derivar do mesmo arquivo que contém o grafo-gold). O caminho legado
+ * `authorFromBrd` permanece intocado para reproduzir a tag `legacy-campaigns-2026-07`.
+ *
+ * @param {string} exerciseId  ex.: "01watermelon"
+ * @param {{ interfaceDir?:string, answerKeyPath?:string, simulate?:Function,
+ *           sessionId?:string, screenshotPath?:string }} opts
+ * @returns {Promise<{ neutral:object, graph:object, envelopeA:object, traces:object }>}
+ */
+export async function authorFromInterface(exerciseId, opts = {}) {
+  const envelopeA = buildEnvelopeA2({
+    exerciseId,
+    interfaceDir: opts.interfaceDir,
+    answerKeyPath: opts.answerKeyPath,
+  });
   return authorFromEnvelopeA(envelopeA, opts);
 }
 
