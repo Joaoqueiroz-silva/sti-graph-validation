@@ -15,6 +15,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { parseBrdToExpertNeutral } from "../parse-ctat-brd.js";
+import { parseBrdToNeutralV2 } from "../schema-v2.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CORPUS = path.join(ROOT, "cases", "ctat-6.17");
@@ -38,17 +39,25 @@ const items = exercises.map((id) => {
   const xml = fs.readFileSync(brdPath, "utf8");
   const neutral = parseBrdToExpertNeutral(xml);
   const miscs = neutral.misconceptions || [];
+  // 2026-07-13 (Onda 2): contagens estruturais completas vêm do schema v2
+  // (o v1 não expõe dicas/KCs/estados; auditoria G3 flagrou zeros enganosos).
+  const v2 = parseBrdToNeutralV2(xml);
+  const hintCount = (v2.transitions || []).reduce((n, t) => n + (t.hints || []).length, 0);
+  const kcSet = new Set((v2.transitions || []).flatMap((t) => t.kcs || []));
   return {
     id,
     template: "frac-numberline-6.17",
     brd: { path: `cases/ctat-6.17/${id}/expert.brd`, sha256: sha(brdPath) },
     contagens: {
+      estados: (v2.states || []).length,
+      transicoesCorretas: (v2.transitions || []).filter((t) => t.type === "correct").length,
+      transicoesBuggy: (v2.transitions || []).filter((t) => t.type === "buggy").length,
       passos: (neutral.steps || []).length,
-      misconceptions: miscs.length,
       misconceptionsConceituais: miscs.filter((m) => !m.mechanical).length,
       misconceptionsMecanicas: miscs.filter((m) => m.mechanical).length,
-      dicas: (neutral.hints || []).length,
-      kcs: (neutral.knowledgeComponents || []).length,
+      niveisDeDica: hintCount,
+      kcs: kcSet.size,
+      construtosNaoSuportados: v2.unsupportedConstructs || [],
     },
   };
 });
@@ -74,10 +83,10 @@ const OUT = path.join(ROOT, "corpus-provenance.json");
 fs.writeFileSync(OUT, JSON.stringify(manifest, null, 2));
 
 let md = `# Proveniência do corpus (gate G3)\n\nGerado por \`analysis/build-provenance.mjs\` em ${manifest.geradoEm}. Regra: nenhum exercício entra em campanha sem linha aqui; campos PENDENTE bloqueiam a alegação de "especialista identificado" no artigo (usar "grafo de referência").\n\n`;
-md += `| Exercício | SHA-256 (12) | Passos | Misc. (conc.+mec.) | Dicas | KCs |\n|---|---|---|---|---|---|\n`;
+md += `| Exercício | SHA-256 (12) | Estados | Trans. corretas | Trans. buggy | Misc. (conc.+mec.) | Dicas | KCs |\n|---|---|---|---|---|---|---|---|\n`;
 for (const it of items) {
   const c = it.contagens;
-  md += `| ${it.id} | \`${it.brd.sha256.slice(0, 12)}\` | ${c.passos} | ${c.misconceptionsConceituais}+${c.misconceptionsMecanicas} | ${c.dicas} | ${c.kcs} |\n`;
+  md += `| ${it.id} | \`${it.brd.sha256.slice(0, 12)}\` | ${c.estados} | ${c.transicoesCorretas} | ${c.transicoesBuggy} | ${c.misconceptionsConceituais}+${c.misconceptionsMecanicas} | ${c.niveisDeDica} | ${c.kcs} |\n`;
 }
 md += `\nInterface compartilhada: ${Object.entries(interfaceHashes)
   .map(([f, h]) => `\`${f}\` (${h.slice(0, 12)})`)

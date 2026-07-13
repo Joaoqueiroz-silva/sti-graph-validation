@@ -322,3 +322,76 @@ testada e fica registrado como inconsistência de transcrição (valor auditado:
 | 2026-07-12 | Parecer externo (MAJOR REVISION) recebido                                   | revisão                                |
 | 2026-07-12 | Congelamento G0 (`legacy-campaigns-2026-07` + manifesto SHA-256)            | governança                             |
 | 2026-07-12 | EMENDA 3: reclassificação exploratória, permutação exata, juiz deduplicado | pós-parecer, ANTES da coleta humana    |
+
+---
+
+## EMENDA 4 — 2026-07-13 (congelamento do protocolo v2, ANTES da campanha 3)
+
+_Onda 2 do plano mestre (gates G3 a G8). Tudo abaixo foi construído e congelado
+SEM nenhuma chamada de LLM; a campanha 3 ainda não começou._
+
+### E4.1 Envelope A v2: fonte independente do grafo
+
+A entrada dos agentes deixa de derivar do `.brd`. Fonte nova: o HTML/DOM da
+interface (`_interface/interface.html`) mais o gabarito da tabela de produção
+em massa (`_interface/massproduction.txt`), extraído por `build-answer-key.mjs`
+com lista de exclusão explícita (variáveis de dica, feedback e estado do grafo
+ficam FORA; ver `answer-key/PROVENIENCIA.md`). Independência demonstrada por
+teste: metamórfico (mutar todos os `.brd` não altera um byte dos 24 envelopes),
+canário, sem-referência (envelopes construídos sem nenhum `.brd` no disco) e
+dependência estática. O caminho legado permanece apenas para reproduzir a tag
+`legacy-campaigns-2026-07`.
+
+Consequências declaradas: (a) os KCs saem do Envelope A (só existiam dentro do
+grafo; ablação KCs-presentes×ausentes prevista); (b) os enunciados da fonte
+independente estão em inglês, enquanto os `.brd` traduzidos os tinham em
+português — mudança de condição REGISTRADA; a campanha 3 não é comparável às
+campanhas 1 e 2 nos níveis absolutos por este e pelos demais motivos desta
+emenda.
+
+### E4.2 Comparação comportamental: schema v2 + executor + bateria congelada
+
+- `schema-v2.js`: estados, tripla SAI, transições correct/buggy com matchRule
+  declarado, feedback, dicas e KCs; construtos não representados são listados
+  (no corpus: apenas `EdgesGroups/group/link`, restrições de ordem de travessia
+  que o executor mínimo não honra — limitação declarada).
+- `trace-executor.js`: example-tracing determinístico; executabilidade dos 24
+  grafos de referência verificada com traços derivados dos próprios grafos.
+- Bateria `frac-numberline-6.17-v1` congelada NESTA DATA com 636 itens em três
+  famílias (referência, mutados determinísticos, sondas independentes de
+  domínio), hash por arquivo em `MANIFEST.sha256`. Honestidade registrada: a
+  sonda (num−1)/den colide semanticamente com o distrator templatizado do
+  especialista em parte dos exercícios; a independência da família C é de
+  PROVENIÊNCIA (regenerável só do gabarito), e ≥3 sondas por exercício ficam
+  fora do catálogo do especialista, garantindo verdadeiros negativos.
+
+### E4.3 Estimandos da campanha 3
+
+Dicionário formal congelado em `docs/METRICAS-V2.md`: coprimárias = cobertura
+de ações buggy reconhecidas em contexto (R_bug) e cobertura de traços corretos
+completados (R_ok), ambas comportamentais via bateria congelada; a cobertura
+por valor canônico vira secundária de comparabilidade histórica. Julgamento
+automatizado com painel de ≥3 famílias de juízes, sempre exploratório.
+
+### E4.4 Verificador de invariantes validado por mutação
+
+Mutation testing (10 operadores × 26 grafos-base): sensibilidade 100%
+(260/260 mutantes detectados), especificidade 100% (0 sinais espúrios; 26/26
+bases intactas limpas). Relatório em `analysis/derived/MUTATION-TESTING.md`.
+A conclusão vale para as classes de defeito cobertas pela suíte. Achado
+colateral registrado: perfis `pre_literate/early_reader` do gerador criam
+scaffold genérico que o verificador acusa como órfão (defeito real de
+produção, tratado fora deste experimento).
+
+### E4.5 Proveniência do corpus (gate G3)
+
+`corpus-provenance.json` + `PROVENANCE.md`: hash SHA-256 e contagens
+estruturais (schema v2) por exercício. Campos de autoria/licença/tempo
+permanecem PENDENTES com o pesquisador; enquanto pendentes, o artigo usa
+"grafo de referência", não "especialista identificado".
+
+### Cronologia atualizada
+
+| Data       | Evento                                                                 | Natureza                             |
+| ---------- | ----------------------------------------------------------------------- | ------------------------------------ |
+| 2026-07-13 | EMENDA 4: Envelope A v2, schema v2 + executor, bateria v1 congelada, estimandos v2, mutation testing | pós-Onda 2, ANTES da campanha 3     |
