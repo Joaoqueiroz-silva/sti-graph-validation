@@ -1,11 +1,40 @@
 /**
  * agents3-students.js - Student Simulators (Agents 3a/3b/3c).
  * Extraido de pipeline-v8.js em 2026-04-22, preservado byte-a-byte.
+ *
+ * 2026-07-13 (Onda 3, G10): chaves de ablação FLAG-GATED da campanha 3. Com os envs
+ * ausentes/vazios o comportamento (prompts e metas) é byte a byte o anterior — o
+ * baseline congelado não muda sem flag (teste: campaign3-runner.test.mjs).
  */
 
 import { createLLM, callLLM, extractJson, getAgentConfig } from "./llm.js";
 import { MISC_DB } from "./misconceptions-db.js";
 import { logger } from "./logger.js";
+
+// ─── Chaves de ablação da campanha 3 (2026-07-13, Onda 3/G10) ───────────────────
+
+/**
+ * STI_MISC_LIMIT ("3" default | "6" | "saturate") → parametriza SÓ a linha de
+ * QUANTIDADE de tentativas/erros do prompt do 3b; o resto do prompt (exemplos de
+ * tipos de erro, contrato JSON) é idêntico nas três condições. Default = o texto
+ * atual, byte a byte.
+ */
+function miscQuantityLine() {
+  const lim = process.env.STI_MISC_LIMIT || "3";
+  if (lim === "saturate")
+    return "Para CADA problema, liste TODAS as respostas erradas plausiveis que voce conseguir, cada uma como uma TENTATIVA com um ERRO DIFERENTE:";
+  if (lim === "6") return "Para CADA problema, faca 6 TENTATIVAS, cada uma com um ERRO DIFERENTE:";
+  return "Para CADA problema, faca 2-3 TENTATIVAS, cada uma com um ERRO DIFERENTE:";
+}
+
+/**
+ * 2026-07-13 (Onda 3, G10): metadados do manifesto de execução (runId/exerciseId/
+ * envelopeSha256/images) viajam por `state.llmMeta` até o callLLM (contrato do B1).
+ * Sem llmMeta (produção/baseline), o meta é EXATAMENTE o de antes: { agent, sessionId }.
+ */
+function llmMeta(state, agent) {
+  return { agent, sessionId: state.sessionId, ...(state.llmMeta || {}) };
+}
 
 export async function agent3a_advancedStudent(state) {
   const cfg = getAgentConfig("agent3a_advanced");
@@ -68,10 +97,7 @@ ${(state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("
 
 Resolva TODOS os problemas com perfeicao. Gere traces detalhadas.`;
 
-  const raw = await callLLM(llm, systemPrompt, userMessage, {
-    agent: "agent3a_advanced",
-    sessionId: state.sessionId,
-  });
+  const raw = await callLLM(llm, systemPrompt, userMessage, llmMeta(state, "agent3a_advanced"));
   const parsed = extractJson(raw);
 
   logger.info({ module: "agent3a", phase: "done", elapsedMs: Date.now() - t0 }, "Advanced trace");
@@ -106,14 +132,21 @@ export async function agent3b_atRiskStudent(state) {
   const age = parseInt(state.ageGroup) || 10;
   const ageKey = age <= 5 ? "4-5" : age <= 7 ? "6-7" : age <= 12 ? "8-12" : "13+";
   const miscKey = `${(state.discipline || "matematica").toLowerCase()}:${ageKey}`;
-  const knownMisconceptions = MISC_DB[miscKey] || [];
+  // 2026-07-13 (Onda 3, G10): STI_ABLATE_MISCDB=1 → o 3b roda SEM o catálogo MISC_DB
+  // (mede a contribuição do catálogo). Default (env ausente/vazio) = linha original.
+  // GOTCHA (CLAUDE.md #3): a disciplina chega ACENTUADA da UI ("Matemática") e as chaves
+  // do MISC_DB são SEM acento ("matematica:8-12") — com o default acentuado o catálogo já
+  // sai vazio; para a condição "com catálogo" ser não-vácua, o runner precisa passar
+  // discipline sem acento (run-campaign3 --discipline matematica).
+  const knownMisconceptions =
+    process.env.STI_ABLATE_MISCDB === "1" ? [] : MISC_DB[miscKey] || [];
 
   const systemPrompt = `Voce e um ALUNO COM DIFICULDADES simulado resolvendo problemas educacionais.
 Voce comete ERROS REALISTAS baseados em misconceptions educacionais documentadas.
 
 Seu papel e gerar traces que mostrem COMO alunos reais erram, para que o sistema possa detectar e remediar esses erros.
 
-Para CADA problema, faca 2-3 TENTATIVAS, cada uma com um ERRO DIFERENTE:
+${miscQuantityLine()}
 - Tentativa 1: Erro de concepcao (ex: achar que 2+3=6 porque somou errado)
 - Tentativa 2: Erro procedimental (ex: pular um passo, inverter operandos)
 - Tentativa 3: Acerto parcial (se aplicavel — acerta parte mas erra outra)
@@ -193,10 +226,7 @@ ${(state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("
 
 Resolva ERRANDO de formas REALISTAS e DIVERSAS. Cada tentativa deve ter um erro DIFERENTE.`;
 
-  const raw = await callLLM(llm, systemPrompt, userMessage, {
-    agent: "agent3b_atrisk",
-    sessionId: state.sessionId,
-  });
+  const raw = await callLLM(llm, systemPrompt, userMessage, llmMeta(state, "agent3b_atrisk"));
   const parsed = extractJson(raw);
 
   logger.info({ module: "agent3b", phase: "done", elapsedMs: Date.now() - t0 }, "At-risk trace");
@@ -296,10 +326,7 @@ ${(state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("
 
 Resolva CORRETAMENTE mas marque ONDE voce hesitaria e que dicas seriam necessarias.`;
 
-  const raw = await callLLM(llm, systemPrompt, userMessage, {
-    agent: "agent3c_average",
-    sessionId: state.sessionId,
-  });
+  const raw = await callLLM(llm, systemPrompt, userMessage, llmMeta(state, "agent3c_average"));
   const parsed = extractJson(raw);
 
   logger.info({ module: "agent3c", phase: "done", elapsedMs: Date.now() - t0 }, "Average trace");

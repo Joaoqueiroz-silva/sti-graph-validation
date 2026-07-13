@@ -21,12 +21,52 @@
  *     hints:[{step,text}] }
  */
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   agent3a_advancedStudent,
   agent3b_atRiskStudent,
   agent3c_averageStudent,
 } from "./agents3-students.js";
 import { logger } from "./logger.js";
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const DEFAULT_CORPUS_DIR = path.join(HERE, "cases/ctat-6.17");
+
+// 2026-07-13 (Onda 3, G10): teto da serialização do DOM no modo "dom" — 8k chars,
+// suficiente para o interface.html do corpus (2,7k) e trava contra interfaces gordas.
+const DOM_MAX_CHARS = 8192;
+
+/**
+ * 2026-07-13 (Onda 3, G10): representação da interface na entrada dos agentes —
+ * chave de ablação STI_REPRESENTATION (default = comportamento atual):
+ *   "text"       → só o enunciado (byte a byte o comportamento anterior);
+ *   "dom"        → o campo `problem` do envelope ganha, além do enunciado, a
+ *                  serialização do interface.html CRU, truncada a 8k chars;
+ *   "screenshot" → chamada multimodal: meta.images = [screenshotPath do envelope
+ *                  resolvido contra o corpusDir] (llm.js embute como data-URI).
+ * Exportada para os testes (offline, com opts.interfaceHtml injetável).
+ * @returns {{ iface: object, images: string[]|null }}
+ */
+export function applyRepresentation(iface, opts = {}) {
+  const repr = process.env.STI_REPRESENTATION || "text";
+  const corpusDir = opts.corpusDir || DEFAULT_CORPUS_DIR;
+  if (repr === "dom") {
+    const html =
+      opts.interfaceHtml ?? fs.readFileSync(path.join(corpusDir, "_interface/interface.html"), "utf8");
+    const problem =
+      `${iface.problem || ""}\n\n=== INTERFACE (interface.html cru, truncado a ${DOM_MAX_CHARS} chars) ===\n` +
+      String(html).slice(0, DOM_MAX_CHARS);
+    return { iface: { ...iface, problem }, images: null };
+  }
+  if (repr === "screenshot") {
+    const rel = iface.screenshotPath || "_interface/screenshot.png";
+    const abs = path.isAbsolute(rel) ? rel : path.resolve(corpusDir, rel);
+    return { iface, images: [abs] };
+  }
+  return { iface, images: null };
+}
 
 /** Monta o `state` que os agentes de produção esperam, a partir do Envelope A. */
 function buildState(iface, opts) {
@@ -128,7 +168,17 @@ function mapHints(averageTrace) {
  * @param {object} [opts] { discipline?, topic?, ageGroup?, difficulty?, sessionId? }
  */
 export async function simulateStudentsReal(iface, opts = {}) {
-  const state = buildState(iface, opts);
+  // 2026-07-13 (Onda 3, G10): representação flag-gated (text/dom/screenshot) + metadados
+  // do manifesto (exerciseId/envelopeSha256/runId/images) via state.llmMeta. Com os envs
+  // ausentes e sem os opts novos, o state é idêntico ao anterior (default congelado).
+  const { iface: ifaceRepr, images } = applyRepresentation(iface, opts);
+  const state = buildState(ifaceRepr, opts);
+  const metaExtra = {};
+  if (opts.exerciseId != null) metaExtra.exerciseId = opts.exerciseId;
+  if (opts.envelopeSha256) metaExtra.envelopeSha256 = opts.envelopeSha256;
+  if (opts.runId) metaExtra.runId = opts.runId;
+  if (images) metaExtra.images = images;
+  if (Object.keys(metaExtra).length) state.llmMeta = metaExtra;
   const t0 = Date.now();
   const safe = (p, tag) =>
     p.catch((e) => {
