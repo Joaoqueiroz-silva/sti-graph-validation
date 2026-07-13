@@ -351,3 +351,40 @@ describe("grafo sintético — semântica determinística do executor", () => {
     expect(res.endState).toBe("A");
   });
 });
+
+describe("nível 3 de correspondência (matchLevel input) — Onda 3", () => {
+  const g = {
+    schemaVersion: 2,
+    startState: "start",
+    finalStates: ["goal"],
+    states: [{ id: "start" }, { id: "s1" }, { id: "goal" }],
+    transitions: [
+      { id: "t1", from: "start", to: "goal", type: "correct", matchRule: "semantic", sai: { selection: "resposta", action: "input", input: "1/5" } },
+      { id: "b1", from: "start", to: "start", type: "buggy", matchRule: "semantic", sai: { selection: "resposta", action: "input", input: "5/1" }, feedback: { buggyMessage: "invertida" } },
+    ],
+  };
+
+  it("vocabulário diferente casa pela âncora do input", () => {
+    const r = executeTrace(g, [{ selection: "numline", action: "AddPoint", input: "1/5" }], { matchLevel: "input" });
+    expect(r.steps[0].verdict).toBe("correct");
+    expect(r.completed).toBe(true);
+  });
+
+  it("buggy reconhecido pela âncora mesmo com selection CTAT", () => {
+    const r = executeTrace(g, [{ selection: "F1", action: "UpdateTextField", input: "5/1" }], { matchLevel: "input" });
+    expect(r.steps[0].verdict).toBe("buggy");
+  });
+
+  it("input vazio ou marcador mecânico NUNCA casa no nível input (sem coringa)", () => {
+    const r = executeTrace(g, [
+      { selection: "x", action: "SetVisible", input: "" },
+      { selection: "numline", action: "AddPoint", input: "-" },
+    ], { matchLevel: "input" });
+    expect(r.steps.map((s) => s.verdict)).toEqual(["no-match", "no-match"]);
+  });
+
+  it("default continua exato (zero mudança de comportamento sem opt)", () => {
+    const r = executeTrace(g, [{ selection: "numline", action: "AddPoint", input: "1/5" }]);
+    expect(r.steps[0].verdict).toBe("no-match");
+  });
+});

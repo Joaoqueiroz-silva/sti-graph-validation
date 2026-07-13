@@ -45,6 +45,27 @@ function inputMatches(t, ev) {
 }
 
 /**
+ * 2026-07-13 (Onda 3): NÍVEL DE CORRESPONDÊNCIA declarável (plano mestre §4.2 —
+ * níveis nunca colapsados em silêncio). matchLevel:
+ *   - "exact" (default): selection+action exatos e input pelo matchRule da
+ *     transição — usado no lado da REFERÊNCIA (mesmo vocabulário CTAT da bateria).
+ *   - "input" (nível 3, equivalência de input por âncora semântica): ignora
+ *     selection/action e casa só pela âncora canônica do input — usado no lado
+ *     GERADO, cujo vocabulário SAI é conceitual ("resposta"/"input"), não o de
+ *     componentes CTAT. Guarda-corpo: input vazio ou marcador mecânico ("-")
+ *     NUNCA casa neste nível (evita coringa); esses eventos só casam no exato.
+ * O nível usado deve ser reportado junto do resultado (traceConformance grava).
+ */
+function stepMatches(t, ev, matchLevel) {
+  if (matchLevel === "input") {
+    const anchor = canonAnswer(ev.input);
+    if (anchor === "" || trimmed(ev.input) === "-") return false;
+    return anchor === canonAnswer(t.sai?.input);
+  }
+  return saiHeadMatches(t, ev) && inputMatches(t, ev);
+}
+
+/**
  * executeTrace(graphV2, trace, opts) → { steps[], completed, endState }
  *   trace = [{ selection, action, input } | { hintRequest: true }, ...]
  *   steps[i] = { verdict: "correct"|"buggy"|"no-match"|"hint", feedback?, hints?, transitionId? }
@@ -54,7 +75,7 @@ export function executeTrace(graphV2, trace, opts = {}) {
   if (!graphV2 || graphV2.schemaVersion !== 2) {
     throw new Error("executeTrace: esperado grafo no schema neutro v2 (schemaVersion 2)");
   }
-  const { followRemediation = false } = opts;
+  const { followRemediation = false, matchLevel = "exact" } = opts;
   const finals = new Set(graphV2.finalStates || []);
 
   // Índice from → transições NA ORDEM do grafo (determinismo do desempate).
@@ -77,7 +98,7 @@ export function executeTrace(graphV2, trace, opts = {}) {
     }
 
     const candidates = outs.filter(
-      (t) => (t.type === "correct" || t.type === "buggy") && saiHeadMatches(t, ev) && inputMatches(t, ev)
+      (t) => (t.type === "correct" || t.type === "buggy") && stepMatches(t, ev, matchLevel)
     );
     const match = candidates.find((t) => t.type === "correct") || candidates[0];
 

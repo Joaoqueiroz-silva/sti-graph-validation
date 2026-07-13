@@ -169,7 +169,9 @@ async function runExercise(ctx) {
     const expertV2 = parseBrdToNeutralV2(brd, { exercise: id });
     const robotV2 = neutralV1ToV2(robot.neutral, { exercise: id });
     const battery = JSON.parse(fs.readFileSync(path.join(batteryDir, `${id}.json`), "utf8"));
-    const tc = traceConformance(expertV2, robotV2, battery.items || []);
+    // 2026-07-13: lado gerado no nível 3 (âncora de input) — vocabulário SAI do robô
+    // é conceitual; nível declarado no relatório (plano mestre §4.2).
+    const tc = traceConformance(expertV2, robotV2, battery.items || [], { robotMatchLevel: "input" });
 
     rec.metrics = {
       legacy: {
@@ -184,6 +186,9 @@ async function runExercise(ctx) {
       behavioral: {
         rBug: tc.coverageBuggyRecognized,
         rOk: tc.coverageCorrectTraces,
+        rOkCompleted: tc.coverageCorrectTracesCompleted,
+        matchLevels: tc.matchLevels,
+        skippedNonAnchorable: tc.skippedNonAnchorable,
         agreement: tc.agreement,
         kappa: tc.kappa,
         confusion: tc.confusion,

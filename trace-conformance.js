@@ -29,6 +29,7 @@
  */
 
 import { executeTrace } from "./trace-executor.js";
+import { canonAnswer } from "./schema.js";
 import { cohenKappa } from "./functional-equivalence.js";
 
 /** Vereditos de passo SAI do executor (hint fica fora — ver cabeçalho). */
@@ -54,7 +55,22 @@ const round = (x) => (Number.isFinite(x) ? Math.round(x * 1000) / 1000 : x);
  * }}
  */
 export function traceConformance(expertV2, robotV2, batteryItems, opts = {}) {
-  const execOpts = { followRemediation: !!opts.followRemediation };
+  // 2026-07-13 (Onda 3): nível de correspondência POR LADO, declarado no resultado
+  // (plano mestre §4.2). A referência casa no vocabulário exato da bateria (que
+  // deriva dela); o lado gerado pode casar no nível 3 (âncora de input), porque
+  // seu vocabulário SAI é conceitual. No nível "input", passos NÃO ANCORÁVEIS
+  // (input vazio ou marcador mecânico "-": setup de interface, ações de tutor,
+  // erros mecânicos) ficam FORA dos pares e dos denominadores — o grafo gerado
+  // não fala esse vocabulário por construção, e contá-los mediria o vocabulário,
+  // não o comportamento. Contagem de excluídos reportada.
+  const expertMatchLevel = opts.expertMatchLevel || "exact";
+  const robotMatchLevel = opts.robotMatchLevel || "exact";
+  const execOptsE = { followRemediation: !!opts.followRemediation, matchLevel: expertMatchLevel };
+  const execOptsR = { followRemediation: !!opts.followRemediation, matchLevel: robotMatchLevel };
+  const anchorable = (ev) =>
+    !ev?.hintRequest && canonAnswer(ev?.input) !== "" && String(ev?.input ?? "").trim() !== "-";
+  const filterPairs = robotMatchLevel === "input";
+  let skippedNonAnchorable = 0;
 
   const confusion = {};
   for (const a of VERDICTS) {
@@ -65,30 +81,49 @@ export function traceConformance(expertV2, robotV2, batteryItems, opts = {}) {
   const rows = []; // pares {expert, robot} por passo SAI (entrada do agreement/kappa)
   let corrTot = 0;
   let corrOk = 0;
+  let corrCompleted = 0; // leniente: chegou ao estado final, mesmo com passos não reconhecidos
   let bugTot = 0;
   let bugOk = 0;
   const items = [];
 
   for (const item of batteryItems || []) {
     const trace = item.trace || [];
-    const e = executeTrace(expertV2, trace, execOpts);
-    const r = executeTrace(robotV2, trace, execOpts);
+    const e = executeTrace(expertV2, trace, execOptsE);
+    const r = executeTrace(robotV2, trace, execOptsR);
 
     for (let i = 0; i < trace.length; i++) {
       if (trace[i] && trace[i].hintRequest) continue; // hint é incondicional — fora dos pares
+      if (filterPairs && !anchorable(trace[i])) {
+        skippedNonAnchorable++;
+        continue;
+      }
       const ev = e.steps[i].verdict;
       const rv = r.steps[i].verdict;
       rows.push({ expert: ev, robot: rv });
       if (confusion[ev] && confusion[ev][rv] != null) confusion[ev][rv]++;
     }
 
+    const stepsForCompletion = filterPairs
+      ? r.steps.filter((_, i) => anchorable(trace[i]))
+      : r.steps.filter((_, i) => !trace[i]?.hintRequest);
     if (item.family === "referencia" && item.kind === "correta") {
       corrTot++;
-      if (r.completed && r.steps.every((s) => s.verdict === "correct")) corrOk++;
+      if (r.completed && stepsForCompletion.every((s) => s.verdict === "correct")) corrOk++;
+      // 2026-07-13: variante LENIENTE reportada ao lado da estrita — com granularidade
+      // diferente (8 micropassos da referência vs ~4 conceituais do gerado), a estrita
+      // mede aceitação passo a passo e a leniente mede se o aluno que segue o caminho
+      // da referência TERMINA o exercício no grafo gerado. As duas são publicadas.
+      if (r.completed) corrCompleted++;
     }
     if (item.family === "referencia" && item.kind === "buggy") {
-      bugTot++;
-      if (r.steps.at(-1)?.verdict === "buggy") bugOk++;
+      // no nível "input", só ações buggy ancoráveis entram no denominador
+      const lastEv = trace.at(-1);
+      if (!filterPairs || anchorable(lastEv)) {
+        bugTot++;
+        if (r.steps.at(-1)?.verdict === "buggy") bugOk++;
+      } else {
+        skippedNonAnchorable++;
+      }
     }
 
     items.push({
@@ -112,7 +147,10 @@ export function traceConformance(expertV2, robotV2, batteryItems, opts = {}) {
   );
 
   return {
+    matchLevels: { expert: expertMatchLevel, robot: robotMatchLevel },
+    skippedNonAnchorable,
     coverageCorrectTraces: corrTot ? round(corrOk / corrTot) : null,
+    coverageCorrectTracesCompleted: corrTot ? round(corrCompleted / corrTot) : null,
     coverageBuggyRecognized: bugTot ? round(bugOk / bugTot) : null,
     agreement: round(agreement),
     kappa: round(kappa),
