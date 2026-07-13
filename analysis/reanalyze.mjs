@@ -25,7 +25,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseBrdToExpertNeutral } from "../parse-ctat-brd.js";
 import { functionalEquivalence } from "../functional-equivalence.js";
-import { canonAnswer } from "../schema.js";
+import { canon, canonAnswer } from "../schema.js";
 import { signFlipTest, holm, mulberry32 } from "../stats.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -489,6 +489,27 @@ const reconciliation = {
     definicao:
       "83 = itens de calibração do especialista julgados por réplica (denominador da Tabela 7; confere). A alocação da v2.1 (29 fração + 24 + 24 + 5 + 1 'outro' = 83) diferia da taxonomia auditada, que classifica o item atípico '-/5' na classe fração pela regra sintática (contém '/'), fechando 30 + 24 + 24 + 5 = 83 SEM residual. Mesmo denominador; a diferença era a alocação manual de um item. A Tabela 7 auditada substitui a da v2.1.",
     recomputado: { itensJulgadosPorReplica: judgeC1?.groups?.especialista ? readJson(path.join(C1, judgeC1.files[0])).pooled["especialista"].items.length : null, taxonomiaAuditada: "30+24+24+5=83, residual 0" },
+  },
+  "sensibilidade da âncora (semântica vs crua)": {
+    definicao:
+      "completude conceitual da campanha 1 recomputada com âncora CRUA (canon, sem redução de frações/decimais equivalentes), macro por exercício; quantifica o efeito do refinamento semântico",
+    recomputado: (() => {
+      const per = [];
+      for (const ex of exercises) {
+        const ms = (expertNeutral.get(ex).misconceptions || []).filter((m) => !m.mechanical);
+        const keys = [...new Set(ms.map((m) => canon(m.wrongAnswer)))];
+        if (!keys.length) continue;
+        const vals = [];
+        for (const run of c1Real) {
+          const e = run.byEx.get(ex);
+          if (!e) continue;
+          const robot = new Set(e.robotMisconceptions.map((w) => canon(w)));
+          vals.push(keys.filter((k) => robot.has(k)).length / keys.length);
+        }
+        per.push(mean(vals));
+      }
+      return `crua ${r3(mean(per))} vs semântica ${c1Summary.real.recallMisconceptionsConceptual.mean}`;
+    })(),
   },
   "47% (total '1 execução' da Tabela 7 na v2.1) — NÃO REPRODUZÍVEL": {
     definicao:

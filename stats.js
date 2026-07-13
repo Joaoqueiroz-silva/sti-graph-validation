@@ -191,12 +191,23 @@ export function signFlipTest(diffs, opts = {}) {
   let total = 0;
   let exact = false;
   if (n <= 24) {
-    // enumeração completa das 2^n atribuições de sinal
+    // Enumeração completa das 2^n atribuições de sinal em ORDEM DE GRAY:
+    // máscaras consecutivas diferem em 1 bit, então a soma é atualizada em O(1)
+    // (2^24 vira ~17M passos leves, sub-segundo, em vez de 2^24 × n).
+    // Contra deriva de ponto flutuante, a soma é recomputada do zero a cada 2^16.
     exact = true;
     total = 2 ** n;
-    for (let mask = 0; mask < total; mask++) {
-      let s = 0;
-      for (let i = 0; i < n; i++) s += (mask >> i) & 1 ? -clean[i] : clean[i];
+    const sign = new Int8Array(n).fill(1);
+    let s = clean.reduce((a, x) => a + x, 0);
+    if (Math.abs(s / n) >= obs - 1e-12) count++;
+    for (let mask = 1; mask < total; mask++) {
+      const b = 31 - Math.clz32(mask & -mask); // bit que muda no código de Gray
+      sign[b] = -sign[b];
+      s += 2 * sign[b] * clean[b];
+      if ((mask & 0xffff) === 0) {
+        s = 0;
+        for (let i = 0; i < n; i++) s += sign[i] * clean[i];
+      }
       if (Math.abs(s / n) >= obs - 1e-12) count++;
     }
   } else {
