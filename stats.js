@@ -242,7 +242,9 @@ export function holm(tests, alpha = 0.05) {
     idx[k].reject = idx[k].pAdj <= alpha;
   }
   const out = new Array(m);
-  for (const t of idx) out[t.i] = { label: t.label, p: t.p, pAdj: Math.round(t.pAdj*10000)/10000, reject: t.reject };
+  // 2026-07-13: pAdj SEM arredondamento — p exatos da permutação chegam a 1e-7
+  // e o arredondamento a 4 casas colapsava em 0 (quem exibe, arredonda).
+  for (const t of idx) out[t.i] = { label: t.label, p: t.p, pAdj: t.pAdj, reject: t.reject };
   return out;
 }
 
