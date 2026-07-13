@@ -26,9 +26,16 @@
  *   JUDGE_MODEL     troca o juiz (mantenha família ≠ do gerador!)
  *   FALLBACK_MODEL  troca o fallback
  *   *_TEMP          trocam a temperatura correspondente (ex.: AGENT3B_TEMP=0.9)
+ *
+ * 2026-07-13 (Onda 3, G11): toda chamada fica registrada no manifesto de execução
+ * (runs/manifests/<runId>.jsonl, ver exec-manifest.js) com custo por chamada, e uma
+ * trava de orçamento (STI_BUDGET_USD, default US$ 50) para o experimento ANTES de
+ * estourar o gasto. STI_RUN_ID nomeia a corrida; STI_RUNS_DIR redireciona a pasta.
  */
 
+import fs from "node:fs";
 import { logger } from "./logger.js";
+import { recordCall, assertBudget, sha256 } from "./exec-manifest.js";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
@@ -111,44 +118,139 @@ export function modelCard() {
   }));
 }
 
-async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 16000 } = {}) {
-  const key = process.env.OPENROUTER_API_KEY;
-  if (!key) throw new Error("Defina OPENROUTER_API_KEY no arquivo .env (copie o .env.example).");
-  const res = await fetch(OPENROUTER_URL, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
-      temperature,
-      max_tokens: maxTokens,
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`OpenRouter ${res.status} (${model}): ${body.slice(0, 200)}`);
+// 2026-07-13 (Onda 3, G11): entrada multimodal — imagens PNG locais viram data-URI
+// no formato de partes da OpenRouter/OpenAI. Sem imagens, o content segue string pura
+// (comportamento idêntico ao anterior, byte a byte no payload).
+function buildUserContent(user, images) {
+  if (!Array.isArray(images) || images.length === 0) return user;
+  const parts = [{ type: "text", text: user }];
+  for (const img of images) {
+    const b64 = fs.readFileSync(img).toString("base64");
+    parts.push({ type: "image_url", image_url: { url: `data:image/png;base64,${b64}` } });
   }
-  const json = await res.json();
-  const content = json.choices?.[0]?.message?.content;
-  if (!content || !content.trim()) throw new Error(`Resposta vazia (${model})`);
-  return content;
+  return parts;
 }
 
-/** Chama o modelo do agente (system + user). Tenta o fallback uma vez se falhar. */
+const estimateTokens = (text) => Math.ceil(String(text ?? "").length / 4);
+
+async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 16000, images } = {}) {
+  const t0 = Date.now();
+  try {
+    const key = process.env.OPENROUTER_API_KEY;
+    if (!key) throw new Error("Defina OPENROUTER_API_KEY no arquivo .env (copie o .env.example).");
+    const res = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: buildUserContent(user, images) },
+        ],
+        temperature,
+        max_tokens: maxTokens,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(`OpenRouter ${res.status} (${model}): ${body.slice(0, 200)}`);
+    }
+    const json = await res.json();
+    const content = json.choices?.[0]?.message?.content;
+    if (!content || !content.trim()) throw new Error(`Resposta vazia (${model})`);
+    // 2026-07-13 (Onda 3, G11): usage real quando a OpenRouter devolve; senão estimativa
+    // conservadora chars/4, MARCADA como estimada (o manifesto nunca finge precisão).
+    const usage = json.usage || {};
+    let tokensIn = usage.prompt_tokens;
+    let tokensOut = usage.completion_tokens;
+    let tokensEstimated = false;
+    if (!Number.isFinite(tokensIn)) {
+      tokensIn = estimateTokens(system) + estimateTokens(user);
+      tokensEstimated = true;
+    }
+    if (!Number.isFinite(tokensOut)) {
+      tokensOut = estimateTokens(content);
+      tokensEstimated = true;
+    }
+    return { content, tokensIn, tokensOut, tokensEstimated, latencyMs: Date.now() - t0 };
+  } catch (err) {
+    err.latencyMs = Date.now() - t0; // latência também na falha (vai pro manifesto)
+    throw err;
+  }
+}
+
+// 2026-07-13 (Onda 3, G11): telemetria NUNCA derruba o experimento — se o manifesto
+// falhar ao gravar (disco, permissão), a chamada de LLM segue e fica só um warn.
+function safeRecord(entry) {
+  try {
+    recordCall(entry);
+  } catch (err) {
+    logger.warn({ err: err.message }, "falha ao gravar o manifesto de execução (telemetria ignorada)");
+  }
+}
+
+/**
+ * Chama o modelo do agente (system + user). Tenta o fallback uma vez se falhar.
+ * meta opcional: { agent, sessionId, runId, exerciseId, envelopeSha256, images }.
+ * 2026-07-13 (Onda 3, G11): trava de orçamento ANTES de cada chamada (BudgetExceededError
+ * propaga de propósito — é a única exceção que não tenta fallback) e registro no
+ * manifesto em sucesso E em falha (fallback = attempt 2, fallbackUsed true).
+ */
 export async function callLLM(llm, system, user, meta = {}) {
   const cfg = llm?.cfg || getAgentConfig();
+  const base = {
+    runId: meta.runId,
+    exerciseId: meta.exerciseId ?? null,
+    agentKey: meta.agent ?? cfg.key ?? null,
+    promptSha256: sha256(String(system ?? "") + String(user ?? "")),
+    envelopeSha256: meta.envelopeSha256 ?? null,
+  };
+  const attempt = async (model, temperature, opts, n, fallbackUsed) => {
+    assertBudget(); // trava dura: para ANTES de gastar (limite via STI_BUDGET_USD, default 50)
+    try {
+      const out = await openrouter(model, system, user, { ...opts, images: meta.images });
+      safeRecord({
+        ...base,
+        model,
+        temperature,
+        attempt: n,
+        fallbackUsed,
+        status: "ok",
+        latencyMs: out.latencyMs,
+        tokensIn: out.tokensIn,
+        tokensOut: out.tokensOut,
+        tokensEstimated: out.tokensEstimated,
+      });
+      return out.content;
+    } catch (err) {
+      // Na falha, o prompt em geral FOI processado (custa input): estimamos tokensIn
+      // para o orçamento não subestimar o gasto; tokensOut = 0.
+      safeRecord({
+        ...base,
+        model,
+        temperature,
+        attempt: n,
+        fallbackUsed,
+        status: "error",
+        latencyMs: err.latencyMs ?? null,
+        tokensIn: estimateTokens(system) + estimateTokens(user),
+        tokensOut: 0,
+        tokensEstimated: true,
+        error: err.message,
+      });
+      throw err;
+    }
+  };
   try {
-    return await openrouter(cfg.model, system, user, cfg);
+    return await attempt(cfg.model, cfg.temperature, cfg, 1, false);
   } catch (err) {
+    if (err && err.name === "BudgetExceededError") throw err; // orçamento estourado: sem fallback
     logger.warn(
       { agent: meta.agent, model: cfg.model, err: err.message },
       "chamada primária falhou; tentando o fallback"
     );
     const fb = AGENTS.fallback_emergency;
-    return await openrouter(fb.model, system, user, fb);
+    return await attempt(fb.model, fb.temperature, fb, 2, true);
   }
 }
 
