@@ -241,3 +241,11 @@ Se você usar este experimento, o dataset ou o código, cite o repositório (ver
 ## Licença
 
 MIT para o código (ver `LICENSE`). Os arquivos `expert.brd` são exports da ferramenta CTAT (Carnegie Learning / Carnegie Mellon University) autorados para esta pesquisa.
+
+## Campanha 3 (2026-07-13) — protocolo v2
+
+Executada integralmente sob protocolo congelado ANTES da primeira chamada (Emenda 4 + `docs/METRICAS-V2.md`): Envelope A independente do grafo (`interface-input.js` + `answer-key/`), bateria congelada de traços (`battery/frac-numberline-6.17-v1`), executor de example-tracing (`trace-executor.js`), 9 condições × 3 réplicas (zero falha), curva de ensemble K=1..10 e painel de 3 famílias de juízes sobre 179 itens congelados. Custo US$ 16,72 em 1.970 chamadas, todas registradas em manifesto (`resultados/campanha3-2026-07-13/manifests/`).
+
+Resultado central (desfechos coprimários comportamentais): a conformidade comportamental com a referência é BAIXA — R_bug=0,065 [0,020; 0,113], R_ok=0 em todos os braços. Cobertura por valor (secundária histórica): 0,243 [0,163; 0,324]; única ablação de cobertura que sobrevive a Holm: alvo de 6 candidatos (+17,7 pontos, p-Holm=2,4e-5, sob maior orçamento de saída); o screenshot aumentou a concordância comportamental (+0,056, família exploratória). Análise: `analysis/reanalyze-c3.mjs` → `analysis/derived/TABELAS-C3.md`, verificada por recomputação independente em sala limpa (coincidência bit a bit).
+
+Reprodução: `bash run-onda3.sh` (exige `OPENROUTER_API_KEY`; trava de orçamento `STI_BUDGET_USD`, default US$ 50). A tag `legacy-campaigns-2026-07` preserva o estado exato que produziu as campanhas 1 e 2 (manifesto SHA-256 em `protocol/frozen/`).
