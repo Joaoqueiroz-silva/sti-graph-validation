@@ -73,7 +73,7 @@ npm install
 cp .env.example .env        # cole sua OPENROUTER_API_KEY
 npm run models              # mostra a configuração de modelos e valida a chave
 
-npm test                    # 108 testes determinísticos, sem custo de API
+npm test                    # 226 testes determinísticos, sem custo de API
 npm run materialize         # regenera o dataset a partir dos .brd
 npm run eval:real           # avaliação completa: agentes reais × especialista (24 exercícios)
 npm run judge:real          # juiz cego: validade dos extras + importância dos perdidos
@@ -217,7 +217,7 @@ console.log(cmp.recallMisconceptionsConceptual, cmp.detail.missingMisconceptions
 ├── stats.js                           não-inferioridade, bootstrap de cluster, IC de Wilson
 ├── run-ctat-eval.mjs / run-judge.mjs  os runners do experimento
 ├── aggregate-campaign.mjs             agregação de réplicas com IC95%
-└── __tests__/                         108 testes, incluindo property tests com 10.000 grafos
+└── __tests__/                         226 testes, incluindo property tests com 10.000 grafos
 ```
 
 ## A base de dados e os dois envelopes
