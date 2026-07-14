@@ -156,6 +156,10 @@ for (let k = 1; k <= (ens.k || 10); k++) {
   const per = [];
   for (const e of ens.exercises || []) {
     const ref = expertKeys.get(e.id);
+    // NOTA (verificação V2, 2026-07-13): exercício sem misconception conceitual
+    // seria EXCLUÍDO daqui mas contaria recall=1,0 no sumário (prf de conjuntos
+    // vazios). Não ocorre no corpus congelado (todos têm 3-5 chaves); se um corpus
+    // futuro tiver, alinhar as duas convenções antes de comparar curva × sumário.
     if (!ref || !ref.size) continue;
     const uni = (e.unioes || []).find((u) => u.k === k);
     if (!uni) continue;
