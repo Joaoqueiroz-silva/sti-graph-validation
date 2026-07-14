@@ -142,6 +142,31 @@ for (const m of ["rBug", "concordancia"]) {
 }
 const f3Holm = holm(f3Tests.map(({ label, p }) => ({ label, p })));
 
+// ─── F4 POST-HOC exploratória (parecer v3.2): braços × baseline em cobertura
+// conceitual — comparação NÃO prevista nas famílias congeladas; declarada
+// post-hoc com Holm próprio (m=2) para substituir "n.s." sem teste na Tabela 8b.
+const f4Tests = ["base-glm52", "base-dsv4pro"].map((arm) => {
+  const cmp = paired(arm, "base-gemini", METRICS.conceitual);
+  return { label: `${arm} vs base-gemini · conceitual (post-hoc)`, p: cmp.p, cmp };
+});
+const f4Holm = holm(f4Tests.map(({ label, p }) => ({ label, p })));
+
+// κ comportamental AGRUPADO (pooled da matriz de confusão somada; o 0,037 é a
+// média macro por exercício — as duas leituras são publicadas).
+function pooledKappa(cond) {
+  const CATS = ["correct", "buggy", "no-match"];
+  const M = {}; for (const a of CATS) { M[a] = {}; for (const b of CATS) M[a][b] = 0; }
+  for (const run of arms[cond]) for (const c of run.byEx.values()) {
+    const cf = c.metrics?.behavioral?.confusion; if (!cf) continue;
+    for (const a of CATS) for (const b of CATS) M[a][b] += cf[a]?.[b] || 0;
+  }
+  const N = CATS.reduce((s,a)=>s+CATS.reduce((t,b)=>t+M[a][b],0),0);
+  const po = CATS.reduce((s,a)=>s+M[a][a],0)/N;
+  let pe = 0;
+  for (const c of CATS) pe += (CATS.reduce((s,b)=>s+M[c][b],0)/N)*(CATS.reduce((s,a)=>s+M[a][c],0)/N);
+  return r3((po-pe)/(1-pe));
+}
+
 // ─── curva de ensemble K=1..10 ───
 const expertKeys = new Map(
   exercises.map((id) => {
@@ -202,6 +227,8 @@ const derived = {
   familiaF1_coprimarias_bracos: f1Holm.map((h, i) => ({ ...h, ...f1Tests[i].cmp })),
   familiaF2_ablacoes_conceitual: f2Holm.map((h, i) => ({ ...h, ...f2Tests[i].cmp })),
   familiaF3_exploratoria: f3Holm.map((h, i) => ({ ...h, ...f3Tests[i].cmp })),
+  familiaF4_posthoc_bracos_conceitual: f4Holm.map((h, i) => ({ ...h, ...f4Tests[i].cmp })),
+  kappaPooledPorCondicao: Object.fromEntries(CONDS.map((c) => [c, pooledKappa(c)])),
   curvaEnsembleK10: curva,
   painel: {
     porJuiz: painel.groups,
@@ -214,11 +241,11 @@ const OUT = path.join(ROOT, "analysis", "derived");
 fs.writeFileSync(path.join(OUT, "reanalise-c3.json"), JSON.stringify(derived, null, 2));
 
 const fmtP = (p) => (p == null ? "n/a" : p < 0.001 ? p.toExponential(2) : p.toFixed(4));
-let md = `# Tabelas geradas — campanha 3 (2026-07-13)\n\nProtocolo congelado (Emenda 4). Unidade = exercício; permutação exata; Holm por família. Gerado por \`analysis/reanalyze-c3.mjs\`.\n\n## Sumário por condição (média por exercício, IC95%)\n\n| Condição | Modelo | Conceitual | R_bug | R_ok | Concordância | Falhas | Custo |\n|---|---|---|---|---|---|---|---|\n`;
+let md = `# Tabelas geradas — campanha 3 (2026-07-13)\n\nProtocolo congelado (Emenda 4). Unidade = exercício; permutação exata; Holm por família. Gerado por \`analysis/reanalyze-c3.mjs\`.\n\n## Sumário por condição (média por exercício, IC95%)\n\n| Condição | Modelo | Conceitual | R_bug | R_ok | rOkCompleted (explorat.) | Concordância | Falhas | Custo |\n|---|---|---|---|---|---|---|---|---|\n`;
 for (const cond of CONDS) {
   const s = sumario[cond];
   const f = (m) => `${s[m].mean} [${s[m].lower}; ${s[m].upper}]`;
-  md += `| ${cond} | ${s.model} | ${f("conceitual")} | ${f("rBug")} | ${f("rOk")} | ${f("concordancia")} | ${s.falhas} | US$ ${custo[cond]?.usd ?? "?"} |\n`;
+  md += `| ${cond} | ${s.model} | ${f("conceitual")} | ${f("rBug")} | ${f("rOk")} | ${f("rOkCompleted")} | ${f("concordancia")} | ${s.falhas} | US$ ${custo[cond]?.usd ?? "?"} |\n`;
 }
 md += `\n## F1 — coprimárias comportamentais, braços × baseline (Holm m=4)\n\n| Comparação | Δ | IC95% | p exato | p-Holm | Rejeita |\n|---|---|---|---|---|---|\n`;
 for (const t of derived.familiaF1_coprimarias_bracos)
