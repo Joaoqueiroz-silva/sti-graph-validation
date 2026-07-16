@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "educaoff-campaign4-budget-plan-v1",
+  "preparedAt": "2026-07-15T00:00:00-03:00",
+  "currency": "USD",
+  "model": "google/gemini-3.5-flash",
+  "currentListPrice": {
+    "inputPerMillionTokens": 1.5,
+    "outputPerMillionTokens": 9,
+    "checkedAt": "2026-07-15",
+    "source": "https://openrouter.ai/google/gemini-3.5-flash/api"
+  },
+  "historicalBasis": {
+    "description": "Campanha 3, base-gemini, 24 exercícios por 3 réplicas",
+    "calls": 161,
+    "tokensIn": 195461,
+    "tokensOut": 145055,
+    "measuredCostUsd": 1.5986865,
+    "agent3cCalls": 17
+  },
+  "offlineProjection": {
+    "oneSeedForcedAllAgentsUsd": 2.1515,
+    "oneSeedWithHistoricalThreeJudgePanelUsd": 2.36739,
+    "batchedSixStatesConditional3cUsd": 1.598686,
+    "batchedSixStatesForcedAllAgentsUsd": 2.1515,
+    "batchedSixStatesForcedAllWithHistoricalThreeJudgePanelUsd": 2.36739,
+    "pilotThreeStatesConditional3cUsd": 0.266448,
+    "pilotThreeStatesForcedAllAgentsUsd": 0.358583,
+    "upperUngrouped24StatesConditional3cUsd": 6.394746,
+    "upperUngrouped24StatesForcedAllAgentsUsd": 8.606,
+    "warning": "Batched values are the principal projection for the six materialized states. All values are extrapolations, not measured costs; the ungrouped scenario is an upper design that is not currently planned."
+  },
+  "fixturePlan": {
+    "manifest": "production-fidelity/fixtures/manifest.json",
+    "states": 6,
+    "seedsPerState": 4,
+    "exercises": 24,
+    "scoringUnit": "exerciseId",
+    "constructionCalls": 0
+  },
+  "authorizationStages": [
+    {
+      "stage": "offline-preflight",
+      "cases": 0,
+      "replicas": 0,
+      "hardCapUsd": 0,
+      "requiresExplicitAuthorization": false
+    },
+    {
+      "stage": "real-pilot",
+      "states": 3,
+      "exercises": 12,
+      "replicas": 1,
+      "llmJudges": false,
+      "hardCapUsd": 1,
+      "requiresExplicitAuthorization": true
+    },
+    {
+      "stage": "full-agents-only",
+      "states": 6,
+      "exercises": 24,
+      "replicas": 3,
+      "llmJudges": false,
+      "hardCapUsd": 10,
+      "requiresExplicitAuthorization": true
+    },
+    {
+      "stage": "full-with-cheap-judge-panel",
+      "states": 6,
+      "exercises": 24,
+      "replicas": 3,
+      "hardCapUsd": 12,
+      "requiresExplicitAuthorization": true
+    }
+  ],
+  "policy": [
+    "No stage inherits or raises the cap automatically.",
+    "The full-run estimate must be recomputed from measured pilot token usage.",
+    "A 402, budget exhaustion, missing usage record, or unknown price aborts the run.",
+    "Failed or invalid cases remain recorded and are not silently retried beyond the declared policy."
+  ]
+}

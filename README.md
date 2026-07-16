@@ -1,251 +1,159 @@
-# Validação de grafos de comportamento: agentes de IA × especialista humano (CTAT)
+# Validação técnica em camadas da autoria de grafos de comportamento
 
-Repositório oficial do experimento de validação dos grafos de comportamento gerados pelos agentes da plataforma **EducaOFF / STI Unplugged**. Ele contém tudo o que é necessário para **reproduzir fielmente** a avaliação: o código completo, o corpus, a base de dados com os dois envelopes, a metodologia, o pré-registro com emenda, os resultados brutos da primeira campanha e o relatório final.
+[![CI offline](https://github.com/Joaoqueiroz-silva/sti-graph-validation/actions/workflows/ci.yml/badge.svg)](https://github.com/Joaoqueiroz-silva/sti-graph-validation/actions/workflows/ci.yml)
 
-> **Contexto.** A plataforma EducaOFF gera Sistemas Tutores Inteligentes por um pipeline de agentes de IA. O coração de cada tutor é o *grafo de comportamento* (paradigma example-tracing, Aleven et al. 2009/2016): o mapa com o caminho de resolução correto, os erros típicos de aluno (misconceptions) e as remediações. Este experimento responde: **os grafos gerados automaticamente estão corretos?** A comparação é feita contra grafos autorados por um especialista humano na ferramenta CTAT (Carnegie Mellon), sobre os mesmos 24 exercícios de frações na reta numérica.
+Repositório reprodutível do estudo sobre a validação técnica dos grafos de comportamento autorados com os agentes 3a, 3b e 3c da rota legada da **EducaOFF / STI Unplugged**. O trabalho acompanha as evidências desde o conteúdo proposto até o grafo montado e separa quatro objetos que não devem ser confundidos:
 
-## A ideia do experimento em um diagrama
+1. conteúdo bruto produzido pelos agentes de LLM;
+2. informação preservada ou perdida no transporte;
+3. estrutura montada deterministicamente pelo GraphForge;
+4. concordância com grafos CTAT de referência.
 
-Cada arquivo `.brd` exportado do CTAT contém a interface do exercício **e** o grafo do especialista. O parser separa esses dois conteúdos em envelopes disjuntos, e o sistema autora **às cegas**:
+> **Versão científica atual: v6.0.** A Campanha 4 é a avaliação principal, por executar cópias congeladas dos agentes e do transporte da implantação auditada. As Campanhas 1–3 são desenvolvimento histórico do instrumento e evidência secundária. As estimativas das quatro campanhas não são combinadas.
 
-```mermaid
-flowchart TB
-    BRD[".brd do CTAT<br/>(24 exercícios de frações)"] --> P["parser<br/>parse-ctat-brd.js"]
-    P --> A["ENVELOPE A: só a interface<br/>enunciado + campos + resposta correta + KCs"]
-    P --> B["ENVELOPE B: o grafo do especialista<br/>caminho + erros + dicas (LACRADO)"]
-    A --> R["agentes autoram o grafo ÀS CEGAS<br/>(nunca veem o Envelope B)"]
-    B --> C["comparador (esquema neutro)"]
-    R --> C
-    C --> M["completude direcional + juiz cego<br/>+ detecção de alucinação estrutural"]
-    style A fill:#E6F1FB,stroke:#378ADD
-    style B fill:#E1F5EE,stroke:#1D9E75
-    style R fill:#E6F1FB,stroke:#378ADD
-```
+## Manuscrito atual
 
-A anti-contaminação é garantida por código: existe uma lista de campos proibidos no Envelope A, a função `findLeaksInRobotInput` varre o envelope procurando qualquer um deles, e um teste automatizado quebra a build se encontrar (incluindo um controle negativo com envelope contaminado de propósito, que o teste precisa acusar).
+- [PDF do artigo v6.0](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.pdf)
+- [fonte LaTeX](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.tex)
+- [instruções de compilação](docs/manuscript/v6.0/README.md)
+- [reprodução e trilha de evidências](docs/REPRODUCAO-V6.md)
+- [registro de modelos e custos](docs/MODELOS-E-CUSTOS.md)
+- [proveniência e licença do corpus](PROVENANCE.md)
 
-## Como o sistema autora o grafo
+Os relatórios anteriores permanecem como material histórico. Eles não substituem o manuscrito v6.0.
 
-```mermaid
-flowchart LR
-    A["Envelope A"] --> S1["agente 3a<br/>aluno avançado"]
-    A --> S2["agente 3b<br/>aluno com dificuldades"]
-    A --> S3["agente 3c<br/>aluno mediano"]
-    S1 -->|caminho correto| GF["GraphForge<br/>montador determinístico<br/>(sem IA)"]
-    S2 -->|misconceptions| GF
-    S3 -->|dicas em 4 níveis| GF
-    GF --> G["grafo de comportamento"]
-    style S2 fill:#FCEBEB,stroke:#E24B4A
-    style GF fill:#EEEDFE,stroke:#7F77DD
-```
+## O que o estudo pode e não pode concluir
 
-A parte criativa (que erros um aluno cometeria, que dica ajudaria) fica com os agentes de IA, os mesmos que rodam em produção na plataforma, sem modificação. A montagem da estrutura é um algoritmo determinístico, e por isso a estrutura é válida por construção (propriedade verificada com 10.000 grafos aleatórios nos testes).
+O estudo permite:
 
-## O que se mede
+- medir diretamente propriedades observáveis das saídas dos agentes;
+- localizar perdas entre saída bruta, configuração, grafo genérico e manifesto de slots;
+- verificar invariantes estruturais implementadas e determinismo nos casos testados;
+- medir concordância com a referência CTAT sob denominadores declarados;
+- auditar falhas, custos, modelos, hashes e emendas.
 
-| Camada | Pergunta | Instrumento |
+O estudo **não** demonstra:
+
+- equivalência dos agentes a especialistas humanos;
+- que os BRDs constituem verdade pedagógica universal;
+- eficácia de aprendizagem com estudantes;
+- correção pedagógica completa do tutor final;
+- equivalência entre modelos de LLM;
+- melhoria longitudinal entre campanhas com desenhos diferentes.
+
+## Desenho em quatro campanhas
+
+| Campanha | Objeto executado | Papel na v6.0 | Limite principal |
+| --- | --- | --- | --- |
+| C1 | bancada integrada adaptada | piloto do instrumento | retenção histórica incompleta e juiz único |
+| C2 | bancada adaptada com quatro famílias geradoras | robustez exploratória | ausência de teste de equivalência e mudança de juiz |
+| C3 | subsistema integrado e executor analítico | evidência histórica secundária | bancada diferente da implantação e reconstrução parcial de `R_bug` |
+| C4 | agentes 3a/3b/3c, transporte e GraphForge congelados | avaliação principal | um domínio, seis chamadas agrupadas por réplica e ausência de validação humana |
+
+Os mesmos 24 exercícios aparecem nas campanhas; isso não cria 96 exercícios independentes.
+
+## Resultados centrais da Campanha 4
+
+Desenho: 24 exercícios, três réplicas, seis estados de quatro problemas por réplica. Foram planejadas 18 unidades estado–réplica; 17 ficaram completas e uma falha foi mantida no estimando ITT, sem repetição, reparo ou imputação.
+
+| Camada | Resultado principal | Interpretação permitida |
 | --- | --- | --- |
-| Nível 1, estrutural | O grafo é bem-formado? | `graph-hallucination.js`: sinais DUROS barram (ciclo patológico, nó órfão, beco sem saída, scaffold órfão); MOLES somam um score com limiar µ+λσ |
-| Nível 2, comparativo | Bate com o especialista? | **Veredito 2D**: eixo X = completude conceitual (recall direcional, Tversky 1977); eixo Y = validade dos extras segundo **juiz cego** de família de IA diferente, com calibração e distratores |
-| Complementares | | recall de passos separado, equivalência funcional (κ de Cohen), inclusão de traços, F1 auditável, distâncias de edição |
+| agente 3a | recall concreto ordenado `0,000`; resposta final exata `0,111` [0,028; 0,222] | o contrato produz templates genéricos, incompatíveis com reprodução concreta direta |
+| agente 3b | recall por valor `0,176` [0,113; 0,242] | baixa recuperação do catálogo concreto da referência; estado/SAI não é estimável |
+| agente 3c, capacidade forçada | sucesso estrito `0,278` [0,167; 0,403] | completude formal não implica progressão pedagógica; houve vazamento literal |
+| transporte 3a | 272 itens brutos → 60 preservados (`22,1%`) | truncamento global descartou 212 itens |
+| transporte 3b | 136 → 117 (`86,0%`) | campos e identidade de problema não são integralmente preservados |
+| transporte 3c | 328 → 272 (`82,9%`) no braço de capacidade | o braço operacional pulou o 3c em 17/17 estados completos |
+| GraphForge | 34/34 pares de reexecução idênticos | determinismo observado, não validade pedagógica |
 
-O julgamento do que o sistema **perde** também é medido: um segundo juiz classifica cada erro do especialista não coberto como central, periférico ou mecânico. É isso que separa "a diferença é complementar" de "a lacuna importa".
+Fonte canônica: [`campaign4-final-analysis-v2.1.json`](resultados/campanha4-2026-07-15/campaign4-final-analysis-v2.1.json).
 
-## Resultados da primeira campanha (2026-07-02)
+### Juízo de qualidade sustentado pelos dados
 
-24 exercícios, 3 réplicas de cada medição, intervalos de confiança de 95%:
+Os resultados não sustentam classificar os grafos produzidos pelo fluxo auditado como completos e prontos para uso autônomo. A qualidade é heterogênea: as saídas são geralmente processáveis e a montagem é reprodutível, mas o caminho correto concreto, a cobertura e localização dos ramos buggy, a segurança e o uso das dicas e a rastreabilidade apresentam fragilidades essenciais. O papel empiricamente defensável desta versão é o de **gerador assistivo de rascunhos**, com gates automáticos e revisão humana antes da implantação.
 
-| Resultado | Valor |
-| --- | --- |
-| Grafos com defeito estrutural | **0 de 72** (e 0 em 10.000 grafos de teste) |
-| Validade dos extras (juiz cego) | **87%** [79, 92], contra 99% do especialista e 0% dos distratores |
-| Completude conceitual | **0,376** [0,310, 0,440] |
-| Erros perdidos que são centrais | **56%** [48, 64] |
+Esse juízo não significa que todo conteúdo gerado seja pedagogicamente errado. Ele se restringe ao domínio, ao modelo, à rota legada e à versão auditados; adequação pedagógica e eficácia com estudantes permanecem não estimáveis sem evidência humana externa.
 
-Leitura honesta: o sistema constrói grafos estruturalmente impecáveis e o que ele adiciona é válido, mas cobre cerca de um terço do catálogo do especialista, e mais da metade do que perde é importante. O veredito formal de não-inferioridade permanece em aberto até existir a banda humano-humano (2 a 3 especialistas por exercício), conforme o pré-registro. O relatório completo, com 10 diagramas e a comparação exercício por exercício, está em [`docs/RELATORIO-CAMPANHA-1.html`](docs/RELATORIO-CAMPANHA-1.html).
+O gerador final foi `google/gemini-3.5-flash`. O painel auxiliar final usou `z-ai/glm-5.2`, `qwen/qwen3.7-plus` e `deepseek/deepseek-v4-pro`. O painel teve forte efeito teto e dez de quinze dimensões sem variação suficiente para estimar concordância corrigida pelo acaso; por isso ele é evidência auxiliar, não validação pedagógica.
 
-## Como reproduzir
+## Evidência histórica resumida
 
-Requisitos: Node.js 18+ e uma chave da OpenRouter (https://openrouter.ai/keys). Um único provedor cobre o gerador e o juiz, que são de famílias diferentes de modelo.
+- C1: cobertura conceitual histórica `0,376` [0,309; 0,442].
+- C2: nenhuma diferença primária de cobertura foi detectada entre os quatro geradores; isso não prova equivalência.
+- C3: `R_bug=0,054` [0,016; 0,095], reconstruído a partir do agregado ancorável retido; `R_ok=0`; cobertura por valor `0,243` [0,163; 0,324].
+- C3 estrutural: zero violações duras e 62 sinais moles em 648 grafos.
+- Os braços DOM/screenshot e o antigo painel C3 são documentados, mas não sustentam conclusões principais.
+
+## Verificação totalmente offline
+
+Requisitos: Node.js 20.19 ou posterior (a integração contínua usa 22.12). Verificar os resultados publicados não exige chave de API e não gera custo.
 
 ```bash
-npm install
-cp .env.example .env        # cole sua OPENROUTER_API_KEY
-npm run models              # mostra a configuração de modelos e valida a chave
-
-npm test                    # 226 testes determinísticos, sem custo de API
-npm run materialize         # regenera o dataset a partir dos .brd
-npm run eval:real           # avaliação completa: agentes reais × especialista (24 exercícios)
-npm run judge:real          # juiz cego: validade dos extras + importância dos perdidos
-npm run aggregate           # agrega réplicas em média com IC95%
+git clone https://github.com/Joaoqueiroz-silva/sti-graph-validation.git
+cd sti-graph-validation
+npm ci
+npm run verify:offline
 ```
 
-Para replicar a campanha inteira (3 réplicas de cada), rode os comandos de avaliação e juiz três vezes com `--out report-eval-real-N.json` / `--out report-judge-real-N.json` e agregue. O script usado na campanha original está em [`resultados/campanha-2026-07-02/run.sh`](resultados/campanha-2026-07-02/run.sh). A aleatoriedade da parte estatística usa semente fixa: os mesmos dados produzem os mesmos números em qualquer máquina.
+O comando executa a suíte determinística, valida o relatório histórico, confronta o artigo v6.0 com os JSONs derivados, verifica privacidade, links e hashes do depósito.
 
-## Campanha 2: comparação entre modelos geradores (2026-07-08/09)
+Comandos analíticos individuais:
 
-A pedido da orientação, o experimento foi repetido trocando o modelo dos três agentes, com protocolo idêntico, mesma infraestrutura e juiz único neutro às quatro famílias (`mistralai/mistral-large-2512`): baseline Gemini 3.5 Flash contra `z-ai/glm-5.2`, `deepseek/deepseek-v4-pro` e `anthropic/claude-sonnet-5`, com 3 réplicas de avaliação e de julgamento por braço (24 corridas no total).
-
-| Modelo | Completude conceitual | Passos | Inclusão de traços | Extras válidos (juiz) |
-| --- | --- | --- | --- | --- |
-| Claude Sonnet 5 | 0,416 [0,342; 0,490] | 0,500 | **0,503** (sugestivo; não sobrevive a Holm, p-Holm=0,054) | 75% [67; 81] |
-| GLM-5.2 | 0,415 [0,325; 0,510] | 0,501 | 0,475 | **80%** [73; 86] |
-| DeepSeek V4 Pro | 0,371 [0,296; 0,450] | 0,477 (inferior; sobrevive a Holm) | 0,458 | 75% [68; 81] |
-| Gemini 3.5 Flash (baseline) | 0,368 [0,302; 0,443] | **0,508** | 0,444 | 71% [62; 79] |
-
-Síntese: nenhum modelo altera o quadro geral ("válido, porém incompleto"). A completude conceitual é estatisticamente indistinguível entre os quatro (todas as diferenças pareadas contra o baseline cruzam zero), com um padrão sugestivo: os dois modelos de maior porte (Sonnet 5 e GLM-5.2) empatam no topo (~0,415) e os dois de menor porte (~0,37), apontando efeito de porte pequeno e não significativo com este N. Quatro famílias batendo no mesmo teto de cobertura reforçam que a lacuna é do método de amostragem única, não do modelo. O Sonnet 5 obteve a única melhora significativa contra o baseline (inclusão de traços, Δ +0,059 [0,017; 0,102]); o Gemini segue melhor em F1 e equivalência funcional, com o menor custo e a maior velocidade. Dados brutos em [`resultados/campanha-2026-07-08-multimodelo/`](resultados/campanha-2026-07-08-multimodelo/). Observação metodológica: o juiz Mistral é mais rígido que o GLM-4.5 da campanha 1 (níveis absolutos de julgamento não são comparáveis entre juízes), o que reforça a calibração humana em curso.
-
-**Revisão de 2026-07-10 (resposta ao parecer interno):** as comparações da campanha 2 passaram pela correção de Holm (sobrevivem apenas as três inferioridades do DeepSeek; a melhora de inclusão de traços do Sonnet 5 vira sugestiva, p-Holm=0,054); os controles do juiz foram endurecidos com distratores difíceis, cuja auditoria revelou e corrigiu uma falha de fronteira (equivalência matemática; ver [`docs/SELECAO-DO-JUIZ.md`](docs/SELECAO-DO-JUIZ.md) e a guarda determinística em `judge-misconceptions.js`); a curva de saturação do ensemble foi medida (cobertura conceitual de 31% em K=1 a 56% em K=5; [`resultados/saturation-curve-2026-07-10.json`](resultados/saturation-curve-2026-07-10.json) e [`saturation-curve.mjs`](saturation-curve.mjs)); e o pacote de anotação humana para a calibração do juiz foi congelado em [`anotacao-humana/`](anotacao-humana/) (370 itens cegos, semente fixa). A cronologia completa das decisões está na Emenda 2 do [pré-registro](docs/PRE-REGISTRO.md).
-
-## Grau de dificuldade e custo
-
-O experimento foi desenhado para ser reproduzível por qualquer pessoa com experiência básica de terminal. Não há banco de dados, não há Docker, não há dependência de GPU: é Node.js puro com duas bibliotecas pequenas.
-
-| Etapa | Exige | Tempo | Custo de API |
-| --- | --- | --- | --- |
-| Entender (ler docs e dataset) | um navegador | livre | nenhum |
-| Verificar (testes + reagregação dos dados publicados) | Node 18+ | ~2 min | nenhum |
-| Replicar 1 corrida (avaliação + juiz nos 24 exercícios) | chave OpenRouter | ~20 min | por volta de US$ 1 |
-| Replicar a campanha completa (3 réplicas de cada) | chave OpenRouter | ~1h30 (sem supervisão) | tipicamente abaixo de US$ 5 |
-
-## Transparência dos modelos
-
-A tabela abaixo é a configuração oficial da campanha, idêntica à da produção da EducaOFF. Cada agente tem o seu modelo e a sua temperatura, e as temperaturas diferem de propósito: o aluno avançado precisa ser quase determinístico, o aluno com dificuldades precisa de diversidade para os erros emergirem, e o juiz precisa de julgamento estável.
-
-| Passo do experimento | Agente | Modelo | Temperatura | Máx. tokens |
-| --- | --- | --- | --- | --- |
-| Caminho de resolução correto | 3a, aluno avançado | `google/gemini-3.5-flash` | 0,2 | 16.000 |
-| Misconceptions (erros previstos) | 3b, aluno com dificuldades | `google/gemini-3.5-flash` | 0,7 | 24.000 |
-| Dicas em 4 níveis | 3c, aluno mediano | `google/gemini-3.5-flash` | 0,4 | 16.000 |
-| Julgamento de validade e importância | juiz cego | `z-ai/glm-4.5` | 0,1 | 32.000 |
-| Contingência (1 retentativa em falha) | fallback | `deepseek/deepseek-chat` | 0,3 | 16.000 |
-
-Três decisões merecem justificativa. Primeira: o juiz é de **família diferente** do gerador (GLM contra Gemini), porque modelos de linguagem tendem a avaliar melhor a produção da própria família (Panickssery et al. 2024); um juiz da mesma família seria uma câmara de eco. Segunda: a montagem do grafo (GraphForge) **não usa modelo nenhum**, é um algoritmo determinístico, então nenhuma parte da estrutura depende de IA. Terceira: todos os modelos são acessados pela OpenRouter, o que permite reproduzir com **uma única chave** e trocar qualquer modelo sem tocar em código.
-
-Para ver a configuração ativa na sua máquina e validar a chave: `npm run models`. Para trocar modelos ou temperaturas, edite o `.env` (o `.env.example` documenta cada variável). A definição está centralizada na tabela `AGENTS` de [`llm.js`](llm.js).
-
-## A arquitetura do juiz cego
-
-O juiz é a peça que separa "o sistema inventou bobagem" de "o sistema enxergou um erro real que o especialista não catalogou". Ele são duas funções sobre o mesmo modelo (GLM-4.5, temperatura 0,1), cada uma com um prompt fixo e saída em JSON estruturado:
-
-```mermaid
-flowchart TB
-    subgraph entrada [" itens julgados às cegas, um por vez "]
-        E1["extras do sistema<br/>(erros que só ele previu)"]
-        E2["erros do próprio especialista<br/>(calibração positiva)"]
-        E3["distratores: a resposta certa<br/>+ um valor absurdo (controle)"]
-    end
-    entrada --> J1["JUIZ DE VALIDADE<br/>recebe só: enunciado + resposta correta + resposta errada candidata<br/>NUNCA sabe a origem do item"]
-    J1 --> V["veredito por item:<br/>válido / implausível / é a resposta certa / impossível<br/>+ nome do erro + 1 frase de justificativa"]
-    P["erros do especialista que o<br/>sistema NÃO cobriu (perdidos)"] --> J2["JUIZ DE IMPORTÂNCIA<br/>cego à cobertura: julga só o quanto<br/>o erro importa pedagogicamente"]
-    J2 --> I["central / periférico / mecânico"]
-    style J1 fill:#EEEDFE,stroke:#7F77DD
-    style J2 fill:#EEEDFE,stroke:#7F77DD
+```bash
+npm run c3:reanalyze
+npm run c4:aggregate
+npm run c4:sensitivity
+npm run c4:judge:correct
+npm run article:validate
 ```
 
-O que valida o próprio juiz, dentro de cada rodada: os erros do especialista funcionam como régua positiva (devem pontuar alto; pontuaram 99%) e os distratores como régua negativa (devem pontuar zero; pontuaram 0%). Se os distratores passassem, o juiz seria um carimbo e nenhum número dele valeria. Os prompts completos das duas funções estão em [`judge-misconceptions.js`](judge-misconceptions.js), e o repositório também prevê calibração contra rótulos humanos (κ de Cohen) quando existir um arquivo `human-judge-labels.json` no corpus.
+Consulte [docs/REPRODUCAO-V6.md](docs/REPRODUCAO-V6.md) antes de regenerar derivados, pois alguns arquivos registram correções e sensibilidades pós-hoc que precisam conservar essa classificação.
 
-## Como os agentes e o GraphForge são invocados
+## Chamadas pagas
 
-O fluxo de ponta a ponta, no código, é este:
+Nenhuma chamada paga é necessária para conferir o artigo. Os runners reais permanecem no repositório para auditoria, mas não fazem parte de `verify:offline` nem da integração contínua.
 
-```
-run-ctat-eval.mjs
-  └── authorFromBrd(brdXml)                          [author-from-ctat.js]
-        ├── parseBrdToRobotInput(brd)  → Envelope A  [parse-ctat-brd.js]
-        └── authorFromEnvelopeA(envelopeA)
-              ├── simulateStudentsReal(envelopeA)    [simulate-students-real.js]
-              │     ├── agent3a_advancedStudent(state)   ┐
-              │     ├── agent3b_atRiskStudent(state)     ├ [agents3-students.js,
-              │     └── agent3c_averageStudent(state)    ┘  código de produção]
-              ├── buildGraphForgeConfig(iface, traces)   [author-graph.js]
-              ├── graphForge(config)  → o grafo          [graphforge.js, determinístico]
-              └── normalizeEducaoff(graph) → esquema neutro para comparação
-```
+Para uma nova execução deliberada, é necessário criar `.env` a partir de `.env.example`, definir limite financeiro e usar os preflights correspondentes. Não reutilize os comandos históricos como se fossem uma réplica da C4: os protocolos, entradas e modelos de juiz são diferentes.
 
-Quem quiser usar as peças como biblioteca (por exemplo, para autorar um grafo de um único exercício e inspecioná-lo) precisa de meia dúzia de linhas:
+Custos contabilizados da execução retida:
 
-```js
-import "dotenv/config";
-import fs from "node:fs";
-import { authorFromEnvelopeA } from "./author-from-ctat.js";
-import { simulateStudentsReal } from "./simulate-students-real.js";
-
-const envelopeA = JSON.parse(fs.readFileSync(
-  "datasets/frac-numberline-6.17/problems/00bubble/envelope-a.json", "utf8"));
-
-const { graph, neutral, traces } = await authorFromEnvelopeA(envelopeA, {
-  simulate: simulateStudentsReal,   // os 3 agentes reais; omita para usar o modo simplificado
-});
-console.log(JSON.stringify(graph, null, 2));   // o grafo de comportamento completo
-```
-
-E para comparar esse grafo com o do especialista do mesmo exercício:
-
-```js
-import { compareGraphs } from "./metrics.js";
-const expert = JSON.parse(fs.readFileSync(
-  "datasets/frac-numberline-6.17/problems/00bubble/envelope-b.json", "utf8"));
-const cmp = compareGraphs(expert, neutral);
-console.log(cmp.recallMisconceptionsConceptual, cmp.detail.missingMisconceptions, cmp.detail.extraMisconceptions);
-```
+- geração C4: US$ 1,9539885;
+- painel auxiliar final C4: US$ 1,243231545;
+- C3 histórica: US$ 16,71870027;
+- custos C1/C2 aparecem apenas como aproximações narrativas, pois não há manifesto de chamadas suficiente para reconciliação independente.
 
 ## Estrutura do repositório
 
-```
-├── docs/
-│   ├── RELATORIO-CAMPANHA-1.html      relatório completo da 1ª avaliação (didático, 10 diagramas)
-│   ├── METODOLOGIA.md                 desenho metodológico completo (3 níveis, fundamentação, limiares)
-│   ├── METODOLOGIA-DETALHADA.md       algoritmos passo a passo, prontos para o artigo
-│   ├── PRE-REGISTRO.md                métricas e análises fixadas ANTES dos resultados + EMENDA 1 datada
-│   ├── GRAFO-CONHECIMENTO-VS-COMPORTAMENTO.md   a distinção entre os dois grafos
-│   └── diagramas/                     8 diagramas SVG da metodologia
-├── cases/ctat-6.17/                   CORPUS: 24 exercícios, cada um com expert.brd + interface
-├── datasets/frac-numberline-6.17/     BASE DE DADOS: por exercício, envelope-a.json (interface,
-│                                      entrada cega dos agentes), envelope-b.json (grafo do
-│                                      especialista) e meta.json; manifest com verificação de leaks
-├── resultados/campanha-2026-07-02/    dados brutos da campanha: 9 relatórios + agregado + banda
-├── parse-ctat-brd.js                  o parser que separa o .brd nos DOIS ENVELOPES
-├── simulate-students-real.js          os 3 agentes de produção autorando sobre a interface fixa
-├── graphforge.js                      o montador determinístico (idêntico ao de produção)
-├── author-from-ctat.js                a autoria cega de ponta a ponta
-├── schema.js                          esquema neutro + âncora semântica (canonAnswer, miscKey)
-├── metrics.js                         completude direcional (primária) + F1 auditável
-├── functional-equivalence.js          equivalência funcional + inclusão de traços
-├── graph-hallucination.js             detector de alucinação estrutural (DUROS/MOLES)
-├── judge-misconceptions.js            juiz cego (validade) + juiz de importância dos perdidos
-├── stats.js                           não-inferioridade, bootstrap de cluster, IC de Wilson
-├── run-ctat-eval.mjs / run-judge.mjs  os runners do experimento
-├── aggregate-campaign.mjs             agregação de réplicas com IC95%
-└── __tests__/                         226 testes, incluindo property tests com 10.000 grafos
+```text
+analysis/                              reanálises, agregações e validadores
+answer-key/                            gabarito independente e sua proveniência
+battery/                               bateria congelada da Campanha 3
+cases/ e datasets/                     corpus CTAT e envelopes históricos
+docs/manuscript/v6.0/                  artigo atual em PDF e LaTeX
+production-fidelity/                   fixtures, métricas e runners da Campanha 4
+protocol/frozen/                       congelamentos das Campanhas 1–3 e manifesto v6
+protocol/production-freeze-2026-07-15/ imagem, planos e emendas da Campanha 4
+resultados/                             artefatos retidos das quatro campanhas
+__tests__/                              testes determinísticos e de propriedades
 ```
 
-## A base de dados e os dois envelopes
+Os arquivos de prontidão de chave e saldos da conta foram deliberadamente excluídos do depósito público. Eles não alteram resultados científicos. Permanecem os custos por chamada, tokens, modelos, falhas e totais necessários à auditoria.
 
-Cada exercício em `datasets/frac-numberline-6.17/problems/<id>/` tem três arquivos:
+## Proveniência, referência e licença
 
-- **`envelope-a.json`**: a interface pura (enunciado, componentes de resposta, resposta correta, habilidades). É a única entrada que os agentes recebem.
-- **`envelope-b.json`**: o grafo do especialista no esquema neutro (passos, misconceptions com a marcação de mecânicas de interface, transições). Entra apenas no comparador.
-- **`meta.json`**: contagens e metadados do exercício.
+Os BRDs são tratados como **grafos CTAT de referência de autor único**, não como padrão-ouro pedagógico universal. O repositório preserva hashes e contagens por exercício, mas nome, credenciais detalhadas, instituição, data de autoria e licença de redistribuição continuam pendentes de documentação independente.
 
-O `manifest.json` do dataset registra a verificação de vazamento (`leaks: []` para todos). Para gerar a base a partir dos `.brd` originais: `npm run materialize`.
-
-## Fundamentação e fontes
-
-O desenho metodológico combina: example-tracing e CTAT (Aleven et al. 2009/2016), erros sistemáticos de alunos (Brown e Burton 1978; VanLehn 1990), similaridade assimétrica (Tversky 1977), inclusão de traços (van Glabbeek), não-inferioridade (Lakens 2017/2018), Teoria da Generalizabilidade para a banda de especialistas (Shavelson e Webb 1991), viés de autopreferência em juízes de IA (Panickssery et al. 2024), julgamento item a item (GraphEval), e detecção de alucinação estrutural com limiar dinâmico (arXiv 2601.17717, 2509.03857, 2505.24201, 2512.22396). A seção 12 do relatório explica como cada fonte foi usada, técnica por técnica.
+A licença MIT cobre o código original deste repositório. Ela não deve ser interpretada automaticamente como licença do corpus CTAT; veja [DATA-LICENSE.md](DATA-LICENSE.md).
 
 ## Citação
 
-Se você usar este experimento, o dataset ou o código, cite o repositório (ver `CITATION.cff`) e o artigo correspondente (referência a ser adicionada após a publicação).
+Use os metadados de [`CITATION.cff`](CITATION.cff). Enquanto o artigo não possuir DOI ou referência editorial, cite a versão do repositório e registre o commit ou release utilizado.
 
-## Licença
+## Versionamento científico
 
-MIT para o código (ver `LICENSE`). Os arquivos `expert.brd` são exports da ferramenta CTAT (Carnegie Learning / Carnegie Mellon University) autorados para esta pesquisa.
+- `legacy-campaigns-2026-07`: congelamento das Campanhas 1–2;
+- v3.x: relatório histórico centrado nas Campanhas 1–3;
+- v6.0: manuscrito integrado, com C4 principal e C1–3 históricas;
+- uma futura release `v6.0.0` deverá apontar para o commit aceito após esta auditoria.
 
-## Campanha 3 (2026-07-13) — protocolo v2
-
-Executada integralmente sob protocolo congelado ANTES da primeira chamada (Emenda 4 + `docs/METRICAS-V2.md`): Envelope A independente do grafo (`interface-input.js` + `answer-key/`), bateria congelada de traços (`battery/frac-numberline-6.17-v1`), executor de example-tracing (`trace-executor.js`), 9 condições × 3 réplicas (zero falha), curva de ensemble K=1..10 e painel de 3 famílias de juízes sobre 179 itens congelados. Custo US$ 16,72 em 1.970 chamadas, todas registradas em manifesto (`resultados/campanha3-2026-07-13/manifests/`).
-
-Resultado central (desfechos coprimários comportamentais): a conformidade comportamental com a referência é BAIXA — R_bug=0,065 [0,020; 0,113], R_ok=0 em todos os braços. Cobertura por valor (secundária histórica): 0,243 [0,163; 0,324]; única ablação de cobertura que sobrevive a Holm: alvo de 6 candidatos (+17,7 pontos, p-Holm=2,4e-5, sob maior orçamento de saída); o screenshot aumentou a concordância comportamental (+0,056, família exploratória). Análise: `analysis/reanalyze-c3.mjs` → `analysis/derived/TABELAS-C3.md`, verificada por recomputação independente em sala limpa (coincidência bit a bit).
-
-Reprodução: `bash run-onda3.sh` (exige `OPENROUTER_API_KEY`; trava de orçamento `STI_BUDGET_USD`, default US$ 50). A tag `legacy-campaigns-2026-07` preserva o estado exato que produziu as campanhas 1 e 2 (manifesto SHA-256 em `protocol/frozen/`).
+Emendas, falhas e análises invalidadas não são apagadas. Mudanças futuras devem preservar a cronologia e atualizar o manifesto SHA-256.

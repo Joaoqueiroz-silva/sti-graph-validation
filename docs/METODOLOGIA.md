@@ -1,5 +1,16 @@
 # Metodologia de Validação de Grafos de Comportamento Gerados por Pipeline Multiagente
 
+> [!WARNING]
+> **HISTÓRICO / SUPERADO.** Este é um rascunho de planejamento de 2026-06-03. Ele mistura
+> propostas, estudos futuros e caminhos de um monorepo externo; portanto, não demonstra que todos
+> os níveis ou instrumentos descritos foram executados. Não o cite como método realizado nem como
+> resultado do estudo. A fonte científica vigente é o [manuscrito v6.0](manuscript/v6.0/README.md),
+> que trata a Campanha 4 como avaliação principal e as Campanhas 1–3 como desenvolvimento
+> histórico/evidência secundária.
+>
+> Os caminhos `backend/...` e `frontend/...` abaixo identificam o monorepo histórico; são mantidos
+> como texto de auditoria e não correspondem a arquivos deste depósito.
+
 **Projeto:** STI Unplugged / EducaOFF
 **Status:** rascunho de metodologia para artigo científico (v1 — 2026-06-03)
 **Escopo:** validar, cientificamente, se os _behavior graphs_ produzidos pela arquitetura multiagente são construídos corretamente.
@@ -15,7 +26,7 @@
 1. **O grafo-template (Fase 1)** — o esqueleto genérico com _slots_ (`{A}`, `{B}`), antes de instanciar números. É o que o sintetizador determinístico produz.
 2. **O tutor instanciado em uso (runtime)** — o grafo preenchido, rodando com alunos reais.
 
-Essa distinção é **central** e o código a impõe: os simuladores operam sobre problemas com variáveis genéricas ([agents3-students.js:34](../backend/agents/nodes/agents3-students.js)), e o _matcher_ de resposta só existe no grafo instanciado ([graphEngine.js](../frontend/src/lib/graphEngine.js)). Validação estrutural recai sobre o template; validação de fidelidade comportamental recai sobre o instanciado.
+Essa distinção é **central** e o código a impõe: os simuladores operam sobre problemas com variáveis genéricas (`backend/agents/nodes/agents3-students.js:34`), e o _matcher_ de resposta só existe no grafo instanciado (`frontend/src/lib/graphEngine.js`). Validação estrutural recai sobre o template; validação de fidelidade comportamental recai sobre o instanciado.
 
 **A tese metodológica.** Não existe "o grafo correto" único — para um mesmo exercício há vários grafos pedagogicamente razoáveis. Logo, _"o grafo foi construído corretamente?"_ **não é diretamente observável**. Operacionalizamos em proxies e validamos por **triangulação / validade convergente**: três níveis independentes, cada um sensível a um tipo distinto de falha. Um grafo ruim teria de enganar os três simultaneamente. O resultado não é um carimbo de correção absoluta, e sim um **caso convergente e difícil de refutar** — postura adequada em _Design Science Research_.
 
@@ -41,12 +52,12 @@ O grafo nasce de uma **linha de montagem de três sinais independentes**, cada s
 
 | Etapa                      | Função                                  | Produz                                                                                                       | Arquivo                                                                                                                        |
 | -------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Simulador **3a Avançado**  | `agent3a_advancedStudent`               | trace perfeito, 1 KC/passo, variáveis genéricas                                                              | [agents3-students.js:10](../backend/agents/nodes/agents3-students.js)                                                          |
-| Simulador **3b Em risco**  | `agent3b_atRiskStudent`                 | 2–3 tentativas, cada erro com `misconceptionId/type/wrongAnswer/mistakeLocation/diagnosticQuestion/feedback` | [agents3-students.js:96](../backend/agents/nodes/agents3-students.js)                                                          |
-| Simulador **3c Mediano**   | `agent3c_averageStudent`                | acerta hesitando + 4 níveis de dica + rotas alternativas                                                     | [agents3-students.js:221](../backend/agents/nodes/agents3-students.js)                                                         |
-| **Extração**               | `extractGraphForgeConfig`               | funde traces + Master Graph + ontologia em `config`                                                          | [graphforge.js:70](../backend/agents/graphforge.js)                                                                            |
-| **Síntese determinística** | `graphForge`                            | grafo (nós + arestas) com invariantes por construção                                                         | [graphforge.js:282](../backend/agents/graphforge.js)                                                                           |
-| **Validação + retry**      | `agent5_modelValidator` / `routePhase1` | gate estrutural; re-roda simuladores 1× se crítico                                                           | [agent5-validator.js:92](../backend/agents/nodes/agent5-validator.js) / [pipeline-v8.js:244](../backend/agents/pipeline-v8.js) |
+| Simulador **3a Avançado**  | `agent3a_advancedStudent`               | trace perfeito, 1 KC/passo, variáveis genéricas                                                              | `backend/agents/nodes/agents3-students.js:10`                            |
+| Simulador **3b Em risco**  | `agent3b_atRiskStudent`                 | 2–3 tentativas, cada erro com `misconceptionId/type/wrongAnswer/mistakeLocation/diagnosticQuestion/feedback` | `backend/agents/nodes/agents3-students.js:96`                            |
+| Simulador **3c Mediano**   | `agent3c_averageStudent`                | acerta hesitando + 4 níveis de dica + rotas alternativas                                                     | `backend/agents/nodes/agents3-students.js:221`                           |
+| **Extração**               | `extractGraphForgeConfig`               | funde traces + Master Graph + ontologia em `config`                                                          | `backend/agents/graphforge.js:70`                                        |
+| **Síntese determinística** | `graphForge`                            | grafo (nós + arestas) com invariantes por construção                                                         | `backend/agents/graphforge.js:282`                                       |
+| **Validação + retry**      | `agent5_modelValidator` / `routePhase1` | gate estrutural; re-roda simuladores 1× se crítico                                                           | `backend/agents/nodes/agent5-validator.js:92` / `backend/agents/pipeline-v8.js:244` |
 
 **Mecânica de montagem** (`graphForge`): cria `start`/`goal`, nós de passo a partir do trace do 3a, nós de _scaffold_ a partir das _misconceptions_ do 3b (1 por misconception), e _backbone_ linear `start → step_1 → … → goal`. Arestas: lineares (`correct`), de misconception (`step → scaffold`), de retorno (`scaffold → step`), e de _skip_ (`skip_if_mastered`, por perfil). Os invariantes (conectividade, IDs únicos, integridade referencial) são garantidos por construção via `createNode`/`addEdge`.
 
@@ -58,15 +69,15 @@ Identificadas por leitura do código. Não são "bugs" — são os **pontos onde
 
 | #   | Fragilidade                                                                                                                                                            | Evidência                                                      | Nível que detecta                           |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------- |
-| F1  | **Ancoragem misconception↔passo por índice inteiro** (`stepIdx = t.step − 1`); 3a e 3b são chamadas LLM independentes → scaffold pode pousar no passo errado           | [graphforge.js:107](../backend/agents/graphforge.js)           | 2a (especialista), 2b (fall-off)            |
-| F2  | **Truncamento silencioso de passos:** `steps.slice(0, stepCount)` corta passos acima do limite do perfil; misconceptions/dicas dos passos cortados **somem sem aviso** | [graphforge.js:158](../backend/agents/graphforge.js)           | 1 (property test deve contar descartes)     |
-| F3  | **`mistakeLocation` e `diagnosticQuestion` descartados** na extração — ouro diagnóstico do 3b nunca chega ao grafo                                                     | [graphforge.js:113](../backend/agents/graphforge.js)           | 3 (qualidade/DAMR)                          |
-| F4  | **4 níveis de dica achatados em strings** — `level`/`type` do 3c são perdidos e re-derivados por posição                                                               | [graphforge.js:137](../backend/agents/graphforge.js)           | 1 (schema), 3 (qualidade)                   |
-| F5  | **`matcher: "exact"` gravado na construção** (embora schema suporte tolerância) — mas o runtime aplica matching tolerante por cima (ver §3b)                           | [graphforge.js:392](../backend/agents/graphforge.js)           | 2b (validar matcher: precisão **e** recall) |
-| F6  | **Determinismo frágil:** config depende de estado mutável externo (Master Graph cresce; ontologia) → mesmo problema, dias diferentes, grafos diferentes                | [graphforge.js:178](../backend/agents/graphforge.js)           | 1 (escopo de P6)                            |
-| F7  | **`frequency: "common"` hardcoded** para toda misconception — campo de frequência não tem valor informativo                                                            | catálogo em [pipeline-v8.js](../backend/agents/pipeline-v8.js) | 2a/2b (frequência só de dado real)          |
+| F1  | **Ancoragem misconception↔passo por índice inteiro** (`stepIdx = t.step − 1`); 3a e 3b são chamadas LLM independentes → scaffold pode pousar no passo errado           | `backend/agents/graphforge.js:107`           | 2a (especialista), 2b (fall-off)            |
+| F2  | **Truncamento silencioso de passos:** `steps.slice(0, stepCount)` corta passos acima do limite do perfil; misconceptions/dicas dos passos cortados **somem sem aviso** | `backend/agents/graphforge.js:158`           | 1 (property test deve contar descartes)     |
+| F3  | **`mistakeLocation` e `diagnosticQuestion` descartados** na extração — ouro diagnóstico do 3b nunca chega ao grafo                                                     | `backend/agents/graphforge.js:113`           | 3 (qualidade/DAMR)                          |
+| F4  | **4 níveis de dica achatados em strings** — `level`/`type` do 3c são perdidos e re-derivados por posição                                                               | `backend/agents/graphforge.js:137`           | 1 (schema), 3 (qualidade)                   |
+| F5  | **`matcher: "exact"` gravado na construção** (embora schema suporte tolerância) — mas o runtime aplica matching tolerante por cima (ver §3b)                           | `backend/agents/graphforge.js:392`           | 2b (validar matcher: precisão **e** recall) |
+| F6  | **Determinismo frágil:** config depende de estado mutável externo (Master Graph cresce; ontologia) → mesmo problema, dias diferentes, grafos diferentes                | `backend/agents/graphforge.js:178`           | 1 (escopo de P6)                            |
+| F7  | **`frequency: "common"` hardcoded** para toda misconception — campo de frequência não tem valor informativo                                                            | catálogo em `backend/agents/pipeline-v8.js`  | 2a/2b (frequência só de dado real)          |
 
-E uma observação de **circularidade**: o 3b é primado com `MISC_DB[disciplina:idade]` ([agents3-students.js:109](../backend/agents/nodes/agents3-students.js)). Isso ancora os erros em algo curado, mas se o `MISC_DB` não foi validado contra dado de aluno, o Nível 2a fica auto-confirmatório. **A perna que quebra a circularidade é o pré-teste real (Nível 2a, Frente B).**
+E uma observação de **circularidade**: o 3b é primado com `MISC_DB[disciplina:idade]` (`backend/agents/nodes/agents3-students.js:109`). Isso ancora os erros em algo curado, mas se o `MISC_DB` não foi validado contra dado de aluno, o Nível 2a fica auto-confirmatório. **A perna que quebra a circularidade é o pré-teste real (Nível 2a, Frente B).**
 
 ---
 
@@ -88,13 +99,13 @@ O repositório é **Node.js/JavaScript**, não Python. O doc original assumia Hy
 | pytest                     | **node:test** (já é o runner do projeto)                                                                         |
 | `networkx.has_path` / BFS  | `graphForge` já tem `isReachable` próprio; ou `graphology`                                                       |
 | `graph_edit_distance` (2c) | sem equivalente JS maduro → implementar (grafos ≤20 nós) ou sidecar Python                                       |
-| pyBKT (N3)                 | análise offline em Python; os parâmetros BKT já vivem no código ([schemas.js:106](../backend/agents/schemas.js)) |
+| pyBKT (N3)                 | análise offline em Python; os parâmetros BKT já vivem no código (`backend/agents/schemas.js:106`) |
 
 **Nível 1 e 2b: 100% JS, sem Python.** Só 2c (GED) e a _análise_ BKT do N3 forçam a decisão sidecar-vs-JS.
 
 ### 2.2 Os invariantes P1–P7 (como asserções reutilizáveis)
 
-Extrair de [graphforge.js](../backend/agents/graphforge.js) uma função-asserção por propriedade (hoje os checks existem só como `logger.error`):
+Extrair de `backend/agents/graphforge.js` uma função-asserção por propriedade (hoje os checks existem só como `logger.error`):
 
 - **P1 — Conectividade:** existe caminho `start → goal` só por arestas corretas (BFS).
 - **P2 — Unicidade de IDs:** nenhum ID repetido.
@@ -106,7 +117,7 @@ Extrair de [graphforge.js](../backend/agents/graphforge.js) uma função-asserç
 
 ### 2.3 Correção crítica: o auto-reparo silencioso
 
-`graphForge` **não falha** quando P1 é violado — ele **conserta** forçando arestas lineares ([graphforge.js:480](../backend/agents/graphforge.js)). Hoje a afirmação não é "P1 vale por construção", e sim "P1 vale _após reparo_", sem telemetria de quantas vezes o reparo dispara.
+`graphForge` **não falha** quando P1 é violado — ele **conserta** forçando arestas lineares (`backend/agents/graphforge.js:480`). Hoje a afirmação não é "P1 vale por construção", e sim "P1 vale _após reparo_", sem telemetria de quantas vezes o reparo dispara.
 
 **Ação:** (a) em modo teste, o reparo deve **lançar exceção** em vez de remendar, para que o property test exponha a violação; (b) em produção, **contar e telemetrar** cada disparo de reparo (taxa de reparo = métrica de saúde do gerador). Sem isso, a tese não pode afirmar garantia por construção.
 
@@ -116,7 +127,7 @@ Extrair de [graphforge.js](../backend/agents/graphforge.js) uma função-asserç
 - Casos de borda explícitos: trace vazio, 1 passo, máximo de passos, **misconception apontando passo inexistente / truncado (F1, F2)**, todos os passos com hesitação, KC duplicado.
 - Rodar **N ≥ 10⁴** casos asserindo P1–P7; _shrinking_ → menor trace que quebra vira teste de regressão.
 - _Fuzzing_ dos traces reais (remover/duplicar passos, embaralhar misconceptions).
-- Integrar ao CI; reaproveitar `agent5_modelValidator` como _runtime gate_ (P1–P4) — **mas ampliá-lo**: hoje ele checa presença de start/nodes/edges, mas **não** checa conectividade BFS, unicidade nem integridade referencial ([agent5-validator.js:92](../backend/agents/nodes/agent5-validator.js)).
+- Integrar ao CI; reaproveitar `agent5_modelValidator` como _runtime gate_ (P1–P4) — **mas ampliá-lo**: hoje ele checa presença de start/nodes/edges, mas **não** checa conectividade BFS, unicidade nem integridade referencial (`backend/agents/nodes/agent5-validator.js:92`).
 
 **Critério de aceitação:** 0 violações em 10⁴ casos + determinismo confirmado (P6, escopo §2.2) + cobertura ≥ 90% + **taxa de auto-reparo reportada**.
 
@@ -153,7 +164,7 @@ A única avaliação que é, de fato, _do grafo_. Três frentes.
 
 **Objetivo:** medir quanto o grafo antecipa o comportamento real durante o uso.
 
-**Achado-chave (viabilidade):** a telemetria **já existe e é rica**. A tabela `interactions` ([migrations/0001_initial_schema.sql](../backend/migrations/0001_initial_schema.sql)) grava `node_id, kc_id, correct, answer_given, misconception_id, misconception_type, hints_used, attempt_number, time_spent_ms`; o engine emite eventos tipados (`correct_answer / incorrect_answer / misconception_detected / hint_requested / scaffold_activated / step_skipped / tutor_completed`). O _tracer_ **não precisa ser construído do zero** — é uma camada de análise sobre dado de produção.
+**Achado-chave (viabilidade):** a telemetria **já existe e é rica**. A tabela `interactions` (`backend/migrations/0001_initial_schema.sql`) grava `node_id, kc_id, correct, answer_given, misconception_id, misconception_type, hints_used, attempt_number, time_spent_ms`; o engine emite eventos tipados (`correct_answer / incorrect_answer / misconception_detected / hint_requested / scaffold_activated / step_skipped / tutor_completed`). O _tracer_ **não precisa ser construído do zero** — é uma camada de análise sobre dado de produção.
 
 **Operacionalização direta:**
 
@@ -166,7 +177,7 @@ A única avaliação que é, de fato, _do grafo_. Três frentes.
 - **Recall de misconception in-situ** = erros reais distintos com scaffold / erros reais distintos.
 - **Scaffolds mortos** = % de scaffolds nunca acionados.
 
-**Pré-condição — validar o matcher (corrige minha leitura inicial).** A construção grava `matcher:"exact"`, mas o runtime ([graphEngine.js](../frontend/src/lib/graphEngine.js)) aplica matching **tolerante**: normalização, tolerância numérica (±0.01), palavra→número, equação canônica e — para misconception — **fuzzy numérico (`|dif|<0.5`) + substring**. Logo a ameaça de validade é **bidirecional**:
+**Pré-condição — validar o matcher (corrige minha leitura inicial).** A construção grava `matcher:"exact"`, mas o runtime (`frontend/src/lib/graphEngine.js`) aplica matching **tolerante**: normalização, tolerância numérica (±0.01), palavra→número, equação canônica e — para misconception — **fuzzy numérico (`|dif|<0.5`) + substring**. Logo a ameaça de validade é **bidirecional**:
 
 - _Sub_-casar → fall-off inflado (erro real catalogado não reconhecido).
 - _Super_-casar → o fuzzy/substring atribui misconception errada a um _slip_.

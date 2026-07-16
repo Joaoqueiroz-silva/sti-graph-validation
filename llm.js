@@ -1,10 +1,10 @@
 /**
  * llm.js — Cliente de IA do experimento (substitui o pipeline-core do backend EducaOFF).
  *
- * TRANSPARÊNCIA TOTAL: a tabela AGENTS abaixo é a configuração oficial do experimento,
- * espelhada da produção da EducaOFF (registry phase1/phase2). Cada agente tem o seu
- * modelo, a sua temperatura e o seu limite de tokens. Rode `npm run models` para ver
- * a configuração ativa e validar a sua chave.
+ * A tabela AGENTS abaixo pertence à bancada histórica das Campanhas 1--3. Ela não é
+ * prova de identidade com a implantação auditada; a Campanha 4 usa o runner e os
+ * hashes em production-fidelity/. Rode `npm run models` para inspecionar a bancada
+ * sem rede. Somente `npm run models:ping` autoriza chamadas de diagnóstico.
  *
  * Todos os modelos são acessados pela OpenRouter (API compatível com OpenAI), então
  * UMA chave cobre tudo: OPENROUTER_API_KEY (https://openrouter.ai/keys).
@@ -14,20 +14,23 @@
  *     diferem de propósito: o aluno avançado é quase determinístico (0.2), o aluno
  *     com dificuldades precisa de diversidade para os erros emergirem (0.7) e o
  *     mediano fica no meio (0.4).
- *   - JUIZ (validade e importância): GLM-4.5, da Z.ai. FAMÍLIA DIFERENTE do gerador,
+ *   - JUIZ histórico (validade e importância): GLM-4.5, da Z.ai. FAMÍLIA DIFERENTE do gerador,
  *     de propósito: modelos tendem a aprovar a produção da própria família
  *     (viés de autopreferência, Panickssery et al. 2024). Temperatura 0.1 para
  *     julgamento estável.
- *   - FALLBACK: DeepSeek, usado uma única vez se a chamada primária falhar.
+ *   - FALLBACK histórico: DeepSeek, usado uma única vez se a chamada primária falhar.
  *
- * Para trocar qualquer modelo, use o .env (sem tocar em código):
+ * O painel final da Campanha 4 usou GLM-5.2, Qwen 3.7 Plus e DeepSeek V4 Pro,
+ * sem fallback. Não altere este cliente retroativamente para simular esse painel.
+ *
+ * Para uma nova execução deliberada da bancada histórica, use o .env:
  *   GEN_MODEL       troca o modelo dos 3 alunos de uma vez
  *   AGENT3A_MODEL / AGENT3B_MODEL / AGENT3C_MODEL   trocam um aluno específico
  *   JUDGE_MODEL     troca o juiz (mantenha família ≠ do gerador!)
  *   FALLBACK_MODEL  troca o fallback
  *   *_TEMP          trocam a temperatura correspondente (ex.: AGENT3B_TEMP=0.9)
  *
- * 2026-07-13 (Onda 3, G11): toda chamada fica registrada no manifesto de execução
+ * 2026-07-13 (Onda 3, G11): toda chamada desta bancada fica registrada no manifesto de execução
  * (runs/manifests/<runId>.jsonl, ver exec-manifest.js) com custo por chamada, e uma
  * trava de orçamento (STI_BUDGET_USD, default US$ 50) para o experimento ANTES de
  * estourar o gasto. STI_RUN_ID nomeia a corrida; STI_RUNS_DIR redireciona a pasta.
@@ -47,7 +50,7 @@ const JUDGE = env("JUDGE_MODEL", "z-ai/glm-4.5");
 const FALLBACK = env("FALLBACK_MODEL", "deepseek/deepseek-chat");
 
 /**
- * A CONFIGURAÇÃO OFICIAL, por agente (valores idênticos aos da produção EducaOFF).
+ * CONFIGURAÇÃO DA BANCADA HISTÓRICA, por agente; não é o congelamento de produção C4.
  * papel: generator = autora o grafo · judge = avalia às cegas · fallback = contingência.
  */
 export const AGENTS = {

@@ -12,7 +12,9 @@
  *   d. métricas por exercício: LEGADAS por valor (compareGraphs × parseBrdToExpertNeutral)
  *      E COMPORTAMENTAIS (traceConformance sobre a bateria congelada
  *      battery/frac-numberline-6.17-v1: R_bug, R_ok, agreement, κ, confusão);
- *   e. relatório <out>/report-c3-<condition>-<replica>.json (schemaVersion "c3-v1").
+ *   e. relatório <out>/report-c3-<condition>-<replica>.json (schemaVersion "c3-v2"),
+ *      compatível com c3-v1 e acrescido dos artefatos estruturados necessários para
+ *      recomputar/auditar as métricas sem repetir chamadas de LLM.
  *
  * Chaves de ablação (viram env; TODAS default = comportamento atual):
  *   --misc-db off          → STI_ABLATE_MISCDB=1 (3b sem o catálogo MISC_DB)
@@ -48,7 +50,74 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CORPUS = path.join(HERE, "cases/ctat-6.17");
 const DEFAULT_BATTERY = path.join(HERE, "battery/frac-numberline-6.17-v1");
 
-export const C3_SCHEMA_VERSION = "c3-v1";
+export const C3_SCHEMA_VERSION = "c3-v2";
+export const C3_SCHEMA_COMPATIBLE_WITH = Object.freeze(["c3-v1"]);
+export const C3_AUDIT_SCHEMA_VERSION = "c3-audit-v1";
+
+/**
+ * Política declarada no próprio relatório. Os artefatos abaixo são saídas estruturadas
+ * do pipeline; prompts, credenciais e payloads brutos do provedor ficam deliberadamente
+ * fora. Os hashes de prompt/envelope continuam no manifesto externo ligado por
+ * `manifestRunId`; hashes dos novos artefatos auditáveis ficam embutidos em cada caso.
+ */
+export const C3_RETENTION_POLICY = Object.freeze({
+  version: "c3-retention-v1",
+  retained: Object.freeze([
+    "robot.graph",
+    "robot.neutral",
+    "robot.traces",
+    "robot.neutralV2",
+    "reference.neutralV2",
+    "traceConformance item a item",
+    "intrinsic.hard/intrinsic.soft completos",
+  ]),
+  omitted: Object.freeze([
+    "prompts de sistema e de usuário",
+    "credenciais, chaves de API e cabeçalhos do provedor",
+    "texto bruto das respostas do provedor",
+  ]),
+  rawModelResponseTextRetained: false,
+  rawModelResponseLimitation:
+    "Os simuladores entregam a authorFromEnvelopeA apenas traces estruturados; o texto bruto " +
+    "do provedor não integra o objeto robot e não pode ser reconstruído a partir do relatório.",
+  manifestPolicy:
+    "manifestRunId liga o relatório ao manifesto JSONL de chamadas, que preserva hashes e " +
+    "metadados operacionais sem persistir prompts ou segredos.",
+});
+
+/** Snapshot JSON destacada do objeto vivo; também remove `undefined`/funções. */
+function jsonSnapshot(value) {
+  if (value == null) return value ?? null;
+  return JSON.parse(JSON.stringify(value));
+}
+
+/** Hash do JSON compacto exatamente na ordem de propriedades retida pelo snapshot. */
+function auditSha256(value) {
+  return value == null ? null : sha256(JSON.stringify(value));
+}
+
+function initialAuditRecord(robot, intrinsic) {
+  const graph = jsonSnapshot(robot.graph);
+  const neutral = jsonSnapshot(robot.neutral);
+  const traces = jsonSnapshot(robot.traces);
+  const intrinsicFull = jsonSnapshot(intrinsic);
+  return {
+    schemaVersion: C3_AUDIT_SCHEMA_VERSION,
+    robot: { graph, neutral, traces, neutralV2: null },
+    reference: { neutralV2: null },
+    traceConformance: null,
+    intrinsic: intrinsicFull,
+    hashes: {
+      robotGraphSha256: auditSha256(graph),
+      robotNeutralSha256: auditSha256(neutral),
+      robotTracesSha256: auditSha256(traces),
+      robotNeutralV2Sha256: null,
+      referenceNeutralV2Sha256: null,
+      traceConformanceSha256: null,
+      intrinsicSha256: auditSha256(intrinsicFull),
+    },
+  };
+}
 
 // ───────────────────────── CLI ─────────────────────────
 
@@ -121,6 +190,7 @@ async function runExercise(ctx) {
     robotMisconceptions: null,
     missing: null,
     extra: null,
+    audit: null,
   };
 
   let robot;
@@ -152,6 +222,7 @@ async function runExercise(ctx) {
     softViolations: intrinsic.softViolations,
     violationRate: intrinsic.violationRate,
   };
+  rec.audit = initialAuditRecord(robot, intrinsic);
   if (intrinsic.hallucinationFlag) {
     // §6.6: grafo barrado pelo verificador = FALHA do exercício (registrada, não excluída).
     rec.status = "barrado";
@@ -168,10 +239,24 @@ async function runExercise(ctx) {
     // COMPORTAMENTAIS (coprimárias E4.3): bateria congelada nos dois grafos v2.
     const expertV2 = parseBrdToNeutralV2(brd, { exercise: id });
     const robotV2 = neutralV1ToV2(robot.neutral, { exercise: id });
+
+    // c3-v2: retenção auditável ADITIVA. Os campos legados permanecem
+    // inalterados, e consumidores c3-v1 podem ignorar este bloco com segurança.
+    const robotV2Snapshot = jsonSnapshot(robotV2);
+    const expertV2Snapshot = jsonSnapshot(expertV2);
+    rec.audit.robot.neutralV2 = robotV2Snapshot;
+    rec.audit.reference.neutralV2 = expertV2Snapshot;
+    rec.audit.hashes.robotNeutralV2Sha256 = auditSha256(robotV2Snapshot);
+    rec.audit.hashes.referenceNeutralV2Sha256 = auditSha256(expertV2Snapshot);
+
     const battery = JSON.parse(fs.readFileSync(path.join(batteryDir, `${id}.json`), "utf8"));
     // 2026-07-13: lado gerado no nível 3 (âncora de input) — vocabulário SAI do robô
     // é conceitual; nível declarado no relatório (plano mestre §4.2).
     const tc = traceConformance(expertV2, robotV2, battery.items || [], { robotMatchLevel: "input" });
+
+    const traceConformanceSnapshot = jsonSnapshot(tc);
+    rec.audit.traceConformance = traceConformanceSnapshot;
+    rec.audit.hashes.traceConformanceSha256 = auditSha256(traceConformanceSnapshot);
 
     rec.metrics = {
       legacy: {
@@ -304,6 +389,8 @@ export async function runCampaign3(opts = {}) {
 
       const report = {
         schemaVersion: C3_SCHEMA_VERSION,
+        schemaCompatibleWith: [...C3_SCHEMA_COMPATIBLE_WITH],
+        retentionPolicy: jsonSnapshot(C3_RETENTION_POLICY),
         condition,
         model,
         replica,

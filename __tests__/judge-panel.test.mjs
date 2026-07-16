@@ -146,6 +146,25 @@ describe("extractPanelItems — conjunto congelado a partir dos reports", () => 
     }
   });
 
+  it("aceita o shape real `extra` da campanha 3 e preserva compatibilidade e deduplicação", () => {
+    const reports = [
+      { cases: [{ id: "exA", extra: ["3", "5"] }] },
+      { cases: [{ id: "exA", extras: ["3/1", "7"] }] },
+      { cases: [{ id: "exA", robotExtras: ["5/1", "9"] }] },
+    ];
+    const { items } = extractPanelItems(reports, {
+      corpusDir,
+      answerKey: loadAnswerKey(answerKeyPath),
+    });
+
+    const robotExtras = items.filter((i) => i.source === "robo-extra");
+    expect(robotExtras.map((i) => i.candidate).sort()).toEqual(["3", "5", "7", "9"]);
+    // A primeira grafia vista vence entre os três formatos compatíveis.
+    expect(robotExtras.some((i) => i.candidate === "3/1")).toBe(false);
+    expect(robotExtras.some((i) => i.candidate === "5/1")).toBe(false);
+    expect(robotExtras.every((i) => i.exercise === "exA")).toBe(true);
+  });
+
   it("--limit corta por exercício e exercício sem resposta correta é pulado com aviso", () => {
     const reps = [
       { cases: [{ id: "exA", pairs: [] }, { id: "exZ", pairs: [{ pairType: "RH", extra: ["8"] }] }] },

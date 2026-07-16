@@ -12,8 +12,9 @@
  *   3. STI_MISC_LIMIT altera SÓ a linha de quantidade de erros;
  *   4. STI_REPRESENTATION dom/screenshot (DOM truncado no problem; meta.images);
  *   5. neutralV1ToV2: caminho correto completa; wrongAnswer conhecido dá buggy;
- *   6. run-campaign3 com simulate injetado produz report c3-v1 com métricas
- *      comportamentais E legadas coerentes; falha de autoria entra registrada (§6.6).
+ *   6. run-campaign3 com simulate injetado produz report c3-v2, compatível com
+ *      c3-v1, com métricas e artefatos estruturados de auditoria; falha de autoria
+ *      entra registrada (§6.6).
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -49,7 +50,14 @@ import { simulateStudentsReal, applyRepresentation } from "../simulate-students-
 import { neutralV1ToV2, correctTraceFromV1 } from "../neutral-v1-to-v2.js";
 import { executeTrace } from "../trace-executor.js";
 import { parseBrdToExpertNeutral } from "../parse-ctat-brd.js";
-import { runCampaign3, C3_SCHEMA_VERSION } from "../run-campaign3.mjs";
+import {
+  runCampaign3,
+  C3_SCHEMA_VERSION,
+  C3_SCHEMA_COMPATIBLE_WITH,
+  C3_AUDIT_SCHEMA_VERSION,
+  C3_RETENTION_POLICY,
+} from "../run-campaign3.mjs";
+import { sha256 } from "../exec-manifest.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CORPUS = path.join(HERE, "../cases/ctat-6.17");
@@ -288,7 +296,7 @@ describe("run-campaign3 — runner com simulate injetado (offline)", () => {
     hints: [{ step: 2, text: "conte as divisões da reta" }],
   });
 
-  it("produz report c3-v1 com métricas comportamentais E legadas coerentes (1 exercício)", async () => {
+  it("produz report c3-v2 auditável e compatível com c3-v1 (1 exercício)", async () => {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "c3-"));
     const { reports } = await runCampaign3({
       condition: "teste",
@@ -302,6 +310,9 @@ describe("run-campaign3 — runner com simulate injetado (offline)", () => {
     expect(reports).toHaveLength(1);
     const rep = reports[0].report;
     expect(rep.schemaVersion).toBe(C3_SCHEMA_VERSION);
+    expect(rep.schemaCompatibleWith).toEqual([...C3_SCHEMA_COMPATIBLE_WITH]);
+    expect(rep.retentionPolicy).toEqual(C3_RETENTION_POLICY);
+    expect(rep.retentionPolicy.rawModelResponseTextRetained).toBe(false);
     expect(rep.condition).toBe("teste");
     expect(rep.model).toBe("fake/model");
     expect(rep.manifestRunId).toBe("teste-r1");
@@ -342,11 +353,38 @@ describe("run-campaign3 — runner com simulate injetado (offline)", () => {
     expect(B.confusion.correct).toBeDefined();
     expect(B.confusion["no-match"]).toBeDefined();
 
+    // c3-v2 retém os artefatos estruturados necessários para recomputar as métricas.
+    const A = c.audit;
+    expect(A.schemaVersion).toBe(C3_AUDIT_SCHEMA_VERSION);
+    expect(A.robot.graph.nodes.length).toBeGreaterThan(0);
+    expect(A.robot.graph.edges.length).toBeGreaterThan(0);
+    expect(A.robot.neutral.steps.length).toBeGreaterThan(0);
+    expect(A.robot.traces.correctPath).toHaveLength(2);
+    expect(A.robot.traces.misconceptions[0].wrongAnswer).toBe("2/5");
+    expect(A.robot.neutralV2.schemaVersion).toBe(2);
+    expect(A.reference.neutralV2.schemaVersion).toBe(2);
+    expect(A.traceConformance.items.length).toBeGreaterThan(0);
+    expect(A.traceConformance.items[0]).toEqual(
+      expect.objectContaining({ id: expect.any(String), expert: expect.any(Array), robot: expect.any(Array) })
+    );
+    expect(A.intrinsic.hard).toEqual(expect.objectContaining({ orphanEdges: expect.any(Array) }));
+    expect(A.intrinsic.soft).toEqual(expect.objectContaining({ overBranchingSteps: expect.any(Array) }));
+    for (const digest of Object.values(A.hashes)) expect(digest).toMatch(/^[0-9a-f]{64}$/);
+    expect(A.hashes.robotGraphSha256).toBe(sha256(JSON.stringify(A.robot.graph)));
+    expect(A.hashes.traceConformanceSha256).toBe(
+      sha256(JSON.stringify(A.traceConformance))
+    );
+    expect(A).not.toHaveProperty("rawModelResponse");
+    expect(A).not.toHaveProperty("systemPrompt");
+
     // relatório persistido no formato combinado
     const onDisk = JSON.parse(
       fs.readFileSync(path.join(tmp, "report-c3-teste-1.json"), "utf8")
     );
     expect(onDisk.schemaVersion).toBe(C3_SCHEMA_VERSION);
+    expect(onDisk.schemaCompatibleWith).toEqual(["c3-v1"]);
+    expect(onDisk.cases[0].audit.robot.traces).toEqual(A.robot.traces);
+    expect(onDisk.cases[0].audit.traceConformance.items.length).toBe(A.traceConformance.items.length);
     expect(onDisk.cases[0].id).toBe("00bubble");
   });
 
@@ -368,7 +406,31 @@ describe("run-campaign3 — runner com simulate injetado (offline)", () => {
     for (const c of cases) {
       expect(c.status).toBe("falha-autoria");
       expect(c.metrics).toBeNull();
+      expect(c.audit).toBeNull();
       expect(c.error).toContain("LLM caiu");
     }
+  });
+
+  it("falha posterior preserva os artefatos produzidos antes dela", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "c3-falha-metricas-"));
+    const { reports } = await runCampaign3({
+      condition: "falha-metricas",
+      replicas: 1,
+      limit: 1,
+      outDir: tmp,
+      batteryDir: path.join(tmp, "bateria-ausente"),
+      model: "fake/model",
+      simulate: fakeSimulate,
+    });
+
+    const c = reports[0].report.cases[0];
+    expect(c.status).toBe("falha-metricas");
+    expect(c.metrics).toBeNull();
+    expect(c.audit.robot.graph.nodes.length).toBeGreaterThan(0);
+    expect(c.audit.robot.traces.correctPath).toHaveLength(2);
+    expect(c.audit.robot.neutralV2.schemaVersion).toBe(2);
+    expect(c.audit.reference.neutralV2.schemaVersion).toBe(2);
+    expect(c.audit.traceConformance).toBeNull();
+    expect(c.audit.hashes.traceConformanceSha256).toBeNull();
   });
 });

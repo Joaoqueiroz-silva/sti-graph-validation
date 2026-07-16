@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://educaoff.com.br/schemas/agent3-production-state-v1.json",
+  "title": "Estado congelado imediatamente antes de student_simulators",
+  "description": "Contrato estrito e livre de dados experimentais para reexecutar os agentes 3a/3b/3c. schemaVersion pertence ao artefato e é removido antes de chamar os agentes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "discipline",
+    "topic",
+    "difficulty",
+    "ageGroup",
+    "knowledgeComponents",
+    "seedProblems",
+    "interfaceSpec",
+    "masterGraphContext",
+    "sessionId"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "educaoff-agent3-state-v1"
+    },
+    "discipline": {
+      "type": "string",
+      "minLength": 1
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "difficulty": {
+      "enum": ["easy", "medium", "hard"]
+    },
+    "ageGroup": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "integer", "minimum": 1 }
+      ]
+    },
+    "knowledgeComponents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/knowledgeComponent" }
+    },
+    "seedProblems": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/seedProblem" }
+    },
+    "interfaceSpec": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["profile"],
+      "properties": {
+        "profile": {
+          "enum": ["pre_literate", "early_reader", "reader", "advanced"]
+        }
+      }
+    },
+    "masterGraphContext": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "knowledgeComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "difficulty": { "enum": ["easy", "medium", "hard"] },
+        "prerequisites": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "masteryThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "seedProblem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "strategy",
+        "statement",
+        "expectedAnswer",
+        "kcsInvolved",
+        "solutionSteps",
+        "difficulty",
+        "context"
+      ],
+      "properties": {
+        "id": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1 },
+            { "type": "string", "minLength": 1 }
+          ]
+        },
+        "strategy": {
+          "enum": ["polya", "exemplo_trabalhado", "problema_invertido", "descoberta_guiada"]
+        },
+        "statement": { "type": "string", "minLength": 1 },
+        "expectedAnswer": { "type": "string", "minLength": 1 },
+        "kcsInvolved": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "solutionSteps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/solutionStep" }
+        },
+        "difficulty": { "enum": ["easy", "medium", "hard"] },
+        "context": { "type": "string", "minLength": 1 }
+      }
+    },
+    "solutionStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step", "action", "result", "kc"],
+      "properties": {
+        "step": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "result": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "kc": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
