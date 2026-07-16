@@ -3,8 +3,8 @@
  * models.mjs — Transparência e diagnóstico: `npm run models`
  *
  * Imprime a configuração ativa (agente → modelo → temperatura → função) e,
- * se houver OPENROUTER_API_KEY no .env, faz uma chamada mínima para validar
- * a chave e o acesso aos dois modelos (gerador e juiz).
+ * Por padrão não faz rede. Somente `--ping` autoriza chamadas mínimas para
+ * validar a chave e o acesso aos dois modelos da bancada histórica.
  */
 import "dotenv/config";
 import { AGENTS, modelCard, createLLM, callLLM, getAgentConfig } from "./llm.js";
@@ -20,14 +20,20 @@ for (const c of modelCard()) {
   console.log(`${" ".repeat(20)} └ ${c.funcao}`);
 }
 console.log(line);
+console.log("Esta tabela descreve a bancada histórica, não o painel final da Campanha 4.");
 console.log("Para trocar qualquer modelo ou temperatura, edite o .env (veja o .env.example).");
+
+if (!process.argv.includes("--ping")) {
+  console.log("\nModo offline: nenhuma chamada de API foi feita. Use `npm run models:ping` somente se quiser autorizar chamadas pagas de diagnóstico.");
+  process.exit(0);
+}
 
 if (!process.env.OPENROUTER_API_KEY) {
   console.log("\n⚠ OPENROUTER_API_KEY não definida. Copie o .env.example para .env e cole a sua chave.");
   process.exit(0);
 }
 
-console.log("\nValidando a chave com uma chamada mínima a cada papel…");
+console.log("\n--ping informado: validando a chave com uma chamada mínima a cada papel…");
 const ping = async (key) => {
   const t0 = Date.now();
   try {

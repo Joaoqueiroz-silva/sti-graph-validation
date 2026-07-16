@@ -1,5 +1,13 @@
 # Plano de análise e histórico de decisões — Validação dos Grafos de Comportamento (CTAT × EducaOFF)
 
+> [!IMPORTANT]
+> **REGISTRO HISTÓRICO, NÃO PRÉ-REGISTRO CONFIRMATÓRIO.** Este arquivo preserva o plano e as
+> emendas na ordem em que foram documentados; emendas posteriores substituem afirmações anteriores
+> quando houver conflito. Todas as campanhas automatizadas aqui descritas são exploratórias. A
+> síntese científica vigente está no [manuscrito v6.0](manuscript/v6.0/README.md), e o procedimento
+> para arquivar estes materiais sem retroagir seu estatuto está em
+> [DEPOSITO-OSF.md](DEPOSITO-OSF.md).
+
 > **O que este documento É:** o plano de análise do estudo e o registro cronológico, datado e
 > justificado, de todas as decisões metodológicas (protocolo retrospectivamente documentado).
 >
@@ -7,8 +15,9 @@
 > dos resultados da campanha 1, a métrica primária mudou depois de execuções exploratórias de
 > junho e a correção de Holm foi adotada depois da campanha multimodelo. Em consequência, TODAS
 > as campanhas de 2026-07 são classificadas como EXPLORATÓRIAS. O primeiro estudo confirmatório
-> exigirá registro público imutável (OSF) ANTES da coleta, em corpus novo e não inspecionado —
-> roteiro em `docs/DEPOSITO-OSF.md`.
+> exigirá um protocolo novo, registrado publicamente ANTES da coleta, em corpus novo e não
+> inspecionado. `docs/DEPOSITO-OSF.md` orienta apenas o depósito retrospectivo transparente dos
+> materiais atuais; esse depósito não converte as campanhas existentes em confirmatórias.
 >
 > Evidência do objetivo **OE-A** da dissertação / §5.3 do artigo.
 > Implementação: raiz deste repositório (espelho em `backend/evaluation/` do monorepo).
@@ -395,3 +404,54 @@ permanecem PENDENTES com o pesquisador; enquanto pendentes, o artigo usa
 | Data       | Evento                                                                 | Natureza                             |
 | ---------- | ----------------------------------------------------------------------- | ------------------------------------ |
 | 2026-07-13 | EMENDA 4: Envelope A v2, schema v2 + executor, bateria v1 congelada, estimandos v2, mutation testing | pós-Onda 2, ANTES da campanha 3     |
+
+---
+
+## EMENDA 5 - 2026-07-14 (auditoria corretiva, APÓS a campanha 3)
+
+_Esta emenda é pós-dados e não transforma a campanha em confirmatória. Ela
+documenta defeitos encontrados na implementação e impede que as correções sejam
+confundidas com decisões prévias._
+
+### E5.1 Cronologia do smoke test
+
+Um smoke test de dois exercícios ocorreu antes das corridas analíticas e motivou
+o congelamento final do executor e do nível de casamento. Portanto, os estimandos,
+o corpus e a bateria foram pré-especificados, mas a implementação não estava
+integralmente congelada antes de qualquer execução. O artigo passa a usar essa
+formulação literal.
+
+### E5.2 Denominador de R_bug
+
+`METRICAS-V2.md` definiu como denominador todas as ações buggy registradas: oito
+por exercício, 192 por réplica. O runner excluiu 42 ações mecânicas não ancoráveis
+e calculou a taxa sobre 150. A reanálise v3.4 restaura o denominador congelado:
+baseline 0,054 [0,016; 0,095]. A taxa filtrada 0,065 [0,020; 0,113] permanece
+somente como `R_bug_anchorable`. A rotina de reconstrução e o teste estão em
+`analysis/rbug-denominator.mjs` e `__tests__/rbug-denominator.test.mjs`.
+
+### E5.3 Painel de juízes
+
+O coletor procurava `extras`, mas os relatórios C3 armazenavam `extra`. O conjunto
+de 179 itens efetivamente julgado contém 83 itens da referência, 96 distratores e
+zero excedente do sistema. Os kappas publicados medem calibração/controles e não
+podem sustentar confiabilidade multijuiz sobre as saídas dos agentes. O extrator
+foi corrigido e monta 333 itens, dos quais 154 excedentes únicos; os três juízes
+devem ser rerodados antes de qualquer nova conclusão.
+
+### E5.4 Sinais estruturais e retenção
+
+A campanha 3 teve zero violações duras, mas 62/648 grafos com sinal mole: 61/72
+no limite-6 e 1/72 na chamada única. Os relatórios `c3-v1` retiveram a contagem,
+não a classe do sinal nem o grafo completo. O esquema aditivo `c3-v2` passa a
+preservar grafos, traces estruturados, versões neutras, vereditos item a item,
+relatório estrutural completo e hashes em campanhas futuras. Os dados históricos
+não são reescritos.
+
+### Cronologia atualizada
+
+| Data       | Evento                                                          | Natureza                         |
+| ---------- | --------------------------------------------------------------- | -------------------------------- |
+| 2026-07-13 | Smoke test de 2 exercícios; congelamento final do executor       | pré-corridas analíticas          |
+| 2026-07-13 | Campanha 3 executada                                             | coleta automatizada exploratória |
+| 2026-07-14 | EMENDA 5: correções de R_bug, painel, estrutura e retenção        | pós-dados, auditoria corretiva   |

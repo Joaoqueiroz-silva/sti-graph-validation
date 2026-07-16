@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "educaoff-campaign4-ontology-attestation-v2-post-audit",
+  "checkedAt": "2026-07-15T18:51:35Z",
+  "auditMode": "read-only",
+  "timing": "post-hoc repository audit after all Campaign 4 generation and judging",
+  "sourceRuntime": {
+    "container": "sti-backend",
+    "bridgeUrlInsideProductionNetwork": "http://sti-ontology-bridge:3040",
+    "productionGraphForgeSha256": "dbe769fdf0066dd3bb76370f99d1fe1c24b84c8277eef72d4376e2454a196f51",
+    "productionOntologyClientSha256": "0b0306e01bf0f1dc1879207f1386e781cd1c53adb956e430f7763ce67053d79d"
+  },
+  "knowledgeComponents": [
+    {
+      "id": "kc_identificar_partes_fracao",
+      "source": "pre-execution attestation v1",
+      "prerequisites": { "httpStatus": 200, "count": 0 },
+      "relationships": { "httpStatus": 200, "count": 0 },
+      "misconceptions": { "httpStatus": 200, "count": 0 }
+    },
+    {
+      "id": "kc_particionar_reta",
+      "source": "pre-execution attestation v1",
+      "prerequisites": { "httpStatus": 200, "count": 0 },
+      "relationships": { "httpStatus": 200, "count": 0 },
+      "misconceptions": { "httpStatus": 200, "count": 0 }
+    },
+    {
+      "id": "kc_localizar_fracao_reta",
+      "source": "pre-execution attestation v1",
+      "prerequisites": { "httpStatus": 200, "count": 0 },
+      "relationships": { "httpStatus": 200, "count": 0 },
+      "misconceptions": { "httpStatus": 200, "count": 0 }
+    },
+    {
+      "id": "kc_fracao_impropria_reta",
+      "source": "post-hoc read-only query during repository audit",
+      "prerequisites": { "httpStatus": 200, "count": 0 },
+      "relationships": { "httpStatus": 200, "count": 0 },
+      "misconceptions": { "httpStatus": 200, "count": 0 }
+    }
+  ],
+  "fixtureCoverage": {
+    "distinctFixtureKcIds": 4,
+    "attestedKcIds": 4,
+    "missing": [],
+    "extra": []
+  },
+  "executedSnapshotDeviation": {
+    "executedSnapshotServerSha256": "2a19138e1d86e7b57c60b03eb7f99fdcc9658ca018993e106e765274492b3172",
+    "omittedId": "kc_fracao_impropria_reta",
+    "snapshotHttpStatusForOmittedId": 404,
+    "productionClientBehavior": "bridgeFetch maps non-2xx to null; getPrerequisites/getRelationships/getMisconceptions map non-array to []",
+    "effectiveEnrichmentInExecutedSnapshot": [],
+    "effectiveEnrichmentInLiveBridge": [],
+    "impact": "no graph or estimand change; gate coverage defect only"
+  },
+  "interpretation": "The v1 gate omitted one fixture KC. The complementary read-only audit found empty live ontology results for that KC, and the production client maps the executed snapshot's 404 to the same empty arrays. This closes the fidelity question post hoc but does not make the original gate complete."
+}

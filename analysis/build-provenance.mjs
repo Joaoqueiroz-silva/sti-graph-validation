@@ -44,6 +44,7 @@ const items = exercises.map((id) => {
   const v2 = parseBrdToNeutralV2(xml);
   const hintCount = (v2.transitions || []).reduce((n, t) => n + (t.hints || []).length, 0);
   const kcSet = new Set((v2.transitions || []).flatMap((t) => t.kcs || []));
+  const declaredKcs = (xml.match(/<productionRule\b/g) || []).length;
   return {
     id,
     template: "frac-numberline-6.17",
@@ -56,6 +57,10 @@ const items = exercises.map((id) => {
       misconceptionsConceituais: miscs.filter((m) => !m.mechanical).length,
       misconceptionsMecanicas: miscs.filter((m) => m.mechanical).length,
       niveisDeDica: hintCount,
+      kcsDeclaradosNoBrd: declaredKcs,
+      kcsUsadosEmTransicoes: kcSet.size,
+      // Campo legado mantido para compatibilidade. Sua semântica é explicitada
+      // no nível superior do manifesto e em PROVENANCE.md.
       kcs: kcSet.size,
       construtosNaoSuportados: v2.unsupportedConstructs || [],
     },
@@ -71,6 +76,11 @@ const manifest = {
   producao: "mass production sobre um único template (24 variações)",
   classificacaoProveniencia:
     "grafo de referência de autor único; ver campos pendentes abaixo",
+  contagensSchema: {
+    kcs: "alias legado de kcsUsadosEmTransicoes",
+    kcsDeclaradosNoBrd: "quantidade de elementos productionRule declarados no BRD",
+    kcsUsadosEmTransicoes: "KCs distintos associados às transições extraídas",
+  },
   PENDENTE_autorDoCorpus: "PENDENTE: nome/formação/experiência do autor (informação do pesquisador)",
   PENDENTE_instituicao: "PENDENTE",
   PENDENTE_licencaRedistribuicao: "PENDENTE: confirmar direito de redistribuição dos .brd",
@@ -82,15 +92,16 @@ const manifest = {
 const OUT = path.join(ROOT, "corpus-provenance.json");
 fs.writeFileSync(OUT, JSON.stringify(manifest, null, 2));
 
-let md = `# Proveniência do corpus (gate G3)\n\nGerado por \`analysis/build-provenance.mjs\` em ${manifest.geradoEm}. Regra: nenhum exercício entra em campanha sem linha aqui; campos PENDENTE bloqueiam a alegação de "especialista identificado" no artigo (usar "grafo de referência").\n\n`;
-md += `| Exercício | SHA-256 (12) | Estados | Trans. corretas | Trans. buggy | Misc. (conc.+mec.) | Dicas | KCs |\n|---|---|---|---|---|---|---|---|\n`;
+let md = `# Proveniência do corpus (gate G3)\n\nGerado por \`analysis/build-provenance.mjs\` em ${manifest.geradoEm}. Regra: nenhum exercício entra em campanha sem linha aqui; campos PENDENTE bloqueiam a alegação de "especialista identificado" no artigo (usar "grafo CTAT de referência de autor único"). A licença MIT do código não cobre automaticamente estes arquivos; consulte \`DATA-LICENSE.md\`.\n\n**Situação não resolvida:** nome, formação, instituição, data de autoria e licença de redistribuição dos BRDs ainda não foram comprovados documentalmente. Os arquivos já constam no histórico público do repositório, fato que não regulariza sua licença.\n\n`;
+md += `| Exercício | SHA-256 (12) | Estados | Trans. corretas | Trans. buggy | Misc. (conc.+mec.) | Dicas | KCs declarados | KCs usados em transições |\n|---|---|---|---|---|---|---|---|---|\n`;
 for (const it of items) {
   const c = it.contagens;
-  md += `| ${it.id} | \`${it.brd.sha256.slice(0, 12)}\` | ${c.estados} | ${c.transicoesCorretas} | ${c.transicoesBuggy} | ${c.misconceptionsConceituais}+${c.misconceptionsMecanicas} | ${c.niveisDeDica} | ${c.kcs} |\n`;
+  md += `| ${it.id} | \`${it.brd.sha256.slice(0, 12)}\` | ${c.estados} | ${c.transicoesCorretas} | ${c.transicoesBuggy} | ${c.misconceptionsConceituais}+${c.misconceptionsMecanicas} | ${c.niveisDeDica} | ${c.kcsDeclaradosNoBrd} | ${c.kcsUsadosEmTransicoes} |\n`;
 }
 md += `\nInterface compartilhada: ${Object.entries(interfaceHashes)
   .map(([f, h]) => `\`${f}\` (${h.slice(0, 12)})`)
   .join(" · ")}\n`;
+md += `\n\`KCs declarados\` conta todos os elementos \`productionRule\` do BRD; \`KCs usados em transições\` conta apenas identificadores associados às transições extraídas. Por exemplo, \`01watermelon\` declara cinco regras e usa quatro nas transições contadas.\n`;
 fs.writeFileSync(path.join(ROOT, "PROVENANCE.md"), md);
 
 console.log(`✓ corpus-provenance.json (${items.length} exercícios) + PROVENANCE.md`);

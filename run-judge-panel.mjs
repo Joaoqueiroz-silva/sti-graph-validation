@@ -13,8 +13,8 @@
  *
  * Itens por exercício (montagem cega REUSA buildJudgeItems/makeDistractors, e o
  * julgamento REUSA judgeMisconception — mesmos prompts e mesma guarda P0-3):
- *   - extras do robô: pares RH dos reports (campo `extra`), deduplicados por
- *     canonAnswer ENTRE réplicas (1ª grafia vence);
+ *   - extras do robô: `cases[].extra` nos reports C3 (ou pares RH/formas legadas),
+ *     deduplicados por canonAnswer ENTRE réplicas (1ª grafia vence);
  *   - erros CONCEITUAIS do especialista: parseBrdToExpertNeutral(expert.brd),
  *     únicos por chave (calibração — a régua do "válido");
  *   - 4 distratores por exercício: makeDistractors (controles negativos fáceis+difíceis).
@@ -113,10 +113,10 @@ export function loadAnswerKey(p) {
 /**
  * Extrai o conjunto CONGELADO de itens a julgar a partir dos reports + corpus.
  *
- * 2026-07-13 (Onda 3, B3): os extras do robô vêm dos pares RH (`pairs[].extra` — o
- * MESMO campo que o aggregate-campaign.mjs consome; são chaves canônicas relativas ao
- * especialista), deduplicados por canonAnswer ENTRE réplicas. Tolerância de shape para
- * o runner da campanha 3: também aceita `robotExtras`/`extras` no nível do caso.
+ * 2026-07-13 (Onda 3, B3): os extras do robô vêm de `cases[].extra` no runner da
+ * campanha 3 e dos pares RH (`pairs[].extra`) no formato legado; são chaves canônicas
+ * relativas ao especialista, deduplicadas por canonAnswer ENTRE réplicas. Por
+ * compatibilidade, também são aceitos `robotExtras`/`extras` no nível do caso.
  * Pares HH são IGNORADOS (extras de especialista×especialista não são do robô).
  */
 export function extractPanelItems(reports, opts = {}) {
@@ -140,6 +140,7 @@ export function extractPanelItems(reports, opts = {}) {
       };
       for (const p of c.pairs || [])
         if (p?.pairType === "RH") for (const w of p.extra || []) push(w);
+      for (const w of c.extra || []) push(w);
       for (const w of c.robotExtras || []) push(w);
       for (const w of c.extras || []) push(w);
     }

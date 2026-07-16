@@ -21,10 +21,12 @@ import { fileURLToPath } from "node:url";
 import { parseBrdToExpertNeutral } from "../parse-ctat-brd.js";
 import { canonAnswer } from "../schema.js";
 import { signFlipTest, holm, mulberry32 } from "../stats.js";
+import { bugDenominators, reconstructFrozenRBug } from "./rbug-denominator.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const C3 = path.join(ROOT, "resultados", "campanha3-2026-07-13");
 const CORPUS = path.join(ROOT, "cases", "ctat-6.17");
+const BATTERY = path.join(ROOT, "battery", "frac-numberline-6.17-v1");
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 const r3 = (x) => (Number.isFinite(x) ? Math.round(x * 1000) / 1000 : null);
 const mean = (a) => (a.length ? a.reduce((s, x) => s + x, 0) / a.length : NaN);
@@ -33,6 +35,22 @@ const exercises = fs
   .readdirSync(CORPUS)
   .filter((d) => fs.existsSync(path.join(CORPUS, d, "expert.brd")))
   .sort();
+
+// O protocolo congelado define R_bug sobre TODAS as ações buggy da referência.
+// O runner C3 armazenou uma versão que exclui ações sem âncora de input; a
+// reanálise preserva essa taxa como sensibilidade e reconstrói o numerador
+// inteiro para recolocar as ações excluídas no denominador congelado.
+const rBugDenByExercise = new Map();
+for (const ex of exercises) {
+  const battery = readJson(path.join(BATTERY, `${ex}.json`));
+  rBugDenByExercise.set(ex, bugDenominators(battery.items || []));
+}
+
+function frozenRBug(c) {
+  const den = rBugDenByExercise.get(c?.id);
+  if (!den) return NaN;
+  return reconstructFrozenRBug(c.metrics?.behavioral?.rBug, den).rate;
+}
 
 // ─── carga dos relatórios por condição ───
 const CONDS = [
@@ -44,7 +62,10 @@ const METRICS = {
   bruta: (c) => c.metrics?.legacy?.recallMisconceptions,
   passos: (c) => c.metrics?.legacy?.recallSteps,
   f1: (c) => c.metrics?.legacy?.f1,
-  rBug: (c) => c.metrics?.behavioral?.rBug,
+  // R_bug oficial: denominador congelado, com as 192 ações de referência.
+  rBug: frozenRBug,
+  // Sensibilidade implementada pelo runner: apenas ações ancoráveis por input.
+  rBugAnchorable: (c) => c.metrics?.behavioral?.rBug,
   rOk: (c) => c.metrics?.behavioral?.rOk,
   rOkCompleted: (c) => c.metrics?.behavioral?.rOkCompleted,
   concordancia: (c) => c.metrics?.behavioral?.agreement,
@@ -59,6 +80,67 @@ for (const cond of CONDS) {
     return { file: f, byEx: new Map(rep.cases.map((c) => [c.id, c])), flags: rep.flags, model: rep.model };
   });
 }
+
+function structuralSummary(cond) {
+  const out = {
+    grafos: 0,
+    grafosComViolacaoDura: 0,
+    violacoesDuras: 0,
+    grafosComSinalMole: 0,
+    sinaisMoles: 0,
+    grafosBarrados: 0,
+  };
+  for (const run of arms[cond]) {
+    for (const c of run.byEx.values()) {
+      const intrinsic = c.intrinsic || {};
+      const hard = Number(intrinsic.hardViolations) || 0;
+      const soft = Number(intrinsic.softViolations) || 0;
+      out.grafos++;
+      out.violacoesDuras += hard;
+      out.sinaisMoles += soft;
+      if (hard > 0) out.grafosComViolacaoDura++;
+      if (soft > 0) out.grafosComSinalMole++;
+      if (intrinsic.hallucinationFlag || c.status === "barrado") out.grafosBarrados++;
+    }
+  }
+  return out;
+}
+
+function rBugCounts(cond) {
+  const out = {
+    reconhecidas: 0,
+    avaliacoesDenominadorCongelado: 0,
+    avaliacoesAncoraveis: 0,
+    maiorErroReconstrucao: 0,
+  };
+  for (const run of arms[cond]) {
+    for (const c of run.byEx.values()) {
+      if (c.status !== "ok") continue;
+      const den = rBugDenByExercise.get(c.id);
+      const rec = reconstructFrozenRBug(c.metrics?.behavioral?.rBug, den);
+      out.reconhecidas += rec.hits;
+      out.avaliacoesDenominadorCongelado += den.all;
+      out.avaliacoesAncoraveis += den.anchorable;
+      out.maiorErroReconstrucao = Math.max(
+        out.maiorErroReconstrucao,
+        rec.reconstructionError
+      );
+    }
+  }
+  out.taxaMicroCongelada = r3(
+    out.reconhecidas / out.avaliacoesDenominadorCongelado
+  );
+  out.taxaMicroAncoravel = r3(out.reconhecidas / out.avaliacoesAncoraveis);
+  out.maiorErroReconstrucao = Math.round(out.maiorErroReconstrucao * 1e6) / 1e6;
+  return out;
+}
+
+const estruturaPorCondicao = Object.fromEntries(
+  CONDS.map((cond) => [cond, structuralSummary(cond)])
+);
+const rBugContagensPorCondicao = Object.fromEntries(
+  CONDS.map((cond) => [cond, rBugCounts(cond)])
+);
 
 function perExercise(cond, metricFn) {
   const vals = [];
@@ -201,10 +283,23 @@ for (let k = 1; k <= (ens.k || 10); k++) {
 
 // ─── painel de juízes ───
 const painel = readJson(path.join(C3, "painel", "panel-summary.json"));
+const painelFontes = {};
+for (const item of painel.items || [])
+  painelFontes[item.source] = (painelFontes[item.source] || 0) + 1;
+const painelComposicao = {
+  total: (painel.items || []).length,
+  porFonte: painelFontes,
+  especialista: painelFontes.especialista || 0,
+  distratores: Object.entries(painelFontes)
+    .filter(([source]) => source.startsWith("distrator"))
+    .reduce((sum, [, n]) => sum + n, 0),
+  roboExtra: painelFontes["robo-extra"] || 0,
+};
+painelComposicao.avaliaSaidasAdicionaisDoSistema = painelComposicao.roboExtra > 0;
 
 // ─── custo por condição (manifestos) ───
 const custo = {};
-for (const f of fs.readdirSync(path.join(C3, "manifests"))) {
+for (const f of fs.readdirSync(path.join(C3, "manifests")).sort()) {
   const cond = f.replace(/\.jsonl$/, "").replace(/-r\d+$/, "");
   let usd = 0, calls = 0;
   for (const line of fs.readFileSync(path.join(C3, "manifests", f), "utf8").split("\n").filter(Boolean)) {
@@ -224,6 +319,21 @@ const derived = {
   protocolo: "EMENDA 4 + docs/METRICAS-V2.md (congelados antes da campanha)",
   envelope: "envelope-a-v2 (fonte independente)",
   sumario,
+  rBugDenominadorCongelado: {
+    definicao:
+      "ações buggy reconhecidas no contexto / todas as ações buggy registradas na referência",
+    exercicios: exercises.length,
+    acoesUnicasPorReplica: [...rBugDenByExercise.values()].reduce((s, d) => s + d.all, 0),
+    acoesAncoraveisPorReplica: [...rBugDenByExercise.values()].reduce(
+      (s, d) => s + d.anchorable,
+      0
+    ),
+    replicasPorCondicao: arms[CONDS[0]]?.length || 0,
+    nota:
+      "R_bug é o estimando congelado; rBugAnchorable preserva a implementação filtrada como sensibilidade.",
+  },
+  rBugContagensPorCondicao,
+  estruturaPorCondicao,
   familiaF1_coprimarias_bracos: f1Holm.map((h, i) => ({ ...h, ...f1Tests[i].cmp })),
   familiaF2_ablacoes_conceitual: f2Holm.map((h, i) => ({ ...h, ...f2Tests[i].cmp })),
   familiaF3_exploratoria: f3Holm.map((h, i) => ({ ...h, ...f3Tests[i].cmp })),
@@ -231,6 +341,7 @@ const derived = {
   kappaPooledPorCondicao: Object.fromEntries(CONDS.map((c) => [c, pooledKappa(c)])),
   curvaEnsembleK10: curva,
   painel: {
+    composicao: painelComposicao,
     porJuiz: painel.groups,
     kappaParAPar: painel.kappaPairwise,
     pendencias: painel.pendencias,
@@ -241,12 +352,39 @@ const OUT = path.join(ROOT, "analysis", "derived");
 fs.writeFileSync(path.join(OUT, "reanalise-c3.json"), JSON.stringify(derived, null, 2));
 
 const fmtP = (p) => (p == null ? "n/a" : p < 0.001 ? p.toExponential(2) : p.toFixed(4));
-let md = `# Tabelas geradas — campanha 3 (2026-07-13)\n\nProtocolo congelado (Emenda 4). Unidade = exercício; permutação exata; Holm por família. Gerado por \`analysis/reanalyze-c3.mjs\`.\n\n## Sumário por condição (média por exercício, IC95%)\n\n| Condição | Modelo | Conceitual | R_bug | R_ok | rOkCompleted (explorat.) | Concordância | Falhas | Custo |\n|---|---|---|---|---|---|---|---|---|\n`;
+let md = `# Tabelas geradas — campanha 3 (2026-07-13)\n\nProtocolo congelado (Emenda 4). Unidade = exercício; permutação exata; Holm por família. Gerado por \`analysis/reanalyze-c3.mjs\`.\n\n## Sumário por condição (média por exercício, IC95%)\n\n| Condição | Modelo | Conceitual | R_bug (denominador congelado) | R_bug ancorável (sensibilidade) | R_ok | rOkCompleted (explorat.) | Concordância | Falhas | Custo |\n|---|---|---|---|---|---|---|---|---|---|\n`;
 for (const cond of CONDS) {
   const s = sumario[cond];
   const f = (m) => `${s[m].mean} [${s[m].lower}; ${s[m].upper}]`;
-  md += `| ${cond} | ${s.model} | ${f("conceitual")} | ${f("rBug")} | ${f("rOk")} | ${f("rOkCompleted")} | ${f("concordancia")} | ${s.falhas} | US$ ${custo[cond]?.usd ?? "?"} |\n`;
+  md += `| ${cond} | ${s.model} | ${f("conceitual")} | ${f("rBug")} | ${f("rBugAnchorable")} | ${f("rOk")} | ${f("rOkCompleted")} | ${f("concordancia")} | ${s.falhas} | US$ ${custo[cond]?.usd ?? "?"} |\n`;
 }
+md += `\n**Denominador de R_bug.** O estimando congelado inclui 8 ações buggy por exercício: 192 ações únicas por réplica e 576 avaliações por condição nas três réplicas. A coluna ancorável preserva, como sensibilidade, o filtro implementado no runner (150 ações únicas por réplica; 450 avaliações por condição). O numerador reconhecido permanece o mesmo; as ações anteriormente excluídas voltam ao denominador como não reconhecidas sob a regra executada. O numerador foi reconstruído da taxa ancorável armazenada, com erro máximo de arredondamento de ${Math.max(...Object.values(rBugContagensPorCondicao).map((x) => x.maiorErroReconstrucao)).toFixed(3)} ação.\n`;
+md += `\n| Condição | Reconhecidas | Denominador congelado | R_bug micro | Denominador ancorável | Sensibilidade micro |\n|---|---:|---:|---:|---:|---:|\n`;
+for (const cond of CONDS) {
+  const c = rBugContagensPorCondicao[cond];
+  md += `| ${cond} | ${c.reconhecidas} | ${c.avaliacoesDenominadorCongelado} | ${c.taxaMicroCongelada} | ${c.avaliacoesAncoraveis} | ${c.taxaMicroAncoravel} |\n`;
+}
+md += `\n## Integridade estrutural observada na campanha 3\n\n| Condição | Grafos | Grafos com violação dura | Violações duras | Grafos com sinal mole | Sinais moles | Barrados |\n|---|---:|---:|---:|---:|---:|---:|\n`;
+for (const cond of CONDS) {
+  const e = estruturaPorCondicao[cond];
+  md += `| ${cond} | ${e.grafos} | ${e.grafosComViolacaoDura} | ${e.violacoesDuras} | ${e.grafosComSinalMole} | ${e.sinaisMoles} | ${e.grafosBarrados} |\n`;
+}
+const estruturaTotal = Object.values(estruturaPorCondicao).reduce(
+  (acc, e) => {
+    for (const key of Object.keys(acc)) acc[key] += e[key];
+    return acc;
+  },
+  {
+    grafos: 0,
+    grafosComViolacaoDura: 0,
+    violacoesDuras: 0,
+    grafosComSinalMole: 0,
+    sinaisMoles: 0,
+    grafosBarrados: 0,
+  }
+);
+md += `| **Total** | **${estruturaTotal.grafos}** | **${estruturaTotal.grafosComViolacaoDura}** | **${estruturaTotal.violacoesDuras}** | **${estruturaTotal.grafosComSinalMole}** | **${estruturaTotal.sinaisMoles}** | **${estruturaTotal.grafosBarrados}** |\n`;
+md += `\nOs relatórios C3 preservam a contagem, mas não a classe de cada sinal mole; portanto não é possível distinguir retrospectivamente over-branching, ausência de scaffold, self-loop ou aresta paralela sem reter o grafo autorado.\n`;
 md += `\n## F1 — coprimárias comportamentais, braços × baseline (Holm m=4)\n\n| Comparação | Δ | IC95% | p exato | p-Holm | Rejeita |\n|---|---|---|---|---|---|\n`;
 for (const t of derived.familiaF1_coprimarias_bracos)
   md += `| ${t.label} | ${t.meanDiff} | [${t.ci.lower}; ${t.ci.upper}] | ${fmtP(t.p)} | ${fmtP(t.pAdj)} | ${t.reject ? "sim" : "não"} |\n`;
@@ -256,9 +394,12 @@ for (const t of derived.familiaF2_ablacoes_conceitual)
 md += `\n## F3 — exploratória (comportamentais das ablações; Holm m=12)\n\n| Comparação | Δ | IC95% | p exato | p-Holm | Rejeita |\n|---|---|---|---|---|---|\n`;
 for (const t of derived.familiaF3_exploratoria)
   md += `| ${t.label} | ${t.meanDiff} | [${t.ci.lower}; ${t.ci.upper}] | ${fmtP(t.p)} | ${fmtP(t.pAdj)} | ${t.reject ? "sim" : "não"} |\n`;
+md += `\n## F4 — pós-hoc exploratória, braços × baseline em cobertura conceitual (Holm m=2)\n\n| Comparação | Δ | IC95% não ajustado | p exato | p-Holm | Rejeita |\n|---|---|---|---|---|---|\n`;
+for (const t of derived.familiaF4_posthoc_bracos_conceitual)
+  md += `| ${t.label} | ${t.meanDiff} | [${t.ci.lower}; ${t.ci.upper}] | ${fmtP(t.p)} | ${fmtP(t.pAdj)} | ${t.reject ? "sim" : "não"} |\n`;
 md += `\n## Curva de ensemble (K=1..10, envelope v2, rotação)\n\n| K | Cobertura conceitual |\n|---|---|\n`;
 for (const c of curva) md += `| ${c.k} | ${(c.cobertura * 100).toFixed(1)}% |\n`;
-md += `\n## Painel de juízes (179 itens congelados dos braços multimodelo)\n\nκ par a par: ${JSON.stringify(painel.kappaPairwise)}\n\nPendências (itens sem veredito de algum juiz): ${JSON.stringify(painel.pendencias)}\n`;
+md += `\n## Painel de juízes (${painelComposicao.total} itens congelados dos braços multimodelo)\n\nComposição efetivamente julgada: ${painelComposicao.especialista} itens do especialista, ${painelComposicao.distratores} distratores e ${painelComposicao.roboExtra} extras do robô. Como não há extras do robô neste artefato, o painel mede concordância sobre calibração e controles, NÃO sobre as saídas adicionais do sistema; essa avaliação requer nova execução do painel com o extrator corrigido.\n\nκ par a par: ${JSON.stringify(painel.kappaPairwise)}\n\nPendências (itens sem veredito de algum juiz): ${JSON.stringify(painel.pendencias)}\n`;
 fs.writeFileSync(path.join(OUT, "TABELAS-C3.md"), md);
 
 console.log("✓ reanalise-c3.json + TABELAS-C3.md");

@@ -1,10 +1,18 @@
 # Metodologia detalhada — Validação de Grafos de Comportamento (CTAT × EducaOFF)
 
+> [!WARNING]
+> **HISTÓRICO / SUPERADO.** Este documento descreve a bancada controlada que antecedeu a
+> Campanha 4. Referências a “pré-registro”, ao layout `backend/evaluation/` e a conclusões baseadas
+> nas quatro métricas abaixo pertencem à evolução do instrumento e não definem o estudo atual.
+> Todas as campanhas automatizadas aqui documentadas são exploratórias. Para método, resultados e
+> limitações vigentes, use o [manuscrito v6.0](manuscript/v6.0/README.md); para a cronologia das
+> decisões, consulte [PRE-REGISTRO.md](PRE-REGISTRO.md).
+
 Este documento descreve, de ponta a ponta, o protocolo de validação que mede se um pipeline multi-agente (EducaOFF) é capaz de redescobrir, **a partir apenas da interface de um problema**, o mesmo grafo de comportamento que um especialista humano construiu no CTAT (_Example-tracing Tutor_, Carnegie Learning). O experimento opera sob uma regra central de **isolamento cego**: o robô recebe somente o **Envelope A** (enunciado, componentes interativos e _Knowledge Components_) e nunca o **Envelope B** (caminho correto, _misconceptions_, dicas e transições do especialista), que entra exclusivamente no comparador. A partir dessa separação, normalizamos os dois grafos a um **esquema neutro** com **ancoragem semântica** (`canonAnswer`) e os comparamos por quatro métricas complementares — F1 estrutural/conceitual, não-inferioridade por _bootstrap_ de cluster, equivalência funcional (κ de Cohen) e um juiz cego cross-family de validade pedagógica. Todo o protocolo é determinístico onde possível (sementes fixas), pré-registrado, e auditável contra contaminação.
 
 A implementação de referência vive em `backend/evaluation/` (`parse-ctat-brd.js`, `schema.js`, `simulate-students.js`, `author-from-ctat.js`, `author-graph.js`, `metrics.js`, `functional-equivalence.js`, `stats.js`, `judge-misconceptions.js`, `run-ctat-eval.mjs`), com o corpus em `backend/evaluation/cases/ctat-6.17/` (24 problemas de frações em reta numérica, cada um com `expert.brd`).
 
-![Pipeline de validação ponta-a-ponta](diagrams/01-pipeline.svg)
+![Pipeline de validação ponta-a-ponta](diagramas/01-pipeline.svg)
 
 ## Índice
 
@@ -121,7 +129,7 @@ O parser separa o `.brd` em dois "envelopes" disjuntos, garantindo que **nenhuma
 }
 ```
 
-![Divisão do .brd em Envelope A (cego) e Envelope B (especialista)](diagrams/02-divisao-brd.svg)
+![Divisão do .brd em Envelope A (cego) e Envelope B (especialista)](diagramas/02-divisao-brd.svg)
 
 ### 1.3 Garantias anti-contaminação
 
@@ -133,7 +141,7 @@ O parser separa o `.brd` em dois "envelopes" disjuntos, garantindo que **nenhuma
 
 O fluxograma abaixo mostra o algoritmo de extração ponta a ponta: o `parseBrd` (passos 1–5, com o nó de decisão que classifica cada aresta por `actionType`) produz a matéria-prima `raw`, que então se ramifica nos dois construtores de envelope.
 
-![Fluxograma detalhado da extração: parseBrd e a divisão em envelopes](diagrams/05-algoritmo-extracao.svg)
+![Fluxograma detalhado da extração: parseBrd e a divisão em envelopes](diagramas/05-algoritmo-extracao.svg)
 
 **Algoritmo 1 — `parseBrd` (extração bruta, `parse-ctat-brd.js:110–177`).** Usa `parse()` de `node-html-parser` (case-sensitive via `rawTagName`, pois CTAT preserva maiúsculas) e devolve `{ startState, statement, nodes[], edges[], skills[] }` com `isCorrect` já calculado por aresta.
 
@@ -197,7 +205,7 @@ A construção do grafo a partir do Envelope A segue um pipeline determinístico
 
 A regra anti-contaminação é explícita (comentários linhas 10–11): a função jamais chama `parseBrdToExpertNeutral`; o grafo do especialista entra apenas no comparador (`run-ctat-eval.mjs`), não durante a autoria.
 
-![Autoria do grafo pelos agentes (Envelope A → alunos simulados → GraphForge)](diagrams/03-autoria-agentes.svg)
+![Autoria do grafo pelos agentes (Envelope A → alunos simulados → GraphForge)](diagramas/03-autoria-agentes.svg)
 
 ### 2.2 Simulação de alunos-modelo: vocabulário fechado
 
@@ -374,7 +382,7 @@ O **casamento de nós** é então determinístico e sem ambiguidade: tokens `ste
 
 As quatro métricas comparam o grafo autorado cego (Envelope A → robô) contra o grafo do especialista (Envelope B), cada uma respondendo uma pergunta distinta. O protocolo é determinístico nas simulações com sementes fixas; os números abaixo refletem **uma corrida estocástica única** (ilustrativa) sobre o corpus CTAT 6.17 (24 problemas). Para inferência final, executam-se múltiplas replicações com reamostragem (§4.2).
 
-![As quatro métricas de validação sobre os grafos neutros](diagrams/04-validacao.svg)
+![As quatro métricas de validação sobre os grafos neutros](diagramas/04-validacao.svg)
 
 ### 4.1 Métrica 1 — F1 estrutural de nós + F1 conceitual
 

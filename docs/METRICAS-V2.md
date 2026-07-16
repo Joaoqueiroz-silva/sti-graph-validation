@@ -28,6 +28,15 @@ Agregação: média macro de R_bug(i) nos 24 exercícios, IC por bootstrap de
 exercício. Substitui a "completude por valor" como coprimária comportamental:
 mede reconhecimento NO CONTEXTO, não coincidência de valores.
 
+> **Nota de auditoria de 2026-07-14 (não altera a definição congelada).** O
+> runner da campanha 3 excluiu 42 ações mecânicas não ancoráveis e publicou uma
+> versão com 150 ações por réplica. Essa implementação não correspondia ao
+> denominador acima, que inclui todas as 192 ações registradas. A reanálise v3.4
+> restaura o estimando congelado como principal e preserva a versão filtrada sob
+> o nome `R_bug_anchorable`, apenas como sensibilidade. A reconstrução e seu teste
+> estão em `analysis/rbug-denominator.mjs` e
+> `__tests__/rbug-denominator.test.mjs`.
+
 ### CP2. Cobertura dos traços corretos da referência
 
 ```

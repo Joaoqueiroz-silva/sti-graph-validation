@@ -1,5 +1,13 @@
 # Complemento metodológico — Grafo de conhecimento × grafo de comportamento, e o escopo da validação
 
+> [!WARNING]
+> **HISTÓRICO / SUPERADO.** Este complemento registra uma leitura de arquitetura e uma
+> interpretação metodológica anteriores à Campanha 4. Ele cita caminhos do monorepo EducaOFF e
+> contém conclusões fortes que não constituem, por si sós, evidência da versão científica atual.
+> Preserve-o para a cronologia, mas não o use como descrição canônica do método nem como fonte de
+> resultados. A versão vigente é o [manuscrito v6.0](manuscript/v6.0/README.md), no qual a
+> Campanha 4 é principal e as Campanhas 1–3 são evidência histórica secundária.
+
 > **O que é este arquivo.** Complemento ao documento `docs/METODOLOGIA-VALIDACAO-DETALHADA.md`.
 > Ele torna **explícito** (a) a diferença entre o _grafo de conhecimento_ e o _grafo de
 > comportamento_, (b) como o sistema trata o grafo de conhecimento hoje — com evidência de
@@ -26,7 +34,7 @@ O sistema lida com **dois** grafos que costumam ser confundidos:
 conhecimento (no código, o nó-passo tem o campo `knowledgeComponents: [kcId]`, em
 `backend/agents/graphforge.js:350`).
 
-![Grafo de conhecimento vs grafo de comportamento](diagrams/07-dois-grafos.svg)
+![Grafo de conhecimento vs grafo de comportamento](diagramas/07-dois-grafos.svg)
 
 ---
 
@@ -106,7 +114,7 @@ A observação está **correta**. Com a evidência da §2:
 - Portanto, a "saída dupla com grafo de conhecimento atualizado" que ele descreve **ainda não
   existe** — é um acréscimo real (e desejável) ao sistema.
 
-![A pergunta do orientador e o escopo da validação](diagrams/08-escopo-kc.svg)
+![A pergunta do orientador e o escopo da validação](diagramas/08-escopo-kc.svg)
 
 ---
 
