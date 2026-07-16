@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, "..");
-const MANIFEST = path.join(REPO, "protocol", "frozen", "MANIFEST-v6.0.sha256");
-const MANUSCRIPT_DIR = path.join(REPO, "docs", "manuscript", "v6.0");
+const MANIFEST = path.join(REPO, "protocol", "frozen", "MANIFEST-v6.1.sha256");
+const MANUSCRIPT_DIR = path.join(REPO, "docs", "manuscript", "v6.1");
 const MANUSCRIPT_SUMS = path.join(MANUSCRIPT_DIR, "SHA256SUMS");
 
 const sha256File = (file) =>
@@ -84,7 +84,7 @@ function verifyFile(file, { base = REPO } = {}) {
 
 function writeManifests() {
   const manuscriptFiles = walkRelativeFiles(MANUSCRIPT_DIR)
-    .filter((relative) => relative !== "SHA256SUMS")
+    .filter((relative) => relative !== "SHA256SUMS" && !relative.startsWith(`build${path.sep}`))
     .sort((a, b) => a.localeCompare(b));
   const manuscriptText = `${manuscriptFiles
     .map((relative) => `${sha256File(path.join(MANUSCRIPT_DIR, relative))}  ${relative}`)

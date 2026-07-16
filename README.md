@@ -9,18 +9,20 @@ Repositório reprodutível do estudo sobre a validação técnica dos grafos de 
 3. estrutura montada deterministicamente pelo GraphForge;
 4. concordância com grafos CTAT de referência.
 
-> **Versão científica atual: v6.0.** A Campanha 4 é a avaliação principal, por executar cópias congeladas dos agentes e do transporte da implantação auditada. As Campanhas 1–3 são desenvolvimento histórico do instrumento e evidência secundária. As estimativas das quatro campanhas não são combinadas.
+> **Versão científica atual: v6.1.** O texto para submissão é um artigo principal de 15 páginas, acompanhado por suplemento técnico separado. A Campanha 4 (C4) é a avaliação principal, por executar cópias congeladas dos agentes e do transporte da implantação auditada. As Campanhas 1–3 (C1–C3) são desenvolvimento histórico do instrumento e evidência secundária; suas estimativas não são combinadas com as da C4. A v6.0 permanece preservada como relatório técnico histórico completo de 33 páginas.
 
 ## Manuscrito atual
 
-- [PDF do artigo v6.0](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.pdf)
-- [fonte LaTeX](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.tex)
-- [instruções de compilação](docs/manuscript/v6.0/README.md)
+- [PDF do artigo v6.1 (15 páginas)](docs/manuscript/v6.1/artigo-validacao-agentes-comportamentais-v6.1.pdf)
+- [fonte LaTeX do artigo v6.1](docs/manuscript/v6.1/artigo-validacao-agentes-comportamentais-v6.1.tex)
+- [PDF do suplemento técnico v6.1](docs/manuscript/v6.1/suplemento-validacao-agentes-comportamentais-v6.1.pdf)
+- [fonte LaTeX do suplemento técnico v6.1](docs/manuscript/v6.1/suplemento-validacao-agentes-comportamentais-v6.1.tex)
+- [instruções de compilação e relação entre artigo e suplemento](docs/manuscript/v6.1/README.md)
 - [reprodução e trilha de evidências](docs/REPRODUCAO-V6.md)
 - [registro de modelos e custos](docs/MODELOS-E-CUSTOS.md)
 - [proveniência e licença do corpus](PROVENANCE.md)
 
-Os relatórios anteriores permanecem como material histórico. Eles não substituem o manuscrito v6.0.
+O [relatório técnico v6.0](docs/manuscript/v6.0/README.md), com 33 páginas, permanece íntegro como material histórico e trilha detalhada de auditoria. Ele não é um segundo artigo concorrente nem substitui o artigo v6.1; os detalhes retirados do texto principal por concisão editorial estão no suplemento v6.1 ou no relatório técnico histórico.
 
 ## O que o estudo pode e não pode concluir
 
@@ -43,7 +45,7 @@ O estudo **não** demonstra:
 
 ## Desenho em quatro campanhas
 
-| Campanha | Objeto executado | Papel na v6.0 | Limite principal |
+| Campanha | Objeto executado | Papel na v6.1 | Limite principal |
 | --- | --- | --- | --- |
 | C1 | bancada integrada adaptada | piloto do instrumento | retenção histórica incompleta e juiz único |
 | C2 | bancada adaptada com quatro famílias geradoras | robustez exploratória | ausência de teste de equivalência e mudança de juiz |
@@ -95,7 +97,7 @@ npm ci
 npm run verify:offline
 ```
 
-O comando executa a suíte determinística, valida o relatório histórico, confronta o artigo v6.0 com os JSONs derivados, verifica privacidade, links e hashes do depósito.
+O comando executa a suíte determinística, valida o relatório histórico, confronta o artigo v6.1 e seu suplemento com os JSONs derivados, verifica privacidade, links e hashes do depósito.
 
 Comandos analíticos individuais:
 
@@ -129,7 +131,8 @@ analysis/                              reanálises, agregações e validadores
 answer-key/                            gabarito independente e sua proveniência
 battery/                               bateria congelada da Campanha 3
 cases/ e datasets/                     corpus CTAT e envelopes históricos
-docs/manuscript/v6.0/                  artigo atual em PDF e LaTeX
+docs/manuscript/v6.1/                  artigo atual, suplemento, PDFs e fontes LaTeX
+docs/manuscript/v6.0/                  relatório técnico histórico completo de 33 páginas
 production-fidelity/                   fixtures, métricas e runners da Campanha 4
 protocol/frozen/                       congelamentos das Campanhas 1–3 e manifesto v6
 protocol/production-freeze-2026-07-15/ imagem, planos e emendas da Campanha 4
@@ -153,7 +156,8 @@ Use os metadados de [`CITATION.cff`](CITATION.cff). Enquanto o artigo não possu
 
 - `legacy-campaigns-2026-07`: congelamento das Campanhas 1–2;
 - v3.x: relatório histórico centrado nas Campanhas 1–3;
-- v6.0: manuscrito integrado, com C4 principal e C1–3 históricas;
-- uma futura release `v6.0.0` deverá apontar para o commit aceito após esta auditoria.
+- v6.0: relatório técnico histórico completo de 33 páginas, com C4 principal e C1–C3 históricas;
+- v6.1: artigo científico vigente de 15 páginas e suplemento técnico separado, mantendo C4 como análise principal e C1–C3 como evidência histórica;
+- uma futura release estável deverá apontar para o commit aceito após esta revisão editorial.
 
 Emendas, falhas e análises invalidadas não são apagadas. Mudanças futuras devem preservar a cronologia e atualizar o manifesto SHA-256.

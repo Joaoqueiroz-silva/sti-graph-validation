@@ -49,6 +49,8 @@ arquivo.
 ## Relação com a versão atual
 
 Este congelamento serve somente para reproduzir e auditar o legado. Decisões posteriores ficam nas
-emendas datadas e nos manifestos da versão atual, sem sobrescrever o estado histórico. O manuscrito
-v6.0 trata as Campanhas 1–3 como históricas e a Campanha 4 como avaliação principal; nenhuma
+emendas datadas e nos manifestos da versão atual, sem sobrescrever o estado histórico. O manifesto
+`MANIFEST-v6.0.sha256` permanece ligado ao relatório técnico histórico, enquanto
+`MANIFEST-v6.1.sha256` cobre a versão científica vigente. O manuscrito v6.1 trata as Campanhas 1–3
+como históricas e a Campanha 4 como avaliação principal; nenhuma
 estimativa é combinada entre campanhas.

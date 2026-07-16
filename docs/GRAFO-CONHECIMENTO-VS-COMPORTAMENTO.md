@@ -5,7 +5,7 @@
 > interpretação metodológica anteriores à Campanha 4. Ele cita caminhos do monorepo EducaOFF e
 > contém conclusões fortes que não constituem, por si sós, evidência da versão científica atual.
 > Preserve-o para a cronologia, mas não o use como descrição canônica do método nem como fonte de
-> resultados. A versão vigente é o [manuscrito v6.0](manuscript/v6.0/README.md), no qual a
+> resultados. A versão vigente é o [manuscrito v6.1](manuscript/v6.1/README.md), no qual a
 > Campanha 4 é principal e as Campanhas 1–3 são evidência histórica secundária.
 
 > **O que é este arquivo.** Complemento ao documento `docs/METODOLOGIA-VALIDACAO-DETALHADA.md`.

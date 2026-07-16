@@ -4,7 +4,7 @@
 > **HISTÓRICO / SUPERADO.** Este é um rascunho de planejamento de 2026-06-03. Ele mistura
 > propostas, estudos futuros e caminhos de um monorepo externo; portanto, não demonstra que todos
 > os níveis ou instrumentos descritos foram executados. Não o cite como método realizado nem como
-> resultado do estudo. A fonte científica vigente é o [manuscrito v6.0](manuscript/v6.0/README.md),
+> resultado do estudo. A fonte científica vigente é o [manuscrito v6.1](manuscript/v6.1/README.md),
 > que trata a Campanha 4 como avaliação principal e as Campanhas 1–3 como desenvolvimento
 > histórico/evidência secundária.
 >

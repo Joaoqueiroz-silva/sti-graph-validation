@@ -2,21 +2,25 @@
 
 ## Qual é o artigo atual?
 
-A versão científica vigente é **v6.0**:
+A versão científica vigente é **v6.1**:
 
-- [manuscrito v6.0 — página de entrada](manuscript/v6.0/README.md);
-- [PDF v6.0](manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.pdf);
-- [fonte LaTeX v6.0](manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.tex).
+- [manuscrito v6.1 — página de entrada](manuscript/v6.1/README.md);
+- [PDF do artigo v6.1 (15 páginas)](manuscript/v6.1/artigo-validacao-agentes-comportamentais-v6.1.pdf);
+- [fonte LaTeX do artigo v6.1](manuscript/v6.1/artigo-validacao-agentes-comportamentais-v6.1.tex);
+- [PDF do suplemento técnico v6.1](manuscript/v6.1/suplemento-validacao-agentes-comportamentais-v6.1.pdf);
+- [fonte LaTeX do suplemento técnico v6.1](manuscript/v6.1/suplemento-validacao-agentes-comportamentais-v6.1.tex).
 
-Os relatórios longos, DOCX/PDF e rascunhos metodológicos anteriores permanecem no repositório
-para auditoria da evolução do trabalho. Eles não são um segundo artigo concorrente e não devem ser
-usados como versão final quando divergirem da v6.0.
+O artigo principal concentra pergunta, método, resultados e discussão em 15 páginas. O suplemento
+técnico preserva os detalhes necessários à auditoria sem sobrecarregar o texto para submissão. O
+relatório técnico v6.0, com 33 páginas, permanece completo e inalterado como registro histórico;
+ele não é um segundo artigo concorrente e não deve ser usado como versão final quando divergir da
+v6.1.
 
-`v6.0` é a versão do manuscrito, não o número de uma campanha. O estudo possui quatro campanhas.
+`v6.1` é a versão do manuscrito, não o número de uma campanha. O estudo possui quatro campanhas.
 
-## Papel de cada campanha na v6.0
+## Papel de cada campanha na v6.1
 
-| Campanha | Data | Objeto resumido | Papel na v6.0 | Fonte principal de auditoria |
+| Campanha | Data | Objeto resumido | Papel na v6.1 | Fonte principal de auditoria |
 | --- | --- | --- | --- | --- |
 | C1 | 2026-07-02 | bancada integrada adaptada | piloto histórico do instrumento | `resultados/campanha-2026-07-02/` |
 | C2 | 2026-07-08/09 | bancada multimodelo adaptada | robustez exploratória histórica | `resultados/campanha-2026-07-08-multimodelo/` |
@@ -43,17 +47,26 @@ manifesto.
 
 Os relatórios v3.x passaram a incorporar a Campanha 3 e as correções documentadas de denominador,
 instrumento e interpretação. Eles são a origem histórica de parte da evidência secundária, mas
-foram substituídos como síntese científica pelo manuscrito v6.0.
+foram substituídos como síntese científica: primeiro pelo relatório técnico v6.0 e, atualmente,
+pelo artigo e suplemento v6.1.
 
-### Manuscrito v6.0
+### Relatório técnico v6.0
 
-A v6.0 integra a Campanha 4 como avaliação principal e mantém C1–C3 separadas como evidência
-histórica. Ela também limita as conclusões ao que os artefatos observados permitem: saída dos
-agentes, transporte, montagem determinística e concordância com a referência CTAT.
+A v6.0 integrou a Campanha 4 como avaliação principal e manteve C1–C3 separadas como evidência
+histórica. Seu relatório técnico completo de 33 páginas permanece preservado para auditoria da
+saída dos agentes, do transporte, da montagem determinística e da concordância com a referência
+CTAT.
 
-Uma release futura `v6.0.0` só deve ser criada depois da auditoria completa, das verificações
-offline e da resolução dos bloqueios de publicação. A existência do diretório v6.0 não implica que
-essa release já exista.
+### Artigo e suplemento v6.1
+
+A v6.1 é a versão científica vigente. Ela apresenta o estudo em dois artefatos sincronizados: um
+artigo principal de 15 páginas e um suplemento técnico separado. A mudança é editorial, não uma
+nova coleta nem uma quinta campanha: C4 continua sendo a avaliação principal e C1–C3 continuam
+sendo evidência histórica, sem combinação de estimativas.
+
+Uma release estável só deve ser criada depois da auditoria completa, das verificações offline e da
+resolução dos bloqueios de publicação. A existência do diretório v6.1 e a versão de pacote
+`6.1.0` não implicam que uma release editorial ou um DOI já existam.
 
 ## Regras para novas versões
 

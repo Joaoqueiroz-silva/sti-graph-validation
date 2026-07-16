@@ -3,7 +3,7 @@
 > **DOCUMENTO HISTÓRICO CONGELADO.** Este texto registra o protocolo enquanto a
 > Campanha 4 ainda estava em preparação e conserva, de propósito, verbos no futuro
 > e hipóteses depois emendadas. Não é a descrição final do estudo. Consulte o
-> [manuscrito v6.0](manuscript/v6.0/README.md), os manifestos em
+> [manuscrito v6.1](manuscript/v6.1/README.md), os manifestos em
 > `protocol/production-freeze-2026-07-15/` e a
 > [trilha de versões](VERSOES.md). As nove chamadas do piloto foram incorporadas;
 > o plano das 45 restantes foi congelado depois do piloto. Por isso C4 é

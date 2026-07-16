@@ -30,7 +30,7 @@ projeto privado com metadados honestos é preferível a uma publicação prematu
 O depósito deve apontar para uma única versão científica e conservar a separação entre evidência
 principal e histórica:
 
-- manuscrito v6.0 em PDF e LaTeX (`docs/manuscript/v6.0/`);
+- artigo e suplemento v6.1 em PDF e LaTeX (`docs/manuscript/v6.1/`), com a v6.0 preservada como relatório técnico histórico;
 - `docs/VERSOES.md` e este mapa de estatuto científico;
 - `docs/PRE-REGISTRO.md`, rotulado como plano e histórico retrospectivamente documentado;
 - protocolos, emendas e manifestos da Campanha 4 em
@@ -42,7 +42,7 @@ principal e histórica:
 - um arquivo de metadados do depósito com data, commit, relação de arquivos e exclusões.
 
 Arquivos históricos podem permanecer no pacote, desde que estejam claramente marcados como
-superados e não sejam confundidos com a versão v6.0.
+superados e não sejam confundidos com a versão científica vigente v6.1.
 
 ## Procedimento
 
@@ -52,7 +52,7 @@ superados e não sejam confundidos com a versão v6.0.
 3. Faça upload somente do pacote auditado e autorizado. Para arquivos grandes, registre também os
    hashes e o commit de origem.
 4. Inclua um `README` no próprio depósito com:
-   - versão científica (`v6.0`);
+   - versão científica (`v6.1`);
    - commit/release;
    - datas das campanhas e do depósito;
    - Campanha 4 como avaliação principal e Campanhas 1–3 como históricas;

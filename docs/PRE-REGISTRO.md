@@ -4,7 +4,7 @@
 > **REGISTRO HISTÓRICO, NÃO PRÉ-REGISTRO CONFIRMATÓRIO.** Este arquivo preserva o plano e as
 > emendas na ordem em que foram documentados; emendas posteriores substituem afirmações anteriores
 > quando houver conflito. Todas as campanhas automatizadas aqui descritas são exploratórias. A
-> síntese científica vigente está no [manuscrito v6.0](manuscript/v6.0/README.md), e o procedimento
+> síntese científica vigente está no [manuscrito v6.1](manuscript/v6.1/README.md), e o procedimento
 > para arquivar estes materiais sem retroagir seu estatuto está em
 > [DEPOSITO-OSF.md](DEPOSITO-OSF.md).
 

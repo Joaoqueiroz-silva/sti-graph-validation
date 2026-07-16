@@ -3,7 +3,7 @@
 ## Comece aqui
 
 1. [README do repositório](../README.md) — pergunta, escopo, resultados centrais e limites.
-2. [Manuscrito v6.0](manuscript/v6.0/README.md) — artigo atual em PDF e LaTeX.
+2. [Manuscrito v6.1](manuscript/v6.1/README.md) — artigo científico atual de 15 páginas, suplemento técnico separado, PDFs e fontes LaTeX.
 3. [Versões científicas e campanhas](VERSOES.md) — explica por que C4 é principal, por que C1–C3
    são históricas e qual arquivo deve ser citado.
 4. [`campaign4-final-analysis-v2.1.json`](../resultados/campanha4-2026-07-15/campaign4-final-analysis-v2.1.json)
@@ -15,7 +15,7 @@
 
 Quando dois textos divergirem, use esta ordem:
 
-1. manuscrito v6.0 e derivados canônicos conferidos por teste;
+1. artigo e suplemento v6.1 e derivados canônicos conferidos por teste;
 2. protocolos, emendas e manifestos congelados da campanha correspondente;
 3. plano de análise e histórico de decisões;
 4. relatórios e rascunhos históricos.
@@ -24,7 +24,8 @@ Uma emenda posterior pode substituir uma decisão anterior, mas não deve apagar
 
 ## Versão atual e Campanha 4
 
-- [manuscrito v6.0](manuscript/v6.0/README.md): síntese científica vigente;
+- [manuscrito v6.1](manuscript/v6.1/README.md): síntese científica vigente, composta pelo artigo principal de 15 páginas e pelo suplemento técnico separado;
+- [relatório técnico v6.0](manuscript/v6.0/README.md): versão histórica completa de 33 páginas, preservada para auditoria e não concorrente com o artigo v6.1;
 - [PROTOCOLO-CAMPANHA-4.md](PROTOCOLO-CAMPANHA-4.md): documento de planejamento que antecedeu a
   conclusão da campanha; leia em conjunto com as emendas e não como prova de pré-registro pleno;
 - [`protocol/production-freeze-2026-07-15/`](../protocol/production-freeze-2026-07-15/README.md):
@@ -42,7 +43,7 @@ Uma emenda posterior pode substituir uma decisão anterior, mas não deve apagar
 - `RELATORIO-CAMPANHA-1.*`: saídas históricas da C1, preservadas para auditoria;
 - [`protocol/frozen/`](../protocol/frozen/README.md): tag e manifesto do congelamento legado.
 
-Esses materiais ajudam a reconstruir a evolução do instrumento, mas não substituem a v6.0.
+Esses materiais ajudam a reconstruir a evolução do instrumento, mas não substituem a v6.1. A C4 permanece a análise principal; C1–C3 permanecem evidência histórica e não são combinadas com ela.
 
 ## Rascunhos superados
 

@@ -5,7 +5,7 @@
 > Campanha 4. Referências a “pré-registro”, ao layout `backend/evaluation/` e a conclusões baseadas
 > nas quatro métricas abaixo pertencem à evolução do instrumento e não definem o estudo atual.
 > Todas as campanhas automatizadas aqui documentadas são exploratórias. Para método, resultados e
-> limitações vigentes, use o [manuscrito v6.0](manuscript/v6.0/README.md); para a cronologia das
+> limitações vigentes, use o [manuscrito v6.1](manuscript/v6.1/README.md); para a cronologia das
 > decisões, consulte [PRE-REGISTRO.md](PRE-REGISTRO.md).
 
 Este documento descreve, de ponta a ponta, o protocolo de validação que mede se um pipeline multi-agente (EducaOFF) é capaz de redescobrir, **a partir apenas da interface de um problema**, o mesmo grafo de comportamento que um especialista humano construiu no CTAT (_Example-tracing Tutor_, Carnegie Learning). O experimento opera sob uma regra central de **isolamento cego**: o robô recebe somente o **Envelope A** (enunciado, componentes interativos e _Knowledge Components_) e nunca o **Envelope B** (caminho correto, _misconceptions_, dicas e transições do especialista), que entra exclusivamente no comparador. A partir dessa separação, normalizamos os dois grafos a um **esquema neutro** com **ancoragem semântica** (`canonAnswer`) e os comparamos por quatro métricas complementares — F1 estrutural/conceitual, não-inferioridade por _bootstrap_ de cluster, equivalência funcional (κ de Cohen) e um juiz cego cross-family de validade pedagógica. Todo o protocolo é determinístico onde possível (sementes fixas), pré-registrado, e auditável contra contaminação.

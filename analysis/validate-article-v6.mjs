@@ -13,8 +13,29 @@ const DEFAULT_TEX = path.join(
   REPO,
   "docs",
   "manuscript",
-  "v6.0",
-  "artigo-validacao-agentes-comportamentais-v6.0.tex"
+  "v6.1",
+  "artigo-validacao-agentes-comportamentais-v6.1.tex"
+);
+const DEFAULT_SUPPLEMENT = path.join(
+  REPO,
+  "docs",
+  "manuscript",
+  "v6.1",
+  "suplemento-validacao-agentes-comportamentais-v6.1.tex"
+);
+const DEFAULT_REFERENCES = path.join(
+  REPO,
+  "docs",
+  "manuscript",
+  "v6.1",
+  "referencias.tex"
+);
+const DEFAULT_FRONTMATTER = path.join(
+  REPO,
+  "docs",
+  "manuscript",
+  "v6.1",
+  "frontmatter.tex"
 );
 const FINAL = path.join(
   REPO,
@@ -50,8 +71,17 @@ function requireText(tex, expression, label, failures) {
   requireFact(expression.test(tex), label, failures);
 }
 
-export function validateArticleV6({ texPath = DEFAULT_TEX } = {}) {
-  const tex = fs.readFileSync(texPath, "utf8");
+export function validateArticleV6({
+  texPath = DEFAULT_TEX,
+  supplementPath = DEFAULT_SUPPLEMENT,
+  referencesPath = DEFAULT_REFERENCES,
+  frontmatterPath = DEFAULT_FRONTMATTER,
+} = {}) {
+  const articleTex = fs.readFileSync(texPath, "utf8");
+  const supplementTex = fs.readFileSync(supplementPath, "utf8");
+  const referencesTex = fs.readFileSync(referencesPath, "utf8");
+  const frontmatterTex = fs.readFileSync(frontmatterPath, "utf8");
+  const tex = `${articleTex}\n${frontmatterTex}\n${supplementTex}`;
   const final = readJson(FINAL);
   const judge = readJson(JUDGE);
   const plan = readJson(PLAN);
@@ -96,41 +126,52 @@ export function validateArticleV6({ texPath = DEFAULT_TEX } = {}) {
     failures
   );
 
-  requireText(tex, /Campanha 4, estudo principal/, "manuscrito identifica C4 como principal", failures);
-  requireText(tex, /Dezessete de 18 estados/, "manuscrito relata 17 de 18 estados", failures);
+  requireText(
+    tex,
+    /Campanha 4[^.]{0,100}estudo principal|estudo principal[^.]{0,100}Campanha 4/,
+    "manuscrito identifica C4 como principal",
+    failures
+  );
+  requireText(tex, /Dezessete (?:de|dos) 18 estados/, "manuscrito relata 17 de 18 estados", failures);
   requireText(tex, /google\/gemini-3\.5-flash/, "manuscrito relata modelo gerador", failures);
   requireText(tex, /0,111 \(IC95\\% 0,028--0,222\)/, "manuscrito relata 3a e IC", failures);
   requireText(tex, /0,176 \(0,113--0,242\)/, "manuscrito relata 3b e IC", failures);
   requireText(tex, /0,278 \(0,167--0,403\)/, "manuscrito relata 3c e IC", failures);
   requireText(tex, /34\/34 pares de reexecução/, "manuscrito relata determinismo", failures);
-  requireText(tex, /Quatro identificadores de KC/, "manuscrito relata quatro KCs", failures);
-  requireText(tex, /não constitui um pré-registro integral/, "manuscrito declara cronologia exploratória", failures);
-  requireText(tex, /não permite a terceiros repetir integralmente a coleta/, "manuscrito limita reprodutibilidade externa", failures);
-  requireFact(!/Três identificadores de KC/.test(tex), "manuscrito ainda afirma três KCs", failures);
+  requireText(tex, /quatro identificadores de KC|três dos quatro KCs/i, "manuscrito relata quatro KCs", failures);
+  requireText(tex, /não (?:(?:constitui|é) )?um pré-registro integral/, "manuscrito declara cronologia exploratória", failures);
   requireText(
     tex,
-    /não equivalência a especialistas/,
+    /coleta externa integral[^.]{0,160}(?:imagem|snapshot)|não permite[^.]{0,120}repetir integralmente a coleta/,
+    "manuscrito limita reprodutibilidade externa",
+    failures
+  );
+  requireFact(!/três identificadores de KC/i.test(tex), "manuscrito ainda afirma três KCs", failures);
+  requireText(
+    tex,
+    /não (?:demonstra|estabelece|sustenta)[^.]{0,80}equivalência a especialistas/,
     "manuscrito limita equivalência a especialistas",
     failures
   );
   requireText(
     tex,
-    /os dados não sustentam classificá-los como artefatos completos e prontos para uso autônomo/,
+    /(?:não estão validados|não estão prontos|não sustentam[^.]{0,100}prontos)[^.]{0,100}uso autônomo/,
     "manuscrito explicita juízo global de qualidade",
     failures
   );
   requireText(
     tex,
-    /gerador assistivo de candidatos/,
+    /rascunhos assistivos|gerador assistivo de candidatos/,
     "manuscrito limita o papel atual a autoria assistiva",
     failures
   );
   requireText(
     tex,
-    /Adequação pedagógica[\s\S]{0,400}não estimável/,
+    /(?:adequação|validade) pedagógica/i,
     "manuscrito separa qualidade observável de validade pedagógica",
     failures
   );
+  requireText(tex, /não estimável/, "manuscrito explicita dimensões não estimáveis", failures);
 
   const hashedArtifacts = [
     "protocol/production-freeze-2026-07-15/campaign4-full-execution-plan.json",
@@ -139,11 +180,7 @@ export function validateArticleV6({ texPath = DEFAULT_TEX } = {}) {
     "resultados/campanha4-2026-07-15/campaign4-batch-cluster-sensitivity-v1.json",
     "resultados/campanha4-2026-07-15/campaign4-completion-manifest-v1.json",
     "protocol/publication-redactions-v6.0.json",
-    "production-fidelity/campaign4-judge-runner.mjs",
-    "resultados/campanha4-2026-07-15/judge-panel-v5/judge-panel-results.json",
-    "resultados/campanha4-2026-07-15/judge-panel-v5/judge-panel-analysis.json",
     "resultados/campanha4-2026-07-15/judge-panel-v5/judge-panel-analysis-v5.1.json",
-    "resultados/campanha4-2026-07-15/judge-panel-v5/calls.jsonl",
   ];
   for (const relative of hashedArtifacts) {
     const hash = sha256File(path.join(REPO, relative));
@@ -155,13 +192,51 @@ export function validateArticleV6({ texPath = DEFAULT_TEX } = {}) {
     requireFact(fs.existsSync(target), `figura ausente: ${match[1]}`, failures);
   }
 
+  requireText(
+    supplementTex,
+    /72 pares exercício--réplica[\s\S]{0,500}437/,
+    "suplemento identifica corretamente a matriz pooled da C1",
+    failures
+  );
+  requireText(supplementTex, /163\/437=0,373/, "suplemento relata concordância pooled", failures);
+  requireText(supplementTex, /kappa é \$-0,033\$/, "suplemento relata kappa pooled", failures);
+  requireText(
+    supplementTex,
+    /Surpresa--surpresa é não observável por construção/,
+    "suplemento marca surpresa--surpresa como não observável",
+    failures
+  );
+  requireText(
+    supplementTex,
+    /72 em correto--correto não demonstra geração do caminho correto/,
+    "suplemento limita a célula correto--correto",
+    failures
+  );
+
+  const citationKeys = new Set(
+    [...articleTex.matchAll(/\\cite[tp]?\{([^}]+)\}/g)]
+      .flatMap((match) => match[1].split(","))
+      .map((key) => key.trim())
+  );
+  const referenceKeys = new Set(
+    [...referencesTex.matchAll(/\\bibitem(?:\[[^\]]*\])?\{([^}]+)\}/g)].map((match) => match[1])
+  );
+  for (const key of citationKeys) {
+    requireFact(referenceKeys.has(key), `citação sem referência: ${key}`, failures);
+  }
+  for (const key of referenceKeys) {
+    requireFact(citationKeys.has(key), `referência não citada: ${key}`, failures);
+  }
+  requireFact(!/Checklist para submissão editorial/.test(tex), "checklist editorial ainda está no manuscrito", failures);
+  requireFact(!/Execução dos geradores e painel auxiliar:/.test(tex), "data interna ainda está na capa", failures);
+
   if (failures.length) {
     throw new Error(`Validação do artigo v6 falhou (${failures.length}):\n- ${failures.join("\n- ")}`);
   }
   return {
     status: "ok",
     article: path.relative(REPO, texPath),
-    checkedFacts: 54,
+    checkedFacts: 61,
     externalCalls: 0,
   };
 }

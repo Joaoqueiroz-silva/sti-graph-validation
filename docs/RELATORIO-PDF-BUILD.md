@@ -1,8 +1,8 @@
 # Geração reprodutível do PDF do relatório
 
 > **PIPELINE HISTÓRICO.** Estas instruções recompõem
-> `RELATORIO-CAMPANHA-1.pdf`, não o artigo científico atual. A versão v6.0 é
-> compilada do LaTeX em [`manuscript/v6.0/`](manuscript/v6.0/README.md). Os dois
+> `RELATORIO-CAMPANHA-1.pdf`, não o artigo científico atual. A versão v6.1 é
+> compilada do LaTeX em [`manuscript/v6.1/`](manuscript/v6.1/README.md). Os dois
 > arquivos têm funções diferentes e não são artigos concorrentes.
 
 O PDF é gerado diretamente de `docs/RELATORIO-CAMPANHA-1.html`, sem alterar o HTML. O processo usa o modo headless do Chrome para preservar o desenho, produzir marcação estrutural e criar bookmarks a partir dos títulos `h1`, `h2` e `h3`. Em seguida, `pypdf` normaliza autoria, título, assunto, palavras-chave, idioma `pt-BR` no catálogo e a preferência de abertura com o outline visível.
