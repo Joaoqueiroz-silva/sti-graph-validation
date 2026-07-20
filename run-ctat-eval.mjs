@@ -17,6 +17,11 @@
  *   node evaluation/run-ctat-eval.mjs cases/ctat-6.17                 (todos)
  *   node evaluation/run-ctat-eval.mjs cases/ctat-6.17/01watermelon    (um problema)
  *   node evaluation/run-ctat-eval.mjs cases/ctat-6.17 --limit 1       (smoke: só o 1º)
+ *   node evaluation/run-ctat-eval.mjs --dry-run                       (lista, sem LLM)
+ *   node evaluation/run-ctat-eval.mjs --help                          (ajuda, sem LLM)
+ *
+ * No smoke de 1 problema não há pares HH: o agregado sai "nao_estimavel"
+ * (diff e IC nulos) — comportamento correto, sem crash.
  */
 
 import fs from "node:fs";
@@ -177,19 +182,44 @@ function printProblem(res) {
     );
 }
 
+const USAGE = `Uso: node -r dotenv/config run-ctat-eval.mjs [caminho] [opções]
+
+  caminho        pasta-pai com problemas OU um problema (default: cases/ctat-6.17)
+  --limit N      avalia só os N primeiros problemas (smoke: --limit 1)
+  --real         usa os agentes reais 3a/3b/3c (chamadas pagas) em vez do shim
+  --out ARQ      caminho do report JSON (default: <pasta>/report-ctat.json)
+  --dry-run      lista os problemas que seriam avaliados e sai SEM chamar LLM
+  --help         imprime esta ajuda e sai (nenhuma avaliação é disparada)
+
+Com 1 problema não há pares HH: a não-inferioridade sai como "nao_estimavel"
+(sem IC), o que é esperado num smoke. Ver docs/REPRODUCAO-V7.md.`;
+
 function parseArgs(argv) {
-  const out = { target: "cases/ctat-6.17", limit: Infinity, real: false, outPath: null };
+  const out = {
+    target: "cases/ctat-6.17",
+    limit: Infinity,
+    real: false,
+    outPath: null,
+    dryRun: false,
+  };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === "--limit") out.limit = parseInt(argv[++i], 10) || Infinity;
+    if (argv[i] === "--help" || argv[i] === "-h") {
+      console.log(USAGE);
+      process.exit(0);
+    } else if (argv[i] === "--limit") out.limit = parseInt(argv[++i], 10) || Infinity;
     else if (argv[i] === "--real") out.real = true;
     else if (argv[i] === "--out") out.outPath = argv[++i];
-    else if (!argv[i].startsWith("--")) out.target = argv[i];
+    else if (argv[i] === "--dry-run") out.dryRun = true;
+    else if (argv[i].startsWith("--")) {
+      console.error(`Opção desconhecida: ${argv[i]}\n\n${USAGE}`);
+      process.exit(1);
+    } else out.target = argv[i];
   }
   return out;
 }
 
 async function main() {
-  const { target, limit, real, outPath } = parseArgs(process.argv.slice(2));
+  const { target, limit, real, outPath, dryRun } = parseArgs(process.argv.slice(2));
   const root = path.isAbsolute(target) ? target : path.join(HERE, target);
   if (!fs.existsSync(root)) {
     console.error(`Caminho não encontrado: ${root}`);
@@ -211,6 +241,12 @@ async function main() {
   if (!problemDirs.length) {
     console.error(`Nenhum problema (com expert.brd) em ${root}`);
     process.exit(1);
+  }
+
+  if (dryRun) {
+    console.log(`--dry-run: ${problemDirs.length} problema(s) seriam avaliados (nenhuma chamada LLM):`);
+    for (const d of problemDirs) console.log(`  - ${path.basename(d)}`);
+    return;
   }
 
   const mode = real ? "AGENTES REAIS 3a/3b/3c (produção)" : "shim consolidado";
@@ -270,8 +306,12 @@ async function main() {
     `equivalência FUNCIONAL média (RH): concordância=${feMean("agreement")}  κ=${feMean("kappa")}  ` +
       `inclusão-de-traços=${feMean("stepInclusion")}`
   );
+  // ni.ci é null quando o estimando não é identificado (nHH=0 ou nRH=0, veredito
+  // "nao_estimavel") — exatamente o smoke de 1 problema. Sem o guard, o smoke
+  // documentado no cabeçalho crashava com TypeError (2026-07-20).
   console.log(
-    `diferença (RH−HH) = ${fmt(ni.diff)}   |   IC95% = [${fmt(ni.ci.lower)}, ${fmt(ni.ci.upper)}]`
+    `diferença (RH−HH) = ${fmt(ni.diff)}   |   IC95% = ` +
+      (ni.ci ? `[${fmt(ni.ci.lower)}, ${fmt(ni.ci.upper)}]` : "n/a (não estimável)")
   );
   console.log(`➤ VEREDITO: ${String(ni.verdict).toUpperCase()}`);
   // VEREDITO 2D (T5): eixo X = completude CONCEITUAL (definição OFICIAL do X — a mesma

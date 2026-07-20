@@ -73,4 +73,49 @@ describe("consistência do artigo v7 (experimento final)", () => {
     );
     expect(() => validateArticleV7({ texPath })).toThrowError(/travessão proibido/);
   });
+
+  it("mutation: trocar o título enquadrado no objeto derruba a validação", () => {
+    const texPath = mutatedCopy(
+      (tex) =>
+        tex.replaceAll(
+          "Validação de grafos de comportamento gerados por agentes de IA contra grafos de especialistas CTAT",
+          "Validação de um simulador de alunos aterrado na interface"
+        ),
+      "titulo"
+    );
+    expect(() => validateArticleV7({ texPath })).toThrowError(/título/);
+  });
+
+  it("mutation: apagar a definição do envelope B como gabarito escondido derruba a validação", () => {
+    const texPath = mutatedCopy(
+      (tex) => tex.replaceAll("escondido como gabarito", "disponível ao autor"),
+      "envelope-b"
+    );
+    expect(() => validateArticleV7({ texPath })).toThrowError(/envelope B/);
+  });
+
+  it("mutation: renomear o compilador GraphForge derruba a validação", () => {
+    const texPath = mutatedCopy(
+      (tex) => tex.replaceAll("GraphForge", "GraphSmith"),
+      "graphforge"
+    );
+    expect(() => validateArticleV7({ texPath })).toThrowError(/GraphForge/);
+  });
+
+  it("mutation: remover a subseção Por que estas medidas derruba a validação", () => {
+    const texPath = mutatedCopy(
+      (tex) =>
+        tex.replace("\\subsection{Por que estas medidas}", "\\subsection{Medidas}"),
+      "medidas"
+    );
+    expect(() => validateArticleV7({ texPath })).toThrowError(/Por que estas medidas/);
+  });
+
+  it("mutation: corromper a interpretação nove em dez rotas de erro derruba a validação", () => {
+    const texPath = mutatedCopy(
+      (tex) => tex.replaceAll("de cada dez rotas de erro", "de cada cem rotas de erro"),
+      "interpretacao"
+    );
+    expect(() => validateArticleV7({ texPath })).toThrowError(/nove em dez/);
+  });
 });

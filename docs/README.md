@@ -2,14 +2,21 @@
 
 ## Comece aqui
 
-1. [README do repositório](../README.md) — pergunta, escopo, resultados centrais e limites.
-2. [Manuscrito v6.0](manuscript/v6.0/README.md) — artigo atual em PDF e LaTeX.
-3. [Versões científicas e campanhas](VERSOES.md) — explica por que C4 é principal, por que C1–C3
+1. [README do repositório](../README.md): pergunta, escopo, resultados centrais e limites.
+2. [Manuscrito v7.0](manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.tex): artigo do
+   experimento final da Campanha 5 (previsão teórica offline mais medição), validado fato a fato
+   por `analysis/validate-article-v7.mjs`.
+3. [Manuscrito v6.0](manuscript/v6.0/README.md): artigo integrado das Campanhas 1 a 4.
+4. [Versões científicas e campanhas](VERSOES.md): explica por que C4 é principal, por que C1 a C3
    são históricas e qual arquivo deve ser citado.
-4. [`campaign4-final-analysis-v2.1.json`](../resultados/campanha4-2026-07-15/campaign4-final-analysis-v2.1.json)
-   — derivado canônico dos resultados centrais da C4.
-5. [Reprodução v6](REPRODUCAO-V6.md) — o que é verificável offline e o que exigiria nova coleta.
-6. [Modelos e custos](MODELOS-E-CUSTOS.md) — modelos finais, chamadas incluídas e lançamentos excluídos.
+5. [`campaign4-final-analysis-v2.1.json`](../resultados/campanha4-2026-07-15/campaign4-final-analysis-v2.1.json):
+   derivado canônico dos resultados centrais da C4.
+6. [Reprodução v7 e benchmark](REPRODUCAO-V7.md): verificação offline grátis
+   (`npm run reproduce:verify`), re-coleta paga (`npm run reproduce:collect`) e a interface de
+   adaptadores ([benchmark/ADAPTADOR.md](../benchmark/ADAPTADOR.md)).
+7. [Reprodução v6](REPRODUCAO-V6.md): o que é verificável offline nas Campanhas 1 a 4 e o que
+   exigiria nova coleta.
+8. [Modelos e custos](MODELOS-E-CUSTOS.md): modelos finais, chamadas incluídas e lançamentos excluídos.
 
 ## Hierarquia documental
 
@@ -32,14 +39,19 @@ Uma emenda posterior pode substituir uma decisão anterior, mas não deve apagar
 - [`resultados/campanha4-2026-07-15/`](../resultados/campanha4-2026-07-15/): resultados e
   sensibilidades retidos.
 
-## Campanha 5 — posterior à v6.0 (não incorporada ao manuscrito)
+## Campanha 5: experimento final do manuscrito v7.0
 
+- [manuscrito v7.0](manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.tex): relata
+  somente o experimento final (previsão teórica offline e medição da configuração final);
 - [PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md): registro retrospectivo dos seis braços de
   2026-07-19 (protocolo fixo, mudanças por braço, confounder declarado, decisões de integridade);
 - [INVESTIGACAO-KAPPA-2026-07-19.md](INVESTIGACAO-KAPPA-2026-07-19.md): por que o κ funcional foi
   abandonado (paradoxo do κ + desenho da bateria; agreement bruto + PABAK como substitutos);
 - [`resultados/campanha5-2026-07-19/`](../resultados/campanha5-2026-07-19/): runs, sumários com
-  bootstrap por cluster e a previsão teórica determinística do braço final.
+  bootstrap por cluster e a previsão teórica determinística do braço final;
+- [REPRODUCAO-V7.md](REPRODUCAO-V7.md): reprodução como benchmark (verificação offline grátis,
+  re-coleta paga na configuração final e adaptadores de simulador via
+  [benchmark/ADAPTADOR.md](../benchmark/ADAPTADOR.md)).
 
 ## Campanhas 1–3 — documentação histórica
 
