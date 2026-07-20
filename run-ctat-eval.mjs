@@ -24,6 +24,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseBrdToExpertNeutral } from "./parse-ctat-brd.js";
 import { authorFromBrd } from "./author-from-ctat.js";
+import { parseMassProductionTable, renderedFactsFromParams } from "./interface-reconstruction.js";
 import { simulateStudentsReal } from "./simulate-students-real.js";
 import { compareGraphs } from "./metrics.js";
 import { functionalEquivalence } from "./functional-equivalence.js";
@@ -49,6 +50,31 @@ function sharedHtml(root) {
   return fs.existsSync(p) ? read(p) : undefined;
 }
 
+/**
+ * 2026-07-19 (Fase B): fatos da interface RENDERIZADA por problema, reconstruídos
+ * da tabela mass-production compartilhada (`_interface/massproduction.txt`).
+ * Retorna uma função id→fatos; fallback silencioso (sem tabela → sempre undefined).
+ * O módulo de reconstrução é PURO — o IO fica aqui, e envelope-b jamais entra.
+ */
+function sharedRenderedFacts(root) {
+  const p = path.join(root, "_interface", "massproduction.txt");
+  if (!fs.existsSync(p)) return () => undefined;
+  try {
+    const { paramsByProblem } = parseMassProductionTable(read(p));
+    return (id) => {
+      const params = paramsByProblem[id];
+      if (!params) return undefined;
+      try {
+        return renderedFactsFromParams(params) || undefined;
+      } catch {
+        return undefined;
+      }
+    };
+  } catch {
+    return () => undefined;
+  }
+}
+
 /** Banda histórica do hallucination_score (T11): µ+λσ persistido pela campanha. */
 function hallucinationBand(root) {
   const p = path.join(root, "hallucination-band.json");
@@ -72,6 +98,7 @@ async function runProblem(dir, html, opts = {}) {
   const robot = await authorFromBrd(experts[0].xml, {
     html,
     simulate: opts.real ? simulateStudentsReal : undefined,
+    renderedFacts: opts.renderedFactsFor ? opts.renderedFactsFor(id) : undefined,
   });
   const audit = auditBehaviorGraph(robot.graph);
   // NÍVEL 1 (T5): intrínsecos do grafo do robô — DUROS barram; MOLES vão pro relatório.
@@ -188,6 +215,7 @@ async function main() {
 
   const mode = real ? "AGENTES REAIS 3a/3b/3c (produção)" : "shim consolidado";
   const band = hallucinationBand(parentForHtml);
+  const renderedFactsFor = sharedRenderedFacts(parentForHtml);
   console.log(
     `Avaliando ${problemDirs.length} problema(s) — robô autora CEGO via LLM [${mode}]` +
       (band ? ` [banda alucinação: µ=${band.mean} σ=${band.sd}]` : "") +
@@ -196,7 +224,7 @@ async function main() {
   const results = [];
   for (const dir of problemDirs) {
     try {
-      const res = await runProblem(dir, html, { real, band });
+      const res = await runProblem(dir, html, { real, band, renderedFactsFor });
       printProblem(res);
       results.push(res);
     } catch (e) {

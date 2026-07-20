@@ -22,8 +22,10 @@ import { normalizeEducaoff } from "./schema.js";
 
 /**
  * @param {string} brdXml  conteúdo do expert.brd
- * @param {{ html?:string, simulate?:Function, profile?:string, difficulty?:string,
- *           sessionId?:string, screenshotPath?:string }} opts
+ * @param {{ html?:string, renderedFacts?:object, simulate?:Function, profile?:string,
+ *           difficulty?:string, sessionId?:string, screenshotPath?:string }} opts
+ *   `renderedFacts`: interface RENDERIZADA reconstruída do template mass-production
+ *   (interface-reconstruction.js) — flui para o inventário do simulador (Fase B).
  * @returns {Promise<{ neutral:object, graph:object, envelopeA:object, traces:object }>}
  */
 export async function authorFromBrd(brdXml, opts = {}) {
@@ -57,7 +59,8 @@ export async function authorFromInterface(exerciseId, opts = {}) {
  * Autora o grafo a partir de um Envelope A JÁ PRONTO (ex.: `envelope-a.json` do dataset).
  * É como os agentes consomem a base de dados materializada — sem reparsear o `.brd`.
  * @param {object} envelopeA  { problem, components, correctAnswer, knowledgeComponents }
- * @param {{ simulate?:Function, screenshotPath?:string, sessionId?:string }} opts
+ * @param {{ simulate?:Function, screenshotPath?:string, sessionId?:string,
+ *           renderedFacts?:object }} opts
  * @returns {Promise<{ neutral:object, graph:object, envelopeA:object, traces:object }>}
  */
 export async function authorFromEnvelopeA(envelopeA, opts = {}) {

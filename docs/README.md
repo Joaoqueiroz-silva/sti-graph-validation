@@ -32,6 +32,15 @@ Uma emenda posterior pode substituir uma decisão anterior, mas não deve apagar
 - [`resultados/campanha4-2026-07-15/`](../resultados/campanha4-2026-07-15/): resultados e
   sensibilidades retidos.
 
+## Campanha 5 — posterior à v6.0 (não incorporada ao manuscrito)
+
+- [PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md): registro retrospectivo dos seis braços de
+  2026-07-19 (protocolo fixo, mudanças por braço, confounder declarado, decisões de integridade);
+- [INVESTIGACAO-KAPPA-2026-07-19.md](INVESTIGACAO-KAPPA-2026-07-19.md): por que o κ funcional foi
+  abandonado (paradoxo do κ + desenho da bateria; agreement bruto + PABAK como substitutos);
+- [`resultados/campanha5-2026-07-19/`](../resultados/campanha5-2026-07-19/): runs, sumários com
+  bootstrap por cluster e a previsão teórica determinística do braço final.
+
 ## Campanhas 1–3 — documentação histórica
 
 - [PRE-REGISTRO.md](PRE-REGISTRO.md): plano e cronologia retrospectivamente documentados; não é
