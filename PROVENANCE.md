@@ -34,3 +34,13 @@ Gerado por `analysis/build-provenance.mjs` em 2026-07-12. Regra: nenhum exercíc
 Interface compartilhada: `interface.html` (1ba89f4cb153) · `interface.json` (3b3c29abe810) · `massproduction.txt` (18626e8402b0) · `screenshot.png` (78a8fb382aa1)
 
 `KCs declarados` conta todos os elementos `productionRule` do BRD; `KCs usados em transições` conta apenas identificadores associados às transições extraídas. Por exemplo, `01watermelon` declara cinco regras e usa quatro nas transições contadas.
+
+## Campanha 5 (2026-07-19)
+
+A Campanha 5 usou o MESMO corpus congelado acima (nenhum exercício novo entrou; a situação de licença dos BRDs continua a mesma e continua não resolvida). Artefatos novos, todos derivados:
+
+- `resultados/campanha5-2026-07-19/<braço>/runs/*.json` — 72 runs por braço (6 braços), saída do comparador sobre os pares robô×especialista; contêm respostas erradas propostas pelo robô e chaves de faltas/extras derivadas dos BRDs.
+- `resultados/campanha5-2026-07-19/<braço>/summary.json` — agregados com bootstrap por cluster (10k, seed 42).
+- `resultados/campanha5-2026-07-19/previsao-teorica/` — previsão determinística ANTERIOR à medição do braço 6: `reconstruir_interface.py` e `fatos-reconstruidos.json` (reconstrução da interface renderizada a partir de `massproduction.txt` + template — deriva SOMENTE do que aluno/especialista viam na tela), `previsao-cobertura.json` (análise de cobertura), `previsao-recheck.mjs`/`previsao-recheck.json` (verificação independente contra o inventário implementado; os envelopes B entram apenas como diagnóstico pós-hoc, nunca em prompt/inventário).
+
+Regra de proveniência mantida: os parâmetros `mfNum`, `badCount` e `doubleDiv` da tabela mass-production materializam apenas nas buggy edges dos BRDs (gabarito) e foram BANIDOS dos fatos de interface reconstruídos — a proibição está travada por teste (`__tests__/interface-reconstruction.test.mjs`). Ver [docs/PROTOCOLO-CAMPANHA-5.md](docs/PROTOCOLO-CAMPANHA-5.md).

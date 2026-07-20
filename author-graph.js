@@ -10,7 +10,7 @@
  * `traces` é o que os 3 agentes-aluno produzem ao "resolver" a interface:
  *   {
  *     correctPath:    [{ kc, action, result }],                // aluno avançado
- *     misconceptions: [{ step, id, type, wrongAnswer, description, feedback, severity }], // em-risco
+ *     misconceptions: [{ step, id, type, wrongAnswer, buggyRule?, description, feedback, severity }], // em-risco
  *     hints:          [{ step, text }]                          // mediano (hesitações)
  *   }
  *
@@ -40,13 +40,20 @@ export function buildGraphForgeConfig(iface, traces) {
   }));
 
   const misconceptions = {}; // { [stepIndex0based]: [...] }
+  // 2026-07-19 (Trilha A — sem teto, filosofia do 3b): NENHUM slice/limite aqui,
+  // de propósito — o robô produz quantos erros por passo forem necessários
+  // (princípio CTAT) e TODOS entram no grafo. Qualquer teto voltaria a mascarar
+  // a completude que o experimento mede.
   for (const m of traces.misconceptions || []) {
     const idx = Math.max(0, (m.step || 1) - 1);
     (misconceptions[idx] ||= []).push({
       id: m.id,
       type: m.type || "conceptual_error",
       wrongAnswer: m.wrongAnswer ?? "",
-      description: m.description || "",
+      // 2026-07-19: buggyRule (receita mecânica, estilo 3b de produção) enriquece
+      // a description quando ela faltar — é material do próprio robô, não sintético.
+      description: m.description || m.buggyRule || "",
+      buggyRule: m.buggyRule || "",
       feedback: m.feedback || m.howToFix || "",
       severity: m.severity || "moderate",
     });

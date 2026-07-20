@@ -12,7 +12,7 @@ Os relatórios longos, DOCX/PDF e rascunhos metodológicos anteriores permanecem
 para auditoria da evolução do trabalho. Eles não são um segundo artigo concorrente e não devem ser
 usados como versão final quando divergirem da v6.0.
 
-`v6.0` é a versão do manuscrito, não o número de uma campanha. O estudo possui quatro campanhas.
+`v6.0` é a versão do manuscrito, não o número de uma campanha. O estudo possui cinco campanhas.
 
 ## Papel de cada campanha na v6.0
 
@@ -22,13 +22,14 @@ usados como versão final quando divergirem da v6.0.
 | C2 | 2026-07-08/09 | bancada multimodelo adaptada | robustez exploratória histórica | `resultados/campanha-2026-07-08-multimodelo/` |
 | C3 | 2026-07-13 | subsistema integrado e executor analítico | evidência histórica secundária | `resultados/campanha3-2026-07-13/` e [METRICAS-V2.md](METRICAS-V2.md) |
 | C4 | 2026-07-15 | agentes 3a/3b/3c, transporte e GraphForge congelados | **avaliação principal** | `resultados/campanha4-2026-07-15/` e `protocol/production-freeze-2026-07-15/` |
+| C5 | 2026-07-19 | iteração sequencial do simulador de alunos (6 braços) | melhoria exploratória do instrumento; **posterior à v6.0, ainda não incorporada ao manuscrito** | `resultados/campanha5-2026-07-19/` e [PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md) |
 
 “Principal” significa que a C4 responde mais diretamente à pergunta atual sobre os agentes e o
 fluxo implantado auditado. Não significa estudo confirmatório, equivalência a especialistas nem
 eficácia com estudantes. Todas as campanhas são exploratórias e suas estimativas não são
 combinadas.
 
-Os mesmos 24 exercícios aparecem nas quatro campanhas. Eles não formam 96 unidades independentes.
+Os mesmos 24 exercícios aparecem nas cinco campanhas. Eles não formam 120 unidades independentes.
 
 ## Linha de versionamento
 
@@ -54,6 +55,20 @@ agentes, transporte, montagem determinística e concordância com a referência 
 Uma release futura `v6.0.0` só deve ser criada depois da auditoria completa, das verificações
 offline e da resolução dos bloqueios de publicação. A existência do diretório v6.0 não implica que
 essa release já exista.
+
+### Campanha 5 (2026-07-19) — posterior à v6.0
+
+A C5 iterou o SIMULADOR do experimento (não os agentes de produção congelados da C4) em seis
+braços sequenciais, com previsão teórica determinística antes do braço final: recall conceitual
+de misconceptions 0,376 (baseline C1) → 0,913 [0,86–0,96]; F1 conceitual 0,626 [0,61–0,64]
+(previsão teórica: 0,609). Registro completo — incluindo os dois braços NEGATIVOS mantidos,
+os vazamentos recusados (mfNum/badCount/doubleDiv; passo done "-1"), o confounder modelo×prompt
+declarado do braço 6 e o abandono do κ funcional (agreement bruto + PABAK como substitutos) —
+em [PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md) e em
+`resultados/campanha5-2026-07-19/README.md`. O manuscrito v6.0 NÃO reflete a C5; uma futura
+versão que a incorpore deve tratá-la como emenda exploratória datada (regra 2 abaixo) e não
+pode apresentar 0,913 como resultado confirmatório nem como "quase perfeito" — o resíduo é
+gap de exploração + o caso `17pencils`, descoberto por decisão de integridade.
 
 ## Regras para novas versões
 

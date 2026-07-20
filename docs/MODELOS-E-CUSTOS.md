@@ -47,6 +47,28 @@ completa: tentativas diagnósticas ou em voo podem não estar integralmente
 reconciliadas. Claude e GPT aparecem somente em campanhas/lançamentos históricos
 e não fazem parte do painel final v5.
 
+## Campanha 5 (2026-07-19) — simulador iterado
+
+Seis braços × 72 chamadas de simulação (24 problemas × 3 réplicas), sem juízes
+LLM (comparação 100% offline via `metrics.js`).
+
+| Braços | Modelo do simulador (3b) | Provedor | Custo aproximado |
+| --- | --- | --- | ---: |
+| 1–5 | `google/gemini-3.5-flash` (temp. 0,7) | OpenRouter | ~US$ 4 por braço |
+| 6 | `qwen/qwen3-max` | OpenRouter | ~US$ 4 |
+
+Total aproximado da campanha: **~US$ 24**. Estes valores são narrativos: os
+journals por chamada da C5 não foram consolidados neste pacote, então — pela
+mesma regra aplicada a C1/C2 abaixo — não devem ser apresentados como totais
+contábeis exatos. A previsão teórica do braço 6
+(`resultados/campanha5-2026-07-19/previsao-teorica/`) custou US$ 0,00: é 100%
+determinística, sem chamadas de LLM.
+
+**Confounder declarado:** o braço 6 troca prompt E modelo ao mesmo tempo
+(`qwen/qwen3-max` era a recomendação pré-existente de `tiers.js` no repositório
+EducaOFF); o efeito modelo×prompt não está isolado. Detalhes em
+[PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md) §5.
+
 ## Campanhas históricas
 
 - C3: 1.970 registros reconciliados, US$ 16,71870027. Dois erros primários
