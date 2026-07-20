@@ -11,7 +11,16 @@ Repositório reprodutível do estudo sobre a validação técnica dos grafos de 
 
 > **Versão científica atual: v6.0.** A Campanha 4 é a avaliação principal, por executar cópias congeladas dos agentes e do transporte da implantação auditada. As Campanhas 1–3 são desenvolvimento histórico do instrumento e evidência secundária. As estimativas das quatro campanhas não são combinadas.
 
-## Manuscrito atual
+## Manuscritos
+
+Manuscrito v7.0 (experimento final da Campanha 5: previsão teórica offline e medição da
+configuração final do simulador de alunos):
+
+- [PDF do artigo v7.0](docs/manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.pdf)
+- [fonte LaTeX v7.0](docs/manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.tex)
+- [reprodução como benchmark](docs/REPRODUCAO-V7.md)
+
+Manuscrito v6.0 (estudo integrado das Campanhas 1 a 4):
 
 - [PDF do artigo v6.0](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.pdf)
 - [fonte LaTeX](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.tex)
@@ -20,7 +29,7 @@ Repositório reprodutível do estudo sobre a validação técnica dos grafos de 
 - [registro de modelos e custos](docs/MODELOS-E-CUSTOS.md)
 - [proveniência e licença do corpus](PROVENANCE.md)
 
-Os relatórios anteriores permanecem como material histórico. Eles não substituem o manuscrito v6.0.
+Os relatórios anteriores permanecem como material histórico. Eles não substituem os manuscritos.
 
 ## O que o estudo pode e não pode concluir
 
@@ -108,6 +117,24 @@ npm run article:validate
 ```
 
 Consulte [docs/REPRODUCAO-V6.md](docs/REPRODUCAO-V6.md) antes de regenerar derivados, pois alguns arquivos registram correções e sensibilidades pós-hoc que precisam conservar essa classificação.
+
+## Reproduzir como benchmark
+
+O experimento final do manuscrito v7.0 (Campanha 5) é reproduzível como benchmark em três comandos:
+
+```bash
+npm ci
+npm run reproduce:verify                 # offline e grátis: recomputa agregados, previsão, artigo e hashes
+npm run reproduce:collect -- --yes       # pago (entre US$ 1 e US$ 4): re-coleta 24 x 3 na configuração final exata
+```
+
+`reproduce:verify` valida o clone inteiro sem chave nem rede. `reproduce:collect` chama
+`qwen/qwen3-max` na configuração final, salva os runs no formato do depósito em um diretório
+datado e imprime a comparação com o braço final: o critério de replicação é a sobreposição dos
+IC95% por cluster, não a igualdade pontual (o simulador é estocástico). Qualquer outro simulador
+pode ser pontuado na mesma régua com `--adapter` (contrato e trava anti-vazamento em
+[benchmark/ADAPTADOR.md](benchmark/ADAPTADOR.md); exemplo offline gratuito em
+`benchmark/adapter-exemplo.mjs`). Detalhes, custos e limites: [docs/REPRODUCAO-V7.md](docs/REPRODUCAO-V7.md).
 
 ## Chamadas pagas
 

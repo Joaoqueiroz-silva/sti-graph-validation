@@ -183,6 +183,106 @@ export function validateArticleV7({ texPath = DEFAULT_TEX } = {}) {
     );
   }
 
+  // ----------------------- enquadramento no objeto: título e mecânica declarada
+  const TITLE =
+    "Validação de grafos de comportamento gerados por agentes de IA contra grafos de especialistas CTAT: previsão teórica offline e aterramento na interface";
+  requireText(
+    `\\title{\\bfseries ${TITLE}}`,
+    "título: \\title enquadrado no objeto (grafos de comportamento)"
+  );
+  requireText(`pdftitle={${TITLE}}`, "título: pdftitle idêntico ao \\title");
+  requireAbsent(
+    "Prever antes de medir: previsão teórica offline e validação de um simulador",
+    "título antigo (simulador como protagonista) removido"
+  );
+  requireText(
+    "agentes de IA conseguem construir grafos de comportamento com a qualidade dos grafos que especialistas humanos constroem à mão no CTAT",
+    "introdução: pergunta de abertura sobre os grafos"
+  );
+  requireText(
+    "compilador determinístico GraphForge",
+    "mecanismo: traces dos alunos simulados viram o grafo via GraphForge"
+  );
+  requireText(
+    "O simulador é o meio; o grafo é o fim",
+    "enquadramento: simulador como mecanismo, grafo como objeto"
+  );
+  requireText(
+    "grafo de comportamento feito à mão por um especialista CTAT: passos de resolução, respostas erradas previstas e remediações",
+    "mecânica: .brd definido como grafo manual do especialista"
+  );
+  requireText(
+    "O envelope A contém o que qualquer autor vê antes de autorar: o enunciado, a interface e a resposta correta",
+    "mecânica: envelope A definido"
+  );
+  requireText(
+    "O envelope B é o grafo completo do especialista, escondido como gabarito",
+    "mecânica: envelope B definido como gabarito escondido"
+  );
+  requireText(
+    "Os agentes autoram às cegas, somente com o envelope A; a nota compara o grafo deles com o envelope B",
+    "mecânica: autoria cega e nota contra o envelope B"
+  );
+
+  // ------------------- método: subseção de justificativa e leitura das medidas
+  requireText(/\\subsection\{Por que estas medidas\}/, "método: subseção Por que estas medidas");
+  requireText(
+    "assimetria de custo pedagógico: uma rota de erro ausente no grafo significa que o tutor não reconhece o erro do aluno",
+    "medidas: justificativa da completude como primária"
+  );
+  requireText(
+    "a estrita permanece como linha crua auditável",
+    "medidas: completude estrita como linha crua anti-gaming"
+  );
+  requireText(
+    "a precisão é acompanhamento, não veto",
+    "medidas: precisão declarada assimétrica, sem veto"
+  );
+  requireText(
+    "mistura dois custos assimétricos em um número só",
+    "medidas: F1 não primária por misturar custos"
+  );
+  requireText(
+    "as três réplicas do mesmo problema são correlacionadas",
+    "medidas: cluster = problema justificado"
+  );
+  requireText(
+    "dispensa suposição de normalidade, insustentável com apenas 24 clusters",
+    "medidas: bootstrap justificado sem normalidade"
+  );
+  requireText(
+    "a semente fixa (42) torna cada intervalo exatamente reprodutível",
+    "medidas: semente fixa como reprodutibilidade"
+  );
+  requireText(
+    "reamostrando os 24 problemas do corpus, a estimativa fica nessa faixa em 95\\% das reamostragens",
+    "medidas: leitura do IC de 95%"
+  );
+  requireText(
+    "paradoxo de prevalência com marginais endógenas",
+    "medidas: kappa colapsa por marginais endógenas"
+  );
+  requireText(
+    "não é alcançável por nenhum autor externo",
+    "medidas: teto determinístico da completude de passos"
+  );
+  requireText(
+    "hipótese falsificável",
+    "medidas: previsão offline como hipótese falsificável"
+  );
+  requireText(
+    "valida a calculadora antes de confiar na previsão",
+    "medidas: back-out valida a calculadora"
+  );
+  requireText(
+    "O resíduo é caracterizado, não especulativo",
+    "medidas: resíduo do teto com causas nomeadas"
+  );
+  requireText(
+    "de cada dez rotas de erro que o especialista desenhou no grafo dele, os agentes desenharam cerca de nove nas deles",
+    "interpretação primária: nove em dez rotas de erro"
+  );
+
   // --------------------------------- estrutura: só o experimento final no artigo
   requireText(/\\section\{Introdução\}/, "seção Introdução");
   requireText(/\\section\{Método\}/, "seção Método");
@@ -345,7 +445,7 @@ export function validateArticleV7({ texPath = DEFAULT_TEX } = {}) {
   // ------------------------------------------------- resultados em texto corrido
   requireAnyText(
     [
-      "o simulador previu ",
+      "os grafos gerados pelos agentes cobriram ",
       pt3(rc.mean),
       " (IC95\\% por cluster ",
       pt3(rc.lower),
@@ -353,7 +453,7 @@ export function validateArticleV7({ texPath = DEFAULT_TEX } = {}) {
       pt3(rc.upper),
       ") das misconceptions conceituais",
     ],
-    "resultados: completude conceitual em texto corrido"
+    "resultados: completude conceitual em texto corrido (tom do objeto)"
   );
   requireAnyText(
     [

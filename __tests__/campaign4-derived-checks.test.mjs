@@ -8,7 +8,10 @@ import { reanalyzeCampaign4Public } from "../analysis/reanalyze-campaign4-public
 afterEach(() => vi.unstubAllEnvs());
 
 describe("checks byte a byte dos derivados C4", () => {
-  it("ignora SOURCE_DATE_EPOCH externo e reproduz todos os canônicos", () => {
+  // timeout explícito: os 5 checks recomputam bootstraps e manifestos inteiros e
+  // passam de 5 s (default do vitest) em hardware modesto (falso negativo de
+  // reprodução observado no teste ácido de 2026-07-20).
+  it("ignora SOURCE_DATE_EPOCH externo e reproduz todos os canônicos", { timeout: 120000 }, () => {
     vi.stubEnv("SOURCE_DATE_EPOCH", "0");
     expect(reanalyzeCampaign4Public()).toMatchObject({ status: "ok", groups: 6 });
     expect(checkCampaign4Aggregate()).toMatchObject({ status: "ok", mode: "check" });

@@ -80,7 +80,10 @@ const configArb = fc
   });
 
 describe(`P1–P7: DUROS = invariantes do graphForge (${RUNS} grafos aleatórios)`, () => {
-  it("nenhuma config produz violação DURA", () => {
+  // timeout explícito: 10 000 grafos passam com folga de 5 s (default do vitest)
+  // em hardware modesto; sem isto o teste dava falso negativo de reprodução
+  // (teste ácido de 2026-07-20).
+  it("nenhuma config produz violação DURA", { timeout: 300000 }, () => {
     fc.assert(
       fc.property(configArb, (config) => {
         const { graph } = graphForge(config);

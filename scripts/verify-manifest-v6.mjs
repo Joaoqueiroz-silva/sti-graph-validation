@@ -119,7 +119,24 @@ const mode = process.argv[2];
 if (!['--write', '--verify'].includes(mode)) {
   process.stderr.write("Uso: node scripts/verify-manifest-v6.mjs --write|--verify\n");
   process.exitCode = 2;
+} else if (mode === "--write") {
+  // 2026-07-20 (transição para a v7.0): MANIFEST-v6.0.sha256 e o SHA256SUMS do
+  // manuscrito v6.0 são HISTÓRICOS e ficam congelados (docs/VERSOES.md, regras 1 e 4:
+  // não sobrescrever congelados; não alterar manifestos históricos para esconder
+  // divergências). Regravá-los apagaria o registro do estado consolidado da v6.0.
+  // O manifesto vivo da versão atual é o v7: use `npm run manifest:v7:write`.
+  process.stderr.write(
+    "RECUSADO: MANIFEST-v6.0.sha256 está congelado como histórico da v6.0.\n" +
+      "Use `npm run manifest:v7:write` (scripts/verify-manifest-v7.mjs) para o manifesto vivo.\n" +
+      "Para auditar a v6.0, verifique este manifesto contra um checkout descartável do\n" +
+      "estado v6 (ver protocol/frozen/README.md).\n"
+  );
+  process.exitCode = 2;
 } else {
-  const counts = mode === "--write" ? writeManifests() : verifyManifests();
+  const counts = verifyManifests();
   process.stdout.write(`${JSON.stringify({ status: "ok", mode, ...counts })}\n`);
 }
+
+// `writeManifests` permanece definido acima apenas como registro do mecanismo que
+// gerou o manifesto v6; a recusa acima impede novas gravações.
+void writeManifests;
