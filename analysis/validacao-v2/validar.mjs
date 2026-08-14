@@ -4,7 +4,7 @@
  * Uso:
  *   node analysis/validacao-v2/validar.mjs --runs <dir>            # formato novo (grafo completo)
  *   node analysis/validacao-v2/validar.mjs --legado <dir>          # formato antigo (só valores)
- *   node analysis/validacao-v2/validar.mjs --runs <dir> --json out.json
+ *   node analysis/validacao-v2/validar.mjs --runs <dir> --rotulo custo-beneficio --json out.json
  *
  * Não faz chamada de rede e não custa nada.
  */
@@ -20,6 +20,7 @@ const arg = (k, d = null) => { const i = argv.indexOf(k); return i >= 0 ? argv[i
 const dirRuns = arg("--runs");
 const dirLegado = arg("--legado");
 const saidaJson = arg("--json");
+const rotulo = arg("--rotulo");
 const raiz = arg("--raiz", ".");
 
 if (!dirRuns && !dirLegado) {
@@ -41,6 +42,7 @@ function lerRuns(dir) {
         completo: false,
         valores: new Set((j.robotMisconceptions || []).map((v) => canonAnswer(String(v).trim()))),
         auditoria: j.audit ?? null,
+        modelos: j.modelos ?? null,
       });
       continue;
     }
@@ -60,6 +62,7 @@ function lerRuns(dir) {
       nPassos: (g.passos || []).length,
       valores: new Set(erros.map((e) => e.valor)),
       auditoria: j.auditoria ?? j.audit ?? null,
+      modelos: j.modelos ?? null,
     });
   }
   return out;
@@ -68,11 +71,28 @@ function lerRuns(dir) {
 const runs = lerRuns(dirRuns || dirLegado).filter((r) => REF[r.ex]);
 if (!runs.length) { console.error("nenhum run casou com o corpus"); process.exit(2); }
 
-const rel = { gerado: new Date().toISOString(), runs: runs.length, exercicios: exs.length, niveis: {} };
+const cfgModelos = runs.find((r) => r.modelos)?.modelos ?? null;
+const rel = {
+  gerado: new Date().toISOString(),
+  rotulo: rotulo || cfgModelos?.perfil || path.basename(dirRuns || dirLegado),
+  perfilModelos: cfgModelos?.perfil ?? null,
+  modelos: cfgModelos?.porAgente ?? null,
+  temperatura: cfgModelos?.temperatura ?? null,
+  runs: runs.length,
+  exercicios: exs.length,
+  niveis: {},
+};
 const P = (s) => console.log(s);
 
 P("=".repeat(70));
 P("VALIDAÇÃO DE QUALIDADE DOS GRAFOS — " + runs.length + " registros");
+P("braço: " + rel.rotulo);
+if (rel.modelos) {
+  for (const [ag, m] of Object.entries(rel.modelos)) P("  " + ag.padEnd(18) + m);
+  if (rel.temperatura != null) P("  temperatura       " + rel.temperatura);
+} else {
+  P("  modelos: não registrados nos runs (ver docs/CONTRATO-RUN-V2.md)");
+}
 P("=".repeat(70));
 
 // ---------- NÍVEL 0 — estrutura ----------
@@ -104,6 +124,12 @@ P(`  candidatos por registro: ${(totGer / runs.length).toFixed(2)} contra ${(tot
 rel.niveis.valor = { cobertura: icCob, precisao: icPre, f1: icF1, jaccard: icJac,
   microCobertura: totInter / totRef, microPrecisao: totInter / totGer,
   candidatosPorRegistro: totGer / runs.length };
+
+// linha por exercício — é o que permite a comparação pareada entre braços
+rel.porExercicio = l1.map((x) => ({
+  ex: x.ex, cobertura: x.cobertura, precisao: x.precisao,
+  f1: x.f1, fbeta: x.fbeta, jaccard: x.jaccard, inter: x.inter,
+}));
 
 // ---------- NÍVEIS 2 a 4 — só com grafo completo ----------
 const completos = runs.filter((r) => r.completo);
@@ -156,6 +182,11 @@ if (!completos.length) {
   rel.niveis.posicao = { l2: intervalo(l2, "cobertura"), l3: intervalo(l3, "cobertura"),
     relativa: { pares, tol10: tol10 / pares, tol15: tol15 / pares, tol20: tol20 / pares },
     granularidadeRef: granR, granularidadeGerado: granG };
+  for (const linha of rel.porExercicio) {
+    linha.passoCerto = l2.find((x) => x.ex === linha.ex)?.cobertura ?? null;
+    linha.passoEComponente = l3.find((x) => x.ex === linha.ex)?.cobertura ?? null;
+    linha.posicaoRelativa = l4.find((x) => x.ex === linha.ex)?.cobertura ?? null;
+  }
 
   // ---------- NÍVEL 5 — devolutiva ----------
   const dg = completos.flatMap((r) => r.erros);
