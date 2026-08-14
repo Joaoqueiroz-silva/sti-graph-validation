@@ -3,8 +3,9 @@
 **Por que existe.** As campanhas 1 a 5 preservaram apenas a lista de valores de
 resposta errada. Isso torna impossível, depois do fato, medir se o erro foi
 colocado no passo certo, no componente certo, com a devolutiva certa — ou seja,
-impossível avaliar qualidade de grafo. Este contrato define o mínimo que uma
-coleta precisa gravar para que a bateria `analysis/validacao-v2` funcione.
+impossível avaliar qualidade de grafo. Também não registraram qual modelo rodou
+cada agente, o que impede atribuir qualquer resultado a uma configuração. Este
+contrato define o mínimo que uma coleta precisa gravar.
 
 **Regra.** Um arquivo JSON por par exercício–réplica, em `runs/`.
 
@@ -12,9 +13,22 @@ coleta precisa gravar para que a bateria `analysis/validacao-v2` funcione.
 {
   "exercicio": "00bubble",
   "replica": 1,
-  "modelo": "qwen/qwen3-max",
-  "promptSha256": "...",
   "geradoEm": "2026-08-20T14:00:00Z",
+  "promptSha256": "...",
+
+  "modelos": {
+    "perfil": "custo-beneficio",
+    "porAgente": {
+      "dominio": "openai/gpt-5.6-luna",
+      "materializacao": "openai/gpt-5.6-luna",
+      "estudantes": "google/gemini-3.1-flash-lite",
+      "revisao": "google/gemini-3.1-flash-lite",
+      "checagem": "google/gemini-3.1-flash-lite"
+    },
+    "temperatura": 0.7,
+    "provedor": "openrouter"
+  },
+  "custo": { "tokensEntrada": 0, "tokensSaida": 0, "usd": 0 },
 
   "auditoria": { "ok": true, "passos": 5 },
 
@@ -50,11 +64,17 @@ coleta precisa gravar para que a bateria `analysis/validacao-v2` funcione.
 | `grafo.erros[].componente` e `.acao` | nível 3 |
 | `grafo.erros[].devolutiva` | nível 5 |
 | `auditoria.ok` | nível 0 |
+| `modelos.porAgente` | atribuir o resultado a uma configuração |
+| `modelos.perfil` | agrupar braços na comparação pareada |
+| `custo` | decidir se um ganho compensa |
 | `bruto` | reanálise futura sem nova coleta |
 
 `passo` é o índice, começando em 1, do passo do **caminho correto gerado** ao
 qual o erro está ancorado. Sem ele o erro é um valor solto e a posição não pode
 ser avaliada nem depois.
+
+Em `modelos.porAgente`, gravar o identificador **resolvido**, não o apelido do
+perfil. Roteadores trocam o modelo por trás de um alias sem aviso.
 
 ## O que não fazer
 
