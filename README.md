@@ -9,9 +9,24 @@ Repositório reprodutível do estudo sobre a validação técnica dos grafos de 
 3. estrutura montada deterministicamente pelo GraphForge;
 4. concordância com grafos CTAT de referência.
 
-> **Versão científica atual: v6.0.** A Campanha 4 é a avaliação principal, por executar cópias congeladas dos agentes e do transporte da implantação auditada. As Campanhas 1–3 são desenvolvimento histórico do instrumento e evidência secundária. As estimativas das quatro campanhas não são combinadas.
+> **Experimento vigente: validação de 2026-08-14** (seções abaixo). Os manuscritos v6.0/v7.0 e as Campanhas 1–5 são o desenvolvimento histórico do instrumento — preservados, verificados a cada commit e nunca combinados com as estimativas novas.
 
-## Manuscritos
+## Experimento vigente — validação 2026-08-14
+
+A validação atual usa os **agentes de produção portados byte a byte** (espelho em `producao/`, commit-fonte em `producao/COMMIT-FONTE.txt`), modelo configurável por agente e o registro completo por execução ([contrato v2](docs/CONTRATO-RUN-V2.md)). Duas trilhas complementares:
+
+**1. Com referência CTAT — a bancada justa (v2).** Comparação com o grafo do especialista sob regras pré-declaradas: pareamento por valor canônico + posição relativa, conjunto candidato de produto, precision@k, cobertura mútua com equivalência TOST e precisão julgada por juízes LLM cegos com gate de calibração. Resultados-chave: cobertura justa de 0,501 no melhor braço; primeiro braço estatisticamente **equivalente** ao especialista (TOST); precisão julgada 0,65–0,75.
+
+**2. Sem referência CTAT — a partir dos dados dos estudantes.** Censo intrínseco dos 868 grafos publicados + validade preditiva contra 476 erros reais (antecipação no passo exato: 34,6%, na faixa histórica dos catálogos de especialistas) + protocolo prospectivo pré-registrado e experimento causal de ablação. Desenho completo: [docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md](docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md).
+
+Navegação para a escrita do artigo:
+
+- **[docs/GUIA-DO-ARTIGO.md](docs/GUIA-DO-ARTIGO.md)** — cada seção do manuscrito → fontes primárias, números e figuras;
+- **[docs/DOSSIE-VALIDACAO-2026-08-14.html](docs/DOSSIE-VALIDACAO-2026-08-14.html)** — a metodologia ensinada (estatísticas, figuras, referencial teórico comentado);
+- **[resultados/LEIA-ME.md](resultados/LEIA-ME.md)** — índice vigente × histórico de todas as pastas de resultados;
+- reprodução: `npm test` · `npm run verify:offline` · comandos por estudo no `RESULTADOS.md` de cada pasta vigente.
+
+## Manuscritos (histórico preservado)
 
 Manuscrito v7.0 (experimento final da Campanha 5: previsão teórica offline e medição da
 configuração final do simulador de alunos):
