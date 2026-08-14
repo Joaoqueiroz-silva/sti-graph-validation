@@ -85,7 +85,7 @@ export function authorGraphForInterface(iface, traces) {
  * zerando o recall de passos por construção. Aqui injetamos o `result` no nó `step_{i+1}`
  * correspondente. NÃO altera o graphForge de produção (a mutação é local ao grafo de eval).
  */
-function injectStepAnswers(graph, config) {
+export function injectStepAnswers(graph, config) {
   const byId = new Map((graph.nodes || []).map((n) => [n.id, n]));
   (config.steps || []).forEach((step, i) => {
     const node = byId.get("step_" + (i + 1));

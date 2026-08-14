@@ -87,6 +87,7 @@ function parseArgs(argv) {
     perfil: null,
     modelo: [],
     plano: false,
+    fluxo: "campanha5",
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -99,10 +100,19 @@ function parseArgs(argv) {
     else if (a === "--perfil") out.perfil = argv[++i];
     else if (a === "--modelo") out.modelo.push(argv[++i]);
     else if (a === "--plano") out.plano = true;
+    else if (a === "--fluxo") out.fluxo = argv[++i];
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
     }
+  }
+  if (!["campanha5", "plataforma"].includes(out.fluxo)) {
+    console.error(`--fluxo deve ser "campanha5" (default) ou "plataforma"; recebi "${out.fluxo}"`);
+    process.exit(1);
+  }
+  if (out.fluxo === "plataforma" && out.adapter) {
+    console.error("--fluxo plataforma e --adapter são mutuamente exclusivos");
+    process.exit(1);
   }
   if (!Number.isInteger(out.problems) || out.problems < 1 || out.problems > 24) {
     console.error("--problems deve estar entre 1 e 24");
@@ -137,7 +147,9 @@ async function main() {
       ...args.modelo.flatMap((m) => ["--modelo", m]),
     ],
   });
-  const modoPerfil = resolucao.engajado && !args.adapter;
+  // No fluxo-plataforma a resolução por perfil SEMPRE se aplica (não existe a
+  // réplica histórica de uma chamada; sem flags, vale o perfilPadrao).
+  const modoPerfil = (resolucao.engajado || args.fluxo === "plataforma") && !args.adapter;
 
   // ── modelo resolvido ANTES de importar o cliente LLM ─────────────────────
   // Caminho histórico: precedência de resolveEvalStudentConfig (env
@@ -151,10 +163,11 @@ async function main() {
     : process.env.STI_EVAL_3B_MODEL || FINAL_MODEL;
   if (!args.adapter) {
     process.env.FALLBACK_MODEL = intendedModel;
-    if (modoPerfil) process.env.STI_EVAL_3B_MODEL = intendedModel;
+    if (modoPerfil && args.fluxo === "campanha5") process.env.STI_EVAL_3B_MODEL = intendedModel;
   }
 
   const { authorFromEnvelopeA } = await import(path.join(REPO, "author-from-ctat.js"));
+  const { authorFluxoPlataforma } = await import(path.join(REPO, "simulate-fluxo-plataforma.js"));
   const { resolveEvalStudentConfig, restrictToComponents, sanitizeMisconceptions } = await import(
     path.join(REPO, "simulate-students.js")
   );
@@ -194,10 +207,20 @@ async function main() {
     adapterSha = crypto.createHash("sha256").update(fs.readFileSync(adapterPath)).digest("hex");
     console.log(`Simulador: ADAPTADOR externo ${path.relative(process.cwd(), adapterPath)} (sha256 ${adapterSha.slice(0, 12)})`);
   } else {
-    resolved = resolveEvalStudentConfig();
+    // No fluxo-plataforma o simulador de uma chamada NÃO roda; o modelo efetivo
+    // dos três agents3 é o papel "estudantes" resolvido, e todo o resto
+    // (pinagem do fallback, auditoria do manifesto, bloco modelos) deve olhar
+    // para ele — nunca para resolveEvalStudentConfig, que é do fluxo antigo.
+    resolved =
+      args.fluxo === "plataforma"
+        ? { provider: "openrouter", model: intendedModel, temperature: resolucao.temperatura }
+        : resolveEvalStudentConfig();
     console.log(
-      `Simulador: default do pacote (simulate-students.js) | provider=${resolved.provider} ` +
-        `model=${resolved.model} temperature=${resolved.temperature}`
+      args.fluxo === "plataforma"
+        ? `Simulador: FLUXO-PLATAFORMA (agents3a/3b/3c portados + extractGraphForgeConfig + ` +
+            `graphForge de produção) | estudantes=${intendedModel}`
+        : `Simulador: default do pacote (simulate-students.js) | provider=${resolved.provider} ` +
+            `model=${resolved.model} temperature=${resolved.temperature}`
     );
     if (modoPerfil) {
       console.log(
@@ -246,6 +269,18 @@ async function main() {
           perfil: resolucao.perfil,
           porAgente: { ...resolucao.porAgente, estudantes: resolved.model },
           temperatura: resolved.temperature,
+          // No fluxo-plataforma os três agents3 usam as temperaturas do
+          // registry de produção (adaptador pipeline-core); ficam registradas
+          // para o resultado ser atribuível sem abrir o manifesto.
+          ...(args.fluxo === "plataforma"
+            ? {
+                temperaturasProducao: {
+                  agent3a_advanced: 0.2,
+                  agent3b_atrisk: 0.7,
+                  agent3c_average: 0.4,
+                },
+              }
+            : {}),
           provedor: "openrouter",
           resolvidoEm: resolucao.resolvidoEm,
         }
@@ -264,13 +299,16 @@ async function main() {
     .sort()
     .slice(0, args.problems);
   const totalRuns = problemIds.length * args.replicas;
+  const chamadasPorRun = args.fluxo === "plataforma" ? 3 : 1;
   console.log(`\n${line}\nPLANO DA COLETA`);
   console.log(
     `  ${problemIds.length} problema(s) x ${args.replicas} réplica(s) = ${totalRuns} run(s); ` +
-      `1 chamada de LLM por run no caminho default`
+      (args.fluxo === "plataforma"
+        ? `3 chamadas de LLM por run (agents 3a, 3b e 3c de produção)`
+        : `1 chamada de LLM por run no caminho default`)
   );
   if (!args.adapter) {
-    const est = totalRuns * EST_USD_PER_RUN;
+    const est = totalRuns * EST_USD_PER_RUN * chamadasPorRun;
     console.log(
       `  CUSTO ESTIMADO (teto conservador): até ~US$ ${est.toFixed(2)} ` +
         `(teto de US$ ${EST_USD_PER_RUN.toFixed(2)}/run; a chamada típica custa cerca de um ` +
@@ -394,20 +432,39 @@ async function main() {
       try {
         const chamadasAntes = args.adapter ? 0 : lerManifesto().length;
         const sink = {}; // bruto/hash do caminho adaptador OU captureRaw do default
-        const robot = args.adapter
-          ? await (async () => {
-              const simulate = makeAdapterSimulate(sink);
-              const traces = await simulate(envelopeA, { renderedFacts });
-              const graph = authorGraphForInterface(envelopeA, traces);
-              return { graph, neutral: normalizeEducaoff(graph, { source: "robo" }), traces };
-            })()
-          : await authorFromEnvelopeA(envelopeA, {
-              renderedFacts,
-              captureRaw: (raw) => {
-                sink.respostaDoModelo = raw;
-              },
-            });
+        let robot;
+        if (args.adapter) {
+          const simulate = makeAdapterSimulate(sink);
+          const traces = await simulate(envelopeA, { renderedFacts });
+          const graph = authorGraphForInterface(envelopeA, traces);
+          robot = { graph, neutral: normalizeEducaoff(graph, { source: "robo" }), traces };
+        } else if (args.fluxo === "plataforma") {
+          // Fluxo da plataforma: 3 chamadas (3a/3b/3c). O sink de bruto vem do
+          // cliente LLM (setRawSink) porque os agentes portados não expõem o
+          // texto cru; guardamos as três respostas para bruto.respostaDoModelo.
+          const raws = [];
+          llmMod.setRawSink((r) => raws.push(r));
+          try {
+            robot = await authorFluxoPlataforma(envelopeA, { exerciseId: id });
+          } finally {
+            llmMod.setRawSink(null);
+          }
+          sink.respostaDoModelo = JSON.stringify(raws);
+        } else {
+          robot = await authorFromEnvelopeA(envelopeA, {
+            renderedFacts,
+            captureRaw: (raw) => {
+              sink.respostaDoModelo = raw;
+            },
+          });
+        }
         const chamadas = args.adapter ? [] : lerManifesto().slice(chamadasAntes);
+        if (args.fluxo === "plataforma" && !sink.promptSha256) {
+          // promptSha256 do registro = o da chamada do 3b (é o prompt que
+          // produz os erros — o objeto da métrica); as três ficam no manifesto.
+          sink.promptSha256 =
+            chamadas.find((c) => c.agentKey === "agent3b_atrisk")?.promptSha256 ?? null;
+        }
         const envelopeB = readJson(path.join(problemDir, "envelope-b.json"));
         const audit = auditBehaviorGraph(robot.graph);
         const cmp = compareGraphs(envelopeB, robot.neutral, { ref: "especialista", cand: "robo" });
@@ -431,6 +488,17 @@ async function main() {
           respostaDoModelo: sink.respostaDoModelo ?? null,
           promptSha256: sink.promptSha256 ?? null,
         });
+        if (args.fluxo === "plataforma") {
+          run.fluxo = "plataforma";
+          // Gate do piloto: quantos erros específicos do 3b o graphForge
+          // descartou por template não resolvido ({A}/{B}) — na plataforma
+          // eles seriam concretizados na materialização; taxa alta = bancada
+          // injusta com o fluxo (parar e reavaliar, não coletar).
+          run.fidelidadeEstagio = robot.fidelidade;
+          // Traces completos dos três agentes (advancedTrace/atRiskTrace/
+          // averageTrace) — mais ricos que o resumo usado no bloco grafo.
+          run.bruto.tracos = robot.tracesCompletos;
+        }
         if (!args.adapter) {
           const faltando = validarRegistro(run);
           if (faltando.length) {
@@ -515,6 +583,7 @@ async function main() {
           : { tipo: "default", provider: resolved.provider, model: resolved.model, temperature: resolved.temperature },
         // contrato v2: o MESMO bloco `modelos` gravado em cada run, mais a
         // origem da resolução (auditoria: qual fonte venceu por agente).
+        fluxo: args.fluxo,
         modelos: blocoModelos,
         resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },
         problems: problemIds,

@@ -31,15 +31,21 @@ que o antigo — e agora preserva o que o antigo descartava.
 
 ## Métrica primária (cobertura, pareada por exercício contra o principal)
 
-| Braço | Cobertura (conjunto comum, BCa) | Δ pareado vs principal (BCa 95%) | Veredito |
-|---|---|---|---|
-| `custo-beneficio` | 0,565 [0,476; 0,655] | — | referência |
-| `campanha5-final` | 0,892 [0,817; 0,949] | **+0,328 [+0,246; +0,413]** | supera (20 vitórias, 0 derrotas em 24) |
-| `turbo` | 0,967 [0,910; 0,992] | **+0,403 [+0,304; +0,495]** | supera (20 vitórias, 0 derrotas em 24) |
+| Braço | Δ pareado vs principal (BCa 95%; comparador corrigido, 72 réplicas) | Veredito |
+|---|---|---|
+| `custo-beneficio` | — | referência |
+| `campanha5-final` | **+0,275 [+0,220; +0,328]** | supera (23 vitórias, 0 derrotas em 24) |
+| `turbo` | **+0,362 [+0,292; +0,427]** | supera (23 vitórias, 0 derrotas em 24) |
 
-Em **F1** nenhum braço se distingue (ambos os Δ cruzam zero): o ganho de
-cobertura é pago em precisão. Detalhes: `comparacao-cobertura.json`,
-`comparacao-f1.json` (gerados por `analysis/validacao-v2/comparar-modelos.mjs`).
+> 2026-08-14, correção: a primeira versão desta tabela usou o comparador com o
+> defeito de descarte de réplicas (só a última réplica por exercício; 24 pontos
+> em vez de 72 — corrigido em `comparar-modelos.mjs`). Os vereditos não mudaram;
+> as magnitudes acima são as corretas.
+
+Em **F1** nenhum braço se distingue (campanha5-final −0,029 [−0,081; +0,022];
+turbo +0,032 [−0,033; +0,100] — ambos cruzam zero): o ganho de cobertura é
+pago em precisão. Detalhes: `comparacao-cobertura.json`, `comparacao-f1.json`
+(gerados por `analysis/validacao-v2/comparar-modelos.mjs`).
 
 ## Qualidade dos grafos — os seis níveis (validacao-*.json)
 

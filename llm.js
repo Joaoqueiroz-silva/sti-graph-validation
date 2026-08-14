@@ -182,6 +182,15 @@ async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 
   }
 }
 
+// 2026-08-14 (fluxo-plataforma, contrato v2): sink OPCIONAL de resposta bruta.
+// Os agentes portados fazem extractJson internamente e não expõem o texto cru;
+// o coletor precisa dele para bruto.respostaDoModelo (reanálise sem nova
+// coleta). Sem sink registrado, nada muda. O sink jamais derruba a chamada.
+let _rawSink = null;
+export function setRawSink(fn) {
+  _rawSink = typeof fn === "function" ? fn : null;
+}
+
 // 2026-07-13 (Onda 3, G11): telemetria NUNCA derruba o experimento — se o manifesto
 // falhar ao gravar (disco, permissão), a chamada de LLM segue e fica só um warn.
 function safeRecord(entry) {
@@ -224,6 +233,13 @@ export async function callLLM(llm, system, user, meta = {}) {
         tokensOut: out.tokensOut,
         tokensEstimated: out.tokensEstimated,
       });
+      if (_rawSink) {
+        try {
+          _rawSink({ agent: meta.agent ?? cfg.key ?? null, model, content: out.content });
+        } catch {
+          /* sink nunca derruba a chamada */
+        }
+      }
       return out.content;
     } catch (err) {
       // Na falha, o prompt em geral FOI processado (custa input): estimamos tokensIn
