@@ -1,0 +1,501 @@
+{
+ "id": "08dentists",
+ "correctAnswer": "4/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.538,
+ "conceptual": 0.583,
+ "precision": 0.467,
+ "recall": 0.636,
+ "functionalAgreement": 0.3,
+ "functionalKappa": 0,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "0",
+  "6",
+  "5/4",
+  "1",
+  "4/5",
+  "-/5",
+  "4/-"
+ ],
+ "robotMisconceptions": [
+  "5",
+  "0",
+  "4",
+  "6",
+  "5/4",
+  "3/5",
+  "1",
+  "4",
+  "5",
+  "4/5",
+  "-/5",
+  "4",
+  "6",
+  "4/-"
+ ],
+ "exercicio": "08dentists",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:20:37.127Z",
+ "promptSha256": "0ffe07bf4343956d0bcf5745f14a4bcc12ccecc450cfc678a4f8361db6e76b4d",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1696,
+  "tokensSaida": 6219,
+  "usd": 0.058515
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "definir o limite direito visível da reta numérica",
+    "kc": "numline_set_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "definir o número de divisões (partes) da reta numérica",
+    "kc": "numline_set_partitions"
+   },
+   {
+    "indice": 3,
+    "acao": "clicar no ponto correspondente a 4/5 na reta numérica",
+    "kc": "numline_select_point"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar para habilitar a escrita da fração",
+    "kc": "transition_to_write"
+   },
+   {
+    "indice": 5,
+    "acao": "digitar o numerador da fração correspondente ao problema",
+    "kc": "fraction_write_numerator"
+   },
+   {
+    "indice": 6,
+    "acao": "digitar o denominador da fração correspondente ao problema",
+    "kc": "fraction_write_denominator"
+   },
+   {
+    "indice": 7,
+    "acao": "clicar no botão done para finalizar o exercício",
+    "kc": "submit_exercise"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O limite direito da reta deve ser o maior número inteiro representado na escala, que neste caso é 1.",
+    "buggyRule": "usar o número de divisões da reta (5) como o limite direito da escala",
+    "misconceptionId": "err_numline_limit_parts"
+   },
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você configurou a reta com o valor mínimo. Precisamos definir o limite máximo (direito) da reta, que é 1.",
+    "buggyRule": "usar o limite esquerdo da escala (0) em vez do limite direito",
+    "misconceptionId": "err_numline_limit_zero"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Lembre-se que o número de divisões da reta é determinado pelo denominador da nossa fração (o total de partes).",
+    "buggyRule": "usar o numerador da fração (4) como o número de divisões da reta",
+    "misconceptionId": "err_denom_as_numerator"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A reta deve ser dividida em partes iguais. Conte os espaços (intervalos) entre as marcas, não os tracinhos.",
+    "buggyRule": "contar o número total de marcas de escala visíveis (6) em vez de intervalos (5)",
+    "misconceptionId": "err_denom_total_ticks"
+   },
+   {
+    "valor": "5/4",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração correta é menor que 1. A fração 5/4 é maior que 1 e não cabe nesta reta. Verifique a ordem do numerador e denominador.",
+    "buggyRule": "inverter o numerador e o denominador da fração alvo, resultando em 5/4",
+    "misconceptionId": "err_numline_inverted"
+   },
+   {
+    "valor": "3/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você selecionou 3/5. Conte com cuidado as divisões a partir do zero para encontrar onde fica 4/5.",
+    "buggyRule": "clicar na marca imediatamente anterior ao valor alvo (3/5)",
+    "misconceptionId": "err_numline_neighbor_prev"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você selecionou o valor 1 (ou 5/5). Queremos representar 4 de 5 partes. Dê um passo para trás na reta.",
+    "buggyRule": "clicar na marca imediatamente posterior ao valor alvo (1, que equivale a 5/5)",
+    "misconceptionId": "err_numline_neighbor_next"
+   },
+   {
+    "valor": "4",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Queremos representar a fração 4/5, que fica entre 0 e 1. O número inteiro 4 está fora desta escala.",
+    "buggyRule": "digitar ou selecionar apenas o numerador da fração como um número inteiro",
+    "misconceptionId": "err_numline_integer_numerator"
+   },
+   {
+    "valor": "5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O número de cima (numerador) representa quantos dentistas preferem a Marca X. Verifique o enunciado.",
+    "buggyRule": "digitar o denominador (5) no campo reservado para o numerador (F1)",
+    "misconceptionId": "err_f1_inverted"
+   },
+   {
+    "valor": "4/5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Digite apenas o número de cima (numerador) nesta caixa. O denominador deve ser digitado na caixa de baixo.",
+    "buggyRule": "digitar a fração completa (4/5) dentro do campo de entrada do numerador",
+    "misconceptionId": "err_f1_full_fraction"
+   },
+   {
+    "valor": "-/5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A fração está incompleta. Você precisa preencher o numerador na caixa de cima.",
+    "buggyRule": "inserir apenas o denominador na entrada de fração, deixando o numerador vazio ou representado por traço",
+    "misconceptionId": "err_f1_partial_denom"
+   },
+   {
+    "valor": "4",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O número de baixo (denominador) representa o total do grupo de dentistas (em cada cinco). Verifique o enunciado.",
+    "buggyRule": "digitar o numerador (4) no campo reservado para o denominador (F2)",
+    "misconceptionId": "err_f2_inverted"
+   },
+   {
+    "valor": "6",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador vem do problema: 'Quatro em cada cinco dentistas'. Qual é o total de dentistas desse grupo?",
+    "buggyRule": "digitar o número total de marcas de escala (6) no campo do denominador",
+    "misconceptionId": "err_f2_total_ticks"
+   },
+   {
+    "valor": "4/-",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "A fração está incompleta. Você precisa preencher o denominador na caixa de baixo.",
+    "buggyRule": "inserir apenas o numerador na entrada de fração, deixando o denominador vazio ou representado por traço",
+    "misconceptionId": "err_f2_partial_num"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica representa o intervalo de 0 a 1. Defina o limite direito da escala como 1."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O problema fala sobre 'quatro em cada cinco'. Divida a reta numérica em 5 partes iguais."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Agora clique na 4ª marca após o zero para indicar a fração 4/5 na reta."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Clique no botão de controle para abrir o campo de escrita da fração."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Digite o numerador da fração (o número de dentistas que preferem a Marca X, que é 4)."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Digite o denominador da fração (o total de dentistas no grupo de comparação, que é 5)."
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Tudo pronto! Clique em 'done' para enviar sua resposta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"step\": 1,\n      \"kc\": \"numline_set_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"definir o limite direito visível da reta numérica\",\n      \"result\": \"1\"\n    },\n    {\n      \"step\": 2,\n      \"kc\": \"numline_set_partitions\",\n      \"selection\": \"denom\",\n      \"action\": \"definir o número de divisões (partes) da reta numérica\",\n      \"result\": \"5\"\n    },\n    {\n      \"step\": 3,\n      \"kc\": \"numline_select_point\",\n      \"selection\": \"numline\",\n      \"action\": \"clicar no ponto correspondente a 4/5 na reta numérica\",\n      \"result\": \"4/5\"\n    },\n    {\n      \"step\": 4,\n      \"kc\": \"transition_to_write\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"clicar para habilitar a escrita da fração\",\n      \"result\": \"clicked\"\n    },\n    {\n      \"step\": 5,\n      \"kc\": \"fraction_write_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digitar o numerador da fração correspondente ao problema\",\n      \"result\": \"4\"\n    },\n    {\n      \"step\": 6,\n      \"kc\": \"fraction_write_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"digitar o denominador da fração correspondente ao problema\",\n      \"result\": \"5\"\n    },\n    {\n      \"step\": 7,\n      \"kc\": \"submit_exercise\",\n      \"selection\": \"done\",\n      \"action\": \"clicar no botão done para finalizar o exercício\",\n      \"result\": \"clicked\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"err_numline_limit_parts\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar o número de divisões da reta (5) como o limite direito da escala\",\n      \"description\": \"O aluno confunde o maior inteiro da reta com o número total de divisões necessárias.\",\n      \"feedback\": \"O limite direito da reta deve ser o maior número inteiro representado na escala, que neste caso é 1.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"err_numline_limit_zero\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"usar o limite esquerdo da escala (0) em vez do limite direito\",\n      \"description\": \"O aluno seleciona o ponto inicial da reta em vez do limite máximo.\",\n      \"feedback\": \"Você configurou a reta com o valor mínimo. Precisamos definir o limite máximo (direito) da reta, que é 1.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_denom_as_numerator\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"usar o numerador da fração (4) como o número de divisões da reta\",\n      \"description\": \"O aluno confunde o número de partes em que a reta deve ser dividida com a quantidade de partes selecionadas.\",\n      \"feedback\": \"Lembre-se que o número de divisões da reta é determinado pelo denominador da nossa fração (o total de partes).\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_denom_total_ticks\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"contar o número total de marcas de escala visíveis (6) em vez de intervalos (5)\",\n      \"description\": \"O aluno conta os tracinhos (marcas) na reta em vez de contar os intervalos de divisão.\",\n      \"feedback\": \"A reta deve ser dividida em partes iguais. Conte os espaços (intervalos) entre as marcas, não os tracinhos.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_numline_inverted\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5/4\",\n      \"buggyRule\": \"inverter o numerador e o denominador da fração alvo, resultando em 5/4\",\n      \"description\": \"O aluno inverte a fração ao tentar localizá-la na reta numérica.\",\n      \"feedback\": \"A fração correta é menor que 1. A fração 5/4 é maior que 1 e não cabe nesta reta. Verifique a ordem do numerador e denominador.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_numline_neighbor_prev\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/5\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior ao valor alvo (3/5)\",\n      \"description\": \"O aluno erra a precisão do clique ou a contagem de marcas por uma unidade para trás.\",\n      \"feedback\": \"Você selecionou 3/5. Conte com cuidado as divisões a partir do zero para encontrar onde fica 4/5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_numline_neighbor_next\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"clicar na marca imediatamente posterior ao valor alvo (1, que equivale a 5/5)\",\n      \"description\": \"O aluno erra a precisão do clique ou a contagem de marcas por uma unidade para frente.\",\n      \"feedback\": \"Você selecionou o valor 1 (ou 5/5). Queremos representar 4 de 5 partes. Dê um passo para trás na reta.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_numline_integer_numerator\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"digitar ou selecionar apenas o numerador da fração como um número inteiro\",\n      \"description\": \"O aluno tenta marcar o número inteiro 4 na reta sem considerar a escala fracionária.\",\n      \"feedback\": \"Queremos representar a fração 4/5, que fica entre 0 e 1. O número inteiro 4 está fora desta escala.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_f1_inverted\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"digitar o denominador (5) no campo reservado para o numerador (F1)\",\n      \"description\": \"O aluno inverte a posição dos termos da fração colocando o denominador na caixa superior.\",\n      \"feedback\": \"O número de cima (numerador) representa quantos dentistas preferem a Marca X. Verifique o enunciado.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_f1_full_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/5\",\n      \"buggyRule\": \"digitar a fração completa (4/5) dentro do campo de entrada do numerador\",\n      \"description\": \"O aluno tenta digitar toda a fração em uma única caixa de texto em vez de usar os campos separados.\",\n      \"feedback\": \"Digite apenas o número de cima (numerador) nesta caixa. O denominador deve ser digitado na caixa de baixo.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_f1_partial_denom\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"-/5\",\n      \"buggyRule\": \"inserir apenas o denominador na entrada de fração, deixando o numerador vazio ou representado por traço\",\n      \"description\": \"O aluno preenche apenas a parte inferior da fração e tenta avançar.\",\n      \"feedback\": \"A fração está incompleta. Você precisa preencher o numerador na caixa de cima.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_f2_inverted\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"digitar o numerador (4) no campo reservado para o denominador (F2)\",\n      \"description\": \"O aluno inverte a posição dos termos da fração colocando o numerador na caixa inferior.\",\n      \"feedback\": \"O número de baixo (denominador) representa o total do grupo de dentistas (em cada cinco). Verifique o enunciado.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_f2_total_ticks\",\n      \"selection\": \"F2\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"digitar o número total de marcas de escala (6) no campo do denominador\",\n      \"description\": \"O aluno confunde o denominador do problema com o número de marcas físicas que ele contou na tela.\",\n      \"feedback\": \"O denominador vem do problema: 'Quatro em cada cinco dentistas'. Qual é o total de dentistas desse grupo?\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_f2_partial_num\",\n      \"selection\": \"F2\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"4/-\",\n      \"buggyRule\": \"inserir apenas o numerador na entrada de fração, deixando o denominador vazio ou representado por traço\",\n      \"description\": \"O aluno preenche apenas a parte superior da fração e tenta avançar.\",\n      \"feedback\": \"A fração está incompleta. Você precisa preencher o denominador na caixa de baixo.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica representa o intervalo de 0 a 1. Defina o limite direito da escala como 1.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O problema fala sobre 'quatro em cada cinco'. Divida a reta numérica em 5 partes iguais.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Agora clique na 4ª marca após o zero para indicar a fração 4/5 na reta.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Clique no botão de controle para abrir o campo de escrita da fração.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Digite o numerador da fração (o número de dentistas que preferem a Marca X, que é 4).\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"Digite o denominador da fração (o total de dentistas no grupo de comparação, que é 5).\"\n    },\n    {\n      \"step\": 7,\n      \"text\": \"Tudo pronto! Clique em 'done' para enviar sua resposta.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "step": 1,
+     "kc": "numline_set_limit",
+     "selection": "numline",
+     "action": "definir o limite direito visível da reta numérica",
+     "result": "1"
+    },
+    {
+     "step": 2,
+     "kc": "numline_set_partitions",
+     "selection": "denom",
+     "action": "definir o número de divisões (partes) da reta numérica",
+     "result": "5"
+    },
+    {
+     "step": 3,
+     "kc": "numline_select_point",
+     "selection": "numline",
+     "action": "clicar no ponto correspondente a 4/5 na reta numérica",
+     "result": "4/5"
+    },
+    {
+     "step": 4,
+     "kc": "transition_to_write",
+     "selection": "writeFractionStep",
+     "action": "clicar para habilitar a escrita da fração",
+     "result": "clicked"
+    },
+    {
+     "step": 5,
+     "kc": "fraction_write_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração correspondente ao problema",
+     "result": "4"
+    },
+    {
+     "step": 6,
+     "kc": "fraction_write_denominator",
+     "selection": "F2",
+     "action": "digitar o denominador da fração correspondente ao problema",
+     "result": "5"
+    },
+    {
+     "step": 7,
+     "kc": "submit_exercise",
+     "selection": "done",
+     "action": "clicar no botão done para finalizar o exercício",
+     "result": "clicked"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "err_numline_limit_parts",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "usar o número de divisões da reta (5) como o limite direito da escala",
+     "description": "O aluno confunde o maior inteiro da reta com o número total de divisões necessárias.",
+     "feedback": "O limite direito da reta deve ser o maior número inteiro representado na escala, que neste caso é 1."
+    },
+    {
+     "step": 1,
+     "id": "err_numline_limit_zero",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "0",
+     "buggyRule": "usar o limite esquerdo da escala (0) em vez do limite direito",
+     "description": "O aluno seleciona o ponto inicial da reta em vez do limite máximo.",
+     "feedback": "Você configurou a reta com o valor mínimo. Precisamos definir o limite máximo (direito) da reta, que é 1."
+    },
+    {
+     "step": 2,
+     "id": "err_denom_as_numerator",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "usar o numerador da fração (4) como o número de divisões da reta",
+     "description": "O aluno confunde o número de partes em que a reta deve ser dividida com a quantidade de partes selecionadas.",
+     "feedback": "Lembre-se que o número de divisões da reta é determinado pelo denominador da nossa fração (o total de partes)."
+    },
+    {
+     "step": 2,
+     "id": "err_denom_total_ticks",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "contar o número total de marcas de escala visíveis (6) em vez de intervalos (5)",
+     "description": "O aluno conta os tracinhos (marcas) na reta em vez de contar os intervalos de divisão.",
+     "feedback": "A reta deve ser dividida em partes iguais. Conte os espaços (intervalos) entre as marcas, não os tracinhos."
+    },
+    {
+     "step": 3,
+     "id": "err_numline_inverted",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5/4",
+     "buggyRule": "inverter o numerador e o denominador da fração alvo, resultando em 5/4",
+     "description": "O aluno inverte a fração ao tentar localizá-la na reta numérica.",
+     "feedback": "A fração correta é menor que 1. A fração 5/4 é maior que 1 e não cabe nesta reta. Verifique a ordem do numerador e denominador."
+    },
+    {
+     "step": 3,
+     "id": "err_numline_neighbor_prev",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/5",
+     "buggyRule": "clicar na marca imediatamente anterior ao valor alvo (3/5)",
+     "description": "O aluno erra a precisão do clique ou a contagem de marcas por uma unidade para trás.",
+     "feedback": "Você selecionou 3/5. Conte com cuidado as divisões a partir do zero para encontrar onde fica 4/5."
+    },
+    {
+     "step": 3,
+     "id": "err_numline_neighbor_next",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "clicar na marca imediatamente posterior ao valor alvo (1, que equivale a 5/5)",
+     "description": "O aluno erra a precisão do clique ou a contagem de marcas por uma unidade para frente.",
+     "feedback": "Você selecionou o valor 1 (ou 5/5). Queremos representar 4 de 5 partes. Dê um passo para trás na reta."
+    },
+    {
+     "step": 3,
+     "id": "err_numline_integer_numerator",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "digitar ou selecionar apenas o numerador da fração como um número inteiro",
+     "description": "O aluno tenta marcar o número inteiro 4 na reta sem considerar a escala fracionária.",
+     "feedback": "Queremos representar a fração 4/5, que fica entre 0 e 1. O número inteiro 4 está fora desta escala."
+    },
+    {
+     "step": 5,
+     "id": "err_f1_inverted",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "digitar o denominador (5) no campo reservado para o numerador (F1)",
+     "description": "O aluno inverte a posição dos termos da fração colocando o denominador na caixa superior.",
+     "feedback": "O número de cima (numerador) representa quantos dentistas preferem a Marca X. Verifique o enunciado."
+    },
+    {
+     "step": 5,
+     "id": "err_f1_full_fraction",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "4/5",
+     "buggyRule": "digitar a fração completa (4/5) dentro do campo de entrada do numerador",
+     "description": "O aluno tenta digitar toda a fração em uma única caixa de texto em vez de usar os campos separados.",
+     "feedback": "Digite apenas o número de cima (numerador) nesta caixa. O denominador deve ser digitado na caixa de baixo."
+    },
+    {
+     "step": 5,
+     "id": "err_f1_partial_denom",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "-/5",
+     "buggyRule": "inserir apenas o denominador na entrada de fração, deixando o numerador vazio ou representado por traço",
+     "description": "O aluno preenche apenas a parte inferior da fração e tenta avançar.",
+     "feedback": "A fração está incompleta. Você precisa preencher o numerador na caixa de cima."
+    },
+    {
+     "step": 6,
+     "id": "err_f2_inverted",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "digitar o numerador (4) no campo reservado para o denominador (F2)",
+     "description": "O aluno inverte a posição dos termos da fração colocando o numerador na caixa inferior.",
+     "feedback": "O número de baixo (denominador) representa o total do grupo de dentistas (em cada cinco). Verifique o enunciado."
+    },
+    {
+     "step": 6,
+     "id": "err_f2_total_ticks",
+     "selection": "F2",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "digitar o número total de marcas de escala (6) no campo do denominador",
+     "description": "O aluno confunde o denominador do problema com o número de marcas físicas que ele contou na tela.",
+     "feedback": "O denominador vem do problema: 'Quatro em cada cinco dentistas'. Qual é o total de dentistas desse grupo?"
+    },
+    {
+     "step": 6,
+     "id": "err_f2_partial_num",
+     "selection": "F2",
+     "type": "factual",
+     "wrongAnswer": "4/-",
+     "buggyRule": "inserir apenas o numerador na entrada de fração, deixando o denominador vazio ou representado por traço",
+     "description": "O aluno preenche apenas a parte superior da fração e tenta avançar.",
+     "feedback": "A fração está incompleta. Você precisa preencher o denominador na caixa de baixo."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica representa o intervalo de 0 a 1. Defina o limite direito da escala como 1."
+    },
+    {
+     "step": 2,
+     "text": "O problema fala sobre 'quatro em cada cinco'. Divida a reta numérica em 5 partes iguais."
+    },
+    {
+     "step": 3,
+     "text": "Agora clique na 4ª marca após o zero para indicar a fração 4/5 na reta."
+    },
+    {
+     "step": 4,
+     "text": "Clique no botão de controle para abrir o campo de escrita da fração."
+    },
+    {
+     "step": 5,
+     "text": "Digite o numerador da fração (o número de dentistas que preferem a Marca X, que é 4)."
+    },
+    {
+     "step": 6,
+     "text": "Digite o denominador da fração (o total de dentistas no grupo de comparação, que é 5)."
+    },
+    {
+     "step": 7,
+     "text": "Tudo pronto! Clique em 'done' para enviar sua resposta."
+    }
+   ]
+  }
+ }
+}

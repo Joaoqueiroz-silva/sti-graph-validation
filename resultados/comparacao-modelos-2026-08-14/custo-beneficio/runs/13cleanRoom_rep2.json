@@ -1,0 +1,221 @@
+{
+ "id": "13cleanRoom",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.632,
+ "conceptual": 0.706,
+ "precision": 0.75,
+ "recall": 0.545,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "-1",
+  "5",
+  "-"
+ ],
+ "extra": [
+  "3/2",
+  "9"
+ ],
+ "robotMisconceptions": [
+  "3/2",
+  "4",
+  "1",
+  "9"
+ ],
+ "exercicio": "13cleanRoom",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:05:10.361Z",
+ "promptSha256": "2269c57bbe918840f21892760940cf1f357258c1adda1c2b7553a14271da2324",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1668,
+  "tokensSaida": 655,
+  "usd": 0.0013995
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "clicar na reta para definir divisões",
+    "kc": "config_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar numerador",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar denominador",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar em finalizar",
+    "kc": "submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "3/2",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você clicou na marca à direita de 5/4. Tente contar as divisões a partir do 1.",
+    "buggyRule": "clicar na marca imediatamente à direita do alvo 5/4 na reta numérica",
+    "misconceptionId": "misc_clicar_marca_vizinha"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador indica a quantidade de partes e o denominador o total de partes em um inteiro.",
+    "buggyRule": "inverter a posição do numerador 5 com o denominador 4",
+    "misconceptionId": "misc_inversao_fracao"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Chris levou uma hora e mais uma fração de hora. Onde entra os 15 minutos?",
+    "buggyRule": "ignorar a fração e focar apenas no valor inteiro da hora (1 hora e 15 minutos)",
+    "misconceptionId": "misc_inteiro_nu"
+   },
+   {
+    "valor": "9",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar em quantas partes cada hora foi dividida.",
+    "buggyRule": "contar o número total de marcas na reta (de 0 a 2) em vez da subdivisão unitária",
+    "misconceptionId": "misc_denominador_errado_total_marcas"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Quantas divisões existem entre o 0 e o 1?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador representa quantas partes de 1/4 você percorreu a partir do zero."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Verifique se o denominador corresponde ao número de partes em um inteiro."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numberline\", \"selection\": \"numline\", \"action\": \"clicar na reta para definir divisões\", \"result\": \"2\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"digitar numerador\", \"result\": \"5\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"digitar denominador\", \"result\": \"4\" },\n    { \"kc\": \"submit_answer\", \"selection\": \"done\", \"action\": \"clicar em finalizar\", \"result\": \"5/4\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_clicar_marca_vizinha\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/2\",\n      \"buggyRule\": \"clicar na marca imediatamente à direita do alvo 5/4 na reta numérica\",\n      \"description\": \"O aluno seleciona a marca seguinte ao valor correto na reta numérica.\",\n      \"feedback\": \"Você clicou na marca à direita de 5/4. Tente contar as divisões a partir do 1.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_fração\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"inverter a posição do numerador 5 com o denominador 4\",\n      \"description\": \"O aluno confunde o numerador com o denominador.\",\n      \"feedback\": \"Lembre-se: o numerador indica a quantidade de partes e o denominador o total de partes em um inteiro.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inteiro_nu\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"ignorar a fração e focar apenas no valor inteiro da hora (1 hora e 15 minutos)\",\n      \"description\": \"O aluno registra apenas a parte inteira do tempo gasto.\",\n      \"feedback\": \"Chris levou uma hora e mais uma fração de hora. Onde entra os 15 minutos?\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denominador_errado_total_marcas\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"contar o número total de marcas na reta (de 0 a 2) em vez da subdivisão unitária\",\n      \"description\": \"O aluno confunde a quantidade de marcas totais da escala com a unidade fracionária.\",\n      \"feedback\": \"O denominador deve representar em quantas partes cada hora foi dividida.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Quantas divisões existem entre o 0 e o 1?\" },\n    { \"step\": 2, \"text\": \"O numerador representa quantas partes de 1/4 você percorreu a partir do zero.\" },\n    { \"step\": 3, \"text\": \"Verifique se o denominador corresponde ao número de partes em um inteiro.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numberline",
+     "selection": "numline",
+     "action": "clicar na reta para definir divisões",
+     "result": "2"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "digitar numerador",
+     "result": "5"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "digitar denominador",
+     "result": "4"
+    },
+    {
+     "kc": "submit_answer",
+     "selection": "done",
+     "action": "clicar em finalizar",
+     "result": "5/4"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_clicar_marca_vizinha",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/2",
+     "buggyRule": "clicar na marca imediatamente à direita do alvo 5/4 na reta numérica",
+     "description": "O aluno seleciona a marca seguinte ao valor correto na reta numérica.",
+     "feedback": "Você clicou na marca à direita de 5/4. Tente contar as divisões a partir do 1."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_fracao",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "inverter a posição do numerador 5 com o denominador 4",
+     "description": "O aluno confunde o numerador com o denominador.",
+     "feedback": "Lembre-se: o numerador indica a quantidade de partes e o denominador o total de partes em um inteiro."
+    },
+    {
+     "step": 2,
+     "id": "misc_inteiro_nu",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "ignorar a fração e focar apenas no valor inteiro da hora (1 hora e 15 minutos)",
+     "description": "O aluno registra apenas a parte inteira do tempo gasto.",
+     "feedback": "Chris levou uma hora e mais uma fração de hora. Onde entra os 15 minutos?"
+    },
+    {
+     "step": 3,
+     "id": "misc_denominador_errado_total_marcas",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "9",
+     "buggyRule": "contar o número total de marcas na reta (de 0 a 2) em vez da subdivisão unitária",
+     "description": "O aluno confunde a quantidade de marcas totais da escala com a unidade fracionária.",
+     "feedback": "O denominador deve representar em quantas partes cada hora foi dividida."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Quantas divisões existem entre o 0 e o 1?"
+    },
+    {
+     "step": 2,
+     "text": "O numerador representa quantas partes de 1/4 você percorreu a partir do zero."
+    },
+    {
+     "step": 3,
+     "text": "Verifique se o denominador corresponde ao número de partes em um inteiro."
+    }
+   ]
+  }
+ }
+}

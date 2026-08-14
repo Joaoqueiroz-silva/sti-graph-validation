@@ -1,0 +1,225 @@
+{
+ "id": "15fishStick",
+ "correctAnswer": "10/7",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.476,
+ "conceptual": 0.526,
+ "precision": 0.625,
+ "recall": 0.385,
+ "functionalAgreement": 0.222,
+ "functionalKappa": -0.312,
+ "missing": [
+  "3/7",
+  "9/7",
+  "10",
+  "-1",
+  "-",
+  "3"
+ ],
+ "extra": [
+  "1",
+  "9",
+  "6"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "7",
+  "9",
+  "6"
+ ],
+ "exercicio": "15fishStick",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:05:34.011Z",
+ "promptSha256": "9c6b722149e1b1f3fdead327cb6d8d44374601277571ac36759471b103d3aa42",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1777,
+  "tokensSaida": 789,
+  "usd": 0.00162775
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite superior da reta",
+    "kc": "config_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar o numerador da fração",
+    "kc": "set_numerator_f1"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar o denominador da fração",
+    "kc": "set_denominator_denom"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar no botão para finalizar",
+    "kc": "validate_input"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta numérica vai de 0 a 2. Verifique o valor máximo mostrado na extremidade direita.",
+    "buggyRule": "identificar o rótulo central da reta numérica em vez do limite superior da escala",
+    "misconceptionId": "misc_inteiro_nu_reta"
+   },
+   {
+    "valor": "7",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique qual número representa a quantidade total de partes (numerador) e qual representa o tamanho da fatia (denominador).",
+    "buggyRule": "inverter o numerador com o denominador da fração original 10/7",
+    "misconceptionId": "misc_inversao_numerador"
+   },
+   {
+    "valor": "9",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Conte cuidadosamente as marcações na reta numérica a partir do zero.",
+    "buggyRule": "selecionar o valor da marca imediatamente anterior ao alvo 10/7 na reta numérica",
+    "misconceptionId": "misc_marca_vizinha_numerador"
+   },
+   {
+    "valor": "6",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar em quantas partes cada palito foi dividido.",
+    "buggyRule": "usar o número de amigas mencionado no enunciado (6) em vez do denominador da fração (7)",
+    "misconceptionId": "misc_inteiro_nu_denom"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Observe o valor máximo que aparece na extremidade direita da sua reta numérica."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador deve representar o total de partes de 1/7 que Grace tem."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador indica em quantas partes iguais cada palito foi dividido. Quantas partes há em um inteiro?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numberline\", \"selection\": \"numline\", \"action\": \"selecionar o limite superior da reta\", \"result\": \"2\" },\n    { \"kc\": \"set_numerator_f1\", \"selection\": \"F1\", \"action\": \"digitar o numerador da fração\", \"result\": \"10\" },\n    { \"kc\": \"set_denominator_denom\", \"selection\": \"denom\", \"action\": \"digitar o denominador da fração\", \"result\": \"7\" },\n    { \"kc\": \"validate_input\", \"selection\": \"done\", \"action\": \"clicar no botão para finalizar\", \"result\": \"10/7\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inteiro_nu_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"identificar o rótulo central da reta numérica em vez do limite superior da escala\",\n      \"description\": \"O aluno confunde o valor da marca unitária com o limite da reta.\",\n      \"feedback\": \"A reta numérica vai de 0 a 2. Verifique o valor máximo mostrado na extremidade direita.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"inverter o numerador com o denominador da fração original 10/7\",\n      \"description\": \"O aluno inverte a posição do numerador e denominador.\",\n      \"feedback\": \"Verifique qual número representa a quantidade total de partes (numerador) e qual representa o tamanho da fatia (denominador).\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"selecionar o valor da marca imediatamente anterior ao alvo 10/7 na reta numérica\",\n      \"description\": \"O aluno clica na marca vizinha à esquerda do alvo.\",\n      \"feedback\": \"Conte cuidadosamente as marcações na reta numérica a partir do zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"usar o número de amigas mencionado no enunciado (6) em vez do denominador da fração (7)\",\n      \"description\": \"O aluno usa dados do enunciado sem converter para o denominador correto.\",\n      \"feedback\": \"O denominador deve representar em quantas partes cada palito foi dividido.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Observe o valor máximo que aparece na extremidade direita da sua reta numérica.\" },\n    { \"step\": 2, \"text\": \"O numerador deve representar o total de partes de 1/7 que Grace tem.\" },\n    { \"step\": 3, \"text\": \"O denominador indica em quantas partes iguais cada palito foi dividido. Quantas partes há em um inteiro?\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numberline",
+     "selection": "numline",
+     "action": "selecionar o limite superior da reta",
+     "result": "2"
+    },
+    {
+     "kc": "set_numerator_f1",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "10"
+    },
+    {
+     "kc": "set_denominator_denom",
+     "selection": "denom",
+     "action": "digitar o denominador da fração",
+     "result": "7"
+    },
+    {
+     "kc": "validate_input",
+     "selection": "done",
+     "action": "clicar no botão para finalizar",
+     "result": "10/7"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inteiro_nu_reta",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "identificar o rótulo central da reta numérica em vez do limite superior da escala",
+     "description": "O aluno confunde o valor da marca unitária com o limite da reta.",
+     "feedback": "A reta numérica vai de 0 a 2. Verifique o valor máximo mostrado na extremidade direita."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "7",
+     "buggyRule": "inverter o numerador com o denominador da fração original 10/7",
+     "description": "O aluno inverte a posição do numerador e denominador.",
+     "feedback": "Verifique qual número representa a quantidade total de partes (numerador) e qual representa o tamanho da fatia (denominador)."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_numerador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "9",
+     "buggyRule": "selecionar o valor da marca imediatamente anterior ao alvo 10/7 na reta numérica",
+     "description": "O aluno clica na marca vizinha à esquerda do alvo.",
+     "feedback": "Conte cuidadosamente as marcações na reta numérica a partir do zero."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_denom",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "6",
+     "buggyRule": "usar o número de amigas mencionado no enunciado (6) em vez do denominador da fração (7)",
+     "description": "O aluno usa dados do enunciado sem converter para o denominador correto.",
+     "feedback": "O denominador deve representar em quantas partes cada palito foi dividido."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Observe o valor máximo que aparece na extremidade direita da sua reta numérica."
+    },
+    {
+     "step": 2,
+     "text": "O numerador deve representar o total de partes de 1/7 que Grace tem."
+    },
+    {
+     "step": 3,
+     "text": "O denominador indica em quantas partes iguais cada palito foi dividido. Quantas partes há em um inteiro?"
+    }
+   ]
+  }
+ }
+}

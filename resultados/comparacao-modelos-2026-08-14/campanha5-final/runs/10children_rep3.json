@@ -1,0 +1,488 @@
+{
+ "id": "10children",
+ "correctAnswer": "2/3",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.522,
+ "conceptual": 0.571,
+ "precision": 0.5,
+ "recall": 0.545,
+ "functionalAgreement": 0.444,
+ "functionalKappa": 0.196,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "4",
+  "1",
+  "5",
+  "3/2",
+  "submitted"
+ ],
+ "robotMisconceptions": [
+  "3",
+  "3",
+  "3",
+  "2",
+  "4",
+  "3",
+  "1",
+  "5",
+  "1/3",
+  "1",
+  "1",
+  "1/3",
+  "3/2",
+  "1/3",
+  "submitted"
+ ],
+ "exercicio": "10children",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:23:08.054Z",
+ "promptSha256": "a1f680167f3ef069b50cd1eda749ae4522b29d66d2004dfd47d4f83b63b103c3",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1808,
+  "tokensSaida": 2686,
+  "usd": 0.01188564
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para mostrar terços, ajustando o número de partes para 3",
+    "kc": "kc_config_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "Insere o denominador da fração com base no total de crianças (3)",
+    "kc": "kc_identify_total_children"
+   },
+   {
+    "indice": 3,
+    "acao": "Insere o numerador da fração com base no número de crianças que queriam nadar (2)",
+    "kc": "kc_identify_swimmers"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica na marca correspondente a 2/3 na reta numérica",
+    "kc": "kc_place_fraction_on_numline"
+   },
+   {
+    "indice": 5,
+    "acao": "Confirma a fração construída nos campos F1 e denom",
+    "kc": "kc_confirm_fraction"
+   },
+   {
+    "indice": 6,
+    "acao": "Finaliza a resposta",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "3",
+    "passo": 1,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador é o número de partes que queremos (quem quer nadar), e o denominador é o total de partes (todas as crianças).",
+    "buggyRule": "Troca numerador e denominador: como a fração correta é 2/3, digita o denominador (3) no campo do numerador (F1)",
+    "misconceptionId": "misc_inverte_numerador_denominador_na_resposta"
+   },
+   {
+    "valor": "3",
+    "passo": 1,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A pergunta pede uma fração do grupo, não o número total de crianças.",
+    "buggyRule": "Vê o número total de crianças (3) na descrição do problema e digita esse inteiro diretamente no campo do numerador (F1), ignorando que é uma fração",
+    "misconceptionId": "misc_usa_total_criancas_como_resposta_unica"
+   },
+   {
+    "valor": "3",
+    "passo": 1,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Tente novamente com cuidado.",
+    "buggyRule": "Digita o número de filhos (3) no campo do denominador — isso está correto, mas se feito sem entender o todo, pode ser parte de erro maior; porém, aqui consideramos só o valor — como está certo, NÃO é um erro. DESCARTADO.",
+    "misconceptionId": "misc_confunde_numero_filhos_com_fracao"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o número total de crianças, não o número de atividades.",
+    "buggyRule": "Conta o número de atividades diferentes mencionadas (nadar e andar de bicicleta = 2) e usa esse valor como denominador",
+    "misconceptionId": "misc_denominador_errado_usa_numero_atividades"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa o número total de crianças, não o número de marcas na reta.",
+    "buggyRule": "Conta o número total de marcas na reta numérica (0, 1/3, 2/3, 1 → 4 marcas) e digita esse inteiro como denominador",
+    "misconceptionId": "misc_denominador_usa_numero_de_partes_da_reta"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Tente novamente com cuidado.",
+    "buggyRule": "Usa o número de divisões por unidade (3) como denominador — neste caso, coincide com a resposta correta, então NÃO é um erro. DESCARTADO.",
+    "misconceptionId": "misc_denominador_usa_numero_divisoes"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A pergunta pede a fração das crianças que QUERIAM NADAR, não as que não queriam.",
+    "buggyRule": "Conta quantas crianças NÃO queriam nadar (1) e usa esse valor como numerador",
+    "misconceptionId": "misc_numerador_usa_quem_nao_nada"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O problema fala apenas das CRIANÇAS. Os pais não entram na fração.",
+    "buggyRule": "Soma adultos e crianças (Sr., Sra. + 3 filhos = 5 pessoas) e usa esse total como numerador",
+    "misconceptionId": "misc_numerador_soma_todos"
+   },
+   {
+    "valor": "1/3",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique novamente: duas das três crianças queriam nadar. Isso corresponde a qual marca?",
+    "buggyRule": "Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente ANTES do alvo 2/3, que é 1/3",
+    "misconceptionId": "misc_numline_marca_vizinha_antes"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração 2/3 está entre 1/3 e 1. Você clicou no fim da reta — isso seria todas as crianças.",
+    "buggyRule": "Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente DEPOIS do alvo 2/3, que é 1",
+    "misconceptionId": "misc_numline_marca_vizinha_depois"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O valor 1 representa o grupo inteiro. Mas nem todas as crianças queriam nadar — só duas delas.",
+    "buggyRule": "Vê o rótulo '1' no final da reta e clica nele, interpretando como resposta",
+    "misconceptionId": "misc_numline_usa_limite_direito_como_resposta"
+   },
+   {
+    "valor": "1/3",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Duas crianças queriam nadar, não uma. A fração deve refletir isso.",
+    "buggyRule": "Assume que a primeira marca após zero (1/3) corresponde a 'uma parte', e como há dois que nadam, erradamente repete essa lógica ou escolhe aleatoriamente — mas fixamos como clicar em 1/3 por subestimar a quantidade",
+    "misconceptionId": "misc_numline_clica_na_primeira_marca_pos_zero"
+   },
+   {
+    "valor": "3/2",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Uma fração maior que 1 não faz sentido aqui: não dá para ter mais crianças nadando do que o total!",
+    "buggyRule": "Após preencher F1=3 e denom=2 (por inversão), confirma a fração invertida 3/2",
+    "misconceptionId": "misc_fraction_step_com_numerador_invertido"
+   },
+   {
+    "valor": "1/3",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Você representou quem queria andar de bicicleta. Mas a pergunta é sobre quem queria NADAR.",
+    "buggyRule": "Após preencher F1=1 (quem não nada) e denom=3, confirma a fração 1/3",
+    "misconceptionId": "misc_fraction_step_com_numerador_um"
+   },
+   {
+    "valor": "submitted",
+    "passo": 6,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Antes de finalizar, confira: o total de crianças é 3? E quantas queriam nadar?",
+    "buggyRule": "Clica em 'done' mesmo com F1=2, denom=4 (por exemplo), submetendo uma fração incorreta",
+    "misconceptionId": "misc_done_sem_preencher_corretamente"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Quantas crianças há no total? Esse número será o denominador."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Das 3 crianças, quantas queriam nadar? Esse número será o numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Na reta numérica dividida em 3 partes iguais, qual marca mostra 2 partes de 3?"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Verifique se sua fração representa exatamente 2 das 3 crianças."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Confirme que numerador e denominador estão nos campos certos antes de continuar."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Revise toda a sua resposta antes de clicar em 'done'."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para mostrar terços, ajustando o número de partes para 3\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_identify_total_children\",\n      \"selection\": \"denom\",\n      \"action\": \"Insere o denominador da fração com base no total de crianças (3)\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_identify_swimmers\",\n      \"selection\": \"F1\",\n      \"action\": \"Insere o numerador da fração com base no número de crianças que queriam nadar (2)\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_place_fraction_on_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente a 2/3 na reta numérica\",\n      \"result\": \"2/3\"\n    },\n    {\n      \"kc\": \"kc_confirm_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Confirma a fração construída nos campos F1 e denom\",\n      \"result\": \"2/3\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Finaliza a resposta\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inverte_numerador_denominador_na_resposta\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Troca numerador e denominador: como a fração correta é 2/3, digita o denominador (3) no campo do numerador (F1)\",\n      \"description\": \"O aluno inverte numerador e denominador ao preencher os campos da fração.\",\n      \"feedback\": \"Lembre-se: o numerador é o número de partes que queremos (quem quer nadar), e o denominador é o total de partes (todas as crianças).\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_usa_total_criancas_como_resposta_unica\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Vê o número total de crianças (3) na descrição do problema e digita esse inteiro diretamente no campo do numerador (F1), ignorando que é uma fração\",\n      \"description\": \"O aluno responde com o número total de crianças em vez da fração correta.\",\n      \"feedback\": \"A pergunta pede uma fração do grupo, não o número total de crianças.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_confunde_numero_filhos_com_fracao\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Digita o número de filhos (3) no campo do denominador — isso está correto, mas se feito sem entender o todo, pode ser parte de erro maior; porém, aqui consideramos só o valor — como está certo, NÃO é um erro. DESCARTADO.\",\n      \"description\": \"\",\n      \"feedback\": \"\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_denominador_errado_usa_numero_atividades\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"Conta o número de atividades diferentes mencionadas (nadar e andar de bicicleta = 2) e usa esse valor como denominador\",\n      \"description\": \"O aluno usa o número de tipos de atividade em vez do número total de crianças.\",\n      \"feedback\": \"O denominador deve ser o número total de crianças, não o número de atividades.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_denominador_usa_numero_de_partes_da_reta\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"Conta o número total de marcas na reta numérica (0, 1/3, 2/3, 1 → 4 marcas) e digita esse inteiro como denominador\",\n      \"description\": \"O aluno confunde o número de marcas da reta com o denominador da fração.\",\n      \"feedback\": \"O denominador representa o número total de crianças, não o número de marcas na reta.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_denominador_usa_numero_divisoes\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Usa o número de divisões por unidade (3) como denominador — neste caso, coincide com a resposta correta, então NÃO é um erro. DESCARTADO.\",\n      \"description\": \"\",\n      \"feedback\": \"\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_numerador_usa_quem_nao_nada\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Conta quantas crianças NÃO queriam nadar (1) e usa esse valor como numerador\",\n      \"description\": \"O aluno foca no grupo menor ou no oposto do solicitado.\",\n      \"feedback\": \"A pergunta pede a fração das crianças que QUERIAM NADAR, não as que não queriam.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_numerador_soma_todos\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Soma adultos e crianças (Sr., Sra. + 3 filhos = 5 pessoas) e usa esse total como numerador\",\n      \"description\": \"O aluno inclui os pais no grupo sendo fracionado.\",\n      \"feedback\": \"O problema fala apenas das CRIANÇAS. Os pais não entram na fração.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_antes\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/3\",\n      \"buggyRule\": \"Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente ANTES do alvo 2/3, que é 1/3\",\n      \"description\": \"O aluno seleciona a marca anterior à correta na reta numérica.\",\n      \"feedback\": \"Verifique novamente: duas das três crianças queriam nadar. Isso corresponde a qual marca?\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_depois\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente DEPOIS do alvo 2/3, que é 1\",\n      \"description\": \"O aluno seleciona a marca seguinte à correta na reta numérica.\",\n      \"feedback\": \"A fração 2/3 está entre 1/3 e 1. Você clicou no fim da reta — isso seria todas as crianças.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_usa_limite_direito_como_resposta\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Vê o rótulo '1' no final da reta e clica nele, interpretando como resposta\",\n      \"description\": \"O aluno assume que o fim da reta é a resposta porque é o maior valor visível.\",\n      \"feedback\": \"O valor 1 representa o grupo inteiro. Mas nem todas as crianças queriam nadar — só duas delas.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_clica_na_primeira_marca_pos_zero\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/3\",\n      \"buggyRule\": \"Assume que a primeira marca após zero (1/3) corresponde a 'uma parte', e como há dois que nadam, erradamente repete essa lógica ou escolhe aleatoriamente — mas fixamos como clicar em 1/3 por subestimar a quantidade\",\n      \"description\": \"O aluno subestima a fração e escolhe a primeira divisão.\",\n      \"feedback\": \"Duas crianças queriam nadar, não uma. A fração deve refletir isso.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fraction_step_com_numerador_invertido\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3/2\",\n      \"buggyRule\": \"Após preencher F1=3 e denom=2 (por inversão), confirma a fração invertida 3/2\",\n      \"description\": \"O aluno confirma uma fração imprópria por ter invertido os termos.\",\n      \"feedback\": \"Uma fração maior que 1 não faz sentido aqui: não dá para ter mais crianças nadando do que o total!\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fraction_step_com_numerador_um\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1/3\",\n      \"buggyRule\": \"Após preencher F1=1 (quem não nada) e denom=3, confirma a fração 1/3\",\n      \"description\": \"O aluno confirma a fração do grupo que não queria nadar.\",\n      \"feedback\": \"Você representou quem queria andar de bicicleta. Mas a pergunta é sobre quem queria NADAR.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"misc_done_sem_preencher_corretamente\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"submitted\",\n      \"buggyRule\": \"Clica em 'done' mesmo com F1=2, denom=4 (por exemplo), submetendo uma fração incorreta\",\n      \"description\": \"O aluno finaliza sem verificar se a fração está correta.\",\n      \"feedback\": \"Antes de finalizar, confira: o total de crianças é 3? E quantas queriam nadar?\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"Quantas crianças há no total? Esse número será o denominador.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Das 3 crianças, quantas queriam nadar? Esse número será o numerador.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Na reta numérica dividida em 3 partes iguais, qual marca mostra 2 partes de 3?\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Verifique se sua fração representa exatamente 2 das 3 crianças.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Confirme que numerador e denominador estão nos campos certos antes de continuar.\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"Revise toda a sua resposta antes de clicar em 'done'.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numberline",
+     "selection": "numline",
+     "action": "Configura a reta numérica para mostrar terços, ajustando o número de partes para 3",
+     "result": "3"
+    },
+    {
+     "kc": "kc_identify_total_children",
+     "selection": "denom",
+     "action": "Insere o denominador da fração com base no total de crianças (3)",
+     "result": "3"
+    },
+    {
+     "kc": "kc_identify_swimmers",
+     "selection": "F1",
+     "action": "Insere o numerador da fração com base no número de crianças que queriam nadar (2)",
+     "result": "2"
+    },
+    {
+     "kc": "kc_place_fraction_on_numline",
+     "selection": "numline",
+     "action": "Clica na marca correspondente a 2/3 na reta numérica",
+     "result": "2/3"
+    },
+    {
+     "kc": "kc_confirm_fraction",
+     "selection": "writeFractionStep",
+     "action": "Confirma a fração construída nos campos F1 e denom",
+     "result": "2/3"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Finaliza a resposta",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inverte_numerador_denominador_na_resposta",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "Troca numerador e denominador: como a fração correta é 2/3, digita o denominador (3) no campo do numerador (F1)",
+     "description": "O aluno inverte numerador e denominador ao preencher os campos da fração.",
+     "feedback": "Lembre-se: o numerador é o número de partes que queremos (quem quer nadar), e o denominador é o total de partes (todas as crianças)."
+    },
+    {
+     "step": 1,
+     "id": "misc_usa_total_criancas_como_resposta_unica",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "3",
+     "buggyRule": "Vê o número total de crianças (3) na descrição do problema e digita esse inteiro diretamente no campo do numerador (F1), ignorando que é uma fração",
+     "description": "O aluno responde com o número total de crianças em vez da fração correta.",
+     "feedback": "A pergunta pede uma fração do grupo, não o número total de crianças."
+    },
+    {
+     "step": 1,
+     "id": "misc_confunde_numero_filhos_com_fracao",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "3",
+     "buggyRule": "Digita o número de filhos (3) no campo do denominador — isso está correto, mas se feito sem entender o todo, pode ser parte de erro maior; porém, aqui consideramos só o valor — como está certo, NÃO é um erro. DESCARTADO.",
+     "description": "",
+     "feedback": ""
+    },
+    {
+     "step": 2,
+     "id": "misc_denominador_errado_usa_numero_atividades",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "Conta o número de atividades diferentes mencionadas (nadar e andar de bicicleta = 2) e usa esse valor como denominador",
+     "description": "O aluno usa o número de tipos de atividade em vez do número total de crianças.",
+     "feedback": "O denominador deve ser o número total de crianças, não o número de atividades."
+    },
+    {
+     "step": 2,
+     "id": "misc_denominador_usa_numero_de_partes_da_reta",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "4",
+     "buggyRule": "Conta o número total de marcas na reta numérica (0, 1/3, 2/3, 1 → 4 marcas) e digita esse inteiro como denominador",
+     "description": "O aluno confunde o número de marcas da reta com o denominador da fração.",
+     "feedback": "O denominador representa o número total de crianças, não o número de marcas na reta."
+    },
+    {
+     "step": 2,
+     "id": "misc_denominador_usa_numero_divisoes",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "3",
+     "buggyRule": "Usa o número de divisões por unidade (3) como denominador — neste caso, coincide com a resposta correta, então NÃO é um erro. DESCARTADO.",
+     "description": "",
+     "feedback": ""
+    },
+    {
+     "step": 3,
+     "id": "misc_numerador_usa_quem_nao_nada",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "Conta quantas crianças NÃO queriam nadar (1) e usa esse valor como numerador",
+     "description": "O aluno foca no grupo menor ou no oposto do solicitado.",
+     "feedback": "A pergunta pede a fração das crianças que QUERIAM NADAR, não as que não queriam."
+    },
+    {
+     "step": 3,
+     "id": "misc_numerador_soma_todos",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "Soma adultos e crianças (Sr., Sra. + 3 filhos = 5 pessoas) e usa esse total como numerador",
+     "description": "O aluno inclui os pais no grupo sendo fracionado.",
+     "feedback": "O problema fala apenas das CRIANÇAS. Os pais não entram na fração."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_antes",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/3",
+     "buggyRule": "Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente ANTES do alvo 2/3, que é 1/3",
+     "description": "O aluno seleciona a marca anterior à correta na reta numérica.",
+     "feedback": "Verifique novamente: duas das três crianças queriam nadar. Isso corresponde a qual marca?"
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_depois",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "Na reta com marcas [0, 1/3, 2/3, 1], clica na marca imediatamente DEPOIS do alvo 2/3, que é 1",
+     "description": "O aluno seleciona a marca seguinte à correta na reta numérica.",
+     "feedback": "A fração 2/3 está entre 1/3 e 1. Você clicou no fim da reta — isso seria todas as crianças."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_usa_limite_direito_como_resposta",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Vê o rótulo '1' no final da reta e clica nele, interpretando como resposta",
+     "description": "O aluno assume que o fim da reta é a resposta porque é o maior valor visível.",
+     "feedback": "O valor 1 representa o grupo inteiro. Mas nem todas as crianças queriam nadar — só duas delas."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_clica_na_primeira_marca_pos_zero",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/3",
+     "buggyRule": "Assume que a primeira marca após zero (1/3) corresponde a 'uma parte', e como há dois que nadam, erradamente repete essa lógica ou escolhe aleatoriamente — mas fixamos como clicar em 1/3 por subestimar a quantidade",
+     "description": "O aluno subestima a fração e escolhe a primeira divisão.",
+     "feedback": "Duas crianças queriam nadar, não uma. A fração deve refletir isso."
+    },
+    {
+     "step": 5,
+     "id": "misc_fraction_step_com_numerador_invertido",
+     "selection": "writeFractionStep",
+     "type": "conceptual",
+     "wrongAnswer": "3/2",
+     "buggyRule": "Após preencher F1=3 e denom=2 (por inversão), confirma a fração invertida 3/2",
+     "description": "O aluno confirma uma fração imprópria por ter invertido os termos.",
+     "feedback": "Uma fração maior que 1 não faz sentido aqui: não dá para ter mais crianças nadando do que o total!"
+    },
+    {
+     "step": 5,
+     "id": "misc_fraction_step_com_numerador_um",
+     "selection": "writeFractionStep",
+     "type": "conceptual",
+     "wrongAnswer": "1/3",
+     "buggyRule": "Após preencher F1=1 (quem não nada) e denom=3, confirma a fração 1/3",
+     "description": "O aluno confirma a fração do grupo que não queria nadar.",
+     "feedback": "Você representou quem queria andar de bicicleta. Mas a pergunta é sobre quem queria NADAR."
+    },
+    {
+     "step": 6,
+     "id": "misc_done_sem_preencher_corretamente",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "submitted",
+     "buggyRule": "Clica em 'done' mesmo com F1=2, denom=4 (por exemplo), submetendo uma fração incorreta",
+     "description": "O aluno finaliza sem verificar se a fração está correta.",
+     "feedback": "Antes de finalizar, confira: o total de crianças é 3? E quantas queriam nadar?"
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Quantas crianças há no total? Esse número será o denominador."
+    },
+    {
+     "step": 2,
+     "text": "Das 3 crianças, quantas queriam nadar? Esse número será o numerador."
+    },
+    {
+     "step": 3,
+     "text": "Na reta numérica dividida em 3 partes iguais, qual marca mostra 2 partes de 3?"
+    },
+    {
+     "step": 4,
+     "text": "Verifique se sua fração representa exatamente 2 das 3 crianças."
+    },
+    {
+     "step": 5,
+     "text": "Confirme que numerador e denominador estão nos campos certos antes de continuar."
+    },
+    {
+     "step": 6,
+     "text": "Revise toda a sua resposta antes de clicar em 'done'."
+    }
+   ]
+  }
+ }
+}

@@ -260,6 +260,10 @@ export async function simulateStudents(iface, opts = {}) {
       sessionId: opts.sessionId || null,
     }
   );
+  // 2026-08-14 (port, contrato v2): o coletor pode capturar a resposta BRUTA
+  // para o campo bruto.respostaDoModelo do registro (reanálise sem nova
+  // coleta). Hook aditivo: sem captureRaw, nada muda.
+  if (typeof opts.captureRaw === "function") opts.captureRaw(raw);
   const parsed = extractJson(raw) || {};
 
   // Conjunto de componentes permitidos (id e label, canônicos).

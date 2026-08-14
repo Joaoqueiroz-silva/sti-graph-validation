@@ -1,0 +1,243 @@
+{
+ "id": "12apples",
+ "correctAnswer": "15/12",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.571,
+ "conceptual": 0.632,
+ "precision": 0.6,
+ "recall": 0.545,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "-1",
+  "7/6",
+  "-"
+ ],
+ "extra": [
+  "2",
+  "11"
+ ],
+ "robotMisconceptions": [
+  "12",
+  "2",
+  "11",
+  "15"
+ ],
+ "exercicio": "12apples",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:04:58.725Z",
+ "promptSha256": "2886076a8dd8f1316289fb55ba6ca450ac656f549af9bf41b1f6664d0119c40a",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1827,
+  "tokensSaida": 709,
+  "usd": 0.00152025
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite superior da escala",
+    "kc": "config_reta"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador total",
+    "kc": "set_num_1"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir numerador secundário (se necessário)",
+    "kc": "set_num_2"
+   },
+   {
+    "indice": 4,
+    "acao": "inserir o denominador da unidade",
+    "kc": "set_denom"
+   },
+   {
+    "indice": 5,
+    "acao": "confirmar escrita da fração",
+    "kc": "click_write"
+   },
+   {
+    "indice": 6,
+    "acao": "finalizar exercício",
+    "kc": "finish_task"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "12",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique se o numerador representa a quantidade total de partes selecionadas.",
+    "buggyRule": "inverter a fração 15/12 para 12/15 e extrair o novo numerador",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O valor solicitado é a quantidade de maçãs selecionadas sobre o total de um saco.",
+    "buggyRule": "ignorar a fração e utilizar o limite superior da escala da reta numérica como resposta",
+    "misconceptionId": "misc_inteiro_nu_total_sacos"
+   },
+   {
+    "valor": "11",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Conte cuidadosamente os intervalos entre 0 e 1 na reta numérica.",
+    "buggyRule": "contar incorretamente as divisões da reta e selecionar a marca imediatamente anterior ao alvo (11/12)",
+    "misconceptionId": "misc_marca_vizinha_denom"
+   },
+   {
+    "valor": "15",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar o tamanho total de um saco.",
+    "buggyRule": "utilizar o numerador original como denominador (inversão parcial)",
+    "misconceptionId": "misc_inversao_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Observe até qual valor a reta numérica se estende."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantas maçãs Lilth selecionou no total?"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Quantas maçãs cabem em um único saco?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_reta\", \"selection\": \"numline\", \"action\": \"selecionar o limite superior da escala\", \"result\": \"2\" },\n    { \"kc\": \"set_num_1\", \"selection\": \"F1\", \"action\": \"inserir o numerador total\", \"result\": \"15\" },\n    { \"kc\": \"set_num_2\", \"selection\": \"F2\", \"action\": \"inserir numerador secundário (se necessário)\", \"result\": \"0\" },\n    { \"kc\": \"set_denom\", \"selection\": \"denom\", \"action\": \"inserir o denominador da unidade\", \"result\": \"12\" },\n    { \"kc\": \"click_write\", \"selection\": \"writeFractionStep\", \"action\": \"confirmar escrita da fração\", \"result\": \"15/12\" },\n    { \"kc\": \"finish_task\", \"selection\": \"done\", \"action\": \"finalizar exercício\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"12\",\n      \"buggyRule\": \"inverter a fração 15/12 para 12/15 e extrair o novo numerador\",\n      \"description\": \"O aluno inverteu a fração alvo ao preencher o campo do numerador.\",\n      \"feedback\": \"Verifique se o numerador representa a quantidade total de partes selecionadas.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inteiro_nu_total_sacos\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"ignorar a fração e utilizar o limite superior da escala da reta numérica como resposta\",\n      \"description\": \"O aluno confundiu o valor da fração com o limite da reta.\",\n      \"feedback\": \"O valor solicitado é a quantidade de maçãs selecionadas sobre o total de um saco.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_marca_vizinha_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"11\",\n      \"buggyRule\": \"contar incorretamente as divisões da reta e selecionar a marca imediatamente anterior ao alvo (11/12)\",\n      \"description\": \"O aluno contou incorretamente as divisões da reta.\",\n      \"feedback\": \"Conte cuidadosamente os intervalos entre 0 e 1 na reta numérica.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inversao_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"15\",\n      \"buggyRule\": \"utilizar o numerador original como denominador (inversão parcial)\",\n      \"description\": \"O aluno trocou o denominador pelo numerador.\",\n      \"feedback\": \"O denominador deve representar o tamanho total de um saco.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Observe até qual valor a reta numérica se estende.\" },\n    { \"step\": 2, \"text\": \"Quantas maçãs Lilth selecionou no total?\" },\n    { \"step\": 4, \"text\": \"Quantas maçãs cabem em um único saco?\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_reta",
+     "selection": "numline",
+     "action": "selecionar o limite superior da escala",
+     "result": "2"
+    },
+    {
+     "kc": "set_num_1",
+     "selection": "F1",
+     "action": "inserir o numerador total",
+     "result": "15"
+    },
+    {
+     "kc": "set_num_2",
+     "selection": "F2",
+     "action": "inserir numerador secundário (se necessário)",
+     "result": "0"
+    },
+    {
+     "kc": "set_denom",
+     "selection": "denom",
+     "action": "inserir o denominador da unidade",
+     "result": "12"
+    },
+    {
+     "kc": "click_write",
+     "selection": "writeFractionStep",
+     "action": "confirmar escrita da fração",
+     "result": "15/12"
+    },
+    {
+     "kc": "finish_task",
+     "selection": "done",
+     "action": "finalizar exercício",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador_denominador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "12",
+     "buggyRule": "inverter a fração 15/12 para 12/15 e extrair o novo numerador",
+     "description": "O aluno inverteu a fração alvo ao preencher o campo do numerador.",
+     "feedback": "Verifique se o numerador representa a quantidade total de partes selecionadas."
+    },
+    {
+     "step": 2,
+     "id": "misc_inteiro_nu_total_sacos",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "ignorar a fração e utilizar o limite superior da escala da reta numérica como resposta",
+     "description": "O aluno confundiu o valor da fração com o limite da reta.",
+     "feedback": "O valor solicitado é a quantidade de maçãs selecionadas sobre o total de um saco."
+    },
+    {
+     "step": 4,
+     "id": "misc_marca_vizinha_denom",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "11",
+     "buggyRule": "contar incorretamente as divisões da reta e selecionar a marca imediatamente anterior ao alvo (11/12)",
+     "description": "O aluno contou incorretamente as divisões da reta.",
+     "feedback": "Conte cuidadosamente os intervalos entre 0 e 1 na reta numérica."
+    },
+    {
+     "step": 4,
+     "id": "misc_inversao_denominador",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "15",
+     "buggyRule": "utilizar o numerador original como denominador (inversão parcial)",
+     "description": "O aluno trocou o denominador pelo numerador.",
+     "feedback": "O denominador deve representar o tamanho total de um saco."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Observe até qual valor a reta numérica se estende."
+    },
+    {
+     "step": 2,
+     "text": "Quantas maçãs Lilth selecionou no total?"
+    },
+    {
+     "step": 4,
+     "text": "Quantas maçãs cabem em um único saco?"
+    }
+   ]
+  }
+ }
+}

@@ -23,7 +23,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildAllEnvelopesA2 } from "./interface-input.js";
-import { agent3b_atRiskStudent } from "./agents3-students.js";
+import { agent3b_atRiskStudent } from "./bancada-historica/agents3-students-c3.js";
 import { miscKey } from "./schema.js";
 import { sha256 } from "./exec-manifest.js";
 

@@ -1,0 +1,433 @@
+{
+ "id": "12apples",
+ "correctAnswer": "15/12",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.56,
+ "conceptual": 0.609,
+ "precision": 0.5,
+ "recall": 0.636,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.167,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "24",
+  "4/3",
+  "4/5",
+  "5",
+  "clicked"
+ ],
+ "robotMisconceptions": [
+  "12",
+  "1",
+  "15",
+  "24",
+  "7/6",
+  "4/3",
+  "12/15",
+  "12",
+  "5",
+  "15",
+  "24",
+  "clicked"
+ ],
+ "exercicio": "12apples",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:27:28.568Z",
+ "promptSha256": "2886076a8dd8f1316289fb55ba6ca450ac656f549af9bf41b1f6664d0119c40a",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1825,
+  "tokensSaida": 7250,
+  "usd": 0.0679875
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Definir o limite máximo da reta numérica para abranger a fração imprópria",
+    "kc": "config_numline_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "Definir o número de divisões de cada unidade na reta numérica",
+    "kc": "set_numline_partitions"
+   },
+   {
+    "indice": 3,
+    "acao": "Clicar na 15ª marca após o zero para posicionar a fração 15/12",
+    "kc": "plot_fraction_numline"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar o numerador correspondente ao total de maçãs selecionadas",
+    "kc": "write_numerator"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o denominador correspondente à capacidade de um saco",
+    "kc": "write_denominator"
+   },
+   {
+    "indice": 6,
+    "acao": "Clicar no botão Done para enviar a resposta",
+    "kc": "submit_exercise"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "12",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O limite da reta representa a quantidade de sacos inteiros (unidades), não a quantidade de maçãs em um saco. Tente usar 2 como limite.",
+    "buggyRule": "Usar a capacidade total de um saco (12) como o limite direito da reta em vez de usar os inteiros (sacos inteiros)",
+    "misconceptionId": "limit_saco_capacity"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração 15/12 é maior que 1 inteiro (12/12). A reta precisa ter um limite maior, como 2, para podermos plotar esse ponto.",
+    "buggyRule": "Definir o limite da reta como 1 inteiro, ignorando que a fração 15/12 é maior que 1",
+    "misconceptionId": "limit_one_whole"
+   },
+   {
+    "valor": "15",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O número de divisões da reta deve representar em quantas partes um único inteiro (saco) é dividido. Cada saco comporta 12 maçãs.",
+    "buggyRule": "Usar o total de maçãs selecionadas (15) como o número de divisões da reta",
+    "misconceptionId": "denom_total_apples"
+   },
+   {
+    "valor": "24",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Mesmo que existam dois sacos, cada unidade na reta representa apenas um saco. Portanto, o número de divisões por unidade deve ser 12.",
+    "buggyRule": "Somar a capacidade dos dois sacos (12 + 12 = 24) para definir o número de divisões por unidade",
+    "misconceptionId": "denom_sum_capacities"
+   },
+   {
+    "valor": "7/6",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você está quase lá! Conte as marcas com cuidado a partir do zero. O ponto 15/12 deve estar exatamente na 15ª marca.",
+    "buggyRule": "Clicar na marca imediatamente anterior ao alvo na reta (14/12, que simplifica para 7/6)",
+    "misconceptionId": "click_neighbor_before"
+   },
+   {
+    "valor": "4/3",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você passou um pouquinho da marca correta. Volte uma divisão para selecionar exatamente a 15ª marca (15/12).",
+    "buggyRule": "Clicar na marca imediatamente posterior ao alvo na reta (16/12, que simplifica para 4/3)",
+    "misconceptionId": "click_neighbor_after"
+   },
+   {
+    "valor": "12/15",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração que queremos representar é 15/12 (quinze doze avos), que é maior que 1. A fração 12/15 é menor que 1.",
+    "buggyRule": "Inverter a fração pedida para 12/15 e tentar plotar na reta numérica",
+    "misconceptionId": "click_inverted_fraction"
+   },
+   {
+    "valor": "12",
+    "passo": 4,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador deve representar o total de maçãs que Lilth selecionou. Quantas maçãs ela pegou ao todo nos dois sacos?",
+    "buggyRule": "Inverter o numerador com o denominador, digitando o valor 12 no campo F1",
+    "misconceptionId": "num_inverted_value"
+   },
+   {
+    "valor": "5",
+    "passo": 4,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lilth juntou as maçãs de ambos os sacos. Some as 5 maçãs do primeiro saco com as 10 do segundo saco.",
+    "buggyRule": "Digitar apenas a quantidade de maçãs do primeiro saco (5) em vez do total acumulado",
+    "misconceptionId": "num_single_bag_apples"
+   },
+   {
+    "valor": "15",
+    "passo": 5,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador representa a capacidade de um único saco inteiro. Quantas maçãs cabem em cada saco?",
+    "buggyRule": "Inverter o denominador com o numerador, digitando o valor 15 no campo F2",
+    "misconceptionId": "den_inverted_value"
+   },
+   {
+    "valor": "24",
+    "passo": 5,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador refere-se à partição de uma única unidade (um único saco), que é 12. Não somamos os denominadores.",
+    "buggyRule": "Somar a capacidade dos dois sacos (12 + 12 = 24) para compor o denominador da fração",
+    "misconceptionId": "den_summed"
+   },
+   {
+    "valor": "clicked",
+    "passo": 6,
+    "componente": "showAnswer",
+    "acao": "",
+    "devolutiva": "Tente preencher todos os campos e posicionar o ponto na reta antes de solicitar a resposta correta.",
+    "buggyRule": "Clicar no botão showAnswer para ver a resposta correta antes de tentar finalizar o exercício",
+    "misconceptionId": "click_show_answer_early"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Olhe para a reta numérica. Qual é o maior número inteiro visível nela? Defina o limite da reta como 2."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Cada saco comporta 12 maçãs. Digite 12 no campo do denominador da reta para dividi-la corretamente."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Conte 15 subdivisões a partir do zero na reta numérica e clique para marcar o ponto 15/12."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Para a caixa de texto superior (numerador), insira o total de maçãs selecionadas por Lilth (5 + 10)."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Para a caixa de texto inferior (denominador), insira a capacidade de um único saco de maçãs."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Agora que você marcou o ponto na reta e digitou a fração, clique em Done para concluir!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"kc\": \"config_numline_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"Definir o limite máximo da reta numérica para abranger a fração imprópria\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"set_numline_partitions\",\n      \"selection\": \"denom\",\n      \"action\": \"Definir o número de divisões de cada unidade na reta numérica\",\n      \"result\": \"12\"\n    },\n    {\n      \"kc\": \"plot_fraction_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clicar na 15ª marca após o zero para posicionar a fração 15/12\",\n      \"result\": \"15/12\"\n    },\n    {\n      \"kc\": \"write_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digitar o numerador correspondente ao total de maçãs selecionadas\",\n      \"result\": \"15\"\n    },\n    {\n      \"kc\": \"write_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"Digitar o denominador correspondente à capacidade de um saco\",\n      \"result\": \"12\"\n    },\n    {\n      \"kc\": \"submit_exercise\",\n      \"selection\": \"done\",\n      \"action\": \"Clicar no botão Done para enviar a resposta\",\n      \"result\": \"clicked\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"limit_saco_capacity\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"12\",\n      \"buggyRule\": \"Usar a capacidade total de um saco (12) como o limite direito da reta em vez de usar os inteiros (sacos inteiros)\",\n      \"description\": \"O aluno confunde o valor da capacidade do saco com o número de inteiros que a reta numérica deve exibir.\",\n      \"feedback\": \"O limite da reta representa a quantidade de sacos inteiros (unidades), não a quantidade de maçãs em um saco. Tente usar 2 como limite.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"limit_one_whole\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Definir o limite da reta como 1 inteiro, ignorando que a fração 15/12 é maior que 1\",\n      \"description\": \"O aluno assume que a reta numérica padrão só precisa ir até o número 1.\",\n      \"feedback\": \"A fração 15/12 é maior que 1 inteiro (12/12). A reta precisa ter um limite maior, como 2, para podermos plotar esse ponto.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"denom_total_apples\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"15\",\n      \"buggyRule\": \"Usar o total de maçãs selecionadas (15) como o número de divisões da reta\",\n      \"description\": \"O aluno confunde o total de partes selecionadas com a quantidade de divisões que compõem uma unidade inteira.\",\n      \"feedback\": \"O número de divisões da reta deve representar em quantas partes um único inteiro (saco) é dividido. Cada saco comporta 12 maçãs.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"denom_sum_capacities\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"24\",\n      \"buggyRule\": \"Somar a capacidade dos dois sacos (12 + 12 = 24) para definir o número de divisões por unidade\",\n      \"description\": \"O aluno soma a capacidade de todos os sacos envolvidos para achar o número de divisões da reta.\",\n      \"feedback\": \"Mesmo que existam dois sacos, cada unidade na reta representa apenas um saco. Portanto, o número de divisões por unidade deve ser 12.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"click_neighbor_before\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7/6\",\n      \"buggyRule\": \"Clicar na marca imediatamente anterior ao alvo na reta (14/12, que simplifica para 7/6)\",\n      \"description\": \"O aluno erra a contagem de marcas na reta numérica por uma unidade para menos.\",\n      \"feedback\": \"Você está quase lá! Conte as marcas com cuidado a partir do zero. O ponto 15/12 deve estar exatamente na 15ª marca.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"click_neighbor_after\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/3\",\n      \"buggyRule\": \"Clicar na marca imediatamente posterior ao alvo na reta (16/12, que simplifica para 4/3)\",\n      \"description\": \"O aluno erra a contagem de marcas na reta numérica por uma unidade para mais.\",\n      \"feedback\": \"Você passou um pouquinho da marca correta. Volte uma divisão para selecionar exatamente a 15ª marca (15/12).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"click_inverted_fraction\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"12/15\",\n      \"buggyRule\": \"Inverter a fração pedida para 12/15 e tentar plotar na reta numérica\",\n      \"description\": \"O aluno inverte a fração e tenta representar 12/15 na reta numérica.\",\n      \"feedback\": \"A fração que queremos representar é 15/12 (quinze doze avos), que é maior que 1. A fração 12/15 é menor que 1.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"num_inverted_value\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"12\",\n      \"buggyRule\": \"Inverter o numerador com o denominador, digitando o valor 12 no campo F1\",\n      \"description\": \"O aluno coloca o valor do denominador (capacidade do saco) no campo reservado para o numerador.\",\n      \"feedback\": \"O numerador deve representar o total de maçãs que Lilth selecionou. Quantas maçãs ela pegou ao todo nos dois sacos?\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"num_single_bag_apples\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Digitar apenas a quantidade de maçãs do primeiro saco (5) em vez do total acumulado\",\n      \"description\": \"O aluno ignora a soma das maçãs dos dois sacos e coloca apenas a quantidade do primeiro saco.\",\n      \"feedback\": \"Lilth juntou as maçãs de ambos os sacos. Some as 5 maçãs do primeiro saco com as 10 do segundo saco.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"den_inverted_value\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"15\",\n      \"buggyRule\": \"Inverter o denominador com o numerador, digitando o valor 15 no campo F2\",\n      \"description\": \"O aluno coloca o valor do numerador (total de maçãs) no campo correspondente ao denominador.\",\n      \"feedback\": \"O denominador representa a capacidade de um único saco inteiro. Quantas maçãs cabem em cada saco?\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"den_summed\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"24\",\n      \"buggyRule\": \"Somar a capacidade dos dois sacos (12 + 12 = 24) para compor o denominador da fração\",\n      \"description\": \"O aluno acha que o denominador deve ser a soma das capacidades de todos os sacos envolvidos.\",\n      \"feedback\": \"O denominador refere-se à partição de uma única unidade (um único saco), que é 12. Não somamos os denominadores.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"click_show_answer_early\",\n      \"selection\": \"showAnswer\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"Clicar no botão showAnswer para ver a resposta correta antes de tentar finalizar o exercício\",\n      \"description\": \"O aluno clica no botão de revelação da resposta sem concluir o preenchimento por conta própria.\",\n      \"feedback\": \"Tente preencher todos os campos e posicionar o ponto na reta antes de solicitar a resposta correta.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"Olhe para a reta numérica. Qual é o maior número inteiro visível nela? Defina o limite da reta como 2.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Cada saco comporta 12 maçãs. Digite 12 no campo do denominador da reta para dividi-la corretamente.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Conte 15 subdivisões a partir do zero na reta numérica e clique para marcar o ponto 15/12.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Para a caixa de texto superior (numerador), insira o total de maçãs selecionadas por Lilth (5 + 10).\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Para a caixa de texto inferior (denominador), insira a capacidade de um único saco de maçãs.\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"Agora que você marcou o ponto na reta e digitou a fração, clique em Done para concluir!\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline_limit",
+     "selection": "numline",
+     "action": "Definir o limite máximo da reta numérica para abranger a fração imprópria",
+     "result": "2"
+    },
+    {
+     "kc": "set_numline_partitions",
+     "selection": "denom",
+     "action": "Definir o número de divisões de cada unidade na reta numérica",
+     "result": "12"
+    },
+    {
+     "kc": "plot_fraction_numline",
+     "selection": "numline",
+     "action": "Clicar na 15ª marca após o zero para posicionar a fração 15/12",
+     "result": "15/12"
+    },
+    {
+     "kc": "write_numerator",
+     "selection": "F1",
+     "action": "Digitar o numerador correspondente ao total de maçãs selecionadas",
+     "result": "15"
+    },
+    {
+     "kc": "write_denominator",
+     "selection": "F2",
+     "action": "Digitar o denominador correspondente à capacidade de um saco",
+     "result": "12"
+    },
+    {
+     "kc": "submit_exercise",
+     "selection": "done",
+     "action": "Clicar no botão Done para enviar a resposta",
+     "result": "clicked"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "limit_saco_capacity",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "12",
+     "buggyRule": "Usar a capacidade total de um saco (12) como o limite direito da reta em vez de usar os inteiros (sacos inteiros)",
+     "description": "O aluno confunde o valor da capacidade do saco com o número de inteiros que a reta numérica deve exibir.",
+     "feedback": "O limite da reta representa a quantidade de sacos inteiros (unidades), não a quantidade de maçãs em um saco. Tente usar 2 como limite."
+    },
+    {
+     "step": 1,
+     "id": "limit_one_whole",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "Definir o limite da reta como 1 inteiro, ignorando que a fração 15/12 é maior que 1",
+     "description": "O aluno assume que a reta numérica padrão só precisa ir até o número 1.",
+     "feedback": "A fração 15/12 é maior que 1 inteiro (12/12). A reta precisa ter um limite maior, como 2, para podermos plotar esse ponto."
+    },
+    {
+     "step": 2,
+     "id": "denom_total_apples",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "15",
+     "buggyRule": "Usar o total de maçãs selecionadas (15) como o número de divisões da reta",
+     "description": "O aluno confunde o total de partes selecionadas com a quantidade de divisões que compõem uma unidade inteira.",
+     "feedback": "O número de divisões da reta deve representar em quantas partes um único inteiro (saco) é dividido. Cada saco comporta 12 maçãs."
+    },
+    {
+     "step": 2,
+     "id": "denom_sum_capacities",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "24",
+     "buggyRule": "Somar a capacidade dos dois sacos (12 + 12 = 24) para definir o número de divisões por unidade",
+     "description": "O aluno soma a capacidade de todos os sacos envolvidos para achar o número de divisões da reta.",
+     "feedback": "Mesmo que existam dois sacos, cada unidade na reta representa apenas um saco. Portanto, o número de divisões por unidade deve ser 12."
+    },
+    {
+     "step": 3,
+     "id": "click_neighbor_before",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "7/6",
+     "buggyRule": "Clicar na marca imediatamente anterior ao alvo na reta (14/12, que simplifica para 7/6)",
+     "description": "O aluno erra a contagem de marcas na reta numérica por uma unidade para menos.",
+     "feedback": "Você está quase lá! Conte as marcas com cuidado a partir do zero. O ponto 15/12 deve estar exatamente na 15ª marca."
+    },
+    {
+     "step": 3,
+     "id": "click_neighbor_after",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4/3",
+     "buggyRule": "Clicar na marca imediatamente posterior ao alvo na reta (16/12, que simplifica para 4/3)",
+     "description": "O aluno erra a contagem de marcas na reta numérica por uma unidade para mais.",
+     "feedback": "Você passou um pouquinho da marca correta. Volte uma divisão para selecionar exatamente a 15ª marca (15/12)."
+    },
+    {
+     "step": 3,
+     "id": "click_inverted_fraction",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "12/15",
+     "buggyRule": "Inverter a fração pedida para 12/15 e tentar plotar na reta numérica",
+     "description": "O aluno inverte a fração e tenta representar 12/15 na reta numérica.",
+     "feedback": "A fração que queremos representar é 15/12 (quinze doze avos), que é maior que 1. A fração 12/15 é menor que 1."
+    },
+    {
+     "step": 4,
+     "id": "num_inverted_value",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "12",
+     "buggyRule": "Inverter o numerador com o denominador, digitando o valor 12 no campo F1",
+     "description": "O aluno coloca o valor do denominador (capacidade do saco) no campo reservado para o numerador.",
+     "feedback": "O numerador deve representar o total de maçãs que Lilth selecionou. Quantas maçãs ela pegou ao todo nos dois sacos?"
+    },
+    {
+     "step": 4,
+     "id": "num_single_bag_apples",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Digitar apenas a quantidade de maçãs do primeiro saco (5) em vez do total acumulado",
+     "description": "O aluno ignora a soma das maçãs dos dois sacos e coloca apenas a quantidade do primeiro saco.",
+     "feedback": "Lilth juntou as maçãs de ambos os sacos. Some as 5 maçãs do primeiro saco com as 10 do segundo saco."
+    },
+    {
+     "step": 5,
+     "id": "den_inverted_value",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "15",
+     "buggyRule": "Inverter o denominador com o numerador, digitando o valor 15 no campo F2",
+     "description": "O aluno coloca o valor do numerador (total de maçãs) no campo correspondente ao denominador.",
+     "feedback": "O denominador representa a capacidade de um único saco inteiro. Quantas maçãs cabem em cada saco?"
+    },
+    {
+     "step": 5,
+     "id": "den_summed",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "24",
+     "buggyRule": "Somar a capacidade dos dois sacos (12 + 12 = 24) para compor o denominador da fração",
+     "description": "O aluno acha que o denominador deve ser a soma das capacidades de todos os sacos envolvidos.",
+     "feedback": "O denominador refere-se à partição de uma única unidade (um único saco), que é 12. Não somamos os denominadores."
+    },
+    {
+     "step": 6,
+     "id": "click_show_answer_early",
+     "selection": "showAnswer",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "Clicar no botão showAnswer para ver a resposta correta antes de tentar finalizar o exercício",
+     "description": "O aluno clica no botão de revelação da resposta sem concluir o preenchimento por conta própria.",
+     "feedback": "Tente preencher todos os campos e posicionar o ponto na reta antes de solicitar a resposta correta."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Olhe para a reta numérica. Qual é o maior número inteiro visível nela? Defina o limite da reta como 2."
+    },
+    {
+     "step": 2,
+     "text": "Cada saco comporta 12 maçãs. Digite 12 no campo do denominador da reta para dividi-la corretamente."
+    },
+    {
+     "step": 3,
+     "text": "Conte 15 subdivisões a partir do zero na reta numérica e clique para marcar o ponto 15/12."
+    },
+    {
+     "step": 4,
+     "text": "Para a caixa de texto superior (numerador), insira o total de maçãs selecionadas por Lilth (5 + 10)."
+    },
+    {
+     "step": 5,
+     "text": "Para a caixa de texto inferior (denominador), insira a capacidade de um único saco de maçãs."
+    },
+    {
+     "step": 6,
+     "text": "Agora que você marcou o ponto na reta e digitou a fração, clique em Done para concluir!"
+    }
+   ]
+  }
+ }
+}

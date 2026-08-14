@@ -45,7 +45,7 @@ vi.mock("../llm.js", async (importOriginal) => {
   };
 });
 
-import { agent3b_atRiskStudent } from "../agents3-students.js";
+import { agent3b_atRiskStudent } from "../bancada-historica/agents3-students-c3.js";
 import { simulateStudentsReal, applyRepresentation } from "../simulate-students-real.js";
 import { neutralV1ToV2, correctTraceFromV1 } from "../neutral-v1-to-v2.js";
 import { executeTrace } from "../trace-executor.js";

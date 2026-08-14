@@ -1,0 +1,473 @@
+{
+ "id": "15fishStick",
+ "correctAnswer": "10/7",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.467,
+ "conceptual": 0.5,
+ "precision": 0.412,
+ "recall": 0.538,
+ "functionalAgreement": 0.286,
+ "functionalKappa": -0.129,
+ "missing": [
+  "3/7",
+  "-1",
+  "-",
+  "3"
+ ],
+ "extra": [
+  "0",
+  "1",
+  "14",
+  "9",
+  "6",
+  "11/7",
+  "not_clicked",
+  "submitted_incomplete"
+ ],
+ "robotMisconceptions": [
+  "0",
+  "1",
+  "14",
+  "7",
+  "7",
+  "9",
+  "10",
+  "6",
+  "14",
+  "9/7",
+  "11/7",
+  "1",
+  "not_clicked",
+  "submitted_incomplete"
+ ],
+ "exercicio": "15fishStick",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:30:46.725Z",
+ "promptSha256": "9c6b722149e1b1f3fdead327cb6d8d44374601277571ac36759471b103d3aa42",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1897,
+  "tokensSaida": 2526,
+  "usd": 0.01133106
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "configura a reta numérica para cobrir até o inteiro 2",
+    "kc": "kc_set_numberline_range"
+   },
+   {
+    "indice": 2,
+    "acao": "digita o numerador da fração 10/7",
+    "kc": "kc_identify_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digita o denominador da fração 10/7",
+    "kc": "kc_identify_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "marca o ponto correspondente a 10/7 na reta numérica",
+    "kc": "kc_plot_fraction_on_numberline"
+   },
+   {
+    "indice": 5,
+    "acao": "ativa o controle para confirmar a representação fracionária",
+    "kc": "kc_confirm_fraction_representation"
+   },
+   {
+    "indice": 6,
+    "acao": "clica em done para finalizar",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta começa em 0, mas deve ir até o maior inteiro visível. Qual é o número mais à direita?",
+    "buggyRule": "usa o rótulo inicial da reta (0) como limite direito visível, invertendo início e fim",
+    "misconceptionId": "misc_numberline_range_inversion"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta mostra marcas além de 1. Veja até onde ela vai: qual é o último número inteiro marcado?",
+    "buggyRule": "escolhe o inteiro imediatamente antes do limite correto (2) como o alcance da reta",
+    "misconceptionId": "misc_numberline_range_neighbor_mark"
+   },
+   {
+    "valor": "14",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O número de partes não é o valor máximo. A reta termina em um número inteiro — qual você vê à direita?",
+    "buggyRule": "usa o número total de intervalos (14) como o limite direito da escala",
+    "misconceptionId": "misc_numberline_range_from_divisions_count"
+   },
+   {
+    "valor": "7",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador é a parte de cima da fração. Quantos palitos há no total? Esse é o número de cima.",
+    "buggyRule": "inverte numerador e denominador da fração 10/7 e digita o antigo denominador (7) como numerador",
+    "misconceptionId": "misc_numerator_inversion_10_7"
+   },
+   {
+    "valor": "7",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa o total de palitos (10), não o número de pessoas.",
+    "buggyRule": "usa o número de pessoas (Grace + 6 amigas = 7) como numerador",
+    "misconceptionId": "misc_numerator_as_total_people"
+   },
+   {
+    "valor": "9",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique se você está lendo exatamente a marca correta. O numerador vem da fração total, não de uma marca próxima.",
+    "buggyRule": "lê o valor da marca vizinha antes de 10/7 na reta (9/7) e usa seu numerador (9) como entrada em F1",
+    "misconceptionId": "misc_numerator_from_neighbor_mark"
+   },
+   {
+    "valor": "10",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é a parte de baixo da fração. Em quantas partes iguais cada unidade está dividida? Veja a reta.",
+    "buggyRule": "inverte numerador e denominador da fração 10/7 e digita o antigo numerador (10) como denominador",
+    "misconceptionId": "misc_denominator_inversion_10_7"
+   },
+   {
+    "valor": "6",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "São Grace + 6 amigas = 7 pessoas no total. O denominador deve ser 7.",
+    "buggyRule": "usa apenas o número de amigas (6) como denominador, esquecendo que Grace também come",
+    "misconceptionId": "misc_denominator_as_number_of_friends"
+   },
+   {
+    "valor": "14",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Cada unidade (de 0 a 1, de 1 a 2) está dividida em 7 partes, não 14. Use o número de divisões por unidade.",
+    "buggyRule": "usa o número total de intervalos na reta (14) como denominador",
+    "misconceptionId": "misc_denominator_from_divisions_per_unit"
+   },
+   {
+    "valor": "9/7",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique a posição exata: conte as marcas após o 1. A 3ª marca depois de 1 é 10/7.",
+    "buggyRule": "clica na marca imediatamente antes de 10/7 na reta numérica, cujo valor é 9/7",
+    "misconceptionId": "misc_numberline_mark_neighbor_before"
+   },
+   {
+    "valor": "11/7",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você foi um pouco longe demais. Volte uma marca: qual é o valor anterior a 11/7?",
+    "buggyRule": "clica na marca imediatamente depois de 10/7 na reta numérica, cujo valor é 11/7",
+    "misconceptionId": "misc_numberline_mark_neighbor_after"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O valor está entre 1 e 2. Você precisa usar as marcas menores, não só os inteiros.",
+    "buggyRule": "clica no rótulo inteiro mais próximo (1) em vez da fração 10/7",
+    "misconceptionId": "misc_numberline_mark_as_integer_only"
+   },
+   {
+    "valor": "not_clicked",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Não esqueça de usar o controle para confirmar sua fração antes de enviar.",
+    "buggyRule": "não ativa o controle writeFractionStep, deixando-o inativo",
+    "misconceptionId": "misc_skip_writeFractionStep"
+   },
+   {
+    "valor": "submitted_incomplete",
+    "passo": 6,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Antes de clicar em 'done', verifique se todos os campos estão preenchidos e a reta está marcada.",
+    "buggyRule": "clica em done sem preencher todos os campos ou configurar a reta",
+    "misconceptionId": "misc_premature_done_click"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica vai até qual número inteiro à direita?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos palitos de peixe há no total? Esse é o numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Com quantas pessoas (incluindo Grace) os palitos são divididos? Esse é o denominador."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Localize 10/7 contando 10 marcas a partir do zero, ou 3 marcas após o 1."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Use o controle para confirmar que sua fração está representada corretamente."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Revise tudo antes de clicar em 'done'."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_set_numberline_range\",\n      \"selection\": \"numline\",\n      \"action\": \"configura a reta numérica para cobrir até o inteiro 2\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_identify_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digita o numerador da fração 10/7\",\n      \"result\": \"10\"\n    },\n    {\n      \"kc\": \"kc_identify_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"digita o denominador da fração 10/7\",\n      \"result\": \"7\"\n    },\n    {\n      \"kc\": \"kc_plot_fraction_on_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"marca o ponto correspondente a 10/7 na reta numérica\",\n      \"result\": \"10/7\"\n    },\n    {\n      \"kc\": \"kc_confirm_fraction_representation\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"ativa o controle para confirmar a representação fracionária\",\n      \"result\": \"confirmed\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"clica em done para finalizar\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_numberline_range_inversion\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"usa o rótulo inicial da reta (0) como limite direito visível, invertendo início e fim\",\n      \"description\": \"Aluno confunde o início e o fim da escala da reta numérica.\",\n      \"feedback\": \"A reta começa em 0, mas deve ir até o maior inteiro visível. Qual é o número mais à direita?\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numberline_range_neighbor_mark\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"escolhe o inteiro imediatamente antes do limite correto (2) como o alcance da reta\",\n      \"description\": \"Aluno subestima o alcance da reta numérica, parando no inteiro anterior.\",\n      \"feedback\": \"A reta mostra marcas além de 1. Veja até onde ela vai: qual é o último número inteiro marcado?\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numberline_range_from_divisions_count\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"14\",\n      \"buggyRule\": \"usa o número total de intervalos (14) como o limite direito da escala\",\n      \"description\": \"Aluno confunde número de divisões com valor máximo da escala.\",\n      \"feedback\": \"O número de partes não é o valor máximo. A reta termina em um número inteiro — qual você vê à direita?\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_numerator_inversion_10_7\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"inverte numerador e denominador da fração 10/7 e digita o antigo denominador (7) como numerador\",\n      \"description\": \"Aluno troca numerador e denominador ao preencher a fração.\",\n      \"feedback\": \"O numerador é a parte de cima da fração. Quantos palitos há no total? Esse é o número de cima.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_numerator_as_total_people\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"usa o número de pessoas (Grace + 6 amigas = 7) como numerador\",\n      \"description\": \"Aluno associa incorretamente o número de pessoas ao numerador.\",\n      \"feedback\": \"O numerador representa o total de palitos (10), não o número de pessoas.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_numerator_from_neighbor_mark\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"lê o valor da marca vizinha antes de 10/7 na reta (9/7) e usa seu numerador (9) como entrada em F1\",\n      \"description\": \"Aluno lê incorretamente a marca vizinha e extrai só o numerador.\",\n      \"feedback\": \"Verifique se você está lendo exatamente a marca correta. O numerador vem da fração total, não de uma marca próxima.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denominator_inversion_10_7\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"10\",\n      \"buggyRule\": \"inverte numerador e denominador da fração 10/7 e digita o antigo numerador (10) como denominador\",\n      \"description\": \"Aluno troca numerador e denominador ao preencher a fração.\",\n      \"feedback\": \"O denominador é a parte de baixo da fração. Em quantas partes iguais cada unidade está dividida? Veja a reta.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denominator_as_number_of_friends\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"usa apenas o número de amigas (6) como denominador, esquecendo que Grace também come\",\n      \"description\": \"Aluno esquece de incluir Grace no total de pessoas que dividem os palitos.\",\n      \"feedback\": \"São Grace + 6 amigas = 7 pessoas no total. O denominador deve ser 7.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denominator_from_divisions_per_unit\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"corretamente identifica que a unidade está dividida em 7 partes, então digita 7 — este é o valor correto, mas listado aqui porque é um fato da interface que pode gerar respostas acidentais; porém, como é correto, NÃO é um erro. Portanto, substituído por:\",\n      \"wrongAnswer\": \"14\",\n      \"buggyRule\": \"usa o número total de intervalos na reta (14) como denominador\",\n      \"description\": \"Aluno confunde número total de divisões com o número de partes por unidade.\",\n      \"feedback\": \"Cada unidade (de 0 a 1, de 1 a 2) está dividida em 7 partes, não 14. Use o número de divisões por unidade.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numberline_mark_neighbor_before\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9/7\",\n      \"buggyRule\": \"clica na marca imediatamente antes de 10/7 na reta numérica, cujo valor é 9/7\",\n      \"description\": \"Aluno seleciona a marca vizinha anterior ao alvo.\",\n      \"feedback\": \"Verifique a posição exata: conte as marcas após o 1. A 3ª marca depois de 1 é 10/7.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numberline_mark_neighbor_after\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"11/7\",\n      \"buggyRule\": \"clica na marca imediatamente depois de 10/7 na reta numérica, cujo valor é 11/7\",\n      \"description\": \"Aluno seleciona a marca vizinha posterior ao alvo.\",\n      \"feedback\": \"Você foi um pouco longe demais. Volte uma marca: qual é o valor anterior a 11/7?\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numberline_mark_as_integer_only\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"clica no rótulo inteiro mais próximo (1) em vez da fração 10/7\",\n      \"description\": \"Aluno ignora partes fracionárias e seleciona apenas o inteiro mais próximo.\",\n      \"feedback\": \"O valor está entre 1 e 2. Você precisa usar as marcas menores, não só os inteiros.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_skip_writeFractionStep\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"not_clicked\",\n      \"buggyRule\": \"não ativa o controle writeFractionStep, deixando-o inativo\",\n      \"description\": \"Aluno pula o passo de confirmação da representação fracionária.\",\n      \"feedback\": \"Não esqueça de usar o controle para confirmar sua fração antes de enviar.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"misc_premature_done_click\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"submitted_incomplete\",\n      \"buggyRule\": \"clica em done sem preencher todos os campos ou configurar a reta\",\n      \"description\": \"Aluno finaliza antes de completar todos os passos.\",\n      \"feedback\": \"Antes de clicar em 'done', verifique se todos os campos estão preenchidos e a reta está marcada.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica vai até qual número inteiro à direita?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Quantos palitos de peixe há no total? Esse é o numerador.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Com quantas pessoas (incluindo Grace) os palitos são divididos? Esse é o denominador.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Localize 10/7 contando 10 marcas a partir do zero, ou 3 marcas após o 1.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Use o controle para confirmar que sua fração está representada corretamente.\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"Revise tudo antes de clicar em 'done'.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_set_numberline_range",
+     "selection": "numline",
+     "action": "configura a reta numérica para cobrir até o inteiro 2",
+     "result": "2"
+    },
+    {
+     "kc": "kc_identify_numerator",
+     "selection": "F1",
+     "action": "digita o numerador da fração 10/7",
+     "result": "10"
+    },
+    {
+     "kc": "kc_identify_denominator",
+     "selection": "denom",
+     "action": "digita o denominador da fração 10/7",
+     "result": "7"
+    },
+    {
+     "kc": "kc_plot_fraction_on_numberline",
+     "selection": "numline",
+     "action": "marca o ponto correspondente a 10/7 na reta numérica",
+     "result": "10/7"
+    },
+    {
+     "kc": "kc_confirm_fraction_representation",
+     "selection": "writeFractionStep",
+     "action": "ativa o controle para confirmar a representação fracionária",
+     "result": "confirmed"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "clica em done para finalizar",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_numberline_range_inversion",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "0",
+     "buggyRule": "usa o rótulo inicial da reta (0) como limite direito visível, invertendo início e fim",
+     "description": "Aluno confunde o início e o fim da escala da reta numérica.",
+     "feedback": "A reta começa em 0, mas deve ir até o maior inteiro visível. Qual é o número mais à direita?"
+    },
+    {
+     "step": 1,
+     "id": "misc_numberline_range_neighbor_mark",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "escolhe o inteiro imediatamente antes do limite correto (2) como o alcance da reta",
+     "description": "Aluno subestima o alcance da reta numérica, parando no inteiro anterior.",
+     "feedback": "A reta mostra marcas além de 1. Veja até onde ela vai: qual é o último número inteiro marcado?"
+    },
+    {
+     "step": 1,
+     "id": "misc_numberline_range_from_divisions_count",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "14",
+     "buggyRule": "usa o número total de intervalos (14) como o limite direito da escala",
+     "description": "Aluno confunde número de divisões com valor máximo da escala.",
+     "feedback": "O número de partes não é o valor máximo. A reta termina em um número inteiro — qual você vê à direita?"
+    },
+    {
+     "step": 2,
+     "id": "misc_numerator_inversion_10_7",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "7",
+     "buggyRule": "inverte numerador e denominador da fração 10/7 e digita o antigo denominador (7) como numerador",
+     "description": "Aluno troca numerador e denominador ao preencher a fração.",
+     "feedback": "O numerador é a parte de cima da fração. Quantos palitos há no total? Esse é o número de cima."
+    },
+    {
+     "step": 2,
+     "id": "misc_numerator_as_total_people",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "7",
+     "buggyRule": "usa o número de pessoas (Grace + 6 amigas = 7) como numerador",
+     "description": "Aluno associa incorretamente o número de pessoas ao numerador.",
+     "feedback": "O numerador representa o total de palitos (10), não o número de pessoas."
+    },
+    {
+     "step": 2,
+     "id": "misc_numerator_from_neighbor_mark",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "9",
+     "buggyRule": "lê o valor da marca vizinha antes de 10/7 na reta (9/7) e usa seu numerador (9) como entrada em F1",
+     "description": "Aluno lê incorretamente a marca vizinha e extrai só o numerador.",
+     "feedback": "Verifique se você está lendo exatamente a marca correta. O numerador vem da fração total, não de uma marca próxima."
+    },
+    {
+     "step": 3,
+     "id": "misc_denominator_inversion_10_7",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "10",
+     "buggyRule": "inverte numerador e denominador da fração 10/7 e digita o antigo numerador (10) como denominador",
+     "description": "Aluno troca numerador e denominador ao preencher a fração.",
+     "feedback": "O denominador é a parte de baixo da fração. Em quantas partes iguais cada unidade está dividida? Veja a reta."
+    },
+    {
+     "step": 3,
+     "id": "misc_denominator_as_number_of_friends",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "6",
+     "buggyRule": "usa apenas o número de amigas (6) como denominador, esquecendo que Grace também come",
+     "description": "Aluno esquece de incluir Grace no total de pessoas que dividem os palitos.",
+     "feedback": "São Grace + 6 amigas = 7 pessoas no total. O denominador deve ser 7."
+    },
+    {
+     "step": 3,
+     "id": "misc_denominator_from_divisions_per_unit",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "14",
+     "buggyRule": "usa o número total de intervalos na reta (14) como denominador",
+     "description": "Aluno confunde número total de divisões com o número de partes por unidade.",
+     "feedback": "Cada unidade (de 0 a 1, de 1 a 2) está dividida em 7 partes, não 14. Use o número de divisões por unidade."
+    },
+    {
+     "step": 4,
+     "id": "misc_numberline_mark_neighbor_before",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "9/7",
+     "buggyRule": "clica na marca imediatamente antes de 10/7 na reta numérica, cujo valor é 9/7",
+     "description": "Aluno seleciona a marca vizinha anterior ao alvo.",
+     "feedback": "Verifique a posição exata: conte as marcas após o 1. A 3ª marca depois de 1 é 10/7."
+    },
+    {
+     "step": 4,
+     "id": "misc_numberline_mark_neighbor_after",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "11/7",
+     "buggyRule": "clica na marca imediatamente depois de 10/7 na reta numérica, cujo valor é 11/7",
+     "description": "Aluno seleciona a marca vizinha posterior ao alvo.",
+     "feedback": "Você foi um pouco longe demais. Volte uma marca: qual é o valor anterior a 11/7?"
+    },
+    {
+     "step": 4,
+     "id": "misc_numberline_mark_as_integer_only",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "clica no rótulo inteiro mais próximo (1) em vez da fração 10/7",
+     "description": "Aluno ignora partes fracionárias e seleciona apenas o inteiro mais próximo.",
+     "feedback": "O valor está entre 1 e 2. Você precisa usar as marcas menores, não só os inteiros."
+    },
+    {
+     "step": 5,
+     "id": "misc_skip_writeFractionStep",
+     "selection": "writeFractionStep",
+     "type": "procedural",
+     "wrongAnswer": "not_clicked",
+     "buggyRule": "não ativa o controle writeFractionStep, deixando-o inativo",
+     "description": "Aluno pula o passo de confirmação da representação fracionária.",
+     "feedback": "Não esqueça de usar o controle para confirmar sua fração antes de enviar."
+    },
+    {
+     "step": 6,
+     "id": "misc_premature_done_click",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "submitted_incomplete",
+     "buggyRule": "clica em done sem preencher todos os campos ou configurar a reta",
+     "description": "Aluno finaliza antes de completar todos os passos.",
+     "feedback": "Antes de clicar em 'done', verifique se todos os campos estão preenchidos e a reta está marcada."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica vai até qual número inteiro à direita?"
+    },
+    {
+     "step": 2,
+     "text": "Quantos palitos de peixe há no total? Esse é o numerador."
+    },
+    {
+     "step": 3,
+     "text": "Com quantas pessoas (incluindo Grace) os palitos são divididos? Esse é o denominador."
+    },
+    {
+     "step": 4,
+     "text": "Localize 10/7 contando 10 marcas a partir do zero, ou 3 marcas após o 1."
+    },
+    {
+     "step": 5,
+     "text": "Use o controle para confirmar que sua fração está representada corretamente."
+    },
+    {
+     "step": 6,
+     "text": "Revise tudo antes de clicar em 'done'."
+    }
+   ]
+  }
+ }
+}

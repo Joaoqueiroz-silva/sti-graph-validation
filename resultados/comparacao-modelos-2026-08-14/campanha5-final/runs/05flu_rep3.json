@@ -1,0 +1,480 @@
+{
+ "id": "05flu",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.56,
+ "conceptual": 0.609,
+ "precision": 0.5,
+ "recall": 0.636,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.167,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "4/5",
+  "0",
+  "6",
+  "5/3",
+  "3/0"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "2/5",
+  "4/5",
+  "5",
+  "5",
+  "0",
+  "3",
+  "6",
+  "1",
+  "2/5",
+  "4/5",
+  "0",
+  "5/3",
+  "3/0",
+  "0/5"
+ ],
+ "exercicio": "05flu",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:13:05.638Z",
+ "promptSha256": "9ff6a8e67e9900aca40f19a38abb3bbf8c153b1015c10f57ee70ffd6168cd14c",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1789,
+  "tokensSaida": 2803,
+  "usd": 0.012327119999999999
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para ir de 0 a 1, com 5 divisões (representando os 5 dias letivos)",
+    "kc": "kc_set_numberline_range"
+   },
+   {
+    "indice": 2,
+    "acao": "Digita o numerador da fração: número de dias ausentes",
+    "kc": "kc_identify_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "Digita o denominador da fração: total de dias letivos na semana",
+    "kc": "kc_identify_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica na marca correspondente à fração 3/5 na reta numérica",
+    "kc": "kc_place_fraction_on_numline"
+   },
+   {
+    "indice": 5,
+    "acao": "Confirma a fração montada nos campos F1 e denom",
+    "kc": "kc_confirm_fraction"
+   },
+   {
+    "indice": 6,
+    "acao": "Finaliza a resposta",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração que representa os dias perdidos não é o número 1. Lembre-se: 1 equivale a toda a semana letiva.",
+    "buggyRule": "O aluno digita o limite direito visível da escala (1) como se fosse a fração pedida.",
+    "misconceptionId": "misc_inteiro_nu_limite_direito"
+   },
+   {
+    "valor": "2/5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique novamente a posição na reta. Danielle perdeu 3 dos 5 dias — a marca deve estar após 2/5.",
+    "buggyRule": "Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca antes do alvo 3/5 → 2/5.",
+    "misconceptionId": "misc_marca_vizinha_antes_numline"
+   },
+   {
+    "valor": "4/5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Conte as partes desde o zero. A terceira marca corresponde a 3/5, não 4/5.",
+    "buggyRule": "Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca depois do alvo 3/5 → 4/5.",
+    "misconceptionId": "misc_marca_vizinha_depois_numline"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa os dias que Danielle ficou em casa: foram 3 dias, não 5.",
+    "buggyRule": "O aluno inverte numerador e denominador da fração 3/5 e digita o denominador (5) no campo do numerador (F1).",
+    "misconceptionId": "misc_inversao_numerador_denominador_F1"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O número de dias que Danielle perdeu é 3, não o total da semana.",
+    "buggyRule": "O aluno vê que a semana tem 5 dias letivos e digita esse inteiro no campo do numerador (F1), ignorando o contexto.",
+    "misconceptionId": "misc_inteiro_nu_total_dias_F1"
+   },
+   {
+    "valor": "0",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Danielle não perdeu zero dias — ela ficou em casa por 3 dias.",
+    "buggyRule": "O aluno vê o rótulo '0' na reta numérica e digita 0 no campo do numerador.",
+    "misconceptionId": "misc_inteiro_nu_zero_F1"
+   },
+   {
+    "valor": "3",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa o total de dias letivos: são 5 dias, não 3.",
+    "buggyRule": "O aluno inverte numerador e denominador da fração 3/5 e digita o numerador (3) no campo do denominador (denom).",
+    "misconceptionId": "misc_inversao_numerador_denominador_denom"
+   },
+   {
+    "valor": "6",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A semana tem 5 dias letivos, então o denominador deve ser 5. As marcas incluem o zero e o um, mas os dias são os intervalos entre elas.",
+    "buggyRule": "O aluno conta o número total de marcas na reta (0 a 1 com 5 intervalos = 6 marcas) e usa esse inteiro como denominador.",
+    "misconceptionId": "misc_inteiro_nu_numero_divisoes_denom"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar o total de dias letivos, que é 5, não 1.",
+    "buggyRule": "O aluno vê o rótulo '1' na reta e digita 1 no campo do denominador.",
+    "misconceptionId": "misc_inteiro_nu_um_denom"
+   },
+   {
+    "valor": "2/5",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Pense: 1 parte = 1 dia. Três dias correspondem à terceira marca após o zero.",
+    "buggyRule": "Mesmo erro de vizinhança: clica na marca antes de 3/5.",
+    "misconceptionId": "misc_marca_vizinha_antes_numline_repetido"
+   },
+   {
+    "valor": "4/5",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Se você avançar 4 partes, isso seria 4 dias perdidos, mas foram só 3.",
+    "buggyRule": "Mesmo erro de vizinhança: clica na marca depois de 3/5.",
+    "misconceptionId": "misc_marca_vizinha_depois_numline_repetido"
+   },
+   {
+    "valor": "0",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Danielle não perdeu zero dias — ela ficou em casa por 3 dias da semana letiva.",
+    "buggyRule": "O aluno clica na primeira marca (0) da reta numérica, copiando o rótulo visível.",
+    "misconceptionId": "misc_inteiro_nu_zero_na_numline"
+   },
+   {
+    "valor": "5/3",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Uma fração maior que 1 (como 5/3) não pode representar parte de uma semana letiva de 5 dias. Revise quais números vão no numerador e no denominador.",
+    "buggyRule": "Após digitar F1=5 e denom=3 (por inversão), o aluno confirma a fração invertida 5/3.",
+    "misconceptionId": "misc_fracao_invertida_writeFractionStep"
+   },
+   {
+    "valor": "3/0",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "O denominador não pode ser zero. A semana tem 5 dias letivos — use esse valor no denominador.",
+    "buggyRule": "O aluno deixa o denominador em branco ou digita 0 (por erro), resultando em 3/0 ao confirmar.",
+    "misconceptionId": "misc_fracao_com_denominador_zero_writeFractionStep"
+   },
+   {
+    "valor": "0/5",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Danielle perdeu 3 dias de aula — o numerador deve refletir esse número, não zero.",
+    "buggyRule": "O aluno acha que 'ficar em casa' não conta, então coloca 0 no numerador e confirma 0/5.",
+    "misconceptionId": "misc_fracao_com_numerador_zero_writeFractionStep"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta vai de 0 a 1 e deve ser dividida em 5 partes iguais — uma para cada dia letivo."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos dias Danielle ficou em casa? Esse número vai no numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Quantos dias tem a semana letiva? Esse número vai no denominador."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Na reta dividida em 5 partes, conte 3 marcas a partir do zero para encontrar 3/5."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Verifique se sua fração mostra 3 dias perdidos em uma semana de 5 dias letivos."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_set_numberline_range\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para ir de 0 a 1, com 5 divisões (representando os 5 dias letivos)\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_identify_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração: número de dias ausentes\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_identify_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador da fração: total de dias letivos na semana\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_place_fraction_on_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente à fração 3/5 na reta numérica\",\n      \"result\": \"3/5\"\n    },\n    {\n      \"kc\": \"kc_confirm_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Confirma a fração montada nos campos F1 e denom\",\n      \"result\": \"3/5\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Finaliza a resposta\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inteiro_nu_limite_direito\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno digita o limite direito visível da escala (1) como se fosse a fração pedida.\",\n      \"description\": \"Interpreta o rótulo '1' da reta como a resposta ao invés de usar a marca fracionária.\",\n      \"feedback\": \"A fração que representa os dias perdidos não é o número 1. Lembre-se: 1 equivale a toda a semana letiva.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_marca_vizinha_antes_numline\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca antes do alvo 3/5 → 2/5.\",\n      \"description\": \"Erro de leitura da reta: seleciona a marca imediatamente anterior à correta.\",\n      \"feedback\": \"Verifique novamente a posição na reta. Danielle perdeu 3 dos 5 dias — a marca deve estar após 2/5.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_marca_vizinha_depois_numline\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/5\",\n      \"buggyRule\": \"Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca depois do alvo 3/5 → 4/5.\",\n      \"description\": \"Erro de leitura da reta: seleciona a marca imediatamente posterior à correta.\",\n      \"feedback\": \"Conte as partes desde o zero. A terceira marca corresponde a 3/5, não 4/5.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador_denominador_F1\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"O aluno inverte numerador e denominador da fração 3/5 e digita o denominador (5) no campo do numerador (F1).\",\n      \"description\": \"Confunde qual valor vai no numerador por inversão da fração.\",\n      \"feedback\": \"O numerador representa os dias que Danielle ficou em casa: foram 3 dias, não 5.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inteiro_nu_total_dias_F1\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"O aluno vê que a semana tem 5 dias letivos e digita esse inteiro no campo do numerador (F1), ignorando o contexto.\",\n      \"description\": \"Usa o total de dias como numerador por confusão de papéis.\",\n      \"feedback\": \"O número de dias que Danielle perdeu é 3, não o total da semana.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inteiro_nu_zero_F1\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"O aluno vê o rótulo '0' na reta numérica e digita 0 no campo do numerador.\",\n      \"description\": \"Copia um rótulo inteiro da interface sem interpretar o problema.\",\n      \"feedback\": \"Danielle não perdeu zero dias — ela ficou em casa por 3 dias.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversao_numerador_denominador_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"O aluno inverte numerador e denominador da fração 3/5 e digita o numerador (3) no campo do denominador (denom).\",\n      \"description\": \"Confunde qual valor vai no denominador por inversão da fração.\",\n      \"feedback\": \"O denominador representa o total de dias letivos: são 5 dias, não 3.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_numero_divisoes_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"O aluno vê que há 5 divisões na reta e digita 5 no denominador — coincidentemente correto, mas por motivo errado. No entanto, como o valor está certo, NÃO contabilizamos como erro aqui. Portanto, substituímos por outro erro plausível: o aluno usa o número total de marcas (6) como denominador.\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"O aluno conta o número total de marcas na reta (0 a 1 com 5 intervalos = 6 marcas) e usa esse inteiro como denominador.\",\n      \"description\": \"Confunde número de marcas com número de partes iguais.\",\n      \"feedback\": \"A semana tem 5 dias letivos, então o denominador deve ser 5. As marcas incluem o zero e o um, mas os dias são os intervalos entre elas.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_um_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno vê o rótulo '1' na reta e digita 1 no campo do denominador.\",\n      \"description\": \"Copia o rótulo final da reta como denominador.\",\n      \"feedback\": \"O denominador deve representar o total de dias letivos, que é 5, não 1.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_marca_vizinha_antes_numline_repetido\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"Mesmo erro de vizinhança: clica na marca antes de 3/5.\",\n      \"description\": \"Erro persistente de localização na reta numérica.\",\n      \"feedback\": \"Pense: 1 parte = 1 dia. Três dias correspondem à terceira marca após o zero.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_marca_vizinha_depois_numline_repetido\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/5\",\n      \"buggyRule\": \"Mesmo erro de vizinhança: clica na marca depois de 3/5.\",\n      \"description\": \"Erro persistente de localização na reta numérica.\",\n      \"feedback\": \"Se você avançar 4 partes, isso seria 4 dias perdidos, mas foram só 3.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inteiro_nu_zero_na_numline\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"O aluno clica na primeira marca (0) da reta numérica, copiando o rótulo visível.\",\n      \"description\": \"Seleciona o rótulo inicial por distração ou má interpretação.\",\n      \"feedback\": \"Danielle não perdeu zero dias — ela ficou em casa por 3 dias da semana letiva.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fracao_invertida_writeFractionStep\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5/3\",\n      \"buggyRule\": \"Após digitar F1=5 e denom=3 (por inversão), o aluno confirma a fração invertida 5/3.\",\n      \"description\": \"Confirma a fração com numerador e denominador trocados.\",\n      \"feedback\": \"Uma fração maior que 1 (como 5/3) não pode representar parte de uma semana letiva de 5 dias. Revise quais números vão no numerador e no denominador.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fracao_com_denominador_zero_writeFractionStep\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/0\",\n      \"buggyRule\": \"O aluno deixa o denominador em branco ou digita 0 (por erro), resultando em 3/0 ao confirmar.\",\n      \"description\": \"Erro de digitação ou concepção levando a denominador inválido.\",\n      \"feedback\": \"O denominador não pode ser zero. A semana tem 5 dias letivos — use esse valor no denominador.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fracao_com_numerador_zero_writeFractionStep\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0/5\",\n      \"buggyRule\": \"O aluno acha que 'ficar em casa' não conta, então coloca 0 no numerador e confirma 0/5.\",\n      \"description\": \"Interpretação equivocada do problema levando a numerador zero.\",\n      \"feedback\": \"Danielle perdeu 3 dias de aula — o numerador deve refletir esse número, não zero.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta vai de 0 a 1 e deve ser dividida em 5 partes iguais — uma para cada dia letivo.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Quantos dias Danielle ficou em casa? Esse número vai no numerador.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Quantos dias tem a semana letiva? Esse número vai no denominador.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Na reta dividida em 5 partes, conte 3 marcas a partir do zero para encontrar 3/5.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Verifique se sua fração mostra 3 dias perdidos em uma semana de 5 dias letivos.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_set_numberline_range",
+     "selection": "numline",
+     "action": "Configura a reta numérica para ir de 0 a 1, com 5 divisões (representando os 5 dias letivos)",
+     "result": "1"
+    },
+    {
+     "kc": "kc_identify_numerator",
+     "selection": "F1",
+     "action": "Digita o numerador da fração: número de dias ausentes",
+     "result": "3"
+    },
+    {
+     "kc": "kc_identify_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador da fração: total de dias letivos na semana",
+     "result": "5"
+    },
+    {
+     "kc": "kc_place_fraction_on_numline",
+     "selection": "numline",
+     "action": "Clica na marca correspondente à fração 3/5 na reta numérica",
+     "result": "3/5"
+    },
+    {
+     "kc": "kc_confirm_fraction",
+     "selection": "writeFractionStep",
+     "action": "Confirma a fração montada nos campos F1 e denom",
+     "result": "3/5"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Finaliza a resposta",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inteiro_nu_limite_direito",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno digita o limite direito visível da escala (1) como se fosse a fração pedida.",
+     "description": "Interpreta o rótulo '1' da reta como a resposta ao invés de usar a marca fracionária.",
+     "feedback": "A fração que representa os dias perdidos não é o número 1. Lembre-se: 1 equivale a toda a semana letiva."
+    },
+    {
+     "step": 1,
+     "id": "misc_marca_vizinha_antes_numline",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca antes do alvo 3/5 → 2/5.",
+     "description": "Erro de leitura da reta: seleciona a marca imediatamente anterior à correta.",
+     "feedback": "Verifique novamente a posição na reta. Danielle perdeu 3 dos 5 dias — a marca deve estar após 2/5."
+    },
+    {
+     "step": 1,
+     "id": "misc_marca_vizinha_depois_numline",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4/5",
+     "buggyRule": "Na reta com marcas [0, 1/5, 2/5, 3/5, 4/5, 1], o aluno clica uma marca depois do alvo 3/5 → 4/5.",
+     "description": "Erro de leitura da reta: seleciona a marca imediatamente posterior à correta.",
+     "feedback": "Conte as partes desde o zero. A terceira marca corresponde a 3/5, não 4/5."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador_denominador_F1",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "O aluno inverte numerador e denominador da fração 3/5 e digita o denominador (5) no campo do numerador (F1).",
+     "description": "Confunde qual valor vai no numerador por inversão da fração.",
+     "feedback": "O numerador representa os dias que Danielle ficou em casa: foram 3 dias, não 5."
+    },
+    {
+     "step": 2,
+     "id": "misc_inteiro_nu_total_dias_F1",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "O aluno vê que a semana tem 5 dias letivos e digita esse inteiro no campo do numerador (F1), ignorando o contexto.",
+     "description": "Usa o total de dias como numerador por confusão de papéis.",
+     "feedback": "O número de dias que Danielle perdeu é 3, não o total da semana."
+    },
+    {
+     "step": 2,
+     "id": "misc_inteiro_nu_zero_F1",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "O aluno vê o rótulo '0' na reta numérica e digita 0 no campo do numerador.",
+     "description": "Copia um rótulo inteiro da interface sem interpretar o problema.",
+     "feedback": "Danielle não perdeu zero dias — ela ficou em casa por 3 dias."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversao_numerador_denominador_denom",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "O aluno inverte numerador e denominador da fração 3/5 e digita o numerador (3) no campo do denominador (denom).",
+     "description": "Confunde qual valor vai no denominador por inversão da fração.",
+     "feedback": "O denominador representa o total de dias letivos: são 5 dias, não 3."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_numero_divisoes_denom",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "O aluno conta o número total de marcas na reta (0 a 1 com 5 intervalos = 6 marcas) e usa esse inteiro como denominador.",
+     "description": "Confunde número de marcas com número de partes iguais.",
+     "feedback": "A semana tem 5 dias letivos, então o denominador deve ser 5. As marcas incluem o zero e o um, mas os dias são os intervalos entre elas."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_um_denom",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno vê o rótulo '1' na reta e digita 1 no campo do denominador.",
+     "description": "Copia o rótulo final da reta como denominador.",
+     "feedback": "O denominador deve representar o total de dias letivos, que é 5, não 1."
+    },
+    {
+     "step": 4,
+     "id": "misc_marca_vizinha_antes_numline_repetido",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "Mesmo erro de vizinhança: clica na marca antes de 3/5.",
+     "description": "Erro persistente de localização na reta numérica.",
+     "feedback": "Pense: 1 parte = 1 dia. Três dias correspondem à terceira marca após o zero."
+    },
+    {
+     "step": 4,
+     "id": "misc_marca_vizinha_depois_numline_repetido",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4/5",
+     "buggyRule": "Mesmo erro de vizinhança: clica na marca depois de 3/5.",
+     "description": "Erro persistente de localização na reta numérica.",
+     "feedback": "Se você avançar 4 partes, isso seria 4 dias perdidos, mas foram só 3."
+    },
+    {
+     "step": 4,
+     "id": "misc_inteiro_nu_zero_na_numline",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "O aluno clica na primeira marca (0) da reta numérica, copiando o rótulo visível.",
+     "description": "Seleciona o rótulo inicial por distração ou má interpretação.",
+     "feedback": "Danielle não perdeu zero dias — ela ficou em casa por 3 dias da semana letiva."
+    },
+    {
+     "step": 5,
+     "id": "misc_fracao_invertida_writeFractionStep",
+     "selection": "writeFractionStep",
+     "type": "conceptual",
+     "wrongAnswer": "5/3",
+     "buggyRule": "Após digitar F1=5 e denom=3 (por inversão), o aluno confirma a fração invertida 5/3.",
+     "description": "Confirma a fração com numerador e denominador trocados.",
+     "feedback": "Uma fração maior que 1 (como 5/3) não pode representar parte de uma semana letiva de 5 dias. Revise quais números vão no numerador e no denominador."
+    },
+    {
+     "step": 5,
+     "id": "misc_fracao_com_denominador_zero_writeFractionStep",
+     "selection": "writeFractionStep",
+     "type": "procedural",
+     "wrongAnswer": "3/0",
+     "buggyRule": "O aluno deixa o denominador em branco ou digita 0 (por erro), resultando em 3/0 ao confirmar.",
+     "description": "Erro de digitação ou concepção levando a denominador inválido.",
+     "feedback": "O denominador não pode ser zero. A semana tem 5 dias letivos — use esse valor no denominador."
+    },
+    {
+     "step": 5,
+     "id": "misc_fracao_com_numerador_zero_writeFractionStep",
+     "selection": "writeFractionStep",
+     "type": "conceptual",
+     "wrongAnswer": "0/5",
+     "buggyRule": "O aluno acha que 'ficar em casa' não conta, então coloca 0 no numerador e confirma 0/5.",
+     "description": "Interpretação equivocada do problema levando a numerador zero.",
+     "feedback": "Danielle perdeu 3 dias de aula — o numerador deve refletir esse número, não zero."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta vai de 0 a 1 e deve ser dividida em 5 partes iguais — uma para cada dia letivo."
+    },
+    {
+     "step": 2,
+     "text": "Quantos dias Danielle ficou em casa? Esse número vai no numerador."
+    },
+    {
+     "step": 3,
+     "text": "Quantos dias tem a semana letiva? Esse número vai no denominador."
+    },
+    {
+     "step": 4,
+     "text": "Na reta dividida em 5 partes, conte 3 marcas a partir do zero para encontrar 3/5."
+    },
+    {
+     "step": 5,
+     "text": "Verifique se sua fração mostra 3 dias perdidos em uma semana de 5 dias letivos."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,231 @@
+{
+ "id": "18gum",
+ "correctAnswer": "11/6",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.667,
+ "conceptual": 0.737,
+ "precision": 0.778,
+ "recall": 0.583,
+ "functionalAgreement": 0.667,
+ "functionalKappa": 0.333,
+ "missing": [
+  "-",
+  "-1",
+  "12"
+ ],
+ "extra": [
+  "2"
+ ],
+ "robotMisconceptions": [
+  "2",
+  "6",
+  "11",
+  "5/3"
+ ],
+ "exercicio": "18gum",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:05:59.352Z",
+ "promptSha256": "2a7537a7a6483a6db2bc08bf28440c77703853483cfeb75657502c98ebaff0a9",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1756,
+  "tokensSaida": 764,
+  "usd": 0.001585
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite da reta",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador da fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir o denominador da fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar na marca correspondente a 11/6",
+    "kc": "mark_numline"
+   },
+   {
+    "indice": 5,
+    "acao": "finalizar a tarefa",
+    "kc": "submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "2",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O número 2 representa o limite da reta, não a fração de chicletes distribuídos.",
+    "buggyRule": "selecionar o rótulo inteiro final da reta em vez da fração solicitada",
+    "misconceptionId": "misc_inteiro_nu_reta"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa o total de partes contadas (11 chicletes) e o denominador o total de partes em um inteiro (6 chicletes por pacote).",
+    "buggyRule": "inverter numerador e denominador da fração 11/6, inserindo o denominador no campo do numerador",
+    "misconceptionId": "misc_inversao_numerador"
+   },
+   {
+    "valor": "11",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o número de unidades que compõem um único pacote inteiro.",
+    "buggyRule": "utilizar o número total de chicletes distribuídos como o denominador, ignorando a quantidade de unidades por pacote",
+    "misconceptionId": "misc_erro_denominador_total"
+   },
+   {
+    "valor": "5/3",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Observe as divisões da reta. Cada unidade é dividida em 6 partes. Conte 11 dessas partes a partir do zero.",
+    "buggyRule": "clicar na marca imediatamente anterior ao alvo 11/6 na reta numérica fornecida",
+    "misconceptionId": "misc_marca_vizinha_reta"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica mostra divisões de 1/6. Quantas dessas divisões você precisa para marcar 11 chicletes?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador é a quantidade de chicletes distribuídos, e o denominador é o tamanho de cada pacote."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Você já definiu a fração 11/6. Agora, encontre a marca correspondente na reta que está logo antes do número 2."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"selecionar o limite da reta\", \"result\": \"2\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"inserir o numerador da fração\", \"result\": \"11\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"inserir o denominador da fração\", \"result\": \"6\" },\n    { \"kc\": \"mark_numline\", \"selection\": \"numline\", \"action\": \"clicar na marca correspondente a 11/6\", \"result\": \"11/6\" },\n    { \"kc\": \"submit_answer\", \"selection\": \"done\", \"action\": \"finalizar a tarefa\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"inverter numerador e denominador da fração 11/6, inserindo o denominador no campo do numerador\",\n      \"description\": \"O aluno confunde a posição do numerador e do denominador.\",\n      \"feedback\": \"Lembre-se: o numerador representa o total de partes contadas (11 chicletes) e o denominador o total de partes em um inteiro (6 chicletes por pacote).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_erro_denominador_total\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"11\",\n      \"buggyRule\": \"utilizar o número total de chicletes distribuídos como o denominador, ignorando a quantidade de unidades por pacote\",\n      \"description\": \"O aluno confunde o total distribuído com o valor da unidade de medida (pacote).\",\n      \"feedback\": \"O denominador deve ser o número de unidades que compõem um único pacote inteiro.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_marca_vizinha_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5/3\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior ao alvo 11/6 na reta numérica fornecida\",\n      \"description\": \"O aluno conta incorretamente as divisões na reta numérica.\",\n      \"feedback\": \"Observe as divisões da reta. Cada unidade é dividida em 6 partes. Conte 11 dessas partes a partir do zero.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_inteiro_nu_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"selecionar o rótulo inteiro final da reta em vez da fração solicitada\",\n      \"description\": \"O aluno confunde o limite da escala com a resposta do problema.\",\n      \"feedback\": \"O número 2 representa o limite da reta, não a fração de chicletes distribuídos.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"A reta numérica mostra divisões de 1/6. Quantas dessas divisões você precisa para marcar 11 chicletes?\" },\n    { \"step\": 2, \"text\": \"O numerador é a quantidade de chicletes distribuídos, e o denominador é o tamanho de cada pacote.\" },\n    { \"step\": 4, \"text\": \"Você já definiu a fração 11/6. Agora, encontre a marca correspondente na reta que está logo antes do número 2.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "selecionar o limite da reta",
+     "result": "2"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "inserir o numerador da fração",
+     "result": "11"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "inserir o denominador da fração",
+     "result": "6"
+    },
+    {
+     "kc": "mark_numline",
+     "selection": "numline",
+     "action": "clicar na marca correspondente a 11/6",
+     "result": "11/6"
+    },
+    {
+     "kc": "submit_answer",
+     "selection": "done",
+     "action": "finalizar a tarefa",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "6",
+     "buggyRule": "inverter numerador e denominador da fração 11/6, inserindo o denominador no campo do numerador",
+     "description": "O aluno confunde a posição do numerador e do denominador.",
+     "feedback": "Lembre-se: o numerador representa o total de partes contadas (11 chicletes) e o denominador o total de partes em um inteiro (6 chicletes por pacote)."
+    },
+    {
+     "step": 3,
+     "id": "misc_erro_denominador_total",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "11",
+     "buggyRule": "utilizar o número total de chicletes distribuídos como o denominador, ignorando a quantidade de unidades por pacote",
+     "description": "O aluno confunde o total distribuído com o valor da unidade de medida (pacote).",
+     "feedback": "O denominador deve ser o número de unidades que compõem um único pacote inteiro."
+    },
+    {
+     "step": 4,
+     "id": "misc_marca_vizinha_reta",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "5/3",
+     "buggyRule": "clicar na marca imediatamente anterior ao alvo 11/6 na reta numérica fornecida",
+     "description": "O aluno conta incorretamente as divisões na reta numérica.",
+     "feedback": "Observe as divisões da reta. Cada unidade é dividida em 6 partes. Conte 11 dessas partes a partir do zero."
+    },
+    {
+     "step": 1,
+     "id": "misc_inteiro_nu_reta",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "2",
+     "buggyRule": "selecionar o rótulo inteiro final da reta em vez da fração solicitada",
+     "description": "O aluno confunde o limite da escala com a resposta do problema.",
+     "feedback": "O número 2 representa o limite da reta, não a fração de chicletes distribuídos."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica mostra divisões de 1/6. Quantas dessas divisões você precisa para marcar 11 chicletes?"
+    },
+    {
+     "step": 2,
+     "text": "O numerador é a quantidade de chicletes distribuídos, e o denominador é o tamanho de cada pacote."
+    },
+    {
+     "step": 4,
+     "text": "Você já definiu a fração 11/6. Agora, encontre a marca correspondente na reta que está logo antes do número 2."
+    }
+   ]
+  }
+ }
+}

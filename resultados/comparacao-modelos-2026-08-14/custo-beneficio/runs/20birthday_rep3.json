@@ -1,0 +1,254 @@
+{
+ "id": "20birthday",
+ "correctAnswer": "15/8",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.5,
+ "conceptual": 0.556,
+ "precision": 0.625,
+ "recall": 0.417,
+ "functionalAgreement": 0.286,
+ "functionalKappa": -0.167,
+ "missing": [
+  "-1",
+  "7/4",
+  "15",
+  "16",
+  "-"
+ ],
+ "extra": [
+  "13/8",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "8",
+  "8",
+  "13/8",
+  "1"
+ ],
+ "exercicio": "20birthday",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:06:25.975Z",
+ "promptSha256": "f121f366d39a34fccb002e96ea294cc7d8a428e02e2e614e853a81dac2505aff",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1785,
+  "tokensSaida": 760,
+  "usd": 0.00158625
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite da reta",
+    "kc": "config_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador da fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir o denominador da fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "confirmar escrita da fração",
+    "kc": "apply_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "marcar a posição 15/8 na reta",
+    "kc": "plot_numberline"
+   },
+   {
+    "indice": 6,
+    "acao": "finalizar o exercício",
+    "kc": "finish_task"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "8",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta mostra até 2 bolos completos. Quantos bolos cabem na reta?",
+    "buggyRule": "confundir o número de divisões do bolo com o limite máximo da reta numérica exibida",
+    "misconceptionId": "misc_escolha_limite_errado"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Você inverteu a ordem. O numerador representa a parte (pedaços) e o denominador o todo (tamanho da fatia).",
+    "buggyRule": "inverter a fração original 15/8 para 8/15, inserindo o denominador no campo do numerador",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "13/8",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Conte as marcas com cuidado. Cada marca representa 1/8.",
+    "buggyRule": "selecionar a marca imediatamente anterior ao alvo 15/8 na reta numérica",
+    "misconceptionId": "misc_marca_vizinha_reta"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador indica em quantos pedaços UM bolo foi dividido.",
+    "buggyRule": "considerar que como o total é maior que um bolo, o denominador deve ser o número de bolos inteiros (1)",
+    "misconceptionId": "misc_inteiro_nu_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Observe a reta: qual é o valor máximo que ela atinge?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos pedaços foram comidos no total? Este é o seu numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Em quantos pedaços cada bolo foi dividido? Este é o seu denominador."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Localize 15/8 na reta contando 15 marcas a partir do zero."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numberline\", \"selection\": \"numline\", \"action\": \"selecionar o limite da reta\", \"result\": \"2\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"inserir o numerador da fração\", \"result\": \"15\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"inserir o denominador da fração\", \"result\": \"8\" },\n    { \"kc\": \"apply_fraction\", \"selection\": \"writeFractionStep\", \"action\": \"confirmar escrita da fração\", \"result\": \"15/8\" },\n    { \"kc\": \"plot_numberline\", \"selection\": \"numline\", \"action\": \"marcar a posição 15/8 na reta\", \"result\": \"15/8\" },\n    { \"kc\": \"finish_task\", \"selection\": \"done\", \"action\": \"finalizar o exercício\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_escolha_limite_errado\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"confundir o número de divisões do bolo com o limite máximo da reta numérica exibida\",\n      \"description\": \"O aluno confunde a quantidade de divisões do bolo com a escala da reta.\",\n      \"feedback\": \"A reta mostra até 2 bolos completos. Quantos bolos cabem na reta?\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"inverter a fração original 15/8 para 8/15, inserindo o denominador no campo do numerador\",\n      \"description\": \"O aluno inverte a fração, colocando o denominador no campo do numerador.\",\n      \"feedback\": \"Você inverteu a ordem. O numerador representa a parte (pedaços) e o denominador o todo (tamanho da fatia).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_marca_vizinha_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"13/8\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior ao alvo 15/8 na reta numérica\",\n      \"description\": \"O aluno seleciona a marca vizinha à esquerda do alvo correto.\",\n      \"feedback\": \"Conte as marcas com cuidado. Cada marca representa 1/8.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"considerar que como o total é maior que um bolo, o denominador deve ser o número de bolos inteiros (1)\",\n      \"description\": \"O aluno tenta simplificar o denominador usando o número de bolos.\",\n      \"feedback\": \"O denominador indica em quantos pedaços UM bolo foi dividido.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Observe a reta: qual é o valor máximo que ela atinge?\" },\n    { \"step\": 2, \"text\": \"Quantos pedaços foram comidos no total? Este é o seu numerador.\" },\n    { \"step\": 3, \"text\": \"Em quantos pedaços cada bolo foi dividido? Este é o seu denominador.\" },\n    { \"step\": 5, \"text\": \"Localize 15/8 na reta contando 15 marcas a partir do zero.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numberline",
+     "selection": "numline",
+     "action": "selecionar o limite da reta",
+     "result": "2"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "inserir o numerador da fração",
+     "result": "15"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "inserir o denominador da fração",
+     "result": "8"
+    },
+    {
+     "kc": "apply_fraction",
+     "selection": "writeFractionStep",
+     "action": "confirmar escrita da fração",
+     "result": "15/8"
+    },
+    {
+     "kc": "plot_numberline",
+     "selection": "numline",
+     "action": "marcar a posição 15/8 na reta",
+     "result": "15/8"
+    },
+    {
+     "kc": "finish_task",
+     "selection": "done",
+     "action": "finalizar o exercício",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_escolha_limite_errado",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "8",
+     "buggyRule": "confundir o número de divisões do bolo com o limite máximo da reta numérica exibida",
+     "description": "O aluno confunde a quantidade de divisões do bolo com a escala da reta.",
+     "feedback": "A reta mostra até 2 bolos completos. Quantos bolos cabem na reta?"
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador_denominador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "8",
+     "buggyRule": "inverter a fração original 15/8 para 8/15, inserindo o denominador no campo do numerador",
+     "description": "O aluno inverte a fração, colocando o denominador no campo do numerador.",
+     "feedback": "Você inverteu a ordem. O numerador representa a parte (pedaços) e o denominador o todo (tamanho da fatia)."
+    },
+    {
+     "step": 3,
+     "id": "misc_marca_vizinha_reta",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "13/8",
+     "buggyRule": "selecionar a marca imediatamente anterior ao alvo 15/8 na reta numérica",
+     "description": "O aluno seleciona a marca vizinha à esquerda do alvo correto.",
+     "feedback": "Conte as marcas com cuidado. Cada marca representa 1/8."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_denominador",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "considerar que como o total é maior que um bolo, o denominador deve ser o número de bolos inteiros (1)",
+     "description": "O aluno tenta simplificar o denominador usando o número de bolos.",
+     "feedback": "O denominador indica em quantos pedaços UM bolo foi dividido."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Observe a reta: qual é o valor máximo que ela atinge?"
+    },
+    {
+     "step": 2,
+     "text": "Quantos pedaços foram comidos no total? Este é o seu numerador."
+    },
+    {
+     "step": 3,
+     "text": "Em quantos pedaços cada bolo foi dividido? Este é o seu denominador."
+    },
+    {
+     "step": 5,
+     "text": "Localize 15/8 na reta contando 15 marcas a partir do zero."
+    }
+   ]
+  }
+ }
+}

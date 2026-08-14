@@ -1,0 +1,231 @@
+{
+ "id": "06lemonade",
+ "correctAnswer": "2/7",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.632,
+ "conceptual": 0.706,
+ "precision": 0.75,
+ "recall": 0.545,
+ "functionalAgreement": 0.6,
+ "functionalKappa": 0.286,
+ "missing": [
+  "-1",
+  "2",
+  "-"
+ ],
+ "extra": [
+  "7/2"
+ ],
+ "robotMisconceptions": [
+  "7",
+  "7/2",
+  "1/7",
+  "7"
+ ],
+ "exercicio": "06lemonade",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:03:55.522Z",
+ "promptSha256": "cdda362a8cd25bf7e0b4c1903d501114b8293412807fae9332018ad9e4575bc5",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1688,
+  "tokensSaida": 920,
+  "usd": 0.0018020000000000002
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "configurar reta numérica para 7 divisões",
+    "kc": "kc_config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar o numerador da fração",
+    "kc": "kc_write_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar o denominador da fração",
+    "kc": "kc_write_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "marcar a posição 2/7 na reta",
+    "kc": "kc_select_point"
+   },
+   {
+    "indice": 5,
+    "acao": "clicar no botão para finalizar",
+    "kc": "kc_finalize"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "7",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa quantas partes temos, o denominador representa o total de divisões.",
+    "buggyRule": "trocar o numerador pelo denominador: pegar o 7 do problema e colocar no lugar do numerador",
+    "misconceptionId": "misc_inversao_fracao"
+   },
+   {
+    "valor": "7/2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique a ordem: o numerador deve ser a quantidade que sobrou (2) e o denominador o total de partes (7).",
+    "buggyRule": "inverter a fração dada no enunciado (2/7 vira 7/2)",
+    "misconceptionId": "misc_erro_leitura_inversao_total"
+   },
+   {
+    "valor": "1/7",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique a contagem: a primeira marca após o zero é 1/7, a segunda é 2/7.",
+    "buggyRule": "selecionar a marca imediatamente anterior ao alvo 2/7 na reta numérica",
+    "misconceptionId": "misc_marcar_vizinha_reta"
+   },
+   {
+    "valor": "7",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Você escreveu o total de partes, mas a pergunta pede a fração da limonada (parte sobre o todo).",
+    "buggyRule": "escrever apenas o total de partes (denominador) ignorando a fração",
+    "misconceptionId": "misc_inteiro_nu"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta representa o todo. Quantas partes iguais Tim fez?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador é a quantidade de pessoas que sobraram."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Conte 2 intervalos a partir do zero na reta numérica."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"configurar reta numérica para 7 divisões\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_write_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digitar o numerador da fração\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_write_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"digitar o denominador da fração\",\n      \"result\": \"7\"\n    },\n    {\n      \"kc\": \"kc_select_point\",\n      \"selection\": \"numline\",\n      \"action\": \"marcar a posição 2/7 na reta\",\n      \"result\": \"2/7\"\n    },\n    {\n      \"kc\": \"kc_finalize\",\n      \"selection\": \"done\",\n      \"action\": \"clicar no botão para finalizar\",\n      \"result\": \"done\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_fracao\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"trocar o numerador pelo denominador: pegar o 7 do problema e colocar no lugar do numerador\",\n      \"description\": \"O aluno confunde a posição do numerador com o denominador.\",\n      \"feedback\": \"Lembre-se: o numerador representa quantas partes temos, o denominador representa o total de divisões.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_marcar_vizinha_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1/7\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior ao alvo 2/7 na reta numérica\",\n      \"description\": \"O aluno conta as marcas a partir do 1 em vez do 0 ou se perde na contagem dos intervalos.\",\n      \"feedback\": \"Verifique a contagem: a primeira marca após o zero é 1/7, a segunda é 2/7.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"escrever apenas o total de partes (denominador) ignorando a fração\",\n      \"description\": \"O aluno foca apenas no número de pessoas e esquece de representar a fração da limonada.\",\n      \"feedback\": \"Você escreveu o total de partes, mas a pergunta pede a fração da limonada (parte sobre o todo).\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_erro_leitura_inversao_total\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7/2\",\n      \"buggyRule\": \"inverter a fração dada no enunciado (2/7 vira 7/2)\",\n      \"description\": \"O aluno inverte a fração fornecida no texto.\",\n      \"feedback\": \"Verifique a ordem: o numerador deve ser a quantidade que sobrou (2) e o denominador o total de partes (7).\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta representa o todo. Quantas partes iguais Tim fez?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O numerador é a quantidade de pessoas que sobraram.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Conte 2 intervalos a partir do zero na reta numérica.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numline",
+     "selection": "numline",
+     "action": "configurar reta numérica para 7 divisões",
+     "result": "1"
+    },
+    {
+     "kc": "kc_write_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "2"
+    },
+    {
+     "kc": "kc_write_denominator",
+     "selection": "denom",
+     "action": "digitar o denominador da fração",
+     "result": "7"
+    },
+    {
+     "kc": "kc_select_point",
+     "selection": "numline",
+     "action": "marcar a posição 2/7 na reta",
+     "result": "2/7"
+    },
+    {
+     "kc": "kc_finalize",
+     "selection": "done",
+     "action": "clicar no botão para finalizar",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_fracao",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "7",
+     "buggyRule": "trocar o numerador pelo denominador: pegar o 7 do problema e colocar no lugar do numerador",
+     "description": "O aluno confunde a posição do numerador com o denominador.",
+     "feedback": "Lembre-se: o numerador representa quantas partes temos, o denominador representa o total de divisões."
+    },
+    {
+     "step": 3,
+     "id": "misc_marcar_vizinha_reta",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1/7",
+     "buggyRule": "selecionar a marca imediatamente anterior ao alvo 2/7 na reta numérica",
+     "description": "O aluno conta as marcas a partir do 1 em vez do 0 ou se perde na contagem dos intervalos.",
+     "feedback": "Verifique a contagem: a primeira marca após o zero é 1/7, a segunda é 2/7."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "7",
+     "buggyRule": "escrever apenas o total de partes (denominador) ignorando a fração",
+     "description": "O aluno foca apenas no número de pessoas e esquece de representar a fração da limonada.",
+     "feedback": "Você escreveu o total de partes, mas a pergunta pede a fração da limonada (parte sobre o todo)."
+    },
+    {
+     "step": 2,
+     "id": "misc_erro_leitura_inversao_total",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "7/2",
+     "buggyRule": "inverter a fração dada no enunciado (2/7 vira 7/2)",
+     "description": "O aluno inverte a fração fornecida no texto.",
+     "feedback": "Verifique a ordem: o numerador deve ser a quantidade que sobrou (2) e o denominador o total de partes (7)."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta representa o todo. Quantas partes iguais Tim fez?"
+    },
+    {
+     "step": 2,
+     "text": "O numerador é a quantidade de pessoas que sobraram."
+    },
+    {
+     "step": 4,
+     "text": "Conte 2 intervalos a partir do zero na reta numérica."
+    }
+   ]
+  }
+ }
+}

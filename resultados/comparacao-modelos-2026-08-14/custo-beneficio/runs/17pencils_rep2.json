@@ -1,0 +1,223 @@
+{
+ "id": "17pencils",
+ "correctAnswer": "17/12",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.476,
+ "conceptual": 0.526,
+ "precision": 0.625,
+ "recall": 0.385,
+ "functionalAgreement": 0.375,
+ "functionalKappa": -0.081,
+ "missing": [
+  "5/7",
+  "4/3",
+  "-1",
+  "-",
+  "5"
+ ],
+ "extra": [
+  "19/12",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "19/12",
+  "12",
+  "1",
+  "17"
+ ],
+ "exercicio": "17pencils",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:05:53.387Z",
+ "promptSha256": "39fd10a5d1bfc9dbd5c7e7349e027046413e1e8707f739189f1c6cda2d322862",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1830,
+  "tokensSaida": 801,
+  "usd": 0.0016589999999999999
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite da reta numérica",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador da fração",
+    "kc": "set_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir o denominador da fração",
+    "kc": "set_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar no botão de finalização",
+    "kc": "confirm_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "19/12",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Conte as divisões com cuidado, cada marca representa 1/12.",
+    "buggyRule": "clicar na marca imediatamente após o alvo 17/12 na reta numerada",
+    "misconceptionId": "misc_marca_vizinha_reta"
+   },
+   {
+    "valor": "12",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique se você colocou o número de partes usadas no numerador.",
+    "buggyRule": "inverter a fração original 17/12 para 12/17 e inserir o novo numerador",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se que Amy usou 17 pedaços de um total de 12 por dúzia.",
+    "buggyRule": "considerar apenas a parte inteira do número misto 1 5/12 ignorando a fração",
+    "misconceptionId": "misc_erro_inteiro_nu"
+   },
+   {
+    "valor": "17",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa o total de partes em uma unidade, não o que foi usado.",
+    "buggyRule": "trocar o numerador pelo denominador, colocando 17 no campo do denominador",
+    "misconceptionId": "misc_inversao_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta está dividida em 12 partes, que representam 1 dúzia."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos lápis ela usou ao todo? Este será o seu numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador indica em quantas partes a unidade foi dividida."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"selecionar o limite da reta numérica\", \"result\": \"2\" },\n    { \"kc\": \"set_numerator\", \"selection\": \"F1\", \"action\": \"inserir o numerador da fração\", \"result\": \"17\" },\n    { \"kc\": \"set_denominator\", \"selection\": \"denom\", \"action\": \"inserir o denominador da fração\", \"result\": \"12\" },\n    { \"kc\": \"confirm_answer\", \"selection\": \"done\", \"action\": \"clicar no botão de finalização\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"12\",\n      \"buggyRule\": \"inverter a fração original 17/12 para 12/17 e inserir o novo numerador\",\n      \"description\": \"O aluno inverte a fração e coloca o denominador original no campo do numerador.\",\n      \"feedback\": \"Verifique se você colocou o número de partes usadas no numerador.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_erro_inteiro_nu\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"considerar apenas a parte inteira do número misto 1 5/12 ignorando a fração\",\n      \"description\": \"O aluno foca apenas no número inteiro da representação mista.\",\n      \"feedback\": \"Lembre-se que Amy usou 17 pedaços de um total de 12 por dúzia.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_marca_vizinha_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"19/12\",\n      \"buggyRule\": \"clicar na marca imediatamente após o alvo 17/12 na reta numerada\",\n      \"description\": \"O aluno seleciona a marca errada na reta numérica devido a erro de contagem visual.\",\n      \"feedback\": \"Conte as divisões com cuidado, cada marca representa 1/12.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversao_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"17\",\n      \"buggyRule\": \"trocar o numerador pelo denominador, colocando 17 no campo do denominador\",\n      \"description\": \"O aluno confunde a posição do numerador e do denominador.\",\n      \"feedback\": \"O denominador representa o total de partes em uma unidade, não o que foi usado.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"A reta está dividida em 12 partes, que representam 1 dúzia.\" },\n    { \"step\": 2, \"text\": \"Quantos lápis ela usou ao todo? Este será o seu numerador.\" },\n    { \"step\": 3, \"text\": \"O denominador indica em quantas partes a unidade foi dividida.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "selecionar o limite da reta numérica",
+     "result": "2"
+    },
+    {
+     "kc": "set_numerator",
+     "selection": "F1",
+     "action": "inserir o numerador da fração",
+     "result": "17"
+    },
+    {
+     "kc": "set_denominator",
+     "selection": "denom",
+     "action": "inserir o denominador da fração",
+     "result": "12"
+    },
+    {
+     "kc": "confirm_answer",
+     "selection": "done",
+     "action": "clicar no botão de finalização",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador_denominador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "12",
+     "buggyRule": "inverter a fração original 17/12 para 12/17 e inserir o novo numerador",
+     "description": "O aluno inverte a fração e coloca o denominador original no campo do numerador.",
+     "feedback": "Verifique se você colocou o número de partes usadas no numerador."
+    },
+    {
+     "step": 2,
+     "id": "misc_erro_inteiro_nu",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "considerar apenas a parte inteira do número misto 1 5/12 ignorando a fração",
+     "description": "O aluno foca apenas no número inteiro da representação mista.",
+     "feedback": "Lembre-se que Amy usou 17 pedaços de um total de 12 por dúzia."
+    },
+    {
+     "step": 1,
+     "id": "misc_marca_vizinha_reta",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "19/12",
+     "buggyRule": "clicar na marca imediatamente após o alvo 17/12 na reta numerada",
+     "description": "O aluno seleciona a marca errada na reta numérica devido a erro de contagem visual.",
+     "feedback": "Conte as divisões com cuidado, cada marca representa 1/12."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversao_denominador",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "17",
+     "buggyRule": "trocar o numerador pelo denominador, colocando 17 no campo do denominador",
+     "description": "O aluno confunde a posição do numerador e do denominador.",
+     "feedback": "O denominador representa o total de partes em uma unidade, não o que foi usado."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta está dividida em 12 partes, que representam 1 dúzia."
+    },
+    {
+     "step": 2,
+     "text": "Quantos lápis ela usou ao todo? Este será o seu numerador."
+    },
+    {
+     "step": 3,
+     "text": "O denominador indica em quantas partes a unidade foi dividida."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,223 @@
+{
+ "id": "21mnm",
+ "correctAnswer": "4/3",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.6,
+ "conceptual": 0.667,
+ "precision": 0.75,
+ "recall": 0.5,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "1/3",
+  "4",
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "5/3"
+ ],
+ "robotMisconceptions": [
+  "3",
+  "1",
+  "5/3"
+ ],
+ "exercicio": "21mnm",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:06:37.081Z",
+ "promptSha256": "596ce072cd509656b7838fa331d6f27edf3e4b9d2cbc3926efda81efa2cf3ded",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1723,
+  "tokensSaida": 864,
+  "usd": 0.0017267499999999998
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "ajusta o número de divisões da reta para 3 partes por unidade",
+    "kc": "kc_configure_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "digita o numerador da fração imprópria",
+    "kc": "kc_set_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digita o denominador da fração imprópria",
+    "kc": "kc_set_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "confirma a escrita da fração",
+    "kc": "kc_submit_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "clica na marca correspondente a 4/3 na reta",
+    "kc": "kc_mark_numberline"
+   },
+   {
+    "indice": 6,
+    "acao": "clica no botão de finalização",
+    "kc": "kc_finish"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa quantas partes de 1/3 temos no total.",
+    "buggyRule": "inverter numerador e denominador: trocar 4/3 por 3/4, logo o numerador digitado é 3",
+    "misconceptionId": "misc_inversion_fraction"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O problema diz que temos 1 pote E MAIS 1/3. A fração deve representar o total.",
+    "buggyRule": "ignorar a parte fracionária e registrar apenas o número inteiro da representação mista 1 1/3",
+    "misconceptionId": "misc_integer_instead_of_fraction"
+   },
+   {
+    "valor": "5/3",
+    "passo": 5,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique a contagem de partes a partir do zero. Você passou do ponto correto.",
+    "buggyRule": "clicar na marca imediatamente à direita do alvo 4/3 na reta numérica",
+    "misconceptionId": "misc_neighbor_mark"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Divida cada unidade da reta em 3 partes, conforme indicado pelo denominador."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos terços existem em 1 inteiro? Some isso com o terço extra."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Conte 4 marcas a partir do zero, já que cada marca representa 1/3."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_configure_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"ajusta o número de divisões da reta para 3 partes por unidade\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_set_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digita o numerador da fração imprópria\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_set_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"digita o denominador da fração imprópria\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_submit_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"confirma a escrita da fração\",\n      \"result\": \"4/3\"\n    },\n    {\n      \"kc\": \"kc_mark_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"clica na marca correspondente a 4/3 na reta\",\n      \"result\": \"4/3\"\n    },\n    {\n      \"kc\": \"kc_finish\",\n      \"selection\": \"done\",\n      \"action\": \"clica no botão de finalização\",\n      \"result\": \"done\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversion_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"inverter numerador e denominador: trocar 4/3 por 3/4, logo o numerador digitado é 3\",\n      \"description\": \"O aluno inverte a fração, colocando o denominador no lugar do numerador.\",\n      \"feedback\": \"Lembre-se: o numerador representa quantas partes de 1/3 temos no total.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_neighbor_mark\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5/3\",\n      \"buggyRule\": \"clicar na marca imediatamente à direita do alvo 4/3 na reta numérica\",\n      \"description\": \"O aluno conta incorretamente os intervalos na reta numérica, selecionando a marca seguinte.\",\n      \"feedback\": \"Verifique a contagem de partes a partir do zero. Você passou do ponto correto.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_integer_instead_of_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"ignorar a parte fracionária e registrar apenas o número inteiro da representação mista 1 1/3\",\n      \"description\": \"O aluno confunde o número misto com apenas o inteiro, ignorando a fração.\",\n      \"feedback\": \"O problema diz que temos 1 pote E MAIS 1/3. A fração deve representar o total.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"Divida cada unidade da reta em 3 partes, conforme indicado pelo denominador.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Quantos terços existem em 1 inteiro? Some isso com o terço extra.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Conte 4 marcas a partir do zero, já que cada marca representa 1/3.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_configure_numberline",
+     "selection": "numline",
+     "action": "ajusta o número de divisões da reta para 3 partes por unidade",
+     "result": "2"
+    },
+    {
+     "kc": "kc_set_numerator",
+     "selection": "F1",
+     "action": "digita o numerador da fração imprópria",
+     "result": "4"
+    },
+    {
+     "kc": "kc_set_denominator",
+     "selection": "denom",
+     "action": "digita o denominador da fração imprópria",
+     "result": "3"
+    },
+    {
+     "kc": "kc_submit_fraction",
+     "selection": "writeFractionStep",
+     "action": "confirma a escrita da fração",
+     "result": "4/3"
+    },
+    {
+     "kc": "kc_mark_numberline",
+     "selection": "numline",
+     "action": "clica na marca correspondente a 4/3 na reta",
+     "result": "4/3"
+    },
+    {
+     "kc": "kc_finish",
+     "selection": "done",
+     "action": "clica no botão de finalização",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversion_fraction",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "3",
+     "buggyRule": "inverter numerador e denominador: trocar 4/3 por 3/4, logo o numerador digitado é 3",
+     "description": "O aluno inverte a fração, colocando o denominador no lugar do numerador.",
+     "feedback": "Lembre-se: o numerador representa quantas partes de 1/3 temos no total."
+    },
+    {
+     "step": 5,
+     "id": "misc_neighbor_mark",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5/3",
+     "buggyRule": "clicar na marca imediatamente à direita do alvo 4/3 na reta numérica",
+     "description": "O aluno conta incorretamente os intervalos na reta numérica, selecionando a marca seguinte.",
+     "feedback": "Verifique a contagem de partes a partir do zero. Você passou do ponto correto."
+    },
+    {
+     "step": 2,
+     "id": "misc_integer_instead_of_fraction",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "ignorar a parte fracionária e registrar apenas o número inteiro da representação mista 1 1/3",
+     "description": "O aluno confunde o número misto com apenas o inteiro, ignorando a fração.",
+     "feedback": "O problema diz que temos 1 pote E MAIS 1/3. A fração deve representar o total."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Divida cada unidade da reta em 3 partes, conforme indicado pelo denominador."
+    },
+    {
+     "step": 2,
+     "text": "Quantos terços existem em 1 inteiro? Some isso com o terço extra."
+    },
+    {
+     "step": 5,
+     "text": "Conte 4 marcas a partir do zero, já que cada marca representa 1/3."
+    }
+   ]
+  }
+ }
+}

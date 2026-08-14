@@ -1,0 +1,252 @@
+{
+ "id": "03summerBooks",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.6,
+ "conceptual": 0.667,
+ "precision": 0.667,
+ "recall": 0.545,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "-1",
+  "2/5",
+  "-"
+ ],
+ "extra": [
+  "0",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "0",
+  "5",
+  "2",
+  "3",
+  "5"
+ ],
+ "exercicio": "03summerBooks",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:03:19.394Z",
+ "promptSha256": "a91f759f7f2affb744b7c21df7b5991635da3260951744429ced66abc07d7b73",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1677,
+  "tokensSaida": 786,
+  "usd": 0.0015982499999999998
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "set number of parts to 5",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "input numerator of fraction",
+    "kc": "mark_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "input denominator of fraction",
+    "kc": "mark_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "submit the fraction input",
+    "kc": "write_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "click done button",
+    "kc": "finalize"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta deve ser dividida em 5 partes iguais para representar quintos.",
+    "buggyRule": "selecionar o limite inferior da reta numérica como o número de partes",
+    "misconceptionId": "misc_inteiro_nu_0"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa quantas partes foram lidas, que é 3.",
+    "buggyRule": "inverter a fração correta 3/5 para 5/3 e colocar o denominador no campo do numerador",
+    "misconceptionId": "misc_inversao_numerador"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Sally leu 3 livros de 5. Conte 3 divisões a partir do zero.",
+    "buggyRule": "clicar na marca anterior à correta na reta numérica (2/5 em vez de 3/5)",
+    "misconceptionId": "misc_marca_vizinha_antes"
+   },
+   {
+    "valor": "3",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa o total de livros, que é 5.",
+    "buggyRule": "inverter a fração correta 3/5 para 5/3 e colocar o numerador no campo do denominador",
+    "misconceptionId": "misc_inversao_denominador"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Você precisa indicar a fração completa (parte/todo).",
+    "buggyRule": "digitar o número total de livros como o denominador, mas ignorar o numerador",
+    "misconceptionId": "misc_inteiro_nu_5"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Ajuste a reta numérica para ter 5 divisões iguais."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Sally leu 3 livros de um total de 5. O numerador é 3."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador deve ser o número total de livros, que é 5."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"set number of parts to 5\", \"result\": \"1\" },\n    { \"kc\": \"mark_numerator\", \"selection\": \"F1\", \"action\": \"input numerator of fraction\", \"result\": \"3\" },\n    { \"kc\": \"mark_denominator\", \"selection\": \"denom\", \"action\": \"input denominator of fraction\", \"result\": \"5\" },\n    { \"kc\": \"write_fraction\", \"selection\": \"writeFractionStep\", \"action\": \"submit the fraction input\", \"result\": \"3/5\" },\n    { \"kc\": \"finalize\", \"selection\": \"done\", \"action\": \"click done button\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inteiro_nu_0\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"selecionar o limite inferior da reta numérica como o número de partes\",\n      \"description\": \"O aluno confunde o início da reta com a quantidade de divisões.\",\n      \"feedback\": \"A reta deve ser dividida em 5 partes iguais para representar quintos.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"inverter a fração correta 3/5 para 5/3 e colocar o denominador no campo do numerador\",\n      \"description\": \"O aluno inverteu a fração e colocou o denominador onde deveria estar o numerador.\",\n      \"feedback\": \"O numerador representa quantas partes foram lidas, que é 3.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_antes\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"clicar na marca anterior à correta na reta numérica (2/5 em vez de 3/5)\",\n      \"description\": \"O aluno contou mal as divisões na reta numérica e parou uma marca antes.\",\n      \"feedback\": \"Sally leu 3 livros de 5. Conte 3 divisões a partir do zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversao_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"inverter a fração correta 3/5 para 5/3 e colocar o numerador no campo do denominador\",\n      \"description\": \"O aluno inverteu a fração e colocou o numerador onde deveria estar o denominador.\",\n      \"feedback\": \"O denominador representa o total de livros, que é 5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_5\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"digitar o número total de livros como o denominador, mas ignorar o numerador\",\n      \"description\": \"O aluno foca apenas no total e não entende a estrutura da fração.\",\n      \"feedback\": \"Você precisa indicar a fração completa (parte/todo).\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Ajuste a reta numérica para ter 5 divisões iguais.\" },\n    { \"step\": 2, \"text\": \"Sally leu 3 livros de um total de 5. O numerador é 3.\" },\n    { \"step\": 3, \"text\": \"O denominador deve ser o número total de livros, que é 5.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "set number of parts to 5",
+     "result": "1"
+    },
+    {
+     "kc": "mark_numerator",
+     "selection": "F1",
+     "action": "input numerator of fraction",
+     "result": "3"
+    },
+    {
+     "kc": "mark_denominator",
+     "selection": "denom",
+     "action": "input denominator of fraction",
+     "result": "5"
+    },
+    {
+     "kc": "write_fraction",
+     "selection": "writeFractionStep",
+     "action": "submit the fraction input",
+     "result": "3/5"
+    },
+    {
+     "kc": "finalize",
+     "selection": "done",
+     "action": "click done button",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inteiro_nu_0",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "0",
+     "buggyRule": "selecionar o limite inferior da reta numérica como o número de partes",
+     "description": "O aluno confunde o início da reta com a quantidade de divisões.",
+     "feedback": "A reta deve ser dividida em 5 partes iguais para representar quintos."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_numerador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "inverter a fração correta 3/5 para 5/3 e colocar o denominador no campo do numerador",
+     "description": "O aluno inverteu a fração e colocou o denominador onde deveria estar o numerador.",
+     "feedback": "O numerador representa quantas partes foram lidas, que é 3."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_antes",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "2",
+     "buggyRule": "clicar na marca anterior à correta na reta numérica (2/5 em vez de 3/5)",
+     "description": "O aluno contou mal as divisões na reta numérica e parou uma marca antes.",
+     "feedback": "Sally leu 3 livros de 5. Conte 3 divisões a partir do zero."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversao_denominador",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "3",
+     "buggyRule": "inverter a fração correta 3/5 para 5/3 e colocar o numerador no campo do denominador",
+     "description": "O aluno inverteu a fração e colocou o numerador onde deveria estar o denominador.",
+     "feedback": "O denominador representa o total de livros, que é 5."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_5",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "digitar o número total de livros como o denominador, mas ignorar o numerador",
+     "description": "O aluno foca apenas no total e não entende a estrutura da fração.",
+     "feedback": "Você precisa indicar a fração completa (parte/todo)."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Ajuste a reta numérica para ter 5 divisões iguais."
+    },
+    {
+     "step": 2,
+     "text": "Sally leu 3 livros de um total de 5. O numerador é 3."
+    },
+    {
+     "step": 3,
+     "text": "O denominador deve ser o número total de livros, que é 5."
+    }
+   ]
+  }
+ }
+}

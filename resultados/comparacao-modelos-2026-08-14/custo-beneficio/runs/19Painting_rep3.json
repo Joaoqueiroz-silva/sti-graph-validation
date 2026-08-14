@@ -1,0 +1,222 @@
+{
+ "id": "19Painting",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.6,
+ "conceptual": 0.667,
+ "precision": 0.75,
+ "recall": 0.5,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0,
+ "missing": [
+  "1/4",
+  "1",
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "3",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "4",
+  "3",
+  "2",
+  "5"
+ ],
+ "exercicio": "19Painting",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:06:15.588Z",
+ "promptSha256": "ae7f7651a15aa204fb6bf84a661fb2489cbfb8fcf998fe8a74bb8bd105961288",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1758,
+  "tokensSaida": 699,
+  "usd": 0.001488
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "ajustar limite superior da reta",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir numerador da fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir denominador da fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar no botão de conclusão",
+    "kc": "finalize_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se que o numerador representa a quantidade de partes e o denominador representa o total de divisões.",
+    "buggyRule": "inverter o numerador pelo denominador da fração 5/4, colocando o valor do denominador no campo do numerador",
+    "misconceptionId": "misc_inversao_fracao"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique a posição na reta numérica: o quadro está um quarto além do número 1.",
+    "buggyRule": "contar a marca vizinha anterior na reta numérica (3/2) e extrair apenas o numerador 3",
+    "misconceptionId": "misc_marca_vizinha_num"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar em quantas partes cada unidade foi dividida.",
+    "buggyRule": "confundir o valor com o limite superior da escala da reta numérica que é 2",
+    "misconceptionId": "misc_inteiro_nu_denom"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Você trocou os valores! O número total de divisões da unidade é o denominador.",
+    "buggyRule": "colocar o numerador original no campo do denominador",
+    "misconceptionId": "misc_inversao_denom"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica vai de 0 a 2. Observe onde fica a marca de 1/4 após o 1."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Conte quantas partes de 1/4 existem desde o zero até a posição do quadro."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador indica que cada inteiro foi dividido em 4 partes."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"config_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"ajustar limite superior da reta\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"input_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"inserir numerador da fração\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"input_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"inserir denominador da fração\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"finalize_answer\",\n      \"selection\": \"done\",\n      \"action\": \"clicar no botão de conclusão\",\n      \"result\": \"5/4\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_fracao\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"inverter o numerador pelo denominador da fração 5/4, colocando o valor do denominador no campo do numerador\",\n      \"description\": \"O aluno inverte a posição do numerador e denominador.\",\n      \"feedback\": \"Lembre-se que o numerador representa a quantidade de partes e o denominador representa o total de divisões.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_num\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"contar a marca vizinha anterior na reta numérica (3/2) e extrair apenas o numerador 3\",\n      \"description\": \"O aluno identifica a marca incorreta na reta numérica.\",\n      \"feedback\": \"Verifique a posição na reta numérica: o quadro está um quarto além do número 1.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"confundir o valor com o limite superior da escala da reta numérica que é 2\",\n      \"description\": \"O aluno usa o valor do limite da reta como denominador.\",\n      \"feedback\": \"O denominador deve representar em quantas partes cada unidade foi dividida.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversao_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"colocar o numerador original no campo do denominador\",\n      \"description\": \"O aluno inverte os campos da fração.\",\n      \"feedback\": \"Você trocou os valores! O número total de divisões da unidade é o denominador.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica vai de 0 a 2. Observe onde fica a marca de 1/4 após o 1.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Conte quantas partes de 1/4 existem desde o zero até a posição do quadro.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"O denominador indica que cada inteiro foi dividido em 4 partes.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "ajustar limite superior da reta",
+     "result": "2"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "inserir numerador da fração",
+     "result": "5"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "inserir denominador da fração",
+     "result": "4"
+    },
+    {
+     "kc": "finalize_answer",
+     "selection": "done",
+     "action": "clicar no botão de conclusão",
+     "result": "5/4"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_fracao",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "4",
+     "buggyRule": "inverter o numerador pelo denominador da fração 5/4, colocando o valor do denominador no campo do numerador",
+     "description": "O aluno inverte a posição do numerador e denominador.",
+     "feedback": "Lembre-se que o numerador representa a quantidade de partes e o denominador representa o total de divisões."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_num",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "contar a marca vizinha anterior na reta numérica (3/2) e extrair apenas o numerador 3",
+     "description": "O aluno identifica a marca incorreta na reta numérica.",
+     "feedback": "Verifique a posição na reta numérica: o quadro está um quarto além do número 1."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_denom",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "2",
+     "buggyRule": "confundir o valor com o limite superior da escala da reta numérica que é 2",
+     "description": "O aluno usa o valor do limite da reta como denominador.",
+     "feedback": "O denominador deve representar em quantas partes cada unidade foi dividida."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversao_denom",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "colocar o numerador original no campo do denominador",
+     "description": "O aluno inverte os campos da fração.",
+     "feedback": "Você trocou os valores! O número total de divisões da unidade é o denominador."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica vai de 0 a 2. Observe onde fica a marca de 1/4 após o 1."
+    },
+    {
+     "step": 2,
+     "text": "Conte quantas partes de 1/4 existem desde o zero até a posição do quadro."
+    },
+    {
+     "step": 3,
+     "text": "O denominador indica que cada inteiro foi dividido em 4 partes."
+    }
+   ]
+  }
+ }
+}

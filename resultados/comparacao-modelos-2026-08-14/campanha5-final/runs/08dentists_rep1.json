@@ -1,0 +1,396 @@
+{
+ "id": "08dentists",
+ "correctAnswer": "4/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.696,
+ "conceptual": 0.667,
+ "precision": 0.667,
+ "recall": 0.727,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.238,
+ "missing": [
+  "-1"
+ ],
+ "extra": [
+  "1",
+  "0",
+  "6"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "0",
+  "4",
+  "6",
+  "3/5",
+  "1",
+  "5",
+  "-",
+  "4",
+  "6",
+  "1"
+ ],
+ "exercicio": "08dentists",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:17:38.268Z",
+ "promptSha256": "0ffe07bf4343956d0bcf5745f14a4bcc12ccecc450cfc678a4f8361db6e76b4d",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1814,
+  "tokensSaida": 1943,
+  "usd": 0.00899262
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para ir de 0 a 1 (valor máximo visível)",
+    "kc": "kc_set_numberline_range"
+   },
+   {
+    "indice": 2,
+    "acao": "Define o número de partes como 5 para representar quintos",
+    "kc": "kc_set_numberline_divisions"
+   },
+   {
+    "indice": 3,
+    "acao": "Posiciona o marcador na marca correspondente a 4/5",
+    "kc": "kc_place_marker_on_fraction"
+   },
+   {
+    "indice": 4,
+    "acao": "Digita o numerador da fração",
+    "kc": "kc_enter_numerator"
+   },
+   {
+    "indice": 5,
+    "acao": "Digita o denominador da fração",
+    "kc": "kc_enter_denominator"
+   },
+   {
+    "indice": 6,
+    "acao": "Clica em concluir",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A fração pedida não é o número 1. A pergunta é: qual fração dos dentistas preferiu a Marca X?",
+    "buggyRule": "O aluno vê o rótulo '1' no final da reta numérica e digita esse inteiro como resposta.",
+    "misconceptionId": "misc_integer_label_as_answer"
+   },
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A fração pedida não é zero. A maioria dos dentistas escolheu a Marca X.",
+    "buggyRule": "O aluno vê o rótulo '0' no início da reta numérica e digita esse inteiro como resposta.",
+    "misconceptionId": "misc_zero_label_as_answer"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Para representar quintos, a reta deve ser dividida em 5 partes iguais, não 4.",
+    "buggyRule": "O aluno usa o numerador (4) como número de divisões na reta, ao invés do denominador (5).",
+    "misconceptionId": "misc_incorrect_divisions_4"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O número de divisões corresponde ao número de intervalos entre as marcas, não à quantidade total de marcas.",
+    "buggyRule": "O aluno conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e usa isso como número de divisões.",
+    "misconceptionId": "misc_incorrect_divisions_total_marks"
+   },
+   {
+    "valor": "3/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique novamente: quatro em cada cinco dentistas preferiram a Marca X. Isso corresponde a 4 partes de um total de 5.",
+    "buggyRule": "O aluno clica na marca imediatamente anterior à correta (4/5), que é 3/5.",
+    "misconceptionId": "misc_neighbor_mark_before"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração 1 representa todos os dentistas, mas o problema diz que apenas quatro em cada cinco fizeram essa escolha.",
+    "buggyRule": "O aluno clica na marca imediatamente após 4/5, que é 1 (ou 5/5).",
+    "misconceptionId": "misc_neighbor_mark_after"
+   },
+   {
+    "valor": "5",
+    "passo": 4,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa quantos dentistas escolheram a Marca X, e o denominador é o total de dentistas consultados.",
+    "buggyRule": "O aluno inverte a fração 4/5 e digita o denominador (5) no campo do numerador.",
+    "misconceptionId": "misc_inverted_fraction_numerator"
+   },
+   {
+    "valor": "-",
+    "passo": 4,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Você precisa digitar o número de dentistas que preferiram a Marca X no campo do numerador.",
+    "buggyRule": "O aluno deixa o campo do numerador em branco ou incompleto, resultando em um traço '-' conforme renderizado pela interface.",
+    "misconceptionId": "misc_partial_entry_dash"
+   },
+   {
+    "valor": "4",
+    "passo": 5,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar o total de dentistas consultados, que é 5, não 4.",
+    "buggyRule": "O aluno inverte a fração 4/5 e digita o numerador (4) no campo do denominador.",
+    "misconceptionId": "misc_inverted_fraction_denominator"
+   },
+   {
+    "valor": "6",
+    "passo": 5,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o número de partes iguais em que o todo foi dividido, que é 5.",
+    "buggyRule": "O aluno usa o número total de marcas na reta (6) como denominador.",
+    "misconceptionId": "misc_denominator_from_division_count"
+   },
+   {
+    "valor": "1",
+    "passo": 5,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser 5, pois a fração se refere a 'quatro em cada cinco'.",
+    "buggyRule": "O aluno vê o rótulo '1' no final da reta e o usa como denominador.",
+    "misconceptionId": "misc_denominator_as_integer_label"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica deve ir de 0 a 1 para representar frações próprias."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Divida a reta em 5 partes iguais, pois o denominador da fração é 5."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Marque o ponto que corresponde a 4 das 5 partes."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "O numerador é o número de dentistas que preferiram a Marca X."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "O denominador é o total de dentistas consultados: 5."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_set_numberline_range\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para ir de 0 a 1 (valor máximo visível)\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_set_numberline_divisions\",\n      \"selection\": \"numline\",\n      \"action\": \"Define o número de partes como 5 para representar quintos\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_place_marker_on_fraction\",\n      \"selection\": \"numline\",\n      \"action\": \"Posiciona o marcador na marca correspondente a 4/5\",\n      \"result\": \"4/5\"\n    },\n    {\n      \"kc\": \"kc_enter_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_enter_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador da fração\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Clica em concluir\",\n      \"result\": \"submit\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_integer_label_as_answer\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno vê o rótulo '1' no final da reta numérica e digita esse inteiro como resposta.\",\n      \"description\": \"Confunde o limite da escala com a fração pedida.\",\n      \"feedback\": \"A fração pedida não é o número 1. A pergunta é: qual fração dos dentistas preferiu a Marca X?\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_zero_label_as_answer\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"O aluno vê o rótulo '0' no início da reta numérica e digita esse inteiro como resposta.\",\n      \"description\": \"Confunde o início da escala com a fração pedida.\",\n      \"feedback\": \"A fração pedida não é zero. A maioria dos dentistas escolheu a Marca X.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_incorrect_divisions_4\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"O aluno usa o numerador (4) como número de divisões na reta, ao invés do denominador (5).\",\n      \"description\": \"Confunde o número de partes com o numerador da fração.\",\n      \"feedback\": \"Para representar quintos, a reta deve ser dividida em 5 partes iguais, não 4.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_incorrect_divisions_total_marks\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"O aluno conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e usa isso como número de divisões.\",\n      \"description\": \"Conta marcas em vez de intervalos.\",\n      \"feedback\": \"O número de divisões corresponde ao número de intervalos entre as marcas, não à quantidade total de marcas.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_neighbor_mark_before\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/5\",\n      \"buggyRule\": \"O aluno clica na marca imediatamente anterior à correta (4/5), que é 3/5.\",\n      \"description\": \"Erro de posicionamento na reta numérica — uma marca antes do alvo.\",\n      \"feedback\": \"Verifique novamente: quatro em cada cinco dentistas preferiram a Marca X. Isso corresponde a 4 partes de um total de 5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_neighbor_mark_after\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno clica na marca imediatamente após 4/5, que é 1 (ou 5/5).\",\n      \"description\": \"Erro de posicionamento na reta numérica — uma marca depois do alvo.\",\n      \"feedback\": \"A fração 1 representa todos os dentistas, mas o problema diz que apenas quatro em cada cinco fizeram essa escolha.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inverted_fraction_numerator\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"O aluno inverte a fração 4/5 e digita o denominador (5) no campo do numerador.\",\n      \"description\": \"Inverte numerador e denominador ao preencher a fração.\",\n      \"feedback\": \"Lembre-se: o numerador representa quantos dentistas escolheram a Marca X, e o denominador é o total de dentistas consultados.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_partial_entry_dash\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"-\",\n      \"buggyRule\": \"O aluno deixa o campo do numerador em branco ou incompleto, resultando em um traço '-' conforme renderizado pela interface.\",\n      \"description\": \"Não preenche o numerador e submete entrada parcial.\",\n      \"feedback\": \"Você precisa digitar o número de dentistas que preferiram a Marca X no campo do numerador.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_inverted_fraction_denominator\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"O aluno inverte a fração 4/5 e digita o numerador (4) no campo do denominador.\",\n      \"description\": \"Inverte numerador e denominador ao preencher a fração.\",\n      \"feedback\": \"O denominador deve representar o total de dentistas consultados, que é 5, não 4.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_denominator_from_division_count\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"O aluno usa o número total de marcas na reta (6) como denominador.\",\n      \"description\": \"Confunde número de marcas com denominador da fração.\",\n      \"feedback\": \"O denominador deve ser o número de partes iguais em que o todo foi dividido, que é 5.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_denominator_as_integer_label\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno vê o rótulo '1' no final da reta e o usa como denominador.\",\n      \"description\": \"Usa um rótulo inteiro da reta como denominador.\",\n      \"feedback\": \"O denominador deve ser 5, pois a fração se refere a 'quatro em cada cinco'.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica deve ir de 0 a 1 para representar frações próprias.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Divida a reta em 5 partes iguais, pois o denominador da fração é 5.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Marque o ponto que corresponde a 4 das 5 partes.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"O numerador é o número de dentistas que preferiram a Marca X.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"O denominador é o total de dentistas consultados: 5.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_set_numberline_range",
+     "selection": "numline",
+     "action": "Configura a reta numérica para ir de 0 a 1 (valor máximo visível)",
+     "result": "1"
+    },
+    {
+     "kc": "kc_set_numberline_divisions",
+     "selection": "numline",
+     "action": "Define o número de partes como 5 para representar quintos",
+     "result": "5"
+    },
+    {
+     "kc": "kc_place_marker_on_fraction",
+     "selection": "numline",
+     "action": "Posiciona o marcador na marca correspondente a 4/5",
+     "result": "4/5"
+    },
+    {
+     "kc": "kc_enter_numerator",
+     "selection": "F1",
+     "action": "Digita o numerador da fração",
+     "result": "4"
+    },
+    {
+     "kc": "kc_enter_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador da fração",
+     "result": "5"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Clica em concluir",
+     "result": "submit"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_integer_label_as_answer",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno vê o rótulo '1' no final da reta numérica e digita esse inteiro como resposta.",
+     "description": "Confunde o limite da escala com a fração pedida.",
+     "feedback": "A fração pedida não é o número 1. A pergunta é: qual fração dos dentistas preferiu a Marca X?"
+    },
+    {
+     "step": 1,
+     "id": "misc_zero_label_as_answer",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "0",
+     "buggyRule": "O aluno vê o rótulo '0' no início da reta numérica e digita esse inteiro como resposta.",
+     "description": "Confunde o início da escala com a fração pedida.",
+     "feedback": "A fração pedida não é zero. A maioria dos dentistas escolheu a Marca X."
+    },
+    {
+     "step": 2,
+     "id": "misc_incorrect_divisions_4",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4",
+     "buggyRule": "O aluno usa o numerador (4) como número de divisões na reta, ao invés do denominador (5).",
+     "description": "Confunde o número de partes com o numerador da fração.",
+     "feedback": "Para representar quintos, a reta deve ser dividida em 5 partes iguais, não 4."
+    },
+    {
+     "step": 2,
+     "id": "misc_incorrect_divisions_total_marks",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "O aluno conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e usa isso como número de divisões.",
+     "description": "Conta marcas em vez de intervalos.",
+     "feedback": "O número de divisões corresponde ao número de intervalos entre as marcas, não à quantidade total de marcas."
+    },
+    {
+     "step": 3,
+     "id": "misc_neighbor_mark_before",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/5",
+     "buggyRule": "O aluno clica na marca imediatamente anterior à correta (4/5), que é 3/5.",
+     "description": "Erro de posicionamento na reta numérica — uma marca antes do alvo.",
+     "feedback": "Verifique novamente: quatro em cada cinco dentistas preferiram a Marca X. Isso corresponde a 4 partes de um total de 5."
+    },
+    {
+     "step": 3,
+     "id": "misc_neighbor_mark_after",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno clica na marca imediatamente após 4/5, que é 1 (ou 5/5).",
+     "description": "Erro de posicionamento na reta numérica — uma marca depois do alvo.",
+     "feedback": "A fração 1 representa todos os dentistas, mas o problema diz que apenas quatro em cada cinco fizeram essa escolha."
+    },
+    {
+     "step": 4,
+     "id": "misc_inverted_fraction_numerator",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "O aluno inverte a fração 4/5 e digita o denominador (5) no campo do numerador.",
+     "description": "Inverte numerador e denominador ao preencher a fração.",
+     "feedback": "Lembre-se: o numerador representa quantos dentistas escolheram a Marca X, e o denominador é o total de dentistas consultados."
+    },
+    {
+     "step": 4,
+     "id": "misc_partial_entry_dash",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "-",
+     "buggyRule": "O aluno deixa o campo do numerador em branco ou incompleto, resultando em um traço '-' conforme renderizado pela interface.",
+     "description": "Não preenche o numerador e submete entrada parcial.",
+     "feedback": "Você precisa digitar o número de dentistas que preferiram a Marca X no campo do numerador."
+    },
+    {
+     "step": 5,
+     "id": "misc_inverted_fraction_denominator",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "O aluno inverte a fração 4/5 e digita o numerador (4) no campo do denominador.",
+     "description": "Inverte numerador e denominador ao preencher a fração.",
+     "feedback": "O denominador deve representar o total de dentistas consultados, que é 5, não 4."
+    },
+    {
+     "step": 5,
+     "id": "misc_denominator_from_division_count",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "O aluno usa o número total de marcas na reta (6) como denominador.",
+     "description": "Confunde número de marcas com denominador da fração.",
+     "feedback": "O denominador deve ser o número de partes iguais em que o todo foi dividido, que é 5."
+    },
+    {
+     "step": 5,
+     "id": "misc_denominator_as_integer_label",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno vê o rótulo '1' no final da reta e o usa como denominador.",
+     "description": "Usa um rótulo inteiro da reta como denominador.",
+     "feedback": "O denominador deve ser 5, pois a fração se refere a 'quatro em cada cinco'."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica deve ir de 0 a 1 para representar frações próprias."
+    },
+    {
+     "step": 2,
+     "text": "Divida a reta em 5 partes iguais, pois o denominador da fração é 5."
+    },
+    {
+     "step": 3,
+     "text": "Marque o ponto que corresponde a 4 das 5 partes."
+    },
+    {
+     "step": 4,
+     "text": "O numerador é o número de dentistas que preferiram a Marca X."
+    },
+    {
+     "step": 5,
+     "text": "O denominador é o total de dentistas consultados: 5."
+    }
+   ]
+  }
+ }
+}

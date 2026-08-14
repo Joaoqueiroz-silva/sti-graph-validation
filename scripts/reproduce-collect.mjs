@@ -37,6 +37,18 @@
  *   npm run reproduce:collect -- --adapter benchmark/adapter-exemplo.mjs
  *   Flags: --problems N  --replicas R  --yes  --adapter caminho.mjs
  *          --out DIR  --allow-model-override
+ *          --perfil <nome>          troca TODOS os modelos (config/modelos.json)
+ *          --modelo <agente>=<id>   troca UM agente (repetível)
+ *          --plano                  só imprime o plano/custo/mapa resolvido e sai
+ *
+ * CONFIGURAÇÃO DE MODELOS (port 2026-08, docs/CONFIGURACAO-MODELOS.md):
+ * --perfil/--modelo (ou PERFIL_MODELOS / MODELO_<AGENTE> no ambiente) engajam a
+ * resolução por perfil; o modelo resolvido para "estudantes" passa a reger o
+ * simulador (e o fallback é fixado nele — retry nunca troca de modelo). SEM
+ * essas fontes, o caminho é a réplica histórica do braço final da Campanha 5
+ * (qwen/qwen3-max via STI_EVAL_3B_MODEL, exatamente como antes). Em ambos os
+ * casos, cada run grava o registro COMPLETO do docs/CONTRATO-RUN-V2.md, com
+ * modelos.porAgente RESOLVIDO e o bloco custo somado do manifesto.
  */
 
 import fs from "node:fs";
@@ -52,6 +64,9 @@ import {
   ciOverlap,
   fmt3,
 } from "../analysis/reproduce-lib.mjs";
+import { resolverModelos, AGENTES } from "../config/resolver-modelos.js";
+import { buildRunRecord, validarRegistro } from "./registro-run-v2.mjs";
+import { sha256 } from "../exec-manifest.js";
 
 const FINAL_MODEL = "qwen/qwen3-max";
 // TETO conservador por run (uma chamada qwen3-max, prompt com inventário
@@ -69,6 +84,9 @@ function parseArgs(argv) {
     adapter: null,
     out: null,
     allowModelOverride: false,
+    perfil: null,
+    modelo: [],
+    plano: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -78,6 +96,9 @@ function parseArgs(argv) {
     else if (a === "--adapter") out.adapter = argv[++i];
     else if (a === "--out") out.out = argv[++i];
     else if (a === "--allow-model-override") out.allowModelOverride = true;
+    else if (a === "--perfil") out.perfil = argv[++i];
+    else if (a === "--modelo") out.modelo.push(argv[++i]);
+    else if (a === "--plano") out.plano = true;
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
@@ -106,14 +127,31 @@ function freshOutDir(base) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
+  // ── resolução de modelos por perfil (docs/CONFIGURACAO-MODELOS.md) ───────
+  // --perfil/--modelo (e PERFIL_MODELOS/MODELO_<AGENTE> no ambiente) engajam a
+  // resolução; sem nenhuma dessas fontes, o caminho é a réplica histórica do
+  // braço final da Campanha 5, exatamente como antes do port.
+  const resolucao = resolverModelos({
+    argv: [
+      ...(args.perfil ? ["--perfil", args.perfil] : []),
+      ...args.modelo.flatMap((m) => ["--modelo", m]),
+    ],
+  });
+  const modoPerfil = resolucao.engajado && !args.adapter;
+
   // ── modelo resolvido ANTES de importar o cliente LLM ─────────────────────
-  // Mesma precedência de resolveEvalStudentConfig (simulate-students.js):
-  // env STI_EVAL_3B_MODEL > premium recomendado (qwen/qwen3-max). O fallback de
-  // emergência é fixado no MESMO modelo ANTES do import (a tabela AGENTS lê o
-  // env na carga do módulo): um retry jamais troca de modelo em silêncio.
-  const intendedModel = process.env.STI_EVAL_3B_MODEL || FINAL_MODEL;
+  // Caminho histórico: precedência de resolveEvalStudentConfig (env
+  // STI_EVAL_3B_MODEL > qwen/qwen3-max). Caminho por perfil: o modelo
+  // resolvido para "estudantes" entra por STI_EVAL_3B_MODEL (o MESMO mecanismo
+  // auditado). Em ambos, o fallback de emergência é fixado no MESMO modelo
+  // ANTES do import (a tabela AGENTS lê o env na carga do módulo): um retry
+  // jamais troca de modelo em silêncio.
+  const intendedModel = modoPerfil
+    ? resolucao.porAgente.estudantes
+    : process.env.STI_EVAL_3B_MODEL || FINAL_MODEL;
   if (!args.adapter) {
     process.env.FALLBACK_MODEL = intendedModel;
+    if (modoPerfil) process.env.STI_EVAL_3B_MODEL = intendedModel;
   }
 
   const { authorFromEnvelopeA } = await import(path.join(REPO, "author-from-ctat.js"));
@@ -161,7 +199,15 @@ async function main() {
       `Simulador: default do pacote (simulate-students.js) | provider=${resolved.provider} ` +
         `model=${resolved.model} temperature=${resolved.temperature}`
     );
-    if (resolved.model !== FINAL_MODEL && !args.allowModelOverride) {
+    if (modoPerfil) {
+      console.log(
+        `Configuração de modelos ENGAJADA (perfil "${resolucao.perfil}"): braço deliberado de ` +
+          `comparação — NÃO é uma replicação do braço final da Campanha 5.`
+      );
+      for (const a of AGENTES) {
+        console.log(`  ${a.padEnd(14)} ${resolucao.porAgente[a]}  (${resolucao.origem[a]})`);
+      }
+    } else if (resolved.model !== FINAL_MODEL && !args.allowModelOverride) {
       console.error(
         `\nERRO: o modelo resolvido (${resolved.model}) difere da configuração final do ` +
           `experimento (${FINAL_MODEL}).\nHá um override via STI_EVAL_3B_MODEL no ambiente. ` +
@@ -173,7 +219,7 @@ async function main() {
     // Defesa em profundidade: além do env pré-import, trava a tabela em memória.
     llmMod.AGENTS.fallback_emergency.model = resolved.model;
     llmMod.AGENTS.fallback_emergency.temperature = resolved.temperature;
-    if (!process.env.OPENROUTER_API_KEY) {
+    if (!process.env.OPENROUTER_API_KEY && !args.plano) {
       console.error(
         "\nERRO: OPENROUTER_API_KEY ausente. Copie .env.example para .env e preencha a chave " +
           "(https://openrouter.ai/keys). reproduce:verify continua disponível sem chave e sem custo."
@@ -181,6 +227,35 @@ async function main() {
       process.exit(1);
     }
   }
+
+  // ── bloco `modelos` do registro (docs/CONTRATO-RUN-V2.md): identificador
+  // RESOLVIDO, nunca o apelido do perfil. No caminho por perfil, o mapa
+  // completo dos cinco papéis; no histórico, o único agente que roda nesta
+  // coleta (estudantes) sob o rótulo "campanha5-final"; no adaptador, o hash
+  // do simulador externo. ────────────────────────────────────────────────────
+  const blocoModelos = args.adapter
+    ? {
+        perfil: "adaptador-externo",
+        porAgente: { estudantes: `adaptador:${adapterSha.slice(0, 12)}` },
+        temperatura: null,
+        provedor: "adaptador",
+        resolvidoEm: resolucao.resolvidoEm,
+      }
+    : modoPerfil
+      ? {
+          perfil: resolucao.perfil,
+          porAgente: { ...resolucao.porAgente, estudantes: resolved.model },
+          temperatura: resolved.temperature,
+          provedor: "openrouter",
+          resolvidoEm: resolucao.resolvidoEm,
+        }
+      : {
+          perfil: "campanha5-final",
+          porAgente: { estudantes: resolved.model },
+          temperatura: resolved.temperature,
+          provedor: "openrouter",
+          resolvidoEm: resolucao.resolvidoEm,
+        };
 
   // ── plano e aviso de custo ANTES de começar ──────────────────────────────
   const problemIds = fs
@@ -202,6 +277,15 @@ async function main() {
         `terço disso; o custo real por chamada fica no manifesto)`
     );
     console.log(`  trava de orçamento: STI_BUDGET_USD=${process.env.STI_BUDGET_USD || "50 (default)"}`);
+    if (args.plano) {
+      console.log(`\nMAPA DE MODELOS RESOLVIDO (registro: modelos.porAgente) — perfil "${blocoModelos.perfil}"`);
+      for (const [agente, modelo] of Object.entries(blocoModelos.porAgente)) {
+        console.log(`  ${agente.padEnd(14)} ${modelo}`);
+      }
+      console.log(`  temperatura     ${blocoModelos.temperatura}  |  provedor  ${blocoModelos.provedor}`);
+      console.log("\n--plano: nada foi chamado, nada foi gravado. Remova --plano (e confirme com --yes) para coletar.");
+      process.exit(0);
+    }
     if (!args.yes) {
       console.error(
         `\nColeta NÃO iniciada: esta execução é PAGA. Confirme com --yes, por exemplo:\n` +
@@ -211,6 +295,10 @@ async function main() {
     }
   } else {
     console.log("  custo do harness: zero (o custo, se houver, é do adaptador externo)");
+    if (args.plano) {
+      console.log("\n--plano: nada foi chamado, nada foi gravado (adaptador externo; sem modelos a resolver).");
+      process.exit(0);
+    }
   }
   console.log(line);
 
@@ -239,7 +327,9 @@ async function main() {
   };
 
   // ── wrapper do adaptador: mesma régua, mesmo gate anti-vazamento ─────────
-  const makeAdapterSimulate = () => async (iface, opts = {}) => {
+  // `sink` (contrato v2): recebe promptSha256 (hash do input entregue ao
+  // adaptador) e respostaDoModelo (retorno bruto do adaptador) para o registro.
+  const makeAdapterSimulate = (sink = {}) => async (iface, opts = {}) => {
     const inventory = buildInterfaceInventory(iface, { renderedFacts: opts.renderedFacts });
     const adapterInput = {
       envelopeA: iface,
@@ -250,7 +340,9 @@ async function main() {
     if (leaks.length) {
       throw new Error(`input do adaptador REPROVADO no gate anti-vazamento: ${leaks.join(", ")}`);
     }
+    sink.promptSha256 = sha256(JSON.stringify(adapterInput));
     const raw = (await adapter(adapterInput)) || {};
+    sink.respostaDoModelo = JSON.stringify(raw);
     const allowed = new Set();
     const { canon } = await import(path.join(REPO, "schema.js"));
     for (const c of iface.components || []) {
@@ -271,6 +363,19 @@ async function main() {
   };
 
   // ── coleta ───────────────────────────────────────────────────────────────
+  // Manifesto por run (contrato v2, bloco custo): o JSONL é append-only e a
+  // coleta é sequencial — as linhas novas entre o antes e o depois de um run
+  // são as chamadas DAQUELE run.
+  const manifestPath = path.join(outDir, "manifests", `${runId}.jsonl`);
+  const lerManifesto = () =>
+    fs.existsSync(manifestPath)
+      ? fs
+          .readFileSync(manifestPath, "utf8")
+          .split("\n")
+          .filter(Boolean)
+          .map((l) => JSON.parse(l))
+      : [];
+
   const failures = [];
   let done = 0;
   for (const id of problemIds) {
@@ -287,14 +392,22 @@ async function main() {
     for (let rep = 1; rep <= args.replicas; rep++) {
       const tag = `${id}_rep${rep}`;
       try {
+        const chamadasAntes = args.adapter ? 0 : lerManifesto().length;
+        const sink = {}; // bruto/hash do caminho adaptador OU captureRaw do default
         const robot = args.adapter
           ? await (async () => {
-              const simulate = makeAdapterSimulate();
+              const simulate = makeAdapterSimulate(sink);
               const traces = await simulate(envelopeA, { renderedFacts });
               const graph = authorGraphForInterface(envelopeA, traces);
-              return { graph, neutral: normalizeEducaoff(graph, { source: "robo" }) };
+              return { graph, neutral: normalizeEducaoff(graph, { source: "robo" }), traces };
             })()
-          : await authorFromEnvelopeA(envelopeA, { renderedFacts });
+          : await authorFromEnvelopeA(envelopeA, {
+              renderedFacts,
+              captureRaw: (raw) => {
+                sink.respostaDoModelo = raw;
+              },
+            });
+        const chamadas = args.adapter ? [] : lerManifesto().slice(chamadasAntes);
         const envelopeB = readJson(path.join(problemDir, "envelope-b.json"));
         const audit = auditBehaviorGraph(robot.graph);
         const cmp = compareGraphs(envelopeB, robot.neutral, { ref: "especialista", cand: "robo" });
@@ -302,20 +415,28 @@ async function main() {
           correctAnswers: [envelopeA.correctAnswer].filter(Boolean),
           excludeMechanical: true,
         });
-        const run = {
-          id,
-          correctAnswer: envelopeA.correctAnswer,
-          audit: { ok: audit.ok, stepCount: audit.stepCount },
-          f1: cmp.similarity,
-          conceptual: cmp.nodeF1Conceptual,
-          precision: cmp.precision,
-          recall: cmp.recall,
-          functionalAgreement: fe.agreement,
-          functionalKappa: fe.kappa,
-          missing: cmp.detail.missingMisconceptions,
-          extra: cmp.detail.extraMisconceptions,
-          robotMisconceptions: (robot.neutral.misconceptions || []).map((m) => m.wrongAnswer),
-        };
+        // Registro COMPLETO (docs/CONTRATO-RUN-V2.md): superset do formato flat
+        // legado — readRuns/aggregateRuns/--legado continuam lendo os mesmos
+        // campos; validar.mjs --runs ganha grafo/modelos/custo/bruto.
+        const run = buildRunRecord({
+          exercicio: id,
+          replica: rep,
+          envelopeA,
+          robot,
+          audit,
+          cmp,
+          fe,
+          modelos: blocoModelos,
+          chamadas,
+          respostaDoModelo: sink.respostaDoModelo ?? null,
+          promptSha256: sink.promptSha256 ?? null,
+        });
+        if (!args.adapter) {
+          const faltando = validarRegistro(run);
+          if (faltando.length) {
+            throw new Error(`registro incompleto (contrato v2): falta ${faltando.join(", ")}`);
+          }
+        }
         fs.writeFileSync(path.join(outDir, "runs", `${tag}.json`), JSON.stringify(run, null, 1));
         done++;
         console.log(
@@ -392,6 +513,10 @@ async function main() {
         simulador: args.adapter
           ? { tipo: "adapter", caminho: args.adapter, sha256: adapterSha }
           : { tipo: "default", provider: resolved.provider, model: resolved.model, temperature: resolved.temperature },
+        // contrato v2: o MESMO bloco `modelos` gravado em cada run, mais a
+        // origem da resolução (auditoria: qual fonte venceu por agente).
+        modelos: blocoModelos,
+        resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },
         problems: problemIds,
         replicas: args.replicas,
         runsOk: runs.length,

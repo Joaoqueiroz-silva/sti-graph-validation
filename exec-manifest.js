@@ -38,6 +38,13 @@ export const PRICES = Object.freeze({
   // 2026-07-13 (Onda 3): preço do fallback é ESTIMATIVA (o fallback roda raramente e o
   // valor exato flutua na OpenRouter); fica anotado aqui de propósito.
   "deepseek/deepseek-chat": Object.freeze({ input: 0.3, output: 1.2 }),
+  // 2026-08-14 (port dos agentes, contrato v2): modelos dos braços de comparação
+  // de perfis, consultados na API pública da OpenRouter nesta data. Sem estas
+  // linhas, o bloco `custo` do registro sai marcado desconhecido e o orçamento
+  // não é incrementado.
+  "qwen/qwen3-max": Object.freeze({ input: 0.78, output: 3.9 }),
+  "google/gemini-3.1-flash-lite": Object.freeze({ input: 0.25, output: 1.5 }),
+  "openai/gpt-5.6-luna": Object.freeze({ input: 0.1, output: 0.6 }),
 });
 
 const PRICES_FROZEN_AT = "2026-07-13";

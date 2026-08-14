@@ -1,0 +1,203 @@
+{
+ "id": "21mnm",
+ "correctAnswer": "4/3",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.6,
+ "conceptual": 0.667,
+ "precision": 0.75,
+ "recall": 0.5,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "1/3",
+  "4",
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "2"
+ ],
+ "robotMisconceptions": [
+  "3",
+  "1",
+  "2"
+ ],
+ "exercicio": "21mnm",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:06:33.333Z",
+ "promptSha256": "596ce072cd509656b7838fa331d6f27edf3e4b9d2cbc3926efda81efa2cf3ded",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1723,
+  "tokensSaida": 808,
+  "usd": 0.00164275
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "ajustar escala da reta para cobrir inteiros até 2",
+    "kc": "kc_configure_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar numerador",
+    "kc": "kc_input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar denominador",
+    "kc": "kc_input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "confirmar escrita da fração",
+    "kc": "kc_finalize_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "clicar em finalizar",
+    "kc": "kc_submit"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa o total de partes tomadas e o denominador o total de partes em que o inteiro foi dividido.",
+    "buggyRule": "inverter numerador e denominador: 4/3 vira 3/4, logo o aluno digita o denominador no campo do numerador",
+    "misconceptionId": "misc_inversion_fraction"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "A fração 4/3 está um pouco além do inteiro 1. Tente contar quantas divisões de 1/3 existem desde o zero.",
+    "buggyRule": "identificar a marca inteira imediatamente anterior a 4/3 na reta (que é 1) e tentar inserir apenas o inteiro",
+    "misconceptionId": "misc_neighbor_mark_low"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar em quantas partes cada pote (inteiro) foi dividido. Conte as divisões entre 0 e 1.",
+    "buggyRule": "utilizar o limite direito da escala da reta (2) como denominador em vez de contar as divisões por unidade",
+    "misconceptionId": "misc_use_integer_label"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta mostra divisões de 1/3. Quantas dessas partes você precisa percorrer para chegar a 1 e 1/3?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O número 1 e 1/3 é o mesmo que 3/3 + 1/3. Qual é a soma dos numeradores?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_configure_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"ajustar escala da reta para cobrir inteiros até 2\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_input_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digitar numerador\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_input_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"digitar denominador\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_finalize_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"confirmar escrita da fração\",\n      \"result\": \"4/3\"\n    },\n    {\n      \"kc\": \"kc_submit\",\n      \"selection\": \"done\",\n      \"action\": \"clicar em finalizar\",\n      \"result\": \"done\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversion_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"inverter numerador e denominador: 4/3 vira 3/4, logo o aluno digita o denominador no campo do numerador\",\n      \"description\": \"O aluno inverte a fração ao inserir os valores nos campos.\",\n      \"feedback\": \"Lembre-se: o numerador representa o total de partes tomadas e o denominador o total de partes em que o inteiro foi dividido.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_neighbor_mark_low\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"identificar a marca inteira imediatamente anterior a 4/3 na reta (que é 1) e tentar inserir apenas o inteiro\",\n      \"description\": \"O aluno confunde a marca do inteiro 1 na reta numérica com o numerador da fração.\",\n      \"feedback\": \"A fração 4/3 está um pouco além do inteiro 1. Tente contar quantas divisões de 1/3 existem desde o zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_use_integer_label\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"utilizar o limite direito da escala da reta (2) como denominador em vez de contar as divisões por unidade\",\n      \"description\": \"O aluno utiliza o valor do limite da reta numérica como o denominador.\",\n      \"feedback\": \"O denominador deve representar em quantas partes cada pote (inteiro) foi dividido. Conte as divisões entre 0 e 1.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta mostra divisões de 1/3. Quantas dessas partes você precisa percorrer para chegar a 1 e 1/3?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O número 1 e 1/3 é o mesmo que 3/3 + 1/3. Qual é a soma dos numeradores?\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_configure_numberline",
+     "selection": "numline",
+     "action": "ajustar escala da reta para cobrir inteiros até 2",
+     "result": "2"
+    },
+    {
+     "kc": "kc_input_numerator",
+     "selection": "F1",
+     "action": "digitar numerador",
+     "result": "4"
+    },
+    {
+     "kc": "kc_input_denominator",
+     "selection": "denom",
+     "action": "digitar denominador",
+     "result": "3"
+    },
+    {
+     "kc": "kc_finalize_fraction",
+     "selection": "writeFractionStep",
+     "action": "confirmar escrita da fração",
+     "result": "4/3"
+    },
+    {
+     "kc": "kc_submit",
+     "selection": "done",
+     "action": "clicar em finalizar",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversion_fraction",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "3",
+     "buggyRule": "inverter numerador e denominador: 4/3 vira 3/4, logo o aluno digita o denominador no campo do numerador",
+     "description": "O aluno inverte a fração ao inserir os valores nos campos.",
+     "feedback": "Lembre-se: o numerador representa o total de partes tomadas e o denominador o total de partes em que o inteiro foi dividido."
+    },
+    {
+     "step": 2,
+     "id": "misc_neighbor_mark_low",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "identificar a marca inteira imediatamente anterior a 4/3 na reta (que é 1) e tentar inserir apenas o inteiro",
+     "description": "O aluno confunde a marca do inteiro 1 na reta numérica com o numerador da fração.",
+     "feedback": "A fração 4/3 está um pouco além do inteiro 1. Tente contar quantas divisões de 1/3 existem desde o zero."
+    },
+    {
+     "step": 3,
+     "id": "misc_use_integer_label",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "2",
+     "buggyRule": "utilizar o limite direito da escala da reta (2) como denominador em vez de contar as divisões por unidade",
+     "description": "O aluno utiliza o valor do limite da reta numérica como o denominador.",
+     "feedback": "O denominador deve representar em quantas partes cada pote (inteiro) foi dividido. Conte as divisões entre 0 e 1."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta mostra divisões de 1/3. Quantas dessas partes você precisa percorrer para chegar a 1 e 1/3?"
+    },
+    {
+     "step": 2,
+     "text": "O número 1 e 1/3 é o mesmo que 3/3 + 1/3. Qual é a soma dos numeradores?"
+    }
+   ]
+  }
+ }
+}

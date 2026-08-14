@@ -1,0 +1,399 @@
+{
+ "id": "04soccerSeason",
+ "correctAnswer": "3/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.583,
+ "conceptual": 0.636,
+ "precision": 0.538,
+ "recall": 0.636,
+ "functionalAgreement": 0.444,
+ "functionalKappa": 0.196,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "4/3",
+  "1",
+  "5",
+  "3/-",
+  "-/4"
+ ],
+ "robotMisconceptions": [
+  "4/3",
+  "1",
+  "1/2",
+  "1",
+  "4",
+  "5",
+  "4",
+  "5",
+  "3",
+  "3/-",
+  "-/4"
+ ],
+ "exercicio": "04soccerSeason",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:09:41.882Z",
+ "promptSha256": "8225f35e2141692f93782e5f9d1b8d447ce70f9d3594065b5a409a71f1c7bf72",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1779,
+  "tokensSaida": 2162,
+  "usd": 0.009819419999999999
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para ir de 0 a 1, ajustando o número de partes para 4",
+    "kc": "kc_set_numberline_scale"
+   },
+   {
+    "indice": 2,
+    "acao": "Clica na marca correspondente a 3/4 na reta numérica",
+    "kc": "kc_identify_fraction_on_numberline"
+   },
+   {
+    "indice": 3,
+    "acao": "Digita o numerador da fração representada",
+    "kc": "kc_set_numerator"
+   },
+   {
+    "indice": 4,
+    "acao": "Digita o denominador da fração representada",
+    "kc": "kc_set_denominator"
+   },
+   {
+    "indice": 5,
+    "acao": "Confirma a fração escrita",
+    "kc": "kc_confirm_fraction"
+   },
+   {
+    "indice": 6,
+    "acao": "Clica em 'Concluído' para finalizar",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "4/3",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração é 3/4: 3 partes de um total de 4. O numerador vem antes da barra.",
+    "buggyRule": "Inverte numerador e denominador da fração do enunciado (3/4 → 4/3) e tenta localizá-la na reta, mas como está fora de [0,1], pode não ser selecionável; porém, se o aluno força entrada manual em componente de resposta vinculado à reta, registra '4/3'",
+    "misconceptionId": "misc_inverte_numerador_denominador_na_escala"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta vai até 1, mas Alisha jogou apenas uma parte da temporada — menos que o todo.",
+    "buggyRule": "Vê o rótulo '1' no extremo direito da reta e assume que é a resposta, ignorando a fração pedida",
+    "misconceptionId": "misc_usa_inteiro_da_escala_como_resposta"
+   },
+   {
+    "valor": "1/2",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Veja: entre 1/2 e 1 há duas marcas. A segunda delas é 3/4.",
+    "buggyRule": "Clica na marca imediatamente antes de 3/4 na reta com 4 divisões; os valores são [0, 1/4, 1/2, 3/4, 1], então a vizinha anterior é 1/2",
+    "misconceptionId": "misc_marca_vizinha_anterior"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "3/4 está antes do fim da temporada (que é 1). Você marcou o final completo.",
+    "buggyRule": "Clica na marca imediatamente depois de 3/4 na reta com 4 divisões; a próxima marca após 3/4 é 1",
+    "misconceptionId": "misc_marca_vizinha_posterior"
+   },
+   {
+    "valor": "4",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o número de cima é quantas partes ela jogou (3), não o total (4).",
+    "buggyRule": "Inverte 3/4 e digita o novo numerador (originalmente denominador) no campo F1",
+    "misconceptionId": "misc_inverte_numerador_denominador_na_digitacao"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "As marcas ajudam a ver as frações, mas o numerador é quantas partes do total ela completou: 3.",
+    "buggyRule": "Conta todas as marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e digita esse número no numerador",
+    "misconceptionId": "misc_usa_contagem_de_marcas_como_numerador"
+   },
+   {
+    "valor": "4",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Ignorado — substituído abaixo.",
+    "buggyRule": "Vê que há 4 divisões na unidade e corretamente usa 4 como denominador — este é o valor correto, mas listamos aqui para contrastar com erros reais; porém, como é correto, NÃO é um erro. Então substituímos por um erro plausível: usar o número total de marcas (5) como denominador.",
+    "misconceptionId": "misc_usa_numero_de_divisoes_como_denominador"
+   },
+   {
+    "valor": "5",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A unidade foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1).",
+    "buggyRule": "Conta as 5 marcas na reta (0 a 1 inclusive) e usa esse número como denominador",
+    "misconceptionId": "misc_usa_total_marcas_como_denominador"
+   },
+   {
+    "valor": "3",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é o total de partes da temporada: 4, não 3.",
+    "buggyRule": "Inverte 3/4 e digita o novo denominador (originalmente numerador) no campo denom",
+    "misconceptionId": "misc_inverte_numerador_denominador_no_denominador"
+   },
+   {
+    "valor": "3/-",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Você precisa informar em quantas partes o todo foi dividido — o denominador.",
+    "buggyRule": "Preencheu F1=3 mas deixou denom vazio ou inválido; ao confirmar, a interface renderiza '3/-'",
+    "misconceptionId": "misc_fracao_incompleta_sem_denominador"
+   },
+   {
+    "valor": "-/4",
+    "passo": 5,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Quantas partes Alisha jogou? Isso vai no numerador.",
+    "buggyRule": "Preencheu denom=4 mas deixou F1 vazio; ao confirmar, a interface renderiza '-/4'",
+    "misconceptionId": "misc_fracao_incompleta_sem_numerador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta deve mostrar frações entre 0 e 1. Use 4 partes iguais."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Conte as marcas: 0, 1/4, 2/4 (ou 1/2), 3/4, 1. Escolha a quarta marca."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O numerador é o número de partes que Alisha jogou: 3."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "O denominador é o total de partes da temporada: 4."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Verifique se numerador e denominador estão preenchidos antes de confirmar."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_set_numberline_scale\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para ir de 0 a 1, ajustando o número de partes para 4\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_identify_fraction_on_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente a 3/4 na reta numérica\",\n      \"result\": \"3/4\"\n    },\n    {\n      \"kc\": \"kc_set_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração representada\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_set_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador da fração representada\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_confirm_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Confirma a fração escrita\",\n      \"result\": \"3/4\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Clica em 'Concluído' para finalizar\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inverte_numerador_denominador_na_escala\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4/3\",\n      \"buggyRule\": \"Inverte numerador e denominador da fração do enunciado (3/4 → 4/3) e tenta localizá-la na reta, mas como está fora de [0,1], pode não ser selecionável; porém, se o aluno força entrada manual em componente de resposta vinculado à reta, registra '4/3'\",\n      \"description\": \"O aluno confunde qual é o numerador e qual é o denominador da fração dada.\",\n      \"feedback\": \"A fração é 3/4: 3 partes de um total de 4. O numerador vem antes da barra.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_usa_inteiro_da_escala_como_resposta\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Vê o rótulo '1' no extremo direito da reta e assume que é a resposta, ignorando a fração pedida\",\n      \"description\": \"O aluno responde com o inteiro visível na reta em vez da fração solicitada.\",\n      \"feedback\": \"A reta vai até 1, mas Alisha jogou apenas uma parte da temporada — menos que o todo.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_anterior\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/2\",\n      \"buggyRule\": \"Clica na marca imediatamente antes de 3/4 na reta com 4 divisões; os valores são [0, 1/4, 1/2, 3/4, 1], então a vizinha anterior é 1/2\",\n      \"description\": \"O aluno quase acerta, mas escolhe a marca anterior à correta.\",\n      \"feedback\": \"Veja: entre 1/2 e 1 há duas marcas. A segunda delas é 3/4.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_posterior\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Clica na marca imediatamente depois de 3/4 na reta com 4 divisões; a próxima marca após 3/4 é 1\",\n      \"description\": \"O aluno ultrapassa ligeiramente a marca correta.\",\n      \"feedback\": \"3/4 está antes do fim da temporada (que é 1). Você marcou o final completo.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inverte_numerador_denominador_na_digitacao\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"Inverte 3/4 e digita o novo numerador (originalmente denominador) no campo F1\",\n      \"description\": \"O aluno troca numerador e denominador ao digitar.\",\n      \"feedback\": \"Lembre-se: o número de cima é quantas partes ela jogou (3), não o total (4).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_usa_contagem_de_marcas_como_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Conta todas as marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e digita esse número no numerador\",\n      \"description\": \"O aluno usa a contagem de marcas como valor do numerador.\",\n      \"feedback\": \"As marcas ajudam a ver as frações, mas o numerador é quantas partes do total ela completou: 3.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_usa_numero_de_divisoes_como_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"Vê que há 4 divisões na unidade e corretamente usa 4 como denominador — este é o valor correto, mas listamos aqui para contrastar com erros reais; porém, como é correto, NÃO é um erro. Então substituímos por um erro plausível: usar o número total de marcas (5) como denominador.\",\n      \"description\": \"Correção: este buggyRule foi mal formulado. Refazemos:\",\n      \"feedback\": \"Ignorado — substituído abaixo.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_usa_total_marcas_como_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Conta as 5 marcas na reta (0 a 1 inclusive) e usa esse número como denominador\",\n      \"description\": \"O aluno confunde número de marcas com número de partes iguais.\",\n      \"feedback\": \"A unidade foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1).\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inverte_numerador_denominador_no_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Inverte 3/4 e digita o novo denominador (originalmente numerador) no campo denom\",\n      \"description\": \"O aluno troca numerador e denominador ao preencher o denominador.\",\n      \"feedback\": \"O denominador é o total de partes da temporada: 4, não 3.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fracao_incompleta_sem_denominador\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/-\",\n      \"buggyRule\": \"Preencheu F1=3 mas deixou denom vazio ou inválido; ao confirmar, a interface renderiza '3/-'\",\n      \"description\": \"O aluno esquece de preencher o denominador.\",\n      \"feedback\": \"Você precisa informar em quantas partes o todo foi dividido — o denominador.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_fracao_incompleta_sem_numerador\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"-/4\",\n      \"buggyRule\": \"Preencheu denom=4 mas deixou F1 vazio; ao confirmar, a interface renderiza '-/4'\",\n      \"description\": \"O aluno esquece de preencher o numerador.\",\n      \"feedback\": \"Quantas partes Alisha jogou? Isso vai no numerador.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta deve mostrar frações entre 0 e 1. Use 4 partes iguais.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Conte as marcas: 0, 1/4, 2/4 (ou 1/2), 3/4, 1. Escolha a quarta marca.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"O numerador é o número de partes que Alisha jogou: 3.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"O denominador é o total de partes da temporada: 4.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Verifique se numerador e denominador estão preenchidos antes de confirmar.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_set_numberline_scale",
+     "selection": "numline",
+     "action": "Configura a reta numérica para ir de 0 a 1, ajustando o número de partes para 4",
+     "result": "1"
+    },
+    {
+     "kc": "kc_identify_fraction_on_numberline",
+     "selection": "numline",
+     "action": "Clica na marca correspondente a 3/4 na reta numérica",
+     "result": "3/4"
+    },
+    {
+     "kc": "kc_set_numerator",
+     "selection": "F1",
+     "action": "Digita o numerador da fração representada",
+     "result": "3"
+    },
+    {
+     "kc": "kc_set_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador da fração representada",
+     "result": "4"
+    },
+    {
+     "kc": "kc_confirm_fraction",
+     "selection": "writeFractionStep",
+     "action": "Confirma a fração escrita",
+     "result": "3/4"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Clica em 'Concluído' para finalizar",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inverte_numerador_denominador_na_escala",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "4/3",
+     "buggyRule": "Inverte numerador e denominador da fração do enunciado (3/4 → 4/3) e tenta localizá-la na reta, mas como está fora de [0,1], pode não ser selecionável; porém, se o aluno força entrada manual em componente de resposta vinculado à reta, registra '4/3'",
+     "description": "O aluno confunde qual é o numerador e qual é o denominador da fração dada.",
+     "feedback": "A fração é 3/4: 3 partes de um total de 4. O numerador vem antes da barra."
+    },
+    {
+     "step": 1,
+     "id": "misc_usa_inteiro_da_escala_como_resposta",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Vê o rótulo '1' no extremo direito da reta e assume que é a resposta, ignorando a fração pedida",
+     "description": "O aluno responde com o inteiro visível na reta em vez da fração solicitada.",
+     "feedback": "A reta vai até 1, mas Alisha jogou apenas uma parte da temporada — menos que o todo."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_anterior",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/2",
+     "buggyRule": "Clica na marca imediatamente antes de 3/4 na reta com 4 divisões; os valores são [0, 1/4, 1/2, 3/4, 1], então a vizinha anterior é 1/2",
+     "description": "O aluno quase acerta, mas escolhe a marca anterior à correta.",
+     "feedback": "Veja: entre 1/2 e 1 há duas marcas. A segunda delas é 3/4."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_posterior",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "Clica na marca imediatamente depois de 3/4 na reta com 4 divisões; a próxima marca após 3/4 é 1",
+     "description": "O aluno ultrapassa ligeiramente a marca correta.",
+     "feedback": "3/4 está antes do fim da temporada (que é 1). Você marcou o final completo."
+    },
+    {
+     "step": 3,
+     "id": "misc_inverte_numerador_denominador_na_digitacao",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "Inverte 3/4 e digita o novo numerador (originalmente denominador) no campo F1",
+     "description": "O aluno troca numerador e denominador ao digitar.",
+     "feedback": "Lembre-se: o número de cima é quantas partes ela jogou (3), não o total (4)."
+    },
+    {
+     "step": 3,
+     "id": "misc_usa_contagem_de_marcas_como_numerador",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Conta todas as marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e digita esse número no numerador",
+     "description": "O aluno usa a contagem de marcas como valor do numerador.",
+     "feedback": "As marcas ajudam a ver as frações, mas o numerador é quantas partes do total ela completou: 3."
+    },
+    {
+     "step": 4,
+     "id": "misc_usa_numero_de_divisoes_como_denominador",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "4",
+     "buggyRule": "Vê que há 4 divisões na unidade e corretamente usa 4 como denominador — este é o valor correto, mas listamos aqui para contrastar com erros reais; porém, como é correto, NÃO é um erro. Então substituímos por um erro plausível: usar o número total de marcas (5) como denominador.",
+     "description": "Correção: este buggyRule foi mal formulado. Refazemos:",
+     "feedback": "Ignorado — substituído abaixo."
+    },
+    {
+     "step": 4,
+     "id": "misc_usa_total_marcas_como_denominador",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Conta as 5 marcas na reta (0 a 1 inclusive) e usa esse número como denominador",
+     "description": "O aluno confunde número de marcas com número de partes iguais.",
+     "feedback": "A unidade foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1)."
+    },
+    {
+     "step": 4,
+     "id": "misc_inverte_numerador_denominador_no_denominador",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "Inverte 3/4 e digita o novo denominador (originalmente numerador) no campo denom",
+     "description": "O aluno troca numerador e denominador ao preencher o denominador.",
+     "feedback": "O denominador é o total de partes da temporada: 4, não 3."
+    },
+    {
+     "step": 5,
+     "id": "misc_fracao_incompleta_sem_denominador",
+     "selection": "writeFractionStep",
+     "type": "procedural",
+     "wrongAnswer": "3/-",
+     "buggyRule": "Preencheu F1=3 mas deixou denom vazio ou inválido; ao confirmar, a interface renderiza '3/-'",
+     "description": "O aluno esquece de preencher o denominador.",
+     "feedback": "Você precisa informar em quantas partes o todo foi dividido — o denominador."
+    },
+    {
+     "step": 5,
+     "id": "misc_fracao_incompleta_sem_numerador",
+     "selection": "writeFractionStep",
+     "type": "procedural",
+     "wrongAnswer": "-/4",
+     "buggyRule": "Preencheu denom=4 mas deixou F1 vazio; ao confirmar, a interface renderiza '-/4'",
+     "description": "O aluno esquece de preencher o numerador.",
+     "feedback": "Quantas partes Alisha jogou? Isso vai no numerador."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta deve mostrar frações entre 0 e 1. Use 4 partes iguais."
+    },
+    {
+     "step": 2,
+     "text": "Conte as marcas: 0, 1/4, 2/4 (ou 1/2), 3/4, 1. Escolha a quarta marca."
+    },
+    {
+     "step": 3,
+     "text": "O numerador é o número de partes que Alisha jogou: 3."
+    },
+    {
+     "step": 4,
+     "text": "O denominador é o total de partes da temporada: 4."
+    },
+    {
+     "step": 5,
+     "text": "Verifique se numerador e denominador estão preenchidos antes de confirmar."
+    }
+   ]
+  }
+ }
+}

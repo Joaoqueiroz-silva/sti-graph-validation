@@ -1,32 +1,14 @@
 /**
- * step-error-catalog.js — a RÉGUA de ids de misconception da PR #27 (excerto).
+ * step-error-catalog.js — reexport da raiz (port 2026-08,
+ * docs/PLANO-PORT-AGENTES-2026-08.md §3: "mover para diagnostics/ e deixar um
+ * reexport na raiz").
  *
- * 2026-07-19 (Campanha 5, adaptação standalone): no monorepo EducaOFF a fonte
- * única destas constantes é `backend/agents/diagnostics/step-error-catalog.js`
- * (módulo puro, spec docs/DIAGNOSTICO-AUTOSSUFICIENTE-2026-07-18.md §1). O
- * módulo completo puxa `behavior-graph-semantics.js` e `lib/text-normalize.js`,
- * que não existem neste pacote de reprodução — por isso este arquivo carrega
- * APENAS o que a avaliação usa (mesma estratégia do `misconceptions-db.js`
- * local): a gramática de id e os prefixos genéricos reservados, copiados
- * byte a byte do original. Se a régua mudar lá, este excerto deve mudar junto
- * — o teste simulate-sem-teto.test.mjs trava os valores.
- *
- * A régua é INTOCÁVEL: distrator sintético/genérico NUNCA conta como
- * diagnóstico específico.
+ * Até o port, este arquivo era um EXCERTO (só a gramática de id e os prefixos
+ * genéricos). Agora o módulo COMPLETO de produção — byte a byte igual a
+ * `sti-unplugged:backend/agents/diagnostics/step-error-catalog.js` — vive em
+ * producao/agents/diagnostics/, e diagnostics/step-error-catalog.js é o
+ * destino declarado no plano. Os símbolos do excerto (GENERIC_MISC_ID_RE,
+ * MISC_ID_GRAMMAR_RE, isSpecificMisconceptionId) continuam exportados com os
+ * MESMOS valores — a régua é intocável.
  */
-
-// Prefixos reservados que a PR #27 conta como genéricos — NUNCA usar em id específico.
-export const GENERIC_MISC_ID_RE = /^misc_(generic|unclassified|numeric_near|text_confusion)(_|$)/;
-export const MISC_ID_GRAMMAR_RE = /^[A-Za-z0-9_.:-]+$/;
-
-const str = (value) => String(value ?? "").trim();
-
-/** id específico bem-formado: gramática ok E fora dos prefixos genéricos reservados. */
-export function isSpecificMisconceptionId(id) {
-  const candidate = str(id);
-  return (
-    candidate.length > 0 &&
-    MISC_ID_GRAMMAR_RE.test(candidate) &&
-    !GENERIC_MISC_ID_RE.test(candidate)
-  );
-}
+export * from "./diagnostics/step-error-catalog.js";

@@ -1,0 +1,436 @@
+{
+ "id": "13cleanRoom",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.522,
+ "conceptual": 0.571,
+ "precision": 0.5,
+ "recall": 0.545,
+ "functionalAgreement": 0.444,
+ "functionalKappa": 0.196,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "8",
+  "4/5",
+  "3/2",
+  "1/4",
+  "done"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "5",
+  "4",
+  "5",
+  "8",
+  "1",
+  "4/5",
+  "1",
+  "3/2",
+  "1/4",
+  "4",
+  "5",
+  "done",
+  "done"
+ ],
+ "exercicio": "13cleanRoom",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:29:25.837Z",
+ "promptSha256": "2269c57bbe918840f21892760940cf1f357258c1adda1c2b7553a14271da2324",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1666,
+  "tokensSaida": 11060,
+  "usd": 0.102039
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura o limite máximo da reta numérica para o maior inteiro visível",
+    "kc": "kc_set_scale_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "Configura o número de divisões por unidade na reta numérica",
+    "kc": "kc_set_denominador"
+   },
+   {
+    "indice": 3,
+    "acao": "Marca a fração de 5/4 na reta numérica",
+    "kc": "kc_plot_point"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica no botão Done para finalizar o exercício",
+    "kc": "kc_finalize"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se de que Chris levou 5/4 horas para arrumar o quarto. Como 5/4 é maior que 1, a reta precisa ir além de 1. Tente ajustar o limite máximo para 2.",
+    "buggyRule": "definir o limite máximo da reta como 1, assumindo erroneamente que a reta representa apenas uma unidade inteira",
+    "misconceptionId": "err_scale_limit_one"
+   },
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O numerador nos diz quantas partes temos, mas não define o limite da reta inteira. Queremos representar 5/4 horas. Qual é o menor número inteiro maior que 5/4 que podemos usar como limite?",
+    "buggyRule": "usar o numerador da fração dada no problema (5) como o limite máximo da reta",
+    "misconceptionId": "err_scale_limit_numerator"
+   },
+   {
+    "valor": "4",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O denominador 4 indica em quantas partes cada unidade deve ser dividida, não o limite máximo da reta. Ajuste o limite máximo para um inteiro adequado, como 2.",
+    "buggyRule": "usar o denominador da fração dada no problema (4) como o limite máximo da reta",
+    "misconceptionId": "err_scale_limit_denominator"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O número de partes em que dividimos cada inteiro é determinado pelo denominador da fração. Olhe para a fração 5/4. Qual é o denominador?",
+    "buggyRule": "digitar o numerador da fração (5) no campo de número de partes por unidade (denom)",
+    "misconceptionId": "err_parts_as_numerator"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O campo pede o número de partes por inteiro (unidade), não o total de divisões na reta inteira. Como estamos trabalhando com quartos (5/4), em quantas partes cada inteiro deve ser dividido?",
+    "buggyRule": "multiplicar o limite da reta (2) pelo denominador (4) para obter o total de divisões (8) e digitar no campo denom",
+    "misconceptionId": "err_parts_as_total_divisions"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Para marcar 5/4, você precisa dividir a reta em partes iguais. Altere o número de partes por inteiro para corresponder ao denominador da fração.",
+    "buggyRule": "manter o valor padrão do stepper de partes como 1, sem dividir a reta",
+    "misconceptionId": "err_parts_unchanged_one"
+   },
+   {
+    "valor": "4/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você está tentando marcar 4/5, mas Chris levou 5/4 horas. Lembre-se de que 5/4 significa 5 partes de tamanho 1/4. Conte 5 marcas de 1/4 a partir do zero.",
+    "buggyRule": "inverter o numerador e o denominador da fração 5/4, resultando em 4/5, e tentar marcar esse valor na reta",
+    "misconceptionId": "err_plot_inverted_fraction"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você marcou 1 inteiro (ou 4/4). Conte mais uma marca de 1/4 para chegar a 5/4.",
+    "buggyRule": "clicar na marca imediatamente anterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 1 (ou 4/4)",
+    "misconceptionId": "err_plot_neighbor_before"
+   },
+   {
+    "valor": "3/2",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você marcou 6/4 (ou 3/2). Isso é uma marca a mais do que o necessário. Volte uma marca para trás para encontrar 5/4.",
+    "buggyRule": "clicar na marca imediatamente posterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 6/4 (ou 3/2)",
+    "misconceptionId": "err_plot_neighbor_after"
+   },
+   {
+    "valor": "1/4",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Chris levou 1 hora E 15 minutos (ou 5/4 horas). Você marcou apenas 1/4 de hora. Lembre-se de somar a hora inteira ao seu ponto!",
+    "buggyRule": "marcar apenas a parte fracionária de 15 minutos (1/4 de hora), ignorando a parte inteira de 1 hora",
+    "misconceptionId": "err_plot_fractional_part_only"
+   },
+   {
+    "valor": "4",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "No campo do numerador (superior), você deve colocar quantas partes foram consideradas. Para 5/4, o numerador é 5.",
+    "buggyRule": "digitar o denominador (4) no campo do numerador da fração (F1) devido à inversão conceitual",
+    "misconceptionId": "err_fraction_numerator_inverted"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "No campo do denominador (inferior), você deve colocar em quantas partes a unidade foi dividida. Para 5/4, o denominador é 4.",
+    "buggyRule": "digitar o numerador (5) no campo do denominador da fração (F2) devido à inversão conceitual",
+    "misconceptionId": "err_fraction_denominator_inverted"
+   },
+   {
+    "valor": "done",
+    "passo": 4,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Você ainda não marcou a posição de 5/4 na reta numérica. Clique na reta para colocar o ponto antes de finalizar.",
+    "buggyRule": "clicar no botão done sem ter selecionado nenhuma marca na reta numérica",
+    "misconceptionId": "err_done_without_plotting"
+   },
+   {
+    "valor": "done",
+    "passo": 4,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Sua reta numérica ainda não está dividida corretamente. Configure o número de partes por inteiro como 4 antes de marcar o ponto.",
+    "buggyRule": "clicar no botão done sem alterar a divisão da reta numérica do valor padrão de 1",
+    "misconceptionId": "err_done_without_configuring"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Primeiro, olhe para o limite da reta numérica. Precisamos representar 5/4 horas. Como 5/4 é maior que 1, defina o limite máximo da reta para 2."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Agora, configure as divisões da reta. O denominador da nossa fração é 4, então mude o número de partes ('Number of parts') para 4 para dividir cada inteiro em quartos."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Com a reta dividida em quartos, conte 5 marcas a partir do zero (0, 1/4, 2/4, 3/4, 4/4, 5/4) e clique na reta para marcar o ponto."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Excelente! Agora que o ponto 5/4 está marcado na reta numérica, clique em 'Done' para enviar sua resposta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"step\": 1,\n      \"kc\": \"kc_set_scale_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura o limite máximo da reta numérica para o maior inteiro visível\",\n      \"result\": \"2\"\n    },\n    {\n      \"step\": 2,\n      \"kc\": \"kc_set_denominador\",\n      \"selection\": \"denom\",\n      \"action\": \"Configura o número de divisões por unidade na reta numérica\",\n      \"result\": \"4\"\n    },\n    {\n      \"step\": 3,\n      \"kc\": \"kc_plot_point\",\n      \"selection\": \"numline\",\n      \"action\": \"Marca a fração de 5/4 na reta numérica\",\n      \"result\": \"5/4\"\n    },\n    {\n      \"step\": 4,\n      \"kc\": \"kc_finalize\",\n      \"selection\": \"done\",\n      \"action\": \"Clica no botão Done para finalizar o exercício\",\n      \"result\": \"done\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"err_scale_limit_one\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"definir o limite máximo da reta como 1, assumindo erroneamente que a reta representa apenas uma unidade inteira\",\n      \"description\": \"O aluno assume que a reta numérica só pode ir até 1 inteiro, o que o impede de representar frações maiores que uma unidade, como 5/4.\",\n      \"feedback\": \"Lembre-se de que Chris levou 5/4 horas para arrumar o quarto. Como 5/4 é maior que 1, a reta precisa ir além de 1. Tente ajustar o limite máximo para 2.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"err_scale_limit_numerator\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar o numerador da fração dada no problema (5) como o limite máximo da reta\",\n      \"description\": \"O aluno confunde o valor do limite máximo da reta com o numerador da fração que ele precisa representar.\",\n      \"feedback\": \"O numerador nos diz quantas partes temos, mas não define o limite da reta inteira. Queremos representar 5/4 horas. Qual é o menor número inteiro maior que 5/4 que podemos usar como limite?\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"err_scale_limit_denominator\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"usar o denominador da fração dada no problema (4) como o limite máximo da reta\",\n      \"description\": \"O aluno confunde o limite máximo da reta com o denominador da fração (4).\",\n      \"feedback\": \"O denominador 4 indica em quantas partes cada unidade deve ser dividida, não o limite máximo da reta. Ajuste o limite máximo para um inteiro adequado, como 2.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_parts_as_numerator\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"digitar o numerador da fração (5) no campo de número de partes por unidade (denom)\",\n      \"description\": \"O aluno confunde o número de divisões necessárias por unidade com o numerador da fração desejada.\",\n      \"feedback\": \"O número de partes em que dividimos cada inteiro é determinado pelo denominador da fração. Olhe para a fração 5/4. Qual é o denominador?\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_parts_as_total_divisions\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"multiplicar o limite da reta (2) pelo denominador (4) para obter o total de divisões (8) e digitar no campo denom\",\n      \"description\": \"O aluno calcula o número total de divisões da reta inteira (8) em vez de definir o número de divisões por unidade inteira.\",\n      \"feedback\": \"O campo pede o número de partes por inteiro (unidade), não o total de divisões na reta inteira. Como estamos trabalhando com quartos (5/4), em quantas partes cada inteiro deve ser dividido?\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_parts_unchanged_one\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"manter o valor padrão do stepper de partes como 1, sem dividir a reta\",\n      \"description\": \"O aluno esquece de configurar o denominador e tenta usar a reta sem divisões fracionárias.\",\n      \"feedback\": \"Para marcar 5/4, você precisa dividir a reta em partes iguais. Altere o número de partes por inteiro para corresponder ao denominador da fração.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_inverted_fraction\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4/5\",\n      \"buggyRule\": \"inverter o numerador e o denominador da fração 5/4, resultando em 4/5, e tentar marcar esse valor na reta\",\n      \"description\": \"O aluno inverte a fração conceitualmente, tentando representar 4/5 em vez de 5/4.\",\n      \"feedback\": \"Você está tentando marcar 4/5, mas Chris levou 5/4 horas. Lembre-se de que 5/4 significa 5 partes de tamanho 1/4. Conte 5 marcas de 1/4 a partir do zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_neighbor_before\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 1 (ou 4/4)\",\n      \"description\": \"O aluno erra a mira ou a contagem por uma marca para trás, selecionando 1 (4/4) em vez de 5/4.\",\n      \"feedback\": \"Você marcou 1 inteiro (ou 4/4). Conte mais uma marca de 1/4 para chegar a 5/4.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_neighbor_after\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"3/2\",\n      \"buggyRule\": \"clicar na marca imediatamente posterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 6/4 (ou 3/2)\",\n      \"description\": \"O aluno erra a mira ou a contagem por uma marca para frente, selecionando 6/4 (3/2) em vez de 5/4.\",\n      \"feedback\": \"Você marcou 6/4 (ou 3/2). Isso é uma marca a mais do que o necessário. Volte uma marca para trás para encontrar 5/4.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_fractional_part_only\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1/4\",\n      \"buggyRule\": \"marcar apenas a parte fracionária de 15 minutos (1/4 de hora), ignorando a parte inteira de 1 hora\",\n      \"description\": \"O aluno foca apenas nos '15 minutos' (1/4 de hora) e esquece de incluir a 1 hora inteira que Chris também levou.\",\n      \"feedback\": \"Chris levou 1 hora E 15 minutos (ou 5/4 horas). Você marcou apenas 1/4 de hora. Lembre-se de somar a hora inteira ao seu ponto!\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_fraction_numerator_inverted\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"digitar o denominador (4) no campo do numerador da fração (F1) devido à inversão conceitual\",\n      \"description\": \"O aluno tenta preencher a fração na interface mas inverte os campos, colocando o denominador no lugar do numerador.\",\n      \"feedback\": \"No campo do numerador (superior), você deve colocar quantas partes foram consideradas. Para 5/4, o numerador é 5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_fraction_denominator_inverted\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"digitar o numerador (5) no campo do denominador da fração (F2) devido à inversão conceitual\",\n      \"description\": \"O aluno tenta preencher a fração na interface mas inverte os campos, colocando o numerador no lugar do denominador.\",\n      \"feedback\": \"No campo do denominador (inferior), você deve colocar em quantas partes a unidade foi dividida. Para 5/4, o denominador é 4.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"err_done_without_plotting\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"done\",\n      \"buggyRule\": \"clicar no botão done sem ter selecionado nenhuma marca na reta numérica\",\n      \"description\": \"O aluno tenta finalizar o exercício sem interagir com a reta numérica para marcar o ponto.\",\n      \"feedback\": \"Você ainda não marcou a posição de 5/4 na reta numérica. Clique na reta para colocar o ponto antes de finalizar.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"err_done_without_configuring\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"done\",\n      \"buggyRule\": \"clicar no botão done sem alterar a divisão da reta numérica do valor padrão de 1\",\n      \"description\": \"O aluno tenta finalizar o exercício sem ajustar o número de partes por inteiro na reta.\",\n      \"feedback\": \"Sua reta numérica ainda não está dividida corretamente. Configure o número de partes por inteiro como 4 antes de marcar o ponto.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"Primeiro, olhe para o limite da reta numérica. Precisamos representar 5/4 horas. Como 5/4 é maior que 1, defina o limite máximo da reta para 2.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Agora, configure as divisões da reta. O denominador da nossa fração é 4, então mude o número de partes ('Number of parts') para 4 para dividir cada inteiro em quartos.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Com a reta dividida em quartos, conte 5 marcas a partir do zero (0, 1/4, 2/4, 3/4, 4/4, 5/4) e clique na reta para marcar o ponto.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Excelente! Agora que o ponto 5/4 está marcado na reta numérica, clique em 'Done' para enviar sua resposta.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "step": 1,
+     "kc": "kc_set_scale_limit",
+     "selection": "numline",
+     "action": "Configura o limite máximo da reta numérica para o maior inteiro visível",
+     "result": "2"
+    },
+    {
+     "step": 2,
+     "kc": "kc_set_denominador",
+     "selection": "denom",
+     "action": "Configura o número de divisões por unidade na reta numérica",
+     "result": "4"
+    },
+    {
+     "step": 3,
+     "kc": "kc_plot_point",
+     "selection": "numline",
+     "action": "Marca a fração de 5/4 na reta numérica",
+     "result": "5/4"
+    },
+    {
+     "step": 4,
+     "kc": "kc_finalize",
+     "selection": "done",
+     "action": "Clica no botão Done para finalizar o exercício",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "err_scale_limit_one",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "definir o limite máximo da reta como 1, assumindo erroneamente que a reta representa apenas uma unidade inteira",
+     "description": "O aluno assume que a reta numérica só pode ir até 1 inteiro, o que o impede de representar frações maiores que uma unidade, como 5/4.",
+     "feedback": "Lembre-se de que Chris levou 5/4 horas para arrumar o quarto. Como 5/4 é maior que 1, a reta precisa ir além de 1. Tente ajustar o limite máximo para 2."
+    },
+    {
+     "step": 1,
+     "id": "err_scale_limit_numerator",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "usar o numerador da fração dada no problema (5) como o limite máximo da reta",
+     "description": "O aluno confunde o valor do limite máximo da reta com o numerador da fração que ele precisa representar.",
+     "feedback": "O numerador nos diz quantas partes temos, mas não define o limite da reta inteira. Queremos representar 5/4 horas. Qual é o menor número inteiro maior que 5/4 que podemos usar como limite?"
+    },
+    {
+     "step": 1,
+     "id": "err_scale_limit_denominator",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "usar o denominador da fração dada no problema (4) como o limite máximo da reta",
+     "description": "O aluno confunde o limite máximo da reta com o denominador da fração (4).",
+     "feedback": "O denominador 4 indica em quantas partes cada unidade deve ser dividida, não o limite máximo da reta. Ajuste o limite máximo para um inteiro adequado, como 2."
+    },
+    {
+     "step": 2,
+     "id": "err_parts_as_numerator",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "digitar o numerador da fração (5) no campo de número de partes por unidade (denom)",
+     "description": "O aluno confunde o número de divisões necessárias por unidade com o numerador da fração desejada.",
+     "feedback": "O número de partes em que dividimos cada inteiro é determinado pelo denominador da fração. Olhe para a fração 5/4. Qual é o denominador?"
+    },
+    {
+     "step": 2,
+     "id": "err_parts_as_total_divisions",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "8",
+     "buggyRule": "multiplicar o limite da reta (2) pelo denominador (4) para obter o total de divisões (8) e digitar no campo denom",
+     "description": "O aluno calcula o número total de divisões da reta inteira (8) em vez de definir o número de divisões por unidade inteira.",
+     "feedback": "O campo pede o número de partes por inteiro (unidade), não o total de divisões na reta inteira. Como estamos trabalhando com quartos (5/4), em quantas partes cada inteiro deve ser dividido?"
+    },
+    {
+     "step": 2,
+     "id": "err_parts_unchanged_one",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "manter o valor padrão do stepper de partes como 1, sem dividir a reta",
+     "description": "O aluno esquece de configurar o denominador e tenta usar a reta sem divisões fracionárias.",
+     "feedback": "Para marcar 5/4, você precisa dividir a reta em partes iguais. Altere o número de partes por inteiro para corresponder ao denominador da fração."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_inverted_fraction",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "4/5",
+     "buggyRule": "inverter o numerador e o denominador da fração 5/4, resultando em 4/5, e tentar marcar esse valor na reta",
+     "description": "O aluno inverte a fração conceitualmente, tentando representar 4/5 em vez de 5/4.",
+     "feedback": "Você está tentando marcar 4/5, mas Chris levou 5/4 horas. Lembre-se de que 5/4 significa 5 partes de tamanho 1/4. Conte 5 marcas de 1/4 a partir do zero."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_neighbor_before",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "clicar na marca imediatamente anterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 1 (ou 4/4)",
+     "description": "O aluno erra a mira ou a contagem por uma marca para trás, selecionando 1 (4/4) em vez de 5/4.",
+     "feedback": "Você marcou 1 inteiro (ou 4/4). Conte mais uma marca de 1/4 para chegar a 5/4."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_neighbor_after",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "3/2",
+     "buggyRule": "clicar na marca imediatamente posterior ao alvo 5/4 na reta dividida em quartos, que corresponde a 6/4 (ou 3/2)",
+     "description": "O aluno erra a mira ou a contagem por uma marca para frente, selecionando 6/4 (3/2) em vez de 5/4.",
+     "feedback": "Você marcou 6/4 (ou 3/2). Isso é uma marca a mais do que o necessário. Volte uma marca para trás para encontrar 5/4."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_fractional_part_only",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1/4",
+     "buggyRule": "marcar apenas a parte fracionária de 15 minutos (1/4 de hora), ignorando a parte inteira de 1 hora",
+     "description": "O aluno foca apenas nos '15 minutos' (1/4 de hora) e esquece de incluir a 1 hora inteira que Chris também levou.",
+     "feedback": "Chris levou 1 hora E 15 minutos (ou 5/4 horas). Você marcou apenas 1/4 de hora. Lembre-se de somar a hora inteira ao seu ponto!"
+    },
+    {
+     "step": 3,
+     "id": "err_fraction_numerator_inverted",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "digitar o denominador (4) no campo do numerador da fração (F1) devido à inversão conceitual",
+     "description": "O aluno tenta preencher a fração na interface mas inverte os campos, colocando o denominador no lugar do numerador.",
+     "feedback": "No campo do numerador (superior), você deve colocar quantas partes foram consideradas. Para 5/4, o numerador é 5."
+    },
+    {
+     "step": 3,
+     "id": "err_fraction_denominator_inverted",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "digitar o numerador (5) no campo do denominador da fração (F2) devido à inversão conceitual",
+     "description": "O aluno tenta preencher a fração na interface mas inverte os campos, colocando o numerador no lugar do denominador.",
+     "feedback": "No campo do denominador (inferior), você deve colocar em quantas partes a unidade foi dividida. Para 5/4, o denominador é 4."
+    },
+    {
+     "step": 4,
+     "id": "err_done_without_plotting",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "done",
+     "buggyRule": "clicar no botão done sem ter selecionado nenhuma marca na reta numérica",
+     "description": "O aluno tenta finalizar o exercício sem interagir com a reta numérica para marcar o ponto.",
+     "feedback": "Você ainda não marcou a posição de 5/4 na reta numérica. Clique na reta para colocar o ponto antes de finalizar."
+    },
+    {
+     "step": 4,
+     "id": "err_done_without_configuring",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "done",
+     "buggyRule": "clicar no botão done sem alterar a divisão da reta numérica do valor padrão de 1",
+     "description": "O aluno tenta finalizar o exercício sem ajustar o número de partes por inteiro na reta.",
+     "feedback": "Sua reta numérica ainda não está dividida corretamente. Configure o número de partes por inteiro como 4 antes de marcar o ponto."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Primeiro, olhe para o limite da reta numérica. Precisamos representar 5/4 horas. Como 5/4 é maior que 1, defina o limite máximo da reta para 2."
+    },
+    {
+     "step": 2,
+     "text": "Agora, configure as divisões da reta. O denominador da nossa fração é 4, então mude o número de partes ('Number of parts') para 4 para dividir cada inteiro em quartos."
+    },
+    {
+     "step": 3,
+     "text": "Com a reta dividida em quartos, conte 5 marcas a partir do zero (0, 1/4, 2/4, 3/4, 4/4, 5/4) e clique na reta para marcar o ponto."
+    },
+    {
+     "step": 4,
+     "text": "Excelente! Agora que o ponto 5/4 está marcado na reta numérica, clique em 'Done' para enviar sua resposta."
+    }
+   ]
+  }
+ }
+}

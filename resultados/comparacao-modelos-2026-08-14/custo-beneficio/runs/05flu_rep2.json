@@ -1,0 +1,253 @@
+{
+ "id": "05flu",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.5,
+ "conceptual": 0.556,
+ "precision": 0.556,
+ "recall": 0.455,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0.067,
+ "missing": [
+  "-1",
+  "3",
+  "-"
+ ],
+ "extra": [
+  "6",
+  "7",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "6",
+  "2/5",
+  "5",
+  "7",
+  "1"
+ ],
+ "exercicio": "05flu",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:03:44.612Z",
+ "promptSha256": "9ff6a8e67e9900aca40f19a38abb3bbf8c153b1015c10f57ee70ffd6168cd14c",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1677,
+  "tokensSaida": 827,
+  "usd": 0.0016597500000000002
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "configurar o número de partes da reta",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "selecionar a marca correspondente a 3/5 na reta",
+    "kc": "mark_numline"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar o numerador da fração",
+    "kc": "write_numerator"
+   },
+   {
+    "indice": 4,
+    "acao": "digitar o denominador da fração",
+    "kc": "write_denominator"
+   },
+   {
+    "indice": 5,
+    "acao": "clicar no botão para finalizar",
+    "kc": "submit_solution"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se que o denominador indica o número de partes em que o inteiro foi dividido, não o número de riscos desenhados.",
+    "buggyRule": "contar o número de marcas verticais em vez do número de intervalos (divisões) entre 0 e 1",
+    "misconceptionId": "misc_erro_contagem_marcas"
+   },
+   {
+    "valor": "2/5",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique a contagem: se Danielle faltou 3 dias de 5, você deve parar na terceira marca após o zero.",
+    "buggyRule": "clicar na marca imediatamente anterior ao valor correto (3/5)",
+    "misconceptionId": "misc_marca_vizinha_antes"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa a parte (dias faltados) e o denominador o todo (total de dias letivos).",
+    "buggyRule": "inverter a fração correta (3/5) para 5/3 e digitar o denominador no campo do numerador",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "7",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O problema pede a fração da semana letiva. Quantos dias compõem essa semana?",
+    "buggyRule": "utilizar o número total de dias da semana (7) em vez dos dias letivos (5) informados no problema",
+    "misconceptionId": "misc_uso_total_dias_como_denominador"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve refletir as 5 divisões da semana letiva.",
+    "buggyRule": "digitar o valor do limite direito da reta (1) no denominador",
+    "misconceptionId": "misc_inteiro_nu_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Quantas partes iguais compõem a semana letiva?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Conte 3 marcas a partir do zero na reta numérica."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O numerador é a quantidade de dias que Danielle ficou em casa."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"configurar o número de partes da reta\", \"result\": \"5\" },\n    { \"kc\": \"mark_numline\", \"selection\": \"numline\", \"action\": \"selecionar a marca correspondente a 3/5 na reta\", \"result\": \"3/5\" },\n    { \"kc\": \"write_numerator\", \"selection\": \"F1\", \"action\": \"digitar o numerador da fração\", \"result\": \"3\" },\n    { \"kc\": \"write_denominator\", \"selection\": \"denom\", \"action\": \"digitar o denominador da fração\", \"result\": \"5\" },\n    { \"kc\": \"submit_solution\", \"selection\": \"done\", \"action\": \"clicar no botão para finalizar\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_erro_contagem_marcas\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"contar o número de marcas verticais em vez do número de intervalos (divisões) entre 0 e 1\",\n      \"description\": \"O aluno confunde o número de divisões com o número de marcas na reta.\",\n      \"feedback\": \"Lembre-se que o denominador indica o número de partes em que o inteiro foi dividido, não o número de riscos desenhados.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_antes\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior ao valor correto (3/5)\",\n      \"description\": \"O aluno seleciona a marca vizinha à esquerda do alvo.\",\n      \"feedback\": \"Verifique a contagem: se Danielle faltou 3 dias de 5, você deve parar na terceira marca após o zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversao_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"inverter a fração correta (3/5) para 5/3 e digitar o denominador no campo do numerador\",\n      \"description\": \"O aluno inverte a posição do numerador e do denominador.\",\n      \"feedback\": \"O numerador representa a parte (dias faltados) e o denominador o todo (total de dias letivos).\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_uso_total_dias_como_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"utilizar o número total de dias da semana (7) em vez dos dias letivos (5) informados no problema\",\n      \"description\": \"O aluno utiliza o dado da semana completa em vez da semana letiva.\",\n      \"feedback\": \"O problema pede a fração da semana letiva. Quantos dias compõem essa semana?\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inteiro_nu_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"digitar o valor do limite direito da reta (1) no denominador\",\n      \"description\": \"O aluno confunde o limite da reta com o denominador da fração.\",\n      \"feedback\": \"O denominador deve refletir as 5 divisões da semana letiva.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Quantas partes iguais compõem a semana letiva?\" },\n    { \"step\": 2, \"text\": \"Conte 3 marcas a partir do zero na reta numérica.\" },\n    { \"step\": 3, \"text\": \"O numerador é a quantidade de dias que Danielle ficou em casa.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "configurar o número de partes da reta",
+     "result": "5"
+    },
+    {
+     "kc": "mark_numline",
+     "selection": "numline",
+     "action": "selecionar a marca correspondente a 3/5 na reta",
+     "result": "3/5"
+    },
+    {
+     "kc": "write_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "3"
+    },
+    {
+     "kc": "write_denominator",
+     "selection": "denom",
+     "action": "digitar o denominador da fração",
+     "result": "5"
+    },
+    {
+     "kc": "submit_solution",
+     "selection": "done",
+     "action": "clicar no botão para finalizar",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_erro_contagem_marcas",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "6",
+     "buggyRule": "contar o número de marcas verticais em vez do número de intervalos (divisões) entre 0 e 1",
+     "description": "O aluno confunde o número de divisões com o número de marcas na reta.",
+     "feedback": "Lembre-se que o denominador indica o número de partes em que o inteiro foi dividido, não o número de riscos desenhados."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_antes",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "clicar na marca imediatamente anterior ao valor correto (3/5)",
+     "description": "O aluno seleciona a marca vizinha à esquerda do alvo.",
+     "feedback": "Verifique a contagem: se Danielle faltou 3 dias de 5, você deve parar na terceira marca após o zero."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversao_numerador_denominador",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "inverter a fração correta (3/5) para 5/3 e digitar o denominador no campo do numerador",
+     "description": "O aluno inverte a posição do numerador e do denominador.",
+     "feedback": "O numerador representa a parte (dias faltados) e o denominador o todo (total de dias letivos)."
+    },
+    {
+     "step": 4,
+     "id": "misc_uso_total_dias_como_denominador",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "7",
+     "buggyRule": "utilizar o número total de dias da semana (7) em vez dos dias letivos (5) informados no problema",
+     "description": "O aluno utiliza o dado da semana completa em vez da semana letiva.",
+     "feedback": "O problema pede a fração da semana letiva. Quantos dias compõem essa semana?"
+    },
+    {
+     "step": 4,
+     "id": "misc_inteiro_nu_denominador",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "digitar o valor do limite direito da reta (1) no denominador",
+     "description": "O aluno confunde o limite da reta com o denominador da fração.",
+     "feedback": "O denominador deve refletir as 5 divisões da semana letiva."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Quantas partes iguais compõem a semana letiva?"
+    },
+    {
+     "step": 2,
+     "text": "Conte 3 marcas a partir do zero na reta numérica."
+    },
+    {
+     "step": 3,
+     "text": "O numerador é a quantidade de dias que Danielle ficou em casa."
+    }
+   ]
+  }
+ }
+}

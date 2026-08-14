@@ -1,0 +1,253 @@
+{
+ "id": "03summerBooks",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.5,
+ "conceptual": 0.556,
+ "precision": 0.556,
+ "recall": 0.455,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0.067,
+ "missing": [
+  "-1",
+  "3",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "0",
+  "4"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "2/5",
+  "5",
+  "0",
+  "4"
+ ],
+ "exercicio": "03summerBooks",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:03:26.910Z",
+ "promptSha256": "a91f759f7f2affb744b7c21df7b5991635da3260951744429ced66abc07d7b73",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1675,
+  "tokensSaida": 929,
+  "usd": 0.00181225
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "set number of parts to 5",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "select the 3rd mark",
+    "kc": "select_mark"
+   },
+   {
+    "indice": 3,
+    "acao": "input numerator",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 4,
+    "acao": "input denominator",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 5,
+    "acao": "click done button",
+    "kc": "finalize"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta deve ser dividida em 5 partes iguais para representar os 5 livros.",
+    "buggyRule": "confundir o número total de livros (5) com o valor máximo da escala (1), configurando a reta para 1 parte",
+    "misconceptionId": "misc_set_max_units"
+   },
+   {
+    "valor": "2/5",
+    "passo": 2,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Conte os intervalos a partir do zero até chegar no terceiro livro.",
+    "buggyRule": "selecionar a marca imediatamente anterior à correta (3/5 - 1/5)",
+    "misconceptionId": "misc_neighbor_mark_low"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa a parte lida (3) e o denominador o total (5).",
+    "buggyRule": "inverter a fração correta (3/5) colocando o denominador no lugar do numerador",
+    "misconceptionId": "misc_inversion_fraction"
+   },
+   {
+    "valor": "0",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o número total de livros, que é 5.",
+    "buggyRule": "usar o label inicial da reta numérica (0) como resposta para o denominador",
+    "misconceptionId": "misc_raw_total_denom"
+   },
+   {
+    "valor": "4",
+    "passo": 4,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O total de livros é 5, portanto o denominador é 5.",
+    "buggyRule": "subtrair 1 do denominador real (5-1)",
+    "misconceptionId": "misc_neighbor_denom"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta representa o total de 5 livros; divida-a em 5 partes iguais."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Sally leu 3 livros de um total de 5. Marque o ponto correspondente a 3/5."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O numerador é a quantidade lida e o denominador é o total de livros."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"set number of parts to 5\", \"result\": \"5\" },\n    { \"kc\": \"select_mark\", \"selection\": \"numline\", \"action\": \"select the 3rd mark\", \"result\": \"3/5\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"input numerator\", \"result\": \"3\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"input denominator\", \"result\": \"5\" },\n    { \"kc\": \"finalize\", \"selection\": \"done\", \"action\": \"click done button\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_set_max_units\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"confundir o número total de livros (5) com o valor máximo da escala (1), configurando a reta para 1 parte\",\n      \"description\": \"O aluno define a reta como uma unidade única em vez de 5 partes.\",\n      \"feedback\": \"A reta deve ser dividida em 5 partes iguais para representar os 5 livros.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_neighbor_mark_low\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior à correta (3/5 - 1/5)\",\n      \"description\": \"O aluno conta incorretamente os intervalos na reta numérica.\",\n      \"feedback\": \"Conte os intervalos a partir do zero até chegar no terceiro livro.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inversion_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"inverter a fração correta (3/5) colocando o denominador no lugar do numerador\",\n      \"description\": \"O aluno inverteu a posição do numerador e denominador.\",\n      \"feedback\": \"Lembre-se: o numerador representa a parte lida (3) e o denominador o total (5).\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_raw_total_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"usar o label inicial da reta numérica (0) como resposta para o denominador\",\n      \"description\": \"O aluno confunde os labels da interface com os valores das frações.\",\n      \"feedback\": \"O denominador deve ser o número total de livros, que é 5.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_neighbor_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"subtrair 1 do denominador real (5-1)\",\n      \"description\": \"O aluno conta o número de divisões em vez do número de partes.\",\n      \"feedback\": \"O total de livros é 5, portanto o denominador é 5.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"A reta representa o total de 5 livros; divida-a em 5 partes iguais.\" },\n    { \"step\": 2, \"text\": \"Sally leu 3 livros de um total de 5. Marque o ponto correspondente a 3/5.\" },\n    { \"step\": 3, \"text\": \"O numerador é a quantidade lida e o denominador é o total de livros.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "set number of parts to 5",
+     "result": "5"
+    },
+    {
+     "kc": "select_mark",
+     "selection": "numline",
+     "action": "select the 3rd mark",
+     "result": "3/5"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "input numerator",
+     "result": "3"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "input denominator",
+     "result": "5"
+    },
+    {
+     "kc": "finalize",
+     "selection": "done",
+     "action": "click done button",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_set_max_units",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "confundir o número total de livros (5) com o valor máximo da escala (1), configurando a reta para 1 parte",
+     "description": "O aluno define a reta como uma unidade única em vez de 5 partes.",
+     "feedback": "A reta deve ser dividida em 5 partes iguais para representar os 5 livros."
+    },
+    {
+     "step": 2,
+     "id": "misc_neighbor_mark_low",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "selecionar a marca imediatamente anterior à correta (3/5 - 1/5)",
+     "description": "O aluno conta incorretamente os intervalos na reta numérica.",
+     "feedback": "Conte os intervalos a partir do zero até chegar no terceiro livro."
+    },
+    {
+     "step": 3,
+     "id": "misc_inversion_fraction",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "inverter a fração correta (3/5) colocando o denominador no lugar do numerador",
+     "description": "O aluno inverteu a posição do numerador e denominador.",
+     "feedback": "Lembre-se: o numerador representa a parte lida (3) e o denominador o total (5)."
+    },
+    {
+     "step": 4,
+     "id": "misc_raw_total_denom",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "usar o label inicial da reta numérica (0) como resposta para o denominador",
+     "description": "O aluno confunde os labels da interface com os valores das frações.",
+     "feedback": "O denominador deve ser o número total de livros, que é 5."
+    },
+    {
+     "step": 4,
+     "id": "misc_neighbor_denom",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "4",
+     "buggyRule": "subtrair 1 do denominador real (5-1)",
+     "description": "O aluno conta o número de divisões em vez do número de partes.",
+     "feedback": "O total de livros é 5, portanto o denominador é 5."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta representa o total de 5 livros; divida-a em 5 partes iguais."
+    },
+    {
+     "step": 2,
+     "text": "Sally leu 3 livros de um total de 5. Marque o ponto correspondente a 3/5."
+    },
+    {
+     "step": 3,
+     "text": "O numerador é a quantidade lida e o denominador é o total de livros."
+    }
+   ]
+  }
+ }
+}

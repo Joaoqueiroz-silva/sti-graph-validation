@@ -1,0 +1,589 @@
+{
+ "id": "07pizza",
+ "correctAnswer": "5/8",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.583,
+ "conceptual": 0.636,
+ "precision": 0.538,
+ "recall": 0.636,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.167,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "8/5",
+  "3/4",
+  "0",
+  "1",
+  "9",
+  "5/9"
+ ],
+ "robotMisconceptions": [
+  "8/5",
+  "1/2",
+  "3/4",
+  "0",
+  "1",
+  "8",
+  "8",
+  "9",
+  "5",
+  "8",
+  "8",
+  "9",
+  "1",
+  "1/2",
+  "3/4",
+  "8/5",
+  "0",
+  "8/5",
+  "5/9",
+  "0/8",
+  "8/8"
+ ],
+ "exercicio": "07pizza",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:17:06.048Z",
+ "promptSha256": "0c30d4c1e07ac6e37dd82ce186a8a7d674e81c72febd62a3f681f7abb7bbd458",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1801,
+  "tokensSaida": 3386,
+  "usd": 0.01461018
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para mostrar frações com denominador 8 (8 divisões entre 0 e 1)",
+    "kc": "kc_config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "Digita o numerador da fração de pizza comida",
+    "kc": "kc_identify_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "Digita o denominador da fração total de fatias",
+    "kc": "kc_identify_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica na marca correspondente à fração 5/8 na reta numérica",
+    "kc": "kc_visualize_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "Confirma a resposta final",
+    "kc": "kc_submit_fraction"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "8/5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se: o denominador é o número total de partes iguais (8 fatias). O numerador é quantas foram comidas (5).",
+    "buggyRule": "Inverte os termos da fração correta: em vez de 5/8, usa 8/5 como valor na reta",
+    "misconceptionId": "misc_numline_inverte_numerador_denominador"
+   },
+   {
+    "valor": "1/2",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Veja bem: 5/8 está entre 1/2 (4/8) e 3/4 (6/8). A marca exata é a sexta.",
+    "buggyRule": "Escolhe a marca imediatamente antes de 5/8 na reta numérica; as marcas são [0, 1/8, 1/4, 3/8, 1/2, 5/8, ...], então a vizinha anterior é 1/2",
+    "misconceptionId": "misc_numline_vizinha_antes"
+   },
+   {
+    "valor": "3/4",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "5/8 vem antes de 3/4. Conte as marcas a partir do zero: a sexta marca é 5/8.",
+    "buggyRule": "Escolhe a marca imediatamente depois de 5/8 na reta numérica; as marcas são [..., 1/2, 5/8, 3/4, ...], então a vizinha posterior é 3/4",
+    "misconceptionId": "misc_numline_vizinha_depois"
+   },
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração não é zero — elas comeram 5 fatias! Procure a marca que representa mais da metade.",
+    "buggyRule": "Clica no rótulo inteiro '0' visível na reta numérica em vez da fração correta",
+    "misconceptionId": "misc_numline_inteiro_nu_zero"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Elas comeram 5 das 8 fatias, não todas. A fração deve ser menor que 1.",
+    "buggyRule": "Clica no rótulo inteiro '1' visível na reta numérica em vez da fração correta",
+    "misconceptionId": "misc_numline_inteiro_nu_um"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador é o número de fatias comidas: 5. O denominador é o total: 8.",
+    "buggyRule": "Troca numerador e denominador: digita o denominador (8) no campo do numerador (F1)",
+    "misconceptionId": "misc_F1_inverte_numerador_denominador"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Quantas fatias foram COMIDAS? Isso é o numerador. Total de fatias é o denominador.",
+    "buggyRule": "Pensa que o numerador é o total de fatias e digita 8 em F1",
+    "misconceptionId": "misc_F1_usa_total_fatias_como_numerador"
+   },
+   {
+    "valor": "9",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador não é o número de marcas na reta. É quantas fatias foram comidas: 5.",
+    "buggyRule": "Conta o número total de marcas na reta numérica (9 marcas de 0 a 1) e digita esse valor no numerador",
+    "misconceptionId": "misc_F1_contagem_marcas_numline"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é o número total de fatias iguais: 8. Verifique o enunciado.",
+    "buggyRule": "Troca numerador e denominador: digita o numerador (5) no campo do denominador (denom)",
+    "misconceptionId": "misc_denom_inverte_numerador_denominador"
+   },
+   {
+    "valor": "8",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Tente novamente com cuidado.",
+    "buggyRule": "Corretamente identifica que a pizza tem 8 fatias e digita 8 — este é o valor correto, mas listamos aqui apenas se houver erro; portanto, NÃO incluímos como erro.",
+    "misconceptionId": "misc_denom_usa_numero_divisoes"
+   },
+   {
+    "valor": "8",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Tente novamente com cuidado.",
+    "buggyRule": "Observa que há 8 intervalos na reta e digita 8 — valor correto, logo não é erro.",
+    "misconceptionId": "misc_denom_contagem_intervalos"
+   },
+   {
+    "valor": "9",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é o número de FATIAS, não de marcas na reta. São 8 fatias.",
+    "buggyRule": "Conta o número total de marcas na reta (9) e digita esse valor como denominador",
+    "misconceptionId": "misc_denom_usa_numero_marcas"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador não é 1. A pizza foi cortada em 8 fatias iguais.",
+    "buggyRule": "Vê o rótulo '1' no final da reta e digita 1 como denominador",
+    "misconceptionId": "misc_denom_usa_limite_direito"
+   },
+   {
+    "valor": "1/2",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "5/8 é maior que 1/2. Conte: 1/8, 2/8=1/4, 3/8, 4/8=1/2, 5/8 → quinta marca após zero.",
+    "buggyRule": "Já listado no passo 1, mas reaplicável aqui ao clicar na reta após preencher campos — mantém valor 1/2",
+    "misconceptionId": "misc_numline_marca_vizinha_antes_repetido"
+   },
+   {
+    "valor": "3/4",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "3/4 é 6/8, mas elas comeram só 5 fatias. Volte uma marca.",
+    "buggyRule": "Já listado no passo 1, mas reaplicável ao clicar na reta — mantém valor 3/4",
+    "misconceptionId": "misc_numline_marca_vizinha_depois_repetido"
+   },
+   {
+    "valor": "8/5",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "8/5 é maior que 1, mas a pizza inteira é 1. Como comeram menos que uma pizza, a fração deve estar entre 0 e 1.",
+    "buggyRule": "Tenta posicionar 8/5 na reta, mas como está além de 1, pode clicar em 1 ou em posição incorreta; porém, interface só aceita marcas existentes, então aluno pode forçar 1 — mas 8/5 não está na reta. Como a reta só vai até 1, o valor registrado seria o mais próximo: 1. Mas como o componente 'numline' retorna o valor da marca clicada, e 8/5 não é marca, o erro realista é clicar em 1. Portanto, ajustamos:",
+    "misconceptionId": "misc_numline_fracao_invertida_na_reta"
+   },
+   {
+    "valor": "0",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Zero significa que não comeram nada. Mas comeram 5 fatias!",
+    "buggyRule": "Clica acidentalmente na primeira marca (0) em vez de 5/8",
+    "misconceptionId": "misc_numline_clica_em_zero_por_engano"
+   },
+   {
+    "valor": "8/5",
+    "passo": 5,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Verifique: o número de cima é quanto comeram (5), o de baixo é o total (8).",
+    "buggyRule": "Confirma a fração com numerador e denominador trocados: F1=8, denom=5 → fração final 8/5",
+    "misconceptionId": "misc_done_com_numerador_errado"
+   },
+   {
+    "valor": "5/9",
+    "passo": 5,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "A pizza tem 8 fatias, não 9. O denominador deve ser 8.",
+    "buggyRule": "Usa 9 (número de marcas na reta) como denominador e 5 como numerador, confirmando 5/9",
+    "misconceptionId": "misc_done_com_denom_9"
+   },
+   {
+    "valor": "0/8",
+    "passo": 5,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Se comeram 5 fatias, o numerador não pode ser zero.",
+    "buggyRule": "Deixa F1 vazio ou digita 0, denom=8, resultando em 0/8",
+    "misconceptionId": "misc_done_com_numerador_0"
+   },
+   {
+    "valor": "8/8",
+    "passo": 5,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "O problema diz que comeram 5 fatias, não todas as 8.",
+    "buggyRule": "Assume que comeram toda a pizza: F1=8, denom=8",
+    "misconceptionId": "misc_done_com_numerador_8_denom_8"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta vai de 0 a 1. Quantas partes iguais a pizza tem?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantas fatias foram comidas? Esse número vai em cima."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Em quantas fatias a pizza foi cortada? Esse número vai embaixo."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Na reta, cada marca representa uma fatia. Conte até a quinta."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Revise: sua fração mostra 5 partes de um total de 8?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para mostrar frações com denominador 8 (8 divisões entre 0 e 1)\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_identify_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração de pizza comida\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_identify_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador da fração total de fatias\",\n      \"result\": \"8\"\n    },\n    {\n      \"kc\": \"kc_visualize_fraction\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente à fração 5/8 na reta numérica\",\n      \"result\": \"5/8\"\n    },\n    {\n      \"kc\": \"kc_submit_fraction\",\n      \"selection\": \"done\",\n      \"action\": \"Confirma a resposta final\",\n      \"result\": \"5/8\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_inverte_numerador_denominador\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8/5\",\n      \"buggyRule\": \"Inverte os termos da fração correta: em vez de 5/8, usa 8/5 como valor na reta\",\n      \"description\": \"O aluno confunde qual parte da fração representa o todo e qual representa a parte.\",\n      \"feedback\": \"Lembre-se: o denominador é o número total de partes iguais (8 fatias). O numerador é quantas foram comidas (5).\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_vizinha_antes\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/2\",\n      \"buggyRule\": \"Escolhe a marca imediatamente antes de 5/8 na reta numérica; as marcas são [0, 1/8, 1/4, 3/8, 1/2, 5/8, ...], então a vizinha anterior é 1/2\",\n      \"description\": \"O aluno aproxima incorretamente a localização da fração na reta.\",\n      \"feedback\": \"Veja bem: 5/8 está entre 1/2 (4/8) e 3/4 (6/8). A marca exata é a sexta.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_vizinha_depois\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/4\",\n      \"buggyRule\": \"Escolhe a marca imediatamente depois de 5/8 na reta numérica; as marcas são [..., 1/2, 5/8, 3/4, ...], então a vizinha posterior é 3/4\",\n      \"description\": \"O aluno ultrapassa ligeiramente o ponto correto na reta.\",\n      \"feedback\": \"5/8 vem antes de 3/4. Conte as marcas a partir do zero: a sexta marca é 5/8.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_inteiro_nu_zero\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"Clica no rótulo inteiro '0' visível na reta numérica em vez da fração correta\",\n      \"description\": \"O aluno seleciona um dos rótulos inteiros da escala ao invés da fração pedida.\",\n      \"feedback\": \"A fração não é zero — elas comeram 5 fatias! Procure a marca que representa mais da metade.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_inteiro_nu_um\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Clica no rótulo inteiro '1' visível na reta numérica em vez da fração correta\",\n      \"description\": \"O aluno assume que comeram toda a pizza e clica em 1.\",\n      \"feedback\": \"Elas comeram 5 das 8 fatias, não todas. A fração deve ser menor que 1.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_inverte_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"Troca numerador e denominador: digita o denominador (8) no campo do numerador (F1)\",\n      \"description\": \"Confusão entre o que vai no numerador e no denominador.\",\n      \"feedback\": \"O numerador é o número de fatias comidas: 5. O denominador é o total: 8.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_usa_total_fatias_como_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"Pensa que o numerador é o total de fatias e digita 8 em F1\",\n      \"description\": \"Não distingue parte de todo.\",\n      \"feedback\": \"Quantas fatias foram COMIDAS? Isso é o numerador. Total de fatias é o denominador.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_contagem_marcas_numline\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Conta o número total de marcas na reta numérica (9 marcas de 0 a 1) e digita esse valor no numerador\",\n      \"description\": \"Usa uma contagem visual irrelevante como numerador.\",\n      \"feedback\": \"O numerador não é o número de marcas na reta. É quantas fatias foram comidas: 5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_inverte_numerador_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Troca numerador e denominador: digita o numerador (5) no campo do denominador (denom)\",\n      \"description\": \"Confusão persistente entre numerador e denominador.\",\n      \"feedback\": \"O denominador é o número total de fatias iguais: 8. Verifique o enunciado.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_usa_numero_divisoes\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"Corretamente identifica que a pizza tem 8 fatias e digita 8 — este é o valor correto, mas listamos aqui apenas se houver erro; portanto, NÃO incluímos como erro.\",\n      \"description\": \"\",\n      \"feedback\": \"\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_contagem_intervalos\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"Observa que há 8 intervalos na reta e digita 8 — valor correto, logo não é erro.\",\n      \"description\": \"\",\n      \"feedback\": \"\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_usa_numero_marcas\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Conta o número total de marcas na reta (9) e digita esse valor como denominador\",\n      \"description\": \"Confunde número de marcas com número de partes iguais.\",\n      \"feedback\": \"O denominador é o número de FATIAS, não de marcas na reta. São 8 fatias.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_usa_limite_direito\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Vê o rótulo '1' no final da reta e digita 1 como denominador\",\n      \"description\": \"Usa um rótulo da escala como denominador.\",\n      \"feedback\": \"O denominador não é 1. A pizza foi cortada em 8 fatias iguais.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_antes_repetido\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/2\",\n      \"buggyRule\": \"Já listado no passo 1, mas reaplicável aqui ao clicar na reta após preencher campos — mantém valor 1/2\",\n      \"description\": \"Erro de localização persistente.\",\n      \"feedback\": \"5/8 é maior que 1/2. Conte: 1/8, 2/8=1/4, 3/8, 4/8=1/2, 5/8 → quinta marca após zero.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_depois_repetido\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/4\",\n      \"buggyRule\": \"Já listado no passo 1, mas reaplicável ao clicar na reta — mantém valor 3/4\",\n      \"description\": \"Erro de localização persistente.\",\n      \"feedback\": \"3/4 é 6/8, mas elas comeram só 5 fatias. Volte uma marca.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_fração_invertida_na_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8/5\",\n      \"buggyRule\": \"Tenta posicionar 8/5 na reta, mas como está além de 1, pode clicar em 1 ou em posição incorreta; porém, interface só aceita marcas existentes, então aluno pode forçar 1 — mas 8/5 não está na reta. Como a reta só vai até 1, o valor registrado seria o mais próximo: 1. Mas como o componente 'numline' retorna o valor da marca clicada, e 8/5 não é marca, o erro realista é clicar em 1. Portanto, ajustamos:\",\n      \"description\": \"Aluno tenta representar fração imprópria numa reta limitada a [0,1].\",\n      \"feedback\": \"8/5 é maior que 1, mas a pizza inteira é 1. Como comeram menos que uma pizza, a fração deve estar entre 0 e 1.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_clica_em_zero_por_engano\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"Clica acidentalmente na primeira marca (0) em vez de 5/8\",\n      \"description\": \"Erro motor ou de atenção.\",\n      \"feedback\": \"Zero significa que não comeram nada. Mas comeram 5 fatias!\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_done_com_numerador_errado\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"8/5\",\n      \"buggyRule\": \"Confirma a fração com numerador e denominador trocados: F1=8, denom=5 → fração final 8/5\",\n      \"description\": \"Erro conceitual consolidado na submissão.\",\n      \"feedback\": \"Verifique: o número de cima é quanto comeram (5), o de baixo é o total (8).\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_done_com_denom_9\",\n      \"selection\": \"done\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5/9\",\n      \"buggyRule\": \"Usa 9 (número de marcas na reta) como denominador e 5 como numerador, confirmando 5/9\",\n      \"description\": \"Baseia denominador em contagem visual incorreta.\",\n      \"feedback\": \"A pizza tem 8 fatias, não 9. O denominador deve ser 8.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_done_com_numerador_0\",\n      \"selection\": \"done\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0/8\",\n      \"buggyRule\": \"Deixa F1 vazio ou digita 0, denom=8, resultando em 0/8\",\n      \"description\": \"Não entende que algo foi comido.\",\n      \"feedback\": \"Se comeram 5 fatias, o numerador não pode ser zero.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_done_com_numerador_8_denom_8\",\n      \"selection\": \"done\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8/8\",\n      \"buggyRule\": \"Assume que comeram toda a pizza: F1=8, denom=8\",\n      \"description\": \"Supõe consumo total sem ler com atenção.\",\n      \"feedback\": \"O problema diz que comeram 5 fatias, não todas as 8.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta vai de 0 a 1. Quantas partes iguais a pizza tem?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Quantas fatias foram comidas? Esse número vai em cima.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Em quantas fatias a pizza foi cortada? Esse número vai embaixo.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Na reta, cada marca representa uma fatia. Conte até a quinta.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Revise: sua fração mostra 5 partes de um total de 8?\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numline",
+     "selection": "numline",
+     "action": "Configura a reta numérica para mostrar frações com denominador 8 (8 divisões entre 0 e 1)",
+     "result": "1"
+    },
+    {
+     "kc": "kc_identify_numerator",
+     "selection": "F1",
+     "action": "Digita o numerador da fração de pizza comida",
+     "result": "5"
+    },
+    {
+     "kc": "kc_identify_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador da fração total de fatias",
+     "result": "8"
+    },
+    {
+     "kc": "kc_visualize_fraction",
+     "selection": "numline",
+     "action": "Clica na marca correspondente à fração 5/8 na reta numérica",
+     "result": "5/8"
+    },
+    {
+     "kc": "kc_submit_fraction",
+     "selection": "done",
+     "action": "Confirma a resposta final",
+     "result": "5/8"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_numline_inverte_numerador_denominador",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "8/5",
+     "buggyRule": "Inverte os termos da fração correta: em vez de 5/8, usa 8/5 como valor na reta",
+     "description": "O aluno confunde qual parte da fração representa o todo e qual representa a parte.",
+     "feedback": "Lembre-se: o denominador é o número total de partes iguais (8 fatias). O numerador é quantas foram comidas (5)."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_vizinha_antes",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/2",
+     "buggyRule": "Escolhe a marca imediatamente antes de 5/8 na reta numérica; as marcas são [0, 1/8, 1/4, 3/8, 1/2, 5/8, ...], então a vizinha anterior é 1/2",
+     "description": "O aluno aproxima incorretamente a localização da fração na reta.",
+     "feedback": "Veja bem: 5/8 está entre 1/2 (4/8) e 3/4 (6/8). A marca exata é a sexta."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_vizinha_depois",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/4",
+     "buggyRule": "Escolhe a marca imediatamente depois de 5/8 na reta numérica; as marcas são [..., 1/2, 5/8, 3/4, ...], então a vizinha posterior é 3/4",
+     "description": "O aluno ultrapassa ligeiramente o ponto correto na reta.",
+     "feedback": "5/8 vem antes de 3/4. Conte as marcas a partir do zero: a sexta marca é 5/8."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_inteiro_nu_zero",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "Clica no rótulo inteiro '0' visível na reta numérica em vez da fração correta",
+     "description": "O aluno seleciona um dos rótulos inteiros da escala ao invés da fração pedida.",
+     "feedback": "A fração não é zero — elas comeram 5 fatias! Procure a marca que representa mais da metade."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_inteiro_nu_um",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Clica no rótulo inteiro '1' visível na reta numérica em vez da fração correta",
+     "description": "O aluno assume que comeram toda a pizza e clica em 1.",
+     "feedback": "Elas comeram 5 das 8 fatias, não todas. A fração deve ser menor que 1."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_inverte_numerador_denominador",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "8",
+     "buggyRule": "Troca numerador e denominador: digita o denominador (8) no campo do numerador (F1)",
+     "description": "Confusão entre o que vai no numerador e no denominador.",
+     "feedback": "O numerador é o número de fatias comidas: 5. O denominador é o total: 8."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_usa_total_fatias_como_numerador",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "8",
+     "buggyRule": "Pensa que o numerador é o total de fatias e digita 8 em F1",
+     "description": "Não distingue parte de todo.",
+     "feedback": "Quantas fatias foram COMIDAS? Isso é o numerador. Total de fatias é o denominador."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_contagem_marcas_numline",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "9",
+     "buggyRule": "Conta o número total de marcas na reta numérica (9 marcas de 0 a 1) e digita esse valor no numerador",
+     "description": "Usa uma contagem visual irrelevante como numerador.",
+     "feedback": "O numerador não é o número de marcas na reta. É quantas fatias foram comidas: 5."
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_inverte_numerador_denominador",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "Troca numerador e denominador: digita o numerador (5) no campo do denominador (denom)",
+     "description": "Confusão persistente entre numerador e denominador.",
+     "feedback": "O denominador é o número total de fatias iguais: 8. Verifique o enunciado."
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_usa_numero_divisoes",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "8",
+     "buggyRule": "Corretamente identifica que a pizza tem 8 fatias e digita 8 — este é o valor correto, mas listamos aqui apenas se houver erro; portanto, NÃO incluímos como erro.",
+     "description": "",
+     "feedback": ""
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_contagem_intervalos",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "8",
+     "buggyRule": "Observa que há 8 intervalos na reta e digita 8 — valor correto, logo não é erro.",
+     "description": "",
+     "feedback": ""
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_usa_numero_marcas",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "9",
+     "buggyRule": "Conta o número total de marcas na reta (9) e digita esse valor como denominador",
+     "description": "Confunde número de marcas com número de partes iguais.",
+     "feedback": "O denominador é o número de FATIAS, não de marcas na reta. São 8 fatias."
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_usa_limite_direito",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Vê o rótulo '1' no final da reta e digita 1 como denominador",
+     "description": "Usa um rótulo da escala como denominador.",
+     "feedback": "O denominador não é 1. A pizza foi cortada em 8 fatias iguais."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_antes_repetido",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/2",
+     "buggyRule": "Já listado no passo 1, mas reaplicável aqui ao clicar na reta após preencher campos — mantém valor 1/2",
+     "description": "Erro de localização persistente.",
+     "feedback": "5/8 é maior que 1/2. Conte: 1/8, 2/8=1/4, 3/8, 4/8=1/2, 5/8 → quinta marca após zero."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_depois_repetido",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/4",
+     "buggyRule": "Já listado no passo 1, mas reaplicável ao clicar na reta — mantém valor 3/4",
+     "description": "Erro de localização persistente.",
+     "feedback": "3/4 é 6/8, mas elas comeram só 5 fatias. Volte uma marca."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_fracao_invertida_na_reta",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "8/5",
+     "buggyRule": "Tenta posicionar 8/5 na reta, mas como está além de 1, pode clicar em 1 ou em posição incorreta; porém, interface só aceita marcas existentes, então aluno pode forçar 1 — mas 8/5 não está na reta. Como a reta só vai até 1, o valor registrado seria o mais próximo: 1. Mas como o componente 'numline' retorna o valor da marca clicada, e 8/5 não é marca, o erro realista é clicar em 1. Portanto, ajustamos:",
+     "description": "Aluno tenta representar fração imprópria numa reta limitada a [0,1].",
+     "feedback": "8/5 é maior que 1, mas a pizza inteira é 1. Como comeram menos que uma pizza, a fração deve estar entre 0 e 1."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_clica_em_zero_por_engano",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "0",
+     "buggyRule": "Clica acidentalmente na primeira marca (0) em vez de 5/8",
+     "description": "Erro motor ou de atenção.",
+     "feedback": "Zero significa que não comeram nada. Mas comeram 5 fatias!"
+    },
+    {
+     "step": 5,
+     "id": "misc_done_com_numerador_errado",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "8/5",
+     "buggyRule": "Confirma a fração com numerador e denominador trocados: F1=8, denom=5 → fração final 8/5",
+     "description": "Erro conceitual consolidado na submissão.",
+     "feedback": "Verifique: o número de cima é quanto comeram (5), o de baixo é o total (8)."
+    },
+    {
+     "step": 5,
+     "id": "misc_done_com_denom_9",
+     "selection": "done",
+     "type": "factual",
+     "wrongAnswer": "5/9",
+     "buggyRule": "Usa 9 (número de marcas na reta) como denominador e 5 como numerador, confirmando 5/9",
+     "description": "Baseia denominador em contagem visual incorreta.",
+     "feedback": "A pizza tem 8 fatias, não 9. O denominador deve ser 8."
+    },
+    {
+     "step": 5,
+     "id": "misc_done_com_numerador_0",
+     "selection": "done",
+     "type": "factual",
+     "wrongAnswer": "0/8",
+     "buggyRule": "Deixa F1 vazio ou digita 0, denom=8, resultando em 0/8",
+     "description": "Não entende que algo foi comido.",
+     "feedback": "Se comeram 5 fatias, o numerador não pode ser zero."
+    },
+    {
+     "step": 5,
+     "id": "misc_done_com_numerador_8_denom_8",
+     "selection": "done",
+     "type": "conceptual",
+     "wrongAnswer": "8/8",
+     "buggyRule": "Assume que comeram toda a pizza: F1=8, denom=8",
+     "description": "Supõe consumo total sem ler com atenção.",
+     "feedback": "O problema diz que comeram 5 fatias, não todas as 8."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta vai de 0 a 1. Quantas partes iguais a pizza tem?"
+    },
+    {
+     "step": 2,
+     "text": "Quantas fatias foram comidas? Esse número vai em cima."
+    },
+    {
+     "step": 3,
+     "text": "Em quantas fatias a pizza foi cortada? Esse número vai embaixo."
+    },
+    {
+     "step": 4,
+     "text": "Na reta, cada marca representa uma fatia. Conte até a quinta."
+    },
+    {
+     "step": 5,
+     "text": "Revise: sua fração mostra 5 partes de um total de 8?"
+    }
+   ]
+  }
+ }
+}

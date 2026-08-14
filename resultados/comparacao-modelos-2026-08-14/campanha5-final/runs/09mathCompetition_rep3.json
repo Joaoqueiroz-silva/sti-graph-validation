@@ -1,0 +1,408 @@
+{
+ "id": "09mathCompetition",
+ "correctAnswer": "9/14",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.583,
+ "conceptual": 0.636,
+ "precision": 0.538,
+ "recall": 0.636,
+ "functionalAgreement": 0.444,
+ "functionalKappa": 0.196,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "14/9",
+  "15",
+  "5/7",
+  "0",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "14/9",
+  "14",
+  "15",
+  "14",
+  "14",
+  "9",
+  "9",
+  "9",
+  "4/7",
+  "5/7",
+  "0",
+  "1"
+ ],
+ "exercicio": "09mathCompetition",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:20:56.545Z",
+ "promptSha256": "5b64dfe83c8cc92d32ccd31ecd5abfba5c70615d2ca71e6d443f6f5011d248b2",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1905,
+  "tokensSaida": 2386,
+  "usd": 0.0107913
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para cobrir até o inteiro 1",
+    "kc": "kc_config_numline_scale"
+   },
+   {
+    "indice": 2,
+    "acao": "Digita o numerador da fração do problema",
+    "kc": "kc_identify_fraction_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "Digita o denominador da fração do problema",
+    "kc": "kc_identify_fraction_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica na marca correspondente a 9/14 na reta numérica",
+    "kc": "kc_plot_fraction_on_numline"
+   },
+   {
+    "indice": 5,
+    "acao": "Clica em done para finalizar",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "14/9",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta numérica mostra valores entre 0 e 1. O número total de questões (14) é o denominador, não o limite da escala.",
+    "buggyRule": "Inverte numerador e denominador da fração do problema (9/14 → 14/9) e tenta posicionar esse valor na reta, mas como a reta só vai até 1, o aluno pode clicar no limite máximo ou em uma marca próxima; no entanto, como o componente 'numline' aceita apenas valores entre 0 e 1, o sistema registra o valor mais próximo válido — mas o erro de inversão se manifesta nos campos F1/denom. Para este componente, considera-se que o aluno, ao configurar a escala, usa o denominador como inteiro: usa 14 como limite da reta.",
+    "misconceptionId": "misc_numline_inverte_numerador_denominador"
+   },
+   {
+    "valor": "14",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta vai de 0 a 1. As 14 divisões servem para marcar frações com denominador 14, mas o maior valor ainda é 1.",
+    "buggyRule": "Lê o fato '14 divisões por unidade' e digita 14 como o limite direito da escala da reta numérica.",
+    "misconceptionId": "misc_numline_usa_numero_de_divisoes_como_limite"
+   },
+   {
+    "valor": "15",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "As marcas dividem o intervalo de 0 a 1. O valor no final da reta continua sendo 1, mesmo com 15 marcas.",
+    "buggyRule": "Vê que há '15 marcas no total' e assume que o limite da reta é 15.",
+    "misconceptionId": "misc_numline_usa_contagem_marcas_como_limite"
+   },
+   {
+    "valor": "14",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador é o número de acertos: Mike acertou 9 questões, então o numerador é 9.",
+    "buggyRule": "Inverte a fração 9/14 e coloca o denominador (14) no campo do numerador (F1).",
+    "misconceptionId": "misc_F1_inverte_numerador_denominador"
+   },
+   {
+    "valor": "14",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa quantas Mike acertou, não o total de questões.",
+    "buggyRule": "Confunde 'número de acertos' com 'número total de questões' e digita 14 no numerador.",
+    "misconceptionId": "misc_F1_usa_total_em_vez_de_acertos"
+   },
+   {
+    "valor": "9",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Tente novamente com cuidado.",
+    "buggyRule": "Preenche corretamente o numerador, mas o erro real ocorre no denominador; no entanto, para cobertura, consideramos que um aluno pode deixar o campo parcialmente preenchido incorretamente — mas como o formato registrado é 'N/-', isso se aplica mais a estados intermediários. Como o componente numeric requer valor completo, este erro é menos aplicável. Em vez disso, incluímos:",
+    "misconceptionId": "misc_F1_campo_parcial_numerador"
+   },
+   {
+    "valor": "9",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é o número total de questões: 14.",
+    "buggyRule": "Inverte a fração 9/14 e coloca o numerador (9) no campo do denominador.",
+    "misconceptionId": "misc_denom_inverte_numerador_denominador"
+   },
+   {
+    "valor": "9",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador é o total de questões no teste: 14.",
+    "buggyRule": "Coloca o número de acertos (9) no denominador, confundindo parte e todo.",
+    "misconceptionId": "misc_denom_usa_numero_de_acertos"
+   },
+   {
+    "valor": "4/7",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique a posição exata: 9/14 está logo após 4/7 (que é 8/14).",
+    "buggyRule": "Na reta com marcas [0, 1/14, ..., 4/7, 9/14, ...], clica na marca imediatamente antes de 9/14, que é 4/7 (equivalente a 8/14).",
+    "misconceptionId": "misc_numline_marca_vizinha_antes"
+   },
+   {
+    "valor": "5/7",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "5/7 equivale a 10/14, que é mais que 9/14. Confira a marca correta.",
+    "buggyRule": "Na reta com marcas [..., 9/14, 5/7, ...], clica na marca imediatamente depois de 9/14, que é 5/7 (equivalente a 10/14).",
+    "misconceptionId": "misc_numline_marca_vizinha_depois"
+   },
+   {
+    "valor": "0",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Mike acertou 9 questões, então sua pontuação não é zero. Procure 9/14 na reta.",
+    "buggyRule": "Clica no rótulo visível '0' da reta numérica, interpretando que é onde deve começar ou que representa nenhuma questão certa.",
+    "misconceptionId": "misc_numline_usa_rotulo_inteiro_0"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "1 significa acertar todas as 14 questões. Mike acertou 9, então está abaixo de 1.",
+    "buggyRule": "Clica no rótulo visível '1' da reta numérica, achando que acertar quase todas as questões equivale a 1.",
+    "misconceptionId": "misc_numline_usa_rotulo_inteiro_1"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica vai de 0 a 1. Use 1 como limite máximo."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantas questões Mike acertou? Esse é o numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Quantas questões havia no total? Esse é o denominador."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Localize 9/14 contando 9 marcas a partir do zero, com 14 divisões no total."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Clique em 'done' quando terminar de posicionar a fração e preencher os campos."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numline_scale\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para cobrir até o inteiro 1\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_identify_fraction_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração do problema\",\n      \"result\": \"9\"\n    },\n    {\n      \"kc\": \"kc_identify_fraction_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador da fração do problema\",\n      \"result\": \"14\"\n    },\n    {\n      \"kc\": \"kc_plot_fraction_on_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente a 9/14 na reta numérica\",\n      \"result\": \"9/14\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Clica em done para finalizar\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_inverte_numerador_denominador\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"14/9\",\n      \"buggyRule\": \"Inverte numerador e denominador da fração do problema (9/14 → 14/9) e tenta posicionar esse valor na reta, mas como a reta só vai até 1, o aluno pode clicar no limite máximo ou em uma marca próxima; no entanto, como o componente 'numline' aceita apenas valores entre 0 e 1, o sistema registra o valor mais próximo válido — mas o erro de inversão se manifesta nos campos F1/denom. Para este componente, considera-se que o aluno, ao configurar a escala, usa o denominador como inteiro: usa 14 como limite da reta.\",\n      \"description\": \"Aluno confunde qual número define a escala da reta e usa o denominador como inteiro limite.\",\n      \"feedback\": \"A reta numérica mostra valores entre 0 e 1. O número total de questões (14) é o denominador, não o limite da escala.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_usa_numero_de_divisoes_como_limite\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"14\",\n      \"buggyRule\": \"Lê o fato '14 divisões por unidade' e digita 14 como o limite direito da escala da reta numérica.\",\n      \"description\": \"Aluno interpreta o número de divisões como o valor máximo da reta.\",\n      \"feedback\": \"A reta vai de 0 a 1. As 14 divisões servem para marcar frações com denominador 14, mas o maior valor ainda é 1.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_usa_contagem_marcas_como_limite\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"15\",\n      \"buggyRule\": \"Vê que há '15 marcas no total' e assume que o limite da reta é 15.\",\n      \"description\": \"Aluno confunde quantidade de marcas com valor máximo da escala.\",\n      \"feedback\": \"As marcas dividem o intervalo de 0 a 1. O valor no final da reta continua sendo 1, mesmo com 15 marcas.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_inverte_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"14\",\n      \"buggyRule\": \"Inverte a fração 9/14 e coloca o denominador (14) no campo do numerador (F1).\",\n      \"description\": \"Aluno troca numerador e denominador ao preencher os campos.\",\n      \"feedback\": \"O numerador é o número de acertos: Mike acertou 9 questões, então o numerador é 9.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_usa_total_em_vez_de_acertos\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"14\",\n      \"buggyRule\": \"Confunde 'número de acertos' com 'número total de questões' e digita 14 no numerador.\",\n      \"description\": \"Aluno não distingue entre parte e todo ao identificar o numerador.\",\n      \"feedback\": \"O numerador representa quantas Mike acertou, não o total de questões.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_inverte_numerador_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Inverte a fração 9/14 e coloca o numerador (9) no campo do denominador.\",\n      \"description\": \"Aluno troca numerador e denominador ao preencher os campos.\",\n      \"feedback\": \"O denominador é o número total de questões: 14.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_denom_usa_numero_de_acertos\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Coloca o número de acertos (9) no denominador, confundindo parte e todo.\",\n      \"description\": \"Aluno pensa que o denominador é o que foi alcançado, não o total possível.\",\n      \"feedback\": \"O denominador é o total de questões no teste: 14.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_antes\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/7\",\n      \"buggyRule\": \"Na reta com marcas [0, 1/14, ..., 4/7, 9/14, ...], clica na marca imediatamente antes de 9/14, que é 4/7 (equivalente a 8/14).\",\n      \"description\": \"Aluno erra por um passo para trás na reta numérica.\",\n      \"feedback\": \"Verifique a posição exata: 9/14 está logo após 4/7 (que é 8/14).\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_marca_vizinha_depois\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5/7\",\n      \"buggyRule\": \"Na reta com marcas [..., 9/14, 5/7, ...], clica na marca imediatamente depois de 9/14, que é 5/7 (equivalente a 10/14).\",\n      \"description\": \"Aluno erra por um passo para frente na reta numérica.\",\n      \"feedback\": \"5/7 equivale a 10/14, que é mais que 9/14. Confira a marca correta.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_usa_rótulo_inteiro_0\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"Clica no rótulo visível '0' da reta numérica, interpretando que é onde deve começar ou que representa nenhuma questão certa.\",\n      \"description\": \"Aluno seleciona um rótulo inteiro visível em vez da fração correta.\",\n      \"feedback\": \"Mike acertou 9 questões, então sua pontuação não é zero. Procure 9/14 na reta.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_numline_usa_rótulo_inteiro_1\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Clica no rótulo visível '1' da reta numérica, achando que acertar quase todas as questões equivale a 1.\",\n      \"description\": \"Aluno arredonda para o inteiro mais próximo visível.\",\n      \"feedback\": \"1 significa acertar todas as 14 questões. Mike acertou 9, então está abaixo de 1.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_F1_campo_parcial_numerador\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Preenche corretamente o numerador, mas o erro real ocorre no denominador; no entanto, para cobertura, consideramos que um aluno pode deixar o campo parcialmente preenchido incorretamente — mas como o formato registrado é 'N/-', isso se aplica mais a estados intermediários. Como o componente numeric requer valor completo, este erro é menos aplicável. Em vez disso, incluímos:\",\n      \"description\": \"Este ID foi substituído por erros concretos acima. Não usado.\",\n      \"feedback\": \"\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica vai de 0 a 1. Use 1 como limite máximo.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Quantas questões Mike acertou? Esse é o numerador.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Quantas questões havia no total? Esse é o denominador.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Localize 9/14 contando 9 marcas a partir do zero, com 14 divisões no total.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Clique em 'done' quando terminar de posicionar a fração e preencher os campos.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numline_scale",
+     "selection": "numline",
+     "action": "Configura a reta numérica para cobrir até o inteiro 1",
+     "result": "1"
+    },
+    {
+     "kc": "kc_identify_fraction_numerator",
+     "selection": "F1",
+     "action": "Digita o numerador da fração do problema",
+     "result": "9"
+    },
+    {
+     "kc": "kc_identify_fraction_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador da fração do problema",
+     "result": "14"
+    },
+    {
+     "kc": "kc_plot_fraction_on_numline",
+     "selection": "numline",
+     "action": "Clica na marca correspondente a 9/14 na reta numérica",
+     "result": "9/14"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Clica em done para finalizar",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_numline_inverte_numerador_denominador",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "14/9",
+     "buggyRule": "Inverte numerador e denominador da fração do problema (9/14 → 14/9) e tenta posicionar esse valor na reta, mas como a reta só vai até 1, o aluno pode clicar no limite máximo ou em uma marca próxima; no entanto, como o componente 'numline' aceita apenas valores entre 0 e 1, o sistema registra o valor mais próximo válido — mas o erro de inversão se manifesta nos campos F1/denom. Para este componente, considera-se que o aluno, ao configurar a escala, usa o denominador como inteiro: usa 14 como limite da reta.",
+     "description": "Aluno confunde qual número define a escala da reta e usa o denominador como inteiro limite.",
+     "feedback": "A reta numérica mostra valores entre 0 e 1. O número total de questões (14) é o denominador, não o limite da escala."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_usa_numero_de_divisoes_como_limite",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "14",
+     "buggyRule": "Lê o fato '14 divisões por unidade' e digita 14 como o limite direito da escala da reta numérica.",
+     "description": "Aluno interpreta o número de divisões como o valor máximo da reta.",
+     "feedback": "A reta vai de 0 a 1. As 14 divisões servem para marcar frações com denominador 14, mas o maior valor ainda é 1."
+    },
+    {
+     "step": 1,
+     "id": "misc_numline_usa_contagem_marcas_como_limite",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "15",
+     "buggyRule": "Vê que há '15 marcas no total' e assume que o limite da reta é 15.",
+     "description": "Aluno confunde quantidade de marcas com valor máximo da escala.",
+     "feedback": "As marcas dividem o intervalo de 0 a 1. O valor no final da reta continua sendo 1, mesmo com 15 marcas."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_inverte_numerador_denominador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "14",
+     "buggyRule": "Inverte a fração 9/14 e coloca o denominador (14) no campo do numerador (F1).",
+     "description": "Aluno troca numerador e denominador ao preencher os campos.",
+     "feedback": "O numerador é o número de acertos: Mike acertou 9 questões, então o numerador é 9."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_usa_total_em_vez_de_acertos",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "14",
+     "buggyRule": "Confunde 'número de acertos' com 'número total de questões' e digita 14 no numerador.",
+     "description": "Aluno não distingue entre parte e todo ao identificar o numerador.",
+     "feedback": "O numerador representa quantas Mike acertou, não o total de questões."
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_inverte_numerador_denominador",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "9",
+     "buggyRule": "Inverte a fração 9/14 e coloca o numerador (9) no campo do denominador.",
+     "description": "Aluno troca numerador e denominador ao preencher os campos.",
+     "feedback": "O denominador é o número total de questões: 14."
+    },
+    {
+     "step": 3,
+     "id": "misc_denom_usa_numero_de_acertos",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "9",
+     "buggyRule": "Coloca o número de acertos (9) no denominador, confundindo parte e todo.",
+     "description": "Aluno pensa que o denominador é o que foi alcançado, não o total possível.",
+     "feedback": "O denominador é o total de questões no teste: 14."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_antes",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4/7",
+     "buggyRule": "Na reta com marcas [0, 1/14, ..., 4/7, 9/14, ...], clica na marca imediatamente antes de 9/14, que é 4/7 (equivalente a 8/14).",
+     "description": "Aluno erra por um passo para trás na reta numérica.",
+     "feedback": "Verifique a posição exata: 9/14 está logo após 4/7 (que é 8/14)."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_marca_vizinha_depois",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "5/7",
+     "buggyRule": "Na reta com marcas [..., 9/14, 5/7, ...], clica na marca imediatamente depois de 9/14, que é 5/7 (equivalente a 10/14).",
+     "description": "Aluno erra por um passo para frente na reta numérica.",
+     "feedback": "5/7 equivale a 10/14, que é mais que 9/14. Confira a marca correta."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_usa_rotulo_inteiro_0",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "Clica no rótulo visível '0' da reta numérica, interpretando que é onde deve começar ou que representa nenhuma questão certa.",
+     "description": "Aluno seleciona um rótulo inteiro visível em vez da fração correta.",
+     "feedback": "Mike acertou 9 questões, então sua pontuação não é zero. Procure 9/14 na reta."
+    },
+    {
+     "step": 4,
+     "id": "misc_numline_usa_rotulo_inteiro_1",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Clica no rótulo visível '1' da reta numérica, achando que acertar quase todas as questões equivale a 1.",
+     "description": "Aluno arredonda para o inteiro mais próximo visível.",
+     "feedback": "1 significa acertar todas as 14 questões. Mike acertou 9, então está abaixo de 1."
+    },
+    {
+     "step": 2,
+     "id": "misc_F1_campo_parcial_numerador",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "9",
+     "buggyRule": "Preenche corretamente o numerador, mas o erro real ocorre no denominador; no entanto, para cobertura, consideramos que um aluno pode deixar o campo parcialmente preenchido incorretamente — mas como o formato registrado é 'N/-', isso se aplica mais a estados intermediários. Como o componente numeric requer valor completo, este erro é menos aplicável. Em vez disso, incluímos:",
+     "description": "Este ID foi substituído por erros concretos acima. Não usado.",
+     "feedback": ""
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica vai de 0 a 1. Use 1 como limite máximo."
+    },
+    {
+     "step": 2,
+     "text": "Quantas questões Mike acertou? Esse é o numerador."
+    },
+    {
+     "step": 3,
+     "text": "Quantas questões havia no total? Esse é o denominador."
+    },
+    {
+     "step": 4,
+     "text": "Localize 9/14 contando 9 marcas a partir do zero, com 14 divisões no total."
+    },
+    {
+     "step": 5,
+     "text": "Clique em 'done' quando terminar de posicionar a fração e preencher os campos."
+    }
+   ]
+  }
+ }
+}

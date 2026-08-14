@@ -1,0 +1,231 @@
+{
+ "id": "20birthday",
+ "correctAnswer": "15/8",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.7,
+ "conceptual": 0.778,
+ "precision": 0.875,
+ "recall": 0.583,
+ "functionalAgreement": 0.667,
+ "functionalKappa": 0.333,
+ "missing": [
+  "-1",
+  "15",
+  "-"
+ ],
+ "extra": [
+  "2"
+ ],
+ "robotMisconceptions": [
+  "8",
+  "2",
+  "16",
+  "7/4"
+ ],
+ "exercicio": "20birthday",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:06:22.416Z",
+ "promptSha256": "f121f366d39a34fccb002e96ea294cc7d8a428e02e2e614e853a81dac2505aff",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1783,
+  "tokensSaida": 875,
+  "usd": 0.00175825
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite da reta numérica",
+    "kc": "config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar o numerador da fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar o denominador da fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "marcar a fração na reta",
+    "kc": "plot_numberline"
+   },
+   {
+    "indice": 5,
+    "acao": "finalizar a tarefa",
+    "kc": "submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa a parte (o que foi comido) e o denominador o total de partes de um bolo.",
+    "buggyRule": "trocar o numerador pelo denominador da fração 15/8",
+    "misconceptionId": "misc_inversao_num_den"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O número 2 é o limite da reta, mas não representa a quantidade de bolos comidos.",
+    "buggyRule": "confundir o valor da fração com o limite da reta numérica visível",
+    "misconceptionId": "misc_valor_inteiro_label"
+   },
+   {
+    "valor": "16",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador indica em quantas partes UM bolo foi dividido, não a soma total de pedaços de todos os bolos.",
+    "buggyRule": "somar os denominadores dos dois bolos (8+8) em vez de manter a unidade de divisão",
+    "misconceptionId": "misc_erro_denominador_fixo"
+   },
+   {
+    "valor": "7/4",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Conte os intervalos com cuidado: cada unidade está dividida em 8 partes. O ponto 15/8 está logo após 14/8 (ou 7/4).",
+    "buggyRule": "selecionar a marca imediatamente anterior ao valor alvo 15/8 na reta numérica",
+    "misconceptionId": "misc_marca_vizinha_reta"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Quantos pedaços foram comidos no total? Esse é o seu numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Em quantas partes cada bolo foi dividido? Esse é o seu denominador."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "A fração 15/8 é um pouco menor que 16/8, que equivale a 2 inteiros."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline\", \"selection\": \"numline\", \"action\": \"selecionar o limite da reta numérica\", \"result\": \"2\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"digitar o numerador da fração\", \"result\": \"15\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"digitar o denominador da fração\", \"result\": \"8\" },\n    { \"kc\": \"plot_numberline\", \"selection\": \"numline\", \"action\": \"marcar a fração na reta\", \"result\": \"15/8\" },\n    { \"kc\": \"submit_answer\", \"selection\": \"done\", \"action\": \"finalizar a tarefa\", \"result\": \"15/8\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_num_den\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"trocar o numerador pelo denominador da fração 15/8\",\n      \"description\": \"O aluno inverteu a ordem da fração proposta.\",\n      \"feedback\": \"Lembre-se: o numerador representa a parte (o que foi comido) e o denominador o total de partes de um bolo.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_valor_inteiro_label\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"confundir o valor da fração com o limite da reta numérica visível\",\n      \"description\": \"O aluno escolheu o maior número visível na reta em vez de calcular a fração.\",\n      \"feedback\": \"O número 2 é o limite da reta, mas não representa a quantidade de bolos comidos.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_marca_vizinha_reta\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7/4\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior ao valor alvo 15/8 na reta numérica\",\n      \"description\": \"O aluno contou incorretamente as divisões da reta e parou uma marca antes.\",\n      \"feedback\": \"Conte os intervalos com cuidado: cada unidade está dividida em 8 partes. O ponto 15/8 está logo após 14/8 (ou 7/4).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_erro_denominador_fixo\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"16\",\n      \"buggyRule\": \"somar os denominadores dos dois bolos (8+8) em vez de manter a unidade de divisão\",\n      \"description\": \"O aluno tentou somar os denominadores dos dois bolos separadamente.\",\n      \"feedback\": \"O denominador indica em quantas partes UM bolo foi dividido, não a soma total de pedaços de todos os bolos.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 2, \"text\": \"Quantos pedaços foram comidos no total? Esse é o seu numerador.\" },\n    { \"step\": 3, \"text\": \"Em quantas partes cada bolo foi dividido? Esse é o seu denominador.\" },\n    { \"step\": 4, \"text\": \"A fração 15/8 é um pouco menor que 16/8, que equivale a 2 inteiros.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline",
+     "selection": "numline",
+     "action": "selecionar o limite da reta numérica",
+     "result": "2"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "15"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "digitar o denominador da fração",
+     "result": "8"
+    },
+    {
+     "kc": "plot_numberline",
+     "selection": "numline",
+     "action": "marcar a fração na reta",
+     "result": "15/8"
+    },
+    {
+     "kc": "submit_answer",
+     "selection": "done",
+     "action": "finalizar a tarefa",
+     "result": "15/8"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inversao_num_den",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "8",
+     "buggyRule": "trocar o numerador pelo denominador da fração 15/8",
+     "description": "O aluno inverteu a ordem da fração proposta.",
+     "feedback": "Lembre-se: o numerador representa a parte (o que foi comido) e o denominador o total de partes de um bolo."
+    },
+    {
+     "step": 2,
+     "id": "misc_valor_inteiro_label",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "2",
+     "buggyRule": "confundir o valor da fração com o limite da reta numérica visível",
+     "description": "O aluno escolheu o maior número visível na reta em vez de calcular a fração.",
+     "feedback": "O número 2 é o limite da reta, mas não representa a quantidade de bolos comidos."
+    },
+    {
+     "step": 4,
+     "id": "misc_marca_vizinha_reta",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "7/4",
+     "buggyRule": "selecionar a marca imediatamente anterior ao valor alvo 15/8 na reta numérica",
+     "description": "O aluno contou incorretamente as divisões da reta e parou uma marca antes.",
+     "feedback": "Conte os intervalos com cuidado: cada unidade está dividida em 8 partes. O ponto 15/8 está logo após 14/8 (ou 7/4)."
+    },
+    {
+     "step": 3,
+     "id": "misc_erro_denominador_fixo",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "16",
+     "buggyRule": "somar os denominadores dos dois bolos (8+8) em vez de manter a unidade de divisão",
+     "description": "O aluno tentou somar os denominadores dos dois bolos separadamente.",
+     "feedback": "O denominador indica em quantas partes UM bolo foi dividido, não a soma total de pedaços de todos os bolos."
+    }
+   ],
+   "hints": [
+    {
+     "step": 2,
+     "text": "Quantos pedaços foram comidos no total? Esse é o seu numerador."
+    },
+    {
+     "step": 3,
+     "text": "Em quantas partes cada bolo foi dividido? Esse é o seu denominador."
+    },
+    {
+     "step": 4,
+     "text": "A fração 15/8 é um pouco menor que 16/8, que equivale a 2 inteiros."
+    }
+   ]
+  }
+ }
+}

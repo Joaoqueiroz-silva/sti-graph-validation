@@ -1,0 +1,400 @@
+{
+ "id": "03summerBooks",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.538,
+ "conceptual": 0.583,
+ "precision": 0.467,
+ "recall": 0.636,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.167,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "6",
+  "4/5",
+  "0",
+  "3/5<1/2",
+  "-/5"
+ ],
+ "robotMisconceptions": [
+  "3",
+  "1",
+  "5",
+  "6",
+  "2/5",
+  "4/5",
+  "0",
+  "3/5 < 1/2",
+  "5",
+  "-/5",
+  "5"
+ ],
+ "exercicio": "03summerBooks",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:08:00.083Z",
+ "promptSha256": "a91f759f7f2affb744b7c21df7b5991635da3260951744429ced66abc07d7b73",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1775,
+  "tokensSaida": 2139,
+  "usd": 0.0097266
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para mostrar de 0 a 1, reconhecendo que a tarefa envolve frações próprias entre 0 e 1.",
+    "kc": "kc_set_numberline_range"
+   },
+   {
+    "indice": 2,
+    "acao": "Define o denominador como 5, pois a atribuição total é de 5 livros.",
+    "kc": "kc_set_denominator"
+   },
+   {
+    "indice": 3,
+    "acao": "Insere o numerador 3, correspondente aos livros já lidos.",
+    "kc": "kc_set_numerator"
+   },
+   {
+    "indice": 4,
+    "acao": "Posiciona o ponto na marca correspondente a 3/5 na reta numérica dividida em quintos.",
+    "kc": "kc_place_fraction_on_numberline"
+   },
+   {
+    "indice": 5,
+    "acao": "Usa o controle para comparar visualmente 3/5 com 1/2 (ou 2.5/5) e confirma que 3/5 está à direita de 1/2.",
+    "kc": "kc_compare_to_half"
+   },
+   {
+    "indice": 6,
+    "acao": "Finaliza a atividade após verificar que 3/5 representa mais da metade.",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "3",
+    "passo": 1,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Lembre-se: o denominador representa o total de livros da atribuição, que é 5.",
+    "buggyRule": "Inverte a fração do problema (3/5) e usa o numerador original (3) como denominador.",
+    "misconceptionId": "misc_inversion_fraction_total_books"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O número 1 na reta indica o valor total (1 inteiro), não o número de partes. O denominador vem do total de livros: 5.",
+    "buggyRule": "Digita o rótulo inteiro visível no limite direito da reta numérica (1) no campo de denominador.",
+    "misconceptionId": "misc_integer_label_as_denominator"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Você leu 3 livros de um total de 5, então o numerador deve ser 3, não 5.",
+    "buggyRule": "Inverte a fração 3/5 e coloca o denominador original (5) no numerador.",
+    "misconceptionId": "misc_inversion_read_over_total"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa quantos livros Sally já leu, não o número de marcas na reta.",
+    "buggyRule": "Conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e digita esse inteiro como numerador.",
+    "misconceptionId": "misc_integer_count_marks_as_numerator"
+   },
+   {
+    "valor": "2/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Verifique novamente: 3/5 está na quarta marca (contando a partir do 0). A marca anterior é 2/5.",
+    "buggyRule": "Clica na marca imediatamente antes de 3/5 na reta dividida em quintos.",
+    "misconceptionId": "misc_neighbor_mark_before_target"
+   },
+   {
+    "valor": "4/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A posição correta é a quarta marca. A próxima marca é 4/5, que é maior do que o que Sally leu.",
+    "buggyRule": "Clica na marca imediatamente depois de 3/5 na reta dividida em quintos.",
+    "misconceptionId": "misc_neighbor_mark_after_target"
+   },
+   {
+    "valor": "0",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Sally já leu 3 livros, então ela não está no zero. Use a fração 3/5 para encontrar a posição correta.",
+    "buggyRule": "Clica no rótulo inteiro '0' no início da reta, interpretando erroneamente que nada foi lido.",
+    "misconceptionId": "misc_integer_label_zero_as_position"
+   },
+   {
+    "valor": "3/5 < 1/2",
+    "passo": 4,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "Na reta numérica, 1/2 = 2.5/5. Como 3 > 2.5, então 3/5 está à direita de 1/2 e é maior.",
+    "buggyRule": "Inverte a comparação ao pensar que 3/5 está à esquerda de 1/2 na reta numérica.",
+    "misconceptionId": "misc_inversion_half_comparison"
+   },
+   {
+    "valor": "5",
+    "passo": 4,
+    "componente": "writeFractionStep",
+    "acao": "",
+    "devolutiva": "O controle pede uma comparação entre frações, não o número de divisões. Compare 3/5 com 1/2.",
+    "buggyRule": "Digita o número de divisões por unidade (5) como resposta no controle de comparação.",
+    "misconceptionId": "misc_integer_divisions_count_as_comparison"
+   },
+   {
+    "valor": "-/5",
+    "passo": 5,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "Certifique-se de preencher tanto o numerador quanto o denominador. Aqui, a fração completa é 3/5.",
+    "buggyRule": "Deixa o numerador em branco (ou nulo) no segundo campo de fração, resultando em um formato incompleto registrado como '-/5'.",
+    "misconceptionId": "misc_incomplete_fraction_format"
+   },
+   {
+    "valor": "5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador deve ser o número de livros já lidos (3), não o total (5).",
+    "buggyRule": "Digita o total de livros (5) diretamente no campo de numerador, ignorando quantos foram lidos.",
+    "misconceptionId": "misc_integer_total_books_as_fraction"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica vai de 0 a 1 porque estamos lidando com partes de um todo."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O denominador é o número total de livros: 5."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O numerador é quantos livros Sally já leu: 3."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Na reta dividida em 5 partes, localize a quarta marca (3/5) e compare com a metade (2.5/5)."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Use o controle para confirmar se 3/5 está à direita de 1/2."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_set_numberline_range\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para mostrar de 0 a 1, reconhecendo que a tarefa envolve frações próprias entre 0 e 1.\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_set_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Define o denominador como 5, pois a atribuição total é de 5 livros.\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_set_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Insere o numerador 3, correspondente aos livros já lidos.\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_place_fraction_on_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"Posiciona o ponto na marca correspondente a 3/5 na reta numérica dividida em quintos.\",\n      \"result\": \"3/5\"\n    },\n    {\n      \"kc\": \"kc_compare_to_half\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Usa o controle para comparar visualmente 3/5 com 1/2 (ou 2.5/5) e confirma que 3/5 está à direita de 1/2.\",\n      \"result\": \"3/5 > 1/2\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Finaliza a atividade após verificar que 3/5 representa mais da metade.\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_inversion_fraction_total_books\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"Inverte a fração do problema (3/5) e usa o numerador original (3) como denominador.\",\n      \"description\": \"O aluno confunde o total de livros com os já lidos e coloca 3 no campo de denominador.\",\n      \"feedback\": \"Lembre-se: o denominador representa o total de livros da atribuição, que é 5.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_integer_label_as_denominator\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Digita o rótulo inteiro visível no limite direito da reta numérica (1) no campo de denominador.\",\n      \"description\": \"O aluno vê o '1' no final da reta e assume que é o denominador.\",\n      \"feedback\": \"O número 1 na reta indica o valor total (1 inteiro), não o número de partes. O denominador vem do total de livros: 5.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversion_read_over_total\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Inverte a fração 3/5 e coloca o denominador original (5) no numerador.\",\n      \"description\": \"O aluno troca numerador e denominador ao inserir a fração.\",\n      \"feedback\": \"Você leu 3 livros de um total de 5, então o numerador deve ser 3, não 5.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_integer_count_marks_as_numerator\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"Conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e digita esse inteiro como numerador.\",\n      \"description\": \"O aluno interpreta incorretamente o número de marcas como o valor a inserir.\",\n      \"feedback\": \"O numerador representa quantos livros Sally já leu, não o número de marcas na reta.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_neighbor_mark_before_target\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"Clica na marca imediatamente antes de 3/5 na reta dividida em quintos.\",\n      \"description\": \"O aluno erra por um passo para trás na reta numérica.\",\n      \"feedback\": \"Verifique novamente: 3/5 está na quarta marca (contando a partir do 0). A marca anterior é 2/5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_neighbor_mark_after_target\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4/5\",\n      \"buggyRule\": \"Clica na marca imediatamente depois de 3/5 na reta dividida em quintos.\",\n      \"description\": \"O aluno erra por um passo para frente na reta numérica.\",\n      \"feedback\": \"A posição correta é a quarta marca. A próxima marca é 4/5, que é maior do que o que Sally leu.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_integer_label_zero_as_position\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"Clica no rótulo inteiro '0' no início da reta, interpretando erroneamente que nada foi lido.\",\n      \"description\": \"O aluno ignora os dados e seleciona o ponto inicial.\",\n      \"feedback\": \"Sally já leu 3 livros, então ela não está no zero. Use a fração 3/5 para encontrar a posição correta.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_inversion_half_comparison\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3/5 < 1/2\",\n      \"buggyRule\": \"Inverte a comparação ao pensar que 3/5 está à esquerda de 1/2 na reta numérica.\",\n      \"description\": \"O aluno acredita incorretamente que 3/5 é menor que metade.\",\n      \"feedback\": \"Na reta numérica, 1/2 = 2.5/5. Como 3 > 2.5, então 3/5 está à direita de 1/2 e é maior.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_integer_divisions_count_as_comparison\",\n      \"selection\": \"writeFractionStep\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Digita o número de divisões por unidade (5) como resposta no controle de comparação.\",\n      \"description\": \"O aluno confunde o número de partes com a relação de comparação.\",\n      \"feedback\": \"O controle pede uma comparação entre frações, não o número de divisões. Compare 3/5 com 1/2.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_incomplete_fraction_format\",\n      \"selection\": \"F2\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"-/5\",\n      \"buggyRule\": \"Deixa o numerador em branco (ou nulo) no segundo campo de fração, resultando em um formato incompleto registrado como '-/5'.\",\n      \"description\": \"O aluno não preenche todos os campos necessários.\",\n      \"feedback\": \"Certifique-se de preencher tanto o numerador quanto o denominador. Aqui, a fração completa é 3/5.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"misc_integer_total_books_as_fraction\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Digita o total de livros (5) diretamente no campo de numerador, ignorando quantos foram lidos.\",\n      \"description\": \"O aluno foca apenas no total e esquece o que já foi feito.\",\n      \"feedback\": \"O numerador deve ser o número de livros já lidos (3), não o total (5).\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica vai de 0 a 1 porque estamos lidando com partes de um todo.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O denominador é o número total de livros: 5.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"O numerador é quantos livros Sally já leu: 3.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Na reta dividida em 5 partes, localize a quarta marca (3/5) e compare com a metade (2.5/5).\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Use o controle para confirmar se 3/5 está à direita de 1/2.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_set_numberline_range",
+     "selection": "numline",
+     "action": "Configura a reta numérica para mostrar de 0 a 1, reconhecendo que a tarefa envolve frações próprias entre 0 e 1.",
+     "result": "1"
+    },
+    {
+     "kc": "kc_set_denominator",
+     "selection": "denom",
+     "action": "Define o denominador como 5, pois a atribuição total é de 5 livros.",
+     "result": "5"
+    },
+    {
+     "kc": "kc_set_numerator",
+     "selection": "F1",
+     "action": "Insere o numerador 3, correspondente aos livros já lidos.",
+     "result": "3"
+    },
+    {
+     "kc": "kc_place_fraction_on_numberline",
+     "selection": "numline",
+     "action": "Posiciona o ponto na marca correspondente a 3/5 na reta numérica dividida em quintos.",
+     "result": "3/5"
+    },
+    {
+     "kc": "kc_compare_to_half",
+     "selection": "writeFractionStep",
+     "action": "Usa o controle para comparar visualmente 3/5 com 1/2 (ou 2.5/5) e confirma que 3/5 está à direita de 1/2.",
+     "result": "3/5 > 1/2"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Finaliza a atividade após verificar que 3/5 representa mais da metade.",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_inversion_fraction_total_books",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "Inverte a fração do problema (3/5) e usa o numerador original (3) como denominador.",
+     "description": "O aluno confunde o total de livros com os já lidos e coloca 3 no campo de denominador.",
+     "feedback": "Lembre-se: o denominador representa o total de livros da atribuição, que é 5."
+    },
+    {
+     "step": 1,
+     "id": "misc_integer_label_as_denominator",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Digita o rótulo inteiro visível no limite direito da reta numérica (1) no campo de denominador.",
+     "description": "O aluno vê o '1' no final da reta e assume que é o denominador.",
+     "feedback": "O número 1 na reta indica o valor total (1 inteiro), não o número de partes. O denominador vem do total de livros: 5."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversion_read_over_total",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "Inverte a fração 3/5 e coloca o denominador original (5) no numerador.",
+     "description": "O aluno troca numerador e denominador ao inserir a fração.",
+     "feedback": "Você leu 3 livros de um total de 5, então o numerador deve ser 3, não 5."
+    },
+    {
+     "step": 2,
+     "id": "misc_integer_count_marks_as_numerator",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "6",
+     "buggyRule": "Conta o número total de marcas na reta (0, 1/5, 2/5, 3/5, 4/5, 1 → 6 marcas) e digita esse inteiro como numerador.",
+     "description": "O aluno interpreta incorretamente o número de marcas como o valor a inserir.",
+     "feedback": "O numerador representa quantos livros Sally já leu, não o número de marcas na reta."
+    },
+    {
+     "step": 3,
+     "id": "misc_neighbor_mark_before_target",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "Clica na marca imediatamente antes de 3/5 na reta dividida em quintos.",
+     "description": "O aluno erra por um passo para trás na reta numérica.",
+     "feedback": "Verifique novamente: 3/5 está na quarta marca (contando a partir do 0). A marca anterior é 2/5."
+    },
+    {
+     "step": 3,
+     "id": "misc_neighbor_mark_after_target",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "4/5",
+     "buggyRule": "Clica na marca imediatamente depois de 3/5 na reta dividida em quintos.",
+     "description": "O aluno erra por um passo para frente na reta numérica.",
+     "feedback": "A posição correta é a quarta marca. A próxima marca é 4/5, que é maior do que o que Sally leu."
+    },
+    {
+     "step": 3,
+     "id": "misc_integer_label_zero_as_position",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "Clica no rótulo inteiro '0' no início da reta, interpretando erroneamente que nada foi lido.",
+     "description": "O aluno ignora os dados e seleciona o ponto inicial.",
+     "feedback": "Sally já leu 3 livros, então ela não está no zero. Use a fração 3/5 para encontrar a posição correta."
+    },
+    {
+     "step": 4,
+     "id": "misc_inversion_half_comparison",
+     "selection": "writeFractionStep",
+     "type": "conceptual",
+     "wrongAnswer": "3/5 < 1/2",
+     "buggyRule": "Inverte a comparação ao pensar que 3/5 está à esquerda de 1/2 na reta numérica.",
+     "description": "O aluno acredita incorretamente que 3/5 é menor que metade.",
+     "feedback": "Na reta numérica, 1/2 = 2.5/5. Como 3 > 2.5, então 3/5 está à direita de 1/2 e é maior."
+    },
+    {
+     "step": 4,
+     "id": "misc_integer_divisions_count_as_comparison",
+     "selection": "writeFractionStep",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Digita o número de divisões por unidade (5) como resposta no controle de comparação.",
+     "description": "O aluno confunde o número de partes com a relação de comparação.",
+     "feedback": "O controle pede uma comparação entre frações, não o número de divisões. Compare 3/5 com 1/2."
+    },
+    {
+     "step": 5,
+     "id": "misc_incomplete_fraction_format",
+     "selection": "F2",
+     "type": "procedural",
+     "wrongAnswer": "-/5",
+     "buggyRule": "Deixa o numerador em branco (ou nulo) no segundo campo de fração, resultando em um formato incompleto registrado como '-/5'.",
+     "description": "O aluno não preenche todos os campos necessários.",
+     "feedback": "Certifique-se de preencher tanto o numerador quanto o denominador. Aqui, a fração completa é 3/5."
+    },
+    {
+     "step": 5,
+     "id": "misc_integer_total_books_as_fraction",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Digita o total de livros (5) diretamente no campo de numerador, ignorando quantos foram lidos.",
+     "description": "O aluno foca apenas no total e esquece o que já foi feito.",
+     "feedback": "O numerador deve ser o número de livros já lidos (3), não o total (5)."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica vai de 0 a 1 porque estamos lidando com partes de um todo."
+    },
+    {
+     "step": 2,
+     "text": "O denominador é o número total de livros: 5."
+    },
+    {
+     "step": 3,
+     "text": "O numerador é quantos livros Sally já leu: 3."
+    },
+    {
+     "step": 4,
+     "text": "Na reta dividida em 5 partes, localize a quarta marca (3/5) e compare com a metade (2.5/5)."
+    },
+    {
+     "step": 5,
+     "text": "Use o controle para confirmar se 3/5 está à direita de 1/2."
+    }
+   ]
+  }
+ }
+}

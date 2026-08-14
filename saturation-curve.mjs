@@ -11,7 +11,7 @@
  * Uso: node -r dotenv/config saturation-curve.mjs [K_MAX=5] [--out arquivo.json]
  */
 import fs from "node:fs";
-import { agent3b_atRiskStudent } from "./agents3-students.js";
+import { agent3b_atRiskStudent } from "./bancada-historica/agents3-students-c3.js";
 import { parseBrdToExpertNeutral, parseBrdToRobotInput } from "./parse-ctat-brd.js";
 import { canonAnswer, miscKey } from "./schema.js";
 

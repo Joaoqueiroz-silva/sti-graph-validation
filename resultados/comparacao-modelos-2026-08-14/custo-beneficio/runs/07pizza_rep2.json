@@ -1,0 +1,242 @@
+{
+ "id": "07pizza",
+ "correctAnswer": "5/8",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.526,
+ "conceptual": 0.588,
+ "precision": 0.625,
+ "recall": 0.455,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0.067,
+ "missing": [
+  "-1",
+  "1/2",
+  "-"
+ ],
+ "extra": [
+  "9",
+  "1",
+  "6"
+ ],
+ "robotMisconceptions": [
+  "9",
+  "1",
+  "8",
+  "6",
+  "5"
+ ],
+ "exercicio": "07pizza",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:04:05.185Z",
+ "promptSha256": "0c30d4c1e07ac6e37dd82ce186a8a7d674e81c72febd62a3f681f7abb7bbd458",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1691,
+  "tokensSaida": 775,
+  "usd": 0.0015852499999999999
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar a reta numérica e definir divisões",
+    "kc": "config_numline_parts"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador na caixa de fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir o denominador na caixa de fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar no botão de finalização",
+    "kc": "submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "9",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se que o denominador representa os intervalos entre as marcas, não as marcas em si.",
+    "buggyRule": "contar as marcas físicas na reta (0 a 1) em vez dos intervalos (partes)",
+    "misconceptionId": "misc_contagem_marcas"
+   },
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você precisa definir quantas partes a pizza foi dividida.",
+    "buggyRule": "digitar o valor final da reta numérica (limite direito) ao invés do número de divisões",
+    "misconceptionId": "misc_valor_limite"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador deve representar a parte que foi comida, não o total.",
+    "buggyRule": "trocar o numerador pelo denominador, colocando o total de partes no campo do numerador",
+    "misconceptionId": "misc_inversao_fracao"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Conte cuidadosamente as fatias representadas na reta.",
+    "buggyRule": "identificar a marca seguinte na reta (6/8) em vez da marca correta (5/8)",
+    "misconceptionId": "misc_marca_vizinha_num"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar o total de fatias em que a pizza foi dividida.",
+    "buggyRule": "repetir o valor do numerador no denominador por confusão de preenchimento",
+    "misconceptionId": "misc_erro_denominador_total"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Quantas fatias formam a pizza inteira?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador representa a parte que elas comeram."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador representa o total de partes da pizza."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"config_numline_parts\", \"selection\": \"numline\", \"action\": \"selecionar a reta numérica e definir divisões\", \"result\": \"8\" },\n    { \"kc\": \"input_numerator\", \"selection\": \"F1\", \"action\": \"inserir o numerador na caixa de fração\", \"result\": \"5\" },\n    { \"kc\": \"input_denominator\", \"selection\": \"denom\", \"action\": \"inserir o denominador na caixa de fração\", \"result\": \"8\" },\n    { \"kc\": \"submit_answer\", \"selection\": \"done\", \"action\": \"clicar no botão de finalização\", \"result\": \"5/8\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_contagem_marcas\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"contar as marcas físicas na reta (0 a 1) em vez dos intervalos (partes)\",\n      \"description\": \"O aluno confunde o número de marcas (9) com o número de partes (8).\",\n      \"feedback\": \"Lembre-se que o denominador representa os intervalos entre as marcas, não as marcas em si.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_valor_limite\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"digitar o valor final da reta numérica (limite direito) ao invés do número de divisões\",\n      \"description\": \"O aluno interpreta o limite da escala como a resposta para a configuração.\",\n      \"feedback\": \"Você precisa definir quantas partes a pizza foi dividida.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_fracao\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"trocar o numerador pelo denominador, colocando o total de partes no campo do numerador\",\n      \"description\": \"O aluno inverte a fração, colocando o denominador no lugar do numerador.\",\n      \"feedback\": \"O numerador deve representar a parte que foi comida, não o total.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_num\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"identificar a marca seguinte na reta (6/8) em vez da marca correta (5/8)\",\n      \"description\": \"O aluno conta uma fatia a mais na reta numérica.\",\n      \"feedback\": \"Conte cuidadosamente as fatias representadas na reta.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_erro_denominador_total\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"repetir o valor do numerador no denominador por confusão de preenchimento\",\n      \"description\": \"O aluno coloca o valor do numerador no campo do denominador.\",\n      \"feedback\": \"O denominador deve representar o total de fatias em que a pizza foi dividida.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"Quantas fatias formam a pizza inteira?\" },\n    { \"step\": 2, \"text\": \"O numerador representa a parte que elas comeram.\" },\n    { \"step\": 3, \"text\": \"O denominador representa o total de partes da pizza.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numline_parts",
+     "selection": "numline",
+     "action": "selecionar a reta numérica e definir divisões",
+     "result": "8"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "inserir o numerador na caixa de fração",
+     "result": "5"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "inserir o denominador na caixa de fração",
+     "result": "8"
+    },
+    {
+     "kc": "submit_answer",
+     "selection": "done",
+     "action": "clicar no botão de finalização",
+     "result": "5/8"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_contagem_marcas",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "9",
+     "buggyRule": "contar as marcas físicas na reta (0 a 1) em vez dos intervalos (partes)",
+     "description": "O aluno confunde o número de marcas (9) com o número de partes (8).",
+     "feedback": "Lembre-se que o denominador representa os intervalos entre as marcas, não as marcas em si."
+    },
+    {
+     "step": 1,
+     "id": "misc_valor_limite",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "digitar o valor final da reta numérica (limite direito) ao invés do número de divisões",
+     "description": "O aluno interpreta o limite da escala como a resposta para a configuração.",
+     "feedback": "Você precisa definir quantas partes a pizza foi dividida."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_fracao",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "8",
+     "buggyRule": "trocar o numerador pelo denominador, colocando o total de partes no campo do numerador",
+     "description": "O aluno inverte a fração, colocando o denominador no lugar do numerador.",
+     "feedback": "O numerador deve representar a parte que foi comida, não o total."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_num",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "6",
+     "buggyRule": "identificar a marca seguinte na reta (6/8) em vez da marca correta (5/8)",
+     "description": "O aluno conta uma fatia a mais na reta numérica.",
+     "feedback": "Conte cuidadosamente as fatias representadas na reta."
+    },
+    {
+     "step": 3,
+     "id": "misc_erro_denominador_total",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "repetir o valor do numerador no denominador por confusão de preenchimento",
+     "description": "O aluno coloca o valor do numerador no campo do denominador.",
+     "feedback": "O denominador deve representar o total de fatias em que a pizza foi dividida."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Quantas fatias formam a pizza inteira?"
+    },
+    {
+     "step": 2,
+     "text": "O numerador representa a parte que elas comeram."
+    },
+    {
+     "step": 3,
+     "text": "O denominador representa o total de partes da pizza."
+    }
+   ]
+  }
+ }
+}

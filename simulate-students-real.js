@@ -28,7 +28,7 @@ import {
   agent3a_advancedStudent,
   agent3b_atRiskStudent,
   agent3c_averageStudent,
-} from "./agents3-students.js";
+} from "./bancada-historica/agents3-students-c3.js";
 import { logger } from "./logger.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));

@@ -1,0 +1,430 @@
+{
+ "id": "06lemonade",
+ "correctAnswer": "2/7",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.636,
+ "conceptual": 0.7,
+ "precision": 0.636,
+ "recall": 0.636,
+ "functionalAgreement": 0.571,
+ "functionalKappa": 0.3,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "5",
+  "3/7",
+  "5/7"
+ ],
+ "robotMisconceptions": [
+  "7",
+  "2",
+  "2",
+  "5",
+  "1/7",
+  "3/7",
+  "5/7",
+  "7",
+  "5",
+  "2",
+  "5"
+ ],
+ "exercicio": "06lemonade",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:15:24.219Z",
+ "promptSha256": "cdda362a8cd25bf7e0b4c1903d501114b8293412807fae9332018ad9e4575bc5",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1688,
+  "tokensSaida": 5579,
+  "usd": 0.052743
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configurar o limite máximo da reta numérica para representar 1 jarra inteira.",
+    "kc": "kc_configure_scale"
+   },
+   {
+    "indice": 2,
+    "acao": "Definir o número de divisões (denominador) na reta numérica.",
+    "kc": "kc_set_partitions"
+   },
+   {
+    "indice": 3,
+    "acao": "Clicar na marca correspondente a 2/7 na reta numérica.",
+    "kc": "kc_plot_point"
+   },
+   {
+    "indice": 4,
+    "acao": "Habilitar os campos para digitar a fração correspondente.",
+    "kc": "kc_write_fraction_step"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o numerador da fração de limonada compartilhada.",
+    "kc": "kc_fill_numerator"
+   },
+   {
+    "indice": 6,
+    "acao": "Digitar o denominador da fração de limonada compartilhada.",
+    "kc": "kc_fill_denominator"
+   },
+   {
+    "indice": 7,
+    "acao": "Confirmar e enviar a resposta final.",
+    "kc": "kc_submit"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "7",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta numérica representa uma única jarra de limonada inteira. Portanto, o limite máximo da reta deve ser 1.",
+    "buggyRule": "usar o número total de pessoas mencionado no enunciado (7) como o limite máximo da reta numérica, em vez de representar 1 jarra inteira",
+    "misconceptionId": "err_scale_total_people"
+   },
+   {
+    "valor": "2",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta deve representar o todo (1 jarra de limonada). Ajuste o limite da reta para 1.",
+    "buggyRule": "usar o número de pessoas esperando (2) como o limite máximo da reta numérica",
+    "misconceptionId": "err_scale_waiting_people"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Para dividir a jarra igualmente para todas as pessoas, precisamos dividi-la pelo número total de partes (7), e não apenas pelas partes que restaram.",
+    "buggyRule": "usar o numerador da fração desejada (2) para definir a quantidade de divisões da reta",
+    "misconceptionId": "err_partitions_numerator"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A limonada foi dividida igualmente entre as 7 pessoas originalmente. Use o total original de divisões para configurar a reta.",
+    "buggyRule": "subtrair as pessoas que restaram do total de pessoas para definir as divisões da reta: 7 - 2 = 5",
+    "misconceptionId": "err_partitions_difference"
+   },
+   {
+    "valor": "1/7",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você selecionou 1/7. Conte duas marcas a partir do zero para encontrar 2/7 da limonada.",
+    "buggyRule": "clicar na marca imediatamente anterior à correta na reta dividida em 7 partes: 2/7 - 1/7 = 1/7",
+    "misconceptionId": "err_plot_neighbor_before"
+   },
+   {
+    "valor": "3/7",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você selecionou 3/7. Nós queremos representar apenas 2/7 da limonada. Conte exatamente duas marcas a partir do zero.",
+    "buggyRule": "clicar na marca imediatamente posterior à correta na reta dividida em 7 partes: 2/7 + 1/7 = 3/7",
+    "misconceptionId": "err_plot_neighbor_after"
+   },
+   {
+    "valor": "5/7",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você marcou 5/7, que representa a limonada das pessoas que foram embora. Marque a fração que sobrou para as 2 pessoas que ainda estão esperando.",
+    "buggyRule": "clicar na marca correspondente à quantidade de limonada que as pessoas que foram embora teriam levado: (7 - 2) / 7 = 5/7",
+    "misconceptionId": "err_plot_complement"
+   },
+   {
+    "valor": "7",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador deve representar a quantidade de partes que sobrou (2). O número 7 representa o total de partes.",
+    "buggyRule": "inverter a fração escrevendo o denominador (7) no campo do numerador",
+    "misconceptionId": "err_f1_inversion"
+   },
+   {
+    "valor": "5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador deve mostrar quanta limonada sobrou para compartilhar com as pessoas que ficaram esperando (2).",
+    "buggyRule": "usar a quantidade de pessoas que foram embora (7 - 2 = 5) como o numerador",
+    "misconceptionId": "err_f1_complement"
+   },
+   {
+    "valor": "2",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador representa em quantas partes iguais a jarra inteira foi dividida (7).",
+    "buggyRule": "inverter a fração escrevendo o numerador (2) no campo do denominador",
+    "misconceptionId": "err_f2_inversion"
+   },
+   {
+    "valor": "5",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o total de partes em que a jarra inteira foi dividida (7), e não a quantidade de pessoas que foram embora.",
+    "buggyRule": "usar a quantidade de pessoas que foram embora (5) no denominador, criando uma razão de 2 para 5",
+    "misconceptionId": "err_f2_complement_denom"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica representa 1 jarra inteira de limonada. Defina o limite da reta como 1."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "A jarra de limonada foi dividida igualmente entre 7 pessoas. Digite 7 no campo 'denom' para dividir a reta em 7 partes iguais."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Agora que a reta está dividida em 7 partes, clique na marca correspondente a 2 dessas partes (2/7) a partir do zero."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Clique no botão 'writeFractionStep' para abrir os campos onde você irá digitar a fração correspondente."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "No campo do numerador (F1), digite o número de partes de limonada que restaram para compartilhar (2)."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "No campo do denominador (F2), digite o número total de partes em que a limonada foi dividida originalmente (7)."
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Tudo pronto! Clique no botão 'done' para enviar sua resposta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_configure_scale\",\n      \"selection\": \"numline\",\n      \"action\": \"Configurar o limite máximo da reta numérica para representar 1 jarra inteira.\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_set_partitions\",\n      \"selection\": \"denom\",\n      \"action\": \"Definir o número de divisões (denominador) na reta numérica.\",\n      \"result\": \"7\"\n    },\n    {\n      \"kc\": \"kc_plot_point\",\n      \"selection\": \"numline\",\n      \"action\": \"Clicar na marca correspondente a 2/7 na reta numérica.\",\n      \"result\": \"2/7\"\n    },\n    {\n      \"kc\": \"kc_write_fraction_step\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Habilitar os campos para digitar a fração correspondente.\",\n      \"result\": \"click\"\n    },\n    {\n      \"kc\": \"kc_fill_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digitar o numerador da fração de limonada compartilhada.\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_fill_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"Digitar o denominador da fração de limonada compartilhada.\",\n      \"result\": \"7\"\n    },\n    {\n      \"kc\": \"kc_submit\",\n      \"selection\": \"done\",\n      \"action\": \"Confirmar e enviar a resposta final.\",\n      \"result\": \"click\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"err_scale_total_people\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"usar o número total de pessoas mencionado no enunciado (7) como o limite máximo da reta numérica, em vez de representar 1 jarra inteira\",\n      \"description\": \"O aluno confunde o total de partes de um inteiro com o limite da reta numérica, tentando fazer a reta ir até 7.\",\n      \"feedback\": \"A reta numérica representa uma única jarra de limonada inteira. Portanto, o limite máximo da reta deve ser 1.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"err_scale_waiting_people\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"usar o número de pessoas esperando (2) como o limite máximo da reta numérica\",\n      \"description\": \"O aluno usa a quantidade de pessoas que restaram como o limite máximo da reta.\",\n      \"feedback\": \"A reta deve representar o todo (1 jarra de limonada). Ajuste o limite da reta para 1.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_partitions_numerator\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"usar o numerador da fração desejada (2) para definir a quantidade de divisões da reta\",\n      \"description\": \"O aluno define o número de divisões da reta usando a quantidade de partes que restaram (numerador) em vez do total de partes (denominador).\",\n      \"feedback\": \"Para dividir a jarra igualmente para todas as pessoas, precisamos dividi-la pelo número total de partes (7), e não apenas pelas partes que restaram.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_partitions_difference\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"subtrair as pessoas que restaram do total de pessoas para definir as divisões da reta: 7 - 2 = 5\",\n      \"description\": \"O aluno calcula as divisões com base nas pessoas que foram embora (5) em vez do total de partes em que a limonada foi dividida.\",\n      \"feedback\": \"A limonada foi dividida igualmente entre as 7 pessoas originalmente. Use o total original de divisões para configurar a reta.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_neighbor_before\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/7\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior à correta na reta dividida em 7 partes: 2/7 - 1/7 = 1/7\",\n      \"description\": \"O aluno erra a contagem das marcas por uma unidade para trás, selecionando a primeira marca após o zero.\",\n      \"feedback\": \"Você selecionou 1/7. Conte duas marcas a partir do zero para encontrar 2/7 da limonada.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_neighbor_after\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/7\",\n      \"buggyRule\": \"clicar na marca imediatamente posterior à correta na reta dividida em 7 partes: 2/7 + 1/7 = 3/7\",\n      \"description\": \"O aluno erra a contagem das marcas por uma unidade para a frente, selecionando a terceira marca.\",\n      \"feedback\": \"Você selecionou 3/7. Nós queremos representar apenas 2/7 da limonada. Conte exatamente duas marcas a partir do zero.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_plot_complement\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5/7\",\n      \"buggyRule\": \"clicar na marca correspondente à quantidade de limonada que as pessoas que foram embora teriam levado: (7 - 2) / 7 = 5/7\",\n      \"description\": \"O aluno plota a fração correspondente às 5 pessoas que foram embora, em vez das 2 que ficaram.\",\n      \"feedback\": \"Você marcou 5/7, que representa a limonada das pessoas que foram embora. Marque a fração que sobrou para as 2 pessoas que ainda estão esperando.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_f1_inversion\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"7\",\n      \"buggyRule\": \"inverter a fração escrevendo o denominador (7) no campo do numerador\",\n      \"description\": \"O aluno inverte a fração, colocando o total de partes (denominador) no campo do numerador.\",\n      \"feedback\": \"O numerador deve representar a quantidade de partes que sobrou (2). O número 7 representa o total de partes.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_f1_complement\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar a quantidade de pessoas que foram embora (7 - 2 = 5) como o numerador\",\n      \"description\": \"O aluno digita a quantidade de partes perdidas/pessoas que saíram no numerador.\",\n      \"feedback\": \"O numerador deve mostrar quanta limonada sobrou para compartilhar com as pessoas que ficaram esperando (2).\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_f2_inversion\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"inverter a fração escrevendo o numerador (2) no campo do denominador\",\n      \"description\": \"O aluno inverte a fração, colocando as partes restantes no denominador.\",\n      \"feedback\": \"O denominador representa em quantas partes iguais a jarra inteira foi dividida (7).\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_f2_complement_denom\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar a quantidade de pessoas que foram embora (5) no denominador, criando uma razão de 2 para 5\",\n      \"description\": \"O aluno compara as pessoas que ficaram com as que saíram (razão parte-parte) em vez de parte-todo.\",\n      \"feedback\": \"O denominador deve ser o total de partes em que a jarra inteira foi dividida (7), e não a quantidade de pessoas que foram embora.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica representa 1 jarra inteira de limonada. Defina o limite da reta como 1.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"A jarra de limonada foi dividida igualmente entre 7 pessoas. Digite 7 no campo 'denom' para dividir a reta em 7 partes iguais.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Agora que a reta está dividida em 7 partes, clique na marca correspondente a 2 dessas partes (2/7) a partir do zero.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Clique no botão 'writeFractionStep' para abrir os campos onde você irá digitar a fração correspondente.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"No campo do numerador (F1), digite o número de partes de limonada que restaram para compartilhar (2).\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"No campo do denominador (F2), digite o número total de partes em que a limonada foi dividida originalmente (7).\"\n    },\n    {\n      \"step\": 7,\n      \"text\": \"Tudo pronto! Clique no botão 'done' para enviar sua resposta.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_configure_scale",
+     "selection": "numline",
+     "action": "Configurar o limite máximo da reta numérica para representar 1 jarra inteira.",
+     "result": "1"
+    },
+    {
+     "kc": "kc_set_partitions",
+     "selection": "denom",
+     "action": "Definir o número de divisões (denominador) na reta numérica.",
+     "result": "7"
+    },
+    {
+     "kc": "kc_plot_point",
+     "selection": "numline",
+     "action": "Clicar na marca correspondente a 2/7 na reta numérica.",
+     "result": "2/7"
+    },
+    {
+     "kc": "kc_write_fraction_step",
+     "selection": "writeFractionStep",
+     "action": "Habilitar os campos para digitar a fração correspondente.",
+     "result": "click"
+    },
+    {
+     "kc": "kc_fill_numerator",
+     "selection": "F1",
+     "action": "Digitar o numerador da fração de limonada compartilhada.",
+     "result": "2"
+    },
+    {
+     "kc": "kc_fill_denominator",
+     "selection": "F2",
+     "action": "Digitar o denominador da fração de limonada compartilhada.",
+     "result": "7"
+    },
+    {
+     "kc": "kc_submit",
+     "selection": "done",
+     "action": "Confirmar e enviar a resposta final.",
+     "result": "click"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "err_scale_total_people",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "7",
+     "buggyRule": "usar o número total de pessoas mencionado no enunciado (7) como o limite máximo da reta numérica, em vez de representar 1 jarra inteira",
+     "description": "O aluno confunde o total de partes de um inteiro com o limite da reta numérica, tentando fazer a reta ir até 7.",
+     "feedback": "A reta numérica representa uma única jarra de limonada inteira. Portanto, o limite máximo da reta deve ser 1."
+    },
+    {
+     "step": 1,
+     "id": "err_scale_waiting_people",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "usar o número de pessoas esperando (2) como o limite máximo da reta numérica",
+     "description": "O aluno usa a quantidade de pessoas que restaram como o limite máximo da reta.",
+     "feedback": "A reta deve representar o todo (1 jarra de limonada). Ajuste o limite da reta para 1."
+    },
+    {
+     "step": 2,
+     "id": "err_partitions_numerator",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "2",
+     "buggyRule": "usar o numerador da fração desejada (2) para definir a quantidade de divisões da reta",
+     "description": "O aluno define o número de divisões da reta usando a quantidade de partes que restaram (numerador) em vez do total de partes (denominador).",
+     "feedback": "Para dividir a jarra igualmente para todas as pessoas, precisamos dividi-la pelo número total de partes (7), e não apenas pelas partes que restaram."
+    },
+    {
+     "step": 2,
+     "id": "err_partitions_difference",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "subtrair as pessoas que restaram do total de pessoas para definir as divisões da reta: 7 - 2 = 5",
+     "description": "O aluno calcula as divisões com base nas pessoas que foram embora (5) em vez do total de partes em que a limonada foi dividida.",
+     "feedback": "A limonada foi dividida igualmente entre as 7 pessoas originalmente. Use o total original de divisões para configurar a reta."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_neighbor_before",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/7",
+     "buggyRule": "clicar na marca imediatamente anterior à correta na reta dividida em 7 partes: 2/7 - 1/7 = 1/7",
+     "description": "O aluno erra a contagem das marcas por uma unidade para trás, selecionando a primeira marca após o zero.",
+     "feedback": "Você selecionou 1/7. Conte duas marcas a partir do zero para encontrar 2/7 da limonada."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_neighbor_after",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/7",
+     "buggyRule": "clicar na marca imediatamente posterior à correta na reta dividida em 7 partes: 2/7 + 1/7 = 3/7",
+     "description": "O aluno erra a contagem das marcas por uma unidade para a frente, selecionando a terceira marca.",
+     "feedback": "Você selecionou 3/7. Nós queremos representar apenas 2/7 da limonada. Conte exatamente duas marcas a partir do zero."
+    },
+    {
+     "step": 3,
+     "id": "err_plot_complement",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5/7",
+     "buggyRule": "clicar na marca correspondente à quantidade de limonada que as pessoas que foram embora teriam levado: (7 - 2) / 7 = 5/7",
+     "description": "O aluno plota a fração correspondente às 5 pessoas que foram embora, em vez das 2 que ficaram.",
+     "feedback": "Você marcou 5/7, que representa a limonada das pessoas que foram embora. Marque a fração que sobrou para as 2 pessoas que ainda estão esperando."
+    },
+    {
+     "step": 5,
+     "id": "err_f1_inversion",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "7",
+     "buggyRule": "inverter a fração escrevendo o denominador (7) no campo do numerador",
+     "description": "O aluno inverte a fração, colocando o total de partes (denominador) no campo do numerador.",
+     "feedback": "O numerador deve representar a quantidade de partes que sobrou (2). O número 7 representa o total de partes."
+    },
+    {
+     "step": 5,
+     "id": "err_f1_complement",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "usar a quantidade de pessoas que foram embora (7 - 2 = 5) como o numerador",
+     "description": "O aluno digita a quantidade de partes perdidas/pessoas que saíram no numerador.",
+     "feedback": "O numerador deve mostrar quanta limonada sobrou para compartilhar com as pessoas que ficaram esperando (2)."
+    },
+    {
+     "step": 6,
+     "id": "err_f2_inversion",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "inverter a fração escrevendo o numerador (2) no campo do denominador",
+     "description": "O aluno inverte a fração, colocando as partes restantes no denominador.",
+     "feedback": "O denominador representa em quantas partes iguais a jarra inteira foi dividida (7)."
+    },
+    {
+     "step": 6,
+     "id": "err_f2_complement_denom",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "usar a quantidade de pessoas que foram embora (5) no denominador, criando uma razão de 2 para 5",
+     "description": "O aluno compara as pessoas que ficaram com as que saíram (razão parte-parte) em vez de parte-todo.",
+     "feedback": "O denominador deve ser o total de partes em que a jarra inteira foi dividida (7), e não a quantidade de pessoas que foram embora."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica representa 1 jarra inteira de limonada. Defina o limite da reta como 1."
+    },
+    {
+     "step": 2,
+     "text": "A jarra de limonada foi dividida igualmente entre 7 pessoas. Digite 7 no campo 'denom' para dividir a reta em 7 partes iguais."
+    },
+    {
+     "step": 3,
+     "text": "Agora que a reta está dividida em 7 partes, clique na marca correspondente a 2 dessas partes (2/7) a partir do zero."
+    },
+    {
+     "step": 4,
+     "text": "Clique no botão 'writeFractionStep' para abrir os campos onde você irá digitar a fração correspondente."
+    },
+    {
+     "step": 5,
+     "text": "No campo do numerador (F1), digite o número de partes de limonada que restaram para compartilhar (2)."
+    },
+    {
+     "step": 6,
+     "text": "No campo do denominador (F2), digite o número total de partes em que a limonada foi dividida originalmente (7)."
+    },
+    {
+     "step": 7,
+     "text": "Tudo pronto! Clique no botão 'done' para enviar sua resposta."
+    }
+   ]
+  }
+ }
+}

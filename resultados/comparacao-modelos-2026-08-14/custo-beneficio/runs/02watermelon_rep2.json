@@ -1,0 +1,221 @@
+{
+ "id": "02watermelon",
+ "correctAnswer": "3/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 4
+ },
+ "f1": 0.632,
+ "conceptual": 0.706,
+ "precision": 0.75,
+ "recall": 0.545,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "-1",
+  "1/2",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "4",
+  "2",
+  "3"
+ ],
+ "exercicio": "02watermelon",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:03:13.099Z",
+ "promptSha256": "8b72bdbf8bc158bbea76e7f26dbd891dc53b9b4ec71b28e927f3567ea0fd1750",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1653,
+  "tokensSaida": 842,
+  "usd": 0.00167625
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 4
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "ajustar número de divisões da reta para 4",
+    "kc": "config_numberline"
+   },
+   {
+    "indice": 2,
+    "acao": "digitar o numerador da fração",
+    "kc": "input_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "digitar o denominador da fração",
+    "kc": "input_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "finalizar exercício",
+    "kc": "submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta deve ser dividida de acordo com o total de partes da melancia.",
+    "buggyRule": "o aluno interpreta o limite superior da reta como a resposta final e define a reta com apenas 1 divisão",
+    "misconceptionId": "misc_uso_inteiro_limite"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Lembre-se: o numerador representa a parte comida (3) e o denominador o total de partes (4).",
+    "buggyRule": "trocar numerador por denominador: ao ler 3/4, o aluno insere o denominador na caixa do numerador",
+    "misconceptionId": "misc_inversao_fracao"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Conte as divisões partindo do zero até chegar ao terceiro intervalo.",
+    "buggyRule": "selecionar a marca imediatamente anterior na reta numérica (1/2 ou 2/4) em vez de 3/4",
+    "misconceptionId": "misc_marca_vizinha_num"
+   },
+   {
+    "valor": "3",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve representar o total de pedaços em que a melancia foi dividida.",
+    "buggyRule": "usar o valor de partes comidas como denominador em vez do total de divisões",
+    "misconceptionId": "misc_erro_denominador_total_pessoas"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A melancia foi dividida em 4 partes iguais. Ajuste a reta para ter 4 divisões."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador indica quantos pedaços foram comidos."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador indica o total de pedaços da melancia."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"config_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"ajustar número de divisões da reta para 4\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"input_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digitar o numerador da fração\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"input_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"digitar o denominador da fração\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"finalizar exercício\",\n      \"result\": \"3/4\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_uso_inteiro_limite\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"o aluno interpreta o limite superior da reta como a resposta final e define a reta com apenas 1 divisão\",\n      \"description\": \"Confunde o limite da escala da reta com a quantidade de pedaços.\",\n      \"feedback\": \"A reta deve ser dividida de acordo com o total de partes da melancia.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_inversao_fracao\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"trocar numerador por denominador: ao ler 3/4, o aluno insere o denominador na caixa do numerador\",\n      \"description\": \"Inversão da ordem dos termos da fração.\",\n      \"feedback\": \"Lembre-se: o numerador representa a parte comida (3) e o denominador o total de partes (4).\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_num\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior na reta numérica (1/2 ou 2/4) em vez de 3/4\",\n      \"description\": \"Erro de contagem de marcas na reta numérica.\",\n      \"feedback\": \"Conte as divisões partindo do zero até chegar ao terceiro intervalo.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_erro_denominador_total_pessoas\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"usar o valor de partes comidas como denominador em vez do total de divisões\",\n      \"description\": \"Confusão entre parte e todo.\",\n      \"feedback\": \"O denominador deve representar o total de pedaços em que a melancia foi dividida.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A melancia foi dividida em 4 partes iguais. Ajuste a reta para ter 4 divisões.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O numerador indica quantos pedaços foram comidos.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"O denominador indica o total de pedaços da melancia.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "config_numberline",
+     "selection": "numline",
+     "action": "ajustar número de divisões da reta para 4",
+     "result": "1"
+    },
+    {
+     "kc": "input_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "3"
+    },
+    {
+     "kc": "input_denominator",
+     "selection": "denom",
+     "action": "digitar o denominador da fração",
+     "result": "4"
+    },
+    {
+     "kc": "submit_answer",
+     "selection": "done",
+     "action": "finalizar exercício",
+     "result": "3/4"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_uso_inteiro_limite",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "o aluno interpreta o limite superior da reta como a resposta final e define a reta com apenas 1 divisão",
+     "description": "Confunde o limite da escala da reta com a quantidade de pedaços.",
+     "feedback": "A reta deve ser dividida de acordo com o total de partes da melancia."
+    },
+    {
+     "step": 2,
+     "id": "misc_inversao_fracao",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "4",
+     "buggyRule": "trocar numerador por denominador: ao ler 3/4, o aluno insere o denominador na caixa do numerador",
+     "description": "Inversão da ordem dos termos da fração.",
+     "feedback": "Lembre-se: o numerador representa a parte comida (3) e o denominador o total de partes (4)."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_num",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "selecionar a marca imediatamente anterior na reta numérica (1/2 ou 2/4) em vez de 3/4",
+     "description": "Erro de contagem de marcas na reta numérica.",
+     "feedback": "Conte as divisões partindo do zero até chegar ao terceiro intervalo."
+    },
+    {
+     "step": 3,
+     "id": "misc_erro_denominador_total_pessoas",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "usar o valor de partes comidas como denominador em vez do total de divisões",
+     "description": "Confusão entre parte e todo.",
+     "feedback": "O denominador deve representar o total de pedaços em que a melancia foi dividida."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A melancia foi dividida em 4 partes iguais. Ajuste a reta para ter 4 divisões."
+    },
+    {
+     "step": 2,
+     "text": "O numerador indica quantos pedaços foram comidos."
+    },
+    {
+     "step": 3,
+     "text": "O denominador indica o total de pedaços da melancia."
+    }
+   ]
+  }
+ }
+}

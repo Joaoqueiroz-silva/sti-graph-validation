@@ -1,0 +1,521 @@
+{
+ "id": "14centimeter",
+ "correctAnswer": "13/10",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.538,
+ "conceptual": 0.583,
+ "precision": 0.467,
+ "recall": 0.636,
+ "functionalAgreement": 0.364,
+ "functionalKappa": 0.144,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "2",
+  "7/5",
+  "3/10",
+  "3",
+  "-/10",
+  "13/-"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "10",
+  "13",
+  "2",
+  "1",
+  "6/5",
+  "7/5",
+  "3/10",
+  "1",
+  "10",
+  "3",
+  "-/10",
+  "13",
+  "13/-",
+  "2"
+ ],
+ "exercicio": "14centimeter",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:30:46.170Z",
+ "promptSha256": "e888be3fea8fae9a0da3e2c70335fde0ea262f42e989dfb3578ed36fea276258",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1796,
+  "tokensSaida": 9048,
+  "usd": 0.084126
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "configurar o limite máximo da reta numérica",
+    "kc": "set_scale_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o número de divisões por unidade",
+    "kc": "set_denominator_partitions"
+   },
+   {
+    "indice": 3,
+    "acao": "clicar na marca correspondente a 13/10",
+    "kc": "plot_fraction_on_line"
+   },
+   {
+    "indice": 4,
+    "acao": "clicar para habilitar a escrita da fração",
+    "kc": "trigger_fraction_writing"
+   },
+   {
+    "indice": 5,
+    "acao": "digitar o numerador da fração",
+    "kc": "write_numerator"
+   },
+   {
+    "indice": 6,
+    "acao": "digitar o denominador da fração",
+    "kc": "write_denominator"
+   },
+   {
+    "indice": 7,
+    "acao": "clicar no botão para finalizar",
+    "kc": "submit_exercise"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se de que a fração 13/10 é maior do que 1 unidade inteira (13/10 = 1 e 3/10). A reta precisa ir além de 1.",
+    "buggyRule": "definir o limite da reta como o primeiro inteiro positivo visível (1) em vez do limite total de visualização",
+    "misconceptionId": "scale_limit_one"
+   },
+   {
+    "valor": "10",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "O número 10 representa em quantas partes cada centímetro (unidade) é dividido, e não o limite máximo de centímetros na reta.",
+    "buggyRule": "usar o denominador da fração (10) como o limite máximo da reta numérica",
+    "misconceptionId": "scale_limit_confused_with_denominator"
+   },
+   {
+    "valor": "13",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador da fração nos diz em quantas partes iguais a unidade deve ser dividida. Olhe para o número de baixo em 13/10.",
+    "buggyRule": "usar o numerador da fração (13) para definir o número de divisões da reta",
+    "misconceptionId": "denom_uses_numerator"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Dividir a reta em apenas 2 partes não nos dará décimos. Precisamos dividir cada unidade de acordo com o denominador da fração.",
+    "buggyRule": "usar o limite máximo da reta (2) como o número de divisões",
+    "misconceptionId": "denom_uses_scale_limit"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Para representar décimos (10), você precisa alterar o número de partes de cada unidade para 10.",
+    "buggyRule": "manter o número de divisões padrão (1) sem particionar a unidade",
+    "misconceptionId": "denom_no_partition"
+   },
+   {
+    "valor": "6/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você está muito perto! Conte as marcas com cuidado a partir do 1 (que é 10/10) até chegar a 13/10.",
+    "buggyRule": "clicar na marca imediatamente anterior ao alvo (12/10, que é exibido ou simplificado como 6/5)",
+    "misconceptionId": "numline_tick_before"
+   },
+   {
+    "valor": "7/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você passou um pouco do ponto. Lembre-se que 13/10 fica exatamente 3 marcas após o número inteiro 1.",
+    "buggyRule": "clicar na marca imediatamente posterior ao alvo (14/10, que é simplificado como 7/5)",
+    "misconceptionId": "numline_tick_after"
+   },
+   {
+    "valor": "3/10",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A fração 13/10 é imprópria, ou seja, maior que 1 unidade inteira. Você deve passar de 1 e contar mais 3 décimos.",
+    "buggyRule": "ignorar a parte inteira da fração imprópria 13/10 e marcar apenas a parte fracionária correspondente a 3/10",
+    "misconceptionId": "numline_fractional_part_only"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Karyn está mais de 1 centímetro mais alta. 13/10 é maior do que 1 inteiro. Encontre a marca exata entre 1 e 2.",
+    "buggyRule": "marcar o número inteiro mais próximo (1) na reta numérica",
+    "misconceptionId": "numline_integer_one"
+   },
+   {
+    "valor": "10",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa o número de partes que temos (13 milímetros). Insira este valor no campo de cima.",
+    "buggyRule": "inverter os termos da fração, inserindo o denominador (10) no campo do numerador",
+    "misconceptionId": "F1_inverted"
+   },
+   {
+    "valor": "3",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Escreva a fração imprópria completa. Quantos décimos de centímetro ela cresceu no total? O enunciado diz 13/10.",
+    "buggyRule": "inserir apenas o numerador da parte fracionária (3) em vez do numerador da fração imprópria (13)",
+    "misconceptionId": "F1_fractional_numerator_only"
+   },
+   {
+    "valor": "-/10",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Não se esqueça de preencher o numerador (o número de cima) da sua fração.",
+    "buggyRule": "deixar o numerador em branco enquanto o denominador está preenchido",
+    "misconceptionId": "F1_empty_numerator"
+   },
+   {
+    "valor": "13",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador representa em quantas partes cada centímetro é dividido (10). Insira este valor no campo de baixo.",
+    "buggyRule": "inverter os termos da fração, inserindo o numerador (13) no campo do denominador",
+    "misconceptionId": "F2_inverted"
+   },
+   {
+    "valor": "13/-",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "Sua fração precisa de um denominador. Insira em quantas partes o centímetro foi dividido.",
+    "buggyRule": "deixar o denominador em branco enquanto o numerador está preenchido",
+    "misconceptionId": "F2_empty_denominator"
+   },
+   {
+    "valor": "2",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador é determinado por quantas partes dividimos uma única unidade (1 centímetro), que é 10.",
+    "buggyRule": "inserir o limite máximo da reta (2) como o denominador da fração",
+    "misconceptionId": "F2_scale_limit"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Observe a reta numérica na tela. Qual é o maior número inteiro mostrado no final da reta? Ajuste o limite para esse valor."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Olhe para a fração 13/10. O denominador é 10, o que significa que cada unidade de centímetro deve ser dividida em 10 partes iguais. Digite 10 no campo de divisões."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Agora que a reta está dividida em décimos, localize 13/10. Como 10/10 equivale a 1 inteiro, conte mais 3 marcas após o número 1 e clique nessa marca."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Ótimo! Agora clique no botão para habilitar a escrita da fração correspondente ao ponto que você marcou."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "No campo superior da fração (numerador), digite o número total de décimos que Karyn cresceu. O enunciado diz que são 13 décimos."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "No campo inferior da fração (denominador), digite o número de partes em que o centímetro foi dividido, que é 10."
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Tudo pronto! Clique no botão 'Pronto' para enviar sua resposta e concluir o exercício."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"step\": 1,\n      \"kc\": \"set_scale_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"configurar o limite máximo da reta numérica\",\n      \"result\": \"2\"\n    },\n    {\n      \"step\": 2,\n      \"kc\": \"set_denominator_partitions\",\n      \"selection\": \"denom\",\n      \"action\": \"inserir o número de divisões por unidade\",\n      \"result\": \"10\"\n    },\n    {\n      \"step\": 3,\n      \"kc\": \"plot_fraction_on_line\",\n      \"selection\": \"numline\",\n      \"action\": \"clicar na marca correspondente a 13/10\",\n      \"result\": \"13/10\"\n    },\n    {\n      \"step\": 4,\n      \"kc\": \"trigger_fraction_writing\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"clicar para habilitar a escrita da fração\",\n      \"result\": \"clicked\"\n    },\n    {\n      \"step\": 5,\n      \"kc\": \"write_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"digitar o numerador da fração\",\n      \"result\": \"13\"\n    },\n    {\n      \"step\": 6,\n      \"kc\": \"write_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"digitar o denominador da fração\",\n      \"result\": \"10\"\n    },\n    {\n      \"step\": 7,\n      \"kc\": \"submit_exercise\",\n      \"selection\": \"done\",\n      \"action\": \"clicar no botão para finalizar\",\n      \"result\": \"clicked\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"scale_limit_one\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"definir o limite da reta como o primeiro inteiro positivo visível (1) em vez do limite total de visualização\",\n      \"description\": \"O aluno confunde o limite da reta e tenta ajustá-lo para 1, achando que a reta só pode representar até uma unidade inteira.\",\n      \"feedback\": \"Lembre-se de que a fração 13/10 é maior do que 1 unidade inteira (13/10 = 1 e 3/10). A reta precisa ir além de 1.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"scale_limit_confused_with_denominator\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"10\",\n      \"buggyRule\": \"usar o denominador da fração (10) como o limite máximo da reta numérica\",\n      \"description\": \"O aluno confunde o limite máximo da reta com o número de divisões (denominador) e tenta ajustar o limite para 10.\",\n      \"feedback\": \"O número 10 representa em quantas partes cada centímetro (unidade) é dividido, e não o limite máximo de centímetros na reta.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"denom_uses_numerator\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"13\",\n      \"buggyRule\": \"usar o numerador da fração (13) para definir o número de divisões da reta\",\n      \"description\": \"O aluno insere o numerador 13 no campo de partições da reta, confundindo a quantidade total de partes selecionadas com a partição da unidade.\",\n      \"feedback\": \"O denominador da fração nos diz em quantas partes iguais a unidade deve ser dividida. Olhe para o número de baixo em 13/10.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"denom_uses_scale_limit\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"usar o limite máximo da reta (2) como o número de divisões\",\n      \"description\": \"O aluno usa o limite visível da reta (2) para definir as partições da unidade.\",\n      \"feedback\": \"Dividir a reta em apenas 2 partes não nos dará décimos. Precisamos dividir cada unidade de acordo com o denominador da fração.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"denom_no_partition\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"manter o número de divisões padrão (1) sem particionar a unidade\",\n      \"description\": \"O aluno tenta prosseguir sem alterar a partição inicial da reta, deixando o valor padrão de 1.\",\n      \"feedback\": \"Para representar décimos (10), você precisa alterar o número de partes de cada unidade para 10.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"numline_tick_before\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"6/5\",\n      \"buggyRule\": \"clicar na marca imediatamente anterior ao alvo (12/10, que é exibido ou simplificado como 6/5)\",\n      \"description\": \"O aluno erra a contagem de marcas por uma posição para trás, clicando em 12/10.\",\n      \"feedback\": \"Você está muito perto! Conte as marcas com cuidado a partir do 1 (que é 10/10) até chegar a 13/10.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"numline_tick_after\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"7/5\",\n      \"buggyRule\": \"clicar na marca imediatamente posterior ao alvo (14/10, que é simplificado como 7/5)\",\n      \"description\": \"O aluno passa do ponto correto por uma marca, clicando em 14/10.\",\n      \"feedback\": \"Você passou um pouco do ponto. Lembre-se que 13/10 fica exatamente 3 marcas após o número inteiro 1.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"numline_fractional_part_only\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3/10\",\n      \"buggyRule\": \"ignorar a parte inteira da fração imprópria 13/10 e marcar apenas a parte fracionária correspondente a 3/10\",\n      \"description\": \"O aluno desconsidera que a fração é imprópria (maior que 1) e marca 3/10 na reta numérica.\",\n      \"feedback\": \"A fração 13/10 é imprópria, ou seja, maior que 1 unidade inteira. Você deve passar de 1 e contar mais 3 décimos.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"numline_integer_one\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"marcar o número inteiro mais próximo (1) na reta numérica\",\n      \"description\": \"O aluno aproxima a fração para o inteiro mais próximo ou se confunde com a parte inteira.\",\n      \"feedback\": \"Karyn está mais de 1 centímetro mais alta. 13/10 é maior do que 1 inteiro. Encontre a marca exata entre 1 e 2.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"F1_inverted\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"10\",\n      \"buggyRule\": \"inverter os termos da fração, inserindo o denominador (10) no campo do numerador\",\n      \"description\": \"O aluno troca a ordem dos termos e escreve o denominador no campo do numerador.\",\n      \"feedback\": \"O numerador representa o número de partes que temos (13 milímetros). Insira este valor no campo de cima.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"F1_fractional_numerator_only\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"inserir apenas o numerador da parte fracionária (3) em vez do numerador da fração imprópria (13)\",\n      \"description\": \"O aluno tenta escrever a fração na forma mista ou simplificada, colocando apenas 3 no numerador.\",\n      \"feedback\": \"Escreva a fração imprópria completa. Quantos décimos de centímetro ela cresceu no total? O enunciado diz 13/10.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"F1_empty_numerator\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"-/10\",\n      \"buggyRule\": \"deixar o numerador em branco enquanto o denominador está preenchido\",\n      \"description\": \"O aluno envia a resposta com o numerador em branco.\",\n      \"feedback\": \"Não se esqueça de preencher o numerador (o número de cima) da sua fração.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"F2_inverted\",\n      \"selection\": \"F2\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"13\",\n      \"buggyRule\": \"inverter os termos da fração, inserindo o numerador (13) no campo do denominador\",\n      \"description\": \"O aluno coloca o numerador no campo destinado ao denominador.\",\n      \"feedback\": \"O denominador representa em quantas partes cada centímetro é dividido (10). Insira este valor no campo de baixo.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"F2_empty_denominator\",\n      \"selection\": \"F2\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"13/-\",\n      \"buggyRule\": \"deixar o denominador em branco enquanto o numerador está preenchido\",\n      \"description\": \"O aluno preenche o numerador mas esquece ou deixa em branco o denominador.\",\n      \"feedback\": \"Sua fração precisa de um denominador. Insira em quantas partes o centímetro foi dividido.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"F2_scale_limit\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"inserir o limite máximo da reta (2) como o denominador da fração\",\n      \"description\": \"O aluno confunde o limite da reta com o denominador da fração.\",\n      \"feedback\": \"O denominador é determinado por quantas partes dividimos uma única unidade (1 centímetro), que é 10.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"Observe a reta numérica na tela. Qual é o maior número inteiro mostrado no final da reta? Ajuste o limite para esse valor.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Olhe para a fração 13/10. O denominador é 10, o que significa que cada unidade de centímetro deve ser dividida em 10 partes iguais. Digite 10 no campo de divisões.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Agora que a reta está dividida em décimos, localize 13/10. Como 10/10 equivale a 1 inteiro, conte mais 3 marcas após o número 1 e clique nessa marca.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Ótimo! Agora clique no botão para habilitar a escrita da fração correspondente ao ponto que você marcou.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"No campo superior da fração (numerador), digite o número total de décimos que Karyn cresceu. O enunciado diz que são 13 décimos.\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"No campo inferior da fração (denominador), digite o número de partes em que o centímetro foi dividido, que é 10.\"\n    },\n    {\n      \"step\": 7,\n      \"text\": \"Tudo pronto! Clique no botão 'Pronto' para enviar sua resposta e concluir o exercício.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "step": 1,
+     "kc": "set_scale_limit",
+     "selection": "numline",
+     "action": "configurar o limite máximo da reta numérica",
+     "result": "2"
+    },
+    {
+     "step": 2,
+     "kc": "set_denominator_partitions",
+     "selection": "denom",
+     "action": "inserir o número de divisões por unidade",
+     "result": "10"
+    },
+    {
+     "step": 3,
+     "kc": "plot_fraction_on_line",
+     "selection": "numline",
+     "action": "clicar na marca correspondente a 13/10",
+     "result": "13/10"
+    },
+    {
+     "step": 4,
+     "kc": "trigger_fraction_writing",
+     "selection": "writeFractionStep",
+     "action": "clicar para habilitar a escrita da fração",
+     "result": "clicked"
+    },
+    {
+     "step": 5,
+     "kc": "write_numerator",
+     "selection": "F1",
+     "action": "digitar o numerador da fração",
+     "result": "13"
+    },
+    {
+     "step": 6,
+     "kc": "write_denominator",
+     "selection": "F2",
+     "action": "digitar o denominador da fração",
+     "result": "10"
+    },
+    {
+     "step": 7,
+     "kc": "submit_exercise",
+     "selection": "done",
+     "action": "clicar no botão para finalizar",
+     "result": "clicked"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "scale_limit_one",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "definir o limite da reta como o primeiro inteiro positivo visível (1) em vez do limite total de visualização",
+     "description": "O aluno confunde o limite da reta e tenta ajustá-lo para 1, achando que a reta só pode representar até uma unidade inteira.",
+     "feedback": "Lembre-se de que a fração 13/10 é maior do que 1 unidade inteira (13/10 = 1 e 3/10). A reta precisa ir além de 1."
+    },
+    {
+     "step": 1,
+     "id": "scale_limit_confused_with_denominator",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "10",
+     "buggyRule": "usar o denominador da fração (10) como o limite máximo da reta numérica",
+     "description": "O aluno confunde o limite máximo da reta com o número de divisões (denominador) e tenta ajustar o limite para 10.",
+     "feedback": "O número 10 representa em quantas partes cada centímetro (unidade) é dividido, e não o limite máximo de centímetros na reta."
+    },
+    {
+     "step": 2,
+     "id": "denom_uses_numerator",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "13",
+     "buggyRule": "usar o numerador da fração (13) para definir o número de divisões da reta",
+     "description": "O aluno insere o numerador 13 no campo de partições da reta, confundindo a quantidade total de partes selecionadas com a partição da unidade.",
+     "feedback": "O denominador da fração nos diz em quantas partes iguais a unidade deve ser dividida. Olhe para o número de baixo em 13/10."
+    },
+    {
+     "step": 2,
+     "id": "denom_uses_scale_limit",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "usar o limite máximo da reta (2) como o número de divisões",
+     "description": "O aluno usa o limite visível da reta (2) para definir as partições da unidade.",
+     "feedback": "Dividir a reta em apenas 2 partes não nos dará décimos. Precisamos dividir cada unidade de acordo com o denominador da fração."
+    },
+    {
+     "step": 2,
+     "id": "denom_no_partition",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "manter o número de divisões padrão (1) sem particionar a unidade",
+     "description": "O aluno tenta prosseguir sem alterar a partição inicial da reta, deixando o valor padrão de 1.",
+     "feedback": "Para representar décimos (10), você precisa alterar o número de partes de cada unidade para 10."
+    },
+    {
+     "step": 3,
+     "id": "numline_tick_before",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "6/5",
+     "buggyRule": "clicar na marca imediatamente anterior ao alvo (12/10, que é exibido ou simplificado como 6/5)",
+     "description": "O aluno erra a contagem de marcas por uma posição para trás, clicando em 12/10.",
+     "feedback": "Você está muito perto! Conte as marcas com cuidado a partir do 1 (que é 10/10) até chegar a 13/10."
+    },
+    {
+     "step": 3,
+     "id": "numline_tick_after",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "7/5",
+     "buggyRule": "clicar na marca imediatamente posterior ao alvo (14/10, que é simplificado como 7/5)",
+     "description": "O aluno passa do ponto correto por uma marca, clicando em 14/10.",
+     "feedback": "Você passou um pouco do ponto. Lembre-se que 13/10 fica exatamente 3 marcas após o número inteiro 1."
+    },
+    {
+     "step": 3,
+     "id": "numline_fractional_part_only",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "3/10",
+     "buggyRule": "ignorar a parte inteira da fração imprópria 13/10 e marcar apenas a parte fracionária correspondente a 3/10",
+     "description": "O aluno desconsidera que a fração é imprópria (maior que 1) e marca 3/10 na reta numérica.",
+     "feedback": "A fração 13/10 é imprópria, ou seja, maior que 1 unidade inteira. Você deve passar de 1 e contar mais 3 décimos."
+    },
+    {
+     "step": 3,
+     "id": "numline_integer_one",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "marcar o número inteiro mais próximo (1) na reta numérica",
+     "description": "O aluno aproxima a fração para o inteiro mais próximo ou se confunde com a parte inteira.",
+     "feedback": "Karyn está mais de 1 centímetro mais alta. 13/10 é maior do que 1 inteiro. Encontre a marca exata entre 1 e 2."
+    },
+    {
+     "step": 5,
+     "id": "F1_inverted",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "10",
+     "buggyRule": "inverter os termos da fração, inserindo o denominador (10) no campo do numerador",
+     "description": "O aluno troca a ordem dos termos e escreve o denominador no campo do numerador.",
+     "feedback": "O numerador representa o número de partes que temos (13 milímetros). Insira este valor no campo de cima."
+    },
+    {
+     "step": 5,
+     "id": "F1_fractional_numerator_only",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "inserir apenas o numerador da parte fracionária (3) em vez do numerador da fração imprópria (13)",
+     "description": "O aluno tenta escrever a fração na forma mista ou simplificada, colocando apenas 3 no numerador.",
+     "feedback": "Escreva a fração imprópria completa. Quantos décimos de centímetro ela cresceu no total? O enunciado diz 13/10."
+    },
+    {
+     "step": 5,
+     "id": "F1_empty_numerator",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "-/10",
+     "buggyRule": "deixar o numerador em branco enquanto o denominador está preenchido",
+     "description": "O aluno envia a resposta com o numerador em branco.",
+     "feedback": "Não se esqueça de preencher o numerador (o número de cima) da sua fração."
+    },
+    {
+     "step": 6,
+     "id": "F2_inverted",
+     "selection": "F2",
+     "type": "procedural",
+     "wrongAnswer": "13",
+     "buggyRule": "inverter os termos da fração, inserindo o numerador (13) no campo do denominador",
+     "description": "O aluno coloca o numerador no campo destinado ao denominador.",
+     "feedback": "O denominador representa em quantas partes cada centímetro é dividido (10). Insira este valor no campo de baixo."
+    },
+    {
+     "step": 6,
+     "id": "F2_empty_denominator",
+     "selection": "F2",
+     "type": "procedural",
+     "wrongAnswer": "13/-",
+     "buggyRule": "deixar o denominador em branco enquanto o numerador está preenchido",
+     "description": "O aluno preenche o numerador mas esquece ou deixa em branco o denominador.",
+     "feedback": "Sua fração precisa de um denominador. Insira em quantas partes o centímetro foi dividido."
+    },
+    {
+     "step": 6,
+     "id": "F2_scale_limit",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "inserir o limite máximo da reta (2) como o denominador da fração",
+     "description": "O aluno confunde o limite da reta com o denominador da fração.",
+     "feedback": "O denominador é determinado por quantas partes dividimos uma única unidade (1 centímetro), que é 10."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "Observe a reta numérica na tela. Qual é o maior número inteiro mostrado no final da reta? Ajuste o limite para esse valor."
+    },
+    {
+     "step": 2,
+     "text": "Olhe para a fração 13/10. O denominador é 10, o que significa que cada unidade de centímetro deve ser dividida em 10 partes iguais. Digite 10 no campo de divisões."
+    },
+    {
+     "step": 3,
+     "text": "Agora que a reta está dividida em décimos, localize 13/10. Como 10/10 equivale a 1 inteiro, conte mais 3 marcas após o número 1 e clique nessa marca."
+    },
+    {
+     "step": 4,
+     "text": "Ótimo! Agora clique no botão para habilitar a escrita da fração correspondente ao ponto que você marcou."
+    },
+    {
+     "step": 5,
+     "text": "No campo superior da fração (numerador), digite o número total de décimos que Karyn cresceu. O enunciado diz que são 13 décimos."
+    },
+    {
+     "step": 6,
+     "text": "No campo inferior da fração (denominador), digite o número de partes em que o centímetro foi dividido, que é 10."
+    },
+    {
+     "step": 7,
+     "text": "Tudo pronto! Clique no botão 'Pronto' para enviar sua resposta e concluir o exercício."
+    }
+   ]
+  }
+ }
+}

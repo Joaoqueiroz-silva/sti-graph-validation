@@ -1,0 +1,520 @@
+{
+ "id": "00bubble",
+ "correctAnswer": "1/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.476,
+ "conceptual": 0.526,
+ "precision": 0.455,
+ "recall": 0.5,
+ "functionalAgreement": 0.333,
+ "functionalKappa": 0,
+ "missing": [
+  "-",
+  "-/5",
+  "-1"
+ ],
+ "extra": [
+  "0",
+  "6",
+  "4",
+  "2/5",
+  "clicked"
+ ],
+ "robotMisconceptions": [
+  "5",
+  "0",
+  "1",
+  "6",
+  "4",
+  "2/5",
+  "0",
+  "1",
+  "clicked",
+  "clicked",
+  "5",
+  "0",
+  "1",
+  "4",
+  "clicked"
+ ],
+ "exercicio": "00bubble",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:04:01.886Z",
+ "promptSha256": "bc300431865bafab360164aebfe120f940fd7b7b0d6e7b2ab42715d5ad20e271",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1679,
+  "tokensSaida": 7442,
+  "usd": 0.06949649999999999
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configurar o limite direito visível da reta numérica para representar o pão inteiro",
+    "kc": "kc_set_scale_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "Digitar o número de partes em que o pão será dividido",
+    "kc": "kc_set_divisions"
+   },
+   {
+    "indice": 3,
+    "acao": "Clicar na marca correspondente a 1/5 na reta numérica",
+    "kc": "kc_plot_point"
+   },
+   {
+    "indice": 4,
+    "acao": "Clicar no controle para avançar para a escrita da fração",
+    "kc": "kc_transition_to_fraction"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o numerador da fração correspondente ao pedaço de cada pessoa",
+    "kc": "kc_enter_numerator"
+   },
+   {
+    "indice": 6,
+    "acao": "Digitar o denominador da fração correspondente ao pedaço de cada pessoa",
+    "kc": "kc_enter_denominator"
+   },
+   {
+    "indice": 7,
+    "acao": "Clicar no botão para finalizar o exercício",
+    "kc": "kc_finalize_exercise"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se que você está distribuindo um único pão inteiro. Portanto, a reta deve ir de 0 a 1 pão.",
+    "buggyRule": "usar o número de pessoas/partes (5) como o limite máximo da reta numérica em vez de 1 inteiro",
+    "misconceptionId": "scale_limit_total_people"
+   },
+   {
+    "valor": "0",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta numérica precisa representar o pão inteiro, que é maior que 0. Qual é o valor de um pão inteiro?",
+    "buggyRule": "definir o limite superior da reta como zero",
+    "misconceptionId": "scale_limit_zero"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Você precisa dividir o pão em partes iguais para 5 pessoas. Ajuste o número de divisões para refletir isso.",
+    "buggyRule": "usar o número de pães inteiros (1) para definir a quantidade de divisões da reta",
+    "misconceptionId": "divisions_equal_one"
+   },
+   {
+    "valor": "6",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Para ter 5 pedaços de pão, precisamos de 5 intervalos na reta numérica. Ajuste para 5 divisões.",
+    "buggyRule": "contar o número total de marcas físicas (ticks) na reta necessárias para fazer 5 partes, resultando em 6",
+    "misconceptionId": "divisions_tick_count"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Se você dividir a reta em 4 partes, cada pessoa receberá 1/4 do pão. Queremos dividir para 5 pessoas.",
+    "buggyRule": "subtrair um do total de divisões necessárias: 5 - 1 = 4",
+    "misconceptionId": "divisions_minus_one"
+   },
+   {
+    "valor": "2/5",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Essa marca representa 2/5 do pão. Cada pessoa deve receber exatamente 1/5 do pão.",
+    "buggyRule": "clicar na marca imediatamente à direita do alvo correto (1/5), selecionando 2/5",
+    "misconceptionId": "plot_neighbor_right"
+   },
+   {
+    "valor": "0",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A marca 0 significa que ninguém recebeu pão. Clique na primeira marca após o 0 para representar 1/5.",
+    "buggyRule": "clicar na marca imediatamente à esquerda do alvo correto (1/5), selecionando 0",
+    "misconceptionId": "plot_neighbor_left"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Isso representa o pão inteiro. Cada pessoa recebe apenas uma fração dele, que é 1/5.",
+    "buggyRule": "clicar no número inteiro 1 na reta numérica",
+    "misconceptionId": "plot_one_whole"
+   },
+   {
+    "valor": "clicked",
+    "passo": 4,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Você ainda precisa escrever a fração representada no problema antes de terminar. Clique em 'Escrever Fração'.",
+    "buggyRule": "clicar no botão 'done' antes de preencher a fração por escrito",
+    "misconceptionId": "transition_done_early"
+   },
+   {
+    "valor": "clicked",
+    "passo": 4,
+    "componente": "showAnswer",
+    "acao": "",
+    "devolutiva": "Tente resolver o problema primeiro! Você consegue escrever a fração representada.",
+    "buggyRule": "clicar no botão 'showAnswer' para revelar a resposta",
+    "misconceptionId": "transition_show_answer"
+   },
+   {
+    "valor": "5",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador indica quantas partes cada pessoa recebe. Cada pessoa recebe 1 parte.",
+    "buggyRule": "inverter a fração colocando o denominador (5) no campo do numerador",
+    "misconceptionId": "num_inverted"
+   },
+   {
+    "valor": "0",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Cada pessoa recebe uma parte do pão. O numerador deve ser maior que 0.",
+    "buggyRule": "digitar 0 no numerador",
+    "misconceptionId": "num_zero"
+   },
+   {
+    "valor": "1",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador representa o total de partes iguais em que o pão foi dividido. Em quantas partes ele foi dividido?",
+    "buggyRule": "inverter a fração colocando o numerador (1) no campo do denominador",
+    "misconceptionId": "denom_inverted"
+   },
+   {
+    "valor": "4",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O pão foi distribuído igualmente para 5 pessoas, então o total de partes é 5.",
+    "buggyRule": "digitar o número de partes menos um (4) no denominador",
+    "misconceptionId": "denom_minus_one"
+   },
+   {
+    "valor": "clicked",
+    "passo": 7,
+    "componente": "showAnswer",
+    "acao": "",
+    "devolutiva": "Você já preencheu tudo corretamente! Clique em 'done' para finalizar.",
+    "buggyRule": "clicar no botão 'showAnswer' em vez de finalizar com 'done'",
+    "misconceptionId": "done_show_answer"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica representa o pão inteiro. Qual é o valor máximo de pães inteiros que ela deve mostrar?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O pão foi dividido igualmente para 5 pessoas. Defina o número de divisões da reta para 5."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Cada pessoa recebe 1/5 do pão. Clique na primeira marca depois do 0 na reta numérica."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Agora clique no botão 'Escrever Fração' para digitar a fração correspondente."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "No campo de cima (numerador), digite quantas partes cada pessoa recebe (1)."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "No campo de baixo (denominador), digite em quantas partes o pão foi dividido no total (5)."
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Muito bem! Agora clique no botão 'done' para enviar sua resposta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"step\": 1,\n      \"kc\": \"kc_set_scale_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"Configurar o limite direito visível da reta numérica para representar o pão inteiro\",\n      \"result\": \"1\"\n    },\n    {\n      \"step\": 2,\n      \"kc\": \"kc_set_divisions\",\n      \"selection\": \"denom\",\n      \"action\": \"Digitar o número de partes em que o pão será dividido\",\n      \"result\": \"5\"\n    },\n    {\n      \"step\": 3,\n      \"kc\": \"kc_plot_point\",\n      \"selection\": \"numline\",\n      \"action\": \"Clicar na marca correspondente a 1/5 na reta numérica\",\n      \"result\": \"1/5\"\n    },\n    {\n      \"step\": 4,\n      \"kc\": \"kc_transition_to_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Clicar no controle para avançar para a escrita da fração\",\n      \"result\": \"clicked\"\n    },\n    {\n      \"step\": 5,\n      \"kc\": \"kc_enter_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digitar o numerador da fração correspondente ao pedaço de cada pessoa\",\n      \"result\": \"1\"\n    },\n    {\n      \"step\": 6,\n      \"kc\": \"kc_enter_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"Digitar o denominador da fração correspondente ao pedaço de cada pessoa\",\n      \"result\": \"5\"\n    },\n    {\n      \"step\": 7,\n      \"kc\": \"kc_finalize_exercise\",\n      \"selection\": \"done\",\n      \"action\": \"Clicar no botão para finalizar o exercício\",\n      \"result\": \"clicked\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"scale_limit_total_people\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar o número de pessoas/partes (5) como o limite máximo da reta numérica em vez de 1 inteiro\",\n      \"description\": \"O aluno confunde o número total de partes/pessoas com o valor do limite máximo da reta numérica (que representa 1 pão inteiro).\",\n      \"feedback\": \"Lembre-se que você está distribuindo um único pão inteiro. Portanto, a reta deve ir de 0 a 1 pão.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"scale_limit_zero\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"definir o limite superior da reta como zero\",\n      \"description\": \"O aluno define erroneamente o limite da reta como zero, possivelmente confundindo o ponto de partida com o ponto de chegada.\",\n      \"feedback\": \"A reta numérica precisa representar o pão inteiro, que é maior que 0. Qual é o valor de um pão inteiro?\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"divisions_equal_one\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"usar o número de pães inteiros (1) para definir a quantidade de divisões da reta\",\n      \"description\": \"O aluno define apenas 1 divisão na reta numérica, confundindo a quantidade de pães com as divisões necessárias.\",\n      \"feedback\": \"Você precisa dividir o pão em partes iguais para 5 pessoas. Ajuste o número de divisões para refletir isso.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"divisions_tick_count\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"6\",\n      \"buggyRule\": \"contar o número total de marcas físicas (ticks) na reta necessárias para fazer 5 partes, resultando em 6\",\n      \"description\": \"O aluno conta as marcas físicas na reta (incluindo o 0 e o 1) em vez dos intervalos entre as marcas.\",\n      \"feedback\": \"Para ter 5 pedaços de pão, precisamos de 5 intervalos na reta numérica. Ajuste para 5 divisões.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"divisions_minus_one\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"subtrair um do total de divisões necessárias: 5 - 1 = 4\",\n      \"description\": \"O aluno acha que precisa de N-1 divisões para representar a partição de 5 pessoas.\",\n      \"feedback\": \"Se você dividir a reta em 4 partes, cada pessoa receberá 1/4 do pão. Queremos dividir para 5 pessoas.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"plot_neighbor_right\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2/5\",\n      \"buggyRule\": \"clicar na marca imediatamente à direita do alvo correto (1/5), selecionando 2/5\",\n      \"description\": \"O aluno erra a posição exata e clica na segunda marca de divisão (2/5) em vez da primeira (1/5).\",\n      \"feedback\": \"Essa marca representa 2/5 do pão. Cada pessoa deve receber exatamente 1/5 do pão.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"plot_neighbor_left\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"clicar na marca imediatamente à esquerda do alvo correto (1/5), selecionando 0\",\n      \"description\": \"O aluno clica no início da reta (0) em vez da primeira divisão.\",\n      \"feedback\": \"A marca 0 significa que ninguém recebeu pão. Clique na primeira marca após o 0 para representar 1/5.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"plot_one_whole\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"clicar no número inteiro 1 na reta numérica\",\n      \"description\": \"O aluno clica no final da reta (1), representando o pão inteiro em vez da fração de uma pessoa.\",\n      \"feedback\": \"Isso representa o pão inteiro. Cada pessoa recebe apenas uma fração dele, que é 1/5.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"transition_done_early\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão 'done' antes de preencher a fração por escrito\",\n      \"description\": \"O aluno tenta finalizar o exercício antes de escrever a fração representada.\",\n      \"feedback\": \"Você ainda precisa escrever a fração representada no problema antes de terminar. Clique em 'Escrever Fração'.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"transition_show_answer\",\n      \"selection\": \"showAnswer\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão 'showAnswer' para revelar a resposta\",\n      \"description\": \"O aluno tenta pular a etapa de escrita da fração solicitando a resposta do sistema.\",\n      \"feedback\": \"Tente resolver o problema primeiro! Você consegue escrever a fração representada.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"num_inverted\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"inverter a fração colocando o denominador (5) no campo do numerador\",\n      \"description\": \"O aluno inverte a fração, colocando o total de partes (5) no numerador.\",\n      \"feedback\": \"O numerador indica quantas partes cada pessoa recebe. Cada pessoa recebe 1 parte.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"num_zero\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"digitar 0 no numerador\",\n      \"description\": \"O aluno digita 0 no numerador, indicando que nenhuma parte foi dada.\",\n      \"feedback\": \"Cada pessoa recebe uma parte do pão. O numerador deve ser maior que 0.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"denom_inverted\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"inverter a fração colocando o numerador (1) no campo do denominador\",\n      \"description\": \"O aluno inverte a fração, colocando 1 no denominador.\",\n      \"feedback\": \"O denominador representa o total de partes iguais em que o pão foi dividido. Em quantas partes ele foi dividido?\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"denom_minus_one\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"digitar o número de partes menos um (4) no denominador\",\n      \"description\": \"O aluno digita 4 no denominador, confundindo a quantidade de divisões com N-1.\",\n      \"feedback\": \"O pão foi distribuído igualmente para 5 pessoas, então o total de partes é 5.\"\n    },\n    {\n      \"step\": 7,\n      \"id\": \"done_show_answer\",\n      \"selection\": \"showAnswer\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão 'showAnswer' em vez de finalizar com 'done'\",\n      \"description\": \"O aluno clica no botão de mostrar resposta mesmo tendo preenchido a fração corretamente.\",\n      \"feedback\": \"Você já preencheu tudo corretamente! Clique em 'done' para finalizar.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica representa o pão inteiro. Qual é o valor máximo de pães inteiros que ela deve mostrar?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"O pão foi dividido igualmente para 5 pessoas. Defina o número de divisões da reta para 5.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Cada pessoa recebe 1/5 do pão. Clique na primeira marca depois do 0 na reta numérica.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Agora clique no botão 'Escrever Fração' para digitar a fração correspondente.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"No campo de cima (numerador), digite quantas partes cada pessoa recebe (1).\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"No campo de baixo (denominador), digite em quantas partes o pão foi dividido no total (5).\"\n    },\n    {\n      \"step\": 7,\n      \"text\": \"Muito bem! Agora clique no botão 'done' para enviar sua resposta.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "step": 1,
+     "kc": "kc_set_scale_limit",
+     "selection": "numline",
+     "action": "Configurar o limite direito visível da reta numérica para representar o pão inteiro",
+     "result": "1"
+    },
+    {
+     "step": 2,
+     "kc": "kc_set_divisions",
+     "selection": "denom",
+     "action": "Digitar o número de partes em que o pão será dividido",
+     "result": "5"
+    },
+    {
+     "step": 3,
+     "kc": "kc_plot_point",
+     "selection": "numline",
+     "action": "Clicar na marca correspondente a 1/5 na reta numérica",
+     "result": "1/5"
+    },
+    {
+     "step": 4,
+     "kc": "kc_transition_to_fraction",
+     "selection": "writeFractionStep",
+     "action": "Clicar no controle para avançar para a escrita da fração",
+     "result": "clicked"
+    },
+    {
+     "step": 5,
+     "kc": "kc_enter_numerator",
+     "selection": "F1",
+     "action": "Digitar o numerador da fração correspondente ao pedaço de cada pessoa",
+     "result": "1"
+    },
+    {
+     "step": 6,
+     "kc": "kc_enter_denominator",
+     "selection": "F2",
+     "action": "Digitar o denominador da fração correspondente ao pedaço de cada pessoa",
+     "result": "5"
+    },
+    {
+     "step": 7,
+     "kc": "kc_finalize_exercise",
+     "selection": "done",
+     "action": "Clicar no botão para finalizar o exercício",
+     "result": "clicked"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "scale_limit_total_people",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "usar o número de pessoas/partes (5) como o limite máximo da reta numérica em vez de 1 inteiro",
+     "description": "O aluno confunde o número total de partes/pessoas com o valor do limite máximo da reta numérica (que representa 1 pão inteiro).",
+     "feedback": "Lembre-se que você está distribuindo um único pão inteiro. Portanto, a reta deve ir de 0 a 1 pão."
+    },
+    {
+     "step": 1,
+     "id": "scale_limit_zero",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "0",
+     "buggyRule": "definir o limite superior da reta como zero",
+     "description": "O aluno define erroneamente o limite da reta como zero, possivelmente confundindo o ponto de partida com o ponto de chegada.",
+     "feedback": "A reta numérica precisa representar o pão inteiro, que é maior que 0. Qual é o valor de um pão inteiro?"
+    },
+    {
+     "step": 2,
+     "id": "divisions_equal_one",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "usar o número de pães inteiros (1) para definir a quantidade de divisões da reta",
+     "description": "O aluno define apenas 1 divisão na reta numérica, confundindo a quantidade de pães com as divisões necessárias.",
+     "feedback": "Você precisa dividir o pão em partes iguais para 5 pessoas. Ajuste o número de divisões para refletir isso."
+    },
+    {
+     "step": 2,
+     "id": "divisions_tick_count",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "6",
+     "buggyRule": "contar o número total de marcas físicas (ticks) na reta necessárias para fazer 5 partes, resultando em 6",
+     "description": "O aluno conta as marcas físicas na reta (incluindo o 0 e o 1) em vez dos intervalos entre as marcas.",
+     "feedback": "Para ter 5 pedaços de pão, precisamos de 5 intervalos na reta numérica. Ajuste para 5 divisões."
+    },
+    {
+     "step": 2,
+     "id": "divisions_minus_one",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "subtrair um do total de divisões necessárias: 5 - 1 = 4",
+     "description": "O aluno acha que precisa de N-1 divisões para representar a partição de 5 pessoas.",
+     "feedback": "Se você dividir a reta em 4 partes, cada pessoa receberá 1/4 do pão. Queremos dividir para 5 pessoas."
+    },
+    {
+     "step": 3,
+     "id": "plot_neighbor_right",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "2/5",
+     "buggyRule": "clicar na marca imediatamente à direita do alvo correto (1/5), selecionando 2/5",
+     "description": "O aluno erra a posição exata e clica na segunda marca de divisão (2/5) em vez da primeira (1/5).",
+     "feedback": "Essa marca representa 2/5 do pão. Cada pessoa deve receber exatamente 1/5 do pão."
+    },
+    {
+     "step": 3,
+     "id": "plot_neighbor_left",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "0",
+     "buggyRule": "clicar na marca imediatamente à esquerda do alvo correto (1/5), selecionando 0",
+     "description": "O aluno clica no início da reta (0) em vez da primeira divisão.",
+     "feedback": "A marca 0 significa que ninguém recebeu pão. Clique na primeira marca após o 0 para representar 1/5."
+    },
+    {
+     "step": 3,
+     "id": "plot_one_whole",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "clicar no número inteiro 1 na reta numérica",
+     "description": "O aluno clica no final da reta (1), representando o pão inteiro em vez da fração de uma pessoa.",
+     "feedback": "Isso representa o pão inteiro. Cada pessoa recebe apenas uma fração dele, que é 1/5."
+    },
+    {
+     "step": 4,
+     "id": "transition_done_early",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão 'done' antes de preencher a fração por escrito",
+     "description": "O aluno tenta finalizar o exercício antes de escrever a fração representada.",
+     "feedback": "Você ainda precisa escrever a fração representada no problema antes de terminar. Clique em 'Escrever Fração'."
+    },
+    {
+     "step": 4,
+     "id": "transition_show_answer",
+     "selection": "showAnswer",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão 'showAnswer' para revelar a resposta",
+     "description": "O aluno tenta pular a etapa de escrita da fração solicitando a resposta do sistema.",
+     "feedback": "Tente resolver o problema primeiro! Você consegue escrever a fração representada."
+    },
+    {
+     "step": 5,
+     "id": "num_inverted",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "inverter a fração colocando o denominador (5) no campo do numerador",
+     "description": "O aluno inverte a fração, colocando o total de partes (5) no numerador.",
+     "feedback": "O numerador indica quantas partes cada pessoa recebe. Cada pessoa recebe 1 parte."
+    },
+    {
+     "step": 5,
+     "id": "num_zero",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "0",
+     "buggyRule": "digitar 0 no numerador",
+     "description": "O aluno digita 0 no numerador, indicando que nenhuma parte foi dada.",
+     "feedback": "Cada pessoa recebe uma parte do pão. O numerador deve ser maior que 0."
+    },
+    {
+     "step": 6,
+     "id": "denom_inverted",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "inverter a fração colocando o numerador (1) no campo do denominador",
+     "description": "O aluno inverte a fração, colocando 1 no denominador.",
+     "feedback": "O denominador representa o total de partes iguais em que o pão foi dividido. Em quantas partes ele foi dividido?"
+    },
+    {
+     "step": 6,
+     "id": "denom_minus_one",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "digitar o número de partes menos um (4) no denominador",
+     "description": "O aluno digita 4 no denominador, confundindo a quantidade de divisões com N-1.",
+     "feedback": "O pão foi distribuído igualmente para 5 pessoas, então o total de partes é 5."
+    },
+    {
+     "step": 7,
+     "id": "done_show_answer",
+     "selection": "showAnswer",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão 'showAnswer' em vez de finalizar com 'done'",
+     "description": "O aluno clica no botão de mostrar resposta mesmo tendo preenchido a fração corretamente.",
+     "feedback": "Você já preencheu tudo corretamente! Clique em 'done' para finalizar."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica representa o pão inteiro. Qual é o valor máximo de pães inteiros que ela deve mostrar?"
+    },
+    {
+     "step": 2,
+     "text": "O pão foi dividido igualmente para 5 pessoas. Defina o número de divisões da reta para 5."
+    },
+    {
+     "step": 3,
+     "text": "Cada pessoa recebe 1/5 do pão. Clique na primeira marca depois do 0 na reta numérica."
+    },
+    {
+     "step": 4,
+     "text": "Agora clique no botão 'Escrever Fração' para digitar a fração correspondente."
+    },
+    {
+     "step": 5,
+     "text": "No campo de cima (numerador), digite quantas partes cada pessoa recebe (1)."
+    },
+    {
+     "step": 6,
+     "text": "No campo de baixo (denominador), digite em quantas partes o pão foi dividido no total (5)."
+    },
+    {
+     "step": 7,
+     "text": "Muito bem! Agora clique no botão 'done' para enviar sua resposta."
+    }
+   ]
+  }
+ }
+}

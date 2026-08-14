@@ -1,0 +1,214 @@
+{
+ "id": "19Painting",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.5,
+ "conceptual": 0.556,
+ "precision": 0.625,
+ "recall": 0.417,
+ "functionalAgreement": 0.286,
+ "functionalKappa": -0.167,
+ "missing": [
+  "1/4",
+  "1",
+  "5",
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "3",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "4",
+  "3",
+  "2"
+ ],
+ "exercicio": "19Painting",
+ "replica": 2,
+ "geradoEm": "2026-08-14T14:06:12.496Z",
+ "promptSha256": "ae7f7651a15aa204fb6bf84a661fb2489cbfb8fcf998fe8a74bb8bd105961288",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:43.872Z"
+ },
+ "custo": {
+  "tokensEntrada": 1758,
+  "tokensSaida": 599,
+  "usd": 0.001338
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "selecionar o limite da reta numérica",
+    "kc": "setup_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "inserir o numerador da fração",
+    "kc": "set_numerator"
+   },
+   {
+    "indice": 3,
+    "acao": "inserir o denominador da fração",
+    "kc": "set_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "confirmar a escrita da fração",
+    "kc": "confirm_write"
+   },
+   {
+    "indice": 5,
+    "acao": "finalizar o exercício",
+    "kc": "finish_task"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique qual número representa a quantidade de partes que temos e qual representa o total de partes em que o inteiro foi dividido.",
+    "buggyRule": "o aluno inverte a posição da fração 5/4, colocando o denominador no lugar do numerador",
+    "misconceptionId": "misc_inverter_numerador_denominador"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Conte as divisões cuidadosamente a partir do zero até chegar na marca indicada.",
+    "buggyRule": "o aluno identifica a marca imediatamente anterior a 5/4 na reta numérica (3/2 ou 3/4, aqui assumindo a marca 3/4 como referência de contagem de partes)",
+    "misconceptionId": "misc_marca_vizinha_reta"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa em quantas partes iguais cada unidade foi dividida, não o limite da reta.",
+    "buggyRule": "o aluno usa o valor do limite máximo da reta numérica (2) como se fosse o denominador da fração",
+    "misconceptionId": "misc_inteiro_nu_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta foi dividida em partes iguais de 1/4. Conte quantas dessas partes existem desde o zero até a posição do quadro."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "O numerador indica quantas partes de 1/4 você percorreu no total."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "O denominador indica em quantas partes cada unidade (1 pé) foi dividida."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    { \"kc\": \"setup_numline\", \"selection\": \"numline\", \"action\": \"selecionar o limite da reta numérica\", \"result\": \"2\" },\n    { \"kc\": \"set_numerator\", \"selection\": \"F1\", \"action\": \"inserir o numerador da fração\", \"result\": \"5\" },\n    { \"kc\": \"set_denominator\", \"selection\": \"denom\", \"action\": \"inserir o denominador da fração\", \"result\": \"4\" },\n    { \"kc\": \"confirm_write\", \"selection\": \"writeFractionStep\", \"action\": \"confirmar a escrita da fração\", \"result\": \"5/4\" },\n    { \"kc\": \"finish_task\", \"selection\": \"done\", \"action\": \"finalizar o exercício\", \"result\": \"done\" }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 2,\n      \"id\": \"misc_inverter_numerador_denominador\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"o aluno inverte a posição da fração 5/4, colocando o denominador no lugar do numerador\",\n      \"description\": \"O aluno troca o numerador pelo denominador.\",\n      \"feedback\": \"Verifique qual número representa a quantidade de partes que temos e qual representa o total de partes em que o inteiro foi dividido.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_marca_vizinha_reta\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"o aluno identifica a marca imediatamente anterior a 5/4 na reta numérica (3/2 ou 3/4, aqui assumindo a marca 3/4 como referência de contagem de partes)\",\n      \"description\": \"O aluno seleciona a marca anterior na reta numérica.\",\n      \"feedback\": \"Conte as divisões cuidadosamente a partir do zero até chegar na marca indicada.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_inteiro_nu_denominador\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"o aluno usa o valor do limite máximo da reta numérica (2) como se fosse o denominador da fração\",\n      \"description\": \"O aluno utiliza um dos rótulos inteiros da reta numérica como denominador.\",\n      \"feedback\": \"O denominador representa em quantas partes iguais cada unidade foi dividida, não o limite da reta.\"\n    }\n  ],\n  \"hints\": [\n    { \"step\": 1, \"text\": \"A reta foi dividida em partes iguais de 1/4. Conte quantas dessas partes existem desde o zero até a posição do quadro.\" },\n    { \"step\": 2, \"text\": \"O numerador indica quantas partes de 1/4 você percorreu no total.\" },\n    { \"step\": 3, \"text\": \"O denominador indica em quantas partes cada unidade (1 pé) foi dividida.\" }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "setup_numline",
+     "selection": "numline",
+     "action": "selecionar o limite da reta numérica",
+     "result": "2"
+    },
+    {
+     "kc": "set_numerator",
+     "selection": "F1",
+     "action": "inserir o numerador da fração",
+     "result": "5"
+    },
+    {
+     "kc": "set_denominator",
+     "selection": "denom",
+     "action": "inserir o denominador da fração",
+     "result": "4"
+    },
+    {
+     "kc": "confirm_write",
+     "selection": "writeFractionStep",
+     "action": "confirmar a escrita da fração",
+     "result": "5/4"
+    },
+    {
+     "kc": "finish_task",
+     "selection": "done",
+     "action": "finalizar o exercício",
+     "result": "done"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 2,
+     "id": "misc_inverter_numerador_denominador",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "o aluno inverte a posição da fração 5/4, colocando o denominador no lugar do numerador",
+     "description": "O aluno troca o numerador pelo denominador.",
+     "feedback": "Verifique qual número representa a quantidade de partes que temos e qual representa o total de partes em que o inteiro foi dividido."
+    },
+    {
+     "step": 2,
+     "id": "misc_marca_vizinha_reta",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "3",
+     "buggyRule": "o aluno identifica a marca imediatamente anterior a 5/4 na reta numérica (3/2 ou 3/4, aqui assumindo a marca 3/4 como referência de contagem de partes)",
+     "description": "O aluno seleciona a marca anterior na reta numérica.",
+     "feedback": "Conte as divisões cuidadosamente a partir do zero até chegar na marca indicada."
+    },
+    {
+     "step": 3,
+     "id": "misc_inteiro_nu_denominador",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "2",
+     "buggyRule": "o aluno usa o valor do limite máximo da reta numérica (2) como se fosse o denominador da fração",
+     "description": "O aluno utiliza um dos rótulos inteiros da reta numérica como denominador.",
+     "feedback": "O denominador representa em quantas partes iguais cada unidade foi dividida, não o limite da reta."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta foi dividida em partes iguais de 1/4. Conte quantas dessas partes existem desde o zero até a posição do quadro."
+    },
+    {
+     "step": 2,
+     "text": "O numerador indica quantas partes de 1/4 você percorreu no total."
+    },
+    {
+     "step": 3,
+     "text": "O denominador indica em quantas partes cada unidade (1 pé) foi dividida."
+    }
+   ]
+  }
+ }
+}

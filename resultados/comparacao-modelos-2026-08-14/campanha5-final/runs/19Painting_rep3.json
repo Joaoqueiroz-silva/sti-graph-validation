@@ -1,0 +1,369 @@
+{
+ "id": "19Painting",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 5
+ },
+ "f1": 0.56,
+ "conceptual": 0.609,
+ "precision": 0.538,
+ "recall": 0.583,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.032,
+ "missing": [
+  "1/4",
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "2",
+  "9",
+  "8",
+  "3/2",
+  "-/4"
+ ],
+ "robotMisconceptions": [
+  "2",
+  "9",
+  "2",
+  "4",
+  "1",
+  "8",
+  "5",
+  "1",
+  "3/2",
+  "-/4"
+ ],
+ "exercicio": "19Painting",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:39:51.235Z",
+ "promptSha256": "ae7f7651a15aa204fb6bf84a661fb2489cbfb8fcf998fe8a74bb8bd105961288",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1882,
+  "tokensSaida": 1790,
+  "usd": 0.00844896
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 5
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para cobrir até o maior inteiro visível",
+    "kc": "kc_config_numline"
+   },
+   {
+    "indice": 2,
+    "acao": "Digita o numerador da fração total do movimento (1 + 1/4 = 5/4)",
+    "kc": "kc_identify_total_movement"
+   },
+   {
+    "indice": 3,
+    "acao": "Digita o denominador com base nas divisões da reta (4 partes por unidade)",
+    "kc": "kc_identify_denominator"
+   },
+   {
+    "indice": 4,
+    "acao": "Clica na marca correspondente a 5/4 na reta numérica",
+    "kc": "kc_verify_on_numberline"
+   },
+   {
+    "indice": 5,
+    "acao": "Clica em 'done' para finalizar a resposta",
+    "kc": "kc_submit_fraction"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "2",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta vai até 2, mas a pergunta é sobre a posição final do quadro, não o limite da reta.",
+    "buggyRule": "Usa o rótulo do limite direito da reta (2) como se fosse a resposta ao invés de configurar a escala",
+    "misconceptionId": "misc_integer_label_as_answer"
+   },
+   {
+    "valor": "9",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta tem 9 marcas no total, mas você precisa indicar a posição do quadro, não contar marcas.",
+    "buggyRule": "Conta o número total de marcas na reta (9) e digita esse inteiro no componente numline",
+    "misconceptionId": "misc_mark_count_as_integer"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Você somou os dois movimentos de 1 pé, mas esqueceu que ela voltou um pouco e ficou em 1¼, não em 2.",
+    "buggyRule": "Soma apenas os pés inteiros movidos (1 + 1 = 2) e ignora a fração final",
+    "misconceptionId": "misc_add_whole_numbers_only"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Verifique se você não inverteu o numerador e o denominador da fração.",
+    "buggyRule": "Inverte a fração correta 5/4 e usa o denominador (4) como numerador",
+    "misconceptionId": "misc_invert_fraction_numerator"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O quadro foi movido mais de uma vez. A posição final é após todos os movimentos.",
+    "buggyRule": "Considera apenas o primeiro movimento de 1 pé e ignora os demais",
+    "misconceptionId": "misc_use_initial_move_only"
+   },
+   {
+    "valor": "8",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Cada unidade está dividida em 4 partes, não 8. Veja entre 0 e 1 quantas partes há.",
+    "buggyRule": "Conta o número total de intervalos na reta (8) e usa como denominador",
+    "misconceptionId": "misc_use_division_count_instead_of_parts_per_unit"
+   },
+   {
+    "valor": "5",
+    "passo": 3,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador deve ser 4, pois cada unidade está dividida em quartos.",
+    "buggyRule": "Inverte a fração correta 5/4 e usa o numerador (5) como denominador",
+    "misconceptionId": "misc_invert_fraction_denominator"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A posição correta está um quarto além de 1, não exatamente em 1.",
+    "buggyRule": "Clica na marca imediatamente antes de 5/4, que é 1 (ou 4/4)",
+    "misconceptionId": "misc_click_previous_mark"
+   },
+   {
+    "valor": "3/2",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você foi um pouco longe demais. A posição correta é antes de 3/2.",
+    "buggyRule": "Clica na marca imediatamente depois de 5/4, que é 6/4 = 3/2",
+    "misconceptionId": "misc_click_next_mark"
+   },
+   {
+    "valor": "-/4",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Certifique-se de clicar exatamente na marca que representa 5/4.",
+    "buggyRule": "Deixa o numerador em branco (ou não clica corretamente) e a interface registra '-/4'",
+    "misconceptionId": "misc_partial_fraction_entry"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta mostra de 0 a 2, com marcas a cada 1/4. Qual é o maior número inteiro visível?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Some 1 (primeiro movimento) + 1 (segundo) e depois ajuste: ela recuou para ficar 1/4 além do primeiro pé."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Quantas partes iguais há entre 0 e 1 na reta? Esse é o denominador."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Encontre a marca que está um quarto à direita do 1. Essa é a posição final."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Revise sua fração e clique em 'done' quando estiver certo."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para cobrir até o maior inteiro visível\",\n      \"result\": \"2\"\n    },\n    {\n      \"kc\": \"kc_identify_total_movement\",\n      \"selection\": \"F1\",\n      \"action\": \"Digita o numerador da fração total do movimento (1 + 1/4 = 5/4)\",\n      \"result\": \"5\"\n    },\n    {\n      \"kc\": \"kc_identify_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Digita o denominador com base nas divisões da reta (4 partes por unidade)\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_verify_on_numberline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clica na marca correspondente a 5/4 na reta numérica\",\n      \"result\": \"5/4\"\n    },\n    {\n      \"kc\": \"kc_submit_fraction\",\n      \"selection\": \"done\",\n      \"action\": \"Clica em 'done' para finalizar a resposta\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_integer_label_as_answer\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"Usa o rótulo do limite direito da reta (2) como se fosse a resposta ao invés de configurar a escala\",\n      \"description\": \"Aluno confunde o valor máximo da reta com a fração pedida\",\n      \"feedback\": \"A reta vai até 2, mas a pergunta é sobre a posição final do quadro, não o limite da reta.\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"misc_mark_count_as_integer\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"9\",\n      \"buggyRule\": \"Conta o número total de marcas na reta (9) e digita esse inteiro no componente numline\",\n      \"description\": \"Aluno interpreta o número de marcas como a resposta\",\n      \"feedback\": \"A reta tem 9 marcas no total, mas você precisa indicar a posição do quadro, não contar marcas.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_add_whole_numbers_only\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"2\",\n      \"buggyRule\": \"Soma apenas os pés inteiros movidos (1 + 1 = 2) e ignora a fração final\",\n      \"description\": \"Aluno esquece o ajuste de 1/4 e considera só os dois movimentos de 1 pé\",\n      \"feedback\": \"Você somou os dois movimentos de 1 pé, mas esqueceu que ela voltou um pouco e ficou em 1¼, não em 2.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_invert_fraction_numerator\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"Inverte a fração correta 5/4 e usa o denominador (4) como numerador\",\n      \"description\": \"Aluno troca numerador e denominador ao digitar\",\n      \"feedback\": \"Verifique se você não inverteu o numerador e o denominador da fração.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_use_division_count_instead_of_parts_per_unit\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"8\",\n      \"buggyRule\": \"Conta o número total de intervalos na reta (8) e usa como denominador\",\n      \"description\": \"Aluno usa o total de divisões entre 0 e 2 (8) em vez das partes por unidade (4)\",\n      \"feedback\": \"Cada unidade está dividida em 4 partes, não 8. Veja entre 0 e 1 quantas partes há.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_invert_fraction_denominator\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Inverte a fração correta 5/4 e usa o numerador (5) como denominador\",\n      \"description\": \"Aluno troca numerador e denominador ao preencher o denominador\",\n      \"feedback\": \"O denominador deve ser 4, pois cada unidade está dividida em quartos.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_click_previous_mark\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Clica na marca imediatamente antes de 5/4, que é 1 (ou 4/4)\",\n      \"description\": \"Aluno seleciona a marca anterior à correta\",\n      \"feedback\": \"A posição correta está um quarto além de 1, não exatamente em 1.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_click_next_mark\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3/2\",\n      \"buggyRule\": \"Clica na marca imediatamente depois de 5/4, que é 6/4 = 3/2\",\n      \"description\": \"Aluno seleciona a marca seguinte à correta\",\n      \"feedback\": \"Você foi um pouco longe demais. A posição correta é antes de 3/2.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_partial_fraction_entry\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"-/4\",\n      \"buggyRule\": \"Deixa o numerador em branco (ou não clica corretamente) e a interface registra '-/4'\",\n      \"description\": \"Aluno não completa a seleção na reta ou falha na interação\",\n      \"feedback\": \"Certifique-se de clicar exatamente na marca que representa 5/4.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_use_initial_move_only\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Considera apenas o primeiro movimento de 1 pé e ignora os demais\",\n      \"description\": \"Aluno para no primeiro deslocamento\",\n      \"feedback\": \"O quadro foi movido mais de uma vez. A posição final é após todos os movimentos.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta mostra de 0 a 2, com marcas a cada 1/4. Qual é o maior número inteiro visível?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Some 1 (primeiro movimento) + 1 (segundo) e depois ajuste: ela recuou para ficar 1/4 além do primeiro pé.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Quantas partes iguais há entre 0 e 1 na reta? Esse é o denominador.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Encontre a marca que está um quarto à direita do 1. Essa é a posição final.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Revise sua fração e clique em 'done' quando estiver certo.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numline",
+     "selection": "numline",
+     "action": "Configura a reta numérica para cobrir até o maior inteiro visível",
+     "result": "2"
+    },
+    {
+     "kc": "kc_identify_total_movement",
+     "selection": "F1",
+     "action": "Digita o numerador da fração total do movimento (1 + 1/4 = 5/4)",
+     "result": "5"
+    },
+    {
+     "kc": "kc_identify_denominator",
+     "selection": "denom",
+     "action": "Digita o denominador com base nas divisões da reta (4 partes por unidade)",
+     "result": "4"
+    },
+    {
+     "kc": "kc_verify_on_numberline",
+     "selection": "numline",
+     "action": "Clica na marca correspondente a 5/4 na reta numérica",
+     "result": "5/4"
+    },
+    {
+     "kc": "kc_submit_fraction",
+     "selection": "done",
+     "action": "Clica em 'done' para finalizar a resposta",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_integer_label_as_answer",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "2",
+     "buggyRule": "Usa o rótulo do limite direito da reta (2) como se fosse a resposta ao invés de configurar a escala",
+     "description": "Aluno confunde o valor máximo da reta com a fração pedida",
+     "feedback": "A reta vai até 2, mas a pergunta é sobre a posição final do quadro, não o limite da reta."
+    },
+    {
+     "step": 1,
+     "id": "misc_mark_count_as_integer",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "9",
+     "buggyRule": "Conta o número total de marcas na reta (9) e digita esse inteiro no componente numline",
+     "description": "Aluno interpreta o número de marcas como a resposta",
+     "feedback": "A reta tem 9 marcas no total, mas você precisa indicar a posição do quadro, não contar marcas."
+    },
+    {
+     "step": 2,
+     "id": "misc_add_whole_numbers_only",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "2",
+     "buggyRule": "Soma apenas os pés inteiros movidos (1 + 1 = 2) e ignora a fração final",
+     "description": "Aluno esquece o ajuste de 1/4 e considera só os dois movimentos de 1 pé",
+     "feedback": "Você somou os dois movimentos de 1 pé, mas esqueceu que ela voltou um pouco e ficou em 1¼, não em 2."
+    },
+    {
+     "step": 2,
+     "id": "misc_invert_fraction_numerator",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "Inverte a fração correta 5/4 e usa o denominador (4) como numerador",
+     "description": "Aluno troca numerador e denominador ao digitar",
+     "feedback": "Verifique se você não inverteu o numerador e o denominador da fração."
+    },
+    {
+     "step": 3,
+     "id": "misc_use_division_count_instead_of_parts_per_unit",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "8",
+     "buggyRule": "Conta o número total de intervalos na reta (8) e usa como denominador",
+     "description": "Aluno usa o total de divisões entre 0 e 2 (8) em vez das partes por unidade (4)",
+     "feedback": "Cada unidade está dividida em 4 partes, não 8. Veja entre 0 e 1 quantas partes há."
+    },
+    {
+     "step": 3,
+     "id": "misc_invert_fraction_denominator",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "5",
+     "buggyRule": "Inverte a fração correta 5/4 e usa o numerador (5) como denominador",
+     "description": "Aluno troca numerador e denominador ao preencher o denominador",
+     "feedback": "O denominador deve ser 4, pois cada unidade está dividida em quartos."
+    },
+    {
+     "step": 4,
+     "id": "misc_click_previous_mark",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "Clica na marca imediatamente antes de 5/4, que é 1 (ou 4/4)",
+     "description": "Aluno seleciona a marca anterior à correta",
+     "feedback": "A posição correta está um quarto além de 1, não exatamente em 1."
+    },
+    {
+     "step": 4,
+     "id": "misc_click_next_mark",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "3/2",
+     "buggyRule": "Clica na marca imediatamente depois de 5/4, que é 6/4 = 3/2",
+     "description": "Aluno seleciona a marca seguinte à correta",
+     "feedback": "Você foi um pouco longe demais. A posição correta é antes de 3/2."
+    },
+    {
+     "step": 4,
+     "id": "misc_partial_fraction_entry",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "-/4",
+     "buggyRule": "Deixa o numerador em branco (ou não clica corretamente) e a interface registra '-/4'",
+     "description": "Aluno não completa a seleção na reta ou falha na interação",
+     "feedback": "Certifique-se de clicar exatamente na marca que representa 5/4."
+    },
+    {
+     "step": 2,
+     "id": "misc_use_initial_move_only",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "Considera apenas o primeiro movimento de 1 pé e ignora os demais",
+     "description": "Aluno para no primeiro deslocamento",
+     "feedback": "O quadro foi movido mais de uma vez. A posição final é após todos os movimentos."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta mostra de 0 a 2, com marcas a cada 1/4. Qual é o maior número inteiro visível?"
+    },
+    {
+     "step": 2,
+     "text": "Some 1 (primeiro movimento) + 1 (segundo) e depois ajuste: ela recuou para ficar 1/4 além do primeiro pé."
+    },
+    {
+     "step": 3,
+     "text": "Quantas partes iguais há entre 0 e 1 na reta? Esse é o denominador."
+    },
+    {
+     "step": 4,
+     "text": "Encontre a marca que está um quarto à direita do 1. Essa é a posição final."
+    },
+    {
+     "step": 5,
+     "text": "Revise sua fração e clique em 'done' quando estiver certo."
+    }
+   ]
+  }
+ }
+}

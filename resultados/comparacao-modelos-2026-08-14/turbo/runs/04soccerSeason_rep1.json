@@ -1,0 +1,477 @@
+{
+ "id": "04soccerSeason",
+ "correctAnswer": "3/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.636,
+ "conceptual": 0.7,
+ "precision": 0.636,
+ "recall": 0.636,
+ "functionalAgreement": 0.571,
+ "functionalKappa": 0.3,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "5",
+  "1",
+  "clicked"
+ ],
+ "robotMisconceptions": [
+  "4",
+  "3",
+  "3",
+  "5",
+  "1/2",
+  "1",
+  "clicked",
+  "clicked",
+  "4",
+  "1",
+  "3",
+  "5",
+  "clicked"
+ ],
+ "exercicio": "04soccerSeason",
+ "replica": 1,
+ "geradoEm": "2026-08-14T14:11:17.148Z",
+ "promptSha256": "8225f35e2141692f93782e5f9d1b8d447ce70f9d3594065b5a409a71f1c7bf72",
+ "modelos": {
+  "perfil": "turbo",
+  "porAgente": {
+   "dominio": "google/gemini-3.5-flash",
+   "materializacao": "google/gemini-3.5-flash",
+   "estudantes": "google/gemini-3.5-flash",
+   "revisao": "google/gemini-3.5-flash",
+   "checagem": "google/gemini-3.5-flash"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.232Z"
+ },
+ "custo": {
+  "tokensEntrada": 1661,
+  "tokensSaida": 7506,
+  "usd": 0.0700455
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Definir o limite superior da reta numérica para representar uma temporada inteira.",
+    "kc": "config_numline_limit"
+   },
+   {
+    "indice": 2,
+    "acao": "Definir o número de divisões da reta numérica (denominador da fração).",
+    "kc": "set_numline_partitions"
+   },
+   {
+    "indice": 3,
+    "acao": "Clicar na marca correspondente a 3/4 na reta numérica.",
+    "kc": "select_point_numline"
+   },
+   {
+    "indice": 4,
+    "acao": "Clicar no controle para habilitar a escrita da fração.",
+    "kc": "activate_fraction_writing"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o numerador da fração que representa os jogos jogados.",
+    "kc": "enter_numerator"
+   },
+   {
+    "indice": 6,
+    "acao": "Digitar o denominador da fração que representa o total da temporada.",
+    "kc": "enter_denominator"
+   },
+   {
+    "indice": 7,
+    "acao": "Clicar no botão done para finalizar o exercício.",
+    "kc": "submit_exercise"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "4",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Lembre-se de que a reta representa uma única temporada inteira. Qual é o valor inteiro máximo que representa uma temporada completa?",
+    "buggyRule": "usar o número de divisões da unidade (4) como o limite superior da reta",
+    "misconceptionId": "err_limit_as_divisions"
+   },
+   {
+    "valor": "3",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta deve cobrir o total da temporada (1 inteiro). O número 3 representa apenas as partes que Alisha jogou.",
+    "buggyRule": "usar o numerador da fração dada (3) como o limite superior da reta",
+    "misconceptionId": "err_limit_as_numerator"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador da fração indica em quantas partes iguais o todo foi dividido. Olhe novamente para a fração 3/4.",
+    "buggyRule": "usar o numerador da fração (3) para definir o número de partições da reta",
+    "misconceptionId": "err_partitions_as_numerator"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "Para dividir a reta em quartos, precisamos de 4 intervalos iguais. Conte os espaços entre as marcas, não as linhas.",
+    "buggyRule": "contar o número total de marcas visíveis na reta de 4 divisões (0, 1/4, 1/2, 3/4, 1), resultando em 5",
+    "misconceptionId": "err_partitions_counting_ticks"
+   },
+   {
+    "valor": "1/2",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Você selecionou a metade da temporada (1/2). Alisha jogou mais do que isso. Encontre a marca correspondente a 3 partes de 4.",
+    "buggyRule": "selecionar a marca imediatamente anterior ao alvo 3/4 na reta dividida em quartos, que é 1/2 (ou 2/4)",
+    "misconceptionId": "err_select_neighbor_left"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Alisha não jogou a temporada inteira (1). Ela jogou apenas 3/4 dela. Selecione a marca fracionária correta.",
+    "buggyRule": "selecionar a marca imediatamente posterior ao alvo 3/4 na reta, que é o inteiro 1",
+    "misconceptionId": "err_select_neighbor_right"
+   },
+   {
+    "valor": "clicked",
+    "passo": 4,
+    "componente": "done",
+    "acao": "",
+    "devolutiva": "Ainda não terminamos! Você precisa escrever a fração correspondente ao ponto que marcou na reta.",
+    "buggyRule": "clicar no botão done para finalizar o exercício antes de preencher a fração escrita",
+    "misconceptionId": "err_done_premature"
+   },
+   {
+    "valor": "clicked",
+    "passo": 4,
+    "componente": "showAnswer",
+    "acao": "",
+    "devolutiva": "Tente escrever os valores da fração você mesmo antes de pedir ajuda externa!",
+    "buggyRule": "clicar no botão de mostrar resposta antes de escrever a fração",
+    "misconceptionId": "err_show_answer_premature"
+   },
+   {
+    "valor": "4",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O numerador representa as partes que Alisha jogou. Verifique se você não trocou a ordem dos números.",
+    "buggyRule": "inverter os termos da fração e colocar o denominador (4) no lugar do numerador",
+    "misconceptionId": "err_num_inverted"
+   },
+   {
+    "valor": "1",
+    "passo": 5,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "O problema pede para mostrar quantos jogos ela jogou, não quantos ela perdeu. Verifique o numerador.",
+    "buggyRule": "digitar a quantidade de partes que Alisha NÃO jogou (4/4 - 3/4 = 1/4), colocando 1 no numerador",
+    "misconceptionId": "err_num_remaining_part"
+   },
+   {
+    "valor": "3",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador representa o total de partes em que a temporada foi dividida. Verifique a posição dos números.",
+    "buggyRule": "inverter os termos da fração e colocar o numerador (3) no lugar do denominador",
+    "misconceptionId": "err_den_inverted"
+   },
+   {
+    "valor": "5",
+    "passo": 6,
+    "componente": "F2",
+    "acao": "",
+    "devolutiva": "O denominador deve ser o número de intervalos iguais (partes) da reta, não a quantidade de marcas desenhadas.",
+    "buggyRule": "usar o número total de marcas de divisão na reta (5) como o denominador da fração",
+    "misconceptionId": "err_den_total_ticks"
+   },
+   {
+    "valor": "clicked",
+    "passo": 7,
+    "componente": "showAnswer",
+    "acao": "",
+    "devolutiva": "Sua resposta está pronta! Clique no botão Done para enviá-la.",
+    "buggyRule": "clicar no botão showAnswer para ver a resposta em vez de submeter o exercício finalizado com o botão done",
+    "misconceptionId": "err_click_show_answer"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta numérica representa uma temporada inteira de futebol. Qual é o maior número inteiro que ela deve mostrar no limite direito?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Olhe para a fração 3/4. O denominador nos diz em quantas partes iguais a reta deve ser dividida. Defina esse valor no campo de divisões."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Agora que a reta está dividida em 4 partes, clique na marca que representa 3 dessas partes (3/4) a partir do zero."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Ótimo! Agora clique no botão para escrever a fração que corresponde ao ponto que você acabou de marcar."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "No campo superior (numerador), digite quantas partes da temporada Alisha jogou."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "No campo inferior (denominador), digite em quantas partes totais a temporada foi dividida."
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Tudo pronto! Clique em Done para finalizar e enviar sua resposta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "```json\n{\n  \"correctPath\": [\n    {\n      \"step\": 1,\n      \"kc\": \"config_numline_limit\",\n      \"selection\": \"numline\",\n      \"action\": \"Definir o limite superior da reta numérica para representar uma temporada inteira.\",\n      \"result\": \"1\"\n    },\n    {\n      \"step\": 2,\n      \"kc\": \"set_numline_partitions\",\n      \"selection\": \"denom\",\n      \"action\": \"Definir o número de divisões da reta numérica (denominador da fração).\",\n      \"result\": \"4\"\n    },\n    {\n      \"step\": 3,\n      \"kc\": \"select_point_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Clicar na marca correspondente a 3/4 na reta numérica.\",\n      \"result\": \"3/4\"\n    },\n    {\n      \"step\": 4,\n      \"kc\": \"activate_fraction_writing\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Clicar no controle para habilitar a escrita da fração.\",\n      \"result\": \"clicked\"\n    },\n    {\n      \"step\": 5,\n      \"kc\": \"enter_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Digitar o numerador da fração que representa os jogos jogados.\",\n      \"result\": \"3\"\n    },\n    {\n      \"step\": 6,\n      \"kc\": \"enter_denominator\",\n      \"selection\": \"F2\",\n      \"action\": \"Digitar o denominador da fração que representa o total da temporada.\",\n      \"result\": \"4\"\n    },\n    {\n      \"step\": 7,\n      \"kc\": \"submit_exercise\",\n      \"selection\": \"done\",\n      \"action\": \"Clicar no botão done para finalizar o exercício.\",\n      \"result\": \"clicked\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"err_limit_as_divisions\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"usar o número de divisões da unidade (4) como o limite superior da reta\",\n      \"description\": \"O aluno confunde o valor máximo que a reta cobre com o número de divisões necessárias para representar quartos.\",\n      \"feedback\": \"Lembre-se de que a reta representa uma única temporada inteira. Qual é o valor inteiro máximo que representa uma temporada completa?\"\n    },\n    {\n      \"step\": 1,\n      \"id\": \"err_limit_as_numerator\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"usar o numerador da fração dada (3) como o limite superior da reta\",\n      \"description\": \"O aluno define o limite da reta como 3, baseando-se diretamente no numerador da fração descrita no problema.\",\n      \"feedback\": \"A reta deve cobrir o total da temporada (1 inteiro). O número 3 representa apenas as partes que Alisha jogou.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_partitions_as_numerator\",\n      \"selection\": \"denom\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"usar o numerador da fração (3) para definir o número de partições da reta\",\n      \"description\": \"O aluno tenta dividir a reta em 3 partes, confundindo o papel do numerador com o do denominador.\",\n      \"feedback\": \"O denominador da fração indica em quantas partes iguais o todo foi dividido. Olhe novamente para a fração 3/4.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"err_partitions_counting_ticks\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"contar o número total de marcas visíveis na reta de 4 divisões (0, 1/4, 1/2, 3/4, 1), resultando em 5\",\n      \"description\": \"O aluno conta as marcas físicas de divisão (incluindo o 0 e o 1) em vez dos intervalos entre elas.\",\n      \"feedback\": \"Para dividir a reta em quartos, precisamos de 4 intervalos iguais. Conte os espaços entre as marcas, não as linhas.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_select_neighbor_left\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/2\",\n      \"buggyRule\": \"selecionar a marca imediatamente anterior ao alvo 3/4 na reta dividida em quartos, que é 1/2 (ou 2/4)\",\n      \"description\": \"O aluno erra a precisão do clique ou se confunde, selecionando a marca anterior (1/2) na reta.\",\n      \"feedback\": \"Você selecionou a metade da temporada (1/2). Alisha jogou mais do que isso. Encontre a marca correspondente a 3 partes de 4.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"err_select_neighbor_right\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"selecionar a marca imediatamente posterior ao alvo 3/4 na reta, que é o inteiro 1\",\n      \"description\": \"O aluno seleciona o inteiro 1, indicando a temporada completa, ignorando que ela perdeu parte dos jogos.\",\n      \"feedback\": \"Alisha não jogou a temporada inteira (1). Ela jogou apenas 3/4 dela. Selecione a marca fracionária correta.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"err_done_premature\",\n      \"selection\": \"done\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão done para finalizar o exercício antes de preencher a fração escrita\",\n      \"description\": \"O aluno tenta finalizar o exercício logo após marcar a reta numérica, sem preencher a fração escrita exigida.\",\n      \"feedback\": \"Ainda não terminamos! Você precisa escrever a fração correspondente ao ponto que marcou na reta.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"err_show_answer_premature\",\n      \"selection\": \"showAnswer\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão de mostrar resposta antes de escrever a fração\",\n      \"description\": \"O aluno clica em showAnswer para ver a resposta em vez de continuar o processo de escrita da fração.\",\n      \"feedback\": \"Tente escrever os valores da fração você mesmo antes de pedir ajuda externa!\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_num_inverted\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"inverter os termos da fração e colocar o denominador (4) no lugar do numerador\",\n      \"description\": \"O aluno inverte a fração, digitando o denominador no campo do numerador.\",\n      \"feedback\": \"O numerador representa as partes que Alisha jogou. Verifique se você não trocou a ordem dos números.\"\n    },\n    {\n      \"step\": 5,\n      \"id\": \"err_num_remaining_part\",\n      \"selection\": \"F1\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"digitar a quantidade de partes que Alisha NÃO jogou (4/4 - 3/4 = 1/4), colocando 1 no numerador\",\n      \"description\": \"O aluno foca na parte que sobrou da temporada (1/4) e digita 1 no numerador, em vez da parte jogada.\",\n      \"feedback\": \"O problema pede para mostrar quantos jogos ela jogou, não quantos ela perdeu. Verifique o numerador.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_den_inverted\",\n      \"selection\": \"F2\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"inverter os termos da fração e colocar o numerador (3) no lugar do denominador\",\n      \"description\": \"O aluno digita o numerador no campo do denominador, invertendo a fração final.\",\n      \"feedback\": \"O denominador representa o total de partes em que a temporada foi dividida. Verifique a posição dos números.\"\n    },\n    {\n      \"step\": 6,\n      \"id\": \"err_den_total_ticks\",\n      \"selection\": \"F2\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"usar o número total de marcas de divisão na reta (5) como o denominador da fração\",\n      \"description\": \"O aluno conta as marcas físicas da reta e digita 5 no denominador da fração.\",\n      \"feedback\": \"O denominador deve ser o número de intervalos iguais (partes) da reta, não a quantidade de marcas desenhadas.\"\n    },\n    {\n      \"step\": 7,\n      \"id\": \"err_click_show_answer\",\n      \"selection\": \"showAnswer\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"clicked\",\n      \"buggyRule\": \"clicar no botão showAnswer para ver a resposta em vez de submeter o exercício finalizado com o botão done\",\n      \"description\": \"O aluno tenta usar o botão showAnswer no final em vez de submeter o trabalho concluído.\",\n      \"feedback\": \"Sua resposta está pronta! Clique no botão Done para enviá-la.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta numérica representa uma temporada inteira de futebol. Qual é o maior número inteiro que ela deve mostrar no limite direito?\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Olhe para a fração 3/4. O denominador nos diz em quantas partes iguais a reta deve ser dividida. Defina esse valor no campo de divisões.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Agora que a reta está dividida em 4 partes, clique na marca que representa 3 dessas partes (3/4) a partir do zero.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Ótimo! Agora clique no botão para escrever a fração que corresponde ao ponto que você acabou de marcar.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"No campo superior (numerador), digite quantas partes da temporada Alisha jogou.\"\n    },\n    {\n      \"step\": 6,\n      \"text\": \"No campo inferior (denominador), digite em quantas partes totais a temporada foi dividida.\"\n    },\n    {\n      \"step\": 7,\n      \"text\": \"Tudo pronto! Clique em Done para finalizar e enviar sua resposta.\"\n    }\n  ]\n}\n```",
+  "tracos": {
+   "correctPath": [
+    {
+     "step": 1,
+     "kc": "config_numline_limit",
+     "selection": "numline",
+     "action": "Definir o limite superior da reta numérica para representar uma temporada inteira.",
+     "result": "1"
+    },
+    {
+     "step": 2,
+     "kc": "set_numline_partitions",
+     "selection": "denom",
+     "action": "Definir o número de divisões da reta numérica (denominador da fração).",
+     "result": "4"
+    },
+    {
+     "step": 3,
+     "kc": "select_point_numline",
+     "selection": "numline",
+     "action": "Clicar na marca correspondente a 3/4 na reta numérica.",
+     "result": "3/4"
+    },
+    {
+     "step": 4,
+     "kc": "activate_fraction_writing",
+     "selection": "writeFractionStep",
+     "action": "Clicar no controle para habilitar a escrita da fração.",
+     "result": "clicked"
+    },
+    {
+     "step": 5,
+     "kc": "enter_numerator",
+     "selection": "F1",
+     "action": "Digitar o numerador da fração que representa os jogos jogados.",
+     "result": "3"
+    },
+    {
+     "step": 6,
+     "kc": "enter_denominator",
+     "selection": "F2",
+     "action": "Digitar o denominador da fração que representa o total da temporada.",
+     "result": "4"
+    },
+    {
+     "step": 7,
+     "kc": "submit_exercise",
+     "selection": "done",
+     "action": "Clicar no botão done para finalizar o exercício.",
+     "result": "clicked"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "err_limit_as_divisions",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "usar o número de divisões da unidade (4) como o limite superior da reta",
+     "description": "O aluno confunde o valor máximo que a reta cobre com o número de divisões necessárias para representar quartos.",
+     "feedback": "Lembre-se de que a reta representa uma única temporada inteira. Qual é o valor inteiro máximo que representa uma temporada completa?"
+    },
+    {
+     "step": 1,
+     "id": "err_limit_as_numerator",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "usar o numerador da fração dada (3) como o limite superior da reta",
+     "description": "O aluno define o limite da reta como 3, baseando-se diretamente no numerador da fração descrita no problema.",
+     "feedback": "A reta deve cobrir o total da temporada (1 inteiro). O número 3 representa apenas as partes que Alisha jogou."
+    },
+    {
+     "step": 2,
+     "id": "err_partitions_as_numerator",
+     "selection": "denom",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "usar o numerador da fração (3) para definir o número de partições da reta",
+     "description": "O aluno tenta dividir a reta em 3 partes, confundindo o papel do numerador com o do denominador.",
+     "feedback": "O denominador da fração indica em quantas partes iguais o todo foi dividido. Olhe novamente para a fração 3/4."
+    },
+    {
+     "step": 2,
+     "id": "err_partitions_counting_ticks",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "contar o número total de marcas visíveis na reta de 4 divisões (0, 1/4, 1/2, 3/4, 1), resultando em 5",
+     "description": "O aluno conta as marcas físicas de divisão (incluindo o 0 e o 1) em vez dos intervalos entre elas.",
+     "feedback": "Para dividir a reta em quartos, precisamos de 4 intervalos iguais. Conte os espaços entre as marcas, não as linhas."
+    },
+    {
+     "step": 3,
+     "id": "err_select_neighbor_left",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/2",
+     "buggyRule": "selecionar a marca imediatamente anterior ao alvo 3/4 na reta dividida em quartos, que é 1/2 (ou 2/4)",
+     "description": "O aluno erra a precisão do clique ou se confunde, selecionando a marca anterior (1/2) na reta.",
+     "feedback": "Você selecionou a metade da temporada (1/2). Alisha jogou mais do que isso. Encontre a marca correspondente a 3 partes de 4."
+    },
+    {
+     "step": 3,
+     "id": "err_select_neighbor_right",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "selecionar a marca imediatamente posterior ao alvo 3/4 na reta, que é o inteiro 1",
+     "description": "O aluno seleciona o inteiro 1, indicando a temporada completa, ignorando que ela perdeu parte dos jogos.",
+     "feedback": "Alisha não jogou a temporada inteira (1). Ela jogou apenas 3/4 dela. Selecione a marca fracionária correta."
+    },
+    {
+     "step": 4,
+     "id": "err_done_premature",
+     "selection": "done",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão done para finalizar o exercício antes de preencher a fração escrita",
+     "description": "O aluno tenta finalizar o exercício logo após marcar a reta numérica, sem preencher a fração escrita exigida.",
+     "feedback": "Ainda não terminamos! Você precisa escrever a fração correspondente ao ponto que marcou na reta."
+    },
+    {
+     "step": 4,
+     "id": "err_show_answer_premature",
+     "selection": "showAnswer",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão de mostrar resposta antes de escrever a fração",
+     "description": "O aluno clica em showAnswer para ver a resposta em vez de continuar o processo de escrita da fração.",
+     "feedback": "Tente escrever os valores da fração você mesmo antes de pedir ajuda externa!"
+    },
+    {
+     "step": 5,
+     "id": "err_num_inverted",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "4",
+     "buggyRule": "inverter os termos da fração e colocar o denominador (4) no lugar do numerador",
+     "description": "O aluno inverte a fração, digitando o denominador no campo do numerador.",
+     "feedback": "O numerador representa as partes que Alisha jogou. Verifique se você não trocou a ordem dos números."
+    },
+    {
+     "step": 5,
+     "id": "err_num_remaining_part",
+     "selection": "F1",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "digitar a quantidade de partes que Alisha NÃO jogou (4/4 - 3/4 = 1/4), colocando 1 no numerador",
+     "description": "O aluno foca na parte que sobrou da temporada (1/4) e digita 1 no numerador, em vez da parte jogada.",
+     "feedback": "O problema pede para mostrar quantos jogos ela jogou, não quantos ela perdeu. Verifique o numerador."
+    },
+    {
+     "step": 6,
+     "id": "err_den_inverted",
+     "selection": "F2",
+     "type": "conceptual",
+     "wrongAnswer": "3",
+     "buggyRule": "inverter os termos da fração e colocar o numerador (3) no lugar do denominador",
+     "description": "O aluno digita o numerador no campo do denominador, invertendo a fração final.",
+     "feedback": "O denominador representa o total de partes em que a temporada foi dividida. Verifique a posição dos números."
+    },
+    {
+     "step": 6,
+     "id": "err_den_total_ticks",
+     "selection": "F2",
+     "type": "procedural",
+     "wrongAnswer": "5",
+     "buggyRule": "usar o número total de marcas de divisão na reta (5) como o denominador da fração",
+     "description": "O aluno conta as marcas físicas da reta e digita 5 no denominador da fração.",
+     "feedback": "O denominador deve ser o número de intervalos iguais (partes) da reta, não a quantidade de marcas desenhadas."
+    },
+    {
+     "step": 7,
+     "id": "err_click_show_answer",
+     "selection": "showAnswer",
+     "type": "procedural",
+     "wrongAnswer": "clicked",
+     "buggyRule": "clicar no botão showAnswer para ver a resposta em vez de submeter o exercício finalizado com o botão done",
+     "description": "O aluno tenta usar o botão showAnswer no final em vez de submeter o trabalho concluído.",
+     "feedback": "Sua resposta está pronta! Clique no botão Done para enviá-la."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta numérica representa uma temporada inteira de futebol. Qual é o maior número inteiro que ela deve mostrar no limite direito?"
+    },
+    {
+     "step": 2,
+     "text": "Olhe para a fração 3/4. O denominador nos diz em quantas partes iguais a reta deve ser dividida. Defina esse valor no campo de divisões."
+    },
+    {
+     "step": 3,
+     "text": "Agora que a reta está dividida em 4 partes, clique na marca que representa 3 dessas partes (3/4) a partir do zero."
+    },
+    {
+     "step": 4,
+     "text": "Ótimo! Agora clique no botão para escrever a fração que corresponde ao ponto que você acabou de marcar."
+    },
+    {
+     "step": 5,
+     "text": "No campo superior (numerador), digite quantas partes da temporada Alisha jogou."
+    },
+    {
+     "step": 6,
+     "text": "No campo inferior (denominador), digite em quantas partes totais a temporada foi dividida."
+    },
+    {
+     "step": 7,
+     "text": "Tudo pronto! Clique em Done para finalizar e enviar sua resposta."
+    }
+   ]
+  }
+ }
+}

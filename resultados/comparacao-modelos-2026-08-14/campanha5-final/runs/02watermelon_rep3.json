@@ -1,0 +1,357 @@
+{
+ "id": "02watermelon",
+ "correctAnswer": "3/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.609,
+ "conceptual": 0.667,
+ "precision": 0.583,
+ "recall": 0.636,
+ "functionalAgreement": 0.571,
+ "functionalKappa": 0.3,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "5",
+  "0"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "3",
+  "5",
+  "1",
+  "4",
+  "4",
+  "1/2",
+  "1",
+  "0"
+ ],
+ "exercicio": "02watermelon",
+ "replica": 3,
+ "geradoEm": "2026-08-14T14:07:29.145Z",
+ "promptSha256": "8b72bdbf8bc158bbea76e7f26dbd891dc53b9b4ec71b28e927f3567ea0fd1750",
+ "modelos": {
+  "perfil": "campanha5-final",
+  "porAgente": {
+   "estudantes": "qwen/qwen3-max"
+  },
+  "temperatura": 0.7,
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-14T14:02:44.255Z"
+ },
+ "custo": {
+  "tokensEntrada": 1758,
+  "tokensSaida": 1700,
+  "usd": 0.00800124
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Configura a reta numérica para cobrir até o inteiro 1",
+    "kc": "kc_config_numline_range"
+   },
+   {
+    "indice": 2,
+    "acao": "Define o denominador como 4, pois a melancia foi dividida em 4 partes",
+    "kc": "kc_set_denominator"
+   },
+   {
+    "indice": 3,
+    "acao": "Insere o numerador 3, pois Bill comeu 3 pedaços",
+    "kc": "kc_set_numerator"
+   },
+   {
+    "indice": 4,
+    "acao": "Seleciona a marca correspondente a 3/4 na reta numérica",
+    "kc": "kc_match_fraction_to_numline"
+   },
+   {
+    "indice": 5,
+    "acao": "Confirma a representação fracionária",
+    "kc": "kc_confirm_fraction"
+   },
+   {
+    "indice": 6,
+    "acao": "Finaliza a resposta",
+    "kc": "kc_submit_answer"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 1,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A reta vai até 1, mas Bill não comeu a melancia inteira — apenas uma parte dela.",
+    "buggyRule": "O aluno interpreta o limite direito da reta (1) como a resposta, pois é o maior número visível na escala.",
+    "misconceptionId": "misc_numline_limit_as_answer"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "O denominador representa em quantas partes iguais a melancia foi dividida — foram 4, não 3.",
+    "buggyRule": "O aluno inverte a fração 3/4 e usa o numerador (3) como denominador.",
+    "misconceptionId": "misc_invert_fraction_denom_numer"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A melancia foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1).",
+    "buggyRule": "Conta o número total de marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e usa esse valor como denominador.",
+    "misconceptionId": "misc_use_total_marks_as_denom"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "denom",
+    "acao": "",
+    "devolutiva": "A melancia foi dividida em 4 partes, não 1. Altere o denominador para 4.",
+    "buggyRule": "Assume que o valor inicial do stepper 'Number of parts' (1) é o denominador correto.",
+    "misconceptionId": "misc_use_number_of_parts_control_value"
+   },
+   {
+    "valor": "4",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Bill comeu 3 pedaços, não 4. O numerador deve ser 3.",
+    "buggyRule": "O aluno inverte a fração 3/4 e usa o denominador (4) como numerador.",
+    "misconceptionId": "misc_invert_fraction_numer_denom"
+   },
+   {
+    "valor": "4",
+    "passo": 3,
+    "componente": "F1",
+    "acao": "",
+    "devolutiva": "Embora a melancia tenha sido dividida em 4 partes, Bill comeu apenas 3 delas.",
+    "buggyRule": "Vê que há 4 divisões na reta e assume que Bill comeu todas, digitando 4 como numerador.",
+    "misconceptionId": "misc_use_total_divisions_as_numer"
+   },
+   {
+    "valor": "1/2",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "A posição correta está um passo à frente — Bill comeu 3 das 4 partes, não 2.",
+    "buggyRule": "Clica na marca imediatamente anterior a 3/4 na reta numérica (que tem marcas em 0, 1/4, 1/2, 3/4, 1).",
+    "misconceptionId": "misc_click_previous_mark_on_numline"
+   },
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Bill não comeu a melancia inteira — pare na marca antes do 1.",
+    "buggyRule": "Clica na marca imediatamente seguinte a 3/4 na reta numérica, que é 1.",
+    "misconceptionId": "misc_click_next_mark_on_numline"
+   },
+   {
+    "valor": "0",
+    "passo": 4,
+    "componente": "numline",
+    "acao": "",
+    "devolutiva": "Bill comeu pedaços da melancia, então a resposta não pode ser zero.",
+    "buggyRule": "Seleciona o rótulo '0' visível na reta, interpretando erroneamente que nada foi comido.",
+    "misconceptionId": "misc_select_zero_by_mistake"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "A reta mostra de 0 a 1. Ajuste-a para representar frações entre esses valores."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Em quantas partes iguais a melancia foi dividida? Use esse número como denominador."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Quantos pedaços Bill comeu? Esse é o numerador da fração."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Localize na reta o ponto que corresponde a 3 partes de um total de 4."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Verifique se sua fração e a marca na reta combinam."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "{\n  \"correctPath\": [\n    {\n      \"kc\": \"kc_config_numline_range\",\n      \"selection\": \"numline\",\n      \"action\": \"Configura a reta numérica para cobrir até o inteiro 1\",\n      \"result\": \"1\"\n    },\n    {\n      \"kc\": \"kc_set_denominator\",\n      \"selection\": \"denom\",\n      \"action\": \"Define o denominador como 4, pois a melancia foi dividida em 4 partes\",\n      \"result\": \"4\"\n    },\n    {\n      \"kc\": \"kc_set_numerator\",\n      \"selection\": \"F1\",\n      \"action\": \"Insere o numerador 3, pois Bill comeu 3 pedaços\",\n      \"result\": \"3\"\n    },\n    {\n      \"kc\": \"kc_match_fraction_to_numline\",\n      \"selection\": \"numline\",\n      \"action\": \"Seleciona a marca correspondente a 3/4 na reta numérica\",\n      \"result\": \"3/4\"\n    },\n    {\n      \"kc\": \"kc_confirm_fraction\",\n      \"selection\": \"writeFractionStep\",\n      \"action\": \"Confirma a representação fracionária\",\n      \"result\": \"confirmed\"\n    },\n    {\n      \"kc\": \"kc_submit_answer\",\n      \"selection\": \"done\",\n      \"action\": \"Finaliza a resposta\",\n      \"result\": \"submitted\"\n    }\n  ],\n  \"misconceptions\": [\n    {\n      \"step\": 1,\n      \"id\": \"misc_numline_limit_as_answer\",\n      \"selection\": \"numline\",\n      \"type\": \"conceptual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"O aluno interpreta o limite direito da reta (1) como a resposta, pois é o maior número visível na escala.\",\n      \"description\": \"Confunde o intervalo da reta com o valor a ser representado.\",\n      \"feedback\": \"A reta vai até 1, mas Bill não comeu a melancia inteira — apenas uma parte dela.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_invert_fraction_denom_numer\",\n      \"selection\": \"denom\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"3\",\n      \"buggyRule\": \"O aluno inverte a fração 3/4 e usa o numerador (3) como denominador.\",\n      \"description\": \"Troca numerador e denominador ao interpretar a divisão da melancia.\",\n      \"feedback\": \"O denominador representa em quantas partes iguais a melancia foi dividida — foram 4, não 3.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_use_total_marks_as_denom\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"5\",\n      \"buggyRule\": \"Conta o número total de marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e usa esse valor como denominador.\",\n      \"description\": \"Confunde número de marcas com número de partes da unidade.\",\n      \"feedback\": \"A melancia foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1).\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_invert_fraction_numer_denom\",\n      \"selection\": \"F1\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"O aluno inverte a fração 3/4 e usa o denominador (4) como numerador.\",\n      \"description\": \"Troca numerador e denominador ao registrar quantos pedaços Bill comeu.\",\n      \"feedback\": \"Bill comeu 3 pedaços, não 4. O numerador deve ser 3.\"\n    },\n    {\n      \"step\": 3,\n      \"id\": \"misc_use_total_divisions_as_numer\",\n      \"selection\": \"F1\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"4\",\n      \"buggyRule\": \"Vê que há 4 divisões na reta e assume que Bill comeu todas, digitando 4 como numerador.\",\n      \"description\": \"Confunde o número de divisões com a quantidade consumida.\",\n      \"feedback\": \"Embora a melancia tenha sido dividida em 4 partes, Bill comeu apenas 3 delas.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_click_previous_mark_on_numline\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1/2\",\n      \"buggyRule\": \"Clica na marca imediatamente anterior a 3/4 na reta numérica (que tem marcas em 0, 1/4, 1/2, 3/4, 1).\",\n      \"description\": \"Erro de precisão ao selecionar a posição na reta.\",\n      \"feedback\": \"A posição correta está um passo à frente — Bill comeu 3 das 4 partes, não 2.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_click_next_mark_on_numline\",\n      \"selection\": \"numline\",\n      \"type\": \"procedural\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Clica na marca imediatamente seguinte a 3/4 na reta numérica, que é 1.\",\n      \"description\": \"Extrapola a posição correta na reta.\",\n      \"feedback\": \"Bill não comeu a melancia inteira — pare na marca antes do 1.\"\n    },\n    {\n      \"step\": 4,\n      \"id\": \"misc_select_zero_by_mistake\",\n      \"selection\": \"numline\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"0\",\n      \"buggyRule\": \"Seleciona o rótulo '0' visível na reta, interpretando erroneamente que nada foi comido.\",\n      \"description\": \"Confunde o ponto de origem com a quantidade consumida.\",\n      \"feedback\": \"Bill comeu pedaços da melancia, então a resposta não pode ser zero.\"\n    },\n    {\n      \"step\": 2,\n      \"id\": \"misc_use_number_of_parts_control_value\",\n      \"selection\": \"denom\",\n      \"type\": \"factual\",\n      \"wrongAnswer\": \"1\",\n      \"buggyRule\": \"Assume que o valor inicial do stepper 'Number of parts' (1) é o denominador correto.\",\n      \"description\": \"Não ajusta o denominador e deixa o valor padrão.\",\n      \"feedback\": \"A melancia foi dividida em 4 partes, não 1. Altere o denominador para 4.\"\n    }\n  ],\n  \"hints\": [\n    {\n      \"step\": 1,\n      \"text\": \"A reta mostra de 0 a 1. Ajuste-a para representar frações entre esses valores.\"\n    },\n    {\n      \"step\": 2,\n      \"text\": \"Em quantas partes iguais a melancia foi dividida? Use esse número como denominador.\"\n    },\n    {\n      \"step\": 3,\n      \"text\": \"Quantos pedaços Bill comeu? Esse é o numerador da fração.\"\n    },\n    {\n      \"step\": 4,\n      \"text\": \"Localize na reta o ponto que corresponde a 3 partes de um total de 4.\"\n    },\n    {\n      \"step\": 5,\n      \"text\": \"Verifique se sua fração e a marca na reta combinam.\"\n    }\n  ]\n}",
+  "tracos": {
+   "correctPath": [
+    {
+     "kc": "kc_config_numline_range",
+     "selection": "numline",
+     "action": "Configura a reta numérica para cobrir até o inteiro 1",
+     "result": "1"
+    },
+    {
+     "kc": "kc_set_denominator",
+     "selection": "denom",
+     "action": "Define o denominador como 4, pois a melancia foi dividida em 4 partes",
+     "result": "4"
+    },
+    {
+     "kc": "kc_set_numerator",
+     "selection": "F1",
+     "action": "Insere o numerador 3, pois Bill comeu 3 pedaços",
+     "result": "3"
+    },
+    {
+     "kc": "kc_match_fraction_to_numline",
+     "selection": "numline",
+     "action": "Seleciona a marca correspondente a 3/4 na reta numérica",
+     "result": "3/4"
+    },
+    {
+     "kc": "kc_confirm_fraction",
+     "selection": "writeFractionStep",
+     "action": "Confirma a representação fracionária",
+     "result": "confirmed"
+    },
+    {
+     "kc": "kc_submit_answer",
+     "selection": "done",
+     "action": "Finaliza a resposta",
+     "result": "submitted"
+    }
+   ],
+   "misconceptions": [
+    {
+     "step": 1,
+     "id": "misc_numline_limit_as_answer",
+     "selection": "numline",
+     "type": "conceptual",
+     "wrongAnswer": "1",
+     "buggyRule": "O aluno interpreta o limite direito da reta (1) como a resposta, pois é o maior número visível na escala.",
+     "description": "Confunde o intervalo da reta com o valor a ser representado.",
+     "feedback": "A reta vai até 1, mas Bill não comeu a melancia inteira — apenas uma parte dela."
+    },
+    {
+     "step": 2,
+     "id": "misc_invert_fraction_denom_numer",
+     "selection": "denom",
+     "type": "procedural",
+     "wrongAnswer": "3",
+     "buggyRule": "O aluno inverte a fração 3/4 e usa o numerador (3) como denominador.",
+     "description": "Troca numerador e denominador ao interpretar a divisão da melancia.",
+     "feedback": "O denominador representa em quantas partes iguais a melancia foi dividida — foram 4, não 3."
+    },
+    {
+     "step": 2,
+     "id": "misc_use_total_marks_as_denom",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "5",
+     "buggyRule": "Conta o número total de marcas na reta (0, 1/4, 1/2, 3/4, 1 → 5 marcas) e usa esse valor como denominador.",
+     "description": "Confunde número de marcas com número de partes da unidade.",
+     "feedback": "A melancia foi dividida em 4 partes iguais, não 5. As marcas incluem o início (0) e o fim (1)."
+    },
+    {
+     "step": 3,
+     "id": "misc_invert_fraction_numer_denom",
+     "selection": "F1",
+     "type": "procedural",
+     "wrongAnswer": "4",
+     "buggyRule": "O aluno inverte a fração 3/4 e usa o denominador (4) como numerador.",
+     "description": "Troca numerador e denominador ao registrar quantos pedaços Bill comeu.",
+     "feedback": "Bill comeu 3 pedaços, não 4. O numerador deve ser 3."
+    },
+    {
+     "step": 3,
+     "id": "misc_use_total_divisions_as_numer",
+     "selection": "F1",
+     "type": "factual",
+     "wrongAnswer": "4",
+     "buggyRule": "Vê que há 4 divisões na reta e assume que Bill comeu todas, digitando 4 como numerador.",
+     "description": "Confunde o número de divisões com a quantidade consumida.",
+     "feedback": "Embora a melancia tenha sido dividida em 4 partes, Bill comeu apenas 3 delas."
+    },
+    {
+     "step": 4,
+     "id": "misc_click_previous_mark_on_numline",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1/2",
+     "buggyRule": "Clica na marca imediatamente anterior a 3/4 na reta numérica (que tem marcas em 0, 1/4, 1/2, 3/4, 1).",
+     "description": "Erro de precisão ao selecionar a posição na reta.",
+     "feedback": "A posição correta está um passo à frente — Bill comeu 3 das 4 partes, não 2."
+    },
+    {
+     "step": 4,
+     "id": "misc_click_next_mark_on_numline",
+     "selection": "numline",
+     "type": "procedural",
+     "wrongAnswer": "1",
+     "buggyRule": "Clica na marca imediatamente seguinte a 3/4 na reta numérica, que é 1.",
+     "description": "Extrapola a posição correta na reta.",
+     "feedback": "Bill não comeu a melancia inteira — pare na marca antes do 1."
+    },
+    {
+     "step": 4,
+     "id": "misc_select_zero_by_mistake",
+     "selection": "numline",
+     "type": "factual",
+     "wrongAnswer": "0",
+     "buggyRule": "Seleciona o rótulo '0' visível na reta, interpretando erroneamente que nada foi comido.",
+     "description": "Confunde o ponto de origem com a quantidade consumida.",
+     "feedback": "Bill comeu pedaços da melancia, então a resposta não pode ser zero."
+    },
+    {
+     "step": 2,
+     "id": "misc_use_number_of_parts_control_value",
+     "selection": "denom",
+     "type": "factual",
+     "wrongAnswer": "1",
+     "buggyRule": "Assume que o valor inicial do stepper 'Number of parts' (1) é o denominador correto.",
+     "description": "Não ajusta o denominador e deixa o valor padrão.",
+     "feedback": "A melancia foi dividida em 4 partes, não 1. Altere o denominador para 4."
+    }
+   ],
+   "hints": [
+    {
+     "step": 1,
+     "text": "A reta mostra de 0 a 1. Ajuste-a para representar frações entre esses valores."
+    },
+    {
+     "step": 2,
+     "text": "Em quantas partes iguais a melancia foi dividida? Use esse número como denominador."
+    },
+    {
+     "step": 3,
+     "text": "Quantos pedaços Bill comeu? Esse é o numerador da fração."
+    },
+    {
+     "step": 4,
+     "text": "Localize na reta o ponto que corresponde a 3 partes de um total de 4."
+    },
+    {
+     "step": 5,
+     "text": "Verifique se sua fração e a marca na reta combinam."
+    }
+   ]
+  }
+ }
+}
