@@ -62,3 +62,36 @@ diversidade posicional e derrubava a cobertura justa artificialmente.
 
 Reproduzir: `node analysis/bancada-v2/comparar-justo.mjs --runs <braço>/runs --json out.json`
 (testes: `__tests__/bancada-v2.test.mjs`).
+
+## Adendo 2026-08-14 (noite) — precisão JULGADA e painel duplo de juízes
+
+Juiz cego sobre os extras dos três braços da bancada (protocolo reutilizado de
+judge-misconceptions.js: cego à origem, calibração com itens do especialista,
+controles negativos; gates pré-declarados em analysis/bancada-v2/juiz-cego.mjs).
+Juiz primário trocado do GLM-4.5 histórico para openai/gpt-5.6-luna POR
+LATÊNCIA (~33s→~3s), decisão registrada ANTES de qualquer braço completo;
+segundo juiz deepseek/deepseek-v4-flash nos MESMOS itens (painel duplo).
+Custo total do painel: US$ 0,68. Detalhe item a item nos juiz*-r1-*.json.
+
+### Veredito (juiz calibrado: Luna — aprova 90-95% do especialista, rejeita 82-83% dos distratores)
+
+| Braço | Precisão bruta → JULGADA | Validade dos extras |
+|---|---|---|
+| custo-beneficio | 0,471 → **0,753** | 52,6% |
+| campanha5-final (qwen) | 0,312 → **0,653** (re-run: 0,638→0,653, juiz estável ±0,02) | 46,6→49,4% |
+| turbo | 0,335 → **0,679** | 50,9% |
+
+- **Metade da amplitude é riqueza real** (a precisão praticamente dobra ao
+  julgar os extras), mas pela regra pré-declarada (extras ≥ especialista −
+  0,10) a amplitude NÃO se qualifica como riqueza plena: ~50% dos extras
+  validam contra 90-95% dos itens do especialista.
+- **O gate de calibração REPROVOU o segundo juiz**: o DeepSeek v4-flash falhou
+  a barra pré-declarada nos três braços (rigoroso demais com itens do
+  especialista, kappa 0,17 nessa origem; e aceita distratores impossíveis,
+  52% de acordo) — números dele NÃO são usados como veredito, exatamente como
+  a regra manda. O painel viveu para isso: juiz rápido ≠ juiz calibrado, e o
+  gate separa um do outro sem fé.
+- **Concordância entre juízes** (705 itens pareados): acordo bruto 82,7%,
+  kappa 0,656 (substancial); nos extras, kappa 0,637. Os ~17% de desacordo
+  ficam mapeados item a item (juiz1=válido/juiz2=inválido) — é a lista
+  natural para o desempate HUMANO amostral (banda humano-humano pendente).

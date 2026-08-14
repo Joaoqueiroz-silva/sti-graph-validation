@@ -45,6 +45,10 @@ export const PRICES = Object.freeze({
   "qwen/qwen3-max": Object.freeze({ input: 0.78, output: 3.9 }),
   "google/gemini-3.1-flash-lite": Object.freeze({ input: 0.25, output: 1.5 }),
   "openai/gpt-5.6-luna": Object.freeze({ input: 0.1, output: 0.6 }),
+  // 2026-08-14 (bancada v2, juiz cego): juiz cross-family histórico do pacote.
+  "z-ai/glm-4.5": Object.freeze({ input: 0.6, output: 2.2 }),
+  // 2026-08-14 (bancada v2, painel duplo): segundo juiz rápido cross-family.
+  "deepseek/deepseek-v4-flash": Object.freeze({ input: 0.14, output: 0.28 }),
 });
 
 const PRICES_FROZEN_AT = "2026-07-13";
