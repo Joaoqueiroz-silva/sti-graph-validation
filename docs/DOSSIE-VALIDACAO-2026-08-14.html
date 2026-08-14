@@ -1,0 +1,506 @@
+<title>Validação dos Grafos EducaOFF</title>
+<style>
+:root{
+  --bg:#FAFAF7; --surface:#FFFFFF; --ink:#1E2321; --muted:#5C645F; --faint:#8A938D;
+  --accent:#0F6E56; --accent-ink:#0A5240; --accent2:#534AB7;
+  --line:#E1E3DC; --line-strong:#C9CCC3;
+  --chip:#EDF3EF; --chip2:#EEEDF8; --warn-bg:#FAF3E4; --warn-ink:#7A5410;
+  --serie-a:#534AB7; --serie-b:#1D9E75;
+  --code-bg:#F1F3EE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121614; --surface:#1A201C; --ink:#E8ECE7; --muted:#9AA39C; --faint:#6E7871;
+    --accent:#35B98B; --accent-ink:#5FCFA6; --accent2:#9A93E8;
+    --line:#2A322D; --line-strong:#3A443E;
+    --chip:#1E2A24; --chip2:#232134; --warn-bg:#2A2416; --warn-ink:#E4C170;
+    --serie-a:#7F77DD; --serie-b:#26A278;
+    --code-bg:#202622;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121614; --surface:#1A201C; --ink:#E8ECE7; --muted:#9AA39C; --faint:#6E7871;
+  --accent:#35B98B; --accent-ink:#5FCFA6; --accent2:#9A93E8;
+  --line:#2A322D; --line-strong:#3A443E;
+  --chip:#1E2A24; --chip2:#232134; --warn-bg:#2A2416; --warn-ink:#E4C170;
+  --serie-a:#7F77DD; --serie-b:#26A278;
+  --code-bg:#202622;
+}
+body{background:var(--bg); color:var(--ink); font:16px/1.7 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; margin:0;}
+.wrap{max-width:780px; margin:0 auto; padding:56px 22px 90px;}
+h1,h2,h3{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; line-height:1.25; text-wrap:balance; margin:0;}
+h1{font-size:34px; letter-spacing:.2px;}
+h2{font-size:24px; margin-top:8px;}
+h3{font-size:18.5px;}
+p{margin:0 0 16px;}
+.eyebrow{font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink);}
+.kicker{color:var(--muted); font-size:17px; margin-top:14px; max-width:64ch;}
+header.doc{border-bottom:2px solid var(--ink); padding-bottom:26px; margin-bottom:10px;}
+.meta{display:flex; gap:18px; flex-wrap:wrap; color:var(--faint); font-size:13px; margin-top:16px; font-family:ui-monospace,Menlo,Consolas,monospace;}
+section{margin-top:54px;}
+.sec-head{display:flex; align-items:baseline; gap:14px; border-bottom:1px solid var(--line-strong); padding-bottom:10px; margin-bottom:20px;}
+.sec-head .eyebrow{white-space:nowrap;}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:26px 0 6px;}
+.stat{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px;}
+.stat b{display:block; font:600 26px/1.1 ui-monospace,Menlo,Consolas,monospace; color:var(--accent-ink); font-variant-numeric:tabular-nums;}
+.stat span{font-size:13px; color:var(--muted);}
+figure{margin:26px 0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 18px 12px;}
+figure svg{display:block; max-width:100%; height:auto; margin:0 auto;}
+figcaption{font-size:13.5px; color:var(--muted); border-top:1px solid var(--line); margin-top:14px; padding-top:10px; line-height:1.55;}
+figcaption b{color:var(--ink);}
+.prof{border-left:3px solid var(--accent); background:var(--chip); border-radius:0 10px 10px 0; padding:14px 18px; margin:20px 0; font-size:15px;}
+.prof .eyebrow{display:block; margin-bottom:6px;}
+.formula{background:var(--code-bg); border-radius:8px; padding:12px 16px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:14.5px; margin:14px 0; overflow-x:auto; white-space:nowrap;}
+table{border-collapse:collapse; width:100%; font-size:14.5px; margin:18px 0; font-variant-numeric:tabular-nums;}
+.tblwrap{overflow-x:auto;}
+th{font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-align:left; padding:8px 10px; border-bottom:2px solid var(--line-strong);}
+td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+td.num{font-family:ui-monospace,Menlo,Consolas,monospace; white-space:nowrap;}
+.ok{color:var(--accent-ink); font-weight:600;}
+.toc{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-top:30px;}
+.toc ol{margin:10px 0 0; padding-left:22px; columns:2; column-gap:36px; font-size:14.5px;}
+.toc li{margin-bottom:7px; break-inside:avoid;}
+.toc a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line-strong);}
+.toc a:hover, .toc a:focus{color:var(--accent-ink); border-color:var(--accent);}
+a{color:var(--accent-ink);}
+.refgroup{margin-bottom:26px;}
+.refgroup h3{margin-bottom:10px;}
+.ref{padding:10px 0 10px 14px; border-left:2px solid var(--line-strong); margin-bottom:10px; font-size:14.5px;}
+.ref b{font-weight:600;}
+.ref .papel{display:block; color:var(--muted); font-size:13px; margin-top:3px;}
+.aviso{background:var(--warn-bg); color:var(--warn-ink); border-radius:10px; padding:12px 16px; font-size:14px; margin:18px 0;}
+code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.92em; background:var(--code-bg); padding:1px 6px; border-radius:5px;}
+ul,ol{margin:0 0 16px; padding-left:24px;}
+li{margin-bottom:8px;}
+.duas{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media (max-width:640px){.duas{grid-template-columns:1fr;} .toc ol{columns:1;}}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important;}}
+</style>
+
+<div class="wrap">
+<header class="doc">
+  <div class="eyebrow">Dossiê metodológico · 14 de agosto de 2026</div>
+  <h1 style="margin-top:12px">Validação dos grafos de comportamento criados por agentes de IA</h1>
+  <p class="kicker">Uma aula completa sobre o desenho experimental, as estatísticas e o referencial teórico da validação — da comparação com especialistas do CTAT ao comportamento de alunos reais — para servir de base à seção de metodologia do artigo.</p>
+  <div class="meta"><span>corpus: 24 STIs CTAT + 274 tutores EducaOFF</span><span>216+216 gerações · 1.371 julgamentos</span><span>custo total ≈ US$ 9,50</span></div>
+</header>
+
+<nav class="toc" aria-label="plano de aula">
+  <div class="eyebrow">Plano de aula</div>
+  <ol>
+    <li><a href="#p1">O problema e a arquitetura de validade</a></li>
+    <li><a href="#p2">Bancada CTAT: desenho experimental</a></li>
+    <li><a href="#p3">As estatísticas, uma a uma</a></li>
+    <li><a href="#p4">A bancada justa (v2) e a equivalência</a></li>
+    <li><a href="#p5">Validação com dados reais da plataforma</a></li>
+    <li><a href="#p6">Juízes LLM: protocolo e fundamentos</a></li>
+    <li><a href="#p7">Resultados consolidados</a></li>
+    <li><a href="#p8">O próximo experimento: alunos em uso</a></li>
+    <li><a href="#p9">Referencial teórico comentado</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════════ PARTE 1 ══════════════════ -->
+<section id="p1">
+  <div class="sec-head"><span class="eyebrow">Parte I</span><h2>O problema e a arquitetura de validade</h2></div>
+  <p>O objeto em avaliação é o <b>grafo de comportamento</b>: a estrutura que um STI usa para decidir, a cada resposta do aluno, se ele avança, recebe remediação específica (erro previsto) ou apoio genérico. Nossos agentes de IA criam esses grafos automaticamente; a pergunta científica é se eles têm qualidade comparável à de um especialista humano.</p>
+  <p>Não existe um "gabarito absoluto" para essa pergunta — o próprio especialista é uma <i>previsão</i> dos erros dos alunos, e a literatura mostra que especialistas erram sistematicamente ao prever dificuldades discentes (o <i>expert blind spot</i>; Nathan &amp; Petrosino, 2003). A saída metodológica é o <b>argumento de validade</b> (Kane, 2013; Messick, 1989): em vez de uma medida única, três fontes de evidência independentes, cada uma cobrindo o ponto cego das outras.</p>
+
+  <figure>
+    <svg viewBox="0 0 720 320" role="img" aria-label="Três fontes de evidência — bancada CTAT, plataforma real e alunos reais — alimentam com instrumentos próprios a mesma afirmação de validade.">
+      <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="20" y="24" width="210" height="110" rx="10"/>
+        <rect x="255" y="24" width="210" height="110" rx="10"/>
+        <rect x="490" y="24" width="210" height="110" rx="10"/>
+      </g>
+      <g font-size="13" fill="currentColor" text-anchor="middle" font-weight="600">
+        <text x="125" y="48">Bancada CTAT</text><text x="360" y="48">Plataforma real</text><text x="595" y="48">Alunos reais</text>
+      </g>
+      <g font-size="12" fill="currentColor" opacity=".75" text-anchor="middle">
+        <text x="125" y="70">24 STIs de especialistas</text>
+        <text x="125" y="88">mesmo problema e interface;</text>
+        <text x="125" y="104">muda só o grafo</text>
+        <text x="360" y="70">868 grafos publicados</text>
+        <text x="360" y="88">o produto que o aluno recebe,</text>
+        <text x="360" y="104">sem gabarito externo</text>
+        <text x="595" y="70">476 erros registrados</text>
+        <text x="595" y="88">o fato: a resposta errada</text>
+        <text x="595" y="104">que de fato aconteceu</text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.1">
+        <line x1="125" y1="134" x2="125" y2="180" marker-end="url(#a1)"/>
+        <line x1="360" y1="134" x2="360" y2="180" marker-end="url(#a1)"/>
+        <line x1="595" y1="134" x2="595" y2="180" marker-end="url(#a1)"/>
+      </g>
+      <g font-size="11.5" fill="currentColor" opacity=".7">
+        <text x="133" y="162">comparação justa + juízes</text>
+        <text x="368" y="162">régua intrínseca</text>
+        <text x="603" y="162">validade preditiva</text>
+      </g>
+      <rect x="120" y="190" width="480" height="64" rx="10" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+      <g text-anchor="middle">
+        <text x="360" y="216" font-size="14" font-weight="600" fill="currentColor">Os grafos diagnosticam e ensinam?</text>
+        <text x="360" y="238" font-size="12" fill="currentColor" opacity=".7">afirmação sustentada por convergência (Kane, 2013)</text>
+      </g>
+      <g font-size="12" fill="currentColor" opacity=".65" text-anchor="middle">
+        <text x="360" y="290">estrutura · pontaria · efeito — cada fonte responde uma faceta e nenhuma sozinha basta</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 1 — A arquitetura de validade.</b> A bancada dá controle experimental (mesma interface e enunciado; só o grafo varia); a plataforma dá o produto real; os alunos dão o critério externo. As três setas convergem para a mesma afirmação — é a convergência, não qualquer medida isolada, que sustenta a conclusão.</figcaption>
+  </figure>
+
+  <div class="prof"><span class="eyebrow">Como apresentar a um pesquisador</span>Abra por aqui: "não medimos concordância com um gabarito; construímos um argumento de validade com três evidências independentes". Isso enquadra o trabalho na tradição de avaliação educacional e antecipa a objeção mais comum ("mas o especialista também erra").</div>
+</section>
+
+<!-- ══════════════════ PARTE 2 ══════════════════ -->
+<section id="p2">
+  <div class="sec-head"><span class="eyebrow">Parte II</span><h2>Bancada CTAT: desenho experimental</h2></div>
+  <p>O corpus vem de 24 tutores de frações na reta numérica do ecossistema CTAT (<i>example-tracing tutors</i>; Aleven et al., 2009). Cada pacote é dividido em dois envelopes com <b>quarentena de informação</b>:</p>
+  <ul>
+    <li><b>Envelope A</b> — o que o agente pode ver: interface, enunciado, resposta correta, componentes de conhecimento (KCs). É o "STI com o grafo faltando".</li>
+    <li><b>Envelope B</b> — o grafo do especialista, guardado para o comparador. <b>Jamais</b> chega ao agente: um gate automático (<code>findLeaksInRobotInput</code>) aborta a coleta se qualquer fragmento do gabarito aparecer na entrada.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 720 250" role="img" aria-label="O pacote CTAT é dividido em envelope A, que alimenta os agentes, e envelope B, que fica em quarentena até o comparador; um gate anti-vazamento fica entre o envelope A e os agentes.">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></marker></defs>
+      <rect x="20" y="86" width="140" height="72" rx="10" fill="none" stroke="currentColor"/>
+      <text x="90" y="116" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">Pacote CTAT</text>
+      <text x="90" y="136" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">tutor completo</text>
+      <line x1="160" y1="106" x2="220" y2="64" stroke="currentColor" stroke-width="1.1" marker-end="url(#a2)"/>
+      <line x1="160" y1="140" x2="220" y2="184" stroke="currentColor" stroke-width="1.1" marker-end="url(#a2)"/>
+      <rect x="226" y="30" width="150" height="64" rx="10" fill="none" stroke="currentColor"/>
+      <text x="301" y="56" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">Envelope A</text>
+      <text x="301" y="76" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">interface + enunciado + KCs</text>
+      <rect x="226" y="156" width="150" height="64" rx="10" fill="none" stroke="currentColor" stroke-dasharray="6 4"/>
+      <text x="301" y="182" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">Envelope B</text>
+      <text x="301" y="202" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">grafo do especialista</text>
+      <line x1="376" y1="62" x2="430" y2="62" stroke="currentColor" stroke-width="1.1" marker-end="url(#a2)"/>
+      <rect x="436" y="34" width="94" height="56" rx="28" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+      <text x="483" y="57" font-size="12" font-weight="600" fill="currentColor" text-anchor="middle">gate anti-</text>
+      <text x="483" y="73" font-size="12" font-weight="600" fill="currentColor" text-anchor="middle">vazamento</text>
+      <line x1="530" y1="62" x2="584" y2="62" stroke="currentColor" stroke-width="1.1" marker-end="url(#a2)"/>
+      <rect x="590" y="34" width="112" height="56" rx="10" fill="none" stroke="currentColor"/>
+      <text x="646" y="57" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">Agentes</text>
+      <text x="646" y="75" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">autoram o grafo</text>
+      <path d="M646 90 L646 188 L382 188" fill="none" stroke="currentColor" stroke-width="1.1"/>
+      <line x1="392 " y1="188" x2="382" y2="188" stroke="currentColor" stroke-width="1.1" marker-end="url(#a2)"/>
+      <text x="520" y="180" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">só no comparador os dois se encontram</text>
+    </svg>
+    <figcaption><b>Figura 2 — Quarentena de informação.</b> Quando o grafo do agente coincide com o do especialista, é porque ele <i>inferiu</i> o erro do aluno a partir do problema — nunca porque copiou o gabarito. Essa separação, verificada por código, é o que impede a medição de ser circular.</figcaption>
+  </figure>
+
+  <p>Sobre esse desenho rodamos campanhas de <b>24 exercícios × 3 réplicas</b> (72 gerações por braço; réplicas porque LLMs são estocásticos), variando um fator por vez: o <b>modelo</b> do agente de estudantes (flash-lite, qwen3-max, gemini-3.5-flash) e o <b>fluxo</b> de autoria (simulador de 1 chamada vs. o fluxo da plataforma com os três agentes-aluno de produção portados byte a byte). Toda chamada fica registrada em manifesto (modelo, tokens, custo, hash do prompt) e cada braço declara suas hipóteses <b>antes</b> da coleta (pré-registro; Nosek et al., 2018).</p>
+</section>
+
+<!-- ══════════════════ PARTE 3 ══════════════════ -->
+<section id="p3">
+  <div class="sec-head"><span class="eyebrow">Parte III</span><h2>As estatísticas, uma a uma</h2></div>
+
+  <h3>3.1 Cobertura, precisão e a família F</h3>
+  <p>Compare o conjunto de erros previstos pelo agente (<b>C</b>) com o do especialista (<b>R</b>). As duas medidas primitivas são leituras de direções opostas do mesmo cruzamento:</p>
+  <div class="formula">cobertura (recall) = |C ∩ R| / |R| &nbsp;&nbsp;·&nbsp;&nbsp; precisão = |C ∩ R| / |C| &nbsp;&nbsp;·&nbsp;&nbsp; F1 = média harmônica das duas</div>
+  <p>Usamos também <b>F-beta com β = 2</b>, que pesa a cobertura duas vezes mais que a precisão. A justificativa é pedagógica, não estatística: um erro <i>faltante</i> atinge o aluno em uso (o tutor não reage); um erro <i>sobrando</i> custa segundos de revisão do professor. Custos assimétricos pedem peso assimétrico.</p>
+
+  <h3>3.2 Intervalos de confiança: bootstrap BCa em cluster</h3>
+  <p>Cada exercício contribui com 3 réplicas — observações do mesmo exercício <b>não são independentes</b>. Por isso o bootstrap reamostra <i>exercícios inteiros</i> (cluster), não réplicas soltas: sorteamos 24 exercícios com reposição, 10.000 vezes, com semente fixa (42) para reprodutibilidade. Do histórico das 10.000 médias sai o intervalo.</p>
+  <p>Usamos a variante <b>BCa</b> (<i>bias-corrected and accelerated</i>; Efron, 1987): ela corrige o intervalo quando a distribuição é assimétrica ou o estimador é enviesado — exatamente o nosso caso, porque muitos exercícios têm cobertura exatamente 1,0 (teto), o que torna o percentil simples o pior estimador possível. No estudo, trocar percentil por BCa moveu o intervalo da cobertura de [0,853; 0,957] para [0,847; 0,953].</p>
+
+  <h3>3.3 Comparação pareada — nunca sobreposição de intervalos</h3>
+  <p>Para comparar dois braços, a tentação é olhar se os intervalos se sobrepõem. <b>Isso é um erro clássico</b>: dois intervalos podem se sobrepor quase inteiramente mesmo havendo diferença real e consistente. A leitura correta é a <b>diferença pareada por exercício</b>: para cada exercício, Δᵢ = braçoA − braçoB; o intervalo é do Δ médio. No nosso teste sintético, uma diferença real de +0,05 produziu intervalos marginais quase coincidentes — e o intervalo pareado ficou [+0,037; +0,050], longe do zero.</p>
+  <div class="prof"><span class="eyebrow">Lição de bastidor que vale contar</span>Encontramos (outra sessão do laboratório) um defeito no comparador: com 3 réplicas por exercício, só a última sobrevivia à indexação — a comparação usava 24 pontos em vez de 72. Corrigido o defeito, <b>todos os vereditos se mantiveram</b> e as magnitudes mudaram levemente (ex.: o efeito do fluxo foi de −0,447 para −0,481). Reportar a correção fortalece o artigo: é evidência de que o pipeline é auditável.</div>
+
+  <h3>3.4 Wilson e kappa (usados nas partes V e VI)</h3>
+  <p>Para proporções com n pequeno (taxa de validade de um juiz, por exemplo), o intervalo de <b>Wilson</b> (1927) se comporta melhor que o normal-aproximado — não estoura os limites 0–1 e não colapsa quando a taxa é extrema. Para concordância entre dois juízes, o <b>kappa de Cohen</b> (1960) desconta o acordo esperado por acaso:</p>
+  <div class="formula">κ = (P₀ − Pₑ) / (1 − Pₑ) &nbsp;&nbsp;— P₀ = acordo observado; Pₑ = acordo esperado ao acaso</div>
+  <p>Escala de leitura usual (Landis &amp; Koch, 1977): 0,41–0,60 moderado; <b>0,61–0,80 substancial</b>; &gt;0,80 quase perfeito.</p>
+</section>
+
+<!-- ══════════════════ PARTE 4 ══════════════════ -->
+<section id="p4">
+  <div class="sec-head"><span class="eyebrow">Parte IV</span><h2>A bancada justa (v2) e a equivalência</h2></div>
+  <p>A régua ingênua produz números artificialmente baixos por quatro mecanismos que diagnosticamos e medimos. A bancada v2 aplica um antídoto para cada — todos com regras <b>pré-declaradas no código antes de qualquer resultado</b>:</p>
+
+  <figure>
+    <svg viewBox="0 0 720 300" role="img" aria-label="Quatro injustiças da régua ingênua ligadas por setas aos seus quatro antídotos na bancada v2.">
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></marker></defs>
+      <text x="130" y="24" font-size="12.5" font-weight="600" fill="currentColor" text-anchor="middle" opacity=".8">RÉGUA INGÊNUA PUNIA…</text>
+      <text x="565" y="24" font-size="12.5" font-weight="600" fill="var(--accent-ink)" text-anchor="middle">ANTÍDOTO DA V2</text>
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="20" y="40" width="240" height="50" rx="9"/><rect x="20" y="104" width="240" height="50" rx="9"/>
+        <rect x="20" y="168" width="240" height="50" rx="9"/><rect x="20" y="232" width="240" height="50" rx="9"/>
+      </g>
+      <g fill="none" stroke="var(--accent)" stroke-width="1.4">
+        <rect x="440" y="40" width="260" height="50" rx="9"/><rect x="440" y="104" width="260" height="50" rx="9"/>
+        <rect x="440" y="168" width="260" height="50" rx="9"/><rect x="440" y="232" width="260" height="50" rx="9"/>
+      </g>
+      <g font-size="12.5" fill="currentColor" text-anchor="middle" font-weight="600">
+        <text x="140" y="61">granularidade diferente</text><text x="140" y="125">estágio vs produto</text>
+        <text x="140" y="189">amplitude sem teto</text><text x="140" y="253">assimetria de papéis</text>
+      </g>
+      <g font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">
+        <text x="140" y="79">9 passos do expert × 4 do agente</text>
+        <text x="140" y="143">grafo cru × produto curado</text>
+        <text x="140" y="207">7,8 candidatos × catálogo de 3,5</text>
+        <text x="140" y="271">só o agente era réu</text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.1" opacity=".8">
+        <line x1="260" y1="65" x2="434" y2="65" marker-end="url(#a3)"/><line x1="260" y1="129" x2="434" y2="129" marker-end="url(#a3)"/>
+        <line x1="260" y1="193" x2="434" y2="193" marker-end="url(#a3)"/><line x1="260" y1="257" x2="434" y2="257" marker-end="url(#a3)"/>
+      </g>
+      <g font-size="12.5" fill="currentColor" text-anchor="middle" font-weight="600">
+        <text x="570" y="61">posição relativa ±0,20</text><text x="570" y="125">candidato = grafo + catálogo</text>
+        <text x="570" y="189">precision@k e juiz cego</text><text x="570" y="253">cobertura mútua + TOST</text>
+      </g>
+      <g font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">
+        <text x="570" y="79">imune ao número de passos</text>
+        <text x="570" y="143">o que a materialização entrega</text>
+        <text x="570" y="207">k = orçamento do especialista</text>
+        <text x="570" y="271">o especialista também é medido</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 3 — Injustiças e antídotos.</b> Cada correção ataca um mecanismo específico de deflação identificado nos dados. As constantes (tolerância ±0,20; margem TOST ±0,10; β=2) foram fixadas no código antes de qualquer resultado — mudá-las depois seria seleção pós-hoc.</figcaption>
+  </figure>
+
+  <h3>4.1 O teste de equivalência (TOST)</h3>
+  <p>"Tão bom quanto o especialista" não se prova mostrando ausência de diferença — ausência de evidência não é evidência de ausência. O instrumento correto é o <b>TOST</b> (<i>two one-sided tests</i>; Schuirmann, 1987; Lakens, 2017): declara-se uma margem δ ("diferenças menores que 0,10 são irrelevantes na prática") e testa-se, com dois testes unilaterais, se a diferença está <i>dentro</i> de [−δ, +δ]. Operacionalmente: se o intervalo de <b>90%</b> da diferença couber inteiro na margem, os dois são equivalentes com α = 5%.</p>
+
+  <figure>
+    <svg viewBox="0 0 720 200" role="img" aria-label="Reta numérica da diferença com a margem de equivalência entre menos zero vírgula dez e mais zero vírgula dez; um intervalo cabe dentro da margem, o caso equivalente, e outro atravessa a borda, o caso não demonstrado.">
+      <line x1="60" y1="110" x2="660" y2="110" stroke="currentColor" stroke-width="1"/>
+      <rect x="260" y="60" width="200" height="100" fill="var(--accent)" opacity="0.12"/>
+      <line x1="260" y1="60" x2="260" y2="160" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <line x1="460" y1="60" x2="460" y2="160" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <line x1="360" y1="100" x2="360" y2="120" stroke="currentColor" stroke-width="1"/>
+      <g font-size="12" fill="currentColor" text-anchor="middle">
+        <text x="260" y="48">−δ = −0,10</text><text x="460" y="48">+δ = +0,10</text><text x="360" y="136">0</text>
+      </g>
+      <line x1="290" y1="84" x2="420" y2="84" stroke="var(--serie-b)" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="355" cy="84" r="4.5" fill="var(--serie-b)"/>
+      <text x="600" y="88" font-size="12.5" fill="currentColor" text-anchor="middle">IC90 dentro da margem</text>
+      <text x="600" y="104" font-size="12.5" font-weight="600" fill="var(--accent-ink)" text-anchor="middle">EQUIVALENTES</text>
+      <line x1="380" y1="146" x2="560" y2="146" stroke="var(--serie-a)" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="470" cy="146" r="4.5" fill="var(--serie-a)"/>
+      <text x="600" y="168" font-size="12.5" fill="currentColor" text-anchor="middle">IC90 cruza a borda —</text>
+      <text x="600" y="184" font-size="12.5" fill="currentColor" text-anchor="middle">equivalência não demonstrada</text>
+    </svg>
+    <figcaption><b>Figura 4 — Como se lê um TOST.</b> A faixa é a margem pré-declarada. O intervalo teal cabe inteiro nela: equivalência demonstrada. O roxo cruza a borda: não demonstrada — o que, no nosso caso do braço qwen, aconteceu <i>na direção da amplitude</i> (o agente cobre o especialista mais do que é coberto), não na da deficiência.</figcaption>
+  </figure>
+
+  <div class="prof"><span class="eyebrow">Resultado central desta parte</span>Na régua justa, o braço qwen cobre <b>0,501 [0,432; 0,555]</b> dos erros do especialista no lugar certo (a régua antiga dizia ~0,07–0,15), e o braço flash-lite tornou-se o primeiro <b>estatisticamente equivalente</b> ao especialista em cobertura mútua (Δ −0,038, IC90 [−0,073; −0,007], dentro de ±0,10).</div>
+</section>
+
+<!-- ══════════════════ PARTE 5 ══════════════════ -->
+<section id="p5">
+  <div class="sec-head"><span class="eyebrow">Parte V</span><h2>Validação com dados reais da plataforma</h2></div>
+
+  <h3>5.1 Censo intrínseco dos 868 grafos publicados</h3>
+  <p>Para os STIs criados direto na plataforma não há especialista de referência — mas há uma régua computável de boa-formação, aplicada com as mesmas peças de produção: executabilidade, % de passos com diagnóstico específico, resposta errada <i>aterrada</i> nos dados do problema (computável por uma <i>buggy rule</i>; Brown &amp; Burton, 1978), qualidade da devolutiva e entrega do catálogo ao grafo. A leitura mais importante é temporal: os grafos de agosto são mensuravelmente melhores que os de abril (passos com diagnóstico específico: 66% → 86–93%; devolutiva dirigida ao professor: 10–21% → 2,7%; grafos sem nenhum erro previsto: 17% → 0%) — as correções de julho aparecem nos dados como um degrau, o que funciona como um <i>quase-experimento interno</i>.</p>
+
+  <h3>5.2 Validade preditiva: os alunos como gabarito</h3>
+  <p>O padrão-ouro da tradição de catálogos de erro é confrontar o catálogo com o comportamento real (Brown &amp; Burton, 1978; VanLehn, 1990; Payne &amp; Squibb, 1990). Cada resposta errada real (com o passo em que ocorreu) é uma pergunta: <i>o grafo deste STI previa este erro, neste passo?</i></p>
+
+  <figure>
+    <svg viewBox="0 0 720 240" role="img" aria-label="As apostas do grafo à esquerda e as respostas de alunos reais à direita; setas ligam as apostas confirmadas e o placar de antecipação aparece embaixo.">
+      <defs><marker id="a5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/></marker></defs>
+      <rect x="30" y="26" width="250" height="150" rx="10" fill="none" stroke="currentColor" stroke-dasharray="6 4"/>
+      <text x="155" y="48" font-size="12.5" font-weight="600" fill="currentColor" text-anchor="middle">o grafo apostou (antes)</text>
+      <rect x="440" y="26" width="250" height="150" rx="10" fill="none" stroke="currentColor" stroke-dasharray="6 4"/>
+      <text x="565" y="48" font-size="12.5" font-weight="600" fill="currentColor" text-anchor="middle">alunos digitaram (depois)</text>
+      <g font-size="13" fill="currentColor" font-family="ui-monospace,Menlo,monospace">
+        <text x="70" y="80">"40"  (36+4)</text>
+        <text x="70" y="110">"5"   (chute)</text>
+        <text x="70" y="140">"144" (36×4)</text>
+        <text x="480" y="80">"40"  ✓ previsto</text>
+        <text x="480" y="110">"35"  — surpresa</text>
+        <text x="480" y="140">"5"   ✓ previsto</text>
+      </g>
+      <line x1="180" y1="76" x2="470" y2="76" stroke="var(--accent)" stroke-width="1.4" marker-end="url(#a5)"/>
+      <path d="M180 106 C 320 106 330 136 470 136" fill="none" stroke="var(--accent)" stroke-width="1.4" marker-end="url(#a5)"/>
+      <text x="360" y="210" font-size="13.5" font-weight="600" fill="currentColor" text-anchor="middle">taxa de antecipação no passo exato = 34,6% (n = 476; 1ª tentativa: 33,5%)</text>
+      <text x="360" y="230" font-size="12" fill="currentColor" opacity=".7" text-anchor="middle">faixa histórica dos catálogos construídos por humanos: ≈ ⅓ a ½ dos erros observados</text>
+    </svg>
+    <figcaption><b>Figura 5 — Validade preditiva.</b> Nenhum humano precisa autorar nada: o uso normal da plataforma gera o critério. Controles: filtro de 1ª tentativa (separa <i>misconception</i> sistemática de <i>slip</i> ocasional; Norman, 1981) e quarentena da colheita (erro real que já virou diagnóstico não conta como previsão — evita circularidade).</figcaption>
+  </figure>
+
+  <p>Dois achados adicionais com valor de engenharia: a <b>utilização</b> (23,7% dos ramos previstos foram acionados por algum aluno — o análogo de precisão no mundo real) e a <b>lacuna de matching</b>: o grafo antecipava o erro em 34,6% dos casos, mas o motor só registrou diagnóstico específico em 26,1% — incluindo casos de coincidência byte a byte sem diagnóstico. Um quarto dos acertos se perde na camada de reconhecimento, não na previsão.</p>
+</section>
+
+<!-- ══════════════════ PARTE 6 ══════════════════ -->
+<section id="p6">
+  <div class="sec-head"><span class="eyebrow">Parte VI</span><h2>Juízes LLM: protocolo e fundamentos</h2></div>
+  <p>Quando o agente prevê um erro que o especialista <i>não</i> listou, quem decide se é riqueza ou ruído? Usar LLMs como juízes é prática estabelecida (Zheng et al., 2023), mas exige três defesas, todas presentes no protocolo:</p>
+  <ol>
+    <li><b>Cegueira com mistura.</b> O juiz recebe apenas enunciado + resposta correta + resposta errada candidata — nunca a origem. Na mesma fila entram, embaralhados: os extras dos agentes, os erros do próprio especialista (<i>calibração positiva</i>) e distratores fabricados (<i>controles negativos</i>: a resposta correta disfarçada, uma equivalente dela — 2/8 quando a certa é 1/4 — e um absurdo).</li>
+    <li><b>Cross-family.</b> Modelos favorecem a produção da própria família (viés de autopreferência; Panickssery et al., 2024). O juiz nunca é parente do gerador julgado: conteúdo de Gemini/Qwen foi julgado por um juiz OpenAI, com segundo juiz DeepSeek.</li>
+    <li><b>Gate de calibração pré-declarado.</b> O juiz só é aceito se aprovar ≥80% dos itens do especialista <b>e</b> rejeitar ≥80% dos distratores. Rubrica de julgamento: "um aluno real daria essa resposta errada por um raciocínio equivocado plausível?" — com categorias <code>implausível</code>, <code>na-verdade-correta</code>, <code>impossível</code>. Temperatura 0,1.</li>
+  </ol>
+  <p>O que aconteceu na prática é o melhor argumento a favor do desenho: o juiz primário (calibrado: aprova 90–95% do especialista, rejeita 82–83% dos distratores, estável ±0,02 entre rodadas repetidas) validou <b>~50% dos extras</b> — dobrando a precisão efetiva dos braços. O segundo juiz, mais rápido, <b>foi reprovado pelo gate</b> nos três braços (rígido demais com o especialista, leniente com distratores impossíveis) e seus números foram descartados <i>por regra</i>. A concordância entre os dois ficou em κ = 0,656 (substancial; 705 itens pareados), e os ~17% de desacordos ficam mapeados item a item — a fila natural para o desempate humano amostral.</p>
+  <div class="prof"><span class="eyebrow">Como defender isso de um revisor</span>Três frases: (1) o juiz não substitui o humano — ele filtra em escala com calibração empírica verificável; (2) o gate reprovou um dos nossos próprios juízes, o que mostra que o critério tem dentes; (3) os desacordos não somem — viram a amostra do julgamento humano. Cite Zheng et al. (2023) para a prática e Panickssery et al. (2024) para o desenho cross-family.</div>
+</section>
+
+<!-- ══════════════════ PARTE 7 ══════════════════ -->
+<section id="p7">
+  <div class="sec-head"><span class="eyebrow">Parte VII</span><h2>Resultados consolidados</h2></div>
+
+  <div class="stats">
+    <div class="stat"><b>0,501</b><span>cobertura justa do melhor braço — metade dos erros do especialista, no lugar certo [BCa 0,432; 0,555]</span></div>
+    <div class="stat"><b>34,6%</b><span>dos erros reais de alunos antecipados no passo exato — na faixa dos catálogos humanos</span></div>
+    <div class="stat"><b>0,75</b><span>precisão julgada do braço parcimonioso — e equivalência TOST com o especialista</span></div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 720 560" role="img" aria-label="Barras comparando régua antiga e régua v2: cobertura no lugar certo sobe de 7 a 16 por cento para 35 a 50 por cento; precisão sobe de 31 a 47 por cento para 65 a 75 por cento com o juiz.">
+      <rect x="150" y="18" width="13" height="13" rx="3" fill="var(--serie-a)"/>
+      <text x="171" y="29" font-size="12.5" fill="currentColor">régua antiga</text>
+      <rect x="300" y="18" width="13" height="13" rx="3" fill="var(--serie-b)"/>
+      <text x="321" y="29" font-size="12.5" fill="currentColor">régua v2 (justa / julgada)</text>
+      <text x="150" y="66" font-size="13.5" font-weight="600" fill="currentColor">erro previsto no lugar certo — cobertura</text>
+      <g stroke="currentColor" stroke-width="0.4" opacity="0.25">
+        <line x1="267" y1="80" x2="267" y2="252"/><line x1="385" y1="80" x2="385" y2="252"/>
+        <line x1="502" y1="80" x2="502" y2="252"/><line x1="620" y1="80" x2="620" y2="252"/>
+      </g>
+      <g font-size="12.5" fill="currentColor" text-anchor="end">
+        <text x="140" y="110">flash-lite</text><text x="140" y="166">qwen</text><text x="140" y="222">turbo</text>
+      </g>
+      <rect x="150" y="92" width="33" height="13" rx="3" fill="var(--serie-a)"/><text x="191" y="103" font-size="12" fill="currentColor">0,07</text>
+      <rect x="150" y="109" width="166" height="13" rx="3" fill="var(--serie-b)"/><text x="324" y="120" font-size="12" fill="currentColor">0,35</text>
+      <rect x="150" y="148" width="73" height="13" rx="3" fill="var(--serie-a)"/><text x="231" y="159" font-size="12" fill="currentColor">0,16</text>
+      <rect x="150" y="165" width="235" height="13" rx="3" fill="var(--serie-b)"/><text x="393" y="176" font-size="12" fill="currentColor">0,50</text>
+      <rect x="150" y="204" width="55" height="13" rx="3" fill="var(--serie-a)"/><text x="213" y="215" font-size="12" fill="currentColor">0,12</text>
+      <rect x="150" y="221" width="201" height="13" rx="3" fill="var(--serie-b)"/><text x="359" y="232" font-size="12" fill="currentColor">0,43</text>
+      <text x="150" y="296" font-size="13.5" font-weight="600" fill="currentColor">erros previstos que são válidos — precisão (bruta → julgada)</text>
+      <g stroke="currentColor" stroke-width="0.4" opacity="0.25">
+        <line x1="267" y1="310" x2="267" y2="482"/><line x1="385" y1="310" x2="385" y2="482"/>
+        <line x1="502" y1="310" x2="502" y2="482"/><line x1="620" y1="310" x2="620" y2="482"/>
+      </g>
+      <g font-size="12.5" fill="currentColor" text-anchor="end">
+        <text x="140" y="340">flash-lite</text><text x="140" y="396">qwen</text><text x="140" y="452">turbo</text>
+      </g>
+      <rect x="150" y="322" width="221" height="13" rx="3" fill="var(--serie-a)"/><text x="379" y="333" font-size="12" fill="currentColor">0,47</text>
+      <rect x="150" y="339" width="354" height="13" rx="3" fill="var(--serie-b)"/><text x="512" y="350" font-size="12" fill="currentColor">0,75</text>
+      <rect x="150" y="378" width="147" height="13" rx="3" fill="var(--serie-a)"/><text x="305" y="389" font-size="12" fill="currentColor">0,31</text>
+      <rect x="150" y="395" width="307" height="13" rx="3" fill="var(--serie-b)"/><text x="465" y="406" font-size="12" fill="currentColor">0,65</text>
+      <rect x="150" y="434" width="158" height="13" rx="3" fill="var(--serie-a)"/><text x="316" y="445" font-size="12" fill="currentColor">0,34</text>
+      <rect x="150" y="451" width="319" height="13" rx="3" fill="var(--serie-b)"/><text x="477" y="462" font-size="12" fill="currentColor">0,68</text>
+      <line x1="150" y1="80" x2="150" y2="482" stroke="currentColor" stroke-width="1"/>
+      <g font-size="12" fill="currentColor" opacity=".7" text-anchor="middle">
+        <text x="150" y="504">0</text><text x="267" y="504">0,25</text><text x="385" y="504">0,50</text><text x="502" y="504">0,75</text><text x="620" y="504">1,00</text>
+      </g>
+      <text x="360" y="540" font-size="12" fill="currentColor" opacity=".7" text-anchor="middle">mesmos grafos, mesmos dados — muda apenas a justiça da medição</text>
+    </svg>
+    <figcaption><b>Figura 6 — A jornada dos números pelas réguas.</b> Painel de cima: cobertura com pareamento por posição relativa (±20% do caminho) em vez de índice bruto de passo. Painel de baixo: precisão antes e depois do juiz cego validar os extras. Paleta verificada por validador de acessibilidade (daltonismo incluso) nos dois temas.</figcaption>
+  </figure>
+
+  <div class="tblwrap"><table>
+    <caption style="text-align:left; font-size:13px; color:var(--muted); padding-bottom:8px;">Tabela 1 — Síntese dos vereditos pareados (comparador corrigido, 72 réplicas por braço; BCa 95%)</caption>
+    <thead><tr><th>Comparação</th><th>Δ cobertura</th><th>Placar por exercício</th><th>Veredito</th></tr></thead>
+    <tbody>
+      <tr><td>qwen vs flash-lite (bancada)</td><td class="num">+0,275 [+0,220; +0,328]</td><td class="num">23 · 1 · 0</td><td class="ok">supera</td></tr>
+      <tr><td>turbo vs flash-lite (bancada)</td><td class="num">+0,362 [+0,292; +0,427]</td><td class="num">23 · 1 · 0</td><td class="ok">supera</td></tr>
+      <tr><td>fluxo real vs bancada (mesmo modelo)</td><td class="num">−0,481 [−0,563; −0,407]</td><td class="num">0 · 0 · 24</td><td>estágio ≠ produto</td></tr>
+      <tr><td>qwen vs flash-lite (dentro do fluxo real)</td><td class="num">+0,138 [+0,075; +0,200]</td><td class="num">18 · 2 · 4</td><td class="ok">o efeito transporta</td></tr>
+      <tr><td>flash-lite × especialista (mútua, TOST ±0,10)</td><td class="num">−0,038 IC90 [−0,073; −0,007]</td><td class="num">—</td><td class="ok">equivalentes</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>A linha "estágio ≠ produto" merece destaque didático: ela <b>resolveu uma contradição histórica</b> entre duas campanhas (uma media 0,20 de cobertura; outra, 0,90) mostrando, com comparação pareada, que elas mediam estágios diferentes do mesmo pipeline — o grafo cru do estágio de síntese carrega ~1,4 erros, e o produto entregue ao aluno, após a materialização, carrega ~7,9.</p>
+</section>
+
+<!-- ══════════════════ PARTE 8 ══════════════════ -->
+<section id="p8">
+  <div class="sec-head"><span class="eyebrow">Parte VIII</span><h2>O próximo experimento: alunos em uso</h2></div>
+  <p>Tudo até aqui responde <i>estrutura</i> e <i>pontaria</i>. A pergunta final — <b>o grafo ensina?</b> — é causal, e pergunta causal pede desenho causal. São dois estudos complementares, ambos usando apenas o uso normal da plataforma:</p>
+
+  <h3>8.1 Estudo prospectivo pré-registrado (observacional)</h3>
+  <ol>
+    <li><b>Pré-registro público</b> das hipóteses e limiares (ex.: "a geração de agosto antecipará ≥30% dos erros no passo exato") — antes de qualquer dado novo (Nosek et al., 2018).</li>
+    <li><b>Congelamento dos grafos por hash</b> (sha-256 por tutor): prova criptográfica de que a previsão antecede o erro.</li>
+    <li><b>Quarentena da colheita</b>: diagnóstico nascido de erro real observado é marcado e não conta como previsão — conta numa métrica separada ("aprendizado do sistema"), interessante por si.</li>
+    <li><b>Métricas pré-declaradas</b>: antecipação no passo, utilização de ramos, e <b>recuperação</b> (após cair numa remediação, o aluno acerta na volta?).</li>
+    <li><b>Intervalos por bootstrap em cluster</b> (aluno e tutor — respostas do mesmo aluno não são independentes).</li>
+  </ol>
+
+  <h3>8.2 Experimento de ablação randomizado (causal)</h3>
+  <figure>
+    <svg viewBox="0 0 720 260" role="img" aria-label="Alunos randomizados entre o STI com grafo completo e a versão ablada com apoio genérico apenas; os dois braços desembocam nos mesmos desfechos pré-declarados.">
+      <defs><marker id="a8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></marker></defs>
+      <rect x="235" y="20" width="250" height="46" rx="10" fill="none" stroke="currentColor"/>
+      <text x="360" y="48" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">mesmo STI · randomização por aluno</text>
+      <path d="M360 66 L360 88 L185 88 L185 106" fill="none" stroke="currentColor" stroke-width="1.1" marker-end="url(#a8)"/>
+      <path d="M360 66 L360 88 L535 88 L535 106" fill="none" stroke="currentColor" stroke-width="1.1" marker-end="url(#a8)"/>
+      <rect x="60" y="112" width="250" height="58" rx="10" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="185" y="136" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">braço A — grafo completo</text>
+      <text x="185" y="156" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">desvios específicos + dicas + apoio genérico</text>
+      <rect x="410" y="112" width="250" height="58" rx="10" fill="none" stroke="currentColor"/>
+      <text x="535" y="136" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">braço B — grafo ablado</text>
+      <text x="535" y="156" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">dicas + apoio genérico (ninguém fica sem ajuda)</text>
+      <path d="M185 170 L185 196 L348 196" fill="none" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M535 170 L535 196 L372 196" fill="none" stroke="currentColor" stroke-width="1.1"/>
+      <line x1="360" y1="196" x2="360" y2="204" stroke="currentColor" stroke-width="1.1" marker-end="url(#a8)"/>
+      <rect x="200" y="208" width="320" height="44" rx="10" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="360" y="227" font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">desfechos pré-declarados</text>
+      <text x="360" y="244" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">recuperação após o erro · ganho pré/pós · tempo até a maestria (BKT)</text>
+    </svg>
+    <figcaption><b>Figura 7 — O desenho causal.</b> O que se abla é apenas o componente sob teste (os desvios diagnósticos); o braço B mantém STI, dicas e apoio genérico — o padrão ético da área (comparação entre ajudas, nunca privação de ajuda). A diferença entre braços é o efeito causal do grafo. Escala de leitura dos efeitos: VanLehn (2011).</figcaption>
+  </figure>
+
+  <p>Desfecho principal recomendado: <b>taxa de recuperação</b> (acertar na tentativa seguinte após receber remediação) — sensível, de unidade abundante (cada erro é uma observação) e diretamente ligado ao mecanismo. Complementos: ganho pré/pós por KC e <b>curvas de aprendizagem</b> — se o modelo de KCs dos grafos é bom, a taxa de erro decai suavemente com a prática (Corbett &amp; Anderson, 1995; a tradição DataShop de Koedinger et al., 2010, faz dessa curva um teste de qualidade do modelo cognitivo). Poder estatístico: com a recuperação como unidade, algumas centenas de erros por braço bastam para detectar diferenças moderadas — semanas de tráfego, não anos.</p>
+</section>
+
+<!-- ══════════════════ PARTE 9 ══════════════════ -->
+<section id="p9">
+  <div class="sec-head"><span class="eyebrow">Parte IX</span><h2>Referencial teórico comentado</h2></div>
+  <p>Organizado por papel na metodologia — cada entrada diz <i>o que ela sustenta</i> no artigo.</p>
+
+  <div class="refgroup"><h3>Moldura de validade</h3>
+    <div class="ref"><b>Kane, M. T. (2013).</b> Validating the interpretations and uses of test scores. <i>Journal of Educational Measurement</i>, 50(1), 1–73.<span class="papel">Sustenta a arquitetura inteira: validade como argumento com evidências convergentes, não como medida única.</span></div>
+    <div class="ref"><b>Messick, S. (1989).</b> Validity. Em R. Linn (org.), <i>Educational Measurement</i> (3ª ed.). ACE/Macmillan.<span class="papel">As facetas da validade (conteúdo, substantiva, externa) que os três pilares operacionalizam.</span></div>
+    <div class="ref"><b>Nosek, B. A., Ebersole, C. R., DeHaven, A. C., &amp; Mellor, D. T. (2018).</b> The preregistration revolution. <i>PNAS</i>, 115(11), 2600–2606.<span class="papel">Justifica o pré-registro de hipóteses, limiares e braço principal antes dos dados.</span></div>
+  </div>
+
+  <div class="refgroup"><h3>Catálogos de erro e validação contra alunos reais</h3>
+    <div class="ref"><b>Brown, J. S., &amp; Burton, R. R. (1978).</b> Diagnostic models for procedural bugs in basic mathematical skills. <i>Cognitive Science</i>, 2(2), 155–192.<span class="papel">O paradigma BUGGY: erros como regras defeituosas computáveis — a base conceitual das nossas <i>buggy rules</i> e do aterramento.</span></div>
+    <div class="ref"><b>VanLehn, K. (1990).</b> <i>Mind Bugs: The Origins of Procedural Misconceptions.</i> MIT Press.<span class="papel">Validação de catálogos contra milhares de soluções reais; a constatação de que catálogos humanos explicam só parte dos erros — nossa régua de leitura para os 34,6%.</span></div>
+    <div class="ref"><b>Payne, S. J., &amp; Squibb, H. R. (1990).</b> Algebra mal-rules and cognitive accounts of error. <i>Cognitive Science</i>, 14(3), 445–481.<span class="papel">Replicação do achado em álgebra: cobertura parcial é a norma mesmo para catálogos de especialistas.</span></div>
+    <div class="ref"><b>Norman, D. A. (1981).</b> Categorization of action slips. <i>Psychological Review</i>, 88(1), 1–15.<span class="papel">A distinção slip × erro sistemático que justifica o filtro de 1ª tentativa.</span></div>
+    <div class="ref"><b>Stafylidou, S., &amp; Vosniadou, S. (2004).</b> The development of students' understanding of the numerical value of fractions. <i>Learning and Instruction</i>, 14(5), 503–518.<span class="papel">Misconceptions de frações do domínio do corpus (citada dentro dos próprios prompts de produção).</span></div>
+    <div class="ref"><b>Ni, Y., &amp; Zhou, Y.-D. (2005).</b> Teaching and learning fraction and rational numbers: the origins and implications of whole number bias. <i>Educational Psychologist</i>, 40(1), 27–52.<span class="papel">O "viés do número inteiro" — a misconception mais frequente nos nossos grafos (ler 1/5 como 5).</span></div>
+  </div>
+
+  <div class="refgroup"><h3>Tutores inteligentes e grafos de comportamento</h3>
+    <div class="ref"><b>Aleven, V., McLaren, B. M., Sewall, J., &amp; Koedinger, K. R. (2009).</b> A new paradigm for intelligent tutoring systems: example-tracing tutors. <i>IJAIED</i>, 19(2), 105–154.<span class="papel">O formalismo do grafo de comportamento (CTAT) que os agentes reproduzem e contra o qual são comparados.</span></div>
+    <div class="ref"><b>Anderson, J. R., Corbett, A. T., Koedinger, K. R., &amp; Pelletier, R. (1995).</b> Cognitive tutors: lessons learned. <i>Journal of the Learning Sciences</i>, 4(2), 167–207.<span class="papel">A linhagem dos tutores cognitivos e o papel do modelo de erro na tutoria.</span></div>
+    <div class="ref"><b>VanLehn, K. (2011).</b> The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. <i>Educational Psychologist</i>, 46(4), 197–221.<span class="papel">A régua de tamanhos de efeito para o experimento de ablação.</span></div>
+    <div class="ref"><b>Nathan, M. J., &amp; Petrosino, A. (2003).</b> Expert blind spot among preservice teachers. <i>American Educational Research Journal</i>, 40(4), 905–928.<span class="papel">Por que concordância com um único especialista é evidência de degrau baixo.</span></div>
+  </div>
+
+  <div class="refgroup"><h3>Modelagem do aprendiz e dados educacionais</h3>
+    <div class="ref"><b>Corbett, A. T., &amp; Anderson, J. R. (1995).</b> Knowledge tracing: modeling the acquisition of procedural knowledge. <i>User Modeling and User-Adapted Interaction</i>, 4, 253–278.<span class="papel">O BKT que a plataforma já roda; base dos pulos por maestria e do desfecho "tempo até a maestria".</span></div>
+    <div class="ref"><b>Koedinger, K. R., Baker, R. S. J. d., Cunningham, K., Skogsholm, A., Leber, B., &amp; Stamper, J. (2010).</b> A data repository for the EDM community: the PSLC DataShop. Em <i>Handbook of Educational Data Mining</i>. CRC Press.<span class="papel">A tradição de validar modelos cognitivos por curvas de aprendizagem sobre logs.</span></div>
+    <div class="ref"><b>Pelánek, R. (2017).</b> Bayesian knowledge tracing, logistic models, and beyond: an overview of learner modeling techniques. <i>UMUAI</i>, 27, 313–350.<span class="papel">Métricas e boas práticas de avaliação de modelos do aprendiz.</span></div>
+  </div>
+
+  <div class="refgroup"><h3>Estatística da comparação</h3>
+    <div class="ref"><b>Efron, B. (1987).</b> Better bootstrap confidence intervals. <i>JASA</i>, 82(397), 171–185.<span class="papel">O intervalo BCa usado em todas as métricas por exercício.</span></div>
+    <div class="ref"><b>Schuirmann, D. J. (1987).</b> A comparison of the two one-sided tests procedure and the power approach… <i>Journal of Pharmacokinetics and Biopharmaceutics</i>, 15, 657–680.<span class="papel">A origem do TOST usado na equivalência agente–especialista.</span></div>
+    <div class="ref"><b>Lakens, D. (2017).</b> Equivalence tests: a practical primer for t tests, correlations, and meta-analyses. <i>Social Psychological and Personality Science</i>, 8(4), 355–362.<span class="papel">O guia prático do TOST e da escolha de margens.</span></div>
+    <div class="ref"><b>Wilson, E. B. (1927).</b> Probable inference, the law of succession, and statistical inference. <i>JASA</i>, 22(158), 209–212.<span class="papel">O intervalo das taxas de validade do juiz.</span></div>
+    <div class="ref"><b>Cohen, J. (1960).</b> A coefficient of agreement for nominal scales. <i>Educational and Psychological Measurement</i>, 20(1), 37–46. · <b>Landis, J. R., &amp; Koch, G. G. (1977).</b> <i>Biometrics</i>, 33(1), 159–174.<span class="papel">O kappa do painel de juízes e sua escala de leitura.</span></div>
+  </div>
+
+  <div class="refgroup"><h3>LLMs como juízes</h3>
+    <div class="ref"><b>Zheng, L., Chiang, W.-L., Sheng, Y., et al. (2023).</b> Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. <i>NeurIPS 2023</i>.<span class="papel">A prática de julgamento por LLM, seus vieses conhecidos e mitigação.</span></div>
+    <div class="ref"><b>Panickssery, A., Bowman, S. R., &amp; Feng, S. (2024).</b> LLM evaluators recognize and favor their own generations. <i>NeurIPS 2024</i>.<span class="papel">O viés de autopreferência que fundamenta o desenho cross-family dos juízes.</span></div>
+  </div>
+
+  <div class="aviso">Nota de integridade: as referências acima vêm do conhecimento do assistente e foram usadas com os papéis descritos. Antes da submissão, confira volume/páginas/DOI de cada uma na fonte — números de página e edições variam entre reimpressões.</div>
+</section>
+
+<footer style="margin-top:60px; border-top:2px solid var(--ink); padding-top:18px; font-size:13px; color:var(--muted);">
+  <p style="margin-bottom:6px;">Reprodutibilidade: todos os dados, registros por chamada, pré-registros e analisadores estão versionados no repositório <code>sti-graph-validation</code> — pastas <code>resultados/comparacao-modelos-2026-08-14</code>, <code>comparacao-fluxo-2026-08-14</code>, <code>avaliacao-plataforma-2026-08-14</code>, <code>validacao-preditiva-2026-08-14</code> e <code>bancada-v2-2026-08-14</code>, cada uma com seu <code>RESULTADOS.md</code>.</p>
+  <p>Dossiê gerado em 14 de agosto de 2026 · custo total dos experimentos ≈ US$ 9,50 · 50 arquivos de teste / 434 testes verdes no fechamento.</p>
+</footer>
+</div>
