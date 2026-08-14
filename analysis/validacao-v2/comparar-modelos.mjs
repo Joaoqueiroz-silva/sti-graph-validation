@@ -7,10 +7,15 @@
  * cada exercício e reamostram-se os exercícios. Isso cancela a dificuldade do
  * exercício, que é a maior fonte de variação, e o intervalo encolhe muito.
  *
- * Demonstração com dados sintéticos (2026-08-12): com uma diferença real de
- * +0,05 entre dois braços, os intervalos marginais foram [0,473; 0,677] e
- * [0,523; 0,723] — sobreposição quase total, que levaria à conclusão errada de
- * "sem diferença". O intervalo pareado foi [+0,037; +0,050].
+ * Demonstração com dados sintéticos: com uma diferença real de +0,05 entre dois
+ * braços, os intervalos marginais foram [0,473; 0,677] e [0,523; 0,723] —
+ * sobreposição quase total, que levaria à conclusão errada de "sem diferença".
+ * O intervalo pareado foi [+0,037; +0,050].
+ *
+ * ATENÇÃO (corrigido em 2026-08-14): `porExercicio` traz uma linha POR RUN, e
+ * não por exercício. As réplicas precisam ser promediadas dentro do exercício
+ * antes do pareamento. A versão anterior indexava com Object.fromEntries e
+ * ficava só com a última réplica, descartando dois terços dos dados em silêncio.
  *
  * Uso:
  *   node analysis/validacao-v2/comparar-modelos.mjs a.json b.json c.json
@@ -18,7 +23,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { intervalo } from "./lib.mjs";
+import { intervalo, media } from "./lib.mjs";
 
 const argv = process.argv.slice(2);
 const opt = (k, d) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
@@ -32,6 +37,24 @@ if (arquivos.length < 2) {
   process.exit(2);
 }
 
+const CAMPOS = ["cobertura", "precisao", "f1", "fbeta", "jaccard", "passoCerto", "passoEComponente", "posicaoRelativa"];
+
+/** Uma linha por exercício, com as réplicas promediadas. */
+function porExercicio(linhas) {
+  const g = {};
+  for (const r of linhas) (g[r.ex] = g[r.ex] || []).push(r);
+  const out = {};
+  for (const [ex, rs] of Object.entries(g)) {
+    const o = { ex, replicas: rs.length };
+    for (const c of CAMPOS) {
+      const vs = rs.map((r) => r[c]).filter((v) => typeof v === "number" && Number.isFinite(v));
+      o[c] = vs.length ? media(vs) : null;
+    }
+    out[ex] = o;
+  }
+  return out;
+}
+
 const bracos = arquivos.map((f) => {
   const j = JSON.parse(fs.readFileSync(f, "utf8"));
   if (!Array.isArray(j.porExercicio)) {
@@ -41,7 +64,8 @@ const bracos = arquivos.map((f) => {
   return {
     rotulo: j.rotulo || j.perfilModelos || path.basename(f, ".json"),
     modelos: j.modelos || null,
-    por: Object.fromEntries(j.porExercicio.map((r) => [r.ex, r])),
+    linhas: j.porExercicio.length,
+    por: porExercicio(j.porExercicio),
   };
 });
 
@@ -55,6 +79,10 @@ const sinal = (x) => (x >= 0 ? "+" : "");
 P("=".repeat(74));
 P(`COMPARAÇÃO PAREADA DE BRAÇOS — métrica: ${metrica}`);
 P(`${comuns.length} exercícios em comum entre ${bracos.length} braços`);
+for (const b of bracos) {
+  const reps = [...new Set(comuns.map((e) => b.por[e].replicas))];
+  P(`  ${b.rotulo.padEnd(24)} ${b.linhas} registros, ${reps.length === 1 ? reps[0] : reps.join("/")} réplica(s) por exercício (promediadas)`);
+}
 const perdidos = new Set(bracos.flatMap((b) => Object.keys(b.por))).size - comuns.length;
 if (perdidos > 0) P(`AVISO: ${perdidos} exercícios não estão em todos os braços e ficaram de fora.`);
 P("=".repeat(74));
