@@ -1,0 +1,511 @@
+{
+ "id": "08dentists",
+ "correctAnswer": "4/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.105,
+ "conceptual": 0.118,
+ "precision": 0.125,
+ "recall": 0.091,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.062,
+ "missing": [
+  "-1",
+  "3/5",
+  "-",
+  "5"
+ ],
+ "extra": [
+  "5/4"
+ ],
+ "robotMisconceptions": [
+  "5/4",
+  "4"
+ ],
+ "exercicio": "08dentists",
+ "replica": 2,
+ "geradoEm": "2026-08-15T20:46:59.938Z",
+ "promptSha256": "4fd0ed1e95028ded19aaa38d00004ebf12c2e1f85c55dadf94540a444eee9651",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:41:38.695Z"
+ },
+ "custo": {
+  "tokensEntrada": 7120,
+  "tokensSaida": 2950,
+  "usd": 0.0062050000000000004
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Identificar o numerador no enunciado",
+    "kc": "IdenNumerator",
+    "valor": "F1 = {A}"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o denominador no enunciado",
+    "kc": "IdenDenominator",
+    "valor": "F2 = {B}"
+   },
+   {
+    "indice": 3,
+    "acao": "Configurar a reta numérica",
+    "kc": "DivNumLine",
+    "valor": "denom = {B}"
+   },
+   {
+    "indice": 4,
+    "acao": "Marcar a fração na reta numérica",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado em {A}/{B}"
+   },
+   {
+    "indice": 5,
+    "acao": "Validar a representação da fração",
+    "kc": "FracLess1",
+    "valor": "Fração validada"
+   },
+   {
+    "indice": 6,
+    "acao": "Concluir a tarefa",
+    "kc": "FracLess1",
+    "valor": "done = true"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5/4",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar a definição de numerador (parte considerada) e denominador (total de partes).",
+    "buggyRule": "Inverter a fração fornecida: F1 = {den}, F2 = {num}",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "4",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar visualmente o denominador da fração ao número de intervalos necessários na reta numérica.",
+    "buggyRule": "Definir o número de partes da reta igual ao numerador: denom = {num}",
+    "misconceptionId": "misc_ancora_numerador_como_denominador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Você está no caminho certo! Lembre-se: em uma fração, o denominador representa o total de partes iguais em que dividimos o inteiro. Qual é o total de dentistas mencionados?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Tente colocar o número total de dentistas no campo 'Number of parts' e clique em OK. Isso dividirá a reta corretamente."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "O número 5 representa o todo (o grupo de dentistas), então ele deve ser o denominador (caixa de baixo). O 4 é a parte que preferiu a marca, logo, é o numerador."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Preencha F1 com 4 e F2 com 5. Depois, ajuste o campo 'Number of parts' para 5 e clique em OK para ver a reta dividida."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Se a reta está dividida em 5 partes, cada marcação representa uma fração de 1/5. Se queremos 4/5, quantas dessas marcações precisamos percorrer a partir do zero?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Comece do zero na reta e conte cada intervalo até chegar no quarto tracinho."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "O ponto deve ser colocado exatamente na quarta marcação após o zero."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Conte: 1/5, 2/5, 3/5... onde está o 4/5? Clique exatamente sobre esse traço."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Identificar o numerador no enunciado\\\",\\n          \\\"thinking\\\": \\\"O enunciado diz 'Quatro em cada cinco', logo o numerador é 4.\\\",\\n          \\\"result\\\": \\\"F1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o denominador no enunciado\\\",\\n          \\\"thinking\\\": \\\"O enunciado diz 'Quatro em cada cinco', logo o denominador é 5.\\\",\\n          \\\"result\\\": \\\"F2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Configurar a reta numérica\\\",\\n          \\\"thinking\\\": \\\"Para representar a fração {A}/{B}, devo dividir a reta numérica em {B} partes iguais.\\\",\\n          \\\"result\\\": \\\"denom = {B}\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar a fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A fração {A}/{B} está localizada na quarta marcação após o zero em uma reta dividida em 5 partes.\\\",\\n          \\\"result\\\": \\\"Ponto marcado em {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Validar a representação da fração\\\",\\n          \\\"thinking\\\": \\\"A fração {A}/{B} é menor que 1, condizente com a reta numérica de 0 a 1.\\\",\\n          \\\"result\\\": \\\"Fração validada\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Concluir a tarefa\\\",\\n          \\\"thinking\\\": \\\"Todos os passos foram executados corretamente.\\\",\\n          \\\"result\\\": \\\"done = true\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 35\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar valores na caixa de fração\\\",\\n              \\\"thinking\\\": \\\"O problema diz quatro em cada cinco, então vou colocar o maior embaixo porque o total é 5.\\\",\\n              \\\"result\\\": \\\"F1=5, F2=4\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/4\\\",\\n                \\\"description\\\": \\\"O aluno inverteu a ordem da fração por confundir a posição do todo e da parte\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher os campos F1 e F2\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se temos 5 dentistas no total e 4 escolheram a marca, a fração é maior ou menor que um inteiro?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Quase lá! Lembre-se que o denominador representa o total de partes em que dividimos o inteiro.\\\",\\n                \\\"howToFix\\\": \\\"Revisar a definição de numerador (parte considerada) e denominador (total de partes).\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/4\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar valores na caixa de fração\\\",\\n              \\\"thinking\\\": \\\"O problema fala quatro em cada cinco. Vou colocar 4 e 5.\\\",\\n              \\\"result\\\": \\\"F1=4, F2=5\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Definir Number of parts\\\",\\n              \\\"thinking\\\": \\\"Vou colocar 4 partes porque o numerador é 4.\\\",\\n              \\\"result\\\": \\\"denom=4\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_ancora_numerador_como_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"4\\\",\\n                \\\"description\\\": \\\"O aluno usa o numerador para definir as divisões da reta em vez do denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao definir o campo 'Number of parts'\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Você dividiu a reta em 4 partes, mas o total de dentistas não era 5?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"O número de partes da reta deve ser igual ao total de dentistas, que é o nosso denominador.\\\",\\n                \\\"howToFix\\\": \\\"Associar visualmente o denominador da fração ao número de intervalos necessários na reta numérica.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"4/5\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"08dentists\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{den}/{num}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a fração fornecida: F1 = {den}, F2 = {num}\\\",\\n              \\\"description\\\": \\\"O aluno troca numerador e denominador por falta de clareza sobre o papel de cada termo\\\",\\n              \\\"mistakeLocation\\\": \\\"Preenchimento dos campos F1 e F2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O número total de dentistas é 5, ele deve ficar em cima ou embaixo na fração?\\\",\\n              \\\"severity\\\": \\\"moderate\\\",\\n              \\\"feedback\\\": \\\"Verifique qual número representa o todo e qual representa a parte.\\\",\\n              \\\"howToFix\\\": \\\"Exercícios de associação: parte/todo.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_uso_inteiro_nu\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{num}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a fração e responder apenas com o numerador: F1 = {num}, F2 = vazio\\\",\\n              \\\"description\\\": \\\"O aluno foca apenas no número que aparece primeiro ou na contagem da parte\\\",\\n              \\\"mistakeLocation\\\": \\\"Preenchimento dos campos F1 e F2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Uma fração precisa de dois números para mostrar a relação entre parte e todo. Onde está o total?\\\",\\n              \\\"severity\\\": \\\"high\\\",\\n              \\\"feedback\\\": \\\"Lembre-se que uma fração é escrita como uma razão entre dois números.\\\",\\n              \\\"howToFix\\\": \\\"Reforçar a estrutura de representação fracionária.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"08dentists\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_numerador_como_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{num}\\\",\\n              \\\"buggyRule\\\": \\\"Definir o número de partes da reta igual ao numerador: denom = {num}\\\",\\n              \\\"description\\\": \\\"O aluno confunde a contagem de marcas com o valor do numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Campo 'Number of parts'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você quer representar 4/5, em quantas partes iguais o inteiro precisa ser dividido?\\\",\\n              \\\"severity\\\": \\\"high\\\",\\n              \\\"feedback\\\": \\\"A reta deve ser dividida pelo total, que é o número de baixo.\\\",\\n              \\\"howToFix\\\": \\\"Prática de divisão de reta numérica baseada no denominador.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_erro_contagem_marcas_intervalos\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{den}+1\\\",\\n              \\\"buggyRule\\\": \\\"Contar as marcas da reta em vez dos intervalos: denom = {den} + 1\\\",\\n              \\\"description\\\": \\\"O aluno confunde o número de traços desenhados com o número de intervalos (partes) resultantes\\\",\\n              \\\"mistakeLocation\\\": \\\"Campo 'Number of parts'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Para ter 5 partes, quantos traços você precisa colocar entre 0 e 1?\\\",\\n              \\\"severity\\\": \\\"moderate\\\",\\n              \\\"feedback\\\": \\\"Cuidado para não contar as extremidades 0 e 1 como partes!\\\",\\n              \\\"howToFix\\\": \\\"Demonstrar a contagem de espaços entre os pontos.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os números\\\",\\n          \\\"thinking\\\": \\\"O problema fala de 'quatro em cada cinco'. Isso significa que 4 é a parte e 5 é o todo. Mas qual número vai no numerador e qual vai no denominador?\\\",\\n          \\\"result\\\": \\\"Identifiquei os números 4 e 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Lembre-se: em uma fração, o denominador representa o total de partes iguais em que dividimos o inteiro. Qual é o total de dentistas mencionados?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Tente colocar o número total de dentistas no campo 'Number of parts' e clique em OK. Isso dividirá a reta corretamente.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"O número 5 representa o todo (o grupo de dentistas), então ele deve ser o denominador (caixa de baixo). O 4 é a parte que preferiu a marca, logo, é o numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Preencha F1 com 4 e F2 com 5. Depois, ajuste o campo 'Number of parts' para 5 e clique em OK para ver a reta dividida.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a reta numérica e marcar o ponto\\\",\\n          \\\"thinking\\\": \\\"Já dividi a reta em 5 partes. Agora, onde eu coloco o ponto? Devo contar os tracinhos?\\\",\\n          \\\"result\\\": \\\"Ponto marcado na quarta marcação\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine, FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se a reta está dividida em 5 partes, cada marcação representa uma fração de 1/5. Se queremos 4/5, quantas dessas marcações precisamos percorrer a partir do zero?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Comece do zero na reta e conte cada intervalo até chegar no quarto tracinho.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"O ponto deve ser colocado exatamente na quarta marcação após o zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Conte: 1/5, 2/5, 3/5... onde está o 4/5? Clique exatamente sobre esse traço.\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"4/5\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Marcar o ponto visualmente antes de preencher os campos numéricos\\\",\\n          \\\"steps\\\": [\\n            \\\"Dividir a reta em 5 partes\\\",\\n            \\\"Clicar na quarta marcação\\\",\\n            \\\"Preencher os campos F1 e F2 após ver a posição\\\"\\n          ],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Identificar o numerador no enunciado",
+        "thinking": "O enunciado diz 'Quatro em cada cinco', logo o numerador é 4.",
+        "result": "F1 = {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o denominador no enunciado",
+        "thinking": "O enunciado diz 'Quatro em cada cinco', logo o denominador é 5.",
+        "result": "F2 = {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Configurar a reta numérica",
+        "thinking": "Para representar a fração {A}/{B}, devo dividir a reta numérica em {B} partes iguais.",
+        "result": "denom = {B}",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Marcar a fração na reta numérica",
+        "thinking": "A fração {A}/{B} está localizada na quarta marcação após o zero em uma reta dividida em 5 partes.",
+        "result": "Ponto marcado em {A}/{B}",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Validar a representação da fração",
+        "thinking": "A fração {A}/{B} é menor que 1, condizente com a reta numérica de 0 a 1.",
+        "result": "Fração validada",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Concluir a tarefa",
+        "thinking": "Todos os passos foram executados corretamente.",
+        "result": "done = true",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 35
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar valores na caixa de fração",
+          "thinking": "O problema diz quatro em cada cinco, então vou colocar o maior embaixo porque o total é 5.",
+          "result": "F1=5, F2=4",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "procedural_error",
+           "wrongAnswer": "5/4",
+           "description": "O aluno inverteu a ordem da fração por confundir a posição do todo e da parte",
+           "mistakeLocation": "Ao preencher os campos F1 e F2",
+           "diagnosticQuestion": "Se temos 5 dentistas no total e 4 escolheram a marca, a fração é maior ou menor que um inteiro?",
+           "severity": "moderate",
+           "feedback": "Quase lá! Lembre-se que o denominador representa o total de partes em que dividimos o inteiro.",
+           "howToFix": "Revisar a definição de numerador (parte considerada) e denominador (total de partes)."
+          }
+         }
+        ],
+        "finalAnswer": "5/4",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar valores na caixa de fração",
+          "thinking": "O problema fala quatro em cada cinco. Vou colocar 4 e 5.",
+          "result": "F1=4, F2=5",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true
+         },
+         {
+          "step": 2,
+          "action": "Definir Number of parts",
+          "thinking": "Vou colocar 4 partes porque o numerador é 4.",
+          "result": "denom=4",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_ancora_numerador_como_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "4",
+           "description": "O aluno usa o numerador para definir as divisões da reta em vez do denominador",
+           "mistakeLocation": "Ao definir o campo 'Number of parts'",
+           "diagnosticQuestion": "Você dividiu a reta em 4 partes, mas o total de dentistas não era 5?",
+           "severity": "high",
+           "feedback": "O número de partes da reta deve ser igual ao total de dentistas, que é o nosso denominador.",
+           "howToFix": "Associar visualmente o denominador da fração ao número de intervalos necessários na reta numérica."
+          }
+         }
+        ],
+        "finalAnswer": "4/5",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "08dentists",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{den}/{num}",
+          "buggyRule": "Inverter a fração fornecida: F1 = {den}, F2 = {num}",
+          "description": "O aluno troca numerador e denominador por falta de clareza sobre o papel de cada termo",
+          "mistakeLocation": "Preenchimento dos campos F1 e F2",
+          "diagnosticQuestion": "O número total de dentistas é 5, ele deve ficar em cima ou embaixo na fração?",
+          "feedback": "Verifique qual número representa o todo e qual representa a parte.",
+          "howToFix": "Exercícios de associação: parte/todo.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_uso_inteiro_nu",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{num}",
+          "buggyRule": "Ignorar a fração e responder apenas com o numerador: F1 = {num}, F2 = vazio",
+          "description": "O aluno foca apenas no número que aparece primeiro ou na contagem da parte",
+          "mistakeLocation": "Preenchimento dos campos F1 e F2",
+          "diagnosticQuestion": "Uma fração precisa de dois números para mostrar a relação entre parte e todo. Onde está o total?",
+          "feedback": "Lembre-se que uma fração é escrita como uma razão entre dois números.",
+          "howToFix": "Reforçar a estrutura de representação fracionária.",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "08dentists",
+        "step": 2,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_ancora_numerador_como_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{num}",
+          "buggyRule": "Definir o número de partes da reta igual ao numerador: denom = {num}",
+          "description": "O aluno confunde a contagem de marcas com o valor do numerador",
+          "mistakeLocation": "Campo 'Number of parts'",
+          "diagnosticQuestion": "Se você quer representar 4/5, em quantas partes iguais o inteiro precisa ser dividido?",
+          "feedback": "A reta deve ser dividida pelo total, que é o número de baixo.",
+          "howToFix": "Prática de divisão de reta numérica baseada no denominador.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_erro_contagem_marcas_intervalos",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "{den}+1",
+          "buggyRule": "Contar as marcas da reta em vez dos intervalos: denom = {den} + 1",
+          "description": "O aluno confunde o número de traços desenhados com o número de intervalos (partes) resultantes",
+          "mistakeLocation": "Campo 'Number of parts'",
+          "diagnosticQuestion": "Para ter 5 partes, quantos traços você precisa colocar entre 0 e 1?",
+          "feedback": "Cuidado para não contar as extremidades 0 e 1 como partes!",
+          "howToFix": "Demonstrar a contagem de espaços entre os pontos.",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os números",
+        "thinking": "O problema fala de 'quatro em cada cinco'. Isso significa que 4 é a parte e 5 é o todo. Mas qual número vai no numerador e qual vai no denominador?",
+        "result": "Identifiquei os números 4 e 5",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Você está no caminho certo! Lembre-se: em uma fração, o denominador representa o total de partes iguais em que dividimos o inteiro. Qual é o total de dentistas mencionados?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Tente colocar o número total de dentistas no campo 'Number of parts' e clique em OK. Isso dividirá a reta corretamente."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "O número 5 representa o todo (o grupo de dentistas), então ele deve ser o denominador (caixa de baixo). O 4 é a parte que preferiu a marca, logo, é o numerador."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Preencha F1 com 4 e F2 com 5. Depois, ajuste o campo 'Number of parts' para 5 e clique em OK para ver a reta dividida."
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Dividir a reta numérica e marcar o ponto",
+        "thinking": "Já dividi a reta em 5 partes. Agora, onde eu coloco o ponto? Devo contar os tracinhos?",
+        "result": "Ponto marcado na quarta marcação",
+        "kcUsed": "DivNumLine, FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se a reta está dividida em 5 partes, cada marcação representa uma fração de 1/5. Se queremos 4/5, quantas dessas marcações precisamos percorrer a partir do zero?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Comece do zero na reta e conte cada intervalo até chegar no quarto tracinho."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "O ponto deve ser colocado exatamente na quarta marcação após o zero."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Conte: 1/5, 2/5, 3/5... onde está o 4/5? Clique exatamente sobre esse traço."
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "4/5",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Marcar o ponto visualmente antes de preencher os campos numéricos",
+        "steps": [
+         "Dividir a reta em 5 partes",
+         "Clicar na quarta marcação",
+         "Preencher os campos F1 e F2 após ver a posição"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 6,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"Qual é a fração presente no problema?\" com duas caixas numéricas (F1 em cima = numerador, F2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); o rótulo da fração aparece como apoio na reta; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ }
+}

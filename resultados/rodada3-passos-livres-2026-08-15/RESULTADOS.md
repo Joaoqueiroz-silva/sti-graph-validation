@@ -88,3 +88,65 @@ cortava estados, não erros (os erros ficam ancorados nos passos que sobram).
 Artefatos: runs (contrato v2 + `topologia`), manifests, `caminho-*.json`
 (cru e materializado), `validacao-*.json`, `comparacao-livre-vs-producao-*.json`,
 pilotos e logs. Reproduzir: `node analysis/bancada-v2/comparar-caminho.mjs --runs <braço>/runs [--materializar]`.
+
+---
+
+## Adendo (15/08, noite) — MATERIALIZAÇÃO COMPLETA (agent 6 + agent 7 de produção)
+
+Pré-registro: `PRE-REGISTRO-MATERIALIZACAO.md` (+ adendo LCS/sem ordem/sensibilidade).
+144 registros reprocessados sem regenerar alunos (72 flash-lite + 72 qwen;
+materialização gpt-5.6-luna; US$ 0,34 + 0,38). Análise:
+`analysis/bancada-v2/analisar-materializado.mjs` → `materializado-*.analise.json`.
+
+**Gate de problema fixo (obediência do agent 6, provada por registro):**
+
+| Braço | gate ESTRITO (pré-registrado) | gate SENSIBILIDADE (libera 0 e 1) |
+|---|---|---|
+| flash-lite | 37/72 = 51,4 % | 69/72 = 95,8 % |
+| qwen | 42/72 = 58,3 % | 70/72 = 97,2 % |
+
+Leitura: quase todas as reprovações do gate estrito são por `0/d`, `1/d` ou
+`1` — constantes da reta 0–1 que o **próprio especialista** usa como estado. O
+gate estrito é conservador contra o agente; a sensibilidade mostra que a
+obediência real ao problema fixo é ~96–97 % (2–3 registros/braço com número
+estranho de verdade).
+
+**Régua de estados no grafo MATERIALIZADO (unidade = grafo; BCa 95 % em
+cluster de exercício; Δ = materializado − mínima, pareado por registro):**
+
+| Métrica | flash-lite · estrito (n=37) | flash-lite · sensib. (n=69) | qwen · estrito (n=42) | qwen · sensib. (n=70) |
+|---|---|---|---|---|
+| **cobertura de estados (LCS)** | **0,509 [0,462; 0,554]** (Δ +0,243 [0,176; 0,360]) | 0,435 [0,398; 0,481] (Δ +0,196) | **0,635 [0,554; 0,692]** (Δ +0,298 [0,170; 0,402]) | 0,562 [0,515; 0,609] (Δ +0,255) |
+| cobertura sem ordem | 0,775 [0,683; 0,838] | 0,611 [0,529; 0,699] | 0,738 [0,621; 0,802] | 0,648 [0,581; 0,701] |
+| caminho íntegro | 0 | 0 | 0 | 0 |
+| **erros no estado certo** | 0,072 [0,028; 0,143] (Δ +0,045 [−0,002; 0,113]) | 0,045 [0,020; 0,086] | **0,344 [0,232; 0,485]** (Δ +0,334 [0,222; 0,469]) | 0,266 [0,194; 0,366] |
+| dicas no estado certo | 1,000 (saturada — ver nota) | 1,000 | 1,000 | 1,000 |
+| estados/grafo (ref = 6) | 4,68 | 4,80 | 5,31 | 5,43 |
+| extras: estados · erros · dicas | 0,51 · 1,95 · 1,62 | 1,14 · 2,62 · 2,19 | 0,43 · 6,62 · 1,50 | 0,89 · 6,77 · 2,06 |
+| DP entre réplicas (cobertura) | 0,035 | 0,048 | 0,038 | 0,128 |
+
+**Leitura honesta:**
+
+1. **A materialização é o que dá o valor de estado — e o efeito é grande e
+   pareado**: cobertura de estados dobra em relação à mínima (Δ +0,20 a +0,30,
+   ICs longe de zero) nos dois braços; qwen chega a **0,63 dos estados do
+   especialista na ordem certa** e 0,74 sem ordem.
+2. **Erros no estado certo saíram do ≈0**: qwen 0,34 (IC [0,23; 0,48]) — um em
+   cada três erros do especialista está previsto **no mesmo estado** pelo
+   grafo materializado; flash-lite 0,07. O agent 6 (worker) reancora e
+   concretiza as opções erradas; o braço com alunos mais fortes entrega
+   catálogo mais rico (6,6 erros extras/grafo) e por isso casa mais.
+3. **Dicas no estado certo = 1,000 é SATURAÇÃO, não mérito**: o worker do
+   agent 6 escreve dicas por nível em **todos** os passos (16–24 por grafo);
+   presença por estado vira trivial. A métrica só é informativa no estágio 3
+   (dicas do aluno 3c). Comparar QUALIDADE de dica exigiria juízo de texto —
+   fora do escopo (item 7 do orientador).
+4. **Caminho íntegro continua 0**: com 4,7–5,4 estados de valor contra 6 do
+   especialista, e ordem pedagógica ≠ ordem de clique, nenhum grafo contém o
+   caminho inteiro em ordem. Sem ordem, 61–78 % dos estados estão lá.
+5. Regra dos 3 réplicas se confirma: DP entre réplicas 0,03–0,05 na cobertura
+   (o que varia é o exercício, não a réplica).
+
+Limite estrutural desta rodada: os agentes NÃO receberam a interface do CTAT
+(reta, F1/F2, Number of parts, Done) — parte do déficit de estados é isso.
+A rodada 4 (`resultados/rodada4-interface-fixa-2026-08-15/`) fecha essa lacuna.

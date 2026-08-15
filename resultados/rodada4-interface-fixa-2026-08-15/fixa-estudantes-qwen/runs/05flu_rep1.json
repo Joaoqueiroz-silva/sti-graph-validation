@@ -1,0 +1,789 @@
+{
+ "id": "05flu",
+ "correctAnswer": "3/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.1,
+ "functionalKappa": -0.429,
+ "missing": [
+  "-1",
+  "2/5",
+  "3",
+  "-",
+  "5"
+ ],
+ "extra": [
+  "5/3",
+  "3/7",
+  "retadivididaincorretamente",
+  "retadivididaem7partes",
+  "pontomarcadoalemdo1ouimpossivel",
+  "pontomarcadoem3/7"
+ ],
+ "robotMisconceptions": [
+  "5/3",
+  "3/7",
+  "Reta dividida incorretamente",
+  "Reta dividida em 7 partes",
+  "Ponto marcado além do 1 ou impossível",
+  "Ponto marcado em 3/7"
+ ],
+ "exercicio": "05flu",
+ "replica": 1,
+ "geradoEm": "2026-08-15T21:22:21.528Z",
+ "promptSha256": "0323c4a3cb028010521a2e71c3003d48044fcfe0b25cc52b4c7fe58d8fc71728",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:56:30.519Z"
+ },
+ "custo": {
+  "tokensEntrada": 7361,
+  "tokensSaida": 6985,
+  "usd": 0.03298308
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Identifiquei que os dias ausentes são 3 e os dias letivos totais são 5."
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} (onde {A} = 3)"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} (onde {B} = 5)"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar o numerador no campo F1",
+    "kc": "IdenNumerator",
+    "valor": "Campo F1 preenchido com {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o denominador no campo F2",
+    "kc": "IdenDenominator",
+    "valor": "Campo F2 preenchido com {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Definir o número de partes na reta numérica",
+    "kc": "DivNumLine",
+    "valor": "Campo 'Number of parts' definido como {B}; reta dividida em {B} segmentos iguais."
+   },
+   {
+    "indice": 7,
+    "acao": "Marcar a fração na reta numérica",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado na posição correspondente a {A}/{B} na reta numérica."
+   },
+   {
+    "indice": 8,
+    "acao": "Confirmar a resposta",
+    "kc": "FracLess1",
+    "valor": "Problema concluído com sucesso."
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5/3",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem clara: '3 dias de 5' → '3 sobre 5'. Associar verbalização à notação.",
+    "buggyRule": "Inverter os valores: usar o número de dias letivos ({total_days}=5) como numerador e os dias perdidos ({missed_days}=3) como denominador",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "3/7",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Sublinhar no enunciado: 'uma semana tem 5 dias letivos'. Contrastar 'semana civil' vs 'semana escolar'.",
+    "buggyRule": "Usar 7 como denominador (dias da semana civil) em vez de {total_days}=5 (dias letivos mencionados)",
+    "misconceptionId": "misc_confunde_semana_calendario_com_semana_letiva"
+   },
+   {
+    "valor": "Reta dividida incorretamente",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar visualmente: 5 dias = 5 partes entre 0 e 1 na reta.",
+    "buggyRule": "",
+    "misconceptionId": "misc_usa_numerador_como_denominador_na_reta"
+   },
+   {
+    "valor": "Reta dividida em 7 partes",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Conectar linguagem do problema à ação: '5 dias letivos' → '5 partes na reta entre 0 e 1'.",
+    "buggyRule": "",
+    "misconceptionId": "misc_escala_baseada_em_denominador_errado"
+   },
+   {
+    "valor": "Ponto marcado além do 1 ou impossível",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Discutir significado contextual: frações de um todo finito (≤1). Comparar com exemplos cotidianos (fatia de pizza, dias de aula).",
+    "buggyRule": "",
+    "misconceptionId": "misc_frac_maior_que_1_em_reta_0_1"
+   },
+   {
+    "valor": "Ponto marcado em 3/7",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Refazer a divisão com base nos 5 dias letivos, depois marcar a terceira parte.",
+    "buggyRule": "",
+    "misconceptionId": "misc_posicionamento_correto_com_unidade_errada"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando queremos mostrar uma parte de um todo, usamos frações. Qual número representa a parte que Danielle perdeu? E qual representa o total de dias letivos?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, identifique quantos dias ela perdeu (essa será a parte de cima da fração). Depois, veja quantos dias tem a semana letiva completa (essa será a parte de baixo)."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração tem numerador menor que o denominador, e ambos são números pequenos. Pense: quantos dias ela perdeu? Quantos dias tem a semana letiva?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Ela perdeu 3 dias de um total de 5. Na fração, o número de cima mostra o que foi perdido, e o de baixo mostra o total. Qual vai em cima? Qual vai embaixo?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótimo! Você já tem os números. Lembre-se: a fração representa uma posição entre 0 e 1 na reta. Onde essa fração deve ficar?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Agora que você tem a fração, use o campo 'Number of parts' para dividir a reta em 5 partes iguais — igual ao denominador. Depois marque o ponto na terceira marca."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Veja bem: se o denominador é 5, a reta precisa estar dividida em 5 partes. Depois, conte até a terceira parte a partir do zero para marcar o ponto."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você quase terminou! Digite 5 no campo 'Number of parts' e clique em OK. Depois, clique exatamente na terceira marcação da reta — não na quarta, nem na segunda!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Pense: cada divisão da reta representa uma parte do todo. Se há 5 partes, quanto vale cada uma? E quantas delas você precisa contar?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Comece do zero e vá contando as marcas: a primeira é 1/5, a segunda é 2/5, a terceira é 3/5. Clique exatamente nessa terceira marca."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "A fração 3/5 está mais perto do meio da reta, mas ainda antes da metade? Não! Está depois da metade? Sim! Confirme contando as marcas."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você está quase lá! Com a reta dividida em 5, toque na marca logo após 2/5. Essa é a posição correta para 3/5."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05flu\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema diz que Danielle ficou em casa por 3 dias de uma semana letiva de 5 dias. Preciso representar isso como uma fração.\\\",\\n          \\\"result\\\": \\\"Identifiquei que os dias ausentes são 3 e os dias letivos totais são 5.\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O numerador representa a parte considerada: os 3 dias que Danielle perdeu.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} (onde {A} = 3)\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador representa o total de partes: os 5 dias letivos da semana.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} (onde {B} = 5)\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar o numerador no campo F1\\\",\\n          \\\"thinking\\\": \\\"Vou inserir o valor do numerador na caixa superior da fração.\\\",\\n          \\\"result\\\": \\\"Campo F1 preenchido com {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar o denominador no campo F2\\\",\\n          \\\"thinking\\\": \\\"Vou inserir o valor do denominador na caixa inferior da fração.\\\",\\n          \\\"result\\\": \\\"Campo F2 preenchido com {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Definir o número de partes na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Para marcar a fração {A}/{B} na reta, preciso dividir o intervalo [0,1] em {B} partes iguais.\\\",\\n          \\\"result\\\": \\\"Campo 'Number of parts' definido como {B}; reta dividida em {B} segmentos iguais.\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Marcar a fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A fração {A}/{B} está localizada no {A}-ésimo ponto de divisão a partir do zero.\\\",\\n          \\\"result\\\": \\\"Ponto marcado na posição correspondente a {A}/{B} na reta numérica.\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Confirmar a resposta\\\",\\n          \\\"thinking\\\": \\\"Verifico que a fração está correta e a representação na reta está alinhada. Clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso.\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 33\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05flu\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador diretamente sem usar a reta\\\",\\n              \\\"thinking\\\": \\\"Ela ficou 3 dias em casa, então o numerador é 3. Uma semana tem 5 dias, então o denominador é 5.\\\",\\n              \\\"result\\\": \\\"Correto — mas vamos fingir que cometeu erro de inversão\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/3\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador ao interpretar 'fração da semana que perdeu'\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar qual número representa a parte (dias perdidos) e qual representa o todo (dias letivos), o aluno trocou os papéis\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é o 'todo' aqui: os dias que ela perdeu ou os dias totais da semana letiva? E qual é a 'parte'?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você identificou os dois números corretos do problema. Agora pense: a fração mostra a PARTE em relação ao TODO. Qual é o TODO nesse caso?\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem clara: '3 dias de 5' → '3 sobre 5'. Associar verbalização à notação.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Dividir a reta em 3 partes (usando campo 'Number of parts')\\\",\\n              \\\"thinking\\\": \\\"Se o numerador é 5 e o denominador é 3, preciso dividir em 3 partes.\\\",\\n              \\\"result\\\": \\\"Reta dividida incorretamente\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_numerador_como_denominador_na_reta\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": null,\\n                \\\"description\\\": \\\"Aluno usou o valor errado (numerador invertido) como base para dividir a reta\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher o campo 'Number of parts', o aluno digitou o denominador da fração invertida (3), não o correto (5)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantas partes iguais devemos ter na reta para representar uma semana de 5 dias letivos?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está dividindo a reta com base no número certo de dias? Lembre-se: cada parte representa UM dia letivo.\\\",\\n                \\\"howToFix\\\": \\\"Relacionar visualmente: 5 dias = 5 partes entre 0 e 1 na reta.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar o ponto na quinta marca (posição 5/3, mas fora da reta)\\\",\\n              \\\"thinking\\\": \\\"Como a fração é 5/3, vou marcar depois do 1... mas a reta só vai até 1.\\\",\\n              \\\"result\\\": \\\"Ponto marcado além do 1 ou impossível\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_frac_maior_que_1_em_reta_0_1\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": null,\\n                \\\"description\\\": \\\"Aluno tenta marcar fração imprópria (5/3) em reta limitada a [0,1], indicando má interpretação do contexto\\\",\\n                \\\"mistakeLocation\\\": \\\"Na localização do ponto na reta, o aluno não reconhece que a fração deve ser menor que 1 porque representa parte de um todo único\\\",\\n                \\\"diagnosticQuestion\\\": \\\"É possível perder mais dias do que existem na semana letiva? A fração pode ser maior que 1 nesse caso?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Ótima observação de que a fração envolve 3 e 5! Mas pense: se a semana letiva tem 5 dias, o máximo que se pode perder é 5/5 = 1. Sua fração está dentro desse limite?\\\",\\n                \\\"howToFix\\\": \\\"Discutir significado contextual: frações de um todo finito (≤1). Comparar com exemplos cotidianos (fatia de pizza, dias de aula).\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/3\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Interpretar erroneamente o 'todo' como 7 dias (semana completa)\\\",\\n              \\\"thinking\\\": \\\"Uma semana tem 7 dias, então o denominador é 7. Ela perdeu 3 dias, então numerador é 3.\\\",\\n              \\\"result\\\": \\\"Fração 3/7 escrita\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_semana_calendario_com_semana_letiva\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3/7\\\",\\n                \\\"description\\\": \\\"Aluno usa 7 (dias da semana civil) como denominador, ignorando que o problema especifica 'semana letiva' com 5 dias\\\",\\n                \\\"mistakeLocation\\\": \\\"Na leitura do enunciado, o aluno ignora a expressão '5 dias letivos' e assume semana padrão de 7 dias\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O problema fala em 'semana letiva'. Quantos dias letivos ele diz que tem?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você contou corretamente os 3 dias perdidos! Agora, releia com atenção: quantos dias letivos tem a semana mencionada no problema?\\\",\\n                \\\"howToFix\\\": \\\"Sublinhar no enunciado: 'uma semana tem 5 dias letivos'. Contrastar 'semana civil' vs 'semana escolar'.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Dividir a reta em 7 partes usando o campo 'Number of parts'\\\",\\n              \\\"thinking\\\": \\\"Preciso de 7 partes porque o denominador é 7.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 7 partes\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_baseada_em_denominador_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": null,\\n                \\\"description\\\": \\\"Aluno divide a reta com base no denominador incorreto (7), não no correto (5)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao digitar no campo 'Number of parts', o aluno insere 7, derivado da interpretação errada da unidade\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Cada parte da reta deve representar um dia LETIVO. Quantos dias letivos há?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você dividiu a reta igualmente — muito bem! Mas cada parte deve corresponder a um dia LETIVO. Quantos dias letivos o problema menciona?\\\",\\n                \\\"howToFix\\\": \\\"Conectar linguagem do problema à ação: '5 dias letivos' → '5 partes na reta entre 0 e 1'.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar o terceiro traço na reta dividida em 7\\\",\\n              \\\"thinking\\\": \\\"Numerador é 3, então marco a terceira parte.\\\",\\n              \\\"result\\\": \\\"Ponto marcado em 3/7\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_posicionamento_correto_com_unidade_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": null,\\n                \\\"description\\\": \\\"Aluno posiciona corretamente a fração 3/7 na escala de 7 partes, mas a escala está errada\\\",\\n                \\\"mistakeLocation\\\": \\\"Na marcação do ponto, o aluno conta corretamente 3 marcas, mas a unidade base (7) é incorreta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a reta representa a SEMANA LETIVA, quantas partes ela deve ter? Onde caem os 3 dias perdidos nessa divisão?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você marcou exatamente a terceira parte — ótimo senso de posição! Agora, vamos garantir que o total de partes corresponda aos dias letivos reais mencionados.\\\",\\n                \\\"howToFix\\\": \\\"Refazer a divisão com base nos 5 dias letivos, depois marcar a terceira parte.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"3/7\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"05flu\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_days}/{missed_days}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter os valores: usar o número de dias letivos ({total_days}=5) como numerador e os dias perdidos ({missed_days}=3) como denominador\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual valor é a parte e qual é o todo, invertendo numerador e denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao associar os números do enunciado à estrutura da fração, o aluno troca o papel dos números\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração representa os dias PERDIDOS em relação ao TOTAL de dias letivos. Qual número vai em cima?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os dois números importantes! Lembre-se: a fração mostra a PARTE (dias perdidos) sobre o TODO (dias letivos).\\\",\\n              \\\"howToFix\\\": \\\"Praticar com frases completas: '3 de 5 dias' → escrever como 3/5. Usar setas no enunciado ligando '3 dias' → numerador, '5 dias letivos' → denominador.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_dias_perdidos_apenas\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{missed_days}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o denominador e responder apenas com o número de dias perdidos ({missed_days}=3) como um inteiro\\\",\\n              \\\"description\\\": \\\"Aluno responde com o numerador sozinho, esquecendo que fração requer duas partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno digita apenas '3' nos campos ou considera que a resposta é só o número de dias ausentes\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta pede uma FRAÇÃO. O que mais precisamos além do número de dias perdidos?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o número de dias que Danielle perdeu! Mas a pergunta quer saber que FRAÇÃO da semana isso representa. Precisamos também do total de dias...\\\",\\n              \\\"howToFix\\\": \\\"Pedir ao aluno: 'Complete: Danielle perdeu ___ dias de ___ dias letivos.' Depois transformar em fração.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_semana_calendario_com_semana_letiva\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{missed_days}/7\\\",\\n              \\\"buggyRule\\\": \\\"Usar 7 como denominador (dias da semana civil) em vez de {total_days}=5 (dias letivos mencionados)\\\",\\n              \\\"description\\\": \\\"Aluno aplica conhecimento prévio de 'semana = 7 dias' e ignora a especificação do problema\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do denominador, o aluno não lê com atenção que o contexto é 'semana LETIVA' com 5 dias\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema diz explicitamente quantos dias letivos tem a semana. É 7 ou outro número?\\\",\\n              \\\"feedback\\\": \\\"Você está certo que uma semana tem 7 dias no calendário! Mas aqui estamos falando só dos dias em que a escola funciona. Quantos são?\\\",\\n              \\\"howToFix\\\": \\\"Destacar no texto: '5 dias letivos'. Discutir diferenças entre semana civil e escolar.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05flu\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pela_quantidade_errada_de_partes\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": null,\\n              \\\"buggyRule\\\": \\\"Dividir a reta em {denominator_used} partes, onde {denominator_used} é o valor digitado incorretamente no campo F2 (ex: 3, 7, ou outro valor errado)\\\",\\n              \\\"description\\\": \\\"Aluno divide a reta com base no denominador que já errou na etapa anterior\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao usar o campo 'Number of parts', o aluno replica o erro do passo 1, propagando a má interpretação\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Cada parte da reta deve representar um dia LETIVO. Quantos dias letivos há no problema?\\\",\\n              \\\"feedback\\\": \\\"Você está dividindo a reta igualmente — ótimo! Agora, vamos garantir que o número de partes combine com os dias letivos mencionados no enunciado.\\\",\\n              \\\"howToFix\\\": \\\"Antes de dividir, perguntar: 'Quantos dias letivos? Então quantas partes entre 0 e 1?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_em_6_partes_por_contagem_errada\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": null,\\n              \\\"buggyRule\\\": \\\"Dividir a reta em {total_days}+1 = 6 partes, contando as marcas em vez dos intervalos (erro de um a mais)\\\",\\n              \\\"description\\\": \\\"Aluno acha que 5 dias exigem 6 divisões porque conta as linhas, não os segmentos\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao decidir quantas partes criar, o aluno conta as marcas visuais (6 traços para 5 intervalos) e digita 6\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem 5 dias, quantos ESPAÇOS iguais precisa entre 0 e 1? Vamos contar juntos: do dia 1 ao dia 2 é um espaço...\\\",\\n              \\\"feedback\\\": \\\"Você está pensando cuidadosamente na divisão! Mas lembre-se: o número de PARTES IGUAIS é igual ao número de dias, não ao número de tracinhos que aparecem.\\\",\\n              \\\"howToFix\\\": \\\"Usar régua ou barra: dividir uma tira em 5 partes iguais e contar os segmentos, não as linhas de corte.\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05flu\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_marca_na_posicao_do_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": null,\\n              \\\"buggyRule\\\": \\\"Marcar o ponto na posição correspondente ao denominador (ex: marcar 5ª marca quando deveria marcar a 3ª)\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador e denominador ao posicionar o ponto, mesmo que tenha escrito a fração correta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção do ponto na reta, o aluno usa o denominador como guia de posição em vez do numerador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração é 3/5. Isso quer dizer que avançamos 3 partes de 5. Em qual marca isso cai?\\\",\\n              \\\"feedback\\\": \\\"Você dividiu corretamente em 5 partes! Agora, avance só 3 delas — não todas. Conte: 1ª, 2ª, 3ª... pare!\\\",\\n              \\\"howToFix\\\": \\\"Contar em voz alta enquanto move o cursor: 'um quinto, dois quintos, três quintos...'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_na_metade_por_ancora\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": null,\\n              \\\"buggyRule\\\": \\\"Marcar o ponto exatamente no meio da reta (posição 1/2), independentemente dos valores, por viés de referência\\\",\\n              \\\"description\\\": \\\"Aluno assume que 'alguns dias perdidos' equivale à metade, ignorando os números reais\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da posição, o aluno ignora os dados e recorre à fração familiar 1/2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Três dias é mais ou menos que a metade de 5 dias? Onde isso fica na reta?\\\",\\n              \\\"feedback\\\": \\\"Você conhece bem a metade — isso é ótimo! Mas aqui temos 3 de 5 dias. Será que é exatamente metade, mais ou menos?\\\",\\n              \\\"howToFix\\\": \\\"Comparar 3/5 com 2.5/5 (metade). Mostrar que 3 > 2.5, então fica um pouco depois do meio.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_menos_na_posicao\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": null,\\n              \\\"buggyRule\\\": \\\"Marcar a ({numerador}-1)-ésima marca em vez da {numerador}-ésima (ex: marcar 2ª em vez de 3ª)\\\",\\n              \\\"description\\\": \\\"Aluno começa a contar do zero ou esquece de incluir a primeira parte\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao contar as posições na reta dividida, o aluno comete erro de off-by-one\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Começando do zero, qual é a primeira parte? E a segunda? E a terceira?\\\",\\n              \\\"feedback\\\": \\\"Quase lá! Você está contando direitinho, mas vamos verificar o início: do 0 à primeira marca é a PRIMEIRA parte. Continue até a terceira!\\\",\\n              \\\"howToFix\\\": \\\"Numerar cada segmento: 'parte 1', 'parte 2', etc., e pedir para clicar no final da parte 3.\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05flu\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os números relevantes\\\",\\n          \\\"thinking\\\": \\\"Danielle ficou em casa por 3 dias... e a semana letiva tem 5 dias. Então, ela perdeu 3 de 5 dias. Isso deve ser uma fração: 3 em cima e 5 embaixo?\\\",\\n          \\\"result\\\": \\\"Identificou que a fração envolve 3 e 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando queremos mostrar uma parte de um todo, usamos frações. Qual número representa a parte que Danielle perdeu? E qual representa o total de dias letivos?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, identifique quantos dias ela perdeu (essa será a parte de cima da fração). Depois, veja quantos dias tem a semana letiva completa (essa será a parte de baixo).\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração tem numerador menor que o denominador, e ambos são números pequenos. Pense: quantos dias ela perdeu? Quantos dias tem a semana letiva?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Ela perdeu 3 dias de um total de 5. Na fração, o número de cima mostra o que foi perdido, e o de baixo mostra o total. Qual vai em cima? Qual vai embaixo?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os campos F1 (numerador) e F2 (denominador)\\\",\\n          \\\"thinking\\\": \\\"Então... F1 = 3, F2 = 5. Mas será que é isso mesmo? Será que preciso marcar na reta primeiro?\\\",\\n          \\\"result\\\": \\\"Preencheu F1=3 e F2=5 corretamente\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótimo! Você já tem os números. Lembre-se: a fração representa uma posição entre 0 e 1 na reta. Onde essa fração deve ficar?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Agora que você tem a fração, use o campo 'Number of parts' para dividir a reta em 5 partes iguais — igual ao denominador. Depois marque o ponto na terceira marca.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja bem: se o denominador é 5, a reta precisa estar dividida em 5 partes. Depois, conte até a terceira parte a partir do zero para marcar o ponto.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você quase terminou! Digite 5 no campo 'Number of parts' e clique em OK. Depois, clique exatamente na terceira marcação da reta — não na quarta, nem na segunda!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Dividir a reta numérica usando o campo 'denom'\\\",\\n          \\\"thinking\\\": \\\"Preciso dividir a reta... mas em quantas partes? Ah, sim, o denominador é 5, então coloco 5.\\\",\\n          \\\"result\\\": \\\"Definiu 'Number of parts' = 5 e dividiu a reta corretamente\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente à fração na reta\\\",\\n          \\\"thinking\\\": \\\"A fração é 3/5... então conto: 1/5, 2/5, 3/5. É a terceira marca!\\\",\\n          \\\"result\\\": \\\"Marcou corretamente o ponto em 3/5\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine, FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: cada divisão da reta representa uma parte do todo. Se há 5 partes, quanto vale cada uma? E quantas delas você precisa contar?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Comece do zero e vá contando as marcas: a primeira é 1/5, a segunda é 2/5, a terceira é 3/5. Clique exatamente nessa terceira marca.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"A fração 3/5 está mais perto do meio da reta, mas ainda antes da metade? Não! Está depois da metade? Sim! Confirme contando as marcas.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Com a reta dividida em 5, toque na marca logo após 2/5. Essa é a posição correta para 3/5.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Clicar em Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo: fração 3/5, reta dividida em 5, ponto na terceira marca.\\\",\\n          \\\"result\\\": \\\"Concluiu com resposta correta\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"3/5\\\",\\n      \\\"totalTime\\\": 78,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Primeiro marcar o ponto na reta por estimativa visual, depois tentar ajustar o denominador para corresponder\\\",\\n          \\\"steps\\\": [\\\"Estimar posição de 3/5 visualmente\\\", \\\"Tentar diferentes valores em 'Number of parts' até que a marca coincida\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar contagem nos dedos ou rabisco fora do sistema para confirmar 3 de 5\\\",\\n          \\\"steps\\\": [\\\"Desenhar 5 traços\\\", \\\"Marcar 3 deles\\\", \\\"Associar à fração\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "05flu",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema diz que Danielle ficou em casa por 3 dias de uma semana letiva de 5 dias. Preciso representar isso como uma fração.",
+        "result": "Identifiquei que os dias ausentes são 3 e os dias letivos totais são 5.",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O numerador representa a parte considerada: os 3 dias que Danielle perdeu.",
+        "result": "Numerador = {A} (onde {A} = 3)",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador representa o total de partes: os 5 dias letivos da semana.",
+        "result": "Denominador = {B} (onde {B} = 5)",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Digitar o numerador no campo F1",
+        "thinking": "Vou inserir o valor do numerador na caixa superior da fração.",
+        "result": "Campo F1 preenchido com {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Digitar o denominador no campo F2",
+        "thinking": "Vou inserir o valor do denominador na caixa inferior da fração.",
+        "result": "Campo F2 preenchido com {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Definir o número de partes na reta numérica",
+        "thinking": "Para marcar a fração {A}/{B} na reta, preciso dividir o intervalo [0,1] em {B} partes iguais.",
+        "result": "Campo 'Number of parts' definido como {B}; reta dividida em {B} segmentos iguais.",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Marcar a fração na reta numérica",
+        "thinking": "A fração {A}/{B} está localizada no {A}-ésimo ponto de divisão a partir do zero.",
+        "result": "Ponto marcado na posição correspondente a {A}/{B} na reta numérica.",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Confirmar a resposta",
+        "thinking": "Verifico que a fração está correta e a representação na reta está alinhada. Clico em Done.",
+        "result": "Problema concluído com sucesso.",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 3,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 33
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "05flu",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador diretamente sem usar a reta",
+          "thinking": "Ela ficou 3 dias em casa, então o numerador é 3. Uma semana tem 5 dias, então o denominador é 5.",
+          "result": "Correto — mas vamos fingir que cometeu erro de inversão",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/3",
+           "description": "Aluno inverteu numerador e denominador ao interpretar 'fração da semana que perdeu'",
+           "mistakeLocation": "Ao identificar qual número representa a parte (dias perdidos) e qual representa o todo (dias letivos), o aluno trocou os papéis",
+           "diagnosticQuestion": "Qual é o 'todo' aqui: os dias que ela perdeu ou os dias totais da semana letiva? E qual é a 'parte'?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você identificou os dois números corretos do problema. Agora pense: a fração mostra a PARTE em relação ao TODO. Qual é o TODO nesse caso?",
+           "howToFix": "Usar linguagem clara: '3 dias de 5' → '3 sobre 5'. Associar verbalização à notação."
+          }
+         },
+         {
+          "step": 2,
+          "action": "Dividir a reta em 3 partes (usando campo 'Number of parts')",
+          "thinking": "Se o numerador é 5 e o denominador é 3, preciso dividir em 3 partes.",
+          "result": "Reta dividida incorretamente",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_numerador_como_denominador_na_reta",
+           "type": "procedural_error",
+           "wrongAnswer": null,
+           "description": "Aluno usou o valor errado (numerador invertido) como base para dividir a reta",
+           "mistakeLocation": "Ao preencher o campo 'Number of parts', o aluno digitou o denominador da fração invertida (3), não o correto (5)",
+           "diagnosticQuestion": "Quantas partes iguais devemos ter na reta para representar uma semana de 5 dias letivos?",
+           "severity": "moderate",
+           "feedback": "Você está dividindo a reta com base no número certo de dias? Lembre-se: cada parte representa UM dia letivo.",
+           "howToFix": "Relacionar visualmente: 5 dias = 5 partes entre 0 e 1 na reta."
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar o ponto na quinta marca (posição 5/3, mas fora da reta)",
+          "thinking": "Como a fração é 5/3, vou marcar depois do 1... mas a reta só vai até 1.",
+          "result": "Ponto marcado além do 1 ou impossível",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_frac_maior_que_1_em_reta_0_1",
+           "type": "conceptual_error",
+           "wrongAnswer": null,
+           "description": "Aluno tenta marcar fração imprópria (5/3) em reta limitada a [0,1], indicando má interpretação do contexto",
+           "mistakeLocation": "Na localização do ponto na reta, o aluno não reconhece que a fração deve ser menor que 1 porque representa parte de um todo único",
+           "diagnosticQuestion": "É possível perder mais dias do que existem na semana letiva? A fração pode ser maior que 1 nesse caso?",
+           "severity": "high",
+           "feedback": "Ótima observação de que a fração envolve 3 e 5! Mas pense: se a semana letiva tem 5 dias, o máximo que se pode perder é 5/5 = 1. Sua fração está dentro desse limite?",
+           "howToFix": "Discutir significado contextual: frações de um todo finito (≤1). Comparar com exemplos cotidianos (fatia de pizza, dias de aula)."
+          }
+         }
+        ],
+        "finalAnswer": "5/3",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Interpretar erroneamente o 'todo' como 7 dias (semana completa)",
+          "thinking": "Uma semana tem 7 dias, então o denominador é 7. Ela perdeu 3 dias, então numerador é 3.",
+          "result": "Fração 3/7 escrita",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_semana_calendario_com_semana_letiva",
+           "type": "conceptual_error",
+           "wrongAnswer": "3/7",
+           "description": "Aluno usa 7 (dias da semana civil) como denominador, ignorando que o problema especifica 'semana letiva' com 5 dias",
+           "mistakeLocation": "Na leitura do enunciado, o aluno ignora a expressão '5 dias letivos' e assume semana padrão de 7 dias",
+           "diagnosticQuestion": "O problema fala em 'semana letiva'. Quantos dias letivos ele diz que tem?",
+           "severity": "moderate",
+           "feedback": "Você contou corretamente os 3 dias perdidos! Agora, releia com atenção: quantos dias letivos tem a semana mencionada no problema?",
+           "howToFix": "Sublinhar no enunciado: 'uma semana tem 5 dias letivos'. Contrastar 'semana civil' vs 'semana escolar'."
+          }
+         },
+         {
+          "step": 2,
+          "action": "Dividir a reta em 7 partes usando o campo 'Number of parts'",
+          "thinking": "Preciso de 7 partes porque o denominador é 7.",
+          "result": "Reta dividida em 7 partes",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_baseada_em_denominador_errado",
+           "type": "procedural_error",
+           "wrongAnswer": null,
+           "description": "Aluno divide a reta com base no denominador incorreto (7), não no correto (5)",
+           "mistakeLocation": "Ao digitar no campo 'Number of parts', o aluno insere 7, derivado da interpretação errada da unidade",
+           "diagnosticQuestion": "Cada parte da reta deve representar um dia LETIVO. Quantos dias letivos há?",
+           "severity": "moderate",
+           "feedback": "Você dividiu a reta igualmente — muito bem! Mas cada parte deve corresponder a um dia LETIVO. Quantos dias letivos o problema menciona?",
+           "howToFix": "Conectar linguagem do problema à ação: '5 dias letivos' → '5 partes na reta entre 0 e 1'."
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar o terceiro traço na reta dividida em 7",
+          "thinking": "Numerador é 3, então marco a terceira parte.",
+          "result": "Ponto marcado em 3/7",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_posicionamento_correto_com_unidade_errada",
+           "type": "procedural_error",
+           "wrongAnswer": null,
+           "description": "Aluno posiciona corretamente a fração 3/7 na escala de 7 partes, mas a escala está errada",
+           "mistakeLocation": "Na marcação do ponto, o aluno conta corretamente 3 marcas, mas a unidade base (7) é incorreta",
+           "diagnosticQuestion": "Se a reta representa a SEMANA LETIVA, quantas partes ela deve ter? Onde caem os 3 dias perdidos nessa divisão?",
+           "severity": "moderate",
+           "feedback": "Você marcou exatamente a terceira parte — ótimo senso de posição! Agora, vamos garantir que o total de partes corresponda aos dias letivos reais mencionados.",
+           "howToFix": "Refazer a divisão com base nos 5 dias letivos, depois marcar a terceira parte."
+          }
+         }
+        ],
+        "finalAnswer": "3/7",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "05flu",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_days}/{missed_days}",
+          "buggyRule": "Inverter os valores: usar o número de dias letivos ({total_days}=5) como numerador e os dias perdidos ({missed_days}=3) como denominador",
+          "description": "Aluno confunde qual valor é a parte e qual é o todo, invertendo numerador e denominador",
+          "mistakeLocation": "Ao associar os números do enunciado à estrutura da fração, o aluno troca o papel dos números",
+          "diagnosticQuestion": "A fração representa os dias PERDIDOS em relação ao TOTAL de dias letivos. Qual número vai em cima?",
+          "feedback": "Você identificou os dois números importantes! Lembre-se: a fração mostra a PARTE (dias perdidos) sobre o TODO (dias letivos).",
+          "howToFix": "Praticar com frases completas: '3 de 5 dias' → escrever como 3/5. Usar setas no enunciado ligando '3 dias' → numerador, '5 dias letivos' → denominador.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_dias_perdidos_apenas",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{missed_days}",
+          "buggyRule": "Ignorar o denominador e responder apenas com o número de dias perdidos ({missed_days}=3) como um inteiro",
+          "description": "Aluno responde com o numerador sozinho, esquecendo que fração requer duas partes",
+          "mistakeLocation": "Na resposta final, o aluno digita apenas '3' nos campos ou considera que a resposta é só o número de dias ausentes",
+          "diagnosticQuestion": "A pergunta pede uma FRAÇÃO. O que mais precisamos além do número de dias perdidos?",
+          "feedback": "Você acertou o número de dias que Danielle perdeu! Mas a pergunta quer saber que FRAÇÃO da semana isso representa. Precisamos também do total de dias...",
+          "howToFix": "Pedir ao aluno: 'Complete: Danielle perdeu ___ dias de ___ dias letivos.' Depois transformar em fração.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_semana_calendario_com_semana_letiva",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{missed_days}/7",
+          "buggyRule": "Usar 7 como denominador (dias da semana civil) em vez de {total_days}=5 (dias letivos mencionados)",
+          "description": "Aluno aplica conhecimento prévio de 'semana = 7 dias' e ignora a especificação do problema",
+          "mistakeLocation": "Na identificação do denominador, o aluno não lê com atenção que o contexto é 'semana LETIVA' com 5 dias",
+          "diagnosticQuestion": "O problema diz explicitamente quantos dias letivos tem a semana. É 7 ou outro número?",
+          "feedback": "Você está certo que uma semana tem 7 dias no calendário! Mas aqui estamos falando só dos dias em que a escola funciona. Quantos são?",
+          "howToFix": "Destacar no texto: '5 dias letivos'. Discutir diferenças entre semana civil e escolar.",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "05flu",
+        "step": 2,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_pela_quantidade_errada_de_partes",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Dividir a reta em {denominator_used} partes, onde {denominator_used} é o valor digitado incorretamente no campo F2 (ex: 3, 7, ou outro valor errado)",
+          "description": "Aluno divide a reta com base no denominador que já errou na etapa anterior",
+          "mistakeLocation": "Ao usar o campo 'Number of parts', o aluno replica o erro do passo 1, propagando a má interpretação",
+          "diagnosticQuestion": "Cada parte da reta deve representar um dia LETIVO. Quantos dias letivos há no problema?",
+          "feedback": "Você está dividindo a reta igualmente — ótimo! Agora, vamos garantir que o número de partes combine com os dias letivos mencionados no enunciado.",
+          "howToFix": "Antes de dividir, perguntar: 'Quantos dias letivos? Então quantas partes entre 0 e 1?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_divide_em_6_partes_por_contagem_errada",
+          "type": "count_error",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Dividir a reta em {total_days}+1 = 6 partes, contando as marcas em vez dos intervalos (erro de um a mais)",
+          "description": "Aluno acha que 5 dias exigem 6 divisões porque conta as linhas, não os segmentos",
+          "mistakeLocation": "Ao decidir quantas partes criar, o aluno conta as marcas visuais (6 traços para 5 intervalos) e digita 6",
+          "diagnosticQuestion": "Se você tem 5 dias, quantos ESPAÇOS iguais precisa entre 0 e 1? Vamos contar juntos: do dia 1 ao dia 2 é um espaço...",
+          "feedback": "Você está pensando cuidadosamente na divisão! Mas lembre-se: o número de PARTES IGUAIS é igual ao número de dias, não ao número de tracinhos que aparecem.",
+          "howToFix": "Usar régua ou barra: dividir uma tira em 5 partes iguais e contar os segmentos, não as linhas de corte.",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "05flu",
+        "step": 3,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_marca_na_posicao_do_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Marcar o ponto na posição correspondente ao denominador (ex: marcar 5ª marca quando deveria marcar a 3ª)",
+          "description": "Aluno confunde numerador e denominador ao posicionar o ponto, mesmo que tenha escrito a fração correta",
+          "mistakeLocation": "Na seleção do ponto na reta, o aluno usa o denominador como guia de posição em vez do numerador",
+          "diagnosticQuestion": "A fração é 3/5. Isso quer dizer que avançamos 3 partes de 5. Em qual marca isso cai?",
+          "feedback": "Você dividiu corretamente em 5 partes! Agora, avance só 3 delas — não todas. Conte: 1ª, 2ª, 3ª... pare!",
+          "howToFix": "Contar em voz alta enquanto move o cursor: 'um quinto, dois quintos, três quintos...'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_posiciona_na_metade_por_ancora",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Marcar o ponto exatamente no meio da reta (posição 1/2), independentemente dos valores, por viés de referência",
+          "description": "Aluno assume que 'alguns dias perdidos' equivale à metade, ignorando os números reais",
+          "mistakeLocation": "Na escolha da posição, o aluno ignora os dados e recorre à fração familiar 1/2",
+          "diagnosticQuestion": "Três dias é mais ou menos que a metade de 5 dias? Onde isso fica na reta?",
+          "feedback": "Você conhece bem a metade — isso é ótimo! Mas aqui temos 3 de 5 dias. Será que é exatamente metade, mais ou menos?",
+          "howToFix": "Comparar 3/5 com 2.5/5 (metade). Mostrar que 3 > 2.5, então fica um pouco depois do meio.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_contagem_um_a_menos_na_posicao",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Marcar a ({numerador}-1)-ésima marca em vez da {numerador}-ésima (ex: marcar 2ª em vez de 3ª)",
+          "description": "Aluno começa a contar do zero ou esquece de incluir a primeira parte",
+          "mistakeLocation": "Ao contar as posições na reta dividida, o aluno comete erro de off-by-one",
+          "diagnosticQuestion": "Começando do zero, qual é a primeira parte? E a segunda? E a terceira?",
+          "feedback": "Quase lá! Você está contando direitinho, mas vamos verificar o início: do 0 à primeira marca é a PRIMEIRA parte. Continue até a terceira!",
+          "howToFix": "Numerar cada segmento: 'parte 1', 'parte 2', etc., e pedir para clicar no final da parte 3.",
+          "severity": "low"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "05flu",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os números relevantes",
+        "thinking": "Danielle ficou em casa por 3 dias... e a semana letiva tem 5 dias. Então, ela perdeu 3 de 5 dias. Isso deve ser uma fração: 3 em cima e 5 embaixo?",
+        "result": "Identificou que a fração envolve 3 e 5",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando queremos mostrar uma parte de um todo, usamos frações. Qual número representa a parte que Danielle perdeu? E qual representa o total de dias letivos?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, identifique quantos dias ela perdeu (essa será a parte de cima da fração). Depois, veja quantos dias tem a semana letiva completa (essa será a parte de baixo)."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração tem numerador menor que o denominador, e ambos são números pequenos. Pense: quantos dias ela perdeu? Quantos dias tem a semana letiva?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Ela perdeu 3 dias de um total de 5. Na fração, o número de cima mostra o que foi perdido, e o de baixo mostra o total. Qual vai em cima? Qual vai embaixo?"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher os campos F1 (numerador) e F2 (denominador)",
+        "thinking": "Então... F1 = 3, F2 = 5. Mas será que é isso mesmo? Será que preciso marcar na reta primeiro?",
+        "result": "Preencheu F1=3 e F2=5 corretamente",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótimo! Você já tem os números. Lembre-se: a fração representa uma posição entre 0 e 1 na reta. Onde essa fração deve ficar?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Agora que você tem a fração, use o campo 'Number of parts' para dividir a reta em 5 partes iguais — igual ao denominador. Depois marque o ponto na terceira marca."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja bem: se o denominador é 5, a reta precisa estar dividida em 5 partes. Depois, conte até a terceira parte a partir do zero para marcar o ponto."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você quase terminou! Digite 5 no campo 'Number of parts' e clique em OK. Depois, clique exatamente na terceira marcação da reta — não na quarta, nem na segunda!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Dividir a reta numérica usando o campo 'denom'",
+        "thinking": "Preciso dividir a reta... mas em quantas partes? Ah, sim, o denominador é 5, então coloco 5.",
+        "result": "Definiu 'Number of parts' = 5 e dividiu a reta corretamente",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto correspondente à fração na reta",
+        "thinking": "A fração é 3/5... então conto: 1/5, 2/5, 3/5. É a terceira marca!",
+        "result": "Marcou corretamente o ponto em 3/5",
+        "kcUsed": "FindValueNumLine, FracLess1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: cada divisão da reta representa uma parte do todo. Se há 5 partes, quanto vale cada uma? E quantas delas você precisa contar?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Comece do zero e vá contando as marcas: a primeira é 1/5, a segunda é 2/5, a terceira é 3/5. Clique exatamente nessa terceira marca."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "A fração 3/5 está mais perto do meio da reta, mas ainda antes da metade? Não! Está depois da metade? Sim! Confirme contando as marcas."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Com a reta dividida em 5, toque na marca logo após 2/5. Essa é a posição correta para 3/5."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Clicar em Done para concluir",
+        "thinking": "Acho que está tudo certo: fração 3/5, reta dividida em 5, ponto na terceira marca.",
+        "result": "Concluiu com resposta correta",
+        "kcUsed": "FracLess1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "3/5",
+      "totalTime": 78,
+      "alternativeRoutes": [
+       {
+        "description": "Primeiro marcar o ponto na reta por estimativa visual, depois tentar ajustar o denominador para corresponder",
+        "steps": [
+         "Estimar posição de 3/5 visualmente",
+         "Tentar diferentes valores em 'Number of parts' até que a marca coincida"
+        ],
+        "efficiency": "low"
+       },
+       {
+        "description": "Usar contagem nos dedos ou rabisco fora do sistema para confirmar 3 de 5",
+        "steps": [
+         "Desenhar 5 traços",
+         "Marcar 3 deles",
+         "Associar à fração"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 6,
+  "errosEspecificos": 6,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 6
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"Qual é a fração presente no problema?\" com duas caixas numéricas (F1 em cima = numerador, F2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ }
+}
