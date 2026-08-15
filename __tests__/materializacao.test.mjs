@@ -19,7 +19,7 @@ vi.mock("../llm.js", async (importOriginal) => {
     ...real,
     createLLM: (cfg = {}) => ({ cfg }),
     callLLM: vi.fn(async (llm, system, user, meta = {}) => {
-      calls.list.push({ agent: meta.agent, model: llm?.cfg?.model });
+      calls.list.push({ agent: meta.agent, model: llm?.cfg?.model, user: String(user).slice(0, 20000) });
       if (meta.agent === "agent6_planner") {
         // casca alinhada ao backbone: nº de stepIntents = nº de steps do genericGraph
         const n = (user.match(/"step_\d+"/g) || []).length || 3;
@@ -167,6 +167,30 @@ describe("materialização — agent 6 + agent 7 portados", () => {
     expect(mat.coberturaEstados).toBe(1); // materializado casa o caminho inteiro
     expect(mat.caminhoIntegro).toBe(1);
     expect(caminhoDeReferencia(envB).map((s) => s.estado)).toEqual(["5", "1/5", "1"]);
+  });
+});
+
+// ── braço interface fixa (rodada 4) ──
+describe("materialização — interface fixa entra no requisito do agent 6", () => {
+  it("sem opts.interfaceFixa o planner NÃO recebe a interface; com ela, recebe (canal REQUISITOS DO PROFESSOR)", async () => {
+    _resetModelosResolvidos({ argv: [], env: {} });
+    calls.list.length = 0;
+    await materializarRegistro(registro(), envelopeA);
+    const semIface = calls.list.find((c) => c.agent === "agent6_planner").user;
+    expect(semIface).toContain("REQUISITOS DO PROFESSOR");
+    expect(semIface).not.toContain("Interface FIXA");
+    calls.list.length = 0;
+    const out = await materializarRegistro(registro(), { ...envelopeA, id: "03summerBooks", components: [{ id: "numline", type: "numberline", label: "numline" }, { id: "F1", type: "numeric", label: "F1" }] }, { interfaceFixa: true });
+    const comIface = calls.list.find((c) => c.agent === "agent6_planner").user;
+    expect(comIface).toContain("Interface FIXA");
+    expect(comIface).toContain("- numline (numberline)");
+    expect(out.telemetria.interfaceFixa).toBe(true);
+  });
+  it("registro coletado com interfaceFixa=true liga o modo sozinho", async () => {
+    _resetModelosResolvidos({ argv: [], env: {} });
+    calls.list.length = 0;
+    await materializarRegistro({ ...registro(), interfaceFixa: true }, { ...envelopeA, id: "03summerBooks" });
+    expect(calls.list.find((c) => c.agent === "agent6_planner").user).toContain("Interface FIXA");
   });
 });
 

@@ -22,6 +22,7 @@ const OUT = opt("--out", null);
 const LIMIT = parseInt(opt("--limit", "0"), 10) || 0;
 const YES = argv.includes("--yes");
 const PLANO = argv.includes("--plano");
+const INTERFACE_FIXA = argv.includes("--interface-fixa");
 if (!RUNS || !OUT) { console.error("uso: --runs <dir> --out <dir> [--limit N] [--yes] [--plano]"); process.exit(2); }
 
 const DATASET = "datasets/frac-numberline-6.17/problems";
@@ -47,7 +48,7 @@ for (const [i, f] of alvo.entries()) {
   const ex = reg.exercicio ?? reg.id;
   try {
     const envelopeA = JSON.parse(fs.readFileSync(path.join(DATASET, ex, "envelope-a.json"), "utf8"));
-    const m = await materializarRegistro(reg, envelopeA);
+    const m = await materializarRegistro(reg, envelopeA, { interfaceFixa: INTERFACE_FIXA || reg.interfaceFixa === true });
     // behaviorGraph bruto do agent 7 (auditoria: é DELE que passos/erros/dicas são extraídos)
     const behaviorGraph = {
       nodes: (m.behaviorGraph.nodes || []).map((n) => ({

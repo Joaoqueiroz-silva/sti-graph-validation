@@ -38,6 +38,7 @@ import { hasUnresolvedGraphTemplate } from "./producao/agents/behavior-graph-sem
 import { isSpecificMisconceptionId } from "./step-error-catalog.js";
 import { normalizeEducaoff } from "./schema.js";
 import { injectStepAnswers } from "./author-graph.js";
+import { descreverInterface } from "./interface-ctat.js";
 
 /**
  * Constantes do corpus, CONGELADAS no pré-registro da rodada
@@ -58,7 +59,12 @@ export const CORPUS_STATE = Object.freeze({
  * mesmos KCs do pacote CTAT. `agent2_seed` não roda (o problema é fixo por
  * premissa); o problema do exercício É a semente.
  */
-export function buildStateFromEnvelopeA(envelopeA, { exerciseId } = {}) {
+export function buildStateFromEnvelopeA(envelopeA, { exerciseId, interfaceFixa = false } = {}) {
+  // Braço "interface fixa" (rodada 4, 2026-08-15): a interface do CTAT entra
+  // no problema-semente — os agents 3 serializam seedProblems inteiro no
+  // prompt (JSON.stringify), então o campo `interface` é visto sem editar
+  // agente. Descrição neutra: ver interface-ctat.js (lista branca de campos).
+  const interfaceCtat = interfaceFixa ? descreverInterface({ ...envelopeA, id: envelopeA.id || exerciseId }) : null;
   return {
     ...CORPUS_STATE,
     difficulty: envelopeA.difficulty || "medium",
@@ -68,6 +74,7 @@ export function buildStateFromEnvelopeA(envelopeA, { exerciseId } = {}) {
         problemId: exerciseId || envelopeA.id || 1,
         statement: envelopeA.problem,
         correctAnswer: envelopeA.correctAnswer,
+        ...(interfaceCtat ? { interface: interfaceCtat } : {}),
       },
     ],
     knowledgeComponents: envelopeA.knowledgeComponents || [],
@@ -255,6 +262,7 @@ export async function authorFluxoPlataforma(envelopeA, opts = {}) {
   const stateFull = { ...state, advancedTrace, atRiskTrace, averageTrace };
   const configProducao = await extractGraphForgeConfig(stateFull);
   const passosLivres = opts.passosLivres === true || process.env.STI_PASSOS_LIVRES === "1";
+  const interfaceFixa = opts.interfaceFixa === true;
   const config = passosLivres ? configPassosLivres(stateFull, configProducao) : configProducao;
   const planoProducao = resolveGraphForgeStepPlan({
     availableSteps: (advancedTrace?.solutions?.[0]?.solutionTrace || []).length,
@@ -291,5 +299,7 @@ export async function authorFluxoPlataforma(envelopeA, opts = {}) {
       passosQueProducaoAplicaria: planoProducao.stepCount,
       tetoDinamicoProducao: planoProducao.dynamicMax,
     },
+    interfaceFixa,
+    interfaceCtat: state.seedProblems?.[0]?.interface ?? null,
   };
 }

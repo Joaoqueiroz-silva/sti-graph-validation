@@ -194,3 +194,23 @@ describe("casarEstados — subsequência ordenada MÁXIMA (LCS), não gulosa", (
     expect(p.caminhoIntegro).toBe(0);
   });
 });
+
+describe("caminhoDeReferencia — sentinelas de interface não são estados de valor", () => {
+  it('o clique em Done ("-1") e o SetVisible ("") ficam fora do denominador; os valores continuam', () => {
+    const envB = {
+      steps: [
+        { key: "3/5", answer: "3/5", order: 1 },
+        { key: "step#2", answer: "", order: 2 },
+        { key: "5", answer: "5", order: 3 },
+        { key: "-1", answer: "-1", order: 4 },
+      ],
+      hintsPerCorrectStep: [[], [], [], []],
+    };
+    const ref = caminhoDeReferencia(envB);
+    expect(ref.map((r) => r.comResposta)).toEqual([true, false, true, false]);
+    const p = pontuarCaminho({ exercicio: "x", grafo: { passos: [{ valor: "3/5" }, { valor: "5" }, { valor: "ok" }], erros: [], dicas: [] } }, envB, []);
+    expect(p.nEstadosRef).toBe(2);
+    expect(p.coberturaEstados).toBe(1);
+    expect(p.caminhoIntegro).toBe(1);
+  });
+});

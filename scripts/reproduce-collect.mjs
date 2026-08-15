@@ -89,6 +89,7 @@ function parseArgs(argv) {
     plano: false,
     fluxo: "campanha5",
     passosLivres: false,
+    interfaceFixa: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -103,6 +104,7 @@ function parseArgs(argv) {
     else if (a === "--plano") out.plano = true;
     else if (a === "--fluxo") out.fluxo = argv[++i];
     else if (a === "--passos-livres") out.passosLivres = true;
+    else if (a === "--interface-fixa") out.interfaceFixa = true;
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
@@ -450,6 +452,7 @@ async function main() {
             robot = await authorFluxoPlataforma(envelopeA, {
               exerciseId: id,
               passosLivres: args.passosLivres || process.env.STI_PASSOS_LIVRES === "1",
+              interfaceFixa: args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1",
             });
           } finally {
             llmMod.setRawSink(null);
@@ -503,6 +506,10 @@ async function main() {
           // Regime de topologia (2026-08-14): "producao" = corte do GraphForge por
           // perfil/dificuldade; "livre" = todos os passos gerados pelos agentes.
           run.topologia = robot.topologia;
+          // Braço "interface fixa" (rodada 4): a interface do CTAT entrou no
+          // problema-semente dos agents 3 (ver interface-ctat.js).
+          run.interfaceFixa = robot.interfaceFixa === true;
+          if (robot.interfaceCtat) run.interfaceCtat = robot.interfaceCtat;
           // Traces completos dos três agentes (advancedTrace/atRiskTrace/
           // averageTrace) — mais ricos que o resumo usado no bloco grafo.
           run.bruto.tracos = robot.tracesCompletos;
@@ -593,6 +600,7 @@ async function main() {
         // origem da resolução (auditoria: qual fonte venceu por agente).
         fluxo: args.fluxo,
         topologia: args.fluxo === "plataforma" ? (args.passosLivres || process.env.STI_PASSOS_LIVRES === "1" ? "livre" : "producao") : null,
+        interfaceFixa: args.fluxo === "plataforma" ? (args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1") : null,
         modelos: blocoModelos,
         resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },
         problems: problemIds,

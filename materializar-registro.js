@@ -31,6 +31,7 @@ import { extractGraphForgeConfig, graphForge } from "./graphforge.js";
 import { buildMisconceptionCatalog } from "./step-error-catalog.js";
 import { buildStateFromEnvelopeA } from "./simulate-fluxo-plataforma.js";
 import { montarGrafo } from "./scripts/registro-run-v2.mjs";
+import { descreverInterface, textoRequisitoInterface } from "./interface-ctat.js";
 
 /**
  * GATE de problema fixo — prova objetiva de que o agent 6 usou o problema do
@@ -109,17 +110,25 @@ export async function materializarRegistro(registro, envelopeA, opts = {}) {
   if (!tracos.advancedTrace || !tracos.atRiskTrace) {
     throw new Error("registro sem bruto.tracos completos (advancedTrace/atRiskTrace) — não materializável");
   }
-  const state = buildStateFromEnvelopeA(envelopeA, { exerciseId: registro.exercicio ?? registro.id });
+  const state = buildStateFromEnvelopeA(envelopeA, {
+    exerciseId: registro.exercicio ?? registro.id,
+    interfaceFixa: opts.interfaceFixa === true || registro.interfaceFixa === true,
+  });
   const genericGraph = await genericGraphFromTraces(state, tracos, (registro.grafo?.passos || []).length);
   const misconceptionCatalog = buildMisconceptionCatalog(tracos.atRiskTrace);
 
+  // Braço "interface fixa" (rodada 4): registro coletado com --interface-fixa
+  // (ou opts.interfaceFixa) → a interface do CTAT também entra no requisito.
+  const interfaceFixa = opts.interfaceFixa === true || registro.interfaceFixa === true;
+  const interfaceCtat = interfaceFixa ? registro.interfaceCtat || descreverInterface({ ...envelopeA, id: envelopeA.id || registro.exercicio }) : null;
   const requisitoProblemaFixo =
     opts.fixarProblema === false
       ? ""
       : `Use EXATAMENTE este problema, sem alterar história, quantidades nem a resposta:
 "${String(envelopeA.problem || "").trim()}"
 Resposta correta final do problema: ${String(envelopeA.correctAnswer ?? "").trim()}.
-Não crie outro cenário nem outros números. Todos os passos e respostas esperadas devem usar os valores deste enunciado.`;
+Não crie outro cenário nem outros números. Todos os passos e respostas esperadas devem usar os valores deste enunciado.` +
+        (interfaceCtat ? `\n\n${textoRequisitoInterface(interfaceCtat)}` : "");
 
   const state6 = {
     ...state,
@@ -183,6 +192,7 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
       passosGenericos: (genericGraph.nodes || []).filter((n) => n.type === "step").length,
       passosMaterializados: stepNodes.length,
       dicasMaterializadas: traces.hints.length,
+      interfaceFixa,
     },
   };
 }

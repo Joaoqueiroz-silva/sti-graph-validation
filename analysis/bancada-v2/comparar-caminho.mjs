@@ -39,7 +39,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { carregarReferencia, intervalo, media, fmt, canonAnswer } from "../validacao-v2/lib.mjs";
+import { carregarReferencia, intervalo, media, fmt, canonAnswer, ehMecanico } from "../validacao-v2/lib.mjs";
 
 const DATASET = "datasets/frac-numberline-6.17/problems";
 
@@ -74,13 +74,23 @@ export function materializarRotulo(v) {
   return unicos.length === 1 ? unicos[0] : "";
 }
 
-/** Caminho de referência do especialista: sequência de estados (valor canonizado) do envelope B. */
+/**
+ * Caminho de referência do especialista: sequência de estados (valor
+ * canonizado) do envelope B. Estados cuja "resposta" é SENTINELA de interface
+ * do CTAT (ehMecanico: "", "-", "-1" — o SetVisible sem entrada e o clique em
+ * Done, que o CTAT registra como input "-1") NÃO são estados de valor: ficam
+ * fora do denominador da cobertura, exatamente como os erros mecânicos já
+ * ficam fora dos itens de erro (regra congelada em lib.mjs). Corrigido em
+ * 2026-08-15 (tarde): antes o "-1" do Done contava como estado de valor e era
+ * incasável por construção (nos 24 problemas é o último estado) — teto
+ * artificial de 6/7 na cobertura e caminho íntegro impossível.
+ */
 export function caminhoDeReferencia(envelopeB) {
   const steps = (envelopeB?.steps || []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   return steps.map((s, i) => ({
     ordem: i + 1,
     estado: canonizarValor(s.key ?? s.answer),
-    comResposta: String(s.answer ?? "").trim() !== "",
+    comResposta: !ehMecanico(s.answer),
     dicas: (envelopeB?.hintsPerCorrectStep?.[i] || []).length,
   }));
 }
