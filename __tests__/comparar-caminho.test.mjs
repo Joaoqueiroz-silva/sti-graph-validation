@@ -134,3 +134,34 @@ describe("contrato v2 — grafo.passos[].valor passa a ser obrigatório", () => 
     expect(validarRegistro(reg)).toContain("grafo.passos[0].valor");
   });
 });
+
+// ── materialização mínima do rótulo de estado (2026-08-15) ──
+import { materializarRotulo } from "../analysis/bancada-v2/comparar-caminho.mjs";
+describe("comparar-caminho — materialização mínima do rótulo (só o que o agente escreveu)", () => {
+  it("extrai o número do placeholder ou do texto; nunca inventa; ambíguo vira vazio", () => {
+    expect(materializarRotulo("5")).toBe("5");
+    expect(materializarRotulo("Denominador = {5}")).toBe("5");
+    expect(materializarRotulo("Posição marcada em {3/5}")).toBe("3/5");
+    expect(materializarRotulo("Reta dividida em 5 intervalos")).toBe("5");
+    expect(materializarRotulo("Numerador = {A}")).toBe(""); // template puro
+    expect(materializarRotulo("Comparação: {B}/{A} > 1/2")).toBe("1/2"); // placeholders vazios; um só número solto
+    expect(materializarRotulo("Entre {2} e {3}")).toBe(""); // dois placeholders numéricos → ambíguo
+    expect(materializarRotulo("De 3 para 5 partes")).toBe(""); // dois números soltos → ambíguo
+    expect(materializarRotulo("Fração validada como {N}/{D} < 1")).toBe("1"); // um número solto
+  });
+
+  it("com --materializar, 'Denominador = {5}' → 'Posição = {1/5}' casa o caminho 5 → 1/5", () => {
+    const run = runAgente();
+    run.grafo.passos = [
+      { indice: 1, acao: "", kc: "", valor: "Denominador = {5}" },
+      { indice: 2, acao: "", kc: "", valor: "Posição na reta = {1/5}" },
+      { indice: 3, acao: "", kc: "", valor: "Resultado final: {1}" },
+    ];
+    const cru = pontuarCaminho(run, envB(), refItens());
+    const mat = pontuarCaminho(run, envB(), refItens(), { materializar: true });
+    expect(cru.coberturaEstados).toBe(0);
+    expect(mat.coberturaEstados).toBe(1);
+    expect(mat.caminhoIntegro).toBe(1);
+    expect(mat.rotulosConcretos).toBe(3);
+  });
+});

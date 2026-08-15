@@ -94,3 +94,19 @@ vira braço comparável (produção × livre), medido em vez de assumido. Testes
 produção, 7 em livre). Braço sugerido para a próxima campanha:
 `--fluxo plataforma --passos-livres` nos mesmos 24×3, comparado pareado com o
 braço de produção da rodada 2.
+
+## 7. Adendo 2026-08-15 — métrica de ESTADOS: por que o estágio graphforge não basta (verificado no código de produção)
+
+Rodada 3 mostrou cobertura de estados ≈0 nos rótulos crus e 0,13 com
+materialização mínima (flash-lite). Verificado em `backend/agents/nodes/agent7-adapter.js`
+(produção, b7ae8780): a plataforma NÃO usa o grafo dos Agents 3 como matcher
+de valores — o agent 6 (materialização, LLM) produz o `expectedAnswer`
+concreto de cada passo e o agent 7 REEXECUTA o GraphForge sobre esse artefato
+(`buildConcreteGraphWithGraphForge`; docstring: "o grafo genérico dos Agents 3
+… não pode ser o matcher operacional de valores que só existem depois da
+materialização"). Conclusão: a métrica de estados do orientador é aplicável ao
+grafo materializado (produto), e medi-la no estágio 3 mede vocabulário.
+Caminho: portar agent6-story (+agent7) para a bancada — trilha do
+`docs/PLANO-FIDELIDADE-PRODUCAO-2026-08.md` — e reprocessar os registros da
+rodada 3 (os traces dos 3 agentes estão preservados em `bruto.tracos`, então a
+materialização pode rodar sem regenerar os alunos).

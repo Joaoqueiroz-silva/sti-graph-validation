@@ -46,6 +46,34 @@ const DATASET = "datasets/frac-numberline-6.17/problems";
 /** canonização de VALORES gerados pelos agentes (nunca de texto livre). */
 export const canonizarValor = (v) => canonAnswer(String(v ?? "").trim());
 
+/**
+ * MATERIALIZAÇÃO MÍNIMA do rótulo de estado (2026-08-15, declarada):
+ * no estágio graphforge, o agente 3a de produção rotula estados com o
+ * vocabulário do prompt ("Denominador = {5}", "Posição marcada em {3/5}",
+ * "Numerador = {A}") — na plataforma, a materialização troca placeholders
+ * pelos números do problema. Aqui NÃO inventamos nada: extraímos o valor
+ * numérico/fração que o PRÓPRIO agente escreveu no rótulo. Regras, na ordem:
+ *   1. valor já concreto (número ou fração) → ele mesmo;
+ *   2. placeholder com número dentro ({5}, {3/5}) → o conteúdo do placeholder;
+ *   3. rótulo com um único número/fração no texto → esse número;
+ *   4. senão → "" (não casável; contado como estado sem valor concreto).
+ * O modo é opcional (--materializar) e o relatório declara a taxa de
+ * recuperação; a comparação com rótulos crus continua sendo a de referência
+ * para o estágio graphforge.
+ */
+const RE_CONCRETO = /^\s*-?\d+(?:[.,]\d+)?(?:\s*\/\s*-?\d+)?\s*$/;
+export function materializarRotulo(v) {
+  const s = String(v ?? "").trim();
+  if (!s) return "";
+  if (RE_CONCRETO.test(s)) return s;
+  const dentro = [...s.matchAll(/\{\s*(-?\d+(?:[.,]\d+)?(?:\s*\/\s*-?\d+)?)\s*\}/g)].map((m) => m[1]);
+  if (dentro.length === 1) return dentro[0];
+  if (dentro.length > 1) return ""; // ambíguo: não escolhemos
+  const soltos = [...s.replace(/\{[^}]*\}/g, " ").matchAll(/-?\d+(?:[.,]\d+)?(?:\s*\/\s*-?\d+)?/g)].map((m) => m[0]);
+  const unicos = [...new Set(soltos.map((x) => x.replace(/\s+/g, "")))];
+  return unicos.length === 1 ? unicos[0] : "";
+}
+
 /** Caminho de referência do especialista: sequência de estados (valor canonizado) do envelope B. */
 export function caminhoDeReferencia(envelopeB) {
   const steps = (envelopeB?.steps || []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -64,8 +92,11 @@ export function caminhoDeReferencia(envelopeB) {
  * Estados da referência SEM resposta (key = nome de componente) não são
  * casáveis por valor e ficam fora do denominador (declarado).
  */
-export function casarEstados(refCaminho, passosAgente) {
-  const agente = passosAgente.map((p, i) => ({ idx: i, estado: canonizarValor(p.valor) }));
+export function casarEstados(refCaminho, passosAgente, { materializar = false } = {}) {
+  const agente = passosAgente.map((p, i) => ({
+    idx: i,
+    estado: canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor),
+  }));
   const casamentos = [];
   let cursor = 0;
   for (const r of refCaminho) {
@@ -91,10 +122,13 @@ export function casarEstados(refCaminho, passosAgente) {
 }
 
 /** Pontua UM registro (contrato v2) contra a referência (envelope B + itens de erro). */
-export function pontuarCaminho(run, envelopeB, refItens) {
+export function pontuarCaminho(run, envelopeB, refItens, { materializar = false } = {}) {
   const refCaminho = caminhoDeReferencia(envelopeB);
   const passos = run.grafo?.passos || [];
-  const cas = casarEstados(refCaminho, passos);
+  const cas = casarEstados(refCaminho, passos, { materializar });
+  const rotulosConcretos = passos.filter((p) =>
+    canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor)
+  ).length;
   const avaliaveis = cas.filter((c) => c.avaliavel);
   const casados = avaliaveis.filter((c) => c.agenteIdx !== null);
 
@@ -132,7 +166,7 @@ export function pontuarCaminho(run, envelopeB, refItens) {
   // extras por tipo (o que o agente cria além do previsto)
   const estadosRefSet = new Set(refCaminho.filter((r) => r.comResposta).map((r) => r.estado));
   const estadosExtras = passos.filter((p) => {
-    const v = canonizarValor(p.valor);
+    const v = canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor);
     return v && !estadosRefSet.has(v);
   }).length;
   const valoresRefErros = new Set(errosRef.map((e) => e.valor));
@@ -149,6 +183,7 @@ export function pontuarCaminho(run, envelopeB, refItens) {
     replica: run.replica ?? null,
     nEstadosRef: avaliaveis.length,
     nEstadosAgente: passos.length,
+    rotulosConcretos, // quantos estados do agente têm valor comparável (declara a taxa de recuperação)
     coberturaEstados: avaliaveis.length ? casados.length / avaliaveis.length : 0,
     caminhoIntegro: avaliaveis.length && casados.length === avaliaveis.length ? 1 : 0,
     errosNoEstadoCerto: errosRef.length ? errosNoEstadoCerto / errosRef.length : 0,
@@ -188,8 +223,9 @@ if (ehMain) {
   const raiz = opt("--raiz", ".");
   const saida = opt("--json", null);
   const rotulo = opt("--rotulo", path.basename(path.dirname(dir || ".")));
+  const materializar = argv.includes("--materializar");
   if (!dir) {
-    console.error("uso: node analysis/bancada-v2/comparar-caminho.mjs --runs <dir> [--rotulo x] [--json out]");
+    console.error("uso: node analysis/bancada-v2/comparar-caminho.mjs --runs <dir> [--rotulo x] [--json out] [--materializar]");
     process.exit(2);
   }
   const REF = carregarReferencia(raiz);
@@ -199,7 +235,7 @@ if (ehMain) {
     const ex = run.exercicio ?? run.id;
     if (!REF[ex] || !run.grafo) continue;
     const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-b.json"), "utf8"));
-    linhas.push(pontuarCaminho(run, envB, REF[ex].items));
+    linhas.push(pontuarCaminho(run, envB, REF[ex].items, { materializar }));
   }
   if (!linhas.length) {
     console.error("nenhum registro casou com o corpus");
@@ -211,7 +247,10 @@ if (ehMain) {
       `  ${t.padEnd(44)} ${fmt(intervalo(linhas, campo))}  DP entre réplicas ${(dpEntreReplicas(linhas, campo) ?? 0).toFixed(3)}`
     );
   console.log("═".repeat(96));
-  console.log(`COMPARAÇÃO POR ESTADO/CAMINHO — ${rotulo}`);
+  console.log(`COMPARAÇÃO POR ESTADO/CAMINHO — ${rotulo}${materializar ? " · rótulos MATERIALIZADOS (valor extraído do próprio rótulo do agente)" : " · rótulos CRUS do estágio graphforge"}`);
+  const totPassos = linhas.reduce((s, l) => s + l.nEstadosAgente, 0);
+  const totConc = linhas.reduce((s, l) => s + l.rotulosConcretos, 0);
+  console.log(`  estados do agente com valor comparável: ${totConc}/${totPassos} = ${totPassos ? ((totConc / totPassos) * 100).toFixed(1) : 0}%`);
   console.log(
     `  unidade: ${linhas.length} grafos gerados (${new Set(linhas.map((l) => l.ex)).size} exercícios × réplicas) | ` +
       `estados/grafo: agente ${media(linhas.map((l) => l.nEstadosAgente)).toFixed(2)} vs referência ${media(linhas.map((l) => l.nEstadosRef)).toFixed(2)}`
@@ -238,6 +277,8 @@ if (ehMain) {
         {
           gerado: new Date().toISOString(),
           rotulo,
+          materializar,
+          rotulosConcretos: { comparaveis: totConc, total: totPassos },
           unidade: { grafos: linhas.length, exercicios: new Set(linhas.map((l) => l.ex)).size },
           metricas: Object.fromEntries(
             ["coberturaEstados", "caminhoIntegro", "errosNoEstadoCerto", "errosValorSomente", "dicasNoEstadoCerto"].map(
