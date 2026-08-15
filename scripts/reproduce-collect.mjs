@@ -88,6 +88,7 @@ function parseArgs(argv) {
     modelo: [],
     plano: false,
     fluxo: "campanha5",
+    passosLivres: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -101,6 +102,7 @@ function parseArgs(argv) {
     else if (a === "--modelo") out.modelo.push(argv[++i]);
     else if (a === "--plano") out.plano = true;
     else if (a === "--fluxo") out.fluxo = argv[++i];
+    else if (a === "--passos-livres") out.passosLivres = true;
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
@@ -445,7 +447,10 @@ async function main() {
           const raws = [];
           llmMod.setRawSink((r) => raws.push(r));
           try {
-            robot = await authorFluxoPlataforma(envelopeA, { exerciseId: id });
+            robot = await authorFluxoPlataforma(envelopeA, {
+              exerciseId: id,
+              passosLivres: args.passosLivres || process.env.STI_PASSOS_LIVRES === "1",
+            });
           } finally {
             llmMod.setRawSink(null);
           }
@@ -495,6 +500,9 @@ async function main() {
           // eles seriam concretizados na materialização; taxa alta = bancada
           // injusta com o fluxo (parar e reavaliar, não coletar).
           run.fidelidadeEstagio = robot.fidelidade;
+          // Regime de topologia (2026-08-14): "producao" = corte do GraphForge por
+          // perfil/dificuldade; "livre" = todos os passos gerados pelos agentes.
+          run.topologia = robot.topologia;
           // Traces completos dos três agentes (advancedTrace/atRiskTrace/
           // averageTrace) — mais ricos que o resumo usado no bloco grafo.
           run.bruto.tracos = robot.tracesCompletos;
@@ -584,6 +592,7 @@ async function main() {
         // contrato v2: o MESMO bloco `modelos` gravado em cada run, mais a
         // origem da resolução (auditoria: qual fonte venceu por agente).
         fluxo: args.fluxo,
+        topologia: args.fluxo === "plataforma" ? (args.passosLivres || process.env.STI_PASSOS_LIVRES === "1" ? "livre" : "producao") : null,
         modelos: blocoModelos,
         resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },
         problems: problemIds,

@@ -297,3 +297,61 @@ describe("fluxo-plataforma — traces → extractGraphForgeConfig → graphForge
     expect(registro.grafo.dicas.length).toBeGreaterThan(0);
   });
 });
+
+// ── regime de topologia: producao (corte do GraphForge) × livre (2026-08-14) ──
+describe("fluxo-plataforma — modo passos-livres", () => {
+  const traceLongo = () =>
+    JSON.stringify({
+      studentProfile: "advanced",
+      solutions: [
+        {
+          problemId: "00bubble",
+          solutionTrace: Array.from({ length: 7 }, (_, i) => ({
+            step: i + 1,
+            action: `Passo ${i + 1}`,
+            thinking: "…",
+            result: `r${i + 1}`,
+            kcUsed: i % 2 ? "FindValueNumLine" : "IdenDenominator",
+            timeEstimate: 5,
+            isCorrect: true,
+          })),
+          finalAnswer: "1/5",
+          totalTime: 35,
+        },
+      ],
+    });
+
+  it("regime produção: reader/medium corta a espinha dorsal em 4 passos (byte a byte com o forge)", async () => {
+    RESPOSTAS.agent3a_advanced = traceLongo();
+    const robot = await authorFluxoPlataforma(envelopeA, { exerciseId: "00bubble" });
+    const stepNodes = robot.graph.nodes.filter((n) => n.type === "step");
+    expect(stepNodes).toHaveLength(4);
+    expect(robot.topologia).toMatchObject({ regime: "producao", passosGeradosPeloAgente: 4, tetoDinamicoProducao: 4 });
+  });
+
+  it("regime livre: TODOS os 7 passos do agente entram no grafo, e o plano de produção fica registrado", async () => {
+    RESPOSTAS.agent3a_advanced = traceLongo();
+    const robot = await authorFluxoPlataforma(envelopeA, { exerciseId: "00bubble", passosLivres: true });
+    const stepNodes = robot.graph.nodes.filter((n) => n.type === "step");
+    expect(stepNodes).toHaveLength(7);
+    expect(robot.topologia).toMatchObject({
+      regime: "livre",
+      passosGeradosPeloAgente: 7,
+      passosQueProducaoAplicaria: 4, // atribuição: o que produção teria cortado
+    });
+    // o erro do 3b (passo 2) continua ancorado no passo certo no regime livre
+    const passo2 = stepNodes[1];
+    expect((passo2.misconceptions || []).map((m) => m.id)).toContain("misc_whole_number_confusion");
+  });
+
+  it("STI_PASSOS_LIVRES=1 no ambiente liga o regime livre sem flag", async () => {
+    RESPOSTAS.agent3a_advanced = traceLongo();
+    process.env.STI_PASSOS_LIVRES = "1";
+    try {
+      const robot = await authorFluxoPlataforma(envelopeA, { exerciseId: "00bubble" });
+      expect(robot.graph.nodes.filter((n) => n.type === "step")).toHaveLength(7);
+    } finally {
+      delete process.env.STI_PASSOS_LIVRES;
+    }
+  });
+});

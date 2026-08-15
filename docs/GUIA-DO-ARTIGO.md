@@ -63,3 +63,34 @@ instrumento. No artigo novo, entram em DOIS papéis: (a) a réplica da C5 como
 validação do instrumento; (b) a contradição C4×C5 como o problema que a
 rodada 2 resolveu (estágio × produto). Nunca combinar estimativas entre
 campanhas de instrumentos diferentes.
+
+## 6. Adendo 2026-08-14 — limites de topologia do GraphForge e o regime "passos-livres"
+
+**Achado de instrumentação (verificado no código de produção, `graphforge.js`
+commit b7ae8780):** o GraphForge corta a espinha dorsal do grafo pela tabela
+`TOPOLOGY` do perfil — `reader/medium` (o default do corpus) = **4 passos**
+(mín 2, máx 7 em *hard*); `advanced` até 10; teto absoluto 12 mesmo com pedido
+explícito do professor. O corte vive em `extractGraphForgeConfig`
+(`resolveGraphForgeStepPlan`); o `graphForge(config)` em si NÃO limita passos.
+Misconceptions por passo não têm teto (só o fallback do master graph, 2).
+
+**Consequência para a leitura dos resultados:** a granularidade "4,0 passos do
+agente × 9,0 do especialista" nos braços do fluxo-plataforma é o corte de
+topologia, não incapacidade de decomposição dos agentes — é uma decisão de
+produto (adequação à faixa etária). A bancada v2 já neutraliza o efeito pelo
+pareamento por posição relativa; e isso deve ser dito explicitamente em
+Métodos e Discussão.
+
+**Decisão do pesquisador (14/08):** o experimento precisa medir quantos passos e
+estados os agentes geram DE FATO. Implementado o regime **passos-livres** no
+harness do fluxo-plataforma (`--passos-livres` ou `STI_PASSOS_LIVRES=1`): o
+config do forge recebe TODOS os passos do trace representativo do agente 3a
+(mesma regra de escolha de produção), sem corte de topologia; forge de produção
+segue byte a byte intocado (ele não limita); erros e dicas realinhados por
+passo. Cada registro grava `topologia.regime` ("producao"|"livre"),
+`passosGeradosPeloAgente` e `passosQueProducaoAplicaria` — o efeito do teto
+vira braço comparável (produção × livre), medido em vez de assumido. Testes:
+`__tests__/fluxo-plataforma.test.mjs` (mesmo trace de 7 passos → 4 em
+produção, 7 em livre). Braço sugerido para a próxima campanha:
+`--fluxo plataforma --passos-livres` nos mesmos 24×3, comparado pareado com o
+braço de produção da rodada 2.
