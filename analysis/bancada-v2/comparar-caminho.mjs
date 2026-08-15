@@ -87,8 +87,14 @@ export function caminhoDeReferencia(envelopeB) {
 
 /**
  * Casa a sequência de estados da referência com os passos do agente como
- * SUBSEQUÊNCIA ORDENADA (greedy da esquerda para a direita): extras do agente
- * no meio são permitidos; a ordem da referência é obrigatória.
+ * SUBSEQUÊNCIA ORDENADA: extras do agente no meio são permitidos; a ordem da
+ * referência é obrigatória. O casamento é o MÁXIMO possível (subsequência
+ * comum mais longa, LCS, por programação dinâmica) — 2026-08-15 (tarde):
+ * substitui o guloso esquerda→direita, que sub-contava (ex.: referência
+ * [3/5, 1, 3, 5, 5, 3/5], agente [5, 5, 3, 3/5, 3/5]: guloso casa 2, o
+ * máximo em ordem é 3). Determinístico: na reconstrução, sempre que casar o
+ * estado corrente é compatível com o máximo, ele é casado ali (o mais à
+ * esquerda possível).
  * Estados da referência SEM resposta (key = nome de componente) não são
  * casáveis por valor e ficam fora do denominador (declarado).
  */
@@ -97,28 +103,38 @@ export function casarEstados(refCaminho, passosAgente, { materializar = false } 
     idx: i,
     estado: canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor),
   }));
-  const casamentos = [];
-  let cursor = 0;
-  for (const r of refCaminho) {
-    if (!r.comResposta || !r.estado) {
-      casamentos.push({ ref: r, agenteIdx: null, avaliavel: false });
-      continue;
-    }
-    let achado = null;
-    for (let j = cursor; j < agente.length; j++) {
-      if (agente[j].estado && agente[j].estado === r.estado) {
-        achado = j;
-        break;
-      }
-    }
-    if (achado !== null) {
-      casamentos.push({ ref: r, agenteIdx: achado, avaliavel: true });
-      cursor = achado + 1;
-    } else {
-      casamentos.push({ ref: r, agenteIdx: null, avaliavel: true });
+  const avaliaveis = refCaminho.filter((r) => r.comResposta && r.estado);
+  const n = avaliaveis.length;
+  const k = agente.length;
+  // dp[i][j] = tamanho da maior subsequência comum entre avaliaveis[i..] e agente[j..]
+  const dp = Array.from({ length: n + 1 }, () => new Array(k + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = k - 1; j >= 0; j--) {
+      const igual = agente[j].estado && agente[j].estado === avaliaveis[i].estado;
+      dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1], igual ? dp[i + 1][j + 1] + 1 : 0);
     }
   }
-  return casamentos;
+  // reconstrução: para cada estado da referência, o passo mais à esquerda que preserva o máximo
+  const casadoEm = new Map(); // ordem da referência → idx do agente
+  let i = 0;
+  let j = 0;
+  while (i < n && j < k) {
+    const igual = agente[j].estado && agente[j].estado === avaliaveis[i].estado;
+    if (igual && dp[i][j] === dp[i + 1][j + 1] + 1) {
+      casadoEm.set(avaliaveis[i].ordem, j);
+      i++;
+      j++;
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+      i++;
+    } else {
+      j++;
+    }
+  }
+  return refCaminho.map((r) => {
+    if (!r.comResposta || !r.estado) return { ref: r, agenteIdx: null, avaliavel: false };
+    const idx = casadoEm.has(r.ordem) ? casadoEm.get(r.ordem) : null;
+    return { ref: r, agenteIdx: idx, avaliavel: true };
+  });
 }
 
 /** Pontua UM registro (contrato v2) contra a referência (envelope B + itens de erro). */
@@ -131,6 +147,14 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
   ).length;
   const avaliaveis = cas.filter((c) => c.avaliavel);
   const casados = avaliaveis.filter((c) => c.agenteIdx !== null);
+  // cobertura SEM ORDEM (secundária, declarada 2026-08-15): o estado existe no
+  // grafo do agente, em qualquer posição. Separa "falta o estado" de "o estado
+  // está, mas noutra ordem" — a decisão de exigir a ordem do especialista é
+  // metodológica (do orientador); as duas leituras são reportadas.
+  const estadosAgenteSet = new Set(
+    passos.map((p) => canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor)).filter(Boolean)
+  );
+  const presentesSemOrdem = avaliaveis.filter((c) => estadosAgenteSet.has(c.ref.estado)).length;
 
   // erros do especialista: valor + estado (passo da referência, 0-based na lib)
   const errosRef = (refItens || []).map((it) => ({
@@ -185,6 +209,7 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
     nEstadosAgente: passos.length,
     rotulosConcretos, // quantos estados do agente têm valor comparável (declara a taxa de recuperação)
     coberturaEstados: avaliaveis.length ? casados.length / avaliaveis.length : 0,
+    coberturaSemOrdem: avaliaveis.length ? presentesSemOrdem / avaliaveis.length : 0,
     caminhoIntegro: avaliaveis.length && casados.length === avaliaveis.length ? 1 : 0,
     errosNoEstadoCerto: errosRef.length ? errosNoEstadoCerto / errosRef.length : 0,
     errosValorSomente: errosRef.length ? errosValorSomente / errosRef.length : 0,
@@ -256,7 +281,8 @@ if (ehMain) {
       `estados/grafo: agente ${media(linhas.map((l) => l.nEstadosAgente)).toFixed(2)} vs referência ${media(linhas.map((l) => l.nEstadosRef)).toFixed(2)}`
   );
   console.log("═".repeat(96));
-  L("cobertura de ESTADOS (subsequência ordenada)", "coberturaEstados");
+  L("cobertura de ESTADOS (subsequência ordenada, LCS)", "coberturaEstados");
+  L("cobertura de ESTADOS sem ordem (secundária)", "coberturaSemOrdem");
   L("caminho de referência ÍNTEGRO no grafo (0/1)", "caminhoIntegro");
   L("ERROS no estado certo (match binário)", "errosNoEstadoCerto");
   L("erros por valor apenas (sem posição, p/ contraste)", "errosValorSomente");
@@ -281,7 +307,7 @@ if (ehMain) {
           rotulosConcretos: { comparaveis: totConc, total: totPassos },
           unidade: { grafos: linhas.length, exercicios: new Set(linhas.map((l) => l.ex)).size },
           metricas: Object.fromEntries(
-            ["coberturaEstados", "caminhoIntegro", "errosNoEstadoCerto", "errosValorSomente", "dicasNoEstadoCerto"].map(
+            ["coberturaEstados", "coberturaSemOrdem", "caminhoIntegro", "errosNoEstadoCerto", "errosValorSomente", "dicasNoEstadoCerto"].map(
               (c) => [c, { ...intervalo(linhas, c), dpEntreReplicas: dpEntreReplicas(linhas, c) }]
             )
           ),

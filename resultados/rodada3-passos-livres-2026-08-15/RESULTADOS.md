@@ -25,15 +25,28 @@ cortava estados, não erros (os erros ficam ancorados nos passos que sobram).
 
 ## Pergunta 2 — métricas por ESTADO/CAMINHO (orientador; `comparar-caminho.mjs`)
 
-| Métrica (unidade = grafo; BCa 95%; DP entre réplicas) | flash-lite cru | flash-lite materializado | qwen cru | qwen materializado |
+| Métrica (unidade = grafo; BCa 95%; DP entre réplicas) | flash-lite cru | flash-lite materializado (mínima) | qwen cru | qwen materializado (mínima) |
 |---|---|---|---|---|
 | estados do agente com valor comparável | 0/344 | 52,3% | 0/388 | 47,4% |
-| **cobertura de estados** (subsequência ordenada) | 0,002 | 0,131 [0,097; 0,163] (DP 0,065) | 0,000 | **0,240 [0,179; 0,300]** (DP 0,090) |
+| **cobertura de estados** (subsequência ordenada, LCS) | 0,002 | 0,206 [0,155; 0,260] (DP 0,088) | 0,000 | **0,266 [0,198; 0,329]** (DP 0,106) |
+| cobertura de estados SEM ordem (secundária) | 0,004 | 0,397 [0,292; 0,492] (DP 0,180) | 0,000 | 0,409 [0,308; 0,494] (DP 0,153) |
 | caminho de referência íntegro (0/1) | 0 | 0 | 0 | 0 |
-| erros no estado certo (binário) | 0 | 0 | 0 | 0,006 |
+| erros no estado certo (binário) | 0 | 0,021 [0,004; 0,045] | 0 | 0,012 [0,004; 0,026] |
 | erros por valor (contraste) | 0,148 | — | 0,310 | — |
-| dicas no estado certo (presença) | 0 | 0,090 | 0 | **0,235 [0,144; 0,350]** |
-| extras/grafo: estados · erros · dicas | 4,76 · 1,08 · 1,18 | 0,39 · 1,08 · 1,06 | 5,39 · 1,43 · 1,65 | 0,40 · 1,43 · 1,11 |
+| dicas no estado certo (presença) | 0 | 0,120 [0,065; 0,194] | 0 | **0,289 [0,193; 0,392]** |
+| extras/grafo: estados · erros · dicas | 4,76 · 1,08 · 1,18 | 0,39 · 1,08 · 0,90 | 5,39 · 1,43 · 1,65 | 0,40 · 1,43 · 0,94 |
+
+> **Correção 15/08 (tarde) — casamento exato.** A primeira versão desta tabela
+> usava um casamento GULOSO esquerda→direita para a "subsequência ordenada",
+> que sub-conta (ex.: referência `[3/5, 1, 3, 5, 5, 3/5]`, agente
+> `[5, 5, 3, 3/5, 3/5]`: guloso 2, máximo em ordem 3). O comparador passou a
+> calcular a subsequência comum mais longa (LCS, programação dinâmica) — que é
+> a definição declarada — e os números acima foram recalculados offline dos
+> mesmos registros (guloso: 0,131 / 0,240; exato: 0,206 / 0,266). Foi
+> acrescentada a cobertura SEM ordem como métrica secundária: separa "o estado
+> falta" de "o estado existe, noutra ordem"; exigir a ordem do especialista é
+> decisão metodológica do orientador, e as duas leituras ficam reportadas.
+> Travado por teste em `__tests__/comparar-caminho.test.mjs`.
 
 ### Leitura honesta
 
@@ -47,9 +60,9 @@ cortava estados, não erros (os erros ficam ancorados nos passos que sobram).
    grafo materializado (produto)**; no estágio 3 ela mede vocabulário.
 2. **A materialização MÍNIMA** (extrair o número que o próprio agente escreveu
    no rótulo — nada inventado; regras em `materializarRotulo`) recupera
-   ~50% dos rótulos e já mostra o sinal: qwen cobre **24%** dos estados do
-   especialista na ordem certa e tem dica em 23,5% dos estados casados; o
-   modelo forte rotula melhor E decompõe mais.
+   ~50% dos rótulos e já mostra o sinal: qwen cobre **26,6%** dos estados do
+   especialista na ordem certa (40,9% sem exigir ordem) e tem dica em 28,9%
+   dos estados casados; o modelo forte rotula melhor E decompõe mais.
 3. **Erros no estado certo ≈0 mesmo materializado**: quando o valor do erro
    casa, ele está ancorado num estado do agente que NÃO casou com o
    especialista (ou o estado do erro do especialista não tem valor concreto no

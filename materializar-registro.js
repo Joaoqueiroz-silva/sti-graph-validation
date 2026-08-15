@@ -42,13 +42,23 @@ import { montarGrafo } from "./scripts/registro-run-v2.mjs";
  *      (numeradores e denominadores de frações do enunciado liberados) —
  *      regra conservadora: número que não ocorre reprova.
  */
-export function verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado) {
+export function verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado, opts = {}) {
   const nums = (s) =>
     [...String(s ?? "").matchAll(/-?\d+(?:[.,]\d+)?/g)].map((m) => m[0].replace(",", "."));
   const permitidos = new Set([...nums(envelopeA.problem), ...nums(envelopeA.correctAnswer)]);
   for (const m of String(envelopeA.problem + " " + envelopeA.correctAnswer).matchAll(/(\d+)\s*\/\s*(\d+)/g)) {
     permitidos.add(m[1]);
     permitidos.add(m[2]);
+  }
+  // Análise de SENSIBILIDADE (declarada 2026-08-15, tarde; NÃO é o gate
+  // pré-registrado): libera as constantes do domínio reta numérica 0–1 — os
+  // extremos 0 e 1 (com isso 0/d e a fração unitária 1/d, d do enunciado,
+  // passam a ser permitidos). Motivo: o especialista do CTAT também usa "1" (o
+  // inteiro) e "1/d" como estados; o gate estrito exclui grafos por conterem
+  // exatamente esses estados. O gate estrito continua sendo o primário.
+  if (opts.constantesDeDominio) {
+    permitidos.add("0");
+    permitidos.add("1");
   }
   const canon = (v) => String(v ?? "").trim().replace(/\s+/g, "");
   const valores = (grafoMaterializado?.passos || []).map((p) => canon(p.valor)).filter(Boolean);

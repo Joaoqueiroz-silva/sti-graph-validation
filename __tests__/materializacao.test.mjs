@@ -186,4 +186,12 @@ describe("materialização — gate de problema fixo (obediência do agent 6 pro
     const g = { passos: [{ valor: "5" }, { valor: "1" }] };
     expect(verificarProblemaFixo(envA, {}, g).aprovado).toBe(false);
   });
+
+  it("sensibilidade (não pré-registrada): constantesDeDominio libera 0 e 1 (0/5, 1/5), mas segue reprovando números estranhos", () => {
+    const g = { passos: [{ valor: "0/5" }, { valor: "1/5" }, { valor: "1" }, { valor: "1/5" }] };
+    expect(verificarProblemaFixo(envA, {}, g).aprovado).toBe(false); // gate estrito (primário)
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true }).aprovado).toBe(true);
+    const g2 = { passos: [{ valor: "1/5" }, { valor: "3/8" }] };
+    expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true }).aprovado).toBe(false);
+  });
 });

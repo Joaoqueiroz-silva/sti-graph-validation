@@ -165,3 +165,32 @@ describe("comparar-caminho — materialização mínima do rótulo (só o que o 
     expect(mat.rotulosConcretos).toBe(3);
   });
 });
+
+// ── 2026-08-15 (tarde): casamento exato (LCS) e cobertura sem ordem ──
+describe("casarEstados — subsequência ordenada MÁXIMA (LCS), não gulosa", () => {
+  const envB = {
+    steps: [
+      { key: "3/5", answer: "3/5", order: 1 },
+      { key: "1", answer: "1", order: 2 },
+      { key: "3", answer: "3", order: 3 },
+      { key: "5", answer: "5", order: 4 },
+      { key: "5", answer: "5", order: 5 },
+      { key: "3/5", answer: "3/5", order: 6 },
+    ],
+    hintsPerCorrectStep: [[], [], [], [], [], []],
+  };
+  const passos = ["5", "5", "3", "3/5", "3/5"].map((v, i) => ({ indice: i + 1, acao: "", kc: "k", valor: v }));
+  it("o guloso casaria 2 (3/5 no idx 3 consome 5,5,3); o máximo em ordem é 3", () => {
+    const cas = casarEstados(caminhoDeReferencia(envB), passos).filter((c) => c.agenteIdx !== null);
+    expect(cas.length).toBe(3);
+    // ancoragem determinística: 5→idx0, 5→idx1, 3/5→idx3 (ou 3→idx2… qualquer LCS de tamanho 3, mas em ordem)
+    const idxs = cas.map((c) => c.agenteIdx);
+    expect(idxs).toEqual([...idxs].sort((a, b) => a - b));
+  });
+  it("cobertura sem ordem conta o estado presente em qualquer posição (secundária, separada da ordenada)", () => {
+    const p = pontuarCaminho({ exercicio: "x", grafo: { passos, erros: [], dicas: [] } }, envB, []);
+    expect(p.coberturaEstados).toBeCloseTo(3 / 6);
+    expect(p.coberturaSemOrdem).toBeCloseTo(5 / 6); // 3/5,3,5,5,3/5 presentes; "1" ausente
+    expect(p.caminhoIntegro).toBe(0);
+  });
+});

@@ -28,3 +28,21 @@ mínima) pareada por registro.
 
 **Custo estimado:** ~US$ 3 (planner + worker × 144). Autorização: 2026-08-15
 ("pode seguir desde que prove de fato e siga todos os parâmetros rígidos").
+
+## Adendo (2026-08-15, tarde — registrado ANTES da análise dos registros materializados; lote em andamento, 17/144)
+
+1. **Casamento exato.** A "subsequência ordenada" passa a ser calculada como
+   subsequência comum mais longa (LCS) — a definição declarada; a versão
+   anterior era um guloso que sub-contava. Recalculado offline para o estágio
+   3 (cru e mínima; ver correção em RESULTADOS.md). Vale igualmente para o
+   materializado.
+2. **Métrica secundária:** cobertura de estados SEM ordem (estado presente em
+   qualquer posição). Reportada ao lado da primária; não a substitui.
+3. **Análise de sensibilidade do gate (não substitui o gate primário):** além
+   do gate estrito pré-registrado, reportar a mesma análise com o gate que
+   libera as constantes do domínio reta numérica 0–1 (números 0 e 1 —
+   logo 0/d e 1/d). Motivo objetivo, visto nos primeiros 17 registros: o gate
+   estrito reprova grafos por conterem "1/5", "0/4", "1" — estados que o
+   PRÓPRIO especialista do CTAT usa (ex.: 03summerBooks tem o estado "1"). O
+   gate estrito é conservador contra o agente; a sensibilidade mostra quanto
+   isso pesa. Ambas as taxas de aprovação serão reportadas.
