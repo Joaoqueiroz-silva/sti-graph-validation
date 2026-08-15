@@ -37,6 +37,11 @@ export const PAPEL_POR_AGENTE = Object.freeze({
   agent3c_average: "estudantes",
   agent9_review: "revisao",
   factchecker_l2: "checagem",
+  // 2026-08-15 (port da materialização): o agent 6 pede a config do fallback
+  // de emergência para os workers. Na bancada o fallback NUNCA troca de
+  // modelo (regra do coletor: retry, nunca modelo diferente) — mapeia para o
+  // mesmo papel "materializacao".
+  fallback_emergency: "materializacao",
 });
 
 /** defaults do registry de produção (temperatura/maxTokens por agente). */
@@ -49,6 +54,7 @@ const DEFAULTS = Object.freeze({
   agent3c_average: { temperature: 0.4, maxTokens: 16000 },
   agent9_review: { temperature: 0.1, maxTokens: 32000 },
   factchecker_l2: { temperature: 0.1, maxTokens: 16000 },
+  fallback_emergency: { temperature: 0.5, maxTokens: 16000 },
 });
 
 // Resolvido UMA vez por processo: a configuração de um braço não muda no meio
