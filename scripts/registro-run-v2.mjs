@@ -40,6 +40,9 @@ export const CAMPOS_OBRIGATORIOS = [
   "bruto.tracos",
 ];
 
+/** Campos que cada passo (estado) do grafo precisa carregar (métrica de estados). */
+export const CAMPOS_PASSO = ["indice", "acao", "kc", "valor"];
+
 /** Campos que cada erro do grafo precisa carregar (níveis 1, 2, 3 e 5). */
 export const CAMPOS_ERRO = [
   "valor",
@@ -76,6 +79,13 @@ export function validarRegistro(registro) {
       }
     }
   }
+  for (const [i, passo] of (registro?.grafo?.passos ?? []).entries()) {
+    for (const campo of CAMPOS_PASSO) {
+      if (passo[campo] === undefined || passo[campo] === null) {
+        faltando.push(`grafo.passos[${i}].${campo}`);
+      }
+    }
+  }
   return faltando;
 }
 
@@ -93,12 +103,19 @@ export function validarRegistro(registro) {
  */
 export function montarGrafo(graph, traces = {}) {
   const stepNodes = (graph?.nodes ?? []).filter((n) => n.type === "step");
+  // 2026-08-15 (rodada 3, métrica de ESTADOS do orientador): o estado de um
+  // passo é identificado pela RESPOSTA ESPERADA daquele passo — é assim que o
+  // CTAT chaveia o caminho de referência (steps[].key = answer canonizada). Sem
+  // `valor` no registro, "os estados do especialista existem no grafo do
+  // agente, na mesma ordem?" não é calculável. O valor vem do expectedInput do
+  // nó (injetado do result do aluno avançado, ver author-graph.js).
   const passos = stepNodes.map((n, i) => ({
     indice: i + 1,
     acao: String(n.description ?? ""),
     kc: String(
       Array.isArray(n.knowledgeComponents) ? (n.knowledgeComponents[0] ?? "") : (n.knowledgeComponents ?? "")
     ),
+    valor: String(n.expectedInput?.value ?? ""),
   }));
 
   const porId = new Map();

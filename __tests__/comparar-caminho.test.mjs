@@ -1,0 +1,136 @@
+/**
+ * comparar-caminho.test.mjs — rodada 3 (2026-08-15): comparação por
+ * ESTADO/CAMINHO, conforme instruções do orientador.
+ *
+ * Trava: (1) o caminho de referência é reconhecido como SUBCAMINHO mesmo com
+ * estados extras do agente no meio; (2) a ORDEM é obrigatória (match binário,
+ * sem tolerância); (3) erro no estado certo exige valor E estado casado; (4)
+ * dica é presença por estado — texto nunca é comparado; (5) extras contados
+ * por tipo; (6) canonização só em valores (0.2 ≡ 1/5); (7) DP entre réplicas;
+ * (8) o contrato v2 agora exige grafo.passos[].valor.
+ */
+import { describe, it, expect } from "vitest";
+import {
+  caminhoDeReferencia,
+  casarEstados,
+  pontuarCaminho,
+  dpEntreReplicas,
+  canonizarValor,
+} from "../analysis/bancada-v2/comparar-caminho.mjs";
+import { validarRegistro, CAMPOS_PASSO } from "../scripts/registro-run-v2.mjs";
+
+const envB = () => ({
+  steps: [
+    { key: "5", answer: "5", order: 1 },
+    { key: "1/5", answer: "1/5", order: 2 },
+    { key: "writefractionstep", answer: "", order: 3 }, // sem resposta: fora do denominador
+    { key: "1", answer: "1", order: 4 },
+  ],
+  hintsPerCorrectStep: [["h"], [], [], ["h1", "h2"]],
+});
+// itens de erro da referência no formato da lib (passo = idx do estado ANTES, 0-based)
+const refItens = () => [
+  { valor: canonizarValor("4/9"), passo: 1 }, // erro no estado "1/5" (ordem 2)
+  { valor: canonizarValor("40"), passo: 0 }, // erro no estado "5" (ordem 1)
+];
+
+const runAgente = (over = {}) => ({
+  exercicio: "00bubble",
+  replica: 1,
+  grafo: {
+    passos: [
+      { indice: 1, acao: "a", kc: "k", valor: "5" },
+      { indice: 2, acao: "extra", kc: "k", valor: "10" }, // estado EXTRA no meio
+      { indice: 3, acao: "b", kc: "k", valor: "0.2" }, // ≡ 1/5 por canonização
+      { indice: 4, acao: "c", kc: "k", valor: "1" },
+    ],
+    erros: [
+      { valor: "4/9", passo: 3 }, // no estado 1/5 (passo 3 do agente) ✓
+      { valor: "40", passo: 4 }, // valor certo, estado ERRADO (deveria ser passo 1)
+      { valor: "7", passo: 2 }, // extra
+    ],
+    dicas: [
+      { passo: 1, nivel: 1, texto: "qualquer texto" },
+      { passo: 2, nivel: 1, texto: "dica em estado extra" },
+    ],
+  },
+  ...over,
+});
+
+describe("comparar-caminho — estados como subcaminho ordenado", () => {
+  it("caminho de referência: estados canonizados; sem-resposta marcado como não avaliável", () => {
+    const c = caminhoDeReferencia(envB());
+    expect(c.map((x) => x.estado)).toEqual(["5", "1/5", "writefractionstep", "1"]);
+    expect(c[2].comResposta).toBe(false);
+    expect(c[3].dicas).toBe(2);
+  });
+
+  it("subcaminho com extras no meio: cobertura de estados = 1 e caminho íntegro", () => {
+    const p = pontuarCaminho(runAgente(), envB(), refItens());
+    expect(p.nEstadosRef).toBe(3); // 5, 1/5, 1 (writefractionstep fora)
+    expect(p.coberturaEstados).toBe(1);
+    expect(p.caminhoIntegro).toBe(1);
+    expect(p.nEstadosAgente).toBe(4);
+    expect(p.extras.estados).toBe(1); // o "10"
+  });
+
+  it("ordem é obrigatória: referência 5→1/5→1 NÃO casa com agente 1/5→5→1 (match binário)", () => {
+    const run = runAgente();
+    run.grafo.passos = [
+      { indice: 1, acao: "", kc: "", valor: "1/5" },
+      { indice: 2, acao: "", kc: "", valor: "5" },
+      { indice: 3, acao: "", kc: "", valor: "1" },
+    ];
+    const cas = casarEstados(caminhoDeReferencia(envB()), run.grafo.passos);
+    // "5" casa em idx 1; depois "1/5" só pode casar APÓS idx 1 → não há → falha
+    const avaliaveis = cas.filter((c) => c.avaliavel);
+    expect(avaliaveis.filter((c) => c.agenteIdx !== null)).toHaveLength(2); // 5 e 1
+    const p = pontuarCaminho(run, envB(), refItens());
+    expect(p.coberturaEstados).toBeCloseTo(2 / 3);
+    expect(p.caminhoIntegro).toBe(0);
+  });
+
+  it("erro no estado certo exige valor E estado casado; valor no estado errado não conta", () => {
+    const p = pontuarCaminho(runAgente(), envB(), refItens());
+    expect(p.errosValorSomente).toBe(1); // 4/9 e 40 existem por valor
+    expect(p.errosNoEstadoCerto).toBeCloseTo(1 / 2); // só 4/9 está no estado certo
+    expect(p.extras.erros).toBe(1); // o "7"
+  });
+
+  it("dicas: presença por estado casado; texto NUNCA é comparado", () => {
+    const p = pontuarCaminho(runAgente(), envB(), refItens());
+    // ref com dica: estado "5" (ordem 1) e "1" (ordem 4); agente tem dica só no passo 1 (=estado 5)
+    expect(p.dicasNoEstadoCerto).toBeCloseTo(1 / 2);
+    expect(p.extras.dicas).toBe(1); // dica no passo 2 (estado extra)
+  });
+
+  it("canonização só em valores: 0.2 ≡ 1/5 ≡ 2/10", () => {
+    expect(canonizarValor("0.2")).toBe(canonizarValor("1/5"));
+    expect(canonizarValor("2/10")).toBe(canonizarValor("1/5"));
+  });
+
+  it("DP entre réplicas do mesmo exercício", () => {
+    const linhas = [
+      { ex: "a", m: 0.5 },
+      { ex: "a", m: 0.7 },
+      { ex: "a", m: 0.9 },
+      { ex: "b", m: 1 },
+    ];
+    expect(dpEntreReplicas(linhas, "m")).toBeCloseTo(0.2, 6);
+  });
+});
+
+describe("contrato v2 — grafo.passos[].valor passa a ser obrigatório", () => {
+  it("CAMPOS_PASSO inclui valor e validarRegistro reprova passo sem valor", () => {
+    expect(CAMPOS_PASSO).toContain("valor");
+    const reg = {
+      exercicio: "x", replica: 1, geradoEm: "t", promptSha256: "s",
+      modelos: { perfil: "p", porAgente: {}, temperatura: 0.7, provedor: "openrouter" },
+      custo: { tokensEntrada: 0, tokensSaida: 0, usd: 0 },
+      auditoria: { ok: true, passos: 1 },
+      grafo: { passos: [{ indice: 1, acao: "a", kc: "k" }], erros: [], dicas: [] },
+      bruto: { respostaDoModelo: "r", tracos: {} },
+    };
+    expect(validarRegistro(reg)).toContain("grafo.passos[0].valor");
+  });
+});

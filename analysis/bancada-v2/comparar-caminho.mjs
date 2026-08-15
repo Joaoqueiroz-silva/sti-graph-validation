@@ -1,0 +1,260 @@
+/**
+ * analysis/bancada-v2/comparar-caminho.mjs — COMPARAÇÃO POR ESTADO/CAMINHO
+ * (rodada 3, 2026-08-15; instruções do orientador).
+ *
+ * Substitui a leitura por índice de passo (e a tolerância ±20% de posição
+ * relativa) por uma leitura estrutural: o caminho de referência do
+ * especialista é um SUBCAMINHO do grafo do agente? Cada elemento (estado,
+ * erro, dica) está no ESTADO certo? Match binário, sem tolerância.
+ *
+ * O QUE É "ESTADO": no CTAT o estado de um passo é identificado pela resposta
+ * correta daquele passo (steps[].key = answer canonizada; quando o passo não
+ * tem resposta, o nome do componente). No grafo do agente, o estado é o passo
+ * cuja resposta esperada (grafo.passos[].valor) canoniza para o mesmo valor.
+ * A comparação é de VALORES DE ESTADO, nunca de semântica de ação/texto.
+ *
+ * MÉTRICAS (todas por registro; agregadas por exercício e por grafo):
+ *  - coberturaEstados: estados da referência encontrados no grafo do agente NA
+ *    MESMA ORDEM (subsequência ordenada; extras entre eles são permitidos);
+ *  - caminhoIntegro: 1 se TODOS os estados da referência estão presentes em
+ *    ordem (o caminho de referência é subcaminho do grafo do agente);
+ *  - errosNoEstadoCerto: erros do especialista cujo valor aparece no grafo do
+ *    agente ANCORADO no mesmo estado (o passo do erro casa com o estado casado);
+ *  - dicasNoEstadoCerto: estados do especialista que têm dica E cujo estado
+ *    casado no agente também tem dica (presença por estado; texto NUNCA é
+ *    comparado — item 7);
+ *  - extras por tipo: estados a mais, erros a mais, dicas a mais (contagens e
+ *    proporções) — o material para o juízo de valor dos extras (item 6);
+ *  - canonização SÓ em valores (canonAnswer: 0.2 ≡ 1/5 ≡ 2/10). Dicas e
+ *    descrições são texto livre e ficam fora de qualquer canonização.
+ *
+ * AGREGAÇÃO (item 9): a unidade de instância é o GRAFO gerado (registro); os
+ * intervalos por exercício continuam por bootstrap BCa em cluster; o desvio
+ * padrão ENTRE RÉPLICAS do mesmo exercício é reportado (item 8).
+ *
+ * A tolerância ±20% da bancada v2 NÃO é apagada: continua disponível em
+ * comparar-justo.mjs como leitura descritiva; aqui a métrica primária é o
+ * match binário por estado.
+ */
+
+import fs from "node:fs";
+import path from "node:path";
+import { carregarReferencia, intervalo, media, fmt, canonAnswer } from "../validacao-v2/lib.mjs";
+
+const DATASET = "datasets/frac-numberline-6.17/problems";
+
+/** canonização de VALORES gerados pelos agentes (nunca de texto livre). */
+export const canonizarValor = (v) => canonAnswer(String(v ?? "").trim());
+
+/** Caminho de referência do especialista: sequência de estados (valor canonizado) do envelope B. */
+export function caminhoDeReferencia(envelopeB) {
+  const steps = (envelopeB?.steps || []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  return steps.map((s, i) => ({
+    ordem: i + 1,
+    estado: canonizarValor(s.key ?? s.answer),
+    comResposta: String(s.answer ?? "").trim() !== "",
+    dicas: (envelopeB?.hintsPerCorrectStep?.[i] || []).length,
+  }));
+}
+
+/**
+ * Casa a sequência de estados da referência com os passos do agente como
+ * SUBSEQUÊNCIA ORDENADA (greedy da esquerda para a direita): extras do agente
+ * no meio são permitidos; a ordem da referência é obrigatória.
+ * Estados da referência SEM resposta (key = nome de componente) não são
+ * casáveis por valor e ficam fora do denominador (declarado).
+ */
+export function casarEstados(refCaminho, passosAgente) {
+  const agente = passosAgente.map((p, i) => ({ idx: i, estado: canonizarValor(p.valor) }));
+  const casamentos = [];
+  let cursor = 0;
+  for (const r of refCaminho) {
+    if (!r.comResposta || !r.estado) {
+      casamentos.push({ ref: r, agenteIdx: null, avaliavel: false });
+      continue;
+    }
+    let achado = null;
+    for (let j = cursor; j < agente.length; j++) {
+      if (agente[j].estado && agente[j].estado === r.estado) {
+        achado = j;
+        break;
+      }
+    }
+    if (achado !== null) {
+      casamentos.push({ ref: r, agenteIdx: achado, avaliavel: true });
+      cursor = achado + 1;
+    } else {
+      casamentos.push({ ref: r, agenteIdx: null, avaliavel: true });
+    }
+  }
+  return casamentos;
+}
+
+/** Pontua UM registro (contrato v2) contra a referência (envelope B + itens de erro). */
+export function pontuarCaminho(run, envelopeB, refItens) {
+  const refCaminho = caminhoDeReferencia(envelopeB);
+  const passos = run.grafo?.passos || [];
+  const cas = casarEstados(refCaminho, passos);
+  const avaliaveis = cas.filter((c) => c.avaliavel);
+  const casados = avaliaveis.filter((c) => c.agenteIdx !== null);
+
+  // erros do especialista: valor + estado (passo da referência, 0-based na lib)
+  const errosRef = (refItens || []).map((it) => ({
+    valor: it.valor,
+    estadoOrdem: (it.passo ?? 0) + 1, // idx do estado ANTES do passo → ordem 1-based
+  }));
+  const mapaRefParaAgente = new Map(
+    casados.map((c) => [c.ref.ordem, c.agenteIdx + 1]) // ordem ref → passo agente (1-based)
+  );
+  const errosAgente = (run.grafo?.erros || []).map((e) => ({
+    valor: canonizarValor(e.valor),
+    passo: Number(e.passo),
+  }));
+  let errosNoEstadoCerto = 0;
+  let errosValorSomente = 0;
+  for (const er of errosRef) {
+    const passoAg = mapaRefParaAgente.get(er.estadoOrdem);
+    const mesmoValor = errosAgente.filter((ea) => ea.valor === er.valor);
+    if (mesmoValor.length) errosValorSomente++;
+    if (passoAg && mesmoValor.some((ea) => ea.passo === passoAg)) errosNoEstadoCerto++;
+  }
+
+  // dicas: presença por estado casado
+  const dicasAgentePorPasso = new Map();
+  for (const d of run.grafo?.dicas || []) {
+    dicasAgentePorPasso.set(d.passo, (dicasAgentePorPasso.get(d.passo) || 0) + 1);
+  }
+  const estadosRefComDica = casados.filter((c) => c.ref.dicas > 0);
+  const dicasNoEstadoCerto = estadosRefComDica.filter(
+    (c) => (dicasAgentePorPasso.get(c.agenteIdx + 1) || 0) > 0
+  ).length;
+
+  // extras por tipo (o que o agente cria além do previsto)
+  const estadosRefSet = new Set(refCaminho.filter((r) => r.comResposta).map((r) => r.estado));
+  const estadosExtras = passos.filter((p) => {
+    const v = canonizarValor(p.valor);
+    return v && !estadosRefSet.has(v);
+  }).length;
+  const valoresRefErros = new Set(errosRef.map((e) => e.valor));
+  const errosExtras = errosAgente.filter((e) => e.valor && !valoresRefErros.has(e.valor)).length;
+  const dicasExtras = [...dicasAgentePorPasso.entries()].filter(([passo]) => {
+    // dica num passo do agente que NÃO corresponde a estado da referência com dica
+    const refOrdem = [...mapaRefParaAgente.entries()].find(([, ag]) => ag === passo)?.[0];
+    const refEstado = refCaminho.find((r) => r.ordem === refOrdem);
+    return !refEstado || refEstado.dicas === 0;
+  }).length;
+
+  return {
+    ex: run.exercicio ?? run.id,
+    replica: run.replica ?? null,
+    nEstadosRef: avaliaveis.length,
+    nEstadosAgente: passos.length,
+    coberturaEstados: avaliaveis.length ? casados.length / avaliaveis.length : 0,
+    caminhoIntegro: avaliaveis.length && casados.length === avaliaveis.length ? 1 : 0,
+    errosNoEstadoCerto: errosRef.length ? errosNoEstadoCerto / errosRef.length : 0,
+    errosValorSomente: errosRef.length ? errosValorSomente / errosRef.length : 0,
+    dicasNoEstadoCerto: estadosRefComDica.length ? dicasNoEstadoCerto / estadosRefComDica.length : 0,
+    extras: {
+      estados: estadosExtras,
+      erros: errosExtras,
+      dicas: dicasExtras,
+      caminhosBifurcacoes: (run.grafo?.erros || []).length, // cada erro é uma bifurcação (scaffold) a mais no caminho
+    },
+  };
+}
+
+/** desvio padrão amostral entre réplicas do mesmo exercício (item 8). */
+export function dpEntreReplicas(linhas, campo) {
+  const porEx = {};
+  for (const l of linhas) (porEx[l.ex] ||= []).push(l[campo]);
+  const dps = Object.values(porEx)
+    .filter((v) => v.length > 1)
+    .map((v) => {
+      const m = media(v);
+      return Math.sqrt(v.reduce((s, x) => s + (x - m) ** 2, 0) / (v.length - 1));
+    });
+  return dps.length ? media(dps) : null;
+}
+
+// ── CLI ─────────────────────────────────────────────────────────────────────
+const ehMain = process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname;
+if (ehMain) {
+  const argv = process.argv.slice(2);
+  const opt = (k, d) => {
+    const i = argv.indexOf(k);
+    return i >= 0 ? argv[i + 1] : d;
+  };
+  const dir = opt("--runs", null);
+  const raiz = opt("--raiz", ".");
+  const saida = opt("--json", null);
+  const rotulo = opt("--rotulo", path.basename(path.dirname(dir || ".")));
+  if (!dir) {
+    console.error("uso: node analysis/bancada-v2/comparar-caminho.mjs --runs <dir> [--rotulo x] [--json out]");
+    process.exit(2);
+  }
+  const REF = carregarReferencia(raiz);
+  const linhas = [];
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json")).sort()) {
+    const run = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+    const ex = run.exercicio ?? run.id;
+    if (!REF[ex] || !run.grafo) continue;
+    const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-b.json"), "utf8"));
+    linhas.push(pontuarCaminho(run, envB, REF[ex].items));
+  }
+  if (!linhas.length) {
+    console.error("nenhum registro casou com o corpus");
+    process.exit(2);
+  }
+  const semValor = linhas.filter((l) => l.nEstadosAgente > 0 && (l.coberturaEstados === 0));
+  const L = (t, campo) =>
+    console.log(
+      `  ${t.padEnd(44)} ${fmt(intervalo(linhas, campo))}  DP entre réplicas ${(dpEntreReplicas(linhas, campo) ?? 0).toFixed(3)}`
+    );
+  console.log("═".repeat(96));
+  console.log(`COMPARAÇÃO POR ESTADO/CAMINHO — ${rotulo}`);
+  console.log(
+    `  unidade: ${linhas.length} grafos gerados (${new Set(linhas.map((l) => l.ex)).size} exercícios × réplicas) | ` +
+      `estados/grafo: agente ${media(linhas.map((l) => l.nEstadosAgente)).toFixed(2)} vs referência ${media(linhas.map((l) => l.nEstadosRef)).toFixed(2)}`
+  );
+  console.log("═".repeat(96));
+  L("cobertura de ESTADOS (subsequência ordenada)", "coberturaEstados");
+  L("caminho de referência ÍNTEGRO no grafo (0/1)", "caminhoIntegro");
+  L("ERROS no estado certo (match binário)", "errosNoEstadoCerto");
+  L("erros por valor apenas (sem posição, p/ contraste)", "errosValorSomente");
+  L("DICAS no estado certo (presença por estado)", "dicasNoEstadoCerto");
+  console.log(
+    `  extras por grafo (média): estados ${media(linhas.map((l) => l.extras.estados)).toFixed(2)} | ` +
+      `erros ${media(linhas.map((l) => l.extras.erros)).toFixed(2)} | dicas ${media(linhas.map((l) => l.extras.dicas)).toFixed(2)}`
+  );
+  if (semValor.length) {
+    console.log(
+      `  aviso: ${semValor.length} grafos sem nenhum estado casado — verifique se grafo.passos[].valor está preenchido (registros anteriores à rodada 3 não têm o campo).`
+    );
+  }
+  if (saida) {
+    fs.writeFileSync(
+      saida,
+      JSON.stringify(
+        {
+          gerado: new Date().toISOString(),
+          rotulo,
+          unidade: { grafos: linhas.length, exercicios: new Set(linhas.map((l) => l.ex)).size },
+          metricas: Object.fromEntries(
+            ["coberturaEstados", "caminhoIntegro", "errosNoEstadoCerto", "errosValorSomente", "dicasNoEstadoCerto"].map(
+              (c) => [c, { ...intervalo(linhas, c), dpEntreReplicas: dpEntreReplicas(linhas, c) }]
+            )
+          ),
+          extrasMedios: {
+            estados: media(linhas.map((l) => l.extras.estados)),
+            erros: media(linhas.map((l) => l.extras.erros)),
+            dicas: media(linhas.map((l) => l.extras.dicas)),
+          },
+          porGrafo: linhas,
+        },
+        null,
+        1
+      )
+    );
+    console.log(`  salvo em ${saida}`);
+  }
+}
