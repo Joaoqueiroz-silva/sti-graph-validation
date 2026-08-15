@@ -138,6 +138,14 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
   const graph = exercicio?.behaviorGraph || null;
   if (!graph) throw new Error("agent 7 não produziu behaviorGraph");
 
+  // Erros e dicas do grafo MATERIALIZADO vêm do próprio behaviorGraph do
+  // agent 7: os nós "step" carregam `misconceptions[]` (opções erradas do
+  // worker do agent 6 — "fonte de verdade", ver agent7-adapter.js) e
+  // `hints[]` (dicas do worker, por nível). montarGrafo lê os erros dos nós;
+  // as dicas ele lê de traces.hints — aqui, portanto, montamos traces.hints a
+  // partir dos nós (2026-08-15, tarde: antes passava lista vazia e o grafo
+  // materializado saía SEM dicas — corrigido antes de qualquer análise).
+  const stepNodes = (graph.nodes || []).filter((n) => n.type === "step");
   const traces = {
     misconceptions: (misconceptionCatalog || []).map((m) => ({
       id: m.id ?? m.misconceptionId,
@@ -147,7 +155,9 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
       selection: "",
       action: "",
     })),
-    hints: [],
+    hints: stepNodes.flatMap((n, i) =>
+      (n.hints || []).map((h) => ({ step: i + 1, text: typeof h === "string" ? h : h.message ?? h.text ?? "" }))
+    ),
   };
   const grafoMaterializado = montarGrafo(graph, traces);
   const problemaFixo = verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado);
@@ -171,7 +181,8 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
       elapsedMs: Date.now() - t0,
       exerciciosGerados: exercises.length,
       passosGenericos: (genericGraph.nodes || []).filter((n) => n.type === "step").length,
-      passosMaterializados: (graph.nodes || []).filter((n) => n.type === "step").length,
+      passosMaterializados: stepNodes.length,
+      dicasMaterializadas: traces.hints.length,
     },
   };
 }

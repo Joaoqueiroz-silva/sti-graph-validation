@@ -152,6 +152,9 @@ describe("materialização — agent 6 + agent 7 portados", () => {
     expect(passos.length).toBeGreaterThan(0);
     expect(passos.map((p) => p.valor)).toEqual(["5", "1/5", "1"]); // concreto, do agent 6
     expect(out.telemetria.passosMaterializados).toBe(3);
+    // dicas do worker do agent 6 chegam ao grafo materializado, ancoradas no passo (1 por passo no mock)
+    expect(out.grafoMaterializado.dicas.map((d) => d.passo)).toEqual([1, 2, 3]);
+    expect(out.telemetria.dicasMaterializadas).toBe(3);
   });
 
   it("a régua de estados casa o grafo MATERIALIZADO com o especialista (o que o estágio 3 não permitia)", async () => {

@@ -48,10 +48,20 @@ for (const [i, f] of alvo.entries()) {
   try {
     const envelopeA = JSON.parse(fs.readFileSync(path.join(DATASET, ex, "envelope-a.json"), "utf8"));
     const m = await materializarRegistro(reg, envelopeA);
-    const saida = { ...reg, materializado: { grafo: m.grafoMaterializado, problemaFixo: m.problemaFixo, exercicio: m.exercicio, telemetria: m.telemetria, modelos: { materializacao: resolucao.porAgente.materializacao, perfil: resolucao.perfil } } };
+    // behaviorGraph bruto do agent 7 (auditoria: é DELE que passos/erros/dicas são extraídos)
+    const behaviorGraph = {
+      nodes: (m.behaviorGraph.nodes || []).map((n) => ({
+        id: n.id, type: n.type, description: n.description, instruction: n.instruction,
+        expectedInput: n.expectedInput ?? null, knowledgeComponents: n.knowledgeComponents ?? [],
+        hints: n.hints ?? [], misconceptions: n.misconceptions ?? [], scaffoldNodes: n.scaffoldNodes ?? [],
+        targetMisconception: n.targetMisconception,
+      })),
+      edges: m.behaviorGraph.edges || [],
+    };
+    const saida = { ...reg, materializado: { grafo: m.grafoMaterializado, problemaFixo: m.problemaFixo, exercicio: m.exercicio, telemetria: m.telemetria, behaviorGraph, modelos: { materializacao: resolucao.porAgente.materializacao, perfil: resolucao.perfil } } };
     fs.writeFileSync(path.join(OUT, "runs", f), JSON.stringify(saida, null, 1));
     ok++;
-    console.log(`[${i + 1}/${alvo.length}] ${f}: passos ${m.telemetria.passosGenericos}→${m.telemetria.passosMaterializados} | valores ${JSON.stringify(m.grafoMaterializado.passos.map((p) => p.valor))} | problema fixo: ${m.problemaFixo.aprovado ? 'APROVADO' : 'REPROVADO ' + JSON.stringify(m.problemaFixo.valoresEstranhos.slice(0,3))}`);
+    console.log(`[${i + 1}/${alvo.length}] ${f}: passos ${m.telemetria.passosGenericos}→${m.telemetria.passosMaterializados} | dicas ${m.telemetria.dicasMaterializadas} | erros ${m.grafoMaterializado.erros.length} | valores ${JSON.stringify(m.grafoMaterializado.passos.map((p) => p.valor))} | problema fixo: ${m.problemaFixo.aprovado ? 'APROVADO' : 'REPROVADO ' + JSON.stringify(m.problemaFixo.valoresEstranhos.slice(0,3))}`);
   } catch (e) {
     falhas.push({ f, erro: e.message.slice(0, 200) });
     console.log(`[${i + 1}/${alvo.length}] ${f}: FALHOU — ${e.message.slice(0, 120)}`);
