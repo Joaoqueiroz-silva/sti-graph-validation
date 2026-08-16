@@ -39,6 +39,7 @@ import { isSpecificMisconceptionId } from "./step-error-catalog.js";
 import { normalizeEducaoff } from "./schema.js";
 import { injectStepAnswers } from "./author-graph.js";
 import { descreverInterface } from "./interface-ctat.js";
+import { configDataset } from "./dataset-config.js";
 
 /**
  * Constantes do corpus, CONGELADAS no pré-registro da rodada
@@ -47,11 +48,7 @@ import { descreverInterface } from "./interface-ctat.js";
  * `discipline` sem acento de propósito (gotcha do catálogo — a normalização de
  * produção aceita acentuada, mas aqui não há UI para acentuar).
  */
-export const CORPUS_STATE = Object.freeze({
-  discipline: "matematica",
-  topic: "frações na reta numérica",
-  ageGroup: "11",
-});
+export const CORPUS_STATE = Object.freeze({ ...configDataset().corpusState });
 
 /**
  * Monta o `state` que o pipeline-v8 entrega aos agents3 — a partir do envelope

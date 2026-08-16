@@ -9,8 +9,10 @@ import path from "node:path";
 import { parseBrdToExpertNeutral, parseBrdToRobotInput } from "../../parse-ctat-brd.js";
 import { parseBrdToNeutralV2 } from "../../schema-v2.js";
 import { canonAnswer } from "../../schema.js";
+import { casesDirDataset } from "../../dataset-config.js";
 
-export const CORPUS = "cases/ctat-6.17";
+// multi-corpus (2026-08-16): cases/<…> do dataset selecionado por STI_DATASET (default 6.17)
+export const CORPUS = casesDirDataset();
 
 /** Lista os exercícios do corpus congelado. */
 export function listarExercicios(raiz = ".") {
@@ -35,10 +37,29 @@ export function carregarReferencia(raiz = ".") {
     let cur = g.startState;
     let n = 0;
     let guard = 0;
+    // caminho de referência com SAI (2026-08-16, multi-corpus): cada aresta
+    // correta do caminho, com seleção/ação/entrada, dicas, e as flags
+    // `sistema` (ação executada pelo TUTOR, não pelo aluno — setDisplay,
+    // SetVisible, set_maximum, No_Action…) e `mecanico` (entrada sentinela).
+    // Estado de VALOR = !sistema && !mecanico. É esse caminho que a régua de
+    // estados usa quando disponível (comparar-caminho.mjs).
+    const caminho = [];
     while (cur && guard++ < 200) {
       idx[cur] = n++;
       const prox = (g.transitions || []).find((t) => t.type === "correct" && t.from === cur);
       if (!prox) break;
+      const bruto = String(prox.sai?.input ?? "").trim();
+      const acao = String(prox.sai?.action || "");
+      caminho.push({
+        ordem: caminho.length + 1,
+        selecao: String(prox.sai?.selection || ""),
+        acao,
+        bruto,
+        valor: canonAnswer(bruto),
+        sistema: ehAcaoDeSistema(acao),
+        mecanico: ehMecanico(bruto),
+        dicas: (prox.hints || []).length,
+      });
       cur = prox.to;
     }
 
@@ -65,9 +86,21 @@ export function carregarReferencia(raiz = ".") {
       resposta = null;
     }
 
-    out[ex] = { items, values: new Set(items.map((i) => i.valor)), nPassos: n, resposta };
+    out[ex] = { items, values: new Set(items.map((i) => i.valor)), nPassos: n, resposta, caminho };
   }
   return out;
+}
+
+/**
+ * Ações de SISTEMA do CTAT (2026-08-16): executadas pelo tutor no caminho do
+ * especialista, não pelo aluno — setDisplay/SetVisible/setVisible, set_*
+ * (set_maximum, set_denominator, set_label_points…), No_Action, UpdateTextArea
+ * (texto de enunciado). Não são estados de valor nem erros de aluno. Ações de
+ * ALUNO: UpdateTextField, Update, addPoint/AddPoint, UpdateComboBox, ButtonPressed…
+ */
+export function ehAcaoDeSistema(acao) {
+  const a = String(acao ?? "").trim();
+  return /^set(_|[A-Z]|visible$|display$)/i.test(a) || /^no_action$/i.test(a) || /^updatetextarea$/i.test(a);
 }
 
 /**

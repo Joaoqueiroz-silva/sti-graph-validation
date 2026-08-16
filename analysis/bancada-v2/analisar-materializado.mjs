@@ -21,7 +21,8 @@ import { carregarReferencia, intervalo, media, fmt } from "../validacao-v2/lib.m
 import { pontuarCaminho, dpEntreReplicas } from "./comparar-caminho.mjs";
 import { verificarProblemaFixo } from "../../materializar-registro.js";
 
-const DATASET = "datasets/frac-numberline-6.17/problems";
+import { problemsDirRelativo } from "../../dataset-config.js";
+const DATASET = problemsDirRelativo();
 const METRICAS = ["coberturaEstados", "coberturaSemOrdem", "caminhoIntegro", "errosNoEstadoCerto", "dicasNoEstadoCerto"];
 
 export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basename(dirMat) } = {}) {
@@ -38,9 +39,9 @@ export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basena
     const gateSens = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true }).aprovado;
     // sensibilidade 2 (post hoc, 2026-08-16): 0/1 + equivalência canônica (1.25 ≡ 5/4)
     const gateSens2 = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado;
-    const cru = pontuarCaminho(r, envB, REF[ex].items);
-    const minima = pontuarCaminho(r, envB, REF[ex].items, { materializar: true });
-    const mat = pontuarCaminho({ ...r, grafo: r.materializado.grafo }, envB, REF[ex].items);
+    const cru = pontuarCaminho(r, envB, REF[ex]);
+    const minima = pontuarCaminho(r, envB, REF[ex], { materializar: true });
+    const mat = pontuarCaminho({ ...r, grafo: r.materializado.grafo }, envB, REF[ex]);
     registros.push({ ex, replica: r.replica, gateEstrito, gateSens, gateSens2, cru, minima, mat, valores: r.materializado.grafo.passos.map((p) => p.valor) });
   }
   const n = registros.length;

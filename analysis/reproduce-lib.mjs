@@ -34,7 +34,7 @@ import { miscKey } from "../schema.js";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO = path.resolve(HERE, "..");
 export const C5_DIR = path.join(REPO, "resultados", "campanha5-2026-07-19");
-export const DATASET_DIR = path.join(REPO, "datasets", "frac-numberline-6.17");
+export const DATASET_DIR = path.join(REPO, "datasets", process.env.STI_DATASET || "frac-numberline-6.17");
 export const FINAL_ARM_DIR = path.join(C5_DIR, "6-final-megabrain");
 
 /** Campos gravados POR RUN nos JSONs flat (recomputáveis com exatidão). */

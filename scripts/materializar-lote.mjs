@@ -25,7 +25,8 @@ const PLANO = argv.includes("--plano");
 const INTERFACE_FIXA = argv.includes("--interface-fixa");
 if (!RUNS || !OUT) { console.error("uso: --runs <dir> --out <dir> [--limit N] [--yes] [--plano]"); process.exit(2); }
 
-const DATASET = "datasets/frac-numberline-6.17/problems";
+import { problemsDirRelativo } from "../dataset-config.js";
+const DATASET = problemsDirRelativo();
 const arquivos = fs.readdirSync(RUNS).filter((f) => f.endsWith(".json")).sort();
 const alvo = LIMIT ? arquivos.slice(0, LIMIT) : arquivos;
 const resolucao = resolverModelos({ argv: [] });

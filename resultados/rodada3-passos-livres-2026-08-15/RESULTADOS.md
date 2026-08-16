@@ -6,6 +6,16 @@ por braço, **sem o corte de topologia** do GraphForge (`--passos-livres`),
 contrato v2 estendido com `grafo.passos[].valor`. Custo: US$ 2,19 (flash-lite
 0,39 + qwen 1,80).
 
+> ## ⚠️ Números VIGENTES (correção de 16/08/2026 — ações de sistema fora do caminho de referência)
+>
+> Ver a nota equivalente em `rodada4-interface-fixa-2026-08-15/RESULTADOS.md`.
+> Referência do 6.17 passa a ter 5 estados de valor (o `1` era `set_maximum`,
+> ação do tutor). **Rodada 3, materializado, gate estrito (regra vigente):**
+> cobertura em ordem 0,611 [0,554; 0,665] (flash-lite, n=37) / 0,748 [0,648; 0,823]
+> (qwen, n=42); sem ordem 0,892 / 0,857; caminho íntegro 0 / 0,190 [0,070; 0,410];
+> erros no estado certo 0,086 / 0,350. Mínima (72 grafos): cobertura 0,278 / 0,358.
+> As tabelas abaixo mostram a regra anterior (rastreabilidade).
+
 ## Pergunta 1 — sem o teto, os agentes geram mais passos/estados? SIM
 
 | Braço | Passos/grafo LIVRE (DP; máx) | Produção aplicaria | Rodada 2 (produção, medido) | Grafos acima do corte |

@@ -41,7 +41,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { carregarReferencia, intervalo, media, fmt, canonAnswer, ehMecanico } from "../validacao-v2/lib.mjs";
 
-const DATASET = "datasets/frac-numberline-6.17/problems";
+import { problemsDirRelativo } from "../../dataset-config.js";
+const DATASET = problemsDirRelativo();
 
 /** canonização de VALORES gerados pelos agentes (nunca de texto livre). */
 export const canonizarValor = (v) => canonAnswer(String(v ?? "").trim());
@@ -85,7 +86,19 @@ export function materializarRotulo(v) {
  * incasável por construção (nos 24 problemas é o último estado) — teto
  * artificial de 6/7 na cobertura e caminho íntegro impossível.
  */
-export function caminhoDeReferencia(envelopeB) {
+export function caminhoDeReferencia(envelopeB, refEx = null) {
+  // 2026-08-16 (multi-corpus): quando a referência traz o caminho lido do
+  // .brd com SAI (lib.mjs carregarReferencia → caminho), usa-se ELE: estado de
+  // valor = ação de ALUNO (não de sistema: setDisplay, set_maximum, No_Action…)
+  // com entrada não mecânica. O envelope B (sem ação) fica como fallback.
+  if (refEx && Array.isArray(refEx.caminho) && refEx.caminho.length) {
+    return refEx.caminho.map((c) => ({
+      ordem: c.ordem,
+      estado: c.valor,
+      comResposta: !c.mecanico && !c.sistema,
+      dicas: c.dicas || 0,
+    }));
+  }
   const steps = (envelopeB?.steps || []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   return steps.map((s, i) => ({
     ordem: i + 1,
@@ -149,7 +162,10 @@ export function casarEstados(refCaminho, passosAgente, { materializar = false } 
 
 /** Pontua UM registro (contrato v2) contra a referência (envelope B + itens de erro). */
 export function pontuarCaminho(run, envelopeB, refItens, { materializar = false } = {}) {
-  const refCaminho = caminhoDeReferencia(envelopeB);
+  // refItens: array de itens de erro (legado) OU o objeto REF[ex] { items, caminho } (multi-corpus)
+  const refEx = refItens && !Array.isArray(refItens) ? refItens : null;
+  if (refEx) refItens = refEx.items || [];
+  const refCaminho = caminhoDeReferencia(envelopeB, refEx);
   const passos = run.grafo?.passos || [];
   const cas = casarEstados(refCaminho, passos, { materializar });
   const rotulosConcretos = passos.filter((p) =>
@@ -270,7 +286,7 @@ if (ehMain) {
     const ex = run.exercicio ?? run.id;
     if (!REF[ex] || !run.grafo) continue;
     const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-b.json"), "utf8"));
-    linhas.push(pontuarCaminho(run, envB, REF[ex].items, { materializar }));
+    linhas.push(pontuarCaminho(run, envB, REF[ex], { materializar }));
   }
   if (!linhas.length) {
     console.error("nenhum registro casou com o corpus");

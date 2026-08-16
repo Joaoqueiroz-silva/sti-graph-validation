@@ -15,6 +15,39 @@ do especialista **estado a estado**?
   `comparacao-r4-vs-r3-*.json` (Δ pareado rodada 4 − rodada 3, mesmo
   exercício × réplica).
 
+> ## ⚠️ Números VIGENTES (correção de 16/08/2026 — ações de sistema fora do caminho de referência)
+>
+> Ao preparar os novos corpora (Mathtutor 6.19 etc.) ficou claro que o caminho
+> do especialista contém **ações executadas pelo tutor** (`set_maximum`,
+> `setDisplay`, `SetVisible`, `No_Action`…), não pelo aluno. No 6.17, o estado
+> `1` era o `numline.set_maximum=1` (o tutor fixa o extremo da reta) — contava
+> como estado de valor e era incasável por natureza. Regra vigente
+> (`lib.mjs: ehAcaoDeSistema`, `comparar-caminho.mjs: caminhoDeReferencia` com
+> o caminho lido do `.brd`): **estado de valor = ação de ALUNO com entrada não
+> mecânica**. Referência do 6.17 passa a ter 5 estados de valor
+> (`3/5, 3, 5, 5, 3/5`). Tudo recalculado offline; as tabelas abaixo desta nota
+> mostram os números da regra anterior (mantidos para rastreabilidade).
+>
+> **Rodada 4, materializado, gate estrito (regra vigente):**
+>
+> | Métrica | flash-lite (n=60) | qwen (n=55) |
+> |---|---|---|
+> | cobertura de estados em ordem (LCS) | **0,623 [0,603; 0,664]** | **0,840 [0,800; 0,875]** |
+> | cobertura sem ordem | 0,990 [0,964; 1,000] | 1,000 |
+> | **caminho íntegro em ordem** | 0 | **0,273 [0,161; 0,426]** |
+> | erros no estado certo | 0,302 [0,256; 0,343] | 0,647 [0,567; 0,737] |
+> | estados/grafo (ref = 5) | 5,72 | 6,91 |
+>
+> **Δ pareado rodada 4 − rodada 3 (72 pares, materializado):** cobertura em ordem
+> +0,111 [0,047; 0,164] / +0,189 [0,125; 0,244]; sem ordem +0,283 / +0,258;
+> caminho íntegro 0 / +0,125 [−0,042; 0,250]; erros no estado certo
+> +0,235 [0,179; 0,284] / +0,379 [0,272; 0,482].
+>
+> Leitura: com a regra correta, o braço qwen com interface reproduz o caminho
+> **inteiro, na ordem exata**, em 27 % dos grafos — antes impossível por
+> construção. Fontes: `materializado-*.analise.json`, `comparacao-r4-vs-r3-*.json`
+> (regerados 16/08).
+
 ## 1. Obediência (gate de problema fixo)
 
 | Braço | estrito (pré-registrado) | sensib. 1 (0/1) | sensib. 2 (+ equivalência canônica, **post hoc**) |
