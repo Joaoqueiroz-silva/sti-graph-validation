@@ -14,6 +14,8 @@ cada pasta para quem vai escrever ou revisar o artigo novo.
 | `avaliacao-plataforma-2026-08-14/` | Censo intrínseco dos 868 grafos publicados no EducaOFF (sem CTAT); linha do tempo abr→ago |
 | `validacao-preditiva-2026-08-14/` | Validade preditiva contra 476 erros REAIS de alunos (sem CTAT); antecipação 34,6% |
 | `rodada3-passos-livres-2026-08-15/` | Rodada 3: regime passos-livres (agentes geram 4,8–5,4 passos vs corte de 4) + comparação por ESTADO/CAMINHO do orientador (cru, mínima e MATERIALIZADO com agent 6/7 de produção — adendo em RESULTADOS.md) |
+| `EXPERIMENTO-CONSOLIDADO-2026-08/` | **Tabela-mestra**: todos os corpora (6.17 rodada 4 + bloco 1 do Mathtutor) sob a mesma régua; regerada por `consolidar-corpora.mjs` |
+| `bloco1-mathtutor-2026-08-16/` | Corpora públicos do Mathtutor (6.19, 6.18, 6.20, 8.12, 7.12): pré-registro, pilotos, coleta, materialização, análises por corpus |
 | `rodada4-interface-fixa-2026-08-15/` | Rodada 4: os agentes recebem também a INTERFACE do CTAT (mesmo insumo do especialista); coleta + materialização + Δ pareado contra a rodada 3 — o experimento vigente para a métrica de estados |
 
 Cada pasta vigente tem `RESULTADOS.md` (síntese e leitura), runs completos,

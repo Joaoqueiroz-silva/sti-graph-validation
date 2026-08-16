@@ -137,3 +137,26 @@ Para o artigo: (i) declarar que "mesmo insumo" = problema + interface, e que o
 modo de autoria (demonstração × simulação) é a pergunta; (ii) reportar ordem e
 sem ordem; (iii) dicas no estado certo satura no materializado (agent 6 põe
 dica em todo passo) — informativa só no estágio 3.
+
+## 9. Adendo 2026-08-16 — corpora públicos do Mathtutor e experimento CONSOLIDADO
+
+- **Fonte dos tutores**: Mathtutor (CMU/TutorShop), `https://mathtutor.web.cmu.edu/`
+  — 54 tutores example-tracing / 710 grafos públicos, mesma origem do 6.17;
+  catálogo com perfil por pacote em `docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md`
+  (+ `.json`). Autoria: equipe Mathtutor/CTAT (Aleven, McLaren, Sewall — IEEE
+  TLT 2009), por demonstração no CTAT; sem autor individual nos arquivos.
+- **Régua corrigida (Actor)**: o `.brd` marca quem executa cada aresta;
+  ações do tutor (`showAnswer`, `SetVisible`, `set_maximum`, `setDisplay`…)
+  saem do caminho de referência. 6.17 → 4 estados de valor. Rodadas 3–4
+  recalculadas (notas "Números VIGENTES" nos RESULTADOS.md); rodada 4 vigente:
+  cobertura em ordem 0,77 / 0,93; caminho íntegro 0,10 / 0,75; erros no estado
+  certo 0,30 / 0,65.
+- **Multi-corpus**: `STI_DATASET=<nome>`; `datasets/<nome>/corpus.json`;
+  `dataset-config.js`; interface por tipo em `interface-ctat.js`;
+  `problems/<id>/interface-params.json` (estado inicial da tela lido do `.brd`).
+- **Bloco 1** (`resultados/bloco1-mathtutor-2026-08-16/`, `PRE-REGISTRO.md`):
+  6.19 → 6.18 → 6.20 → 8.12 → 7.12, cada um com adendo de interface + piloto.
+- **Consolidado**: `resultados/EXPERIMENTO-CONSOLIDADO-2026-08/` (tabela por
+  corpus × braço + agregado por braço com bootstrap estratificado por corpus),
+  regerado por `analysis/bancada-v2/consolidar-corpora.mjs`. É a tabela-mestra
+  do artigo: o 6.17 (rodada 4) e os novos corpora sob a mesma régua.
