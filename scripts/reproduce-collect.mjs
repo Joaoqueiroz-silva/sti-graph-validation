@@ -355,9 +355,13 @@ async function main() {
   console.log(`Saída: ${outDir}\n`);
 
   // ── fatos renderizados por problema (mesma fonte do braço final) ─────────
-  const { paramsByProblem } = parseMassProductionTable(
-    fs.readFileSync(path.join(DATASET_DIR, "_interface", "massproduction.txt"), "utf8")
-  );
+  // multi-corpus (2026-08-16): a tabela de mass production só existe no 6.17
+  // (e só o fluxo antigo/campanha5 a usa, para renderedFacts); nos outros
+  // datasets ela é opcional.
+  const mpPath = path.join(DATASET_DIR, "_interface", "massproduction.txt");
+  const { paramsByProblem } = fs.existsSync(mpPath)
+    ? parseMassProductionTable(fs.readFileSync(mpPath, "utf8"))
+    : { paramsByProblem: {} };
   const renderedFactsFor = (id) => {
     const params = paramsByProblem[id];
     if (!params) return undefined;
@@ -509,6 +513,7 @@ async function main() {
           // Braço "interface fixa" (rodada 4): a interface do CTAT entrou no
           // problema-semente dos agents 3 (ver interface-ctat.js).
           run.interfaceFixa = robot.interfaceFixa === true;
+          run.dataset = process.env.STI_DATASET || "frac-numberline-6.17";
           if (robot.interfaceCtat) run.interfaceCtat = robot.interfaceCtat;
           // Traces completos dos três agentes (advancedTrace/atRiskTrace/
           // averageTrace) — mais ricos que o resumo usado no bloco grafo.
@@ -601,6 +606,7 @@ async function main() {
         fluxo: args.fluxo,
         topologia: args.fluxo === "plataforma" ? (args.passosLivres || process.env.STI_PASSOS_LIVRES === "1" ? "livre" : "producao") : null,
         interfaceFixa: args.fluxo === "plataforma" ? (args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1") : null,
+        dataset: process.env.STI_DATASET || "frac-numberline-6.17",
         modelos: blocoModelos,
         resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },
         problems: problemIds,

@@ -69,3 +69,39 @@ describe("interface fixa — entra no estado dos agentes sem editar agente", () 
     expect(st.seedProblems[0].correctAnswer).toBe("3/5");
   });
 });
+
+// ── corpus 6.19 (bloco 1 dos pacotes públicos, 2026-08-16) ──
+describe("interface 6.19 — descrição neutra sem vazamento do grafo do especialista", () => {
+  const DS19 = "datasets/frac-estimates-6.19";
+  const ids19 = fs.existsSync(`${DS19}/problems`) ? fs.readdirSync(`${DS19}/problems`) : [];
+  it("existe o dataset 6.19 com 23 problemas, envelopes e interface-params por problema", () => {
+    expect(ids19.length).toBe(23);
+    for (const id of ids19) {
+      expect(fs.existsSync(`${DS19}/problems/${id}/envelope-a.json`)).toBe(true);
+      expect(fs.existsSync(`${DS19}/problems/${id}/interface-params.json`)).toBe(true);
+    }
+  });
+  it("interface-params só contém mensagens de ESTADO INICIAL (ações de configuração), nunca arestas", () => {
+    for (const id of ids19) {
+      const P = JSON.parse(fs.readFileSync(`${DS19}/problems/${id}/interface-params.json`, "utf8"));
+      for (const m of P.mensagens) expect(["UpdateTextArea", "setVisible", "setDisplay", "set_maximum", "set_denominator", "set_hide_denominator_ticks", "set_label_points"]).toContain(m.action);
+    }
+  });
+  it("a descrição (STI_DATASET=frac-estimates-6.19) não contém dicas, feedback nem valores errados do .brd", async () => {
+    const prev = process.env.STI_DATASET;
+    process.env.STI_DATASET = "frac-estimates-6.19";
+    try {
+      const { descreverInterface619 } = await import("../interface-ctat.js");
+      for (const id of ids19) {
+        const A = JSON.parse(fs.readFileSync(`${DS19}/problems/${id}/envelope-a.json`, "utf8"));
+        const B = JSON.parse(fs.readFileSync(`${DS19}/problems/${id}/envelope-b.json`, "utf8"));
+        const texto = JSON.stringify(descreverInterface619(A));
+        for (const h of (B.hintsPerCorrectStep || []).flat()) if (String(h).length > 15) expect(texto.includes(String(h))).toBe(false);
+        for (const m of B.misconceptions || []) if (m.feedback && String(m.feedback).length > 15) expect(texto.includes(String(m.feedback))).toBe(false);
+        expect(texto).not.toMatch(/buggyMessage|hintMessage/);
+      }
+    } finally {
+      if (prev === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = prev;
+    }
+  });
+});
