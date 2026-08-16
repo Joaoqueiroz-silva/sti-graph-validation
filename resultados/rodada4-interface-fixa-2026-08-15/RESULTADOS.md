@@ -15,38 +15,38 @@ do especialista **estado a estado**?
   `comparacao-r4-vs-r3-*.json` (Δ pareado rodada 4 − rodada 3, mesmo
   exercício × réplica).
 
-> ## ⚠️ Números VIGENTES (correção de 16/08/2026 — ações de sistema fora do caminho de referência)
+> ## ⚠️ Números VIGENTES (correção de 16/08/2026 — ações do TUTOR fora do caminho de referência)
 >
-> Ao preparar os novos corpora (Mathtutor 6.19 etc.) ficou claro que o caminho
-> do especialista contém **ações executadas pelo tutor** (`set_maximum`,
-> `setDisplay`, `SetVisible`, `No_Action`…), não pelo aluno. No 6.17, o estado
-> `1` era o `numline.set_maximum=1` (o tutor fixa o extremo da reta) — contava
-> como estado de valor e era incasável por natureza. Regra vigente
-> (`lib.mjs: ehAcaoDeSistema`, `comparar-caminho.mjs: caminhoDeReferencia` com
-> o caminho lido do `.brd`): **estado de valor = ação de ALUNO com entrada não
-> mecânica**. Referência do 6.17 passa a ter 5 estados de valor
-> (`3/5, 3, 5, 5, 3/5`). Tudo recalculado offline; as tabelas abaixo desta nota
-> mostram os números da regra anterior (mantidos para rastreabilidade).
+> Ao preparar os novos corpora (Mathtutor 6.18/6.19) ficou claro que o caminho
+> do especialista contém arestas executadas pelo **tutor**, não pelo aluno — o
+> `.brd` marca isso em `<Actor>` (Student / Tutor / Tutor (unevaluated)). No
+> 6.17: `showAnswer` (Tutor, ButtonPressed 3/5), `SetVisible`, `set_maximum=1`.
+> Contavam como estados de valor e eram incasáveis por natureza. Regra vigente
+> (`lib.mjs: carregarReferencia → caminho`, `comparar-caminho.mjs`): **estado de
+> valor = aresta com Actor aluno, ação não de sistema, entrada não mecânica**,
+> lida do `.brd`. Referência do 6.17 passa a ter **4 estados de valor**
+> (`3 → 5 → 5 → 3/5`: F1, F2, denom, numline). Tudo recalculado offline
+> (16/08); as tabelas abaixo desta nota mostram a regra anterior (rastreabilidade).
 >
 > **Rodada 4, materializado, gate estrito (regra vigente):**
 >
 > | Métrica | flash-lite (n=60) | qwen (n=55) |
 > |---|---|---|
-> | cobertura de estados em ordem (LCS) | **0,623 [0,603; 0,664]** | **0,840 [0,800; 0,875]** |
-> | cobertura sem ordem | 0,990 [0,964; 1,000] | 1,000 |
-> | **caminho íntegro em ordem** | 0 | **0,273 [0,161; 0,426]** |
+> | cobertura de estados em ordem (LCS) | **0,771 [0,746; 0,823]** | **0,932 [0,875; 0,968]** |
+> | cobertura sem ordem | 0,988 [0,955; 1,000] | 1,000 |
+> | **caminho íntegro em ordem** | 0,100 [0,000; 0,299] | **0,745 [0,541; 0,878]** |
 > | erros no estado certo | 0,302 [0,256; 0,343] | 0,647 [0,567; 0,737] |
-> | estados/grafo (ref = 5) | 5,72 | 6,91 |
+> | estados/grafo (ref = 4) | 5,72 | 6,91 |
 >
 > **Δ pareado rodada 4 − rodada 3 (72 pares, materializado):** cobertura em ordem
-> +0,111 [0,047; 0,164] / +0,189 [0,125; 0,244]; sem ordem +0,283 / +0,258;
-> caminho íntegro 0 / +0,125 [−0,042; 0,250]; erros no estado certo
-> +0,235 [0,179; 0,284] / +0,379 [0,272; 0,482].
+> +0,267 [0,163; 0,358] / +0,323 [0,236; 0,403]; sem ordem +0,354 / +0,323;
+> caminho íntegro +0,042 [−0,111; 0,208] / **+0,458 [0,292; 0,583]**; erros no
+> estado certo +0,235 [0,176; 0,284] / +0,388 [0,281; 0,493].
 >
-> Leitura: com a regra correta, o braço qwen com interface reproduz o caminho
-> **inteiro, na ordem exata**, em 27 % dos grafos — antes impossível por
-> construção. Fontes: `materializado-*.analise.json`, `comparacao-r4-vs-r3-*.json`
-> (regerados 16/08).
+> Leitura: com a régua correta, o braço qwen com interface reproduz o caminho do
+> especialista **inteiro, na ordem exata**, em **3 de cada 4 grafos**; o
+> flash-lite reproduz 77 % dos estados em ordem. Fontes: `materializado-*.analise.json`,
+> `comparacao-r4-vs-r3-*.json` (regerados 16/08).
 
 ## 1. Obediência (gate de problema fixo)
 

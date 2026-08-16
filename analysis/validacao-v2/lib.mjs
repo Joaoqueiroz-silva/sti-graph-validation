@@ -56,7 +56,12 @@ export function carregarReferencia(raiz = ".") {
         acao,
         bruto,
         valor: canonAnswer(bruto),
-        sistema: ehAcaoDeSistema(acao),
+        // 2026-08-16 (2ª revisão): o .brd marca o ATOR de cada aresta
+        // (<Actor>: Student / Tutor / Tutor (unevaluated)). Ação do tutor =
+        // sistema, seja qual for o nome da ação (ex.: 6.17 showAnswer é
+        // ButtonPressed executado pelo TUTOR). Sem Actor → aluno.
+        ator: String(prox.actor || ""),
+        sistema: ehAcaoDeSistema(acao) || /^tutor/i.test(String(prox.actor || "")),
         mecanico: ehMecanico(bruto),
         dicas: (prox.hints || []).length,
       });
@@ -94,13 +99,15 @@ export function carregarReferencia(raiz = ".") {
 /**
  * Ações de SISTEMA do CTAT (2026-08-16): executadas pelo tutor no caminho do
  * especialista, não pelo aluno — setDisplay/SetVisible/setVisible, set_*
- * (set_maximum, set_denominator, set_label_points…), No_Action, UpdateTextArea
- * (texto de enunciado). Não são estados de valor nem erros de aluno. Ações de
- * ALUNO: UpdateTextField, Update, addPoint/AddPoint, UpdateComboBox, ButtonPressed…
+ * (set_maximum, set_denominator, set_label_points…), No_Action. Complementa a
+ * marca <Actor> do .brd (Tutor / Tutor (unevaluated)), que é a regra primária.
+ * Ações de ALUNO: UpdateTextField, Update, addPoint/AddPoint, UpdateComboBox,
+ * ButtonPressed, UpdateTextArea (quando o ator é o aluno)…
  */
 export function ehAcaoDeSistema(acao) {
   const a = String(acao ?? "").trim();
-  return /^set(_|[A-Z]|visible$|display$)/i.test(a) || /^no_action$/i.test(a) || /^updatetextarea$/i.test(a);
+  // UpdateTextArea NÃO entra: em alguns tutores (8.12) é entrada de texto do aluno.
+  return /^set(_|[A-Z]|visible$|display$|dsiplay$)/i.test(a) || /^no_action$/i.test(a);
 }
 
 /**
