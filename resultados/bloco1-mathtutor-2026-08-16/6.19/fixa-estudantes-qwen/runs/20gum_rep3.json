@@ -1,0 +1,828 @@
+{
+ "id": "20gum",
+ "correctAnswer": "12/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 9
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.111,
+ "functionalKappa": -0.44,
+ "missing": [
+  "12",
+  "-1",
+  "5",
+  "7"
+ ],
+ "extra": [
+  "5/12",
+  "0e5/12",
+  "2e2/10",
+  "pontoproximoa0.4(aproximadamente5/12≈0.42)",
+  "pontoem2.2"
+ ],
+ "robotMisconceptions": [
+  "5/12",
+  "0 e 5/12",
+  "2 e 2/10",
+  "ponto próximo a 0.4 (aproximadamente 5/12 ≈ 0.42)",
+  "ponto em 2.2"
+ ],
+ "exercicio": "20gum",
+ "replica": 3,
+ "geradoEm": "2026-08-16T18:55:13.186Z",
+ "promptSha256": "604d12af62d62c563b1177c67dd78caeca7b2a8e76e3806824fc40afeb343464",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7841,
+  "tokensSaida": 7873,
+  "usd": 0.03682068
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 9
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} = 12"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} = 5"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar a fração imprópria nas caixas f1 e f2",
+    "kc": "FracGreater1",
+    "valor": "f1 = {A}, f2 = {B}"
+   },
+   {
+    "indice": 5,
+    "acao": "Converter a fração imprópria para número misto",
+    "kc": "convertToMixedNum",
+    "valor": "Parte inteira = 2; parte fracionária = 2/5"
+   },
+   {
+    "indice": 6,
+    "acao": "Preencher os campos do número misto após clicar em Convert",
+    "kc": "convertToMixedNum",
+    "valor": "m1 = 2, m2 = 2, m3 = 5"
+   },
+   {
+    "indice": 7,
+    "acao": "Localizar a fração na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Posição na reta: 2 + 4/5 = 12/5"
+   },
+   {
+    "indice": 8,
+    "acao": "Marcar o ponto correto na reta numérica (numline)",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado em {A}/{B} na reta"
+   },
+   {
+    "indice": 9,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5/12",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem de 'quantos pedaços ele deu em relação a um pacote completo' e desenhar pacotes com 5 espaços",
+    "buggyRule": "Usar o número de peças por pacote ({pieces_per_pack}) como numerador e o total de peças dadas ({total_given}) como denominador: {pieces_per_pack}/{total_given}",
+    "misconceptionId": "misc_inversao_fracoes_enunciado"
+   },
+   {
+    "valor": "0 e 5/12",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar a interpretação da fração antes de converter; usar analogia com ‘quantos pacotes completos + pedaços extras’",
+    "buggyRule": "",
+    "misconceptionId": "misc_conversao_baseada_na_frac_errada"
+   },
+   {
+    "valor": "2 e 2/10",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Refazer a conversão com manipulativos: mostrar 12 pedaços agrupados em pacotes de 5; destacar que o ‘resto’ ainda pertence a um pacote de 5",
+    "buggyRule": "Após dividir {total_given} por {pieces_per_pack}, obter quociente = floor({total_given}/{pieces_per_pack}), resto = {total_given} mod {pieces_per_pack}; então escrever número misto como quociente e resto/(quociente*{pieces_per_pack})",
+    "misconceptionId": "misc_denominador_resto_como_produto"
+   },
+   {
+    "valor": "ponto próximo a 0.4 (aproximadamente 5/12 ≈ 0.42)",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Comparar 12 com múltiplos de 5 (5, 10, 15) para estimar se o valor está acima ou abaixo de 1, 2, etc.",
+    "buggyRule": "",
+    "misconceptionId": "misc_posicao_baseada_na_frac_errada"
+   },
+   {
+    "valor": "ponto em 2.2",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Contar as marcas entre 2 e 3: 1/5, 2/5, 3/5… e associar 2/5 à segunda marca (que é 0.4, não 0.2)",
+    "buggyRule": "Usar base decimal automática (denominador 10) em vez do denominador real ({pieces_per_pack}), posicionando como se fosse {remainder}/10",
+    "misconceptionId": "misc_posicao_com_denominador_errado"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando queremos saber 'quantos grupos inteiros de 5 cabem em 12', que tipo de número usamos? Pense: cada pacote é um 'todo' dividido em 5 partes."
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! O numerador é o total de pedaços dados (12), e o denominador é quantos pedaços tem em um pacote inteiro (5). Escreva isso como fração: 12/5."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração correta usa 12 como parte de cima e 5 como parte de baixo. Confira: isso representa mais de um pacote?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se cada pacote tem 5 pedaços, e ele deu 12, então a fração é '12 pedaços de pacotes de 5'. Digite 12 em cima e 5 embaixo!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima ideia converter! Quantos pacotes inteiros cabem em 12 pedaços se cada um tem 5? O que sobra?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Divida 12 por 5: quantas vezes o 5 cabe em 12? Esse é o número inteiro. O resto vira o novo numerador, e o denominador continua 5."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Dica: 5 × 2 = 10, e sobram 2. Então o número misto tem parte inteira 2 e fração 2/5. Verifique!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase lá! 12 ÷ 5 dá 2 inteiros, com resto 2. Então digite 2 em m1, 2 em m2 e 5 em m3."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Pense: se cada unidade está dividida em 5 partes iguais, onde ficaria 2/5 depois do número 2?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Localize primeiro o 2 na reta. Depois, imagine 5 passos até o 3. Dê 2 desses passos a partir do 2 — é aí que fica 2 2/5!"
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Dica visual: entre 2 e 3, há 5 espaços invisíveis. Conte mentalmente: primeiro espaço = 2 1/5, segundo = 2 2/5. Marque logo após o segundo!"
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você consegue! Comece no 2, avance dois 'pedacinhos' de 1/5. O ponto deve ficar um pouco antes da metade entre 2 e 2.5. Tente marcar aí!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Brandon deu 12 pedaços de goma, e cada pacote tem 5 pedaços. Preciso representar quantos pacotes ele deu como uma fração.\\\",\\n          \\\"result\\\": \\\"Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O número total de peças dadas é 12, então o numerador é 12.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} = 12\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"Cada pacote tem 5 peças, então o denominador é 5.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} = 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar a fração imprópria nas caixas f1 e f2\\\",\\n          \\\"thinking\\\": \\\"Insiro 12 em f1 (numerador) e 5 em f2 (denominador).\\\",\\n          \\\"result\\\": \\\"f1 = {A}, f2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Converter a fração imprópria para número misto\\\",\\n          \\\"thinking\\\": \\\"12 dividido por 5 dá 2 inteiros e sobra 2, então 12/5 = 2 2/5.\\\",\\n          \\\"result\\\": \\\"Parte inteira = 2; parte fracionária = 2/5\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher os campos do número misto após clicar em Convert\\\",\\n          \\\"thinking\\\": \\\"Após clicar em Convert, preencho m1=2, m2=2, m3=5.\\\",\\n          \\\"result\\\": \\\"m1 = 2, m2 = 2, m3 = 5\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Localizar a fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A fração 12/5 = 2.4. A reta vai de 0 a 3 com divisões em quintos. Cada unidade tem 5 marcas, então 2.4 está entre 2 e 3, exatamente na quarta marca após 2.\\\",\\n          \\\"result\\\": \\\"Posição na reta: 2 + 4/5 = 12/5\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Marcar o ponto correto na reta numérica (numline)\\\",\\n          \\\"thinking\\\": \\\"Clico na posição correspondente a 12/5, que é a quarta marca entre 2 e 3.\\\",\\n          \\\"result\\\": \\\"Ponto marcado em {A}/{B} na reta\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todas as entradas estão corretas: fração, número misto e posição na reta.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 47\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Ele deu 12 pedaços, cada pacote tem 5... então a fração é 5/12, porque 5 está no enunciado antes.\\\",\\n              \\\"result\\\": \\\"Resposta errada: fração invertida\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_fracoes_enunciado\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/12\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador ao interpretar 'cada pacote tem 5' como numerador e '12 pedaços dados' como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar qual valor representa o todo (denominador) e qual representa a parte (numerador) na situação descrita\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que representa o 'todo' aqui: os pedaços por pacote ou o total de pedaços dados? Qual número mostra quantas partes de um pacote ele usou?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você notou os dois números importantes. Vamos pensar juntos: se cada pacote tem 5 pedaços, quantos pedaços formam UM pacote inteiro? E quantos ele realmente deu?\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem de 'quantos pedaços ele deu em relação a um pacote completo' e desenhar pacotes com 5 espaços\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Converter para número misto\\\",\\n              \\\"thinking\\\": \\\"5 dividido por 12 dá 0, então a parte inteira é 0, e sobra 5/12\\\",\\n              \\\"result\\\": \\\"Número misto incorreto baseado na fração errada\\\",\\n              \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_conversao_baseada_na_frac_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"0 e 5/12\\\",\\n                \\\"description\\\": \\\"Aluno converteu corretamente a fração que digitou (5/12), mas essa fração já estava errada\\\",\\n                \\\"mistakeLocation\\\": \\\"Na conversão, partindo de uma fração incorreta identificada no passo anterior\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a fração original estivesse certa, sua conversão estaria correta. Mas vamos revisar: qual é mesmo a fração que representa quantos pacotes ele usou?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você fez bem a conversão! Agora, vamos voltar um passo: será que a fração inicial está representando direito a situação?\\\",\\n                \\\"howToFix\\\": \\\"Revisar a interpretação da fração antes de converter; usar analogia com ‘quantos pacotes completos + pedaços extras’\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"5/12 está entre 0 e 1, mais perto do 0... vou marcar logo depois do 0\\\",\\n              \\\"result\\\": \\\"Ponto marcado incorretamente, baseado na fração errada\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_posicao_baseada_na_frac_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"ponto próximo a 0.4 (aproximadamente 5/12 ≈ 0.42)\\\",\\n                \\\"description\\\": \\\"Aluno posicionou corretamente 5/12 na reta, mas como a fração está errada, o ponto não corresponde à solução real\\\",\\n                \\\"mistakeLocation\\\": \\\"Na estimativa da posição, usando uma fração incorreta como base\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se ele deu 12 pedaços e cada pacote tem 5, ele deu menos que um pacote ou mais?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você posicionou bem a fração que escreveu! Mas vamos refletir: 12 pedaços é mais ou menos que um pacote completo de 5?\\\",\\n                \\\"howToFix\\\": \\\"Comparar 12 com múltiplos de 5 (5, 10, 15) para estimar se o valor está acima ou abaixo de 1, 2, etc.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/12\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Ele deu 12 pedaços, então o numerador é 12. Cada pacote tem 5, então o denominador é 5. Coloco 12/5.\\\",\\n              \\\"result\\\": \\\"Fração correta!\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Converter para número misto\\\",\\n              \\\"thinking\\\": \\\"12 dividido por 5 é 2, porque 5×2=10, e sobra 2. Então é 2 e 2/10.\\\",\\n              \\\"result\\\": \\\"Erro na fração restante: manteve o denominador como 10 em vez de 5\\\",\\n              \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_denominador_resto_como_produto\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2 e 2/10\\\",\\n                \\\"description\\\": \\\"Aluno usou o produto (5×2=10) como novo denominador da parte fracionária, em vez de manter o denominador original (5)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao escrever a parte fracionária do número misto, após calcular o resto\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quando sobram 2 pedaços de um pacote que tem 5, que fração isso representa: 2/5 ou 2/10?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você acertou a parte inteira — ótimo! Agora, sobre os pedaços que sobraram: eles vêm de um pacote de 5, certo? Então, em quantas partes esse pacote foi dividido?\\\",\\n                \\\"howToFix\\\": \\\"Refazer a conversão com manipulativos: mostrar 12 pedaços agrupados em pacotes de 5; destacar que o ‘resto’ ainda pertence a um pacote de 5\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"2 e 2/10 é 2.2, então marco um pouco depois do 2\\\",\\n              \\\"result\\\": \\\"Ponto ligeiramente errado (deveria ser 2.4)\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_posicao_com_denominador_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"ponto em 2.2\\\",\\n                \\\"description\\\": \\\"Aluno posicionou 2.2 (baseado em 2/10) em vez de 2.4 (correspondente a 2/5)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na estimativa da posição decimal, derivada de uma fração restante incorreta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se cada unidade tem 5 partes iguais, onde fica a segunda marca depois do 2?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você entendeu que o número está entre 2 e 3 — muito bom! Agora, repare: a reta tem 5 encaixes por unidade. A segunda marca depois do 2 representa quanto?\\\",\\n                \\\"howToFix\\\": \\\"Contar as marcas entre 2 e 3: 1/5, 2/5, 3/5… e associar 2/5 à segunda marca (que é 0.4, não 0.2)\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"2 e 2/10\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_fracoes_enunciado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5/12\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número de peças por pacote ({pieces_per_pack}) como numerador e o total de peças dadas ({total_given}) como denominador: {pieces_per_pack}/{total_given}\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual quantidade representa o 'todo' (denominador) e qual representa a 'parte' (numerador) na divisão implícita\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao mapear a situação descrita para uma fração, trocando o papel dos números\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O denominador mostra em quantas partes o TODO foi dividido. Aqui, o 'todo' é um pacote — quantas partes ele tem?\\\",\\n              \\\"feedback\\\": \\\"Você viu os dois números importantes! Lembre-se: o denominador sempre mostra quantas partes formam UM TODO. Neste caso, um pacote tem quantas peças?\\\",\\n              \\\"howToFix\\\": \\\"Praticar com frases modelo: 'Dei X peças de pacotes que têm Y peças cada → fração = X/Y'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_total_dado_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"12\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a ideia de fração e responder apenas com o total de peças dadas ({total_given}), sem denominador\\\",\\n              \\\"description\\\": \\\"Aluno responde com um número inteiro (12) porque foca apenas na quantidade dada, sem considerar a relação com o pacote\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da pergunta 'qual é a fração?', respondendo com a contagem bruta em vez de uma razão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta pede uma fração. O que falta em '12' para virar uma fração que mostre quantos pacotes ele usou?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou do número 12 — ótimo! Mas a pergunta quer saber isso em relação a quantos pacotes. Cada pacote tem 5 peças, então como escrevemos isso como fração?\\\",\\n              \\\"howToFix\\\": \\\"Introduzir a estrutura 'quantidade usada / tamanho do pacote' com exemplos visuais\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_numero_de_pacotes_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Calcular mentalmente quantos pacotes COMPLETOS cabem em {total_given} (floor({total_given} / {pieces_per_pack})) e responder só esse inteiro\\\",\\n              \\\"description\\\": \\\"Aluno calcula quantos pacotes inteiros foram usados (2) e ignora os pedaços extras, respondendo com um inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao focar apenas na parte inteira da quantidade, esquecendo que a fração deve incluir o resto\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Ele deu exatamente 2 pacotes ou deu mais que isso? Quanto a mais?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que são mais de 2 pacotes — excelente! Mas será que foram exatamente 2, ou sobraram pedaços além disso?\\\",\\n              \\\"howToFix\\\": \\\"Usar material concreto: montar 2 pacotes (10 peças) e mostrar que ainda há 2 peças extras para incluir\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_denominador_resto_como_produto\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{whole} e {remainder}/({divisor}*{whole})\\\",\\n              \\\"buggyRule\\\": \\\"Após dividir {total_given} por {pieces_per_pack}, obter quociente = floor({total_given}/{pieces_per_pack}), resto = {total_given} mod {pieces_per_pack}; então escrever número misto como quociente e resto/(quociente*{pieces_per_pack})\\\",\\n              \\\"description\\\": \\\"Aluno usa o produto do divisor pelo quociente como novo denominador da fração restante\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escrita da parte fracionária, substituindo o denominador original pelo valor total dos pacotes completos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Os pedaços que sobraram vêm de um pacote novo ou dos mesmos pacotes de 5?\\\",\\n              \\\"feedback\\\": \\\"Você calculou direitinho quantos pacotes inteiros! Agora, esses 2 pedaços que sobraram: de onde vêm? De um pacote dividido em quantas partes?\\\",\\n              \\\"howToFix\\\": \\\"Desenhar: 2 pacotes cheios (10 peças) + 1 pacote incompleto com 2 de 5 peças → fração restante é 2/5\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_simplifica_resto_errado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{whole} e ({remainder}/gcd)/({pieces_per_pack}/gcd)\\\",\\n              \\\"buggyRule\\\": \\\"Simplificar a fração restante {remainder}/{pieces_per_pack} mesmo quando não é necessário ou quando o aluno simplifica incorretamente (ex: 2/5 → 1/2.5, mas como só aceita inteiros, pode forçar erro); porém, neste caso específico, como 2 e 5 são coprimos, este erro raramente ocorre. Alternativa plausível: aluno **não simplifica quando deveria**, mas aqui não se aplica. Erro mais plausível: **manter resto como denominador**.\\\",\\n              \\\"description\\\": \\\"Alternativa plausível: aluno inverte resto e divisor na fração restante\\\",\\n              \\\"mistakeLocation\\\": \\\"Na atribuição do numerador e denominador da parte fracionária\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se sobraram 2 peças de um pacote de 5, a fração é 2/5 ou 5/2?\\\",\\n              \\\"feedback\\\": \\\"Cuidado: a fração mostra quantas peças você tem **dos 5 que formam um pacote**. Então, o número de baixo continua sendo 5!\\\",\\n              \\\"howToFix\\\": \\\"Refazer com linguagem consistente: 'tenho R peças de um pacote que tem D peças → R/D'\\\",\\n              \\\"severity\\\": \\\"moderate\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{whole} e {pieces_per_pack}/{remainder}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter resto e divisor na parte fracionária: parte fracionária = {pieces_per_pack}/{remainder}\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_omite_parte_fracionaria\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{whole}\\\",\\n              \\\"buggyRule\\\": \\\"Escrever apenas a parte inteira ({whole}) e deixar os campos m2/m3 como '-' ou zero\\\",\\n              \\\"description\\\": \\\"Aluno ignora o resto e responde só com a parte inteira no número misto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão de incluir ou não a fração restante\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Depois de tirar 2 pacotes inteiros, ainda sobraram peças? Elas devem aparecer na resposta?\\\",\\n              \\\"feedback\\\": \\\"Você acertou quantos pacotes inteiros! Mas e os pedaços que sobraram? Eles também fazem parte do total dado.\\\",\\n              \\\"howToFix\\\": \\\"Destacar que número misto = inteiros + fração; usar cor para diferenciar as partes\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_de_intervalos\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"ponto em {whole} + ({remainder}+1)/{pieces_per_pack}\\\",\\n              \\\"buggyRule\\\": \\\"Contar {remainder}+1 marcas a partir do inteiro {whole}, em vez de {remainder} intervalos (ex: para 2/5, contar 3 marcas: 0,1,2,3 → parar na terceira)\\\",\\n              \\\"description\\\": \\\"Aluno comete erro de 'off-by-one' ao contar as marcas na reta, somando 1 a mais\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das subdivisões entre dois inteiros\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Do número 2 até a primeira marca, isso é 1/5 ou já é 2/5?\\\",\\n              \\\"feedback\\\": \\\"Vamos contar juntos: a primeira marca depois do 2 é 2 e 1/5, a segunda é 2 e 2/5... então onde fica 2 e 2/5?\\\",\\n              \\\"howToFix\\\": \\\"Praticar contagem de intervalos, não de marcas; destacar que o 0 é o ponto de partida, não a primeira parte\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"ponto em 2.5\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que qualquer valor entre 2 e 3 deve ficar na metade (2.5), ignorando o denominador\\\",\\n              \\\"description\\\": \\\"Aluno usa a metade como âncora padrão para valores fracionários entre inteiros\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual, substituindo o cálculo pela heurística da metade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"2/5 é mais perto do 2 ou do 2.5? Quantas partes temos de 5?\\\",\\n              \\\"feedback\\\": \\\"Você sabe que está entre 2 e 3 — ótimo! Agora, se dividirmos esse espaço em 5 partes iguais, 2 delas é pouco mais que o começo, certo?\\\",\\n              \\\"howToFix\\\": \\\"Dividir o segmento [2,3] em 5 partes visíveis e rotular cada uma (2.2, 2.4, etc.)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posicao_com_denominador_errado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"ponto em {whole} + {remainder}/10\\\",\\n              \\\"buggyRule\\\": \\\"Usar base decimal automática (denominador 10) em vez do denominador real ({pieces_per_pack}), posicionando como se fosse {remainder}/10\\\",\\n              \\\"description\\\": \\\"Aluno assume que frações se convertem diretamente para décimos, ignorando o denominador dado\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão mental para decimal para posicionar na reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o pacote tem 5 peças, cada peça vale quanto da unidade? 0.1 ou 0.2?\\\",\\n              \\\"feedback\\\": \\\"Cada pedaço de um pacote de 5 vale 1/5, que é 0.2 — não 0.1! Então 2 pedaços valem quanto?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar equivalência: 1/5 = 0.2, 2/5 = 0.4, etc., com reta numérica dual (fração e decimal)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_no_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"ponto em 12\\\",\\n              \\\"buggyRule\\\": \\\"Posicionar o ponto no valor do numerador ({total_given}) na reta, ignorando o denominador\\\",\\n              \\\"description\\\": \\\"Aluno trata a fração como um inteiro e marca o numerador diretamente\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação do valor a ser posicionado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta vai só até 3. O número 12 caberia aqui? Isso faz sentido?\\\",\\n              \\\"feedback\\\": \\\"Repare que a reta termina no 3. Se ele deu 12 pedaços, mas cada pacote tem 5, será que ele usou 12 pacotes ou 12 pedaços?\\\",\\n              \\\"howToFix\\\": \\\"Reler o problema destacando unidades: 'peças' vs 'pacotes'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os números relevantes\\\",\\n          \\\"thinking\\\": \\\"Cada pacote tem 5 pedaços, e ele deu 12 pedaços no total... então a fração deve ser 12 sobre 5? Mas por que isso é uma fração?\\\",\\n          \\\"result\\\": \\\"Identifiquei que são 12 pedaços dados, com pacotes de 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando queremos saber 'quantos grupos inteiros de 5 cabem em 12', que tipo de número usamos? Pense: cada pacote é um 'todo' dividido em 5 partes.\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! O numerador é o total de pedaços dados (12), e o denominador é quantos pedaços tem em um pacote inteiro (5). Escreva isso como fração: 12/5.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração correta usa 12 como parte de cima e 5 como parte de baixo. Confira: isso representa mais de um pacote?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se cada pacote tem 5 pedaços, e ele deu 12, então a fração é '12 pedaços de pacotes de 5'. Digite 12 em cima e 5 embaixo!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar a fração 12/5 nos campos f1 e f2\\\",\\n          \\\"thinking\\\": \\\"Ok, vou colocar 12 em cima e 5 embaixo. Isso faz sentido?\\\",\\n          \\\"result\\\": \\\"Fração 12/5 inserida corretamente\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Clicar em 'Convert' para transformar em número misto\\\",\\n          \\\"thinking\\\": \\\"A pergunta diz para converter se ajudar... talvez eu precise disso para marcar na reta numérica.\\\",\\n          \\\"result\\\": \\\"Caixas do número misto ativadas\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima ideia converter! Quantos pacotes inteiros cabem em 12 pedaços se cada um tem 5? O que sobra?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Divida 12 por 5: quantas vezes o 5 cabe em 12? Esse é o número inteiro. O resto vira o novo numerador, e o denominador continua 5.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 5 × 2 = 10, e sobram 2. Então o número misto tem parte inteira 2 e fração 2/5. Verifique!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! 12 ÷ 5 dá 2 inteiros, com resto 2. Então digite 2 em m1, 2 em m2 e 5 em m3.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher o número misto: m1=2, m2=2, m3=5\\\",\\n          \\\"thinking\\\": \\\"Se 5×2=10, e 12−10=2, então é 2 e 2/5. Certo!\\\",\\n          \\\"result\\\": \\\"Número misto 2 2/5 preenchido corretamente\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 3, e tem divisões de 1/5... então 2 2/5 fica depois do 2, na segunda marca pequena. Mas as marcas estão escondidas! Como sei onde é?\\\",\\n          \\\"result\\\": \\\"Posição estimada entre 2 e 3, mais próxima de 2\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se cada unidade está dividida em 5 partes iguais, onde ficaria 2/5 depois do número 2?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Localize primeiro o 2 na reta. Depois, imagine 5 passos até o 3. Dê 2 desses passos a partir do 2 — é aí que fica 2 2/5!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica visual: entre 2 e 3, há 5 espaços invisíveis. Conte mentalmente: primeiro espaço = 2 1/5, segundo = 2 2/5. Marque logo após o segundo!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! Comece no 2, avance dois 'pedacinhos' de 1/5. O ponto deve ficar um pouco antes da metade entre 2 e 2.5. Tente marcar aí!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que terminei tudo: fração, número misto e ponto na reta.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"12/5\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Marcar diretamente 12/5 na reta sem converter para número misto\\\",\\n          \\\"steps\\\": [\\\"Contar 12 marcas de 1/5 a partir do 0\\\", \\\"Marcar na 12ª marca\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar tentativa e erro na reta numérica ajustando o ponto várias vezes\\\",\\n          \\\"steps\\\": [\\\"Marcar aleatoriamente\\\", \\\"Observar feedback implícito\\\", \\\"Ajustar posição\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Brandon deu 12 pedaços de goma, e cada pacote tem 5 pedaços. Preciso representar quantos pacotes ele deu como uma fração.",
+        "result": "Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O número total de peças dadas é 12, então o numerador é 12.",
+        "result": "Numerador = {A} = 12",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "Cada pacote tem 5 peças, então o denominador é 5.",
+        "result": "Denominador = {B} = 5",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Digitar a fração imprópria nas caixas f1 e f2",
+        "thinking": "Insiro 12 em f1 (numerador) e 5 em f2 (denominador).",
+        "result": "f1 = {A}, f2 = {B}",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Converter a fração imprópria para número misto",
+        "thinking": "12 dividido por 5 dá 2 inteiros e sobra 2, então 12/5 = 2 2/5.",
+        "result": "Parte inteira = 2; parte fracionária = 2/5",
+        "kcUsed": "convertToMixedNum",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Preencher os campos do número misto após clicar em Convert",
+        "thinking": "Após clicar em Convert, preencho m1=2, m2=2, m3=5.",
+        "result": "m1 = 2, m2 = 2, m3 = 5",
+        "kcUsed": "convertToMixedNum",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Localizar a fração na reta numérica",
+        "thinking": "A fração 12/5 = 2.4. A reta vai de 0 a 3 com divisões em quintos. Cada unidade tem 5 marcas, então 2.4 está entre 2 e 3, exatamente na quarta marca após 2.",
+        "result": "Posição na reta: 2 + 4/5 = 12/5",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Marcar o ponto correto na reta numérica (numline)",
+        "thinking": "Clico na posição correspondente a 12/5, que é a quarta marca entre 2 e 3.",
+        "result": "Ponto marcado em {A}/{B} na reta",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todas as entradas estão corretas: fração, número misto e posição na reta.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 47
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "Ele deu 12 pedaços, cada pacote tem 5... então a fração é 5/12, porque 5 está no enunciado antes.",
+          "result": "Resposta errada: fração invertida",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_fracoes_enunciado",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/12",
+           "description": "Aluno inverteu numerador e denominador ao interpretar 'cada pacote tem 5' como numerador e '12 pedaços dados' como denominador",
+           "mistakeLocation": "Ao identificar qual valor representa o todo (denominador) e qual representa a parte (numerador) na situação descrita",
+           "diagnosticQuestion": "O que representa o 'todo' aqui: os pedaços por pacote ou o total de pedaços dados? Qual número mostra quantas partes de um pacote ele usou?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você notou os dois números importantes. Vamos pensar juntos: se cada pacote tem 5 pedaços, quantos pedaços formam UM pacote inteiro? E quantos ele realmente deu?",
+           "howToFix": "Usar linguagem de 'quantos pedaços ele deu em relação a um pacote completo' e desenhar pacotes com 5 espaços"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Converter para número misto",
+          "thinking": "5 dividido por 12 dá 0, então a parte inteira é 0, e sobra 5/12",
+          "result": "Número misto incorreto baseado na fração errada",
+          "kcUsed": "convertToMixedNum",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_conversao_baseada_na_frac_errada",
+           "type": "procedural_error",
+           "wrongAnswer": "0 e 5/12",
+           "description": "Aluno converteu corretamente a fração que digitou (5/12), mas essa fração já estava errada",
+           "mistakeLocation": "Na conversão, partindo de uma fração incorreta identificada no passo anterior",
+           "diagnosticQuestion": "Se a fração original estivesse certa, sua conversão estaria correta. Mas vamos revisar: qual é mesmo a fração que representa quantos pacotes ele usou?",
+           "severity": "moderate",
+           "feedback": "Você fez bem a conversão! Agora, vamos voltar um passo: será que a fração inicial está representando direito a situação?",
+           "howToFix": "Revisar a interpretação da fração antes de converter; usar analogia com ‘quantos pacotes completos + pedaços extras’"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "5/12 está entre 0 e 1, mais perto do 0... vou marcar logo depois do 0",
+          "result": "Ponto marcado incorretamente, baseado na fração errada",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_posicao_baseada_na_frac_errada",
+           "type": "procedural_error",
+           "wrongAnswer": "ponto próximo a 0.4 (aproximadamente 5/12 ≈ 0.42)",
+           "description": "Aluno posicionou corretamente 5/12 na reta, mas como a fração está errada, o ponto não corresponde à solução real",
+           "mistakeLocation": "Na estimativa da posição, usando uma fração incorreta como base",
+           "diagnosticQuestion": "Se ele deu 12 pedaços e cada pacote tem 5, ele deu menos que um pacote ou mais?",
+           "severity": "moderate",
+           "feedback": "Você posicionou bem a fração que escreveu! Mas vamos refletir: 12 pedaços é mais ou menos que um pacote completo de 5?",
+           "howToFix": "Comparar 12 com múltiplos de 5 (5, 10, 15) para estimar se o valor está acima ou abaixo de 1, 2, etc."
+          }
+         }
+        ],
+        "finalAnswer": "5/12",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "Ele deu 12 pedaços, então o numerador é 12. Cada pacote tem 5, então o denominador é 5. Coloco 12/5.",
+          "result": "Fração correta!",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Converter para número misto",
+          "thinking": "12 dividido por 5 é 2, porque 5×2=10, e sobra 2. Então é 2 e 2/10.",
+          "result": "Erro na fração restante: manteve o denominador como 10 em vez de 5",
+          "kcUsed": "convertToMixedNum",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_denominador_resto_como_produto",
+           "type": "procedural_error",
+           "wrongAnswer": "2 e 2/10",
+           "description": "Aluno usou o produto (5×2=10) como novo denominador da parte fracionária, em vez de manter o denominador original (5)",
+           "mistakeLocation": "Ao escrever a parte fracionária do número misto, após calcular o resto",
+           "diagnosticQuestion": "Quando sobram 2 pedaços de um pacote que tem 5, que fração isso representa: 2/5 ou 2/10?",
+           "severity": "high",
+           "feedback": "Você acertou a parte inteira — ótimo! Agora, sobre os pedaços que sobraram: eles vêm de um pacote de 5, certo? Então, em quantas partes esse pacote foi dividido?",
+           "howToFix": "Refazer a conversão com manipulativos: mostrar 12 pedaços agrupados em pacotes de 5; destacar que o ‘resto’ ainda pertence a um pacote de 5"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "2 e 2/10 é 2.2, então marco um pouco depois do 2",
+          "result": "Ponto ligeiramente errado (deveria ser 2.4)",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_posicao_com_denominador_errado",
+           "type": "procedural_error",
+           "wrongAnswer": "ponto em 2.2",
+           "description": "Aluno posicionou 2.2 (baseado em 2/10) em vez de 2.4 (correspondente a 2/5)",
+           "mistakeLocation": "Na estimativa da posição decimal, derivada de uma fração restante incorreta",
+           "diagnosticQuestion": "Se cada unidade tem 5 partes iguais, onde fica a segunda marca depois do 2?",
+           "severity": "moderate",
+           "feedback": "Você entendeu que o número está entre 2 e 3 — muito bom! Agora, repare: a reta tem 5 encaixes por unidade. A segunda marca depois do 2 representa quanto?",
+           "howToFix": "Contar as marcas entre 2 e 3: 1/5, 2/5, 3/5… e associar 2/5 à segunda marca (que é 0.4, não 0.2)"
+          }
+         }
+        ],
+        "finalAnswer": "2 e 2/10",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "20gum",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_fracoes_enunciado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "5/12",
+          "buggyRule": "Usar o número de peças por pacote ({pieces_per_pack}) como numerador e o total de peças dadas ({total_given}) como denominador: {pieces_per_pack}/{total_given}",
+          "description": "Aluno confunde qual quantidade representa o 'todo' (denominador) e qual representa a 'parte' (numerador) na divisão implícita",
+          "mistakeLocation": "Ao mapear a situação descrita para uma fração, trocando o papel dos números",
+          "diagnosticQuestion": "O denominador mostra em quantas partes o TODO foi dividido. Aqui, o 'todo' é um pacote — quantas partes ele tem?",
+          "feedback": "Você viu os dois números importantes! Lembre-se: o denominador sempre mostra quantas partes formam UM TODO. Neste caso, um pacote tem quantas peças?",
+          "howToFix": "Praticar com frases modelo: 'Dei X peças de pacotes que têm Y peças cada → fração = X/Y'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_total_dado_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "12",
+          "buggyRule": "Ignorar a ideia de fração e responder apenas com o total de peças dadas ({total_given}), sem denominador",
+          "description": "Aluno responde com um número inteiro (12) porque foca apenas na quantidade dada, sem considerar a relação com o pacote",
+          "mistakeLocation": "Na interpretação da pergunta 'qual é a fração?', respondendo com a contagem bruta em vez de uma razão",
+          "diagnosticQuestion": "A pergunta pede uma fração. O que falta em '12' para virar uma fração que mostre quantos pacotes ele usou?",
+          "feedback": "Você lembrou do número 12 — ótimo! Mas a pergunta quer saber isso em relação a quantos pacotes. Cada pacote tem 5 peças, então como escrevemos isso como fração?",
+          "howToFix": "Introduzir a estrutura 'quantidade usada / tamanho do pacote' com exemplos visuais",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_numero_de_pacotes_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Calcular mentalmente quantos pacotes COMPLETOS cabem em {total_given} (floor({total_given} / {pieces_per_pack})) e responder só esse inteiro",
+          "description": "Aluno calcula quantos pacotes inteiros foram usados (2) e ignora os pedaços extras, respondendo com um inteiro",
+          "mistakeLocation": "Ao focar apenas na parte inteira da quantidade, esquecendo que a fração deve incluir o resto",
+          "diagnosticQuestion": "Ele deu exatamente 2 pacotes ou deu mais que isso? Quanto a mais?",
+          "feedback": "Você percebeu que são mais de 2 pacotes — excelente! Mas será que foram exatamente 2, ou sobraram pedaços além disso?",
+          "howToFix": "Usar material concreto: montar 2 pacotes (10 peças) e mostrar que ainda há 2 peças extras para incluir",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20gum",
+        "step": 2,
+        "kcUsed": "convertToMixedNum",
+        "errors": [
+         {
+          "misconceptionId": "misc_denominador_resto_como_produto",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{whole} e {remainder}/({divisor}*{whole})",
+          "buggyRule": "Após dividir {total_given} por {pieces_per_pack}, obter quociente = floor({total_given}/{pieces_per_pack}), resto = {total_given} mod {pieces_per_pack}; então escrever número misto como quociente e resto/(quociente*{pieces_per_pack})",
+          "description": "Aluno usa o produto do divisor pelo quociente como novo denominador da fração restante",
+          "mistakeLocation": "Na escrita da parte fracionária, substituindo o denominador original pelo valor total dos pacotes completos",
+          "diagnosticQuestion": "Os pedaços que sobraram vêm de um pacote novo ou dos mesmos pacotes de 5?",
+          "feedback": "Você calculou direitinho quantos pacotes inteiros! Agora, esses 2 pedaços que sobraram: de onde vêm? De um pacote dividido em quantas partes?",
+          "howToFix": "Desenhar: 2 pacotes cheios (10 peças) + 1 pacote incompleto com 2 de 5 peças → fração restante é 2/5",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_simplifica_resto_errado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{whole} e {pieces_per_pack}/{remainder}",
+          "buggyRule": "Inverter resto e divisor na parte fracionária: parte fracionária = {pieces_per_pack}/{remainder}",
+          "description": "Alternativa plausível: aluno inverte resto e divisor na fração restante",
+          "mistakeLocation": "Na atribuição do numerador e denominador da parte fracionária",
+          "diagnosticQuestion": "Se sobraram 2 peças de um pacote de 5, a fração é 2/5 ou 5/2?",
+          "feedback": "Cuidado: a fração mostra quantas peças você tem **dos 5 que formam um pacote**. Então, o número de baixo continua sendo 5!",
+          "howToFix": "Refazer com linguagem consistente: 'tenho R peças de um pacote que tem D peças → R/D'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_omite_parte_fracionaria",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{whole}",
+          "buggyRule": "Escrever apenas a parte inteira ({whole}) e deixar os campos m2/m3 como '-' ou zero",
+          "description": "Aluno ignora o resto e responde só com a parte inteira no número misto",
+          "mistakeLocation": "Na decisão de incluir ou não a fração restante",
+          "diagnosticQuestion": "Depois de tirar 2 pacotes inteiros, ainda sobraram peças? Elas devem aparecer na resposta?",
+          "feedback": "Você acertou quantos pacotes inteiros! Mas e os pedaços que sobraram? Eles também fazem parte do total dado.",
+          "howToFix": "Destacar que número misto = inteiros + fração; usar cor para diferenciar as partes",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20gum",
+        "step": 3,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marcas_em_vez_de_intervalos",
+          "type": "count_error",
+          "wrongAnswerPattern": "ponto em {whole} + ({remainder}+1)/{pieces_per_pack}",
+          "buggyRule": "Contar {remainder}+1 marcas a partir do inteiro {whole}, em vez de {remainder} intervalos (ex: para 2/5, contar 3 marcas: 0,1,2,3 → parar na terceira)",
+          "description": "Aluno comete erro de 'off-by-one' ao contar as marcas na reta, somando 1 a mais",
+          "mistakeLocation": "Na contagem das subdivisões entre dois inteiros",
+          "diagnosticQuestion": "Do número 2 até a primeira marca, isso é 1/5 ou já é 2/5?",
+          "feedback": "Vamos contar juntos: a primeira marca depois do 2 é 2 e 1/5, a segunda é 2 e 2/5... então onde fica 2 e 2/5?",
+          "howToFix": "Praticar contagem de intervalos, não de marcas; destacar que o 0 é o ponto de partida, não a primeira parte",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "ponto em 2.5",
+          "buggyRule": "Assumir que qualquer valor entre 2 e 3 deve ficar na metade (2.5), ignorando o denominador",
+          "description": "Aluno usa a metade como âncora padrão para valores fracionários entre inteiros",
+          "mistakeLocation": "Na estimativa visual, substituindo o cálculo pela heurística da metade",
+          "diagnosticQuestion": "2/5 é mais perto do 2 ou do 2.5? Quantas partes temos de 5?",
+          "feedback": "Você sabe que está entre 2 e 3 — ótimo! Agora, se dividirmos esse espaço em 5 partes iguais, 2 delas é pouco mais que o começo, certo?",
+          "howToFix": "Dividir o segmento [2,3] em 5 partes visíveis e rotular cada uma (2.2, 2.4, etc.)",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_posicao_com_denominador_errado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "ponto em {whole} + {remainder}/10",
+          "buggyRule": "Usar base decimal automática (denominador 10) em vez do denominador real ({pieces_per_pack}), posicionando como se fosse {remainder}/10",
+          "description": "Aluno assume que frações se convertem diretamente para décimos, ignorando o denominador dado",
+          "mistakeLocation": "Na conversão mental para decimal para posicionar na reta",
+          "diagnosticQuestion": "Se o pacote tem 5 peças, cada peça vale quanto da unidade? 0.1 ou 0.2?",
+          "feedback": "Cada pedaço de um pacote de 5 vale 1/5, que é 0.2 — não 0.1! Então 2 pedaços valem quanto?",
+          "howToFix": "Ensinar equivalência: 1/5 = 0.2, 2/5 = 0.4, etc., com reta numérica dual (fração e decimal)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_posiciona_no_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "ponto em 12",
+          "buggyRule": "Posicionar o ponto no valor do numerador ({total_given}) na reta, ignorando o denominador",
+          "description": "Aluno trata a fração como um inteiro e marca o numerador diretamente",
+          "mistakeLocation": "Na interpretação do valor a ser posicionado",
+          "diagnosticQuestion": "A reta vai só até 3. O número 12 caberia aqui? Isso faz sentido?",
+          "feedback": "Repare que a reta termina no 3. Se ele deu 12 pedaços, mas cada pacote tem 5, será que ele usou 12 pacotes ou 12 pedaços?",
+          "howToFix": "Reler o problema destacando unidades: 'peças' vs 'pacotes'",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os números relevantes",
+        "thinking": "Cada pacote tem 5 pedaços, e ele deu 12 pedaços no total... então a fração deve ser 12 sobre 5? Mas por que isso é uma fração?",
+        "result": "Identifiquei que são 12 pedaços dados, com pacotes de 5",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando queremos saber 'quantos grupos inteiros de 5 cabem em 12', que tipo de número usamos? Pense: cada pacote é um 'todo' dividido em 5 partes."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! O numerador é o total de pedaços dados (12), e o denominador é quantos pedaços tem em um pacote inteiro (5). Escreva isso como fração: 12/5."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração correta usa 12 como parte de cima e 5 como parte de baixo. Confira: isso representa mais de um pacote?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se cada pacote tem 5 pedaços, e ele deu 12, então a fração é '12 pedaços de pacotes de 5'. Digite 12 em cima e 5 embaixo!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar a fração 12/5 nos campos f1 e f2",
+        "thinking": "Ok, vou colocar 12 em cima e 5 embaixo. Isso faz sentido?",
+        "result": "Fração 12/5 inserida corretamente",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Clicar em 'Convert' para transformar em número misto",
+        "thinking": "A pergunta diz para converter se ajudar... talvez eu precise disso para marcar na reta numérica.",
+        "result": "Caixas do número misto ativadas",
+        "kcUsed": "convertToMixedNum",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima ideia converter! Quantos pacotes inteiros cabem em 12 pedaços se cada um tem 5? O que sobra?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Divida 12 por 5: quantas vezes o 5 cabe em 12? Esse é o número inteiro. O resto vira o novo numerador, e o denominador continua 5."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 5 × 2 = 10, e sobram 2. Então o número misto tem parte inteira 2 e fração 2/5. Verifique!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! 12 ÷ 5 dá 2 inteiros, com resto 2. Então digite 2 em m1, 2 em m2 e 5 em m3."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Preencher o número misto: m1=2, m2=2, m3=5",
+        "thinking": "Se 5×2=10, e 12−10=2, então é 2 e 2/5. Certo!",
+        "result": "Número misto 2 2/5 preenchido corretamente",
+        "kcUsed": "convertToMixedNum",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto na reta numérica",
+        "thinking": "A reta vai de 0 a 3, e tem divisões de 1/5... então 2 2/5 fica depois do 2, na segunda marca pequena. Mas as marcas estão escondidas! Como sei onde é?",
+        "result": "Posição estimada entre 2 e 3, mais próxima de 2",
+        "kcUsed": "EstFractionNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se cada unidade está dividida em 5 partes iguais, onde ficaria 2/5 depois do número 2?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Localize primeiro o 2 na reta. Depois, imagine 5 passos até o 3. Dê 2 desses passos a partir do 2 — é aí que fica 2 2/5!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica visual: entre 2 e 3, há 5 espaços invisíveis. Conte mentalmente: primeiro espaço = 2 1/5, segundo = 2 2/5. Marque logo após o segundo!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! Comece no 2, avance dois 'pedacinhos' de 1/5. O ponto deve ficar um pouco antes da metade entre 2 e 2.5. Tente marcar aí!"
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Clicar em Done",
+        "thinking": "Acho que terminei tudo: fração, número misto e ponto na reta.",
+        "result": "Problema concluído",
+        "kcUsed": "FracGreater1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "12/5",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Marcar diretamente 12/5 na reta sem converter para número misto",
+        "steps": [
+         "Contar 12 marcas de 1/5 a partir do 0",
+         "Marcar na 12ª marca"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar tentativa e erro na reta numérica ajustando o ponto várias vezes",
+        "steps": [
+         "Marcar aleatoriamente",
+         "Observar feedback implícito",
+         "Ajustar posição"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 5,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 5
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 9,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem? Convert it to mixed fraction form if it will help you.\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); botão \"Convert\" que abre as caixas do número misto (m1 = parte inteira, m2/m3 = fração restante; \"-\" quando não há); reta numérica de 0 a 3 (numline) onde o aluno marca um ponto, com encaixe em 5 partes por unidade (marcas ocultas); texto de apoio na reta: \"The number hint is off in this problem!\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 3,
+   "encaixeDenominador": 5,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": true,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "numeric",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "numeric",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ }
+}

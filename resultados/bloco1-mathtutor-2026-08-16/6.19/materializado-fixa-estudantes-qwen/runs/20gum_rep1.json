@@ -1,0 +1,2695 @@
+{
+ "id": "20gum",
+ "correctAnswer": "12/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 10
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.143,
+ "functionalKappa": -0.4,
+ "missing": [
+  "12",
+  "-1",
+  "5",
+  "7"
+ ],
+ "extra": [
+  "5/12",
+  "2/5",
+  "13/5"
+ ],
+ "robotMisconceptions": [
+  "5/12",
+  "0.4",
+  "2.6"
+ ],
+ "exercicio": "20gum",
+ "replica": 1,
+ "geradoEm": "2026-08-16T18:51:11.338Z",
+ "promptSha256": "604d12af62d62c563b1177c67dd78caeca7b2a8e76e3806824fc40afeb343464",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7841,
+  "tokensSaida": 7297,
+  "usd": 0.03457428
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 10
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} = 12"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} = 5"
+   },
+   {
+    "indice": 4,
+    "acao": "Inserir a fração 12/5 nas caixas f1 e f2",
+    "kc": "IdenDenominator",
+    "valor": "f1 = 12, f2 = 5"
+   },
+   {
+    "indice": 5,
+    "acao": "Reconhecer que a fração é imprópria (maior que 1)",
+    "kc": "FracGreater1",
+    "valor": "Fração imprópria identificada: 12/5 > 1"
+   },
+   {
+    "indice": 6,
+    "acao": "Converter 12/5 em número misto",
+    "kc": "convertToMixedNum",
+    "valor": "Número misto: parte inteira = 2, fração restante = 2/5"
+   },
+   {
+    "indice": 7,
+    "acao": "Clicar no botão Convert e preencher m1, m2, m3",
+    "kc": "convertToMixedNum",
+    "valor": "m1 = 2, m2 = 2, m3 = 5"
+   },
+   {
+    "indice": 8,
+    "acao": "Estimar a posição de 12/5 na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Posição estimada: 2,4 ou 12/5"
+   },
+   {
+    "indice": 9,
+    "acao": "Marcar o ponto correspondente a 12/5 na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado corretamente em 12/5 na reta numérica"
+   },
+   {
+    "indice": 10,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5/12",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reescrever a pergunta como: 'Quantos pacotes inteiros cabem em 12 peças se cada pacote tem 5?' e usar isso para montar a fração",
+    "buggyRule": "Usar o número de peças por pacote como numerador e o total dado como denominador: numerador = {pieces_per_pack}, denominador = {total_given}",
+    "misconceptionId": "misc_inverte_fracao_total_por_unidade"
+   },
+   {
+    "valor": "0.4",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar divisão mental: 12 ÷ 5 = ? Quantos inteiros? Isso indica onde marcar na reta",
+    "buggyRule": "",
+    "misconceptionId": "misc_estima_como_menos_que_1"
+   },
+   {
+    "valor": "2.6",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Desenhar setas nos intervalos entre 2 e 3, rotulando 1/5, 2/5... para reforçar que a posição 2/5 está no segundo intervalo, não na terceira marca",
+    "buggyRule": "Contar marcas em vez de intervalos: após o inteiro, a primeira marca é contada como 1/5, então k/5 é posicionado na (k+1)-ésima marca → valor = integer_part + (remainder + 1)/denominator",
+    "misconceptionId": "misc_off_by_one_na_contagem_de_marcas"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa reflexão! Quando dividimos algo em partes iguais, como representamos quantas partes usamos em relação ao total de cada grupo? Pense: cada pacote é um 'grupo completo' de quantas partes?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! O denominador mostra quantas peças há em um pacote inteiro. O numerador mostra quantas peças foram dadas no total. Escreva esses dois números na fração."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração tem numerador maior que 10 e denominador menor que 6. Verifique: quantas peças por pacote? Quantas peças foram dadas?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Cada pacote = 5 peças → isso vai embaixo. Ele deu 12 peças → isso vai em cima. Então a fração é ___ / ___?"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima ideia usar o número misto! Quando uma fração é maior que 1, como podemos separá-la em partes inteiras e uma fração menor que 1?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Vamos lá! Divida 12 por 5: quantos grupos completos de 5 cabem em 12? Esse é o número inteiro. O que sobra vira o novo numerador, com o mesmo denominador."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Muito bem! 5 cabe 2 vezes em 12 (porque 5×2=10). Sobram 2 peças. Então o número misto tem parte inteira 2 e fração 2/5."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase lá! 12 ÷ 5 = 2 com resto 2. Então m1 = 2, m2 = 2, m3 = 5. Digite esses valores nas caixas do número misto."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Boa pergunta! Se cada unidade está dividida em 5 partes, como você localiza uma fração como 2 e 2/5? Em que unidade ela está?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Continue assim! Primeiro vá até o número inteiro 2 na reta. Depois, conte 2 pequenas divisões (de 1/5 cada) para a direita. Marque ali!"
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Exatamente! A fração está entre 2 e 3. Como o denominador é 5, há 5 marcas entre 2 e 3. Você precisa da segunda marca após o 2."
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você está quase lá! Comece em 2. Agora, avance duas 'fatias' de 1/5: primeira fatia = 2 1/5, segunda = 2 2/5. Marque exatamente nesse ponto!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Brandon deu 12 peças de goma, e cada pacote tem 5 peças. Preciso representar quantos pacotes ele deu como uma fração.\\\",\\n          \\\"result\\\": \\\"Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O número total de peças dadas é 12, então o numerador é 12.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} = 12\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"Cada pacote tem 5 peças, então o denominador é 5.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} = 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Inserir a fração 12/5 nas caixas f1 e f2\\\",\\n          \\\"thinking\\\": \\\"Vou digitar 12 em f1 (numerador) e 5 em f2 (denominador).\\\",\\n          \\\"result\\\": \\\"f1 = 12, f2 = 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Reconhecer que a fração é imprópria (maior que 1)\\\",\\n          \\\"thinking\\\": \\\"Como 12 > 5, a fração é maior que 1. Isso pode ajudar na estimativa na reta numérica.\\\",\\n          \\\"result\\\": \\\"Fração imprópria identificada: 12/5 > 1\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Converter 12/5 em número misto\\\",\\n          \\\"thinking\\\": \\\"12 dividido por 5 dá 2 inteiros e sobra 2. Então, 12/5 = 2 + 2/5 = 2 2/5.\\\",\\n          \\\"result\\\": \\\"Número misto: parte inteira = 2, fração restante = 2/5\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Clicar no botão Convert e preencher m1, m2, m3\\\",\\n          \\\"thinking\\\": \\\"Após clicar em Convert, insiro m1=2, m2=2, m3=5.\\\",\\n          \\\"result\\\": \\\"m1 = 2, m2 = 2, m3 = 5\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Estimar a posição de 12/5 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 3, com divisões em quintos. 12/5 = 2,4, então está entre 2 e 3, exatamente na quarta marca após 2 (2 + 4/5).\\\",\\n          \\\"result\\\": \\\"Posição estimada: 2,4 ou 12/5\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 12/5 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Como a reta tem encaixe em quintos, marco o ponto na posição equivalente a 12/5 (ou seja, 2 unidades + 2/5 além de 2? Não — 12/5 = 2,4 = 2 + 2/5? Erro! Correção: 5×2=10, 12−10=2 → sim, 2/5 além de 2 → posição correta é 2 + 2/5 = 12/5. Na reta com quintos, isso é a segunda marca após 2? Não: as marcas são 0, 1/5, 2/5, ..., 1, 6/5, ..., 2, 11/5, 12/5, 13/5... Então 12/5 está na segunda marca após 2? Vamos contar: 2 = 10/5, então 11/5 (primeira), 12/5 (segunda). Sim, segunda marca após 2.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em 12/5 na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os campos estão preenchidos corretamente e o ponto está na posição certa. Posso finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 47\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Ele deu 12 pedaços, e cada pacote tem 5... então a fração é 5/12 porque 5 é do pacote\\\",\\n              \\\"result\\\": \\\"Fração invertida\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_fracao_total_por_unidade\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/12\\\",\\n                \\\"description\\\": \\\"Aluno inverteu a relação: usou o número de peças por pacote como numerador e o total dado como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar qual quantidade representa o todo (denominador) e qual representa a parte dada (numerador)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que representa o 'todo' aqui: as peças por pacote ou o total de peças distribuídas? O que estamos medindo em relação ao que?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você entendeu que há 5 peças por pacote e 12 no total — ótimo! Mas lembre-se: a fração mostra quantas peças foram dadas EM RELAÇÃO a quantas há em um pacote. Qual número vai em cima nesse caso?\\\",\\n                \\\"howToFix\\\": \\\"Reescrever a pergunta como: 'Quantos pacotes inteiros cabem em 12 peças se cada pacote tem 5?' e usar isso para montar a fração\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"5/12 está entre 0 e 1, então marco perto do zero\\\",\\n              \\\"result\\\": \\\"Ponto marcado incorretamente\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_estima_como_menos_que_1\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"0.4\\\",\\n                \\\"description\\\": \\\"Aluno trata fração imprópria como própria após inversão, estimando valor <1\\\",\\n                \\\"mistakeLocation\\\": \\\"Na interpretação do valor da fração invertida (5/12) como se fosse a correta, e posicionando-a erroneamente abaixo de 1\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se Brandon deu mais de 10 peças e cada pacote tem só 5, ele deu mais ou menos que 2 pacotes? Isso faz a fração ser maior ou menor que 2?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você posicionou um valor coerente com a fração que escreveu. Mas vamos revisar: quantos pacotes inteiros cabem em 12 peças? Isso nos ajuda a ver se a fração está acima ou abaixo de 1.\\\",\\n                \\\"howToFix\\\": \\\"Usar divisão mental: 12 ÷ 5 = ? Quantos inteiros? Isso indica onde marcar na reta\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/12\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"12 pedaços foram dados, então o numerador é 12. Cada pacote tem 5, então o denominador é 5. Coloco 12/5.\\\",\\n              \\\"result\\\": \\\"Fração correta inserida\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Clicar em Convert para obter número misto\\\",\\n              \\\"thinking\\\": \\\"12 dividido por 5 dá 2, sobra 2... então é 2 e 2/5\\\",\\n              \\\"result\\\": \\\"Número misto correto\\\",\\n              \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Cada unidade tem 5 partes, então conto 2 unidades inteiras e depois 2 marcas... mas começo a contar do zero como marca 1\\\",\\n              \\\"result\\\": \\\"Ponto deslocado em +1 marca\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_off_by_one_na_contagem_de_marcas\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2.6\\\",\\n                \\\"description\\\": \\\"Aluno conta as marcas em vez dos intervalos: após 2 inteiros, conta 3ª, 4ª, 5ª marca como 1,2,3 — e para na terceira em vez da segunda\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar a parte fracionária (2/5), o aluno começa a contar a partir da marca do inteiro como 'primeira marca', somando uma unidade a mais\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Entre 2 e 3, quantos espaços há? As marcas mostram os pontos finais de cada quinto. O primeiro quinto depois de 2 está em qual posição exata?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você já sabe que são 2 inteiros e 2 quintos — excelente! Agora, atenção: os quintos são os ESPAÇOS entre as marcas. O primeiro quinto começa logo depois do 2. Vamos contar os espaços, não as linhas!\\\",\\n                \\\"howToFix\\\": \\\"Desenhar setas nos intervalos entre 2 e 3, rotulando 1/5, 2/5... para reforçar que a posição 2/5 está no segundo intervalo, não na terceira marca\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"12/5\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_fracao_total_por_unidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{pieces_per_pack}/{total_given}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número de peças por pacote como numerador e o total dado como denominador: numerador = {pieces_per_pack}, denominador = {total_given}\\\",\\n              \\\"description\\\": \\\"Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do numerador e denominador a partir do contexto verbal\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração responde à pergunta: quantos pacotes correspondem a 12 peças? Ou quantas peças há em um pacote? Qual dessas duas ideias está sendo representada?\\\",\\n              \\\"feedback\\\": \\\"Você captou os números certos! Agora pense: estamos dizendo quantas peças foram dadas em termos de quantas cabem em UM pacote. Qual número representa o 'todo' de referência?\\\",\\n              \\\"howToFix\\\": \\\"Reformular a fração como: (quantidade dada) / (quantidade por unidade de medida)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_apenas_com_total_dado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_given}\\\",\\n              \\\"buggyRule\\\": \\\"Digitar apenas o total de peças (12) no numerador e deixar o denominador em branco ou como 1 implicitamente; na interface, preenche f1=12 e f2=1 ou esquece f2\\\",\\n              \\\"description\\\": \\\"Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a tarefa como 'quantas peças foram dadas?' em vez de 'quantos pacotes (em fração) foram dados?'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre quantos PACOTES foram dados, não quantas PEÇAS. Como transformamos peças em pacotes usando a informação de 5 peças por pacote?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o total de peças! Mas lembre-se: queremos saber isso em termos de PACOTES. Como usamos os 5 peças/pacote para converter?\\\",\\n              \\\"howToFix\\\": \\\"Introduzir a ideia de 'unidade de medida': 1 pacote = 5 peças → então 12 peças = quantos pacotes?\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_como_numerador_do_total\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_given}/{pieces_per_pack} MAS digita {pieces_per_pack} em f1 e {total_given} em f2\\\",\\n              \\\"buggyRule\\\": \\\"Mesmo sabendo que a fração é total/por_pacote, troca os campos por pressa ou confusão de layout: coloca pieces_per_pack em f1 e total_given em f2\\\",\\n              \\\"description\\\": \\\"Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada dos valores nas caixas da interface, apesar de entender o conceito\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual caixa fica em cima: a do total de peças ou a do número por pacote? Pense: fração = parte/todo → parte vai em cima?\\\",\\n              \\\"feedback\\\": \\\"Você entendeu bem o problema! Só confira: a parte (peças dadas) vai na caixa de cima, e o todo de referência (peças por pacote) vai embaixo. Está tudo certo ali?\\\",\\n              \\\"howToFix\\\": \\\"Associar visualmente: 'numerador = NÚMERO de cima = N de peças dadas'; 'denominador = DENtro = definidor da unidade'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_errado_na_conversao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{floor(total_given / pieces_per_pack)} {remainder}/5 MAS remainder = {pieces_per_pack - (total_given % pieces_per_pack)}\\\",\\n              \\\"buggyRule\\\": \\\"Calcula o resto como (denominador - resto real): parte inteira = floor(12/5)=2, mas resto = 5 - (12 mod 5) = 5 - 2 = 3 → número misto = 2 3/5\\\",\\n              \\\"description\\\": \\\"Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do numerador da parte fracionária durante a conversão para número misto\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Depois de tirar 2 pacotes inteiros (10 peças), quantas peças SOBRARAM realmente? É isso que vai na fração, não o que falta para o próximo inteiro.\\\",\\n              \\\"feedback\\\": \\\"Você já achou os 2 pacotes inteiros — muito bem! Agora, das 12 peças, 10 foram usadas nesses pacotes. Quantas restaram? Essa sobra é que forma a parte fracionária.\\\",\\n              \\\"howToFix\\\": \\\"Usar material concreto: 12 peças, agrupar de 5 em 5. Mostrar que sobram 2, não que faltam 3\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_de_converter_resto_para_frac\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{floor(total_given / pieces_per_pack)} {remainder}/1\\\",\\n              \\\"buggyRule\\\": \\\"Escreve o número misto como parte inteira + resto, sem manter o denominador original: 12/5 → 2 2/1\\\",\\n              \\\"description\\\": \\\"Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição do denominador da parte fracionária do número misto\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Os pedaços que sobraram ainda são quintos de um pacote, certo? Então, com que denominador devemos escrevê-los?\\\",\\n              \\\"feedback\\\": \\\"Ótimo trabalho na divisão! Só não esqueça: os pedaços que sobraram ainda pertencem a um pacote de 5. Por isso, a fração continua sendo em quintos.\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: número misto = inteiros + (resto / denominador original)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20gum\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_off_by_one_na_contagem_de_marcas\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{integer_part + (remainder + 1)/denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Contar marcas em vez de intervalos: após o inteiro, a primeira marca é contada como 1/5, então k/5 é posicionado na (k+1)-ésima marca → valor = integer_part + (remainder + 1)/denominator\\\",\\n              \\\"description\\\": \\\"Aluno confunde marcas com divisões: acha que a marca imediatamente após o inteiro é o primeiro quinto, quando na verdade representa o fim do primeiro intervalo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das subdivisões da reta numérica para posicionar a parte fracionária\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Do número 2 até a próxima marca, isso representa 1/5 ou já é o ponto final do primeiro quinto?\\\",\\n              \\\"feedback\\\": \\\"Você já sabe que são 2 inteiros e 2 quintos — isso está certo! Agora, observe: o espaço entre 2 e a primeira marca é o PRIMEIRO quinto. O ponto 2/5 está no final desse espaço, não na próxima linha.\\\",\\n              \\\"howToFix\\\": \\\"Colorir os intervalos entre marcas e rotular cada um com seu valor fracionário\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade_em_vez_do_valor_real\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{integer_part + 0.5}\\\",\\n              \\\"buggyRule\\\": \\\"Posicionar a fração imprópria próxima à metade da unidade seguinte, ignorando o denominador: 12/5 ≈ 2.4, mas aluno marca 2.5\\\",\\n              \\\"description\\\": \\\"Aluno aproxima qualquer fração não inteira para a metade da unidade atual\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual do valor fracionário, substituindo cálculo por âncora heurística\\\",\\n              \\\"diagnosticQuestion\\\": \\\"2/5 é mais próximo de 0, da metade (2.5) ou do fim (3)? Se dividirmos o espaço de 2 a 3 em 5 partes, onde fica a segunda?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Você usou a metade como referência. Mas vamos olhar com mais cuidado: 2/5 é menos que a metade (que seria 2.5 ou 2 2.5/5). Então devemos marcar um pouco antes da metade.\\\",\\n              \\\"howToFix\\\": \\\"Praticar divisão da unidade em 5 partes iguais com régua ou papel quadriculado\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_escala_da_unidade\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_given}\\\",\\n              \\\"buggyRule\\\": \\\"Tratar cada marca da reta como 1 unidade inteira, ignorando que a escala é 0 a 3 com subdivisões: marca o ponto em 12\\\",\\n              \\\"description\\\": \\\"Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura da escala da reta numérica\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta vai só até 3. Será que 12 cabe ali? O que 12 representa: peças ou pacotes?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando no total de peças — importante! Mas na reta, estamos marcando o número de PACOTES, que é menor que 3. Vamos converter primeiro!\\\",\\n              \\\"howToFix\\\": \\\"Relacionar sempre o valor na reta com a unidade do problema (pacotes, não peças)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração\\\",\\n          \\\"thinking\\\": \\\"Cada pacote tem 5 pedaços, e ele deu 12 pedaços no total... então a fração deve ser 12 sobre 5? Mas por que isso é uma fração?\\\",\\n          \\\"result\\\": \\\"Identificou que a fração é 12/5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa reflexão! Quando dividimos algo em partes iguais, como representamos quantas partes usamos em relação ao total de cada grupo? Pense: cada pacote é um 'grupo completo' de quantas partes?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! O denominador mostra quantas peças há em um pacote inteiro. O numerador mostra quantas peças foram dadas no total. Escreva esses dois números na fração.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração tem numerador maior que 10 e denominador menor que 6. Verifique: quantas peças por pacote? Quantas peças foram dadas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Cada pacote = 5 peças → isso vai embaixo. Ele deu 12 peças → isso vai em cima. Então a fração é ___ / ___?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar 12 em f1 e 5 em f2\\\",\\n          \\\"thinking\\\": \\\"Ok, vou colocar 12 em cima e 5 embaixo. Isso faz sentido?\\\",\\n          \\\"result\\\": \\\"Campos f1=12, f2=5 preenchidos corretamente\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Clicar em Convert para obter número misto\\\",\\n          \\\"thinking\\\": \\\"A pergunta diz para converter se ajudar... talvez eu precise disso para marcar na reta numérica.\\\",\\n          \\\"result\\\": \\\"Botão Convert clicado; caixas m1, m2, m3 ativadas\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima ideia usar o número misto! Quando uma fração é maior que 1, como podemos separá-la em partes inteiras e uma fração menor que 1?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Vamos lá! Divida 12 por 5: quantos grupos completos de 5 cabem em 12? Esse é o número inteiro. O que sobra vira o novo numerador, com o mesmo denominador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! 5 cabe 2 vezes em 12 (porque 5×2=10). Sobram 2 peças. Então o número misto tem parte inteira 2 e fração 2/5.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! 12 ÷ 5 = 2 com resto 2. Então m1 = 2, m2 = 2, m3 = 5. Digite esses valores nas caixas do número misto.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher m1=2, m2=2, m3=5\\\",\\n          \\\"thinking\\\": \\\"Se 5×2=10, e ele deu 12, sobram 2... então é 2 e 2/5. Isso parece certo.\\\",\\n          \\\"result\\\": \\\"Número misto correto inserido\\\",\\n          \\\"kcUsed\\\": \\\"convertToMixedNum\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Preciso marcar 12/5 ou 2 2/5 na reta... mas a reta vai até 3 e tem divisões de 1/5. Onde fica exatamente?\\\",\\n          \\\"result\\\": \\\"Ponto marcado entre 2 e 3, na segunda marca após 2\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine, FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Se cada unidade está dividida em 5 partes, como você localiza uma fração como 2 e 2/5? Em que unidade ela está?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Primeiro vá até o número inteiro 2 na reta. Depois, conte 2 pequenas divisões (de 1/5 cada) para a direita. Marque ali!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Exatamente! A fração está entre 2 e 3. Como o denominador é 5, há 5 marcas entre 2 e 3. Você precisa da segunda marca após o 2.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Comece em 2. Agora, avance duas 'fatias' de 1/5: primeira fatia = 2 1/5, segunda = 2 2/5. Marque exatamente nesse ponto!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo: fração 12/5, número misto 2 2/5, e ponto marcado depois do 2.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"12/5\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Marcar diretamente 12/5 na reta sem converter para número misto\\\",\\n          \\\"steps\\\": [\\\"Contar 12 divisões de 1/5 a partir do 0\\\", \\\"Marcar na 12ª marca\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Tentar adivinhar a posição na reta sem calcular\\\",\\n          \\\"steps\\\": [\\\"Olhar para 12 e 5\\\", \\\"Chutar que está perto de 2.5\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Brandon deu 12 peças de goma, e cada pacote tem 5 peças. Preciso representar quantos pacotes ele deu como uma fração.",
+        "result": "Total dado: 12 peças; tamanho do pacote: 5 peças → fração = 12/5",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O número total de peças dadas é 12, então o numerador é 12.",
+        "result": "Numerador = {A} = 12",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "Cada pacote tem 5 peças, então o denominador é 5.",
+        "result": "Denominador = {B} = 5",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Inserir a fração 12/5 nas caixas f1 e f2",
+        "thinking": "Vou digitar 12 em f1 (numerador) e 5 em f2 (denominador).",
+        "result": "f1 = 12, f2 = 5",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Reconhecer que a fração é imprópria (maior que 1)",
+        "thinking": "Como 12 > 5, a fração é maior que 1. Isso pode ajudar na estimativa na reta numérica.",
+        "result": "Fração imprópria identificada: 12/5 > 1",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Converter 12/5 em número misto",
+        "thinking": "12 dividido por 5 dá 2 inteiros e sobra 2. Então, 12/5 = 2 + 2/5 = 2 2/5.",
+        "result": "Número misto: parte inteira = 2, fração restante = 2/5",
+        "kcUsed": "convertToMixedNum",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Clicar no botão Convert e preencher m1, m2, m3",
+        "thinking": "Após clicar em Convert, insiro m1=2, m2=2, m3=5.",
+        "result": "m1 = 2, m2 = 2, m3 = 5",
+        "kcUsed": "convertToMixedNum",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Estimar a posição de 12/5 na reta numérica",
+        "thinking": "A reta vai de 0 a 3, com divisões em quintos. 12/5 = 2,4, então está entre 2 e 3, exatamente na quarta marca após 2 (2 + 4/5).",
+        "result": "Posição estimada: 2,4 ou 12/5",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Marcar o ponto correspondente a 12/5 na reta numérica",
+        "thinking": "Como a reta tem encaixe em quintos, marco o ponto na posição equivalente a 12/5 (ou seja, 2 unidades + 2/5 além de 2? Não — 12/5 = 2,4 = 2 + 2/5? Erro! Correção: 5×2=10, 12−10=2 → sim, 2/5 além de 2 → posição correta é 2 + 2/5 = 12/5. Na reta com quintos, isso é a segunda marca após 2? Não: as marcas são 0, 1/5, 2/5, ..., 1, 6/5, ..., 2, 11/5, 12/5, 13/5... Então 12/5 está na segunda marca após 2? Vamos contar: 2 = 10/5, então 11/5 (primeira), 12/5 (segunda). Sim, segunda marca após 2.",
+        "result": "Ponto marcado corretamente em 12/5 na reta numérica",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todos os campos estão preenchidos corretamente e o ponto está na posição certa. Posso finalizar.",
+        "result": "Problema concluído",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 47
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "Ele deu 12 pedaços, e cada pacote tem 5... então a fração é 5/12 porque 5 é do pacote",
+          "result": "Fração invertida",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_fracao_total_por_unidade",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/12",
+           "description": "Aluno inverteu a relação: usou o número de peças por pacote como numerador e o total dado como denominador",
+           "mistakeLocation": "Ao identificar qual quantidade representa o todo (denominador) e qual representa a parte dada (numerador)",
+           "diagnosticQuestion": "O que representa o 'todo' aqui: as peças por pacote ou o total de peças distribuídas? O que estamos medindo em relação ao que?",
+           "severity": "high",
+           "feedback": "Você entendeu que há 5 peças por pacote e 12 no total — ótimo! Mas lembre-se: a fração mostra quantas peças foram dadas EM RELAÇÃO a quantas há em um pacote. Qual número vai em cima nesse caso?",
+           "howToFix": "Reescrever a pergunta como: 'Quantos pacotes inteiros cabem em 12 peças se cada pacote tem 5?' e usar isso para montar a fração"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "5/12 está entre 0 e 1, então marco perto do zero",
+          "result": "Ponto marcado incorretamente",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_estima_como_menos_que_1",
+           "type": "conceptual_error",
+           "wrongAnswer": "0.4",
+           "description": "Aluno trata fração imprópria como própria após inversão, estimando valor <1",
+           "mistakeLocation": "Na interpretação do valor da fração invertida (5/12) como se fosse a correta, e posicionando-a erroneamente abaixo de 1",
+           "diagnosticQuestion": "Se Brandon deu mais de 10 peças e cada pacote tem só 5, ele deu mais ou menos que 2 pacotes? Isso faz a fração ser maior ou menor que 2?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você posicionou um valor coerente com a fração que escreveu. Mas vamos revisar: quantos pacotes inteiros cabem em 12 peças? Isso nos ajuda a ver se a fração está acima ou abaixo de 1.",
+           "howToFix": "Usar divisão mental: 12 ÷ 5 = ? Quantos inteiros? Isso indica onde marcar na reta"
+          }
+         }
+        ],
+        "finalAnswer": "5/12",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "12 pedaços foram dados, então o numerador é 12. Cada pacote tem 5, então o denominador é 5. Coloco 12/5.",
+          "result": "Fração correta inserida",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Clicar em Convert para obter número misto",
+          "thinking": "12 dividido por 5 dá 2, sobra 2... então é 2 e 2/5",
+          "result": "Número misto correto",
+          "kcUsed": "convertToMixedNum",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Cada unidade tem 5 partes, então conto 2 unidades inteiras e depois 2 marcas... mas começo a contar do zero como marca 1",
+          "result": "Ponto deslocado em +1 marca",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_off_by_one_na_contagem_de_marcas",
+           "type": "count_error",
+           "wrongAnswer": "2.6",
+           "description": "Aluno conta as marcas em vez dos intervalos: após 2 inteiros, conta 3ª, 4ª, 5ª marca como 1,2,3 — e para na terceira em vez da segunda",
+           "mistakeLocation": "Ao posicionar a parte fracionária (2/5), o aluno começa a contar a partir da marca do inteiro como 'primeira marca', somando uma unidade a mais",
+           "diagnosticQuestion": "Entre 2 e 3, quantos espaços há? As marcas mostram os pontos finais de cada quinto. O primeiro quinto depois de 2 está em qual posição exata?",
+           "severity": "moderate",
+           "feedback": "Você já sabe que são 2 inteiros e 2 quintos — excelente! Agora, atenção: os quintos são os ESPAÇOS entre as marcas. O primeiro quinto começa logo depois do 2. Vamos contar os espaços, não as linhas!",
+           "howToFix": "Desenhar setas nos intervalos entre 2 e 3, rotulando 1/5, 2/5... para reforçar que a posição 2/5 está no segundo intervalo, não na terceira marca"
+          }
+         }
+        ],
+        "finalAnswer": "12/5",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "20gum",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_fracao_total_por_unidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{pieces_per_pack}/{total_given}",
+          "buggyRule": "Usar o número de peças por pacote como numerador e o total dado como denominador: numerador = {pieces_per_pack}, denominador = {total_given}",
+          "description": "Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote'",
+          "mistakeLocation": "Na identificação do numerador e denominador a partir do contexto verbal",
+          "diagnosticQuestion": "A fração responde à pergunta: quantos pacotes correspondem a 12 peças? Ou quantas peças há em um pacote? Qual dessas duas ideias está sendo representada?",
+          "feedback": "Você captou os números certos! Agora pense: estamos dizendo quantas peças foram dadas em termos de quantas cabem em UM pacote. Qual número representa o 'todo' de referência?",
+          "howToFix": "Reformular a fração como: (quantidade dada) / (quantidade por unidade de medida)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_apenas_com_total_dado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_given}",
+          "buggyRule": "Digitar apenas o total de peças (12) no numerador e deixar o denominador em branco ou como 1 implicitamente; na interface, preenche f1=12 e f2=1 ou esquece f2",
+          "description": "Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final",
+          "mistakeLocation": "Ao interpretar a tarefa como 'quantas peças foram dadas?' em vez de 'quantos pacotes (em fração) foram dados?'",
+          "diagnosticQuestion": "A pergunta é sobre quantos PACOTES foram dados, não quantas PEÇAS. Como transformamos peças em pacotes usando a informação de 5 peças por pacote?",
+          "feedback": "Você acertou o total de peças! Mas lembre-se: queremos saber isso em termos de PACOTES. Como usamos os 5 peças/pacote para converter?",
+          "howToFix": "Introduzir a ideia de 'unidade de medida': 1 pacote = 5 peças → então 12 peças = quantos pacotes?",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_denominador_como_numerador_do_total",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{total_given}/{pieces_per_pack} MAS digita {pieces_per_pack} em f1 e {total_given} em f2",
+          "buggyRule": "Mesmo sabendo que a fração é total/por_pacote, troca os campos por pressa ou confusão de layout: coloca pieces_per_pack em f1 e total_given em f2",
+          "description": "Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador",
+          "mistakeLocation": "Na entrada dos valores nas caixas da interface, apesar de entender o conceito",
+          "diagnosticQuestion": "Qual caixa fica em cima: a do total de peças ou a do número por pacote? Pense: fração = parte/todo → parte vai em cima?",
+          "feedback": "Você entendeu bem o problema! Só confira: a parte (peças dadas) vai na caixa de cima, e o todo de referência (peças por pacote) vai embaixo. Está tudo certo ali?",
+          "howToFix": "Associar visualmente: 'numerador = NÚMERO de cima = N de peças dadas'; 'denominador = DENtro = definidor da unidade'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20gum",
+        "step": 2,
+        "kcUsed": "convertToMixedNum",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_errado_na_conversao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{floor(total_given / pieces_per_pack)} {remainder}/5 MAS remainder = {pieces_per_pack - (total_given % pieces_per_pack)}",
+          "buggyRule": "Calcula o resto como (denominador - resto real): parte inteira = floor(12/5)=2, mas resto = 5 - (12 mod 5) = 5 - 2 = 3 → número misto = 2 3/5",
+          "description": "Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária",
+          "mistakeLocation": "No cálculo do numerador da parte fracionária durante a conversão para número misto",
+          "diagnosticQuestion": "Depois de tirar 2 pacotes inteiros (10 peças), quantas peças SOBRARAM realmente? É isso que vai na fração, não o que falta para o próximo inteiro.",
+          "feedback": "Você já achou os 2 pacotes inteiros — muito bem! Agora, das 12 peças, 10 foram usadas nesses pacotes. Quantas restaram? Essa sobra é que forma a parte fracionária.",
+          "howToFix": "Usar material concreto: 12 peças, agrupar de 5 em 5. Mostrar que sobram 2, não que faltam 3",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_esquece_de_converter_resto_para_frac",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{floor(total_given / pieces_per_pack)} {remainder}/1",
+          "buggyRule": "Escreve o número misto como parte inteira + resto, sem manter o denominador original: 12/5 → 2 2/1",
+          "description": "Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5",
+          "mistakeLocation": "Na definição do denominador da parte fracionária do número misto",
+          "diagnosticQuestion": "Os pedaços que sobraram ainda são quintos de um pacote, certo? Então, com que denominador devemos escrevê-los?",
+          "feedback": "Ótimo trabalho na divisão! Só não esqueça: os pedaços que sobraram ainda pertencem a um pacote de 5. Por isso, a fração continua sendo em quintos.",
+          "howToFix": "Reforçar: número misto = inteiros + (resto / denominador original)",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20gum",
+        "step": 3,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_off_by_one_na_contagem_de_marcas",
+          "type": "count_error",
+          "wrongAnswerPattern": "{integer_part + (remainder + 1)/denominator}",
+          "buggyRule": "Contar marcas em vez de intervalos: após o inteiro, a primeira marca é contada como 1/5, então k/5 é posicionado na (k+1)-ésima marca → valor = integer_part + (remainder + 1)/denominator",
+          "description": "Aluno confunde marcas com divisões: acha que a marca imediatamente após o inteiro é o primeiro quinto, quando na verdade representa o fim do primeiro intervalo",
+          "mistakeLocation": "Na contagem das subdivisões da reta numérica para posicionar a parte fracionária",
+          "diagnosticQuestion": "Do número 2 até a próxima marca, isso representa 1/5 ou já é o ponto final do primeiro quinto?",
+          "feedback": "Você já sabe que são 2 inteiros e 2 quintos — isso está certo! Agora, observe: o espaço entre 2 e a primeira marca é o PRIMEIRO quinto. O ponto 2/5 está no final desse espaço, não na próxima linha.",
+          "howToFix": "Colorir os intervalos entre marcas e rotular cada um com seu valor fracionário",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade_em_vez_do_valor_real",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{integer_part + 0.5}",
+          "buggyRule": "Posicionar a fração imprópria próxima à metade da unidade seguinte, ignorando o denominador: 12/5 ≈ 2.4, mas aluno marca 2.5",
+          "description": "Aluno aproxima qualquer fração não inteira para a metade da unidade atual",
+          "mistakeLocation": "Na estimativa visual do valor fracionário, substituindo cálculo por âncora heurística",
+          "diagnosticQuestion": "2/5 é mais próximo de 0, da metade (2.5) ou do fim (3)? Se dividirmos o espaço de 2 a 3 em 5 partes, onde fica a segunda?",
+          "feedback": "Interessante! Você usou a metade como referência. Mas vamos olhar com mais cuidado: 2/5 é menos que a metade (que seria 2.5 ou 2 2.5/5). Então devemos marcar um pouco antes da metade.",
+          "howToFix": "Praticar divisão da unidade em 5 partes iguais com régua ou papel quadriculado",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_escala_da_unidade",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{total_given}",
+          "buggyRule": "Tratar cada marca da reta como 1 unidade inteira, ignorando que a escala é 0 a 3 com subdivisões: marca o ponto em 12",
+          "description": "Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)",
+          "mistakeLocation": "Na leitura da escala da reta numérica",
+          "diagnosticQuestion": "A reta vai só até 3. Será que 12 cabe ali? O que 12 representa: peças ou pacotes?",
+          "feedback": "Você está pensando no total de peças — importante! Mas na reta, estamos marcando o número de PACOTES, que é menor que 3. Vamos converter primeiro!",
+          "howToFix": "Relacionar sempre o valor na reta com a unidade do problema (pacotes, não peças)",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "20gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração",
+        "thinking": "Cada pacote tem 5 pedaços, e ele deu 12 pedaços no total... então a fração deve ser 12 sobre 5? Mas por que isso é uma fração?",
+        "result": "Identificou que a fração é 12/5",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa reflexão! Quando dividimos algo em partes iguais, como representamos quantas partes usamos em relação ao total de cada grupo? Pense: cada pacote é um 'grupo completo' de quantas partes?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! O denominador mostra quantas peças há em um pacote inteiro. O numerador mostra quantas peças foram dadas no total. Escreva esses dois números na fração."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração tem numerador maior que 10 e denominador menor que 6. Verifique: quantas peças por pacote? Quantas peças foram dadas?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Cada pacote = 5 peças → isso vai embaixo. Ele deu 12 peças → isso vai em cima. Então a fração é ___ / ___?"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar 12 em f1 e 5 em f2",
+        "thinking": "Ok, vou colocar 12 em cima e 5 embaixo. Isso faz sentido?",
+        "result": "Campos f1=12, f2=5 preenchidos corretamente",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Clicar em Convert para obter número misto",
+        "thinking": "A pergunta diz para converter se ajudar... talvez eu precise disso para marcar na reta numérica.",
+        "result": "Botão Convert clicado; caixas m1, m2, m3 ativadas",
+        "kcUsed": "convertToMixedNum",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima ideia usar o número misto! Quando uma fração é maior que 1, como podemos separá-la em partes inteiras e uma fração menor que 1?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Vamos lá! Divida 12 por 5: quantos grupos completos de 5 cabem em 12? Esse é o número inteiro. O que sobra vira o novo numerador, com o mesmo denominador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! 5 cabe 2 vezes em 12 (porque 5×2=10). Sobram 2 peças. Então o número misto tem parte inteira 2 e fração 2/5."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! 12 ÷ 5 = 2 com resto 2. Então m1 = 2, m2 = 2, m3 = 5. Digite esses valores nas caixas do número misto."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Preencher m1=2, m2=2, m3=5",
+        "thinking": "Se 5×2=10, e ele deu 12, sobram 2... então é 2 e 2/5. Isso parece certo.",
+        "result": "Número misto correto inserido",
+        "kcUsed": "convertToMixedNum",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Marcar ponto na reta numérica",
+        "thinking": "Preciso marcar 12/5 ou 2 2/5 na reta... mas a reta vai até 3 e tem divisões de 1/5. Onde fica exatamente?",
+        "result": "Ponto marcado entre 2 e 3, na segunda marca após 2",
+        "kcUsed": "EstFractionNumLine, FracGreater1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Se cada unidade está dividida em 5 partes, como você localiza uma fração como 2 e 2/5? Em que unidade ela está?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Primeiro vá até o número inteiro 2 na reta. Depois, conte 2 pequenas divisões (de 1/5 cada) para a direita. Marque ali!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Exatamente! A fração está entre 2 e 3. Como o denominador é 5, há 5 marcas entre 2 e 3. Você precisa da segunda marca após o 2."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Comece em 2. Agora, avance duas 'fatias' de 1/5: primeira fatia = 2 1/5, segunda = 2 2/5. Marque exatamente nesse ponto!"
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Clicar em Done",
+        "thinking": "Acho que está tudo certo: fração 12/5, número misto 2 2/5, e ponto marcado depois do 2.",
+        "result": "Problema concluído",
+        "kcUsed": "EstFractionNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "12/5",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Marcar diretamente 12/5 na reta sem converter para número misto",
+        "steps": [
+         "Contar 12 divisões de 1/5 a partir do 0",
+         "Marcar na 12ª marca"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Tentar adivinhar a posição na reta sem calcular",
+        "steps": [
+         "Olhar para 12 e 5",
+         "Chutar que está perto de 2.5"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 10,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem? Convert it to mixed fraction form if it will help you.\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); botão \"Convert\" que abre as caixas do número misto (m1 = parte inteira, m2/m3 = fração restante; \"-\" quando não há); reta numérica de 0 a 3 (numline) onde o aluno marca um ponto, com encaixe em 5 partes por unidade (marcas ocultas); texto de apoio na reta: \"The number hint is off in this problem!\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 3,
+   "encaixeDenominador": 5,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": true,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "numeric",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "numeric",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Use the fraction fields to represent the packs Brandon gave away from 12 pieces and 5 pieces per pack.",
+     "kc": "IdenNumerator",
+     "valor": "12/5"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter the total number of pieces in the top fraction box.",
+     "kc": "IdenNumerator",
+     "valor": "12"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter the number of pieces in one pack in the bottom fraction box.",
+     "kc": "IdenDenominator",
+     "valor": "5"
+    },
+    {
+     "indice": 4,
+     "acao": "Complete the fraction fields with the total pieces over the pieces in one pack.",
+     "kc": "IdenDenominator",
+     "valor": "12/5"
+    },
+    {
+     "indice": 5,
+     "acao": "Use the fraction model to show that 12/5 is greater than one whole.",
+     "kc": "FracGreater1",
+     "valor": "12/5"
+    },
+    {
+     "indice": 6,
+     "acao": "Determine the mixed-number form of 12/5.",
+     "kc": "convertToMixedNum",
+     "valor": "2 2/5"
+    },
+    {
+     "indice": 7,
+     "acao": "Click Convert, then enter the mixed number in the three new boxes.",
+     "kc": "convertToMixedNum",
+     "valor": "2 2/5"
+    },
+    {
+     "indice": 8,
+     "acao": "Estimate where 12/5 belongs on the number line from 0 to 3.",
+     "kc": "EstFractionNumLine",
+     "valor": "2 2/5"
+    },
+    {
+     "indice": 9,
+     "acao": "Mark the point for 12/5 on the number line.",
+     "kc": "EstFractionNumLine",
+     "valor": "2 2/5"
+    },
+    {
+     "indice": 10,
+     "acao": "Click Done after entering the fraction, mixed number, and number-line point.",
+     "kc": "EstFractionNumLine",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "5/12",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the pieces per pack as the numerator and the total pieces as the denominator. The fraction must represent 12 total pieces in groups of 5. (Ou, se foi por outro motivo: The two numbers were placed in reverse order. The total of 12 pieces belongs above the 5 pieces in one pack.) (Ou, se foi por outro motivo: The two numbers were placed in reverse order. The total of 12 pieces belongs above the 5 pieces in one pack.)",
+     "buggyRule": "Usar o número de peças por pacote como numerador e o total dado como denominador: numerador = {pieces_per_pack}, denominador = {total_given}",
+     "misconceptionId": "misc_inverte_fracao_total_por_unidade"
+    },
+    {
+     "valor": "12",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You identified the total of 12 pieces, but the situation also uses 5 pieces per pack. Both numbers are needed to represent the fraction.",
+     "buggyRule": "Digitar apenas o total de peças (12) no numerador e deixar o denominador em branco ou como 1 implicitamente; na interface, preenche f1=12 e f2=1 ou esquece f2",
+     "misconceptionId": "misc_responde_apenas_com_total_dado"
+    },
+    {
+     "valor": "5",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the number of pieces in one pack. The numerator represents the total given, which is 12. (Ou, se foi por outro motivo: The top box is the numerator. It should contain the total of 12 pieces, not the 5 pieces in one pack.) (Ou, se foi por outro motivo: The top box is the numerator. It should contain the total of 12 pieces, not the 5 pieces in one pack.)",
+     "buggyRule": "Usar o número de peças por pacote como numerador e o total dado como denominador: numerador = {pieces_per_pack}, denominador = {total_given}",
+     "misconceptionId": "misc_inverte_fracao_total_por_unidade"
+    },
+    {
+     "valor": "12/1",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The total of 12 is the numerator, but the fraction also needs the 5 pieces in each pack as its denominator.",
+     "buggyRule": "Digitar apenas o total de peças (12) no numerador e deixar o denominador em branco ou como 1 implicitamente; na interface, preenche f1=12 e f2=1 ou esquece f2",
+     "misconceptionId": "misc_responde_apenas_com_total_dado"
+    },
+    {
+     "valor": "2 3/5",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the 3 pieces needed to reach the next whole pack. The mixed number uses the 2 pieces that actually remain after two groups of five.",
+     "buggyRule": "Calcula o resto como (denominador - resto real): parte inteira = floor(12/5)=2, mas resto = 5 - (12 mod 5) = 5 - 2 = 3 → número misto = 2 3/5",
+     "misconceptionId": "misc_divide_errado_na_conversao"
+    },
+    {
+     "valor": "2 2/1",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The remainder is still measured in fifths, so its denominator must remain 5 rather than changing to 1.",
+     "buggyRule": "Escreve o número misto como parte inteira + resto, sem manter o denominador original: 12/5 → 2 2/1",
+     "misconceptionId": "misc_esquece_de_converter_resto_para_frac"
+    },
+    {
+     "valor": "2 3/5",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The remainder should count the pieces left after two complete groups of five. Two pieces remain, not three.",
+     "buggyRule": "Calcula o resto como (denominador - resto real): parte inteira = floor(12/5)=2, mas resto = 5 - (12 mod 5) = 5 - 2 = 3 → número misto = 2 3/5",
+     "misconceptionId": "misc_divide_errado_na_conversao"
+    },
+    {
+     "valor": "2 2/1",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The leftover part is made of fifths, so the denominator in the mixed number remains 5.",
+     "buggyRule": "Escreve o número misto como parte inteira + resto, sem manter o denominador original: 12/5 → 2 2/1",
+     "misconceptionId": "misc_esquece_de_converter_resto_para_frac"
+    },
+    {
+     "valor": "0.4",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Twelve pieces are more than two groups of five, so the value is greater than 2, not less than 1.",
+     "buggyRule": "",
+     "misconceptionId": "misc_estima_como_menos_que_1"
+    },
+    {
+     "valor": "2.5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point is two fifths after 2, which is slightly before the halfway point between 2 and 3.",
+     "buggyRule": "Posicionar a fração imprópria próxima à metade da unidade seguinte, ignorando o denominador: 12/5 ≈ 2.4, mas aluno marca 2.5",
+     "misconceptionId": "misc_ancora_na_metade_em_vez_do_valor_real"
+    },
+    {
+     "valor": "12",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number line shows packs, not individual pieces. Twelve pieces correspond to a value between 2 and 3 packs.",
+     "buggyRule": "Tratar cada marca da reta como 1 unidade inteira, ignorando que a escala é 0 a 3 com subdivisões: marca o ponto em 12",
+     "misconceptionId": "misc_confunde_escala_da_unidade"
+    },
+    {
+     "valor": "2 3/5",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The target is two fifths after 2. Counting the next mark as an extra fifth moves the point one interval too far.",
+     "buggyRule": "Contar marcas em vez de intervalos: após o inteiro, a primeira marca é contada como 1/5, então k/5 é posicionado na (k+1)-ésima marca → valor = integer_part + (remainder + 1)/denominator",
+     "misconceptionId": "misc_off_by_one_na_contagem_de_marcas"
+    },
+    {
+     "valor": "2.5",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Two fifths is less than one half, so the point belongs slightly before the midpoint between 2 and 3.",
+     "buggyRule": "Posicionar a fração imprópria próxima à metade da unidade seguinte, ignorando o denominador: 12/5 ≈ 2.4, mas aluno marca 2.5",
+     "misconceptionId": "misc_ancora_na_metade_em_vez_do_valor_real"
+    },
+    {
+     "valor": "12",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number line is scaled from 0 to 3 packs. Mark the equivalent pack value, not the total number of individual pieces.",
+     "buggyRule": "Tratar cada marca da reta como 1 unidade inteira, ignorando que a escala é 0 a 3 com subdivisões: marca o ponto em 12",
+     "misconceptionId": "misc_confunde_escala_da_unidade"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Focus on the total number of pieces Brandon gave and the number of pieces in one pack."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Write the total amount being shared first, then write the amount in one pack."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "The total amount is 12 pieces, and each pack contains 5 pieces."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Represent the sharing situation by placing the total pieces above the pieces in one pack."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "Ask which number tells how many pieces Brandon gave his friends altogether."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Use the total quantity from the story as the numerator."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Look for the phrase that tells the total number of pieces given away."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Type the total number of pieces, not the number of pieces in one pack, in the top box."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "Think about the size of one complete pack."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Use the number that describes how many equal pieces make one pack as the denominator."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Each pack had five pieces."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Place the number of pieces in one pack in the bottom box."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "A fraction compares the total amount with the size of one equal group."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Place the total in the top field and the amount in one pack in the bottom field."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "The two values from the story are 12 and 5."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Record twelve over five in the two fraction fields."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "Compare the number of pieces given with the number of pieces in one whole pack."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "A fraction is greater than one when its numerator is greater than its denominator."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Compare 12 with 5 before deciding whether the fraction is less than, equal to, or greater than one."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Use the fraction model to represent twelve fifths, which contains more than one complete group of five."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "A mixed number shows the complete groups first and the leftover part second."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Divide the numerator by the denominator; the quotient is the whole-number part and the remainder becomes the new numerator."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Two groups of five use 10 pieces, leaving 2 pieces from the original 12."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Write the two complete groups followed by the two remaining fifths."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "The converted form separates complete packs from the leftover fraction of a pack."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Click Convert, then enter the quotient, remainder, and original denominator in that order."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "The quotient is 2, the remainder is 2, and the denominator stays 5."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Fill the whole-number box with the complete groups, then fill the fractional boxes with the leftover fifths."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "First locate the two complete units, then locate the leftover fraction within the next unit."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Convert the improper fraction to a mixed number before estimating its position."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "The point is between 2 and 3, and the interval from 2 to 3 is divided into five equal parts."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "From 2, count two equal fifths toward 3 and use that location for the point."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "Use the number line as a model for complete units and equal fractional parts."
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Start at 2 and move forward by two of the five equal intervals before reaching 3."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "The target is the second fifth after 2, not the first fifth and not the midpoint."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Place the point at the location two equal subdivisions to the right of 2."
+    },
+    {
+     "passo": 10,
+     "nivel": 1,
+     "texto": "Before submitting, check that the fraction, mixed number, and location all describe the same quantity."
+    },
+    {
+     "passo": 10,
+     "nivel": 2,
+     "texto": "Review the top and bottom fraction fields, the converted fields, and the point on the number line."
+    },
+    {
+     "passo": 10,
+     "nivel": 3,
+     "texto": "Confirm that the fraction uses 12 over 5 and that the point lies between 2 and 3."
+    },
+    {
+     "passo": 10,
+     "nivel": 4,
+     "texto": "When every representation is complete and consistent, press the Done button to submit."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": true,
+   "valoresEstranhos": [
+    "22/5→22",
+    "22/5→22",
+    "22/5→22",
+    "22/5→22"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "12/5",
+    "12",
+    "5",
+    "12/5",
+    "12/5",
+    "22/5",
+    "22/5",
+    "22/5",
+    "22/5",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "What if Brandon shared more gum? Let's say each pack had five pieces and he gave his friends a total of 12 pieces. Describe the number of packs of gum Brandon gave away and show the value on the number line.\nWhat is the fraction in the problem? Convert it to mixed fraction form if it will help you.",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Use the fraction fields to represent the packs Brandon gave away from 12 pieces and 5 pieces per pack.",
+     "expectedAnswer": "12/5",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter the total number of pieces in the top fraction box.",
+     "expectedAnswer": "12",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter the number of pieces in one pack in the bottom fraction box.",
+     "expectedAnswer": "5",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Complete the fraction fields with the total pieces over the pieces in one pack.",
+     "expectedAnswer": "12/5",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Use the fraction model to show that 12/5 is greater than one whole.",
+     "expectedAnswer": "12/5",
+     "renderAs": "dynamic_spec",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Determine the mixed-number form of 12/5.",
+     "expectedAnswer": "2 2/5",
+     "renderAs": "dynamic_spec",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Click Convert, then enter the mixed number in the three new boxes.",
+     "expectedAnswer": "2 2/5",
+     "renderAs": "dynamic_spec",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Estimate where 12/5 belongs on the number line from 0 to 3.",
+     "expectedAnswer": "2 2/5",
+     "renderAs": "dynamic_spec",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Mark the point for 12/5 on the number line.",
+     "expectedAnswer": "2 2/5",
+     "renderAs": "dynamic_spec",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_10",
+     "instruction": "Click Done after entering the fraction, mixed number, and number-line point.",
+     "expectedAnswer": "ok",
+     "renderAs": "dynamic_spec",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 49523,
+   "exerciciosGerados": 1,
+   "passosGenericos": 10,
+   "passosMaterializados": 10,
+   "dicasMaterializadas": 40,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Use the fraction fields to represent the packs Brandon gave away from 12 pieces and 5 pieces per pack.",
+     "instruction": "Use the fraction fields to represent the packs Brandon gave away from 12 pieces and 5 pieces per pack.",
+     "expectedInput": {
+      "value": "12/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Focus on the total number of pieces Brandon gave and the number of pieces in one pack."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Write the total amount being shared first, then write the amount in one pack."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The total amount is 12 pieces, and each pack contains 5 pieces."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Represent the sharing situation by placing the total pieces above the pieces in one pack."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_fracao_total_por_unidade",
+       "wrongAnswer": "5/12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote' | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador",
+       "feedback": "You used the pieces per pack as the numerator and the total pieces as the denominator. The fraction must represent 12 total pieces in groups of 5. (Ou, se foi por outro motivo: The two numbers were placed in reverse order. The total of 12 pieces belongs above the 5 pieces in one pack.) (Ou, se foi por outro motivo: The two numbers were placed in reverse order. The total of 12 pieces belongs above the 5 pieces in one pack.)",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_apenas_com_total_dado",
+       "wrongAnswer": "12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final",
+       "feedback": "You identified the total of 12 pieces, but the situation also uses 5 pieces per pack. Both numbers are needed to represent the fraction.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_fracao_total_por_unidade__step_1",
+      "scaffold_misc_responde_apenas_com_total_dado__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter the total number of pieces in the top fraction box.",
+     "instruction": "Enter the total number of pieces in the top fraction box.",
+     "expectedInput": {
+      "value": "12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Ask which number tells how many pieces Brandon gave his friends altogether."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the total quantity from the story as the numerator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look for the phrase that tells the total number of pieces given away."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the total number of pieces, not the number of pieces in one pack, in the top box."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_fracao_total_por_unidade",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote' | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador",
+       "feedback": "You entered the number of pieces in one pack. The numerator represents the total given, which is 12. (Ou, se foi por outro motivo: The top box is the numerator. It should contain the total of 12 pieces, not the 5 pieces in one pack.) (Ou, se foi por outro motivo: The top box is the numerator. It should contain the total of 12 pieces, not the 5 pieces in one pack.)",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_apenas_com_total_dado",
+       "wrongAnswer": "12/1",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final",
+       "feedback": "The total of 12 is the numerator, but the fraction also needs the 5 pieces in each pack as its denominator.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_fracao_total_por_unidade__step_2",
+      "scaffold_misc_responde_apenas_com_total_dado__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter the number of pieces in one pack in the bottom fraction box.",
+     "instruction": "Enter the number of pieces in one pack in the bottom fraction box.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Think about the size of one complete pack."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the number that describes how many equal pieces make one pack as the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Each pack had five pieces."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Place the number of pieces in one pack in the bottom box."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Complete the fraction fields with the total pieces over the pieces in one pack.",
+     "instruction": "Complete the fraction fields with the total pieces over the pieces in one pack.",
+     "expectedInput": {
+      "value": "12/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A fraction compares the total amount with the size of one equal group."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Place the total in the top field and the amount in one pack in the bottom field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The two values from the story are 12 and 5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Record twelve over five in the two fraction fields."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Use the fraction model to show that 12/5 is greater than one whole.",
+     "instruction": "Use the fraction model to show that 12/5 is greater than one whole.",
+     "expectedInput": {
+      "value": "12/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare the number of pieces given with the number of pieces in one whole pack."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "A fraction is greater than one when its numerator is greater than its denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Compare 12 with 5 before deciding whether the fraction is less than, equal to, or greater than one."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Use the fraction model to represent twelve fifths, which contains more than one complete group of five."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Determine the mixed-number form of 12/5.",
+     "instruction": "Determine the mixed-number form of 12/5.",
+     "expectedInput": {
+      "value": "2 2/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A mixed number shows the complete groups first and the leftover part second."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the numerator by the denominator; the quotient is the whole-number part and the remainder becomes the new numerator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Two groups of five use 10 pieces, leaving 2 pieces from the original 12."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Write the two complete groups followed by the two remaining fifths."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_errado_na_conversao",
+       "wrongAnswer": "2 3/5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária",
+       "feedback": "You used the 3 pieces needed to reach the next whole pack. The mixed number uses the 2 pieces that actually remain after two groups of five.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_esquece_de_converter_resto_para_frac",
+       "wrongAnswer": "2 2/1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5",
+       "feedback": "The remainder is still measured in fifths, so its denominator must remain 5 rather than changing to 1.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_errado_na_conversao__step_6",
+      "scaffold_misc_esquece_de_converter_resto_para_frac__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Click Convert, then enter the mixed number in the three new boxes.",
+     "instruction": "Click Convert, then enter the mixed number in the three new boxes.",
+     "expectedInput": {
+      "value": "2 2/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The converted form separates complete packs from the leftover fraction of a pack."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Click Convert, then enter the quotient, remainder, and original denominator in that order."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The quotient is 2, the remainder is 2, and the denominator stays 5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Fill the whole-number box with the complete groups, then fill the fractional boxes with the leftover fifths."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_errado_na_conversao",
+       "wrongAnswer": "2 3/5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária",
+       "feedback": "The remainder should count the pieces left after two complete groups of five. Two pieces remain, not three.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_esquece_de_converter_resto_para_frac",
+       "wrongAnswer": "2 2/1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5",
+       "feedback": "The leftover part is made of fifths, so the denominator in the mixed number remains 5.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_errado_na_conversao__step_7",
+      "scaffold_misc_esquece_de_converter_resto_para_frac__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Estimate where 12/5 belongs on the number line from 0 to 3.",
+     "instruction": "Estimate where 12/5 belongs on the number line from 0 to 3.",
+     "expectedInput": {
+      "value": "2 2/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "First locate the two complete units, then locate the leftover fraction within the next unit."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Convert the improper fraction to a mixed number before estimating its position."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The point is between 2 and 3, and the interval from 2 to 3 is divided into five equal parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "From 2, count two equal fifths toward 3 and use that location for the point."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_estima_como_menos_que_1",
+       "wrongAnswer": "0.4",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno trata fração imprópria como própria após inversão, estimando valor <1",
+       "feedback": "Twelve pieces are more than two groups of five, so the value is greater than 2, not less than 1.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade_em_vez_do_valor_real",
+       "wrongAnswer": "2.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno aproxima qualquer fração não inteira para a metade da unidade atual",
+       "feedback": "The point is two fifths after 2, which is slightly before the halfway point between 2 and 3.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_escala_da_unidade",
+       "wrongAnswer": "12",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)",
+       "feedback": "The number line shows packs, not individual pieces. Twelve pieces correspond to a value between 2 and 3 packs.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_estima_como_menos_que_1",
+      "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_8",
+      "scaffold_misc_confunde_escala_da_unidade__step_8",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Mark the point for 12/5 on the number line.",
+     "instruction": "Mark the point for 12/5 on the number line.",
+     "expectedInput": {
+      "value": "2 2/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Use the number line as a model for complete units and equal fractional parts."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Start at 2 and move forward by two of the five equal intervals before reaching 3."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The target is the second fifth after 2, not the first fifth and not the midpoint."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Place the point at the location two equal subdivisions to the right of 2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_off_by_one_na_contagem_de_marcas",
+       "wrongAnswer": "2 3/5",
+       "misconceptionType": "count_error",
+       "description": "Aluno confunde marcas com divisões: acha que a marca imediatamente após o inteiro é o primeiro quinto, quando na verdade representa o fim do primeiro intervalo",
+       "feedback": "The target is two fifths after 2. Counting the next mark as an extra fifth moves the point one interval too far.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade_em_vez_do_valor_real",
+       "wrongAnswer": "2.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno aproxima qualquer fração não inteira para a metade da unidade atual",
+       "feedback": "Two fifths is less than one half, so the point belongs slightly before the midpoint between 2 and 3.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_escala_da_unidade",
+       "wrongAnswer": "12",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)",
+       "feedback": "The number line is scaled from 0 to 3 packs. Mark the equivalent pack value, not the total number of individual pieces.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_off_by_one_na_contagem_de_marcas",
+      "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_9",
+      "scaffold_misc_confunde_escala_da_unidade__step_9",
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "step_10",
+     "type": "step",
+     "description": "Click Done after entering the fraction, mixed number, and number-line point.",
+     "instruction": "Click Done after entering the fraction, mixed number, and number-line point.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Before submitting, check that the fraction, mixed number, and location all describe the same quantity."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Review the top and bottom fraction fields, the converted fields, and the point on the number line."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Confirm that the fraction uses 12 over 5 and that the point lies between 2 and 3."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "When every representation is complete and consistent, press the Done button to submit."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_10"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_10",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inverte_fracao_total_por_unidade__step_1",
+     "type": "scaffold",
+     "description": "Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote' | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador",
+     "instruction": "You used the pieces per pack as the numerator and the total pieces as the denominator. The fraction must represent 12 total pieces in groups of 5. (Ou, se foi por outro motivo: The two numbers were placed in reverse order. The total of 12 pieces belongs above the 5 pieces in one pack.)",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_fracao_total_por_unidade"
+    },
+    {
+     "id": "scaffold_misc_responde_apenas_com_total_dado__step_1",
+     "type": "scaffold",
+     "description": "Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final",
+     "instruction": "You identified the total of 12 pieces, but the situation also uses 5 pieces per pack. Both numbers are needed to represent the fraction.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_apenas_com_total_dado"
+    },
+    {
+     "id": "scaffold_misc_inverte_fracao_total_por_unidade__step_2",
+     "type": "scaffold",
+     "description": "Aluno confunde o que está sendo medido: pensa que a fração representa 'pacotes por peça' em vez de 'peças por pacote' | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador | Erro de interface: sabe a fração correta, mas digita invertido por confundir qual caixa é numerador/denominador",
+     "instruction": "You entered the number of pieces in one pack. The numerator represents the total given, which is 12. (Ou, se foi por outro motivo: The top box is the numerator. It should contain the total of 12 pieces, not the 5 pieces in one pack.)",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_fracao_total_por_unidade"
+    },
+    {
+     "id": "scaffold_misc_responde_apenas_com_total_dado__step_2",
+     "type": "scaffold",
+     "description": "Aluno ignora o denominador e responde com um número inteiro, tratando a quantidade total como resposta final",
+     "instruction": "The total of 12 is the numerator, but the fraction also needs the 5 pieces in each pack as its denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_apenas_com_total_dado"
+    },
+    {
+     "id": "scaffold_misc_divide_errado_na_conversao__step_6",
+     "type": "scaffold",
+     "description": "Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária",
+     "instruction": "You used the 3 pieces needed to reach the next whole pack. The mixed number uses the 2 pieces that actually remain after two groups of five.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_errado_na_conversao"
+    },
+    {
+     "id": "scaffold_misc_esquece_de_converter_resto_para_frac__step_6",
+     "type": "scaffold",
+     "description": "Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5",
+     "instruction": "The remainder is still measured in fifths, so its denominator must remain 5 rather than changing to 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_esquece_de_converter_resto_para_frac"
+    },
+    {
+     "id": "scaffold_misc_divide_errado_na_conversao__step_7",
+     "type": "scaffold",
+     "description": "Aluno calcula o complemento em vez do resto: pensa 'faltam 3 para completar o próximo pacote', e usa isso como parte fracionária",
+     "instruction": "The remainder should count the pieces left after two complete groups of five. Two pieces remain, not three.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_errado_na_conversao"
+    },
+    {
+     "id": "scaffold_misc_esquece_de_converter_resto_para_frac__step_7",
+     "type": "scaffold",
+     "description": "Aluno mantém o resto como número inteiro na parte fracionária, ignorando que o denominador deve permanecer 5",
+     "instruction": "The leftover part is made of fifths, so the denominator in the mixed number remains 5.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_esquece_de_converter_resto_para_frac"
+    },
+    {
+     "id": "scaffold_misc_estima_como_menos_que_1",
+     "type": "scaffold",
+     "description": "Aluno trata fração imprópria como própria após inversão, estimando valor <1",
+     "instruction": "Twelve pieces are more than two groups of five, so the value is greater than 2, not less than 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_estima_como_menos_que_1"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_8",
+     "type": "scaffold",
+     "description": "Aluno aproxima qualquer fração não inteira para a metade da unidade atual",
+     "instruction": "The point is two fifths after 2, which is slightly before the halfway point between 2 and 3.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade_em_vez_do_valor_real"
+    },
+    {
+     "id": "scaffold_misc_confunde_escala_da_unidade__step_8",
+     "type": "scaffold",
+     "description": "Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)",
+     "instruction": "The number line shows packs, not individual pieces. Twelve pieces correspond to a value between 2 and 3 packs.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_escala_da_unidade"
+    },
+    {
+     "id": "scaffold_misc_off_by_one_na_contagem_de_marcas",
+     "type": "scaffold",
+     "description": "Aluno confunde marcas com divisões: acha que a marca imediatamente após o inteiro é o primeiro quinto, quando na verdade representa o fim do primeiro intervalo",
+     "instruction": "The target is two fifths after 2. Counting the next mark as an extra fifth moves the point one interval too far.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_off_by_one_na_contagem_de_marcas"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_9",
+     "type": "scaffold",
+     "description": "Aluno aproxima qualquer fração não inteira para a metade da unidade atual",
+     "instruction": "Two fifths is less than one half, so the point belongs slightly before the midpoint between 2 and 3.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade_em_vez_do_valor_real"
+    },
+    {
+     "id": "scaffold_misc_confunde_escala_da_unidade__step_9",
+     "type": "scaffold",
+     "description": "Aluno ignora completamente a escala da reta (0 a 3) e tenta marcar o valor absoluto (12)",
+     "instruction": "The number line is scaled from 0 to 3 packs. Mark the equivalent pack value, not the total number of individual pieces.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_escala_da_unidade"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(FracGreater1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "correct"
+    },
+    {
+     "from": "step_10",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inverte_fracao_total_por_unidade__step_1",
+     "condition": "misconception(misc_inverte_fracao_total_por_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_fracao_total_por_unidade__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_responde_apenas_com_total_dado__step_1",
+     "condition": "misconception(misc_responde_apenas_com_total_dado)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_apenas_com_total_dado__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inverte_fracao_total_por_unidade__step_2",
+     "condition": "misconception(misc_inverte_fracao_total_por_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_fracao_total_por_unidade__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_responde_apenas_com_total_dado__step_2",
+     "condition": "misconception(misc_responde_apenas_com_total_dado)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_apenas_com_total_dado__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_divide_errado_na_conversao__step_6",
+     "condition": "misconception(misc_divide_errado_na_conversao)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_errado_na_conversao__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_esquece_de_converter_resto_para_frac__step_6",
+     "condition": "misconception(misc_esquece_de_converter_resto_para_frac)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_esquece_de_converter_resto_para_frac__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_divide_errado_na_conversao__step_7",
+     "condition": "misconception(misc_divide_errado_na_conversao)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_errado_na_conversao__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_esquece_de_converter_resto_para_frac__step_7",
+     "condition": "misconception(misc_esquece_de_converter_resto_para_frac)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_esquece_de_converter_resto_para_frac__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_estima_como_menos_que_1",
+     "condition": "misconception(misc_estima_como_menos_que_1)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_estima_como_menos_que_1",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_8",
+     "condition": "misconception(misc_ancora_na_metade_em_vez_do_valor_real)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_confunde_escala_da_unidade__step_8",
+     "condition": "misconception(misc_confunde_escala_da_unidade)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_confunde_escala_da_unidade__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_off_by_one_na_contagem_de_marcas",
+     "condition": "misconception(misc_off_by_one_na_contagem_de_marcas)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_off_by_one_na_contagem_de_marcas",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_9",
+     "condition": "misconception(misc_ancora_na_metade_em_vez_do_valor_real)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade_em_vez_do_valor_real__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_confunde_escala_da_unidade__step_9",
+     "condition": "misconception(misc_confunde_escala_da_unidade)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_confunde_escala_da_unidade__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_generic_step_10",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

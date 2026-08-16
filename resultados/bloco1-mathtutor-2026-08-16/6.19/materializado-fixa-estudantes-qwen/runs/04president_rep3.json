@@ -1,0 +1,2483 @@
+{
+ "id": "04president",
+ "correctAnswer": "7/10",
+ "audit": {
+  "ok": true,
+  "stepCount": 9
+ },
+ "f1": 0.154,
+ "conceptual": 0.167,
+ "precision": 0.154,
+ "recall": 0.154,
+ "functionalAgreement": 0.6,
+ "functionalKappa": 0.375,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "3/5",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "10",
+  "7",
+  "6/10",
+  "1"
+ ],
+ "exercicio": "04president",
+ "replica": 3,
+ "geradoEm": "2026-08-16T17:33:47.629Z",
+ "promptSha256": "1291cf23a92f82ad9398ca2365fa09d2dd4cf6ee6bc038123d1bb6473a080199",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7562,
+  "tokensSaida": 6254,
+  "usd": 0.03028896
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 9
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Fração mencionada: 7/10"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração no enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} (onde {A} = 7)"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração no enunciado",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} (onde {B} = 10)"
+   },
+   {
+    "indice": 4,
+    "acao": "Inserir o numerador no campo f1",
+    "kc": "IdenNumerator",
+    "valor": "Campo f1 preenchido com {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Inserir o denominador no campo f2",
+    "kc": "IdenDenominator",
+    "valor": "Campo f2 preenchido com {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Verificar se a fração é menor que 1",
+    "kc": "FracLess1",
+    "valor": "Confirmação: fração está entre 0 e 1"
+   },
+   {
+    "indice": 7,
+    "acao": "Localizar a posição exata de 7/10 na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Posição identificada: sétima marca após 0"
+   },
+   {
+    "indice": 8,
+    "acao": "Marcar o ponto correspondente a 7/10 na reta numérica (numline)",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado corretamente em {A}/{B}"
+   },
+   {
+    "indice": 9,
+    "acao": "Pressionar o botão Done para concluir",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "10",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar frases completas: '7 de 10 alunos' → 7 é a parte (numerador), 10 é o todo (denominador)",
+    "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "7",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar “denominador” com “denomina o todo” e “numerador” com “numero da parte”",
+    "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "6/10",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar contagem de intervalos (não de pontos) usando cores ou setas entre os traços da reta",
+    "buggyRule": "Contar a partir do zero como se fosse a primeira marca: posição = ({numerator} - 1)/{denominator}",
+    "misconceptionId": "misc_contagem_off_by_one_esquerda"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reler o enunciado destacando '7 de 10', e comparar com casos conhecidos (ex: metade = 5/10)",
+    "buggyRule": "",
+    "misconceptionId": "misc_ancora_no_inteiro_para_fracoes_improprias"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando um problema diz '7 em cada 10', qual número representa as partes que temos e qual representa o total de partes? Pense nisso!"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, veja quantos estudantes votaram nele — esse é o numerador. Depois, veja quantos estudantes há no total — esse é o denominador. Digite esses números nos campos corretos."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração tem um número menor que 10 em cima e 10 embaixo. Você já viu isso no enunciado — procure onde aparece '7/10'."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! O enunciado diz exatamente: '7/10 dos alunos'. Então, digite 7 na caixa de cima (f1) e 10 na caixa de baixo (f2)."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Se a unidade está dividida em 10 partes iguais, como você pode estimar onde fica a sétima parte?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Vamos lá! Imagine que de 0 a 1 há 10 passos iguais. Conte mentalmente: 1/10, 2/10, ..., até chegar a 7/10. Marque o ponto um pouco antes do final da reta."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! 7/10 está mais perto de 1 do que de 0, mas ainda não chegou ao fim. Está entre 6/10 e 8/10 — tente marcar um pouco antes da metade do último terço da reta."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase! Pense assim: se 5/10 é exatamente no meio (0,5), então 7/10 está dois décimos depois disso. Conte dois passinhos à direita do meio e marque ali!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04president\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O enunciado afirma que 7/10 dos estudantes votaram em Jason. Preciso identificar essa fração.\\\",\\n          \\\"result\\\": \\\"Fração mencionada: 7/10\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração no enunciado\\\",\\n          \\\"thinking\\\": \\\"O número acima da barra da fração é 7, pois '7 de cada 10' votaram em Jason.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} (onde {A} = 7)\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração no enunciado\\\",\\n          \\\"thinking\\\": \\\"O número abaixo da barra da fração é 10, pois o total considerado é '10 estudantes'.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} (onde {B} = 10)\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Inserir o numerador no campo f1\\\",\\n          \\\"thinking\\\": \\\"Devo digitar o valor 7 no campo superior da fração.\\\",\\n          \\\"result\\\": \\\"Campo f1 preenchido com {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Inserir o denominador no campo f2\\\",\\n          \\\"thinking\\\": \\\"Devo digitar o valor 10 no campo inferior da fração.\\\",\\n          \\\"result\\\": \\\"Campo f2 preenchido com {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Verificar se a fração é menor que 1\\\",\\n          \\\"thinking\\\": \\\"Como 7 < 10, a fração 7/10 é menor que 1, então pertence ao intervalo [0,1] na reta numérica.\\\",\\n          \\\"result\\\": \\\"Confirmação: fração está entre 0 e 1\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Localizar a posição exata de 7/10 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 1 com divisões em décimos (denominador 10). Conto 7 marcas a partir do 0.\\\",\\n          \\\"result\\\": \\\"Posição identificada: sétima marca após 0\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 7/10 na reta numérica (numline)\\\",\\n          \\\"thinking\\\": \\\"Clico ou arrasto um ponto para a posição exata da sétima divisão entre 0 e 1.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Pressionar o botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os componentes foram preenchidos corretamente; posso finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 28\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04president\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o numerador da fração no campo f1\\\",\\n              \\\"thinking\\\": \\\"O problema diz que 7/10 votaram, então o número de cima é 7.\\\",\\n              \\\"result\\\": \\\"Campo f1 preenchido com 7\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Digitar o denominador da fração no campo f2\\\",\\n              \\\"thinking\\\": \\\"O total de alunos é 10, então o número de baixo é 10.\\\",\\n              \\\"result\\\": \\\"Campo f2 preenchido com 10\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"A fração é 7/10, então conto 7 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Ponto marcado na posição correspondente a 6/10 (uma marca antes do correto)\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_off_by_one_esquerda\\\",\\n                \\\"type\\\": \\\"off_by_one\\\",\\n                \\\"wrongAnswer\\\": \\\"6/10\\\",\\n                \\\"description\\\": \\\"Aluno conta as marcas começando do zero como primeira marca, resultando em uma posição um décimo antes do valor correto\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao contar as marcas na reta numérica, o aluno começou a contagem considerando o ponto 0 como a primeira marca\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você começa no zero, quantas marcas você precisa passar para chegar a 1/10? E para 2/10?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você identificou bem a fração. Só vamos ajustar onde colocamos o ponto: lembre-se de que o zero é o ponto de partida, não a primeira marca!\\\",\\n                \\\"howToFix\\\": \\\"Praticar contagem de intervalos (não de pontos) usando cores ou setas entre os traços da reta\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Terminei!\\\",\\n              \\\"result\\\": \\\"Submissão finalizada\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"7/10 (fração correta), mas ponto em 6/10\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o numerador da fração no campo f1\\\",\\n              \\\"thinking\\\": \\\"Votaram 7 de 10, então coloco 10 em cima porque é o total.\\\",\\n              \\\"result\\\": \\\"Campo f1 preenchido com 10\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"10\\\",\\n                \\\"description\\\": \\\"Aluno confunde qual número vai no numerador e coloca o total (denominador) em cima\\\",\\n                \\\"mistakeLocation\\\": \\\"Na identificação do numerador, o aluno usou o número total de estudantes (10) em vez dos que votaram (7)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O numerador representa a parte ou o todo? Quem foi que votou em Jason?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando no todo — ótimo sinal! Mas lembre-se: o número de cima é a PARTE que votou em Jason, não o total de alunos.\\\",\\n                \\\"howToFix\\\": \\\"Usar frases completas: '7 de 10 alunos' → 7 é a parte (numerador), 10 é o todo (denominador)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Digitar o denominador da fração no campo f2\\\",\\n              \\\"thinking\\\": \\\"E os que votaram foram 7, então coloco 7 embaixo.\\\",\\n              \\\"result\\\": \\\"Campo f2 preenchido com 7\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"7\\\",\\n                \\\"description\\\": \\\"Aluno coloca o numerador correto no lugar do denominador, invertendo totalmente a fração\\\",\\n                \\\"mistakeLocation\\\": \\\"Na identificação do denominador, o aluno usou o número de votos (7) em vez do total de alunos (10)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se todos os alunos votassem em Jason, qual seria a fração? Isso nos ajuda a lembrar onde vai o total.\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está usando os números certos! Só trocou os lugares. Vamos lembrar: o denominador é SEMPRE o total — o ‘de quantos’ estamos falando.\\\",\\n                \\\"howToFix\\\": \\\"Associar “denominador” com “denomina o todo” e “numerador” com “numero da parte”\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"A fração é 10/7, mas isso é maior que 1... então coloco no 1 mesmo.\\\",\\n              \\\"result\\\": \\\"Ponto marcado em 1\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_ancora_no_inteiro_para_fracoes_improprias\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno, ao gerar uma fração imprópria por erro de inversão, ancora no inteiro mais próximo (1) pois a reta só vai até 1\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar a fração na reta, o aluno percebe que 10/7 > 1 e coloca o ponto no limite da reta (1)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Sua fração é maior que 1? A reta mostra valores maiores que 1? O que o problema realmente diz sobre a fração?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Interessante! Você notou que sua fração passou de 1. Mas será que a fração do problema é realmente maior que 1? Vamos reler juntos.\\\",\\n                \\\"howToFix\\\": \\\"Reler o enunciado destacando '7 de 10', e comparar com casos conhecidos (ex: metade = 5/10)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Pronto!\\\",\\n              \\\"result\\\": \\\"Submissão finalizada\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"10/7 (fração incorreta), ponto em 1\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"04president\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}\\\",\\n              \\\"description\\\": \\\"Aluno coloca o total (10) no numerador, confundindo parte e todo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do numerador, o aluno usa o número que representa o todo (denominador) em vez da parte (numerador)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quem votou em Jason: todos os alunos ou só uma parte? Qual número representa essa parte?\\\",\\n              \\\"feedback\\\": \\\"Você está olhando para os números certos! Só precisamos lembrar: o número de cima é sempre a parte que estamos destacando — nesse caso, os que votaram em Jason.\\\",\\n              \\\"howToFix\\\": \\\"Treinar com frases do tipo 'X de Y' → X vai em cima, Y embaixo\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_total_em_vez_da_parte\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_students}\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o total de alunos (10) como se fosse a fração pedida, ignorando que é uma parte: wrongAnswer = {total_students}\\\",\\n              \\\"description\\\": \\\"Aluno responde com o número total de alunos (10) como se fosse a fração, sem usar barra nem denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao extrair a fração do texto, o aluno foca no número saliente (10) e ignora a estrutura fracionária\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema pergunta por uma fração. Uma fração tem dois números. Quais são os dois números mencionados?\\\",\\n              \\\"feedback\\\": \\\"Você viu um número importante! Mas lembre-se: frações têm duas partes. Vamos procurar os dois números que aparecem juntos: '7 de 10'.\\\",\\n              \\\"howToFix\\\": \\\"Destacar no texto com cores: '7' (parte) e '10' (todo); associar a modelo visual de pizza dividida\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"04president\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador (número de votos) como denominador: wrongAnswer = {numerator}\\\",\\n              \\\"description\\\": \\\"Aluno coloca o número de votos (7) no denominador, completando a inversão da fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do denominador, o aluno repete o erro de trocar parte e todo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a fração fosse 1/2, o 2 representaria o total ou a parte? Então aqui, quem é o total?\\\",\\n              \\\"feedback\\\": \\\"Você está usando os números certos! Só precisamos garantir que o total fique embaixo — porque ele ‘denomina’ o grupo todo.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'de cada 10 alunos, 7 votaram' → 10 é o grupo base, vai embaixo\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_denominador_fixo_em_10_por_escala\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"10\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que o denominador é sempre 10 porque a reta tem 10 divisões, mesmo que o problema diga outra coisa (não aplicável aqui, mas plausível em variações)\\\",\\n              \\\"description\\\": \\\"Aluno fixa o denominador em 10 por causa da escala da reta, ignorando o contexto\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao decidir o denominador, o aluno é influenciado pela interface (reta com 10 partes) em vez do enunciado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado diz qual é o todo? Ou você está usando a reta para decidir?\\\",\\n              \\\"feedback\\\": \\\"Legal que você observou a reta! Mas o denominador vem do problema, não da reta. A reta só ajuda a mostrar onde fica a fração.\\\",\\n              \\\"howToFix\\\": \\\"Separar as etapas: primeiro ler o problema e escrever a fração; depois usar a reta para localizar\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"04president\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_off_by_one_esquerda\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({numerator} - 1)/{denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Contar a partir do zero como se fosse a primeira marca: posição = ({numerator} - 1)/{denominator}\\\",\\n              \\\"description\\\": \\\"Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das marcas na reta numérica, o aluno trata o ponto 0 como a marca 1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantos espaços há entre 0 e 1/10? É 1 espaço ou 0 espaços?\\\",\\n              \\\"feedback\\\": \\\"Você está quase lá! Lembre-se: a distância de 0 a 1/10 é UM intervalo. Conte os intervalos, não os pontos!\\\",\\n              \\\"howToFix\\\": \\\"Colorir os intervalos entre as marcas e contar os espaços, não as linhas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_off_by_one_direita\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({numerator} + 1)/{denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Contar uma marca a mais ao final: posição = ({numerator} + 1)/{denominator}\\\",\\n              \\\"description\\\": \\\"Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao finalizar a contagem na reta, o aluno ultrapassa o ponto correto por contar o destino como um passo adicional\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você dá 7 passos a partir do zero, onde você para? No sétimo intervalo ou no oitavo?\\\",\\n              \\\"feedback\\\": \\\"Boa contagem! Só tome cuidado para parar exatamente no sétimo passo — não dar um passo a mais depois.\\\",\\n              \\\"howToFix\\\": \\\"Usar dedo ou cursor para tocar cada intervalo enquanto conta em voz alta: '1º intervalo = 1/10', etc.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar os números do problema e marcar a metade (5/10) por ser um ponto de referência familiar\\\",\\n              \\\"description\\\": \\\"Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa da posição, o aluno recorre à âncora cognitiva da metade em vez de usar os dados\\\",\\n              \\\"diagnosticQuestion\\\": \\\"7/10 é mais que metade ou menos que metade? Onde fica a metade na reta?\\\",\\n              \\\"feedback\\\": \\\"Você conhece bem a metade — isso é ótimo! Agora, vamos comparar: 7/10 é MAIOR que 5/10 (metade), então deve ficar à direita dela.\\\",\\n              \\\"howToFix\\\": \\\"Marcar primeiro a metade (5/10), depois contar mais 2 décimos para a direita\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_numerador_com_posicao_absoluta\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator}\\\",\\n              \\\"buggyRule\\\": \\\"Tratar o numerador como um número inteiro na reta (ex: marcar 7 em vez de 7/10), ignorando o denominador\\\",\\n              \\\"description\\\": \\\"Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a fração, o aluno ignora o denominador e age como se o numerador fosse um inteiro\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta vai de 0 a 1. O número 7 cabe nela? Ou será que 7/10 é menor que 1?\\\",\\n              \\\"feedback\\\": \\\"Você viu o 7 — excelente! Mas lembre-se: 7/10 é MENOR que 1, então deve ficar entre 0 e 1, não depois do 1.\\\",\\n              \\\"howToFix\\\": \\\"Comparar com inteiros: '7/10 é como 0 vírgula alguma coisa' → pertence entre 0 e 1\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04president\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração mencionada\\\",\\n          \\\"thinking\\\": \\\"O problema diz que 7/10 dos alunos votaram no Jason... então a fração é 7 sobre 10? Mas será que eu devo escrever isso nas caixas f1 e f2?\\\",\\n          \\\"result\\\": \\\"Identificou corretamente que a fração é 7/10\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando um problema diz '7 em cada 10', qual número representa as partes que temos e qual representa o total de partes? Pense nisso!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, veja quantos estudantes votaram nele — esse é o numerador. Depois, veja quantos estudantes há no total — esse é o denominador. Digite esses números nos campos corretos.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração tem um número menor que 10 em cima e 10 embaixo. Você já viu isso no enunciado — procure onde aparece '7/10'.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! O enunciado diz exatamente: '7/10 dos alunos'. Então, digite 7 na caixa de cima (f1) e 10 na caixa de baixo (f2).\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Marcar a fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 1... e tem divisões de décimos, mas não mostra as marcas. Como sei onde fica 7/10? Será que é perto do 1?\\\",\\n          \\\"result\\\": \\\"Marca corretamente o ponto correspondente a 7/10 na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1, EstFractionNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Se a unidade está dividida em 10 partes iguais, como você pode estimar onde fica a sétima parte?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Vamos lá! Imagine que de 0 a 1 há 10 passos iguais. Conte mentalmente: 1/10, 2/10, ..., até chegar a 7/10. Marque o ponto um pouco antes do final da reta.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 7/10 está mais perto de 1 do que de 0, mas ainda não chegou ao fim. Está entre 6/10 e 8/10 — tente marcar um pouco antes da metade do último terço da reta.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Pense assim: se 5/10 é exatamente no meio (0,5), então 7/10 está dois décimos depois disso. Conte dois passinhos à direita do meio e marque ali!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Clicar em Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Acho que terminei tudo: coloquei 7 em cima, 10 embaixo e marquei o ponto certo.\\\",\\n          \\\"result\\\": \\\"Problema concluído com resposta correta\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"7/10\\\",\\n      \\\"totalTime\\\": 68,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Tentar converter 7/10 em número misto (mesmo sendo fração própria)\\\",\\n          \\\"steps\\\": [\\\"Clicar em Convert\\\", \\\"Confusão ao ver campos m1/m2/m3 vazios\\\", \\\"Desistir e voltar à fração original\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar tentativa e erro na reta numérica, ajustando o ponto várias vezes\\\",\\n          \\\"steps\\\": [\\\"Marcar perto de 0.5\\\", \\\"Ver que está errado\\\", \\\"Mover para perto de 0.8\\\", \\\"Ajustar para 0.7\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "04president",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O enunciado afirma que 7/10 dos estudantes votaram em Jason. Preciso identificar essa fração.",
+        "result": "Fração mencionada: 7/10",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração no enunciado",
+        "thinking": "O número acima da barra da fração é 7, pois '7 de cada 10' votaram em Jason.",
+        "result": "Numerador = {A} (onde {A} = 7)",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração no enunciado",
+        "thinking": "O número abaixo da barra da fração é 10, pois o total considerado é '10 estudantes'.",
+        "result": "Denominador = {B} (onde {B} = 10)",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Inserir o numerador no campo f1",
+        "thinking": "Devo digitar o valor 7 no campo superior da fração.",
+        "result": "Campo f1 preenchido com {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Inserir o denominador no campo f2",
+        "thinking": "Devo digitar o valor 10 no campo inferior da fração.",
+        "result": "Campo f2 preenchido com {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Verificar se a fração é menor que 1",
+        "thinking": "Como 7 < 10, a fração 7/10 é menor que 1, então pertence ao intervalo [0,1] na reta numérica.",
+        "result": "Confirmação: fração está entre 0 e 1",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Localizar a posição exata de 7/10 na reta numérica",
+        "thinking": "A reta vai de 0 a 1 com divisões em décimos (denominador 10). Conto 7 marcas a partir do 0.",
+        "result": "Posição identificada: sétima marca após 0",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Marcar o ponto correspondente a 7/10 na reta numérica (numline)",
+        "thinking": "Clico ou arrasto um ponto para a posição exata da sétima divisão entre 0 e 1.",
+        "result": "Ponto marcado corretamente em {A}/{B}",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Pressionar o botão Done para concluir",
+        "thinking": "Todos os componentes foram preenchidos corretamente; posso finalizar.",
+        "result": "Problema concluído",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 28
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "04president",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o numerador da fração no campo f1",
+          "thinking": "O problema diz que 7/10 votaram, então o número de cima é 7.",
+          "result": "Campo f1 preenchido com 7",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Digitar o denominador da fração no campo f2",
+          "thinking": "O total de alunos é 10, então o número de baixo é 10.",
+          "result": "Campo f2 preenchido com 10",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "A fração é 7/10, então conto 7 marcas a partir do zero.",
+          "result": "Ponto marcado na posição correspondente a 6/10 (uma marca antes do correto)",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_off_by_one_esquerda",
+           "type": "off_by_one",
+           "wrongAnswer": "6/10",
+           "description": "Aluno conta as marcas começando do zero como primeira marca, resultando em uma posição um décimo antes do valor correto",
+           "mistakeLocation": "Ao contar as marcas na reta numérica, o aluno começou a contagem considerando o ponto 0 como a primeira marca",
+           "diagnosticQuestion": "Se você começa no zero, quantas marcas você precisa passar para chegar a 1/10? E para 2/10?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você identificou bem a fração. Só vamos ajustar onde colocamos o ponto: lembre-se de que o zero é o ponto de partida, não a primeira marca!",
+           "howToFix": "Praticar contagem de intervalos (não de pontos) usando cores ou setas entre os traços da reta"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Clicar em Done",
+          "thinking": "Terminei!",
+          "result": "Submissão finalizada",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "7/10 (fração correta), mas ponto em 6/10",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o numerador da fração no campo f1",
+          "thinking": "Votaram 7 de 10, então coloco 10 em cima porque é o total.",
+          "result": "Campo f1 preenchido com 10",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "10",
+           "description": "Aluno confunde qual número vai no numerador e coloca o total (denominador) em cima",
+           "mistakeLocation": "Na identificação do numerador, o aluno usou o número total de estudantes (10) em vez dos que votaram (7)",
+           "diagnosticQuestion": "O numerador representa a parte ou o todo? Quem foi que votou em Jason?",
+           "severity": "high",
+           "feedback": "Você está pensando no todo — ótimo sinal! Mas lembre-se: o número de cima é a PARTE que votou em Jason, não o total de alunos.",
+           "howToFix": "Usar frases completas: '7 de 10 alunos' → 7 é a parte (numerador), 10 é o todo (denominador)"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Digitar o denominador da fração no campo f2",
+          "thinking": "E os que votaram foram 7, então coloco 7 embaixo.",
+          "result": "Campo f2 preenchido com 7",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "7",
+           "description": "Aluno coloca o numerador correto no lugar do denominador, invertendo totalmente a fração",
+           "mistakeLocation": "Na identificação do denominador, o aluno usou o número de votos (7) em vez do total de alunos (10)",
+           "diagnosticQuestion": "Se todos os alunos votassem em Jason, qual seria a fração? Isso nos ajuda a lembrar onde vai o total.",
+           "severity": "high",
+           "feedback": "Você está usando os números certos! Só trocou os lugares. Vamos lembrar: o denominador é SEMPRE o total — o ‘de quantos’ estamos falando.",
+           "howToFix": "Associar “denominador” com “denomina o todo” e “numerador” com “numero da parte”"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "A fração é 10/7, mas isso é maior que 1... então coloco no 1 mesmo.",
+          "result": "Ponto marcado em 1",
+          "kcUsed": "FracLess1",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_ancora_no_inteiro_para_fracoes_improprias",
+           "type": "conceptual_error",
+           "wrongAnswer": "1",
+           "description": "Aluno, ao gerar uma fração imprópria por erro de inversão, ancora no inteiro mais próximo (1) pois a reta só vai até 1",
+           "mistakeLocation": "Ao posicionar a fração na reta, o aluno percebe que 10/7 > 1 e coloca o ponto no limite da reta (1)",
+           "diagnosticQuestion": "Sua fração é maior que 1? A reta mostra valores maiores que 1? O que o problema realmente diz sobre a fração?",
+           "severity": "moderate",
+           "feedback": "Interessante! Você notou que sua fração passou de 1. Mas será que a fração do problema é realmente maior que 1? Vamos reler juntos.",
+           "howToFix": "Reler o enunciado destacando '7 de 10', e comparar com casos conhecidos (ex: metade = 5/10)"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Clicar em Done",
+          "thinking": "Pronto!",
+          "result": "Submissão finalizada",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "10/7 (fração incorreta), ponto em 1",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "04president",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{denominator}",
+          "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+          "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+          "mistakeLocation": "Na identificação do numerador, o aluno usa o número que representa o todo (denominador) em vez da parte (numerador)",
+          "diagnosticQuestion": "Quem votou em Jason: todos os alunos ou só uma parte? Qual número representa essa parte?",
+          "feedback": "Você está olhando para os números certos! Só precisamos lembrar: o número de cima é sempre a parte que estamos destacando — nesse caso, os que votaram em Jason.",
+          "howToFix": "Treinar com frases do tipo 'X de Y' → X vai em cima, Y embaixo",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_total_em_vez_da_parte",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_students}",
+          "buggyRule": "Responder com o total de alunos (10) como se fosse a fração pedida, ignorando que é uma parte: wrongAnswer = {total_students}",
+          "description": "Aluno responde com o número total de alunos (10) como se fosse a fração, sem usar barra nem denominador",
+          "mistakeLocation": "Ao extrair a fração do texto, o aluno foca no número saliente (10) e ignora a estrutura fracionária",
+          "diagnosticQuestion": "O problema pergunta por uma fração. Uma fração tem dois números. Quais são os dois números mencionados?",
+          "feedback": "Você viu um número importante! Mas lembre-se: frações têm duas partes. Vamos procurar os dois números que aparecem juntos: '7 de 10'.",
+          "howToFix": "Destacar no texto com cores: '7' (parte) e '10' (todo); associar a modelo visual de pizza dividida",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "04president",
+        "step": 2,
+        "kcUsed": "IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{numerator}",
+          "buggyRule": "Usar o numerador (número de votos) como denominador: wrongAnswer = {numerator}",
+          "description": "Aluno coloca o número de votos (7) no denominador, completando a inversão da fração",
+          "mistakeLocation": "Na identificação do denominador, o aluno repete o erro de trocar parte e todo",
+          "diagnosticQuestion": "Se a fração fosse 1/2, o 2 representaria o total ou a parte? Então aqui, quem é o total?",
+          "feedback": "Você está usando os números certos! Só precisamos garantir que o total fique embaixo — porque ele ‘denomina’ o grupo todo.",
+          "howToFix": "Usar analogia: 'de cada 10 alunos, 7 votaram' → 10 é o grupo base, vai embaixo",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_denominador_fixo_em_10_por_escala",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "10",
+          "buggyRule": "Assumir que o denominador é sempre 10 porque a reta tem 10 divisões, mesmo que o problema diga outra coisa (não aplicável aqui, mas plausível em variações)",
+          "description": "Aluno fixa o denominador em 10 por causa da escala da reta, ignorando o contexto",
+          "mistakeLocation": "Ao decidir o denominador, o aluno é influenciado pela interface (reta com 10 partes) em vez do enunciado",
+          "diagnosticQuestion": "O enunciado diz qual é o todo? Ou você está usando a reta para decidir?",
+          "feedback": "Legal que você observou a reta! Mas o denominador vem do problema, não da reta. A reta só ajuda a mostrar onde fica a fração.",
+          "howToFix": "Separar as etapas: primeiro ler o problema e escrever a fração; depois usar a reta para localizar",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "04president",
+        "step": 3,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_off_by_one_esquerda",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({numerator} - 1)/{denominator}",
+          "buggyRule": "Contar a partir do zero como se fosse a primeira marca: posição = ({numerator} - 1)/{denominator}",
+          "description": "Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes",
+          "mistakeLocation": "Na contagem das marcas na reta numérica, o aluno trata o ponto 0 como a marca 1",
+          "diagnosticQuestion": "Quantos espaços há entre 0 e 1/10? É 1 espaço ou 0 espaços?",
+          "feedback": "Você está quase lá! Lembre-se: a distância de 0 a 1/10 é UM intervalo. Conte os intervalos, não os pontos!",
+          "howToFix": "Colorir os intervalos entre as marcas e contar os espaços, não as linhas",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_contagem_off_by_one_direita",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({numerator} + 1)/{denominator}",
+          "buggyRule": "Contar uma marca a mais ao final: posição = ({numerator} + 1)/{denominator}",
+          "description": "Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)",
+          "mistakeLocation": "Ao finalizar a contagem na reta, o aluno ultrapassa o ponto correto por contar o destino como um passo adicional",
+          "diagnosticQuestion": "Se você dá 7 passos a partir do zero, onde você para? No sétimo intervalo ou no oitavo?",
+          "feedback": "Boa contagem! Só tome cuidado para parar exatamente no sétimo passo — não dar um passo a mais depois.",
+          "howToFix": "Usar dedo ou cursor para tocar cada intervalo enquanto conta em voz alta: '1º intervalo = 1/10', etc.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Ignorar os números do problema e marcar a metade (5/10) por ser um ponto de referência familiar",
+          "description": "Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada",
+          "mistakeLocation": "Na estimativa da posição, o aluno recorre à âncora cognitiva da metade em vez de usar os dados",
+          "diagnosticQuestion": "7/10 é mais que metade ou menos que metade? Onde fica a metade na reta?",
+          "feedback": "Você conhece bem a metade — isso é ótimo! Agora, vamos comparar: 7/10 é MAIOR que 5/10 (metade), então deve ficar à direita dela.",
+          "howToFix": "Marcar primeiro a metade (5/10), depois contar mais 2 décimos para a direita",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_numerador_com_posicao_absoluta",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{numerator}",
+          "buggyRule": "Tratar o numerador como um número inteiro na reta (ex: marcar 7 em vez de 7/10), ignorando o denominador",
+          "description": "Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro",
+          "mistakeLocation": "Ao interpretar a fração, o aluno ignora o denominador e age como se o numerador fosse um inteiro",
+          "diagnosticQuestion": "A reta vai de 0 a 1. O número 7 cabe nela? Ou será que 7/10 é menor que 1?",
+          "feedback": "Você viu o 7 — excelente! Mas lembre-se: 7/10 é MENOR que 1, então deve ficar entre 0 e 1, não depois do 1.",
+          "howToFix": "Comparar com inteiros: '7/10 é como 0 vírgula alguma coisa' → pertence entre 0 e 1",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "04president",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração mencionada",
+        "thinking": "O problema diz que 7/10 dos alunos votaram no Jason... então a fração é 7 sobre 10? Mas será que eu devo escrever isso nas caixas f1 e f2?",
+        "result": "Identificou corretamente que a fração é 7/10",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando um problema diz '7 em cada 10', qual número representa as partes que temos e qual representa o total de partes? Pense nisso!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, veja quantos estudantes votaram nele — esse é o numerador. Depois, veja quantos estudantes há no total — esse é o denominador. Digite esses números nos campos corretos."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração tem um número menor que 10 em cima e 10 embaixo. Você já viu isso no enunciado — procure onde aparece '7/10'."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! O enunciado diz exatamente: '7/10 dos alunos'. Então, digite 7 na caixa de cima (f1) e 10 na caixa de baixo (f2)."
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Marcar a fração na reta numérica",
+        "thinking": "A reta vai de 0 a 1... e tem divisões de décimos, mas não mostra as marcas. Como sei onde fica 7/10? Será que é perto do 1?",
+        "result": "Marca corretamente o ponto correspondente a 7/10 na reta numérica",
+        "kcUsed": "FracLess1, EstFractionNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Se a unidade está dividida em 10 partes iguais, como você pode estimar onde fica a sétima parte?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Vamos lá! Imagine que de 0 a 1 há 10 passos iguais. Conte mentalmente: 1/10, 2/10, ..., até chegar a 7/10. Marque o ponto um pouco antes do final da reta."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 7/10 está mais perto de 1 do que de 0, mas ainda não chegou ao fim. Está entre 6/10 e 8/10 — tente marcar um pouco antes da metade do último terço da reta."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Pense assim: se 5/10 é exatamente no meio (0,5), então 7/10 está dois décimos depois disso. Conte dois passinhos à direita do meio e marque ali!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Clicar em Done para concluir",
+        "thinking": "Acho que terminei tudo: coloquei 7 em cima, 10 embaixo e marquei o ponto certo.",
+        "result": "Problema concluído com resposta correta",
+        "kcUsed": "FracLess1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "7/10",
+      "totalTime": 68,
+      "alternativeRoutes": [
+       {
+        "description": "Tentar converter 7/10 em número misto (mesmo sendo fração própria)",
+        "steps": [
+         "Clicar em Convert",
+         "Confusão ao ver campos m1/m2/m3 vazios",
+         "Desistir e voltar à fração original"
+        ],
+        "efficiency": "low"
+       },
+       {
+        "description": "Usar tentativa e erro na reta numérica, ajustando o ponto várias vezes",
+        "steps": [
+         "Marcar perto de 0.5",
+         "Ver que está errado",
+         "Mover para perto de 0.8",
+         "Ajustar para 0.7"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 4,
+  "errosEspecificos": 4,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 9,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem?\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto, com encaixe em 10 partes por unidade (marcas ocultas), pontos rotulados; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "encaixeDenominador": 10,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "text",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "text",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Use the fraction fields to represent the fraction described in the school-election problem.",
+     "kc": "IdenNumerator",
+     "valor": "7/10"
+    },
+    {
+     "indice": 2,
+     "acao": "Use the top fraction box to show the number of students who voted for Jason.",
+     "kc": "IdenNumerator",
+     "valor": "7"
+    },
+    {
+     "indice": 3,
+     "acao": "Use the bottom fraction box to show the total number of students.",
+     "kc": "IdenDenominator",
+     "valor": "10"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter the numerator in the top fraction box.",
+     "kc": "IdenNumerator",
+     "valor": "7"
+    },
+    {
+     "indice": 5,
+     "acao": "Enter the denominator in the bottom fraction box.",
+     "kc": "IdenDenominator",
+     "valor": "10"
+    },
+    {
+     "indice": 6,
+     "acao": "Use the fraction model to show that the selected part is less than one whole.",
+     "kc": "FracLess1",
+     "valor": "7/10"
+    },
+    {
+     "indice": 7,
+     "acao": "Locate the fraction between 0 and 1 on the number line.",
+     "kc": "EstFractionNumLine",
+     "valor": "7/10"
+    },
+    {
+     "indice": 8,
+     "acao": "Mark the exact point for the fraction on the number line.",
+     "kc": "EstFractionNumLine",
+     "valor": "7/10"
+    },
+    {
+     "indice": 9,
+     "acao": "Click Convert to express the fraction in the mixed-number fields.",
+     "kc": "convertToMixedNum",
+     "valor": "convert"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "10/7",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You switched the part and the whole. The students who voted for Jason are the selected part, so they belong above the fraction bar.",
+     "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "10",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used only the total number of students. A fraction must show both the selected part and the whole.",
+     "buggyRule": "Responder com o total de alunos (10) como se fosse a fração pedida, ignorando que é uma parte: wrongAnswer = {total_students}",
+     "misconceptionId": "misc_responde_com_total_em_vez_da_parte"
+    },
+    {
+     "valor": "10",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The top number represents the selected part, not the total number of students. The total belongs in the bottom box.",
+     "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "1",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The selected part does not make a complete whole because the numerator is smaller than the denominator.",
+     "buggyRule": "",
+     "misconceptionId": "misc_ancora_no_inteiro_para_fracoes_improprias"
+    },
+    {
+     "valor": "10/7",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Switching the numbers creates a fraction greater than one. Keep the selected part above the total.",
+     "buggyRule": "Usar o denominador (total de alunos) como numerador: wrongAnswer = {denominator}",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "6/10",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Count intervals rather than treating 0 as the first interval. Six intervals reaches 6/10, but the target requires seven intervals.",
+     "buggyRule": "Contar a partir do zero como se fosse a primeira marca: posição = ({numerator} - 1)/{denominator}",
+     "misconceptionId": "misc_contagem_off_by_one_esquerda"
+    },
+    {
+     "valor": "8/10",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You went one interval too far. Stop exactly after the seventh interval from 0.",
+     "buggyRule": "Contar uma marca a mais ao final: posição = ({numerator} + 1)/{denominator}",
+     "misconceptionId": "misc_contagem_off_by_one_direita"
+    },
+    {
+     "valor": "1/2",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The midpoint represents 5/10. The target is greater than one half, so it must be farther to the right.",
+     "buggyRule": "Ignorar os números do problema e marcar a metade (5/10) por ser um ponto de referência familiar",
+     "misconceptionId": "misc_ancora_na_metade"
+    },
+    {
+     "valor": "7",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number line ends at 1, so the integer 7 cannot be the location. Use the denominator to interpret the numerator as part of a whole.",
+     "buggyRule": "Tratar o numerador como um número inteiro na reta (ex: marcar 7 em vez de 7/10), ignorando o denominador",
+     "misconceptionId": "misc_confunde_numerador_com_posicao_absoluta"
+    },
+    {
+     "valor": "6/10",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point is one interval too far left. Count seven intervals from 0, not six.",
+     "buggyRule": "Contar a partir do zero como se fosse a primeira marca: posição = ({numerator} - 1)/{denominator}",
+     "misconceptionId": "misc_contagem_off_by_one_esquerda"
+    },
+    {
+     "valor": "8/10",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point is one interval too far right. Stop at the seventh interval.",
+     "buggyRule": "Contar uma marca a mais ao final: posição = ({numerator} + 1)/{denominator}",
+     "misconceptionId": "misc_contagem_off_by_one_direita"
+    },
+    {
+     "valor": "1/2",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The midpoint is only 5/10. Since the target has seven tenths, place it to the right of the midpoint.",
+     "buggyRule": "Ignorar os números do problema e marcar a metade (5/10) por ser um ponto de referência familiar",
+     "misconceptionId": "misc_ancora_na_metade"
+    },
+    {
+     "valor": "7",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point must lie between 0 and 1. The denominator shows that 7 represents seven tenths, not the whole number 7.",
+     "buggyRule": "Tratar o numerador como um número inteiro na reta (ex: marcar 7 em vez de 7/10), ignorando o denominador",
+     "misconceptionId": "misc_confunde_numerador_com_posicao_absoluta"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "A fraction describes a selected part compared with the whole."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Find the number of students who voted for Jason and the total number of students."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Place the number of students who voted for Jason above the fraction bar and the total below it."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Enter the selected part in the top box and the total number of equal parts in the bottom box."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "The numerator tells how many parts are being counted."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Look for the number connected to the students who voted for Jason."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "The selected group contains seven students out of the whole group."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Type the number of students in Jason's voting group into the top box."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The denominator tells how many equal parts make up the whole."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Find the number that represents all the students together."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "The whole group is divided into ten equal parts."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Type the total number of students into the bottom box."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The numerator names the part being described."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Use the number of students who voted for Jason."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "The selected part has seven students."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Type the selected-part count into f1, the upper field."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The denominator represents the complete group."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use the total number of students in the school group described."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "The whole is divided into ten equal parts."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Type the whole-group count into f2, the lower field."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "A fraction is less than one when the selected part is smaller than the whole."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Compare the numerator with the denominator."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "The selected part has fewer parts than the complete group."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Show a model with seven selected parts out of ten total parts, without filling the entire whole."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "The denominator tells how many equal intervals lie between 0 and 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Count equal intervals from 0 toward 1 using the numerator as the number of steps."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "The target is past the halfway point but still before 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Begin at 0, count seven equal intervals, and place the point at the end of the seventh interval."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Each equal space on the line represents one tenth of the whole interval."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Use the numerator to count spaces and the denominator to identify their size."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Place the point between 0.5 and 1, leaving three equal intervals before 1."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Click the position reached after seven equal steps from 0, with three equal steps remaining to 1."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "A mixed number has a whole-number part and a fractional part."
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Check whether the fraction contains at least one complete whole before ...ing."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "Because the numerator is smaller than the denominator, the whole-number part remains zero."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Use the conversion control to open the mixed-number fields and preserve the fractional part."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "7/10",
+    "7",
+    "10",
+    "7",
+    "10",
+    "7/10",
+    "7/10",
+    "7/10",
+    "convert"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Jason became the next class president because 7/10 of the students in the school voted for him! Show this fraction on the number line.\nWhat is the fraction in the problem?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Use the fraction fields to represent the fraction described in the school-election problem.",
+     "expectedAnswer": "7/10",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Use the top fraction box to show the number of students who voted for Jason.",
+     "expectedAnswer": "7",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Use the bottom fraction box to show the total number of students.",
+     "expectedAnswer": "10",
+     "renderAs": "fraction_input",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter the numerator in the top fraction box.",
+     "expectedAnswer": "7",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Enter the denominator in the bottom fraction box.",
+     "expectedAnswer": "10",
+     "renderAs": "fraction_input",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Use the fraction model to show that the selected part is less than one whole.",
+     "expectedAnswer": "7/10",
+     "renderAs": "fraction_bar",
+     "kc": "FracLess1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Locate the fraction between 0 and 1 on the number line.",
+     "expectedAnswer": "7/10",
+     "renderAs": "number_line",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Mark the exact point for the fraction on the number line.",
+     "expectedAnswer": "7/10",
+     "renderAs": "number_line",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Click Convert to express the fraction in the mixed-number fields.",
+     "expectedAnswer": "convert",
+     "renderAs": "composition",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 45066,
+   "exerciciosGerados": 1,
+   "passosGenericos": 9,
+   "passosMaterializados": 9,
+   "dicasMaterializadas": 36,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Use the fraction fields to represent the fraction described in the school-election problem.",
+     "instruction": "Use the fraction fields to represent the fraction described in the school-election problem.",
+     "expectedInput": {
+      "value": "7/10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A fraction describes a selected part compared with the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number of students who voted for Jason and the total number of students."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Place the number of students who voted for Jason above the fraction bar and the total below it."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the selected part in the top box and the total number of equal parts in the bottom box."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "10/7",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+       "feedback": "You switched the part and the whole. The students who voted for Jason are the selected part, so they belong above the fraction bar.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_com_total_em_vez_da_parte",
+       "wrongAnswer": "10",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde com o número total de alunos (10) como se fosse a fração, sem usar barra nem denominador",
+       "feedback": "You used only the total number of students. A fraction must show both the selected part and the whole.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_1",
+      "scaffold_misc_responde_com_total_em_vez_da_parte",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Use the top fraction box to show the number of students who voted for Jason.",
+     "instruction": "Use the top fraction box to show the number of students who voted for Jason.",
+     "expectedInput": {
+      "value": "7",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator tells how many parts are being counted."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Look for the number connected to the students who voted for Jason."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The selected group contains seven students out of the whole group."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the number of students in Jason's voting group into the top box."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "10",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+       "feedback": "The top number represents the selected part, not the total number of students. The total belongs in the bottom box.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Use the bottom fraction box to show the total number of students.",
+     "instruction": "Use the bottom fraction box to show the total number of students.",
+     "expectedInput": {
+      "value": "10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many equal parts make up the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number that represents all the students together."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The whole group is divided into ten equal parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the total number of students into the bottom box."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter the numerator in the top fraction box.",
+     "instruction": "Enter the numerator in the top fraction box.",
+     "expectedInput": {
+      "value": "7",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator names the part being described."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the number of students who voted for Jason."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The selected part has seven students."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the selected-part count into f1, the upper field."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Enter the denominator in the bottom fraction box.",
+     "instruction": "Enter the denominator in the bottom fraction box.",
+     "expectedInput": {
+      "value": "10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator represents the complete group."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the total number of students in the school group described."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The whole is divided into ten equal parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the whole-group count into f2, the lower field."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Use the fraction model to show that the selected part is less than one whole.",
+     "instruction": "Use the fraction model to show that the selected part is less than one whole.",
+     "expectedInput": {
+      "value": "7/10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_bar",
+      "componentId": "fraction_bar",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A fraction is less than one when the selected part is smaller than the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Compare the numerator with the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The selected part has fewer parts than the complete group."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Show a model with seven selected parts out of ten total parts, without filling the entire whole."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_ancora_no_inteiro_para_fracoes_improprias",
+       "wrongAnswer": "1",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno, ao gerar uma fração imprópria por erro de inversão, ancora no inteiro mais próximo (1) pois a reta só vai até 1",
+       "feedback": "The selected part does not make a complete whole because the numerator is smaller than the denominator.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "10/7",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+       "feedback": "Switching the numbers creates a fraction greater than one. Keep the selected part above the total.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_ancora_no_inteiro_para_fracoes_improprias",
+      "scaffold_misc_inversao_numerador_denominador__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Locate the fraction between 0 and 1 on the number line.",
+     "instruction": "Locate the fraction between 0 and 1 on the number line.",
+     "expectedInput": {
+      "value": "7/10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many equal intervals lie between 0 and 1."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Count equal intervals from 0 toward 1 using the numerator as the number of steps."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The target is past the halfway point but still before 1."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Begin at 0, count seven equal intervals, and place the point at the end of the seventh interval."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_off_by_one_esquerda",
+       "wrongAnswer": "6/10",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes",
+       "feedback": "Count intervals rather than treating 0 as the first interval. Six intervals reaches 6/10, but the target requires seven intervals.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_off_by_one_direita",
+       "wrongAnswer": "8/10",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)",
+       "feedback": "You went one interval too far. Stop exactly after the seventh interval from 0.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade",
+       "wrongAnswer": "1/2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada",
+       "feedback": "The midpoint represents 5/10. The target is greater than one half, so it must be farther to the right.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_numerador_com_posicao_absoluta",
+       "wrongAnswer": "7",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro",
+       "feedback": "The number line ends at 1, so the integer 7 cannot be the location. Use the denominator to interpret the numerator as part of a whole.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_off_by_one_esquerda__step_7",
+      "scaffold_misc_contagem_off_by_one_direita__step_7",
+      "scaffold_misc_ancora_na_metade__step_7",
+      "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Mark the exact point for the fraction on the number line.",
+     "instruction": "Mark the exact point for the fraction on the number line.",
+     "expectedInput": {
+      "value": "7/10",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Each equal space on the line represents one tenth of the whole interval."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the numerator to count spaces and the denominator to identify their size."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Place the point between 0.5 and 1, leaving three equal intervals before 1."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Click the position reached after seven equal steps from 0, with three equal steps remaining to 1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_off_by_one_esquerda",
+       "wrongAnswer": "6/10",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes",
+       "feedback": "The point is one interval too far left. Count seven intervals from 0, not six.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_off_by_one_direita",
+       "wrongAnswer": "8/10",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)",
+       "feedback": "The point is one interval too far right. Stop at the seventh interval.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade",
+       "wrongAnswer": "1/2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada",
+       "feedback": "The midpoint is only 5/10. Since the target has seven tenths, place it to the right of the midpoint.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_numerador_com_posicao_absoluta",
+       "wrongAnswer": "7",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro",
+       "feedback": "The point must lie between 0 and 1. The denominator shows that 7 represents seven tenths, not the whole number 7.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_off_by_one_esquerda__step_8",
+      "scaffold_misc_contagem_off_by_one_direita__step_8",
+      "scaffold_misc_ancora_na_metade__step_8",
+      "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_8",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Click Convert to express the fraction in the mixed-number fields.",
+     "instruction": "Click Convert to express the fraction in the mixed-number fields.",
+     "expectedInput": {
+      "value": "convert",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A mixed number has a whole-number part and a fractional part."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Check whether the fraction contains at least one complete whole before ...ing."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Because the numerator is smaller than the denominator, the whole-number part remains zero."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Use the conversion control to open the mixed-number fields and preserve the fractional part."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "type": "scaffold",
+     "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+     "instruction": "You switched the part and the whole. The students who voted for Jason are the selected part, so they belong above the fraction bar.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_responde_com_total_em_vez_da_parte",
+     "type": "scaffold",
+     "description": "Aluno responde com o número total de alunos (10) como se fosse a fração, sem usar barra nem denominador",
+     "instruction": "You used only the total number of students. A fraction must show both the selected part and the whole.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_com_total_em_vez_da_parte"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_2",
+     "type": "scaffold",
+     "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+     "instruction": "The top number represents the selected part, not the total number of students. The total belongs in the bottom box.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_ancora_no_inteiro_para_fracoes_improprias",
+     "type": "scaffold",
+     "description": "Aluno, ao gerar uma fração imprópria por erro de inversão, ancora no inteiro mais próximo (1) pois a reta só vai até 1",
+     "instruction": "The selected part does not make a complete whole because the numerator is smaller than the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_no_inteiro_para_fracoes_improprias"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_6",
+     "type": "scaffold",
+     "description": "Aluno coloca o total (10) no numerador, confundindo parte e todo",
+     "instruction": "Switching the numbers creates a fraction greater than one. Keep the selected part above the total.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_esquerda__step_7",
+     "type": "scaffold",
+     "description": "Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes",
+     "instruction": "Count intervals rather than treating 0 as the first interval. Six intervals reaches 6/10, but the target requires seven intervals.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_esquerda"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_direita__step_7",
+     "type": "scaffold",
+     "description": "Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)",
+     "instruction": "You went one interval too far. Stop exactly after the seventh interval from 0.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_direita"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade__step_7",
+     "type": "scaffold",
+     "description": "Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada",
+     "instruction": "The midpoint represents 5/10. The target is greater than one half, so it must be farther to the right.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade"
+    },
+    {
+     "id": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_7",
+     "type": "scaffold",
+     "description": "Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro",
+     "instruction": "The number line ends at 1, so the integer 7 cannot be the location. Use the denominator to interpret the numerator as part of a whole.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_numerador_com_posicao_absoluta"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_esquerda__step_8",
+     "type": "scaffold",
+     "description": "Aluno conta marcas incluindo o zero como primeira posição, terminando uma unidade fracionária antes",
+     "instruction": "The point is one interval too far left. Count seven intervals from 0, not six.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_esquerda"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_direita__step_8",
+     "type": "scaffold",
+     "description": "Aluno conta corretamente mas adiciona uma marca extra no final (ex: conta 7 e para na 8ª)",
+     "instruction": "The point is one interval too far right. Stop at the seventh interval.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_direita"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade__step_8",
+     "type": "scaffold",
+     "description": "Aluno posiciona o ponto na metade da reta (0.5) independentemente da fração dada",
+     "instruction": "The midpoint is only 5/10. Since the target has seven tenths, place it to the right of the midpoint.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade"
+    },
+    {
+     "id": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_8",
+     "type": "scaffold",
+     "description": "Aluno vê '7' e marca o ponto 7 na reta, como se fosse um inteiro",
+     "instruction": "The point must lie between 0 and 1. The denominator shows that 7 represents seven tenths, not the whole number 7.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_numerador_com_posicao_absoluta"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(FracLess1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_responde_com_total_em_vez_da_parte",
+     "condition": "misconception(misc_responde_com_total_em_vez_da_parte)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_com_total_em_vez_da_parte",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_2",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_ancora_no_inteiro_para_fracoes_improprias",
+     "condition": "misconception(misc_ancora_no_inteiro_para_fracoes_improprias)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_ancora_no_inteiro_para_fracoes_improprias",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_6",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_contagem_off_by_one_esquerda__step_7",
+     "condition": "misconception(misc_contagem_off_by_one_esquerda)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_esquerda__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_contagem_off_by_one_direita__step_7",
+     "condition": "misconception(misc_contagem_off_by_one_direita)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_direita__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_ancora_na_metade__step_7",
+     "condition": "misconception(misc_ancora_na_metade)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_7",
+     "condition": "misconception(misc_confunde_numerador_com_posicao_absoluta)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_contagem_off_by_one_esquerda__step_8",
+     "condition": "misconception(misc_contagem_off_by_one_esquerda)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_esquerda__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_contagem_off_by_one_direita__step_8",
+     "condition": "misconception(misc_contagem_off_by_one_direita)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_direita__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_ancora_na_metade__step_8",
+     "condition": "misconception(misc_ancora_na_metade)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_8",
+     "condition": "misconception(misc_confunde_numerador_com_posicao_absoluta)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_confunde_numerador_com_posicao_absoluta__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

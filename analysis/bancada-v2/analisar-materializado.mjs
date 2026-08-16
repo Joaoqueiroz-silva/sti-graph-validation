@@ -39,10 +39,12 @@ export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basena
     const gateSens = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true }).aprovado;
     // sensibilidade 2 (post hoc, 2026-08-16): 0/1 + equivalência canônica (1.25 ≡ 5/4)
     const gateSens2 = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado;
+    // sensibilidade 3 (2026-08-16): sens. 2 + números mistos ("2 3/4" ≡ 11/4)
+    const gateSens3 = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true }).aprovado;
     const cru = pontuarCaminho(r, envB, REF[ex]);
     const minima = pontuarCaminho(r, envB, REF[ex], { materializar: true });
     const mat = pontuarCaminho({ ...r, grafo: r.materializado.grafo }, envB, REF[ex]);
-    registros.push({ ex, replica: r.replica, gateEstrito, gateSens, gateSens2, cru, minima, mat, valores: r.materializado.grafo.passos.map((p) => p.valor) });
+    registros.push({ ex, replica: r.replica, gateEstrito, gateSens, gateSens2, gateSens3, cru, minima, mat, valores: r.materializado.grafo.passos.map((p) => p.valor) });
   }
   const n = registros.length;
   const agreg = (linhas) =>
@@ -75,12 +77,14 @@ export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basena
       estrito: { aprovados: registros.filter((r) => r.gateEstrito).length, taxa: n ? registros.filter((r) => r.gateEstrito).length / n : 0 },
       sensibilidade: { aprovados: registros.filter((r) => r.gateSens).length, taxa: n ? registros.filter((r) => r.gateSens).length / n : 0 },
       sensibilidade2: { aprovados: registros.filter((r) => r.gateSens2).length, taxa: n ? registros.filter((r) => r.gateSens2).length / n : 0 },
+      sensibilidade3: { aprovados: registros.filter((r) => r.gateSens3).length, taxa: n ? registros.filter((r) => r.gateSens3).length / n : 0 },
     },
     todos: bloco(() => true),
     aprovadosEstrito: bloco((r) => r.gateEstrito),
     aprovadosSensibilidade: bloco((r) => r.gateSens),
     aprovadosSensibilidade2: bloco((r) => r.gateSens2),
-    porRegistro: registros.map((r) => ({ ex: r.ex, replica: r.replica, gateEstrito: r.gateEstrito, gateSens: r.gateSens, gateSens2: r.gateSens2, valores: r.valores, mat: r.mat, minima: r.minima })),
+    aprovadosSensibilidade3: bloco((r) => r.gateSens3),
+    porRegistro: registros.map((r) => ({ ex: r.ex, replica: r.replica, gateEstrito: r.gateEstrito, gateSens: r.gateSens, gateSens2: r.gateSens2, gateSens3: r.gateSens3, valores: r.valores, mat: r.mat, minima: r.minima })),
   };
 }
 
@@ -106,11 +110,12 @@ if (ehMain) {
   };
   console.log("═".repeat(100));
   console.log(`MATERIALIZADO — ${R.rotulo} — ${R.n} registros`);
-  console.log(`  gate estrito: ${R.gate.estrito.aprovados}/${R.n} = ${(R.gate.estrito.taxa * 100).toFixed(1)}% | sensibilidade (0/1): ${R.gate.sensibilidade.aprovados}/${R.n} = ${(R.gate.sensibilidade.taxa * 100).toFixed(1)}% | sensibilidade 2 (+equivalência canônica): ${R.gate.sensibilidade2.aprovados}/${R.n} = ${(R.gate.sensibilidade2.taxa * 100).toFixed(1)}%`);
+  console.log(`  gate estrito: ${R.gate.estrito.aprovados}/${R.n} = ${(R.gate.estrito.taxa * 100).toFixed(1)}% | sensibilidade (0/1): ${R.gate.sensibilidade.aprovados}/${R.n} = ${(R.gate.sensibilidade.taxa * 100).toFixed(1)}% | sensibilidade 2 (+equivalência canônica): ${R.gate.sensibilidade2.aprovados}/${R.n} = ${(R.gate.sensibilidade2.taxa * 100).toFixed(1)}% | sensibilidade 3 (+números mistos): ${R.gate.sensibilidade3.aprovados}/${R.n} = ${(R.gate.sensibilidade3.taxa * 100).toFixed(1)}%`);
   console.log("═".repeat(100));
   linha("APROVADOS gate estrito (primário)", R.aprovadosEstrito);
   linha("APROVADOS gate sensibilidade", R.aprovadosSensibilidade);
   linha("APROVADOS gate sensibilidade 2 (post hoc)", R.aprovadosSensibilidade2);
+  linha("APROVADOS gate sensibilidade 3 (+números mistos)", R.aprovadosSensibilidade3);
   linha("TODOS (descritivo, inclui reprovados)", R.todos);
   const out = opt("--json", null);
   if (out) { fs.writeFileSync(out, JSON.stringify({ gerado: new Date().toISOString(), ...R }, null, 1)); console.log(`  salvo em ${out}`); }

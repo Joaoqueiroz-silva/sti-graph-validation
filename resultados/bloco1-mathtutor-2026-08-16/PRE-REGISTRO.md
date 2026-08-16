@@ -60,3 +60,11 @@ por `0` = parte inteira do número misto, que o próprio especialista usa como
 estado `m1=0` → sensibilidade 1); LCS 0,75 no aprovado. Critério de parada não
 acionado → coleta autorizada. Referência do 6.19: 4 estados de valor
 (f1, f2, m1, numline) + Done/Convert/setDisplay fora.
+
+## Adendo geral (16/08, 20:45) — sensibilidade 3 do gate e recorte do consolidado
+
+Vista no 6.19: a interface pede NÚMERO MISTO ("2 3/4"); o gate lia como
+"23/4". Sensibilidade 3 = sens. 2 + números mistos ("W N/D" → fração
+imprópria). Post hoc para o 6.19; a priori para 6.18/6.20/8.12/7.12. O
+consolidado usa como recorte principal os aprovados na sens. 3 (com o gate
+estrito e "todos" reportados ao lado); as métricas diferem ≤0,02 entre recortes.

@@ -1,0 +1,2403 @@
+{
+ "id": "18dozen",
+ "correctAnswer": "33/12",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.083,
+ "conceptual": 0.087,
+ "precision": 0.091,
+ "recall": 0.077,
+ "functionalAgreement": 0.2,
+ "functionalKappa": -0.429,
+ "missing": [
+  "-1",
+  "12",
+  "9"
+ ],
+ "extra": [
+  "1",
+  "11/4"
+ ],
+ "robotMisconceptions": [
+  "33",
+  "1",
+  "2.75"
+ ],
+ "exercicio": "18dozen",
+ "replica": 2,
+ "geradoEm": "2026-08-16T18:41:27.543Z",
+ "promptSha256": "fa783beda91b6b3ef890230610cf14c47027f6dca20203db1834b1e00236519c",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7712,
+  "tokensSaida": 6525,
+  "usd": 0.031462859999999995
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Fração mencionada: 33/12"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "{A} = 33"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "{B} = 12"
+   },
+   {
+    "indice": 4,
+    "acao": "Inserir o numerador no campo f1",
+    "kc": "IdenNumerator",
+    "valor": "f1 = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Inserir o denominador no campo f2",
+    "kc": "IdenDenominator",
+    "valor": "f2 = {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Localizar a fração 33/12 na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Posição na reta: entre 2 e 3, exatamente na 9ª marca após 2 (ou 33ª marca total)"
+   },
+   {
+    "indice": 7,
+    "acao": "Marcar o ponto correspondente na reta numérica (numline)",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado corretamente em 33/12"
+   },
+   {
+    "indice": 8,
+    "acao": "Concluir o problema clicando em Done",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema finalizado"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "33",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar o contexto: 'dúzia = 12', então sempre que falamos 'em dúzias', o denominador é 12",
+    "buggyRule": "Usar o valor do numerador (33) como denominador",
+    "misconceptionId": "misc_inverte_numerador_denominador"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Conectar fração ao contexto antes de posicionar: '33 canetas = quantas dúzias?' → 33 ÷ 12",
+    "buggyRule": "",
+    "misconceptionId": "misc_posicao_baseada_na_fracao_errada"
+   },
+   {
+    "valor": "2.75",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar marcação por múltiplos: identificar 0, 1, 2, 3 primeiro; depois dividir o trecho entre 2 e 3 em 12 partes e contar 9",
+    "buggyRule": "Posicionar a fração contando {numerador} marcas a partir do zero, tratando o zero como marca 0, mas somando incorretamente → posição = ({numerador} - 1)/{denominador} ou {numerador}/{denominador} com off-by-one",
+    "misconceptionId": "misc_contagem_marcas_em_vez_de_intervalos"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando o problema pergunta 'What is the fraction in the problem?', ele quer a fração exatamente como aparece no texto. Qual número está sendo dividido por qual outro?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Volte ao enunciado e procure a expressão que tem um número em cima e outro embaixo com uma barra. Copie esses dois números para os campos da fração."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração está logo depois da palavra 'it would be'. Veja: '33/12'. O numerador é 33 e o denominador é 12. Confirme se você digitou isso nos campos corretos!"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está quase concluindo! Na frase 'it would be 33/12', o número antes da barra vai no campo de cima (f1), e o depois da barra vai no campo de baixo (f2). Digite 33 em cima e 12 embaixo!"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótimo raciocínio! Se cada inteiro na reta é dividido em 12 partes, como você pode contar quantas partes totais há em 33/12?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Continue assim! Primeiro, veja quantos inteiros cabem em 33/12 (isso é 2 inteiros = 24/12). Depois, conte mais 9 partes a partir do 2 na reta numérica."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Muito bem! Você sabe que 33 ÷ 12 = 2 com resto 9. Então, partindo do 2, avance 9 pequenos segmentos (cada um vale 1/12). O ponto deve ficar logo antes do 3!"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase lá! Comece no 2, e conte: 1/12, 2/12, ..., até 9/12. O nono traço após o 2 é exatamente onde você deve colocar o ponto. Confira: 2 + 9/12 = 33/12!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18dozen\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema descreve que Katie tem 33 canetas, e isso equivale a 33/12 dúzias. A pergunta é: 'What is the fraction in the problem?' — portanto, devo identificar a fração mencionada diretamente no texto.\\\",\\n          \\\"result\\\": \\\"Fração mencionada: 33/12\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O numerador é o número acima na fração 33/12, que representa quantas partes temos. No enunciado, está claramente escrito '33/12', então o numerador é 33.\\\",\\n          \\\"result\\\": \\\"{A} = 33\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador é o número abaixo na fração 33/12, que indica em quantas partes a unidade foi dividida. Aqui, o denominador é 12, pois uma dúzia tem 12 unidades.\\\",\\n          \\\"result\\\": \\\"{B} = 12\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Inserir o numerador no campo f1\\\",\\n          \\\"thinking\\\": \\\"Devo digitar o numerador 33 no campo f1 (caixa superior da fração).\\\",\\n          \\\"result\\\": \\\"f1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Inserir o denominador no campo f2\\\",\\n          \\\"thinking\\\": \\\"Devo digitar o denominador 12 no campo f2 (caixa inferior da fração).\\\",\\n          \\\"result\\\": \\\"f2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Localizar a fração 33/12 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A fração 33/12 é maior que 1. Como a reta vai de 0 a 3 e tem encaixe em 12 partes por unidade, cada marca representa 1/12. Preciso contar 33 marcas a partir do zero: 12 marcas = 1, 24 marcas = 2, 33 marcas = 2 + 9/12 = 2.75.\\\",\\n          \\\"result\\\": \\\"Posição na reta: entre 2 e 3, exatamente na 9ª marca após 2 (ou 33ª marca total)\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente na reta numérica (numline)\\\",\\n          \\\"thinking\\\": \\\"Clico na posição exata correspondente a 33/12, que é 2 e 9/12, ou 33/12, na reta com divisões de 1/12.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em 33/12\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Concluir o problema clicando em Done\\\",\\n          \\\"thinking\\\": \\\"Todas as ações necessárias foram realizadas: fração inserida corretamente e ponto marcado na reta. Posso concluir.\\\",\\n          \\\"result\\\": \\\"Problema finalizado\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 35\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18dozen\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o numerador da fração\\\",\\n              \\\"thinking\\\": \\\"A fração é 33/12, então vou colocar 33 em cima.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Digitar o denominador da fração\\\",\\n              \\\"thinking\\\": \\\"O total de canetas é 33 e uma dúzia tem 12, então o denominador é 33.\\\",\\n              \\\"result\\\": \\\"Errado: trocou numerador e denominador\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"33\\\",\\n                \\\"description\\\": \\\"Aluno confunde qual número representa a parte (numerador) e qual representa o todo (denominador), invertendo-os\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar o denominador, o aluno usou o total de canetas (33) em vez do tamanho da unidade (12)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é a unidade que estamos usando para medir? Quantas canetas formam UMA dúzia?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você já viu que 33 e 12 estão envolvidos. Lembre-se: o denominador mostra em quantas partes dividimos UMA unidade — neste caso, quantas canetas tem uma dúzia?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar o contexto: 'dúzia = 12', então sempre que falamos 'em dúzias', o denominador é 12\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Se é 33/33, isso é 1 inteiro, então marco no 1.\\\",\\n              \\\"result\\\": \\\"Errado: posição baseada na fração invertida\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_posicao_baseada_na_fracao_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno marca a posição com base na fração incorreta (33/33 = 1) que ele mesmo digitou\\\",\\n                \\\"mistakeLocation\\\": \\\"Na estimativa na reta, após digitar a fração errada, o aluno posiciona corretamente ESSA fração errada\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a fração fosse realmente 33/33, onde ficaria? Mas será que essa é a fração certa?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você posicionou bem a fração que escreveu! Agora vamos conferir se a fração está certa — quantas canetas tem uma dúzia mesmo?\\\",\\n                \\\"howToFix\\\": \\\"Conectar fração ao contexto antes de posicionar: '33 canetas = quantas dúzias?' → 33 ÷ 12\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"33/33\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o numerador da fração\\\",\\n              \\\"thinking\\\": \\\"Ela tem 33 canetas, então o numerador é 33.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Digitar o denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Uma dúzia é 12, então 12 vai embaixo.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"33/12 é mais que 2, mas como cada unidade tem 12 partes, vou contar 33 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Errado: conta marcas em vez de intervalos\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_de_intervalos\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2.75\\\",\\n                \\\"description\\\": \\\"Aluno conta 33 marcas na reta (cada marca = 1/12), mas começa a contar do zero como marca 1, terminando em 34/12 ≈ 2.83, ou arredonda para 2.75\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar 33/12, o aluno trata cada marca visível (ou imaginada) como um passo, mas conta o ponto inicial como o primeiro\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 12 partes fazem UM inteiro, onde fica 12/12? E 24/12? Agora, onde fica 33/12?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você entendeu que 33/12 é maior que 2 — ótimo! Vamos pensar: 12/12 = 1, 24/12 = 2, então 33/12 é 2 inteiros mais 9/12. Onde fica 9/12 depois do 2?\\\",\\n                \\\"howToFix\\\": \\\"Usar marcação por múltiplos: identificar 0, 1, 2, 3 primeiro; depois dividir o trecho entre 2 e 3 em 12 partes e contar 9\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"33/12\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"18dozen\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_total_em_vez_do_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_pens}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o total de objetos (33) como numerador — CORRETO neste caso, mas em outros problemas pode ser incorreto; aqui NÃO há erro real, mas mantemos para diagnóstico comparativo\\\",\\n              \\\"description\\\": \\\"Em problemas de conversão, o numerador é o total absoluto — mas aluno pode não entender POR QUE\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao extrair o numerador do enunciado, o aluno copia o número sem entender seu papel\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Por que o número de canetas vai no numerador? O que ele representa na fração?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o número! Agora pense: o que o numerador está contando? É o total de canetas em relação a quê?\\\",\\n              \\\"howToFix\\\": \\\"Explicitar: 'fração = quantidade total / tamanho da unidade de medida'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_parte_fracionaria_do_numero_misto_como_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{parte_fracionaria_num}\\\",\\n              \\\"buggyRule\\\": \\\"Extrair apenas a parte fracionária do número misto mencionado ('9/12') e usar o 9 como numerador da fração imprópria\\\",\\n              \\\"description\\\": \\\"Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao ler '2 and 9/12 dozens', o aluno assume que a fração pedida é só 9/12\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração que representa TODO o conjunto de canetas é só a parte depois do 'and', ou inclui os dois inteiros também?\\\",\\n              \\\"feedback\\\": \\\"Você notou a fração 9/12 — muito bom! Mas lembre-se: ela é só a PARTE EXTRA além dos 2 inteiros. A fração total precisa incluir TUDO.\\\",\\n              \\\"howToFix\\\": \\\"Converter verbalmente: '2 inteiros e 9/12 = quantos doze avos no total?' → 2×12 + 9 = 33\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"18dozen\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerador_correto}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o valor do numerador (33) como denominador\\\",\\n              \\\"description\\\": \\\"Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao atribuir o denominador, usa o total absoluto em vez do tamanho da unidade de medida (dúzia = 12)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se eu tivesse 12 canetas, quantas dúzias teria? E se tivesse 24? O que isso diz sobre o denominador?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando nos números certos! Mas o denominador responde: 'quantas canetas fazem UMA dúzia?' — não quantas você tem.\\\",\\n              \\\"howToFix\\\": \\\"Associar 'denominador = tamanho da unidade' com exemplos: meia dúzia = 6 → fração = ?/12\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_numero_de_duzias_inteiras_como_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{parte_inteira}\\\",\\n              \\\"buggyRule\\\": \\\"Usar a parte inteira do número misto (2) como denominador\\\",\\n              \\\"description\\\": \\\"Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Confusão entre a parte inteira do número misto e o denominador da fração imprópria\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O número 2 representa quantas dúzias inteiras, mas o denominador mostra o que?\\\",\\n              \\\"feedback\\\": \\\"Você notou o número 2 — ele é importante! Mas ele não é o denominador. O denominador vem da palavra 'dúzia'. Quantas canetas tem uma dúzia?\\\",\\n              \\\"howToFix\\\": \\\"Destacar palavras-chave: 'dúzia → 12', independentemente do número de inteiros\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_denominador_como_total_de_partes_visiveis_na_reta\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"36\\\",\\n              \\\"buggyRule\\\": \\\"Contar o número total de subdivisões na reta (0 a 3 com 12 por unidade → 3×12=36) e usar como denominador\\\",\\n              \\\"description\\\": \\\"Aluno associa o denominador ao número total de marcas na reta numérica\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao ver a reta de 0 a 3 com divisões em 12, assume que o denominador deve ser 36\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O denominador depende do COMPRIMENTO TOTAL da reta ou do TAMANHO DE CADA UNIDADE?\\\",\\n              \\\"feedback\\\": \\\"Você está observando a reta com atenção! Mas o denominador mostra como dividimos CADA UNIDADE — não toda a reta. Quantas partes tem UM inteiro aqui?\\\",\\n              \\\"howToFix\\\": \\\"Focar em um único segmento [0,1] e perguntar: quantas partes? → 12 → denominador = 12\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"18dozen\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_de_intervalos\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerador_correto}/{denominador_correto} posicionado como marca {numerador_correto} começando do zero como 1\\\",\\n              \\\"buggyRule\\\": \\\"Posicionar a fração contando {numerador} marcas a partir do zero, tratando o zero como marca 0, mas somando incorretamente → posição = ({numerador} - 1)/{denominador} ou {numerador}/{denominador} com off-by-one\\\",\\n              \\\"description\\\": \\\"Erro clássico de contagem: confunde número de intervalos com número de pontos/marcas\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao marcar 33/12, o aluno imagina 33 subdivisões e conta 33 pontos, terminando em 32/12 ou 34/12\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você contar 12 marcas a partir do zero, onde chega? Em 12/12 ou em 11/12?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando ser preciso — ótimo! Lembre-se: do 0 ao 1, há 12 INTERVALOS, mas 13 MARCAS. Queremos o final do 33º intervalo, não a 33ª marca.\\\",\\n              \\\"howToFix\\\": \\\"Usar régua mental: 'cada salto de 1/12 leva a um novo valor'; pular 33 vezes a partir do 0\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_somente_a_parte_fracionaria\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{parte_fracionaria_num}/{denominador_correto}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a parte inteira e posicionar apenas a fração própria (9/12) entre 0 e 1\\\",\\n              \\\"description\\\": \\\"Aluno foca só na parte fracionária do número misto e esquece os inteiros\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa, considera apenas '9/12' e marca entre 0 e 1, ignorando os 2 inteiros\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A coleção tem mais ou menos que 1 dúzia? Mais ou menos que 2 dúzias?\\\",\\n              \\\"feedback\\\": \\\"Você marcou 9/12 direitinho! Mas Katie tem MAIS que 2 dúzias — então o ponto deve estar depois do 2, não antes do 1.\\\",\\n              \\\"howToFix\\\": \\\"Primeiro identificar quantos inteiros: 33 ÷ 12 = 2 com resto → ponto depois do 2\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_arredonda_para_o_inteiro_mais_proximo\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"3\\\",\\n              \\\"buggyRule\\\": \\\"Arredondar 33/12 = 2.75 para o inteiro mais próximo (3) e marcar exatamente no 3\\\",\\n              \\\"description\\\": \\\"Aluno interpreta 'estimativa' como arredondamento para inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao estimar na reta, substitui a fração por seu arredondamento inteiro\\\",\\n              \\\"diagnosticQuestion\\\": \\\"2.75 está mais perto de 2 ou de 3? Mas será que devemos marcar EXATAMENTE onde está, mesmo não sendo inteiro?\\\",\\n              \\\"feedback\\\": \\\"Você viu que está perto do 3 — quase lá! Mas a reta permite marcar valores não inteiros. Onde ficaria 2 e três quartos?\\\",\\n              \\\"howToFix\\\": \\\"Lembrar que 'estimar' aqui significa POSICIONAR, não ARREDONDAR\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_escala_da_reta_unidade_completa\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerador_correto}\\\",\\n              \\\"buggyRule\\\": \\\"Tratar cada subdivisão como valendo 1 unidade inteira, então 33/12 é posicionado como 33 (fora da reta) ou truncado para 3\\\",\\n              \\\"description\\\": \\\"Aluno lê a escala incorretamente, achando que cada marca = 1 inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura da reta, assume que as marcas representam unidades inteiras, não frações\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se cada marca valesse 1, até onde iria a reta? Mas ela só vai até 3 — então cada marca deve valer quanto?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando usar a reta! Vamos olhar juntos: a reta vai de 0 a 3, mas tem MUITAS marcas. Se fossem todas inteiras, iria até 36! Então cada marca deve ser menor que 1.\\\",\\n              \\\"howToFix\\\": \\\"Identificar primeiro os inteiros (0,1,2,3), depois ver quantas marcas há entre eles → 12 → cada marca = 1/12\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18dozen\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração\\\",\\n          \\\"thinking\\\": \\\"O problema diz que Katie tem 33 canetas, e que isso equivale a 33/12 dúzias... mas será que essa é mesmo a fração que devo usar? Ou devo simplificar antes?\\\",\\n          \\\"result\\\": \\\"Identifiquei que a fração mencionada diretamente no texto é 33/12\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando o problema pergunta 'What is the fraction in the problem?', ele quer a fração exatamente como aparece no texto. Qual número está sendo dividido por qual outro?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Volte ao enunciado e procure a expressão que tem um número em cima e outro embaixo com uma barra. Copie esses dois números para os campos da fração.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração está logo depois da palavra 'it would be'. Veja: '33/12'. O numerador é 33 e o denominador é 12. Confirme se você digitou isso nos campos corretos!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase concluindo! Na frase 'it would be 33/12', o número antes da barra vai no campo de cima (f1), e o depois da barra vai no campo de baixo (f2). Digite 33 em cima e 12 embaixo!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Marcar a posição na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Se 33/12 é igual a 2 e 9/12, então devo marcar entre 2 e 3... mas onde exatamente? Cada unidade tem 12 partes, então 2 inteiros são 24/12, e mais 9 dá 33/12. Então é o nono traço depois do 2.\\\",\\n          \\\"result\\\": \\\"Posição marcada corretamente no ponto correspondente a 33/12 (ou 2 + 9/12)\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1, EstFractionNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótimo raciocínio! Se cada inteiro na reta é dividido em 12 partes, como você pode contar quantas partes totais há em 33/12?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Primeiro, veja quantos inteiros cabem em 33/12 (isso é 2 inteiros = 24/12). Depois, conte mais 9 partes a partir do 2 na reta numérica.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! Você sabe que 33 ÷ 12 = 2 com resto 9. Então, partindo do 2, avance 9 pequenos segmentos (cada um vale 1/12). O ponto deve ficar logo antes do 3!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Comece no 2, e conte: 1/12, 2/12, ..., até 9/12. O nono traço após o 2 é exatamente onde você deve colocar o ponto. Confira: 2 + 9/12 = 33/12!\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"33/12\\\",\\n      \\\"totalTime\\\": 75,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter primeiro para número misto (2 9/12) e usar isso para localizar na reta\\\",\\n          \\\"steps\\\": [\\\"Dividir 33 por 12\\\", \\\"Obter quociente 2 e resto 9\\\", \\\"Usar 2 inteiros + 9/12 para marcar na reta\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Tentar simplificar 33/12 para 11/4 antes de marcar (embora não seja necessário para a pergunta)\\\",\\n          \\\"steps\\\": [\\\"Dividir numerador e denominador por 3\\\", \\\"Obter 11/4\\\", \\\"Localizar 11/4 na reta (2.75)\\\"],\\n          \\\"efficiency\\\": \\\"low\\\",\\n          \\\"note\\\": \\\"Correto matematicamente, mas desnecessário pois a pergunta pede a fração do problema, não uma forma simplificada\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "18dozen",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema descreve que Katie tem 33 canetas, e isso equivale a 33/12 dúzias. A pergunta é: 'What is the fraction in the problem?' — portanto, devo identificar a fração mencionada diretamente no texto.",
+        "result": "Fração mencionada: 33/12",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O numerador é o número acima na fração 33/12, que representa quantas partes temos. No enunciado, está claramente escrito '33/12', então o numerador é 33.",
+        "result": "{A} = 33",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador é o número abaixo na fração 33/12, que indica em quantas partes a unidade foi dividida. Aqui, o denominador é 12, pois uma dúzia tem 12 unidades.",
+        "result": "{B} = 12",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Inserir o numerador no campo f1",
+        "thinking": "Devo digitar o numerador 33 no campo f1 (caixa superior da fração).",
+        "result": "f1 = {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Inserir o denominador no campo f2",
+        "thinking": "Devo digitar o denominador 12 no campo f2 (caixa inferior da fração).",
+        "result": "f2 = {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Localizar a fração 33/12 na reta numérica",
+        "thinking": "A fração 33/12 é maior que 1. Como a reta vai de 0 a 3 e tem encaixe em 12 partes por unidade, cada marca representa 1/12. Preciso contar 33 marcas a partir do zero: 12 marcas = 1, 24 marcas = 2, 33 marcas = 2 + 9/12 = 2.75.",
+        "result": "Posição na reta: entre 2 e 3, exatamente na 9ª marca após 2 (ou 33ª marca total)",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Marcar o ponto correspondente na reta numérica (numline)",
+        "thinking": "Clico na posição exata correspondente a 33/12, que é 2 e 9/12, ou 33/12, na reta com divisões de 1/12.",
+        "result": "Ponto marcado corretamente em 33/12",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Concluir o problema clicando em Done",
+        "thinking": "Todas as ações necessárias foram realizadas: fração inserida corretamente e ponto marcado na reta. Posso concluir.",
+        "result": "Problema finalizado",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 35
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "18dozen",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o numerador da fração",
+          "thinking": "A fração é 33/12, então vou colocar 33 em cima.",
+          "result": "Correto",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Digitar o denominador da fração",
+          "thinking": "O total de canetas é 33 e uma dúzia tem 12, então o denominador é 33.",
+          "result": "Errado: trocou numerador e denominador",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "33",
+           "description": "Aluno confunde qual número representa a parte (numerador) e qual representa o todo (denominador), invertendo-os",
+           "mistakeLocation": "Ao identificar o denominador, o aluno usou o total de canetas (33) em vez do tamanho da unidade (12)",
+           "diagnosticQuestion": "Qual é a unidade que estamos usando para medir? Quantas canetas formam UMA dúzia?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você já viu que 33 e 12 estão envolvidos. Lembre-se: o denominador mostra em quantas partes dividimos UMA unidade — neste caso, quantas canetas tem uma dúzia?",
+           "howToFix": "Relacionar o contexto: 'dúzia = 12', então sempre que falamos 'em dúzias', o denominador é 12"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Se é 33/33, isso é 1 inteiro, então marco no 1.",
+          "result": "Errado: posição baseada na fração invertida",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_posicao_baseada_na_fracao_errada",
+           "type": "procedural_error",
+           "wrongAnswer": "1",
+           "description": "Aluno marca a posição com base na fração incorreta (33/33 = 1) que ele mesmo digitou",
+           "mistakeLocation": "Na estimativa na reta, após digitar a fração errada, o aluno posiciona corretamente ESSA fração errada",
+           "diagnosticQuestion": "Se a fração fosse realmente 33/33, onde ficaria? Mas será que essa é a fração certa?",
+           "severity": "moderate",
+           "feedback": "Você posicionou bem a fração que escreveu! Agora vamos conferir se a fração está certa — quantas canetas tem uma dúzia mesmo?",
+           "howToFix": "Conectar fração ao contexto antes de posicionar: '33 canetas = quantas dúzias?' → 33 ÷ 12"
+          }
+         }
+        ],
+        "finalAnswer": "33/33",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o numerador da fração",
+          "thinking": "Ela tem 33 canetas, então o numerador é 33.",
+          "result": "Correto",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Digitar o denominador da fração",
+          "thinking": "Uma dúzia é 12, então 12 vai embaixo.",
+          "result": "Correto",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "33/12 é mais que 2, mas como cada unidade tem 12 partes, vou contar 33 marcas a partir do zero.",
+          "result": "Errado: conta marcas em vez de intervalos",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marcas_em_vez_de_intervalos",
+           "type": "count_error",
+           "wrongAnswer": "2.75",
+           "description": "Aluno conta 33 marcas na reta (cada marca = 1/12), mas começa a contar do zero como marca 1, terminando em 34/12 ≈ 2.83, ou arredonda para 2.75",
+           "mistakeLocation": "Ao posicionar 33/12, o aluno trata cada marca visível (ou imaginada) como um passo, mas conta o ponto inicial como o primeiro",
+           "diagnosticQuestion": "Se 12 partes fazem UM inteiro, onde fica 12/12? E 24/12? Agora, onde fica 33/12?",
+           "severity": "high",
+           "feedback": "Você entendeu que 33/12 é maior que 2 — ótimo! Vamos pensar: 12/12 = 1, 24/12 = 2, então 33/12 é 2 inteiros mais 9/12. Onde fica 9/12 depois do 2?",
+           "howToFix": "Usar marcação por múltiplos: identificar 0, 1, 2, 3 primeiro; depois dividir o trecho entre 2 e 3 em 12 partes e contar 9"
+          }
+         }
+        ],
+        "finalAnswer": "33/12",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "18dozen",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_responde_com_total_em_vez_do_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_pens}",
+          "buggyRule": "Usar o total de objetos (33) como numerador — CORRETO neste caso, mas em outros problemas pode ser incorreto; aqui NÃO há erro real, mas mantemos para diagnóstico comparativo",
+          "description": "Em problemas de conversão, o numerador é o total absoluto — mas aluno pode não entender POR QUE",
+          "mistakeLocation": "Ao extrair o numerador do enunciado, o aluno copia o número sem entender seu papel",
+          "diagnosticQuestion": "Por que o número de canetas vai no numerador? O que ele representa na fração?",
+          "feedback": "Você acertou o número! Agora pense: o que o numerador está contando? É o total de canetas em relação a quê?",
+          "howToFix": "Explicitar: 'fração = quantidade total / tamanho da unidade de medida'",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{parte_fracionaria_num}",
+          "buggyRule": "Extrair apenas a parte fracionária do número misto mencionado ('9/12') e usar o 9 como numerador da fração imprópria",
+          "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+          "mistakeLocation": "Ao ler '2 and 9/12 dozens', o aluno assume que a fração pedida é só 9/12",
+          "diagnosticQuestion": "A fração que representa TODO o conjunto de canetas é só a parte depois do 'and', ou inclui os dois inteiros também?",
+          "feedback": "Você notou a fração 9/12 — muito bom! Mas lembre-se: ela é só a PARTE EXTRA além dos 2 inteiros. A fração total precisa incluir TUDO.",
+          "howToFix": "Converter verbalmente: '2 inteiros e 9/12 = quantos doze avos no total?' → 2×12 + 9 = 33",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "18dozen",
+        "step": 2,
+        "kcUsed": "IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{numerador_correto}",
+          "buggyRule": "Usar o valor do numerador (33) como denominador",
+          "description": "Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'",
+          "mistakeLocation": "Ao atribuir o denominador, usa o total absoluto em vez do tamanho da unidade de medida (dúzia = 12)",
+          "diagnosticQuestion": "Se eu tivesse 12 canetas, quantas dúzias teria? E se tivesse 24? O que isso diz sobre o denominador?",
+          "feedback": "Você está pensando nos números certos! Mas o denominador responde: 'quantas canetas fazem UMA dúzia?' — não quantas você tem.",
+          "howToFix": "Associar 'denominador = tamanho da unidade' com exemplos: meia dúzia = 6 → fração = ?/12",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_numero_de_duzias_inteiras_como_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{parte_inteira}",
+          "buggyRule": "Usar a parte inteira do número misto (2) como denominador",
+          "description": "Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador",
+          "mistakeLocation": "Confusão entre a parte inteira do número misto e o denominador da fração imprópria",
+          "diagnosticQuestion": "O número 2 representa quantas dúzias inteiras, mas o denominador mostra o que?",
+          "feedback": "Você notou o número 2 — ele é importante! Mas ele não é o denominador. O denominador vem da palavra 'dúzia'. Quantas canetas tem uma dúzia?",
+          "howToFix": "Destacar palavras-chave: 'dúzia → 12', independentemente do número de inteiros",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_denominador_como_total_de_partes_visiveis_na_reta",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "36",
+          "buggyRule": "Contar o número total de subdivisões na reta (0 a 3 com 12 por unidade → 3×12=36) e usar como denominador",
+          "description": "Aluno associa o denominador ao número total de marcas na reta numérica",
+          "mistakeLocation": "Ao ver a reta de 0 a 3 com divisões em 12, assume que o denominador deve ser 36",
+          "diagnosticQuestion": "O denominador depende do COMPRIMENTO TOTAL da reta ou do TAMANHO DE CADA UNIDADE?",
+          "feedback": "Você está observando a reta com atenção! Mas o denominador mostra como dividimos CADA UNIDADE — não toda a reta. Quantas partes tem UM inteiro aqui?",
+          "howToFix": "Focar em um único segmento [0,1] e perguntar: quantas partes? → 12 → denominador = 12",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "18dozen",
+        "step": 3,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marcas_em_vez_de_intervalos",
+          "type": "count_error",
+          "wrongAnswerPattern": "{numerador_correto}/{denominador_correto} posicionado como marca {numerador_correto} começando do zero como 1",
+          "buggyRule": "Posicionar a fração contando {numerador} marcas a partir do zero, tratando o zero como marca 0, mas somando incorretamente → posição = ({numerador} - 1)/{denominador} ou {numerador}/{denominador} com off-by-one",
+          "description": "Erro clássico de contagem: confunde número de intervalos com número de pontos/marcas",
+          "mistakeLocation": "Ao marcar 33/12, o aluno imagina 33 subdivisões e conta 33 pontos, terminando em 32/12 ou 34/12",
+          "diagnosticQuestion": "Se você contar 12 marcas a partir do zero, onde chega? Em 12/12 ou em 11/12?",
+          "feedback": "Você está tentando ser preciso — ótimo! Lembre-se: do 0 ao 1, há 12 INTERVALOS, mas 13 MARCAS. Queremos o final do 33º intervalo, não a 33ª marca.",
+          "howToFix": "Usar régua mental: 'cada salto de 1/12 leva a um novo valor'; pular 33 vezes a partir do 0",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_posiciona_somente_a_parte_fracionaria",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{parte_fracionaria_num}/{denominador_correto}",
+          "buggyRule": "Ignorar a parte inteira e posicionar apenas a fração própria (9/12) entre 0 e 1",
+          "description": "Aluno foca só na parte fracionária do número misto e esquece os inteiros",
+          "mistakeLocation": "Na estimativa, considera apenas '9/12' e marca entre 0 e 1, ignorando os 2 inteiros",
+          "diagnosticQuestion": "A coleção tem mais ou menos que 1 dúzia? Mais ou menos que 2 dúzias?",
+          "feedback": "Você marcou 9/12 direitinho! Mas Katie tem MAIS que 2 dúzias — então o ponto deve estar depois do 2, não antes do 1.",
+          "howToFix": "Primeiro identificar quantos inteiros: 33 ÷ 12 = 2 com resto → ponto depois do 2",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_arredonda_para_o_inteiro_mais_proximo",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "3",
+          "buggyRule": "Arredondar 33/12 = 2.75 para o inteiro mais próximo (3) e marcar exatamente no 3",
+          "description": "Aluno interpreta 'estimativa' como arredondamento para inteiro",
+          "mistakeLocation": "Ao estimar na reta, substitui a fração por seu arredondamento inteiro",
+          "diagnosticQuestion": "2.75 está mais perto de 2 ou de 3? Mas será que devemos marcar EXATAMENTE onde está, mesmo não sendo inteiro?",
+          "feedback": "Você viu que está perto do 3 — quase lá! Mas a reta permite marcar valores não inteiros. Onde ficaria 2 e três quartos?",
+          "howToFix": "Lembrar que 'estimar' aqui significa POSICIONAR, não ARREDONDAR",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_escala_da_reta_unidade_completa",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerador_correto}",
+          "buggyRule": "Tratar cada subdivisão como valendo 1 unidade inteira, então 33/12 é posicionado como 33 (fora da reta) ou truncado para 3",
+          "description": "Aluno lê a escala incorretamente, achando que cada marca = 1 inteiro",
+          "mistakeLocation": "Na leitura da reta, assume que as marcas representam unidades inteiras, não frações",
+          "diagnosticQuestion": "Se cada marca valesse 1, até onde iria a reta? Mas ela só vai até 3 — então cada marca deve valer quanto?",
+          "feedback": "Você está tentando usar a reta! Vamos olhar juntos: a reta vai de 0 a 3, mas tem MUITAS marcas. Se fossem todas inteiras, iria até 36! Então cada marca deve ser menor que 1.",
+          "howToFix": "Identificar primeiro os inteiros (0,1,2,3), depois ver quantas marcas há entre eles → 12 → cada marca = 1/12",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "18dozen",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração",
+        "thinking": "O problema diz que Katie tem 33 canetas, e que isso equivale a 33/12 dúzias... mas será que essa é mesmo a fração que devo usar? Ou devo simplificar antes?",
+        "result": "Identifiquei que a fração mencionada diretamente no texto é 33/12",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando o problema pergunta 'What is the fraction in the problem?', ele quer a fração exatamente como aparece no texto. Qual número está sendo dividido por qual outro?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Volte ao enunciado e procure a expressão que tem um número em cima e outro embaixo com uma barra. Copie esses dois números para os campos da fração."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração está logo depois da palavra 'it would be'. Veja: '33/12'. O numerador é 33 e o denominador é 12. Confirme se você digitou isso nos campos corretos!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase concluindo! Na frase 'it would be 33/12', o número antes da barra vai no campo de cima (f1), e o depois da barra vai no campo de baixo (f2). Digite 33 em cima e 12 embaixo!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Marcar a posição na reta numérica",
+        "thinking": "Se 33/12 é igual a 2 e 9/12, então devo marcar entre 2 e 3... mas onde exatamente? Cada unidade tem 12 partes, então 2 inteiros são 24/12, e mais 9 dá 33/12. Então é o nono traço depois do 2.",
+        "result": "Posição marcada corretamente no ponto correspondente a 33/12 (ou 2 + 9/12)",
+        "kcUsed": "FracGreater1, EstFractionNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótimo raciocínio! Se cada inteiro na reta é dividido em 12 partes, como você pode contar quantas partes totais há em 33/12?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Primeiro, veja quantos inteiros cabem em 33/12 (isso é 2 inteiros = 24/12). Depois, conte mais 9 partes a partir do 2 na reta numérica."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! Você sabe que 33 ÷ 12 = 2 com resto 9. Então, partindo do 2, avance 9 pequenos segmentos (cada um vale 1/12). O ponto deve ficar logo antes do 3!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Comece no 2, e conte: 1/12, 2/12, ..., até 9/12. O nono traço após o 2 é exatamente onde você deve colocar o ponto. Confira: 2 + 9/12 = 33/12!"
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "33/12",
+      "totalTime": 75,
+      "alternativeRoutes": [
+       {
+        "description": "Converter primeiro para número misto (2 9/12) e usar isso para localizar na reta",
+        "steps": [
+         "Dividir 33 por 12",
+         "Obter quociente 2 e resto 9",
+         "Usar 2 inteiros + 9/12 para marcar na reta"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Tentar simplificar 33/12 para 11/4 antes de marcar (embora não seja necessário para a pergunta)",
+        "steps": [
+         "Dividir numerador e denominador por 3",
+         "Obter 11/4",
+         "Localizar 11/4 na reta (2.75)"
+        ],
+        "efficiency": "low",
+        "note": "Correto matematicamente, mas desnecessário pois a pergunta pede a fração do problema, não uma forma simplificada"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem?\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); reta numérica de 0 a 3 (numline) onde o aluno marca um ponto, com encaixe em 12 partes por unidade (marcas ocultas); texto de apoio na reta: \"The number hint is off in this problem!\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 3,
+   "encaixeDenominador": 12,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "text",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "text",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Use the fraction field to represent the collection in dozens.",
+     "kc": "IdenNumerator",
+     "valor": "33"
+    },
+    {
+     "indice": 2,
+     "acao": "Identify the numerator in the fraction for the pens in dozens.",
+     "kc": "IdenNumerator",
+     "valor": "33"
+    },
+    {
+     "indice": 3,
+     "acao": "Identify the denominator in the fraction for the pens in dozens.",
+     "kc": "IdenDenominator",
+     "valor": "12"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter the numerator in the upper fraction field.",
+     "kc": "IdenNumerator",
+     "valor": "33"
+    },
+    {
+     "indice": 5,
+     "acao": "Enter the denominator in the lower fraction field.",
+     "kc": "IdenDenominator",
+     "valor": "12"
+    },
+    {
+     "indice": 6,
+     "acao": "Mark 33/12 on the number line from 0 to 3.",
+     "kc": "EstFractionNumLine",
+     "valor": "33/12"
+    },
+    {
+     "indice": 7,
+     "acao": "Convert the improper fraction to the mixed-number form shown in the problem.",
+     "kc": "convertToMixedNum",
+     "valor": "2 and 9/12"
+    },
+    {
+     "indice": 8,
+     "acao": "Enter the whole-number part of the mixed number.",
+     "kc": "FracGreater1",
+     "valor": "2"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "9",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used only the fractional part of the mixed number. The fraction for the whole collection must include all the pens, including the two complete dozens.",
+     "buggyRule": "Extrair apenas a parte fracionária do número misto mencionado ('9/12') e usar o 9 como numerador da fração imprópria",
+     "misconceptionId": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "valor": "9",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The 9 describes only the extra part after two whole dozens. The numerator for the improper fraction must represent the entire collection.",
+     "buggyRule": "Extrair apenas a parte fracionária do número misto mencionado ('9/12') e usar o 9 como numerador da fração imprópria",
+     "misconceptionId": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "valor": "33",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You placed the total number of pens in the denominator. The denominator answers how many pens make one dozen.",
+     "buggyRule": "Usar o valor do numerador (33) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The 2 counts complete dozens, but it does not define one dozen. The denominator comes from the number of pens in one dozen.",
+     "buggyRule": "Usar a parte inteira do número misto (2) como denominador",
+     "misconceptionId": "misc_usa_numero_de_duzias_inteiras_como_denominador"
+    },
+    {
+     "valor": "36",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator is not the total number of subdivisions across the entire number line. It describes the parts in one unit.",
+     "buggyRule": "Contar o número total de subdivisões na reta (0 a 3 com 12 por unidade → 3×12=36) e usar como denominador",
+     "misconceptionId": "misc_denominador_como_total_de_partes_visiveis_na_reta"
+    },
+    {
+     "valor": "9",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The 9 is only the extra part of the mixed number. The upper field must represent the whole collection.",
+     "buggyRule": "Extrair apenas a parte fracionária do número misto mencionado ('9/12') e usar o 9 como numerador da fração imprópria",
+     "misconceptionId": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "valor": "33",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The total collection belongs in the numerator. The denominator describes how many pens make one dozen.",
+     "buggyRule": "Usar o valor do numerador (33) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The 2 is the number of complete dozens, not the number of pens in one dozen.",
+     "buggyRule": "Usar a parte inteira do número misto (2) como denominador",
+     "misconceptionId": "misc_usa_numero_de_duzias_inteiras_como_denominador"
+    },
+    {
+     "valor": "36",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Do not count all subdivisions from 0 to 3. The denominator refers to the equal parts within one whole unit.",
+     "buggyRule": "Contar o número total de subdivisões na reta (0 a 3 com 12 por unidade → 3×12=36) e usar como denominador",
+     "misconceptionId": "misc_denominador_como_total_de_partes_visiveis_na_reta"
+    },
+    {
+     "valor": "1",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A point at 1 would represent 33/33, not the relationship between 33 pens and groups of a dozen.",
+     "buggyRule": "",
+     "misconceptionId": "misc_posicao_baseada_na_fracao_errada"
+    },
+    {
+     "valor": "9/12",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point must include the two complete dozens as well as the extra 9/12.",
+     "buggyRule": "Ignorar a parte inteira e posicionar apenas a fração própria (9/12) entre 0 e 1",
+     "misconceptionId": "misc_posiciona_somente_a_parte_fracionaria"
+    },
+    {
+     "valor": "3",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The value is close to 3, but it is not exactly 3. Use the fractional intervals to mark its precise position.",
+     "buggyRule": "Arredondar 33/12 = 2.75 para o inteiro mais próximo (3) e marcar exatamente no 3",
+     "misconceptionId": "misc_arredonda_para_o_inteiro_mais_proximo"
+    },
+    {
+     "valor": "33",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Each small interval is only part of one dozen, so the point cannot be placed at 33 on a line that ends at 3.",
+     "buggyRule": "Tratar cada subdivisão como valendo 1 unidade inteira, então 33/12 é posicionado como 33 (fora da reta) ou truncado para 3",
+     "misconceptionId": "misc_confunde_escala_da_reta_unidade_completa"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Ask yourself which number tells how many pens Katie has altogether."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Place the total number of pens above the fraction bar."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Look for the number that describes the size of Katie's collection, not the size of one dozen."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Enter the collection total in the upper fraction field."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "The numerator tells how many objects are being counted."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Read the collection statement and locate the total number of pens."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Do not use the number of pens in one dozen or only the extra fractional part."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the total collection count in the upper field."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The denominator describes the size of one whole unit."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Connect the word dozen with the number of equal parts in one dozen."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "The denominator is not the total collection count and not the number of complete dozens."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Enter the number of pens that make one complete dozen in the lower field."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The numerator counts the objects being described."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Read the total collection count and place it above the fraction bar."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "Use the collection total rather than the number of complete dozens."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Type the total number of pens into f1."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The denominator tells how many pens are in one unit called a dozen."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use the definition of a dozen to fill the lower field."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "The denominator describes one dozen, not all the dozens in the collection."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Type the number of pens in one dozen into f2."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "First decide whether the fraction is below 1, between 1 and 2, or between 2 and 3."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Use the denominator to count equal intervals within each whole unit."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "The point is after 2 and before 3, with nine of the twelve intervals beyond 2."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Start at 2, move nine twelfth-sized intervals toward 3, and place the point there."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "A fraction greater than one can be rewritten using complete wholes and a remaining fraction."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Divide the numerator by the denominator to find the whole-number part and the remainder."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "The quotient gives the complete dozens, while the remainder keeps the original denominator."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Use the quotient as the whole part, place the remainder over twelve, and press Convert."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "A fraction greater than one contains at least one complete whole."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Find how many full groups of twelve fit into the total number of pens."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Two full groups use twenty-four pens, leaving some pens for the fractional part."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Enter the number of complete dozens in m1."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "33",
+    "33",
+    "12",
+    "33",
+    "12",
+    "33/12",
+    "2and9/12",
+    "2"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Katie has a huge collection of colorful pens; she has 33 of them! If she were to describe the pen collection in number of dozens, it would be 33/12, or 2 and 9/12 dozens. Show the number of dozens of pens on the number line.\nWhat is the fraction in the problem?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Use the fraction field to represent the collection in dozens.",
+     "expectedAnswer": "33",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Identify the numerator in the fraction for the pens in dozens.",
+     "expectedAnswer": "33",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Identify the denominator in the fraction for the pens in dozens.",
+     "expectedAnswer": "12",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter the numerator in the upper fraction field.",
+     "expectedAnswer": "33",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Enter the denominator in the lower fraction field.",
+     "expectedAnswer": "12",
+     "renderAs": "dynamic_spec",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Mark 33/12 on the number line from 0 to 3.",
+     "expectedAnswer": "33/12",
+     "renderAs": "number_line",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Convert the improper fraction to the mixed-number form shown in the problem.",
+     "expectedAnswer": "2 and 9/12",
+     "renderAs": "dynamic_spec",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Enter the whole-number part of the mixed number.",
+     "expectedAnswer": "2",
+     "renderAs": "dynamic_spec",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 48340,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Use the fraction field to represent the collection in dozens.",
+     "instruction": "Use the fraction field to represent the collection in dozens.",
+     "expectedInput": {
+      "value": "33",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "f1",
+       "inputType": "numeric",
+       "initialValue": ""
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "f1",
+        "inputType": "numeric",
+        "initialValue": ""
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Ask yourself which number tells how many pens Katie has altogether."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Place the total number of pens above the fraction bar."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look for the number that describes the size of Katie's collection, not the size of one dozen."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the collection total in the upper fraction field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador",
+       "wrongAnswer": "9",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+       "feedback": "You used only the fractional part of the mixed number. The fraction for the whole collection must include all the pens, including the two complete dozens.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Identify the numerator in the fraction for the pens in dozens.",
+     "instruction": "Identify the numerator in the fraction for the pens in dozens.",
+     "expectedInput": {
+      "value": "33",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "f1",
+       "inputType": "numeric",
+       "initialValue": "33"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "f1",
+        "inputType": "numeric",
+        "initialValue": "33"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator tells how many objects are being counted."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the collection statement and locate the total number of pens."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Do not use the number of pens in one dozen or only the extra fractional part."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the total collection count in the upper field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador",
+       "wrongAnswer": "9",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+       "feedback": "The 9 describes only the extra part after two whole dozens. The numerator for the improper fraction must represent the entire collection.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Identify the denominator in the fraction for the pens in dozens.",
+     "instruction": "Identify the denominator in the fraction for the pens in dozens.",
+     "expectedInput": {
+      "value": "12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "f2",
+       "inputType": "numeric",
+       "initialValue": ""
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "f2",
+        "inputType": "numeric",
+        "initialValue": ""
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator describes the size of one whole unit."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Connect the word dozen with the number of equal parts in one dozen."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator is not the total collection count and not the number of complete dozens."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of pens that make one complete dozen in the lower field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "33",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'",
+       "feedback": "You placed the total number of pens in the denominator. The denominator answers how many pens make one dozen.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_numero_de_duzias_inteiras_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador",
+       "feedback": "The 2 counts complete dozens, but it does not define one dozen. The denominator comes from the number of pens in one dozen.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_denominador_como_total_de_partes_visiveis_na_reta",
+       "wrongAnswer": "36",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno associa o denominador ao número total de marcas na reta numérica",
+       "feedback": "The denominator is not the total number of subdivisions across the entire number line. It describes the parts in one unit.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_3",
+      "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_3",
+      "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter the numerator in the upper fraction field.",
+     "instruction": "Enter the numerator in the upper fraction field.",
+     "expectedInput": {
+      "value": "33",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "f1",
+       "inputType": "numeric",
+       "initialValue": ""
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "f1",
+        "inputType": "numeric",
+        "initialValue": ""
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator counts the objects being described."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the total collection count and place it above the fraction bar."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use the collection total rather than the number of complete dozens."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the total number of pens into f1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador",
+       "wrongAnswer": "9",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+       "feedback": "The 9 is only the extra part of the mixed number. The upper field must represent the whole collection.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Enter the denominator in the lower fraction field.",
+     "instruction": "Enter the denominator in the lower fraction field.",
+     "expectedInput": {
+      "value": "12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "f2",
+       "inputType": "numeric",
+       "initialValue": ""
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "f2",
+        "inputType": "numeric",
+        "initialValue": ""
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many pens are in one unit called a dozen."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the definition of a dozen to fill the lower field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator describes one dozen, not all the dozens in the collection."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the number of pens in one dozen into f2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "33",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'",
+       "feedback": "The total collection belongs in the numerator. The denominator describes how many pens make one dozen.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_numero_de_duzias_inteiras_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador",
+       "feedback": "The 2 is the number of complete dozens, not the number of pens in one dozen.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_denominador_como_total_de_partes_visiveis_na_reta",
+       "wrongAnswer": "36",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno associa o denominador ao número total de marcas na reta numérica",
+       "feedback": "Do not count all subdivisions from 0 to 3. The denominator refers to the equal parts within one whole unit.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_5",
+      "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_5",
+      "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Mark 33/12 on the number line from 0 to 3.",
+     "instruction": "Mark 33/12 on the number line from 0 to 3.",
+     "expectedInput": {
+      "value": "33/12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": {
+       "min": 0,
+       "max": 3,
+       "intervalsPerUnit": 12,
+       "snapMode": "fraction"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "min": 0,
+        "max": 3,
+        "intervalsPerUnit": 12,
+        "snapMode": "fraction"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "First decide whether the fraction is below 1, between 1 and 2, or between 2 and 3."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the denominator to count equal intervals within each whole unit."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The point is after 2 and before 3, with nine of the twelve intervals beyond 2."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Start at 2, move nine twelfth-sized intervals toward 3, and place the point there."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_posicao_baseada_na_fracao_errada",
+       "wrongAnswer": "1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno marca a posição com base na fração incorreta (33/33 = 1) que ele mesmo digitou",
+       "feedback": "A point at 1 would represent 33/33, not the relationship between 33 pens and groups of a dozen.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_somente_a_parte_fracionaria",
+       "wrongAnswer": "9/12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno foca só na parte fracionária do número misto e esquece os inteiros",
+       "feedback": "The point must include the two complete dozens as well as the extra 9/12.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_arredonda_para_o_inteiro_mais_proximo",
+       "wrongAnswer": "3",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno interpreta 'estimativa' como arredondamento para inteiro",
+       "feedback": "The value is close to 3, but it is not exactly 3. Use the fractional intervals to mark its precise position.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_escala_da_reta_unidade_completa",
+       "wrongAnswer": "33",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno lê a escala incorretamente, achando que cada marca = 1 inteiro",
+       "feedback": "Each small interval is only part of one dozen, so the point cannot be placed at 33 on a line that ends at 3.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_posicao_baseada_na_fracao_errada",
+      "scaffold_misc_posiciona_somente_a_parte_fracionaria",
+      "scaffold_misc_arredonda_para_o_inteiro_mais_proximo",
+      "scaffold_misc_confunde_escala_da_reta_unidade_completa",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Convert the improper fraction to the mixed-number form shown in the problem.",
+     "instruction": "Convert the improper fraction to the mixed-number form shown in the problem.",
+     "expectedInput": {
+      "value": "2 and 9/12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "convert",
+       "sourceFraction": "33/12",
+       "resultFields": [
+        "m1",
+        "m2",
+        "m3"
+       ]
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "convert",
+        "sourceFraction": "33/12",
+        "resultFields": [
+         "m1",
+         "m2",
+         "m3"
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A fraction greater than one can be rewritten using complete wholes and a remaining fraction."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the numerator by the denominator to find the whole-number part and the remainder."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The quotient gives the complete dozens, while the remainder keeps the original denominator."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Use the quotient as the whole part, place the remainder over twelve, and press Convert."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Enter the whole-number part of the mixed number.",
+     "instruction": "Enter the whole-number part of the mixed number.",
+     "expectedInput": {
+      "value": "2",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "m1",
+       "inputType": "numeric",
+       "initialValue": ""
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "m1",
+        "inputType": "numeric",
+        "initialValue": ""
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A fraction greater than one contains at least one complete whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find how many full groups of twelve fit into the total number of pens."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Two full groups use twenty-four pens, leaving some pens for the fractional part."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of complete dozens in m1."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_1",
+     "type": "scaffold",
+     "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+     "instruction": "You used only the fractional part of the mixed number. The fraction for the whole collection must include all the pens, including the two complete dozens.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "id": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_2",
+     "type": "scaffold",
+     "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+     "instruction": "The 9 describes only the extra part after two whole dozens. The numerator for the improper fraction must represent the entire collection.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'",
+     "instruction": "You placed the total number of pens in the denominator. The denominator answers how many pens make one dozen.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_3",
+     "type": "scaffold",
+     "description": "Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador",
+     "instruction": "The 2 counts complete dozens, but it does not define one dozen. The denominator comes from the number of pens in one dozen.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_duzias_inteiras_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_3",
+     "type": "scaffold",
+     "description": "Aluno associa o denominador ao número total de marcas na reta numérica",
+     "instruction": "The denominator is not the total number of subdivisions across the entire number line. It describes the parts in one unit.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_denominador_como_total_de_partes_visiveis_na_reta"
+    },
+    {
+     "id": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_4",
+     "type": "scaffold",
+     "description": "Aluno foca na parte fracionária do número misto (9/12) e ignora os inteiros, respondendo 9/12",
+     "instruction": "The 9 is only the extra part of the mixed number. The upper field must represent the whole collection.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_parte_fracionaria_do_numero_misto_como_numerador"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador por confusão entre 'quantos tenho' e 'quantos formam uma unidade'",
+     "instruction": "The total collection belongs in the numerator. The denominator describes how many pens make one dozen.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_5",
+     "type": "scaffold",
+     "description": "Aluno vê '2 and 9/12' e assume que o 2 é relevante para o denominador",
+     "instruction": "The 2 is the number of complete dozens, not the number of pens in one dozen.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_duzias_inteiras_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_5",
+     "type": "scaffold",
+     "description": "Aluno associa o denominador ao número total de marcas na reta numérica",
+     "instruction": "Do not count all subdivisions from 0 to 3. The denominator refers to the equal parts within one whole unit.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_denominador_como_total_de_partes_visiveis_na_reta"
+    },
+    {
+     "id": "scaffold_misc_posicao_baseada_na_fracao_errada",
+     "type": "scaffold",
+     "description": "Aluno marca a posição com base na fração incorreta (33/33 = 1) que ele mesmo digitou",
+     "instruction": "A point at 1 would represent 33/33, not the relationship between 33 pens and groups of a dozen.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posicao_baseada_na_fracao_errada"
+    },
+    {
+     "id": "scaffold_misc_posiciona_somente_a_parte_fracionaria",
+     "type": "scaffold",
+     "description": "Aluno foca só na parte fracionária do número misto e esquece os inteiros",
+     "instruction": "The point must include the two complete dozens as well as the extra 9/12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_somente_a_parte_fracionaria"
+    },
+    {
+     "id": "scaffold_misc_arredonda_para_o_inteiro_mais_proximo",
+     "type": "scaffold",
+     "description": "Aluno interpreta 'estimativa' como arredondamento para inteiro",
+     "instruction": "The value is close to 3, but it is not exactly 3. Use the fractional intervals to mark its precise position.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_arredonda_para_o_inteiro_mais_proximo"
+    },
+    {
+     "id": "scaffold_misc_confunde_escala_da_reta_unidade_completa",
+     "type": "scaffold",
+     "description": "Aluno lê a escala incorretamente, achando que cada marca = 1 inteiro",
+     "instruction": "Each small interval is only part of one dozen, so the point cannot be placed at 33 on a line that ends at 3.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_escala_da_reta_unidade_completa"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(FracGreater1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_1",
+     "condition": "misconception(misc_usa_parte_fracionaria_do_numero_misto_como_numerador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_2",
+     "condition": "misconception(misc_usa_parte_fracionaria_do_numero_misto_como_numerador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_3",
+     "condition": "misconception(misc_usa_numero_de_duzias_inteiras_como_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_3",
+     "condition": "misconception(misc_denominador_como_total_de_partes_visiveis_na_reta)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_4",
+     "condition": "misconception(misc_usa_parte_fracionaria_do_numero_misto_como_numerador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_parte_fracionaria_do_numero_misto_como_numerador__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_5",
+     "condition": "misconception(misc_usa_numero_de_duzias_inteiras_como_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_duzias_inteiras_como_denominador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_5",
+     "condition": "misconception(misc_denominador_como_total_de_partes_visiveis_na_reta)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_denominador_como_total_de_partes_visiveis_na_reta__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_posicao_baseada_na_fracao_errada",
+     "condition": "misconception(misc_posicao_baseada_na_fracao_errada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_posicao_baseada_na_fracao_errada",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_posiciona_somente_a_parte_fracionaria",
+     "condition": "misconception(misc_posiciona_somente_a_parte_fracionaria)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_posiciona_somente_a_parte_fracionaria",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_arredonda_para_o_inteiro_mais_proximo",
+     "condition": "misconception(misc_arredonda_para_o_inteiro_mais_proximo)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_arredonda_para_o_inteiro_mais_proximo",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_confunde_escala_da_reta_unidade_completa",
+     "condition": "misconception(misc_confunde_escala_da_reta_unidade_completa)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_confunde_escala_da_reta_unidade_completa",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

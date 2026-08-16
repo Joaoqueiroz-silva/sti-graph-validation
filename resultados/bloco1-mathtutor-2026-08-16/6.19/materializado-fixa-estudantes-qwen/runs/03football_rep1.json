@@ -1,0 +1,2475 @@
+{
+ "id": "03football",
+ "correctAnswer": "3/6",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.16,
+ "conceptual": 0.174,
+ "precision": 0.167,
+ "recall": 0.154,
+ "functionalAgreement": 0.6,
+ "functionalKappa": 0.375,
+ "missing": [
+  "-1",
+  "-"
+ ],
+ "extra": [
+  "1",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "6",
+  "3",
+  "1",
+  "2.0",
+  "3.0"
+ ],
+ "exercicio": "03football",
+ "replica": 1,
+ "geradoEm": "2026-08-16T17:26:27.936Z",
+ "promptSha256": "178943bc90e6399b36cbb276fa8ecce838b4b6db669afaf1e2d1df55b88b76b6",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7598,
+  "tokensSaida": 6328,
+  "usd": 0.030605640000000003
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Fração identificada no texto: 3/6"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} (onde {A} = 3)"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} (onde {B} = 6)"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar o numerador no campo f1",
+    "kc": "IdenNumerator",
+    "valor": "Campo f1 preenchido com {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o denominador no campo f2",
+    "kc": "IdenDenominator",
+    "valor": "Campo f2 preenchido com {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Localizar a fração na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado na posição {A}/{B} na reta numérica"
+   },
+   {
+    "indice": 7,
+    "acao": "Verificar se a fração é menor que 1",
+    "kc": "FracLess1",
+    "valor": "Confirmação: fração {A}/{B} < 1"
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar numerador com 'quantos acertou' e denominador com 'quantos tentou', usando linguagem cotidiana",
+    "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+    "misconceptionId": "misc_numerador_denominador_invertidos"
+   },
+   {
+    "valor": "3",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar frases completas: '3 de 6 passes' → '3 sobre 6'",
+    "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+    "misconceptionId": "misc_numerador_denominador_invertidos"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar estrutura 'parte/todo' com exemplos visuais: 3 bolas vermelhas em 6 = 3/6",
+    "buggyRule": "Assumir denominador 1 por padrão quando o aluno foca só na parte: wrongAnswer = 1",
+    "misconceptionId": "misc_omite_denominador_unidade"
+   },
+   {
+    "valor": "2.0",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Conectar frações próprias (<1) com situações onde a parte é menor que o todo",
+    "buggyRule": "Usar fração invertida e marcar seu valor decimal (ex: 6/3 = 2.0) na reta, mesmo fora de [0,1]: wrongAnswer = float({total_passes} / {passes_completos})",
+    "misconceptionId": "misc_fracao_impropria_fora_intervalo"
+   },
+   {
+    "valor": "3.0",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar régua fracionária com marcações em 1/6 para mostrar que 3/6 = meio",
+    "buggyRule": "Ignorar o denominador e marcar o numerador como se fosse um inteiro na reta: wrongAnswer = float({passes_completos})",
+    "misconceptionId": "misc_trata_fracao_como_inteiro"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando o problema diz 'três dos seis passes', qual número representa as partes que ele conseguiu, e qual representa o total de tentativas?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, localize no texto quantos passes foram completados (essa é a parte de cima da fração). Depois, veja quantos passes ele tentou no total (essa é a parte de baixo)."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração usa os números 3 e 6. Pense: onde vai o 3 — em cima ou embaixo? E o 6?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! O número de passes completados (3) vai na caixa de cima (f1), e o total de passes tentados (6) vai na caixa de baixo (f2)."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Se a unidade está dividida em 6 partes iguais, como você encontraria onde fica 3 dessas partes na reta?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você consegue! Conte mentalmente: a primeira marca depois do 0 é 1/6, depois 2/6, depois 3/6... onde isso fica em relação ao meio da reta?"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! 3/6 é exatamente a metade de 6/6. Então o ponto deve ficar bem no meio entre 0 e 1."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você está quase concluindo! Pense: se 6/6 é o 1, então 3/6 é metade disso. Toque exatamente no ponto central da reta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03football\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema descreve que Brad completou 3 dos 6 passes, ou seja, a fração mencionada é 3/6.\\\",\\n          \\\"result\\\": \\\"Fração identificada no texto: 3/6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O número de passes completados é 3, que corresponde ao numerador.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} (onde {A} = 3)\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O número total de passes tentados é 6, que corresponde ao denominador.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} (onde {B} = 6)\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar o numerador no campo f1\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 3 no campo do numerador.\\\",\\n          \\\"result\\\": \\\"Campo f1 preenchido com {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar o denominador no campo f2\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 6 no campo do denominador.\\\",\\n          \\\"result\\\": \\\"Campo f2 preenchido com {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Localizar a fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Como a reta vai de 0 a 1 e está dividida em 6 partes iguais (mesmo que as marcas estejam ocultas), a fração 3/6 corresponde à terceira marca após 0.\\\",\\n          \\\"result\\\": \\\"Ponto marcado na posição {A}/{B} na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Verificar se a fração é menor que 1\\\",\\n          \\\"thinking\\\": \\\"Como o numerador (3) é menor que o denominador (6), a fração é menor que 1, o que confirma que pertence ao intervalo [0,1] da reta.\\\",\\n          \\\"result\\\": \\\"Confirmação: fração {A}/{B} < 1\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os componentes foram preenchidos corretamente; posso finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 34\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03football\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digite o numerador como 6\\\",\\n              \\\"thinking\\\": \\\"Ele jogou 6 passes, então o número de cima é 6.\\\",\\n              \\\"result\\\": \\\"Numerador errado\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_numerador_denominador_invertidos\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6\\\",\\n                \\\"description\\\": \\\"Aluno confunde o que é o todo (denominador) e o que é a parte (numerador), invertendo-os\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar o numerador, o aluno usou o total de passes em vez dos passes completos\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O numerador representa quantos passes foram completos ou quantos foram tentados no total?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa observação! Você notou os dois números importantes: 3 e 6. Agora vamos lembrar: o numerador mostra a PARTE — quantos passes ele ACERTOU?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar numerador com 'quantos acertou' e denominador com 'quantos tentou', usando linguagem cotidiana\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Digite o denominador como 3\\\",\\n              \\\"thinking\\\": \\\"Ele acertou 3, então o de baixo é 3.\\\",\\n              \\\"result\\\": \\\"Denominador errado\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_numerador_denominador_invertidos\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador consistentemente\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar o denominador, usou o valor da parte em vez do todo\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se ele tentou 6 passes no total, qual número representa o TODO?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você já separou os dois números! Lembre-se: o denominador é o TOTAL de passes tentados — foi 6 ou 3?\\\",\\n                \\\"howToFix\\\": \\\"Usar frases completas: '3 de 6 passes' → '3 sobre 6'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica na posição correspondente a 6/3 = 2\\\",\\n              \\\"thinking\\\": \\\"A fração é 6/3, que dá 2, então marco depois do 1.\\\",\\n              \\\"result\\\": \\\"Ponto fora da reta [0,1]\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fracao_impropria_fora_intervalo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2.0\\\",\\n                \\\"description\\\": \\\"Aluno usa fração invertida (6/3), obtém valor >1 e marca fora do intervalo [0,1] da reta\\\",\\n                \\\"mistakeLocation\\\": \\\"Na estimativa na reta numérica, após usar fração incorreta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A fração que representa '3 de 6 passes' pode ser maior que 1? Por quê?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Interessante! Mas se ele só acertou metade dos passes, será que o valor está antes ou depois do 1 na reta?\\\",\\n                \\\"howToFix\\\": \\\"Conectar frações próprias (<1) com situações onde a parte é menor que o todo\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"6/3\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digite o numerador como 3\\\",\\n              \\\"thinking\\\": \\\"Ele completou 3 passes, então numerador é 3.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Deixar o denominador em branco ou digitar 1\\\",\\n              \\\"thinking\\\": \\\"Já pus o 3 em cima... talvez o de baixo seja 1? Ou nem precisa?\\\",\\n              \\\"result\\\": \\\"Denominador ausente ou incorreto\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_omite_denominador_unidade\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno assume que toda fração tem denominador 1 se não for especificado, ou esquece de incluir o todo\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao registrar o denominador, ignora o contexto do problema e usa valor padrão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantos passes ele JOGOU no total? Esse número deve aparecer embaixo da fração.\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você acertou o numerador! Agora pense: se ele jogou 6 passes no total, qual número deve ficar embaixo?\\\",\\n                \\\"howToFix\\\": \\\"Reforçar estrutura 'parte/todo' com exemplos visuais: 3 bolas vermelhas em 6 = 3/6\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar ponto na reta na posição 3 (como se fosse inteiro)\\\",\\n              \\\"thinking\\\": \\\"A fração é 3/1, que é 3, então vou longe na reta.\\\",\\n              \\\"result\\\": \\\"Ponto muito além de 1\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_trata_fracao_como_inteiro\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3.0\\\",\\n                \\\"description\\\": \\\"Aluno interpreta a fração como um número inteiro (apenas o numerador) e marca sua posição literal na reta\\\",\\n                \\\"mistakeLocation\\\": \\\"Na estimativa na reta, ignora o significado fracionário e trata 3 como posição absoluta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A reta vai só até 1. Como podemos marcar um valor que representa 'metade' nela?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Vejo que você marcou o 3, mas nossa reta só vai até 1. Será que 3/6 é um número MENOR que 1?\\\",\\n                \\\"howToFix\\\": \\\"Usar régua fracionária com marcações em 1/6 para mostrar que 3/6 = meio\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"3/1\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"03football\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_numerador_denominador_invertidos\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_passes}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}\\\",\\n              \\\"description\\\": \\\"Aluno troca parte e todo, usando o total como numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao extrair o numerador do enunciado 'three of the six passes', o aluno seleciona 'six' em vez de 'three'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quando dizemos '3 de 6', qual número vem primeiro na fração?\\\",\\n              \\\"feedback\\\": \\\"Você viu os dois números! Na fração, o número de cima mostra quantos ele ACERTOU — foi 3 ou 6?\\\",\\n              \\\"howToFix\\\": \\\"Praticar leitura de frações em contextos verbais: destacar 'de' como divisor entre parte e todo\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_somente_com_parte\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{passes_completos}\\\",\\n              \\\"buggyRule\\\": \\\"Responde apenas com o número de passes completos, ignorando o formato fracionário solicitado (mas aqui aplicado ao campo f1 isoladamente)\\\",\\n              \\\"description\\\": \\\"Aluno entende que a resposta envolve '3', mas não reconhece que é parte de uma fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao digitar no campo f1, coloca o valor correto (3), mas sem intenção fracionária clara — erro surge no passo seguinte\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema pede uma FRAÇÃO. Só o 3 é suficiente, ou precisamos de mais alguma coisa?\\\",\\n              \\\"feedback\\\": \\\"Ótimo! O 3 está certo no numerador. Agora, o que devemos colocar embaixo para mostrar '3 de quantos?'\\\",\\n              \\\"howToFix\\\": \\\"Refazer a pergunta como '3 de quantos passes?', forçando a explicitação do denominador\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03football\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_numerador_denominador_invertidos\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{passes_completos}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número de passes completos (numerador correto) como denominador: wrongAnswer = {passes_completos}\\\",\\n              \\\"description\\\": \\\"Consistência no erro de inversão: após usar 6 como numerador, usa 3 como denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao escolher o denominador, repete a lógica invertida do passo anterior\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ele tentou 6 passes no total, por que você colocou 3 embaixo?\\\",\\n              \\\"feedback\\\": \\\"Percebo que você usou 3 embaixo. Mas o denominador mostra o TOTAL de tentativas — foi 3 ou 6?\\\",\\n              \\\"howToFix\\\": \\\"Associar denominador à palavra 'total', 'todo', 'quantos no total'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_omite_denominador_unidade\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Assumir denominador 1 por padrão quando o aluno foca só na parte: wrongAnswer = 1\\\",\\n              \\\"description\\\": \\\"Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ausência de compreensão do todo, recorre ao denominador neutro (1)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Uma fração com denominador 1 significa que o todo é 1. Mas ele jogou só 1 passe?\\\",\\n              \\\"feedback\\\": \\\"Você colocou 1 embaixo — isso significaria que ele jogou só 1 passe. Mas o enunciado diz quantos?\\\",\\n              \\\"howToFix\\\": \\\"Contrastar 3/1 vs 3/6 com desenhos: 3 bolas em 1 caixa vs 3 bolas em 6 caixas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_total_errada\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{passes_completos} + 1\\\",\\n              \\\"buggyRule\\\": \\\"Somar 1 ao número de passes completos ao invés de usar o total real: wrongAnswer = {passes_completos} + 1\\\",\\n              \\\"description\\\": \\\"Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao estimar o total, assume que '3 de algo' implica que o todo é 4\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado diz explicitamente quantos passes ele JOGOU. Você leu esse número?\\\",\\n              \\\"feedback\\\": \\\"Vejo que você colocou 4 embaixo. Mas o texto diz: 'three of the SIX passes'. Qual é o número certo?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a sublinhar os dois números no enunciado: 'three' e 'six'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03football\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_trata_fracao_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{passes_completos}.0\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o denominador e marcar o numerador como se fosse um inteiro na reta: wrongAnswer = float({passes_completos})\\\",\\n              \\\"description\\\": \\\"Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da fração para a reta numérica, descarta o denominador completamente\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta numérica mostra valores entre 0 e 1. Onde fica um número que é MENOR que 1?\\\",\\n              \\\"feedback\\\": \\\"Sua marca está além do 1, mas a fração representa menos da metade dos passes? Será que ela está ANTES do 1?\\\",\\n              \\\"howToFix\\\": \\\"Usar reta com subdivisões visíveis em 6 partes para associar 3/6 à terceira marca\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_na_metade_por_ancora\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0.5\\\",\\n              \\\"buggyRule\\\": \\\"Sabendo que 3/6 é metade, marcar exatamente no meio (0.5), mesmo sem calcular — correto numericamente, mas sem base no enunciado específico; porém, em outros problemas com mesma estrutura (ex: 2/5), esse erro levaria a 0.5 sempre\\\",\\n              \\\"description\\\": \\\"Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa, usa conhecimento prévio de '3/6 = metade' em vez de contar as partes na escala\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você soube que era no meio? Se fosse 2 de 6, ainda seria no meio?\\\",\\n              \\\"feedback\\\": \\\"Você acertou a posição! Agora, vamos garantir que você saiba como encontrar outras frações — como 2/6 ou 5/6?\\\",\\n              \\\"howToFix\\\": \\\"Praticar contagem de intervalos: cada traço é 1/6; 3/6 = terceiro traço\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_off_by_one_na_reta\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({passes_completos} - 1) / {total_passes}\\\",\\n              \\\"buggyRule\\\": \\\"Contar marcas em vez de intervalos: marcar na posição correspondente a ({passes_completos} - 1)/{total_passes}\\\",\\n              \\\"description\\\": \\\"Aluno conta as linhas/marcas a partir do zero e para um a menos\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar 3/6, conta 0 (primeira marca), 1/6 (segunda), 2/6 (terceira) e para aí, marcando 2/6\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o primeiro intervalo é de 0 a 1/6, qual é a posição após TRÊS intervalos?\\\",\\n              \\\"feedback\\\": \\\"Você marcou perto do início. Vamos contar juntos: primeiro pedaço = 1/6, segundo = 2/6, terceiro = ?\\\",\\n              \\\"howToFix\\\": \\\"Usar seta animada que percorre 3 intervalos de 1/6 cada, chegando em 3/6\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fracao_impropria_fora_intervalo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_passes} / {passes_completos}\\\",\\n              \\\"buggyRule\\\": \\\"Usar fração invertida e marcar seu valor decimal (ex: 6/3 = 2.0) na reta, mesmo fora de [0,1]: wrongAnswer = float({total_passes} / {passes_completos})\\\",\\n              \\\"description\\\": \\\"Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão da fração incorreta para posição decimal\\\",\\n              \\\"diagnosticQuestion\\\": \\\"É possível completar MAIS passes do que tentou? Isso faria a fração ser maior que 1?\\\",\\n              \\\"feedback\\\": \\\"Sua marca está depois do 1, mas ele não pode acertar mais passes do que jogou! Então a fração deve estar ANTES do 1.\\\",\\n              \\\"howToFix\\\": \\\"Discutir restrição lógica: parte ≤ todo → fração ≤ 1\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03football\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração mencionada\\\",\\n          \\\"thinking\\\": \\\"Ele completou três dos seis passes... então é 3 de 6. Isso deve ser 3/6. Mas será que preciso simplificar? A pergunta só pede 'a fração no problema', não diz pra simplificar...\\\",\\n          \\\"result\\\": \\\"Identifiquei que a fração mencionada é 3/6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando o problema diz 'três dos seis passes', qual número representa as partes que ele conseguiu, e qual representa o total de tentativas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, localize no texto quantos passes foram completados (essa é a parte de cima da fração). Depois, veja quantos passes ele tentou no total (essa é a parte de baixo).\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração usa os números 3 e 6. Pense: onde vai o 3 — em cima ou embaixo? E o 6?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! O número de passes completados (3) vai na caixa de cima (f1), e o total de passes tentados (6) vai na caixa de baixo (f2).\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar o numerador (3) no campo f1\\\",\\n          \\\"thinking\\\": \\\"Vou colocar 3 aqui em cima, porque foram 3 passes certos.\\\",\\n          \\\"result\\\": \\\"f1 = 3\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Digitar o denominador (6) no campo f2\\\",\\n          \\\"thinking\\\": \\\"E 6 embaixo, porque ele jogou 6 passes no total.\\\",\\n          \\\"result\\\": \\\"f2 = 6\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 3/6 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 1, e tem divisões para sextos... mas as marcas estão escondidas. Então 3/6 é metade do caminho entre 0 e 1. Devo marcar bem no meio.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente na posição 0.5 (equivalente a 3/6)\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine, FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Se a unidade está dividida em 6 partes iguais, como você encontraria onde fica 3 dessas partes na reta?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você consegue! Conte mentalmente: a primeira marca depois do 0 é 1/6, depois 2/6, depois 3/6... onde isso fica em relação ao meio da reta?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 3/6 é exatamente a metade de 6/6. Então o ponto deve ficar bem no meio entre 0 e 1.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase concluindo! Pense: se 6/6 é o 1, então 3/6 é metade disso. Toque exatamente no ponto central da reta.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo: fração 3/6 e ponto no meio da reta.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"3/6\\\",\\n      \\\"totalTime\\\": 68,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Aluno simplifica 3/6 para 1/2 antes de marcar na reta, mas ainda marca corretamente no meio\\\",\\n          \\\"steps\\\": [\\\"Interpretar 3/6 como metade\\\", \\\"Marcar 1/2 na reta\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Aluno tenta usar o botão Convert (embora desnecessário, pois 3/6 < 1)\\\",\\n          \\\"steps\\\": [\\\"Clica em Convert\\\", \\\"Vê que não há parte inteira\\\", \\\"Volta à fração original\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "03football",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema descreve que Brad completou 3 dos 6 passes, ou seja, a fração mencionada é 3/6.",
+        "result": "Fração identificada no texto: 3/6",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O número de passes completados é 3, que corresponde ao numerador.",
+        "result": "Numerador = {A} (onde {A} = 3)",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O número total de passes tentados é 6, que corresponde ao denominador.",
+        "result": "Denominador = {B} (onde {B} = 6)",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Digitar o numerador no campo f1",
+        "thinking": "Insiro o valor 3 no campo do numerador.",
+        "result": "Campo f1 preenchido com {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Digitar o denominador no campo f2",
+        "thinking": "Insiro o valor 6 no campo do denominador.",
+        "result": "Campo f2 preenchido com {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Localizar a fração na reta numérica",
+        "thinking": "Como a reta vai de 0 a 1 e está dividida em 6 partes iguais (mesmo que as marcas estejam ocultas), a fração 3/6 corresponde à terceira marca após 0.",
+        "result": "Ponto marcado na posição {A}/{B} na reta numérica",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Verificar se a fração é menor que 1",
+        "thinking": "Como o numerador (3) é menor que o denominador (6), a fração é menor que 1, o que confirma que pertence ao intervalo [0,1] da reta.",
+        "result": "Confirmação: fração {A}/{B} < 1",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todos os componentes foram preenchidos corretamente; posso finalizar.",
+        "result": "Problema concluído",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 34
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "03football",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digite o numerador como 6",
+          "thinking": "Ele jogou 6 passes, então o número de cima é 6.",
+          "result": "Numerador errado",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_numerador_denominador_invertidos",
+           "type": "conceptual_error",
+           "wrongAnswer": "6",
+           "description": "Aluno confunde o que é o todo (denominador) e o que é a parte (numerador), invertendo-os",
+           "mistakeLocation": "Ao identificar o numerador, o aluno usou o total de passes em vez dos passes completos",
+           "diagnosticQuestion": "O numerador representa quantos passes foram completos ou quantos foram tentados no total?",
+           "severity": "high",
+           "feedback": "Boa observação! Você notou os dois números importantes: 3 e 6. Agora vamos lembrar: o numerador mostra a PARTE — quantos passes ele ACERTOU?",
+           "howToFix": "Relacionar numerador com 'quantos acertou' e denominador com 'quantos tentou', usando linguagem cotidiana"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Digite o denominador como 3",
+          "thinking": "Ele acertou 3, então o de baixo é 3.",
+          "result": "Denominador errado",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_numerador_denominador_invertidos",
+           "type": "conceptual_error",
+           "wrongAnswer": "3",
+           "description": "Aluno inverteu numerador e denominador consistentemente",
+           "mistakeLocation": "Ao identificar o denominador, usou o valor da parte em vez do todo",
+           "diagnosticQuestion": "Se ele tentou 6 passes no total, qual número representa o TODO?",
+           "severity": "high",
+           "feedback": "Você já separou os dois números! Lembre-se: o denominador é o TOTAL de passes tentados — foi 6 ou 3?",
+           "howToFix": "Usar frases completas: '3 de 6 passes' → '3 sobre 6'"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta numérica na posição correspondente a 6/3 = 2",
+          "thinking": "A fração é 6/3, que dá 2, então marco depois do 1.",
+          "result": "Ponto fora da reta [0,1]",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fracao_impropria_fora_intervalo",
+           "type": "conceptual_error",
+           "wrongAnswer": "2.0",
+           "description": "Aluno usa fração invertida (6/3), obtém valor >1 e marca fora do intervalo [0,1] da reta",
+           "mistakeLocation": "Na estimativa na reta numérica, após usar fração incorreta",
+           "diagnosticQuestion": "A fração que representa '3 de 6 passes' pode ser maior que 1? Por quê?",
+           "severity": "high",
+           "feedback": "Interessante! Mas se ele só acertou metade dos passes, será que o valor está antes ou depois do 1 na reta?",
+           "howToFix": "Conectar frações próprias (<1) com situações onde a parte é menor que o todo"
+          }
+         }
+        ],
+        "finalAnswer": "6/3",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digite o numerador como 3",
+          "thinking": "Ele completou 3 passes, então numerador é 3.",
+          "result": "Correto",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Deixar o denominador em branco ou digitar 1",
+          "thinking": "Já pus o 3 em cima... talvez o de baixo seja 1? Ou nem precisa?",
+          "result": "Denominador ausente ou incorreto",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_omite_denominador_unidade",
+           "type": "procedural_error",
+           "wrongAnswer": "1",
+           "description": "Aluno assume que toda fração tem denominador 1 se não for especificado, ou esquece de incluir o todo",
+           "mistakeLocation": "Ao registrar o denominador, ignora o contexto do problema e usa valor padrão",
+           "diagnosticQuestion": "Quantos passes ele JOGOU no total? Esse número deve aparecer embaixo da fração.",
+           "severity": "moderate",
+           "feedback": "Você acertou o numerador! Agora pense: se ele jogou 6 passes no total, qual número deve ficar embaixo?",
+           "howToFix": "Reforçar estrutura 'parte/todo' com exemplos visuais: 3 bolas vermelhas em 6 = 3/6"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar ponto na reta na posição 3 (como se fosse inteiro)",
+          "thinking": "A fração é 3/1, que é 3, então vou longe na reta.",
+          "result": "Ponto muito além de 1",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_trata_fracao_como_inteiro",
+           "type": "conceptual_error",
+           "wrongAnswer": "3.0",
+           "description": "Aluno interpreta a fração como um número inteiro (apenas o numerador) e marca sua posição literal na reta",
+           "mistakeLocation": "Na estimativa na reta, ignora o significado fracionário e trata 3 como posição absoluta",
+           "diagnosticQuestion": "A reta vai só até 1. Como podemos marcar um valor que representa 'metade' nela?",
+           "severity": "high",
+           "feedback": "Vejo que você marcou o 3, mas nossa reta só vai até 1. Será que 3/6 é um número MENOR que 1?",
+           "howToFix": "Usar régua fracionária com marcações em 1/6 para mostrar que 3/6 = meio"
+          }
+         }
+        ],
+        "finalAnswer": "3/1",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "03football",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_numerador_denominador_invertidos",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_passes}",
+          "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+          "description": "Aluno troca parte e todo, usando o total como numerador",
+          "mistakeLocation": "Ao extrair o numerador do enunciado 'three of the six passes', o aluno seleciona 'six' em vez de 'three'",
+          "diagnosticQuestion": "Quando dizemos '3 de 6', qual número vem primeiro na fração?",
+          "feedback": "Você viu os dois números! Na fração, o número de cima mostra quantos ele ACERTOU — foi 3 ou 6?",
+          "howToFix": "Praticar leitura de frações em contextos verbais: destacar 'de' como divisor entre parte e todo",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_somente_com_parte",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{passes_completos}",
+          "buggyRule": "Responde apenas com o número de passes completos, ignorando o formato fracionário solicitado (mas aqui aplicado ao campo f1 isoladamente)",
+          "description": "Aluno entende que a resposta envolve '3', mas não reconhece que é parte de uma fração",
+          "mistakeLocation": "Ao digitar no campo f1, coloca o valor correto (3), mas sem intenção fracionária clara — erro surge no passo seguinte",
+          "diagnosticQuestion": "O problema pede uma FRAÇÃO. Só o 3 é suficiente, ou precisamos de mais alguma coisa?",
+          "feedback": "Ótimo! O 3 está certo no numerador. Agora, o que devemos colocar embaixo para mostrar '3 de quantos?'",
+          "howToFix": "Refazer a pergunta como '3 de quantos passes?', forçando a explicitação do denominador",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "03football",
+        "step": 2,
+        "kcUsed": "IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_numerador_denominador_invertidos",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{passes_completos}",
+          "buggyRule": "Usar o número de passes completos (numerador correto) como denominador: wrongAnswer = {passes_completos}",
+          "description": "Consistência no erro de inversão: após usar 6 como numerador, usa 3 como denominador",
+          "mistakeLocation": "Ao escolher o denominador, repete a lógica invertida do passo anterior",
+          "diagnosticQuestion": "Se ele tentou 6 passes no total, por que você colocou 3 embaixo?",
+          "feedback": "Percebo que você usou 3 embaixo. Mas o denominador mostra o TOTAL de tentativas — foi 3 ou 6?",
+          "howToFix": "Associar denominador à palavra 'total', 'todo', 'quantos no total'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_omite_denominador_unidade",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Assumir denominador 1 por padrão quando o aluno foca só na parte: wrongAnswer = 1",
+          "description": "Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária",
+          "mistakeLocation": "Na ausência de compreensão do todo, recorre ao denominador neutro (1)",
+          "diagnosticQuestion": "Uma fração com denominador 1 significa que o todo é 1. Mas ele jogou só 1 passe?",
+          "feedback": "Você colocou 1 embaixo — isso significaria que ele jogou só 1 passe. Mas o enunciado diz quantos?",
+          "howToFix": "Contrastar 3/1 vs 3/6 com desenhos: 3 bolas em 1 caixa vs 3 bolas em 6 caixas",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_contagem_total_errada",
+          "type": "count_error",
+          "wrongAnswerPattern": "{passes_completos} + 1",
+          "buggyRule": "Somar 1 ao número de passes completos ao invés de usar o total real: wrongAnswer = {passes_completos} + 1",
+          "description": "Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional",
+          "mistakeLocation": "Ao estimar o total, assume que '3 de algo' implica que o todo é 4",
+          "diagnosticQuestion": "O enunciado diz explicitamente quantos passes ele JOGOU. Você leu esse número?",
+          "feedback": "Vejo que você colocou 4 embaixo. Mas o texto diz: 'three of the SIX passes'. Qual é o número certo?",
+          "howToFix": "Ensinar a sublinhar os dois números no enunciado: 'three' e 'six'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03football",
+        "step": 3,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_trata_fracao_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{passes_completos}.0",
+          "buggyRule": "Ignorar o denominador e marcar o numerador como se fosse um inteiro na reta: wrongAnswer = float({passes_completos})",
+          "description": "Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]",
+          "mistakeLocation": "Na interpretação da fração para a reta numérica, descarta o denominador completamente",
+          "diagnosticQuestion": "A reta numérica mostra valores entre 0 e 1. Onde fica um número que é MENOR que 1?",
+          "feedback": "Sua marca está além do 1, mas a fração representa menos da metade dos passes? Será que ela está ANTES do 1?",
+          "howToFix": "Usar reta com subdivisões visíveis em 6 partes para associar 3/6 à terceira marca",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_posiciona_na_metade_por_ancora",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0.5",
+          "buggyRule": "Sabendo que 3/6 é metade, marcar exatamente no meio (0.5), mesmo sem calcular — correto numericamente, mas sem base no enunciado específico; porém, em outros problemas com mesma estrutura (ex: 2/5), esse erro levaria a 0.5 sempre",
+          "description": "Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha",
+          "mistakeLocation": "Na estimativa, usa conhecimento prévio de '3/6 = metade' em vez de contar as partes na escala",
+          "diagnosticQuestion": "Como você soube que era no meio? Se fosse 2 de 6, ainda seria no meio?",
+          "feedback": "Você acertou a posição! Agora, vamos garantir que você saiba como encontrar outras frações — como 2/6 ou 5/6?",
+          "howToFix": "Praticar contagem de intervalos: cada traço é 1/6; 3/6 = terceiro traço",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_contagem_off_by_one_na_reta",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({passes_completos} - 1) / {total_passes}",
+          "buggyRule": "Contar marcas em vez de intervalos: marcar na posição correspondente a ({passes_completos} - 1)/{total_passes}",
+          "description": "Aluno conta as linhas/marcas a partir do zero e para um a menos",
+          "mistakeLocation": "Ao posicionar 3/6, conta 0 (primeira marca), 1/6 (segunda), 2/6 (terceira) e para aí, marcando 2/6",
+          "diagnosticQuestion": "Se o primeiro intervalo é de 0 a 1/6, qual é a posição após TRÊS intervalos?",
+          "feedback": "Você marcou perto do início. Vamos contar juntos: primeiro pedaço = 1/6, segundo = 2/6, terceiro = ?",
+          "howToFix": "Usar seta animada que percorre 3 intervalos de 1/6 cada, chegando em 3/6",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_fracao_impropria_fora_intervalo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_passes} / {passes_completos}",
+          "buggyRule": "Usar fração invertida e marcar seu valor decimal (ex: 6/3 = 2.0) na reta, mesmo fora de [0,1]: wrongAnswer = float({total_passes} / {passes_completos})",
+          "description": "Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente",
+          "mistakeLocation": "Na conversão da fração incorreta para posição decimal",
+          "diagnosticQuestion": "É possível completar MAIS passes do que tentou? Isso faria a fração ser maior que 1?",
+          "feedback": "Sua marca está depois do 1, mas ele não pode acertar mais passes do que jogou! Então a fração deve estar ANTES do 1.",
+          "howToFix": "Discutir restrição lógica: parte ≤ todo → fração ≤ 1",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "03football",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração mencionada",
+        "thinking": "Ele completou três dos seis passes... então é 3 de 6. Isso deve ser 3/6. Mas será que preciso simplificar? A pergunta só pede 'a fração no problema', não diz pra simplificar...",
+        "result": "Identifiquei que a fração mencionada é 3/6",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando o problema diz 'três dos seis passes', qual número representa as partes que ele conseguiu, e qual representa o total de tentativas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, localize no texto quantos passes foram completados (essa é a parte de cima da fração). Depois, veja quantos passes ele tentou no total (essa é a parte de baixo)."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração usa os números 3 e 6. Pense: onde vai o 3 — em cima ou embaixo? E o 6?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! O número de passes completados (3) vai na caixa de cima (f1), e o total de passes tentados (6) vai na caixa de baixo (f2)."
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar o numerador (3) no campo f1",
+        "thinking": "Vou colocar 3 aqui em cima, porque foram 3 passes certos.",
+        "result": "f1 = 3",
+        "kcUsed": "IdenNumerator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Digitar o denominador (6) no campo f2",
+        "thinking": "E 6 embaixo, porque ele jogou 6 passes no total.",
+        "result": "f2 = 6",
+        "kcUsed": "IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto correspondente a 3/6 na reta numérica",
+        "thinking": "A reta vai de 0 a 1, e tem divisões para sextos... mas as marcas estão escondidas. Então 3/6 é metade do caminho entre 0 e 1. Devo marcar bem no meio.",
+        "result": "Ponto marcado corretamente na posição 0.5 (equivalente a 3/6)",
+        "kcUsed": "EstFractionNumLine, FracLess1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Se a unidade está dividida em 6 partes iguais, como você encontraria onde fica 3 dessas partes na reta?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você consegue! Conte mentalmente: a primeira marca depois do 0 é 1/6, depois 2/6, depois 3/6... onde isso fica em relação ao meio da reta?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 3/6 é exatamente a metade de 6/6. Então o ponto deve ficar bem no meio entre 0 e 1."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase concluindo! Pense: se 6/6 é o 1, então 3/6 é metade disso. Toque exatamente no ponto central da reta."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Clicar em Done",
+        "thinking": "Acho que está tudo certo: fração 3/6 e ponto no meio da reta.",
+        "result": "Problema concluído",
+        "kcUsed": "FracLess1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "3/6",
+      "totalTime": 68,
+      "alternativeRoutes": [
+       {
+        "description": "Aluno simplifica 3/6 para 1/2 antes de marcar na reta, mas ainda marca corretamente no meio",
+        "steps": [
+         "Interpretar 3/6 como metade",
+         "Marcar 1/2 na reta"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Aluno tenta usar o botão Convert (embora desnecessário, pois 3/6 < 1)",
+        "steps": [
+         "Clica em Convert",
+         "Vê que não há parte inteira",
+         "Volta à fração original"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 5,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 5
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem?\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto, com encaixe em 6 partes por unidade (marcas ocultas), pontos rotulados; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "encaixeDenominador": 6,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "text",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "text",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Represent the fraction described by Brad's completed passes.",
+     "kc": "IdenNumerator",
+     "valor": "3/6"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter the numerator of Brad's fraction in the top box.",
+     "kc": "IdenNumerator",
+     "valor": "3"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter the denominator of Brad's fraction in the bottom box.",
+     "kc": "IdenDenominator",
+     "valor": "6"
+    },
+    {
+     "indice": 4,
+     "acao": "Type the numerator in f1, the top fraction field.",
+     "kc": "IdenNumerator",
+     "valor": "3"
+    },
+    {
+     "indice": 5,
+     "acao": "Type the denominator in f2, the bottom fraction field.",
+     "kc": "IdenDenominator",
+     "valor": "6"
+    },
+    {
+     "indice": 6,
+     "acao": "Mark 3/6 on the number line from 0 to 1.",
+     "kc": "EstFractionNumLine",
+     "valor": "3/6"
+    },
+    {
+     "indice": 7,
+     "acao": "Confirm the point for 3/6 lies between 0 and 1.",
+     "kc": "FracLess1",
+     "valor": "3/6"
+    },
+    {
+     "indice": 8,
+     "acao": "Use Convert to express this proper fraction as a mixed number.",
+     "kc": "convertToMixedNum",
+     "valor": "0"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "6/3",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You reversed the part and the whole. The numerator shows the 3 passes Brad completed, while 6 is the total number of passes.",
+     "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+     "misconceptionId": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "valor": "6",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the total number of passes. The top number must show the passes Brad completed.",
+     "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+     "misconceptionId": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "valor": "1",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A denominator of 1 would mean the whole was one pass. Brad threw a total of six passes.",
+     "buggyRule": "Assumir denominador 1 por padrão quando o aluno foca só na parte: wrongAnswer = 1",
+     "misconceptionId": "misc_omite_denominador_unidade"
+    },
+    {
+     "valor": "4",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used one more than the number of completed passes. The total stated in the problem is six passes.",
+     "buggyRule": "Somar 1 ao número de passes completos ao invés de usar o total real: wrongAnswer = {passes_completos} + 1",
+     "misconceptionId": "misc_contagem_total_errada"
+    },
+    {
+     "valor": "6",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The top field is for the completed part, not the total. Brad completed three passes.",
+     "buggyRule": "Usar o total de passes (denominador correto) como numerador: wrongAnswer = {total_passes}",
+     "misconceptionId": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "valor": "1",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The bottom field must show the whole group of passes. Brad threw six passes, not one.",
+     "buggyRule": "Assumir denominador 1 por padrão quando o aluno foca só na parte: wrongAnswer = 1",
+     "misconceptionId": "misc_omite_denominador_unidade"
+    },
+    {
+     "valor": "4",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You counted from the completed passes instead of using the stated total. The denominator is six.",
+     "buggyRule": "Somar 1 ao número de passes completos ao invés de usar o total real: wrongAnswer = {passes_completos} + 1",
+     "misconceptionId": "misc_contagem_total_errada"
+    },
+    {
+     "valor": "2.0",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "That point is beyond 1 because the fraction was inverted. Brad completed fewer passes than he threw, so the point must remain between 0 and 1.",
+     "buggyRule": "Usar fração invertida e marcar seu valor decimal (ex: 6/3 = 2.0) na reta, mesmo fora de [0,1]: wrongAnswer = float({total_passes} / {passes_completos})",
+     "misconceptionId": "misc_fracao_impropria_fora_intervalo"
+    },
+    {
+     "valor": "3.0",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the numerator as a whole number. The denominator divides the interval into six equal parts.",
+     "buggyRule": "Ignorar o denominador e marcar o numerador como se fosse um inteiro na reta: wrongAnswer = float({passes_completos})",
+     "misconceptionId": "misc_trata_fracao_como_inteiro"
+    },
+    {
+     "valor": "2/6",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You stopped after two intervals. Count three intervals from 0 to locate the requested fraction.",
+     "buggyRule": "Contar marcas em vez de intervalos: marcar na posição correspondente a ({passes_completos} - 1)/{total_passes}",
+     "misconceptionId": "misc_contagem_off_by_one_na_reta"
+    },
+    {
+     "valor": "0.5",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The midpoint is a useful reference, but the mark must be located by counting the six equal intervals and moving three of them.",
+     "buggyRule": "Sabendo que 3/6 é metade, marcar exatamente no meio (0.5), mesmo sem calcular — correto numericamente, mas sem base no enunciado específico; porém, em outros problemas com mesma estrutura (ex: 2/5), esse erro levaria a 0.5 sempre",
+     "misconceptionId": "misc_posiciona_na_metade_por_ancora"
+    },
+    {
+     "valor": "2.0",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A point beyond 1 would represent more than one whole. Three completed passes out of six is less than one whole.",
+     "buggyRule": "Usar fração invertida e marcar seu valor decimal (ex: 6/3 = 2.0) na reta, mesmo fora de [0,1]: wrongAnswer = float({total_passes} / {passes_completos})",
+     "misconceptionId": "misc_fracao_impropria_fora_intervalo"
+    },
+    {
+     "valor": "3.0",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator alone is not the location. The denominator shows that the whole interval is divided into six parts.",
+     "buggyRule": "Ignorar o denominador e marcar o numerador como se fosse um inteiro na reta: wrongAnswer = float({passes_completos})",
+     "misconceptionId": "misc_trata_fracao_como_inteiro"
+    },
+    {
+     "valor": "2/6",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point must represent three intervals from 0, not two. Count the intervals carefully.",
+     "buggyRule": "Contar marcas em vez de intervalos: marcar na posição correspondente a ({passes_completos} - 1)/{total_passes}",
+     "misconceptionId": "misc_contagem_off_by_one_na_reta"
+    },
+    {
+     "valor": "0.5",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The midpoint alone is not the rule. Use the numerator and denominator to locate the point on the six-part scale.",
+     "buggyRule": "Sabendo que 3/6 é metade, marcar exatamente no meio (0.5), mesmo sem calcular — correto numericamente, mas sem base no enunciado específico; porém, em outros problemas com mesma estrutura (ex: 2/5), esse erro levaria a 0.5 sempre",
+     "misconceptionId": "misc_posiciona_na_metade_por_ancora"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Think about the completed passes as the part and all the thrown passes as the whole."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Place the number of completed passes above the number of total passes."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Use the two numbers stated in the phrase “three of the six passes.”"
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Enter the completed-pass count on top and the total-pass count below it."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "The numerator names the part being counted."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Find the number that describes the completed passes and place it in the top box."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Look at the word “completed” in the first sentence."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the number of completed passes in f1."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The denominator names the whole amount being considered."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Find the total number of passes and place it in the bottom box."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Look for the number that follows “the six passes he threw.”"
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Enter the total-pass count in f2."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The top of a fraction represents the selected part."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Read the completed-pass number and type it into the upper field."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "The completed-pass number is the first number in “three of the six passes.”"
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Type the completed-pass count into f1."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The bottom of a fraction represents the whole amount."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Read the total-pass number and type it into the lower field."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "The total is the number of passes he threw, not only the number he completed."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Type the total-pass count into f2."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "The denominator tells how many equal intervals make the distance from 0 to 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Count equal intervals from 0 using the numerator as the number of intervals to move."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Use six equal intervals and move three intervals from 0."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Place the point at the mark reached after the third interval from 0."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Compare the part with the whole to decide whether the fraction is less than 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "A fraction is less than 1 when its numerator is smaller than its denominator."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Compare 3 with 6 before checking the point's location."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Keep the point between the endpoints because the numerator is smaller than the denominator."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "A proper fraction contains zero complete wholes."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Divide the numerator by the denominator to find the whole-number part."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "The numerator is smaller than the denominator, so no complete whole is formed."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "After selecting Convert, use zero for the whole-number part m1."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": true,
+   "valoresEstranhos": [
+    "0→0"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "3/6",
+    "3",
+    "6",
+    "3",
+    "6",
+    "3/6",
+    "3/6",
+    "0"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Brad is the quarterback of his school's football team. In the first half of one game, he completed three of the six passes he threw, or 3/6 of his passes. Show this value on the number line.\nWhat is the fraction in the problem?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Represent the fraction described by Brad's completed passes.",
+     "expectedAnswer": "3/6",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter the numerator of Brad's fraction in the top box.",
+     "expectedAnswer": "3",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter the denominator of Brad's fraction in the bottom box.",
+     "expectedAnswer": "6",
+     "renderAs": "fraction_input",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Type the numerator in f1, the top fraction field.",
+     "expectedAnswer": "3",
+     "renderAs": "fraction_input",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Type the denominator in f2, the bottom fraction field.",
+     "expectedAnswer": "6",
+     "renderAs": "fraction_input",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Mark 3/6 on the number line from 0 to 1.",
+     "expectedAnswer": "3/6",
+     "renderAs": "number_line",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Confirm the point for 3/6 lies between 0 and 1.",
+     "expectedAnswer": "3/6",
+     "renderAs": "number_line",
+     "kc": "FracLess1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Use Convert to express this proper fraction as a mixed number.",
+     "expectedAnswer": "0",
+     "renderAs": "fraction_input",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 35715,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Represent the fraction described by Brad's completed passes.",
+     "instruction": "Represent the fraction described by Brad's completed passes.",
+     "expectedInput": {
+      "value": "3/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Think about the completed passes as the part and all the thrown passes as the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Place the number of completed passes above the number of total passes."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use the two numbers stated in the phrase “three of the six passes.”"
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the completed-pass count on top and the total-pass count below it."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_numerador_denominador_invertidos",
+       "wrongAnswer": "6/3",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca parte e todo, usando o total como numerador",
+       "feedback": "You reversed the part and the whole. The numerator shows the 3 passes Brad completed, while 6 is the total number of passes.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_numerador_denominador_invertidos__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter the numerator of Brad's fraction in the top box.",
+     "instruction": "Enter the numerator of Brad's fraction in the top box.",
+     "expectedInput": {
+      "value": "3",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator names the part being counted."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number that describes the completed passes and place it in the top box."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look at the word “completed” in the first sentence."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of completed passes in f1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_numerador_denominador_invertidos",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca parte e todo, usando o total como numerador",
+       "feedback": "You entered the total number of passes. The top number must show the passes Brad completed.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_numerador_denominador_invertidos__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter the denominator of Brad's fraction in the bottom box.",
+     "instruction": "Enter the denominator of Brad's fraction in the bottom box.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator names the whole amount being considered."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the total number of passes and place it in the bottom box."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look for the number that follows “the six passes he threw.”"
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the total-pass count in f2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_omite_denominador_unidade",
+       "wrongAnswer": "1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária",
+       "feedback": "A denominator of 1 would mean the whole was one pass. Brad threw a total of six passes.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_total_errada",
+       "wrongAnswer": "4",
+       "misconceptionType": "count_error",
+       "description": "Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional",
+       "feedback": "You used one more than the number of completed passes. The total stated in the problem is six passes.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_omite_denominador_unidade__step_3",
+      "scaffold_misc_contagem_total_errada__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Type the numerator in f1, the top fraction field.",
+     "instruction": "Type the numerator in f1, the top fraction field.",
+     "expectedInput": {
+      "value": "3",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The top of a fraction represents the selected part."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the completed-pass number and type it into the upper field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The completed-pass number is the first number in “three of the six passes.”"
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the completed-pass count into f1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_numerador_denominador_invertidos",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca parte e todo, usando o total como numerador",
+       "feedback": "The top field is for the completed part, not the total. Brad completed three passes.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_numerador_denominador_invertidos__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Type the denominator in f2, the bottom fraction field.",
+     "instruction": "Type the denominator in f2, the bottom fraction field.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The bottom of a fraction represents the whole amount."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the total-pass number and type it into the lower field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The total is the number of passes he threw, not only the number he completed."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the total-pass count into f2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_omite_denominador_unidade",
+       "wrongAnswer": "1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária",
+       "feedback": "The bottom field must show the whole group of passes. Brad threw six passes, not one.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_total_errada",
+       "wrongAnswer": "4",
+       "misconceptionType": "count_error",
+       "description": "Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional",
+       "feedback": "You counted from the completed passes instead of using the stated total. The denominator is six.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_omite_denominador_unidade__step_5",
+      "scaffold_misc_contagem_total_errada__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Mark 3/6 on the number line from 0 to 1.",
+     "instruction": "Mark 3/6 on the number line from 0 to 1.",
+     "expectedInput": {
+      "value": "3/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many equal intervals make the distance from 0 to 1."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Count equal intervals from 0 using the numerator as the number of intervals to move."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use six equal intervals and move three intervals from 0."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Place the point at the mark reached after the third interval from 0."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_fracao_impropria_fora_intervalo",
+       "wrongAnswer": "2.0",
+       "misconceptionType": "conceptual_error",
+       "description": "Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente",
+       "feedback": "That point is beyond 1 because the fraction was inverted. Brad completed fewer passes than he threw, so the point must remain between 0 and 1.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_trata_fracao_como_inteiro",
+       "wrongAnswer": "3.0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]",
+       "feedback": "You used the numerator as a whole number. The denominator divides the interval into six equal parts.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_off_by_one_na_reta",
+       "wrongAnswer": "2/6",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta as linhas/marcas a partir do zero e para um a menos",
+       "feedback": "You stopped after two intervals. Count three intervals from 0 to locate the requested fraction.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_na_metade_por_ancora",
+       "wrongAnswer": "0.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha",
+       "feedback": "The midpoint is a useful reference, but the mark must be located by counting the six equal intervals and moving three of them.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_fracao_impropria_fora_intervalo__step_6",
+      "scaffold_misc_trata_fracao_como_inteiro__step_6",
+      "scaffold_misc_contagem_off_by_one_na_reta__step_6",
+      "scaffold_misc_posiciona_na_metade_por_ancora__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Confirm the point for 3/6 lies between 0 and 1.",
+     "instruction": "Confirm the point for 3/6 lies between 0 and 1.",
+     "expectedInput": {
+      "value": "3/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare the part with the whole to decide whether the fraction is less than 1."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "A fraction is less than 1 when its numerator is smaller than its denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Compare 3 with 6 before checking the point's location."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Keep the point between the endpoints because the numerator is smaller than the denominator."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_fracao_impropria_fora_intervalo",
+       "wrongAnswer": "2.0",
+       "misconceptionType": "conceptual_error",
+       "description": "Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente",
+       "feedback": "A point beyond 1 would represent more than one whole. Three completed passes out of six is less than one whole.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_trata_fracao_como_inteiro",
+       "wrongAnswer": "3.0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]",
+       "feedback": "The numerator alone is not the location. The denominator shows that the whole interval is divided into six parts.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_off_by_one_na_reta",
+       "wrongAnswer": "2/6",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno conta as linhas/marcas a partir do zero e para um a menos",
+       "feedback": "The point must represent three intervals from 0, not two. Count the intervals carefully.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_na_metade_por_ancora",
+       "wrongAnswer": "0.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha",
+       "feedback": "The midpoint alone is not the rule. Use the numerator and denominator to locate the point on the six-part scale.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_fracao_impropria_fora_intervalo__step_7",
+      "scaffold_misc_trata_fracao_como_inteiro__step_7",
+      "scaffold_misc_contagem_off_by_one_na_reta__step_7",
+      "scaffold_misc_posiciona_na_metade_por_ancora__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Use Convert to express this proper fraction as a mixed number.",
+     "instruction": "Use Convert to express this proper fraction as a mixed number.",
+     "expectedInput": {
+      "value": "0",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "fraction_input",
+      "componentId": "fraction_input",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A proper fraction contains zero complete wholes."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the numerator by the denominator to find the whole-number part."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The numerator is smaller than the denominator, so no complete whole is formed."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "After selecting Convert, use zero for the whole-number part m1."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_numerador_denominador_invertidos__step_1",
+     "type": "scaffold",
+     "description": "Aluno troca parte e todo, usando o total como numerador",
+     "instruction": "You reversed the part and the whole. The numerator shows the 3 passes Brad completed, while 6 is the total number of passes.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "id": "scaffold_misc_numerador_denominador_invertidos__step_2",
+     "type": "scaffold",
+     "description": "Aluno troca parte e todo, usando o total como numerador",
+     "instruction": "You entered the total number of passes. The top number must show the passes Brad completed.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "id": "scaffold_misc_omite_denominador_unidade__step_3",
+     "type": "scaffold",
+     "description": "Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária",
+     "instruction": "A denominator of 1 would mean the whole was one pass. Brad threw a total of six passes.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_omite_denominador_unidade"
+    },
+    {
+     "id": "scaffold_misc_contagem_total_errada__step_3",
+     "type": "scaffold",
+     "description": "Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional",
+     "instruction": "You used one more than the number of completed passes. The total stated in the problem is six passes.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_total_errada"
+    },
+    {
+     "id": "scaffold_misc_numerador_denominador_invertidos__step_4",
+     "type": "scaffold",
+     "description": "Aluno troca parte e todo, usando o total como numerador",
+     "instruction": "The top field is for the completed part, not the total. Brad completed three passes.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_numerador_denominador_invertidos"
+    },
+    {
+     "id": "scaffold_misc_omite_denominador_unidade__step_5",
+     "type": "scaffold",
+     "description": "Aluno entende que há uma 'quantidade' (3) e a escreve como fração unitária",
+     "instruction": "The bottom field must show the whole group of passes. Brad threw six passes, not one.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_omite_denominador_unidade"
+    },
+    {
+     "id": "scaffold_misc_contagem_total_errada__step_5",
+     "type": "scaffold",
+     "description": "Aluno tenta inferir o total como 'um a mais' do que a parte, por erro de contagem relacional",
+     "instruction": "You counted from the completed passes instead of using the stated total. The denominator is six.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_total_errada"
+    },
+    {
+     "id": "scaffold_misc_fracao_impropria_fora_intervalo__step_6",
+     "type": "scaffold",
+     "description": "Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente",
+     "instruction": "That point is beyond 1 because the fraction was inverted. Brad completed fewer passes than he threw, so the point must remain between 0 and 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fracao_impropria_fora_intervalo"
+    },
+    {
+     "id": "scaffold_misc_trata_fracao_como_inteiro__step_6",
+     "type": "scaffold",
+     "description": "Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]",
+     "instruction": "You used the numerator as a whole number. The denominator divides the interval into six equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_trata_fracao_como_inteiro"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_na_reta__step_6",
+     "type": "scaffold",
+     "description": "Aluno conta as linhas/marcas a partir do zero e para um a menos",
+     "instruction": "You stopped after two intervals. Count three intervals from 0 to locate the requested fraction.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_na_reta"
+    },
+    {
+     "id": "scaffold_misc_posiciona_na_metade_por_ancora__step_6",
+     "type": "scaffold",
+     "description": "Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha",
+     "instruction": "The midpoint is a useful reference, but the mark must be located by counting the six equal intervals and moving three of them.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_na_metade_por_ancora"
+    },
+    {
+     "id": "scaffold_misc_fracao_impropria_fora_intervalo__step_7",
+     "type": "scaffold",
+     "description": "Resultado da inversão de numerador/denominador leva a valor >1, marcado incorretamente",
+     "instruction": "A point beyond 1 would represent more than one whole. Three completed passes out of six is less than one whole.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fracao_impropria_fora_intervalo"
+    },
+    {
+     "id": "scaffold_misc_trata_fracao_como_inteiro__step_7",
+     "type": "scaffold",
+     "description": "Aluno vê '3' e marca na posição 3, mesmo com reta limitada a [0,1]",
+     "instruction": "The numerator alone is not the location. The denominator shows that the whole interval is divided into six parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_trata_fracao_como_inteiro"
+    },
+    {
+     "id": "scaffold_misc_contagem_off_by_one_na_reta__step_7",
+     "type": "scaffold",
+     "description": "Aluno conta as linhas/marcas a partir do zero e para um a menos",
+     "instruction": "The point must represent three intervals from 0, not two. Count the intervals carefully.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_off_by_one_na_reta"
+    },
+    {
+     "id": "scaffold_misc_posiciona_na_metade_por_ancora__step_7",
+     "type": "scaffold",
+     "description": "Aluno reconhece 'metade' e ancora na referência 1/2, mas não generaliza corretamente; aqui acerta por coincidência, mas a regra é falha",
+     "instruction": "The midpoint alone is not the rule. Use the numerator and denominator to locate the point on the six-part scale.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_na_metade_por_ancora"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(FracLess1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_numerador_denominador_invertidos__step_1",
+     "condition": "misconception(misc_numerador_denominador_invertidos)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_numerador_denominador_invertidos__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_numerador_denominador_invertidos__step_2",
+     "condition": "misconception(misc_numerador_denominador_invertidos)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_numerador_denominador_invertidos__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_omite_denominador_unidade__step_3",
+     "condition": "misconception(misc_omite_denominador_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_omite_denominador_unidade__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_contagem_total_errada__step_3",
+     "condition": "misconception(misc_contagem_total_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_contagem_total_errada__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_numerador_denominador_invertidos__step_4",
+     "condition": "misconception(misc_numerador_denominador_invertidos)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_numerador_denominador_invertidos__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_omite_denominador_unidade__step_5",
+     "condition": "misconception(misc_omite_denominador_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_omite_denominador_unidade__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_contagem_total_errada__step_5",
+     "condition": "misconception(misc_contagem_total_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_contagem_total_errada__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_fracao_impropria_fora_intervalo__step_6",
+     "condition": "misconception(misc_fracao_impropria_fora_intervalo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_fracao_impropria_fora_intervalo__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_trata_fracao_como_inteiro__step_6",
+     "condition": "misconception(misc_trata_fracao_como_inteiro)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_trata_fracao_como_inteiro__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_contagem_off_by_one_na_reta__step_6",
+     "condition": "misconception(misc_contagem_off_by_one_na_reta)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_na_reta__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_posiciona_na_metade_por_ancora__step_6",
+     "condition": "misconception(misc_posiciona_na_metade_por_ancora)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_posiciona_na_metade_por_ancora__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_fracao_impropria_fora_intervalo__step_7",
+     "condition": "misconception(misc_fracao_impropria_fora_intervalo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_fracao_impropria_fora_intervalo__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_trata_fracao_como_inteiro__step_7",
+     "condition": "misconception(misc_trata_fracao_como_inteiro)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_trata_fracao_como_inteiro__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_contagem_off_by_one_na_reta__step_7",
+     "condition": "misconception(misc_contagem_off_by_one_na_reta)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_contagem_off_by_one_na_reta__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_posiciona_na_metade_por_ancora__step_7",
+     "condition": "misconception(misc_posiciona_na_metade_por_ancora)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_posiciona_na_metade_por_ancora__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

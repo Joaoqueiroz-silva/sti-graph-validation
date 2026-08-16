@@ -1,0 +1,720 @@
+{
+ "id": "09fence",
+ "correctAnswer": "5/7",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.083,
+ "conceptual": 0.091,
+ "precision": 0.091,
+ "recall": 0.077,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.062,
+ "missing": [
+  "-1",
+  "7",
+  "-"
+ ],
+ "extra": [
+  "7/5",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "7/5",
+  "5",
+  "1"
+ ],
+ "exercicio": "09fence",
+ "replica": 2,
+ "geradoEm": "2026-08-16T17:55:57.061Z",
+ "promptSha256": "90e83d373954d47640885611d67180536c4b564160af18742c82fb021575d7f8",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7643,
+  "tokensSaida": 6204,
+  "usd": 0.030157140000000002
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado do problema",
+    "kc": "IdenNumerator",
+    "valor": "Total da cerca = {B} = 7 pés; Parte pintada = {A} = 5 pés"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} = 5"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} = 7"
+   },
+   {
+    "indice": 4,
+    "acao": "Verificar se a fração é menor que 1",
+    "kc": "FracLess1",
+    "valor": "FracLess1 = true"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o numerador no campo f1",
+    "kc": "IdenNumerator",
+    "valor": "f1 = {A}"
+   },
+   {
+    "indice": 6,
+    "acao": "Digitar o denominador no campo f2",
+    "kc": "IdenDenominator",
+    "valor": "f2 = {B}"
+   },
+   {
+    "indice": 7,
+    "acao": "Marcar a posição da fração na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado em {A}/{B} na reta numérica"
+   },
+   {
+    "indice": 8,
+    "acao": "Concluir o problema clicando em Done",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "7/5",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar explicitamente 'parte/total' com 'numerador/denominador' usando frases completas: 'pintei 5 dos 7 pés' → 5/7",
+    "buggyRule": "Usar o total como numerador e a parte pintada como denominador: numerador = {total}; denominador = {painted}",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Treinar reconhecimento de problemas fracionários com frases-chave: 'de um total de', 'dos', 'em relação ao todo'",
+    "buggyRule": "Responder apenas com o valor da parte pintada, ignorando o denominador: wrongAnswer = {painted} (como inteiro, sem barra)",
+    "misconceptionId": "misc_responde_apenas_parte_como_inteiro"
+   },
+   {
+    "valor": "1",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar a restrição da reta ([0,1]) como pista para validar se a fração faz sentido",
+    "buggyRule": "",
+    "misconceptionId": "misc_ultrapassa_unidade_na_reta"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando queremos mostrar uma parte de um todo, qual número vai em cima e qual vai embaixo na fração? Pense: o que foi feito e o que poderia ser feito?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, identifique o total da cerca — esse é o denominador. Depois, veja quanto já foi pintado — esse é o numerador. Escreva esses números na fração."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração tem numerador menor que o denominador, e ambos são números do enunciado. Um deles é 5... qual seria o outro?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! O total da cerca é 7 pés — então o denominador é 7. Ela pintou 5 pés — então o numerador é 5. Coloque esses números nas caixas corretas!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Pense: se dividirmos o espaço entre 0 e 1 em 7 partes iguais, onde ficaria a quinta parte? Mais perto do começo ou do fim?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você pode imaginar a reta dividida em 7 partes. Conte mentalmente: 1/7, 2/7, 3/7... até 5/7. Marque um pouco depois da metade (que é 3,5/7)."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Lembre-se: 4/7 já passa da metade. Então 5/7 está entre a metade e o final. Tente marcar um pouco à direita do centro da reta!"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Muito bem! A reta tem 7 divisões invisíveis. A metade está em 3,5/7. Então 5/7 está dois 'passos' depois da metade. Arraste o ponto para um pouco antes do final — mas não tão perto de 1!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"09fence\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado do problema\\\",\\n          \\\"thinking\\\": \\\"O problema descreve uma cerca de 7 pés, dos quais Lisa já pintou 5 pés. Preciso identificar a fração que representa a parte pintada em relação ao total.\\\",\\n          \\\"result\\\": \\\"Total da cerca = {B} = 7 pés; Parte pintada = {A} = 5 pés\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O numerador é a parte pintada da cerca, que é 5 pés.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} = 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador é o comprimento total da cerca, que é 7 pés.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} = 7\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Verificar se a fração é menor que 1\\\",\\n          \\\"thinking\\\": \\\"Como 5 < 7, a fração 5/7 é menor que 1, então não é necessária conversão para número misto.\\\",\\n          \\\"result\\\": \\\"FracLess1 = true\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar o numerador no campo f1\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 5 no campo numérico do numerador.\\\",\\n          \\\"result\\\": \\\"f1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Digitar o denominador no campo f2\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 7 no campo numérico do denominador.\\\",\\n          \\\"result\\\": \\\"f2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Marcar a posição da fração na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A fração 5/7 está entre 0 e 1. Como a reta tem encaixe em 7 partes, marco o ponto exatamente na quinta marcação após 0.\\\",\\n          \\\"result\\\": \\\"Ponto marcado em {A}/{B} na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Concluir o problema clicando em Done\\\",\\n          \\\"thinking\\\": \\\"Todos os componentes foram preenchidos corretamente: fração identificada, campos preenchidos e ponto marcado na reta.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 1,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 23\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"09fence\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"A Lisa pintou 5 pés de um total de 7, então a fração é 5/7. Vou colocar 5 em cima e 7 embaixo.\\\",\\n              \\\"result\\\": \\\"Resultado correto nos campos, mas...\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Preciso marcar 5/7 na reta. A reta vai de 0 a 1 e tem 7 partes, então conto 5 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Marca na posição correta (5/7)\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Terminei!\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/7\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Ela pintou 5 pés, e o total é 7... então acho que a fração é 7/5, porque o total vem embaixo? Não, espera... talvez seja 5/7, mas fico confuso. Vou botar 7 em cima e 5 embaixo.\\\",\\n              \\\"result\\\": \\\"Campos preenchidos como 7/5\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"7/5\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador, respondendo com o recíproco da fração correta\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar qual valor representa a parte pintada e qual o todo, trocou os papéis dos números 5 e 7\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual número representa a parte que já foi pintada? E qual representa o comprimento total da cerca?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você usou os números certos do problema. Agora vamos lembrar: o numerador é a parte pintada, e o denominador é o total. Qual é qual?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar explicitamente 'parte/total' com 'numerador/denominador' usando frases completas: 'pintei 5 dos 7 pés' → 5/7\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Se a fração é 7/5, isso é mais que 1, mas a reta só vai até 1... então devo marcar no final, em 1.\\\",\\n              \\\"result\\\": \\\"Marca o ponto em 1\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine, FracLess1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_ultrapassa_unidade_na_reta\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno tenta representar uma fração imprópria (>1) em uma reta limitada a [0,1] e marca no limite superior\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar a fração na reta, assume que qualquer valor >1 deve ir para a extremidade direita\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A fração que você escreveu é maior que 1? A reta mostra valores maiores que 1? O que isso sugere sobre sua fração?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Interessante! Você notou que a reta termina em 1. Isso nos dá uma dica importante: a fração correta deve ser menor que 1. Será que os números estão na ordem certa?\\\",\\n                \\\"howToFix\\\": \\\"Usar a restrição da reta ([0,1]) como pista para validar se a fração faz sentido\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Pronto.\\\",\\n              \\\"result\\\": \\\"Incorreto\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"7/5\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração\\\",\\n              \\\"thinking\\\": \\\"Ela pintou 5 pés... então a fração é 5. O total é 7, mas talvez eu só precise colocar o que ela pintou.\\\",\\n              \\\"result\\\": \\\"Digita 5 no numerador e deixa o denominador em branco ou digita 1 (ou apenas 5 como inteiro)\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_apenas_parte_como_inteiro\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno responde apenas com o valor da parte (5) como um número inteiro, ignorando o contexto fracionário\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao interpretar 'what is the fraction', responde com o número absoluto da parte pintada, não como razão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O problema pede uma fração. Uma fração tem duas partes: qual é a parte pintada e qual é o total? Onde está o total na sua resposta?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você pegou o número certo da parte pintada! Mas lembre-se: uma fração compara a parte com o todo. Precisamos dos dois números — onde está o 'todo' na sua resposta?\\\",\\n                \\\"howToFix\\\": \\\"Treinar reconhecimento de problemas fracionários com frases-chave: 'de um total de', 'dos', 'em relação ao todo'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Se a fração é 5, mas a reta só vai até 1... então não dá. Talvez seja 5/7, mas eu já coloquei 5. Vou marcar na quinta marca.\\\",\\n              \\\"result\\\": \\\"Conta 5 marcas e marca no ponto correspondente a 5/7 (posição correta), mesmo tendo digitado 5\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Terminei.\\\",\\n              \\\"result\\\": \\\"Incorreto por causa da fração digitada\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"09fence\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total}/{painted}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o total como numerador e a parte pintada como denominador: numerador = {total}; denominador = {painted}\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual valor é a parte e qual é o todo, invertendo numerador e denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na atribuição dos valores 5 e 7 às posições de numerador e denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual número representa quanto já foi feito? E qual representa o tamanho total do trabalho?\\\",\\n              \\\"feedback\\\": \\\"Você usou os dois números corretos! Agora pense: quando dizemos 'pintei 5 dos 7 pés', qual número vem primeiro na fração?\\\",\\n              \\\"howToFix\\\": \\\"Associar linguagem natural à estrutura fracionária: 'X de Y' → X/Y\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_apenas_parte_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{painted}\\\",\\n              \\\"buggyRule\\\": \\\"Responder apenas com o valor da parte pintada, ignorando o denominador: wrongAnswer = {painted} (como inteiro, sem barra)\\\",\\n              \\\"description\\\": \\\"Aluno interpreta 'what is the fraction' como 'quanto foi pintado' e responde com o número absoluto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da pergunta, ignorando que fração exige relação parte/todo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a cerca tivesse 14 pés e ela tivesse pintado 10, ainda seria '10'? Ou mudaria?\\\",\\n              \\\"feedback\\\": \\\"Você acertou em identificar quanto foi pintado! Mas a fração depende também do tamanho total. Como incluir essa informação?\\\",\\n              \\\"howToFix\\\": \\\"Apresentar cenários contrastantes (mesma parte, totais diferentes) para mostrar que a fração muda\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_apenas_total_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total}\\\",\\n              \\\"buggyRule\\\": \\\"Responder apenas com o valor total da cerca, ignorando a parte pintada: wrongAnswer = {total}\\\",\\n              \\\"description\\\": \\\"Aluno foca no 'todo' e responde com o comprimento total como se fosse a fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura do problema, prioriza o dado do total e ignora a ação de pintar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema pergunta quanto foi pintado, ou quanto mede a cerca inteira?\\\",\\n              \\\"feedback\\\": \\\"Você notou o comprimento total — ótimo! Mas a pergunta é sobre quanto já foi pintado em relação a esse total. Como mostrar isso?\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar a ação no enunciado ('has painted 5 feet') e relacionar com a pergunta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confusao_com_numero_misto\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1 {painted - total}/{total}\\\",\\n              \\\"buggyRule\\\": \\\"Tentar converter para número misto mesmo com fração própria: se {painted} > {total}, fazer divisão; senão, ainda assim forçar número misto incorreto (ex: 0 5/7 ou só 5/7 mal formatado). Neste caso, como é própria, o erro mais plausível é deixar m1=0 ou confundir campos.\\\",\\n              \\\"description\\\": \\\"Aluno ativa mecanismo de número misto desnecessariamente e erra a representação\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher os campos, usa o campo m1 (parte inteira) por engano\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Essa fração é maior que 1? Precisamos de uma parte inteira?\\\",\\n              \\\"feedback\\\": \\\"Frações menores que 1 não têm parte inteira. Vamos usar só os dois campos principais — o de cima e o de baixo.\\\",\\n              \\\"howToFix\\\": \\\"Refinar critério para uso de número misto: só quando numerador ≥ denominador\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"09fence\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_menos_na_reta\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({painted} - 1)/{total}\\\",\\n              \\\"buggyRule\\\": \\\"Contar a partir da primeira marca como 1/7, mas começar a contar do zero como se fosse a primeira unidade, marcando uma posição antes: posição = {painted} - 1\\\",\\n              \\\"description\\\": \\\"Aluno conta as marcas em vez dos intervalos, ou começa a contar do zero como 'primeira marca'\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar o ponto, conta 5 marcas mas inclui o zero como primeira, terminando em 4/7\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Do zero até a primeira marca, que fração temos? E até a segunda?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Vamos verificar juntos: do 0 até a primeira linha fina, temos 1/7. Então, até a quinta linha, temos...?\\\",\\n              \\\"howToFix\\\": \\\"Rotular mentalmente ou com apoio: 0, 1/7, 2/7, ..., 7/7=1\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar os números do problema e marcar aproximadamente no meio da reta, assumindo que 'alguma coisa pintada' é metade\\\",\\n              \\\"description\\\": \\\"Aluno usa heurística de 'metade' como estimativa padrão para frações desconhecidas\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual, ignora os dados numéricos e posiciona no centro da reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Ela pintou mais ou menos da metade da cerca? Como você sabe?\\\",\\n              \\\"feedback\\\": \\\"Você pensou em usar a metade como referência — ótimo hábito! Agora, será que 5 de 7 é mais ou menos que metade?\\\",\\n              \\\"howToFix\\\": \\\"Comparar 5/7 com 3.5/7 (metade) para decidir se é antes ou depois do centro\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_leitura_errada_da_unidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{painted}\\\",\\n              \\\"buggyRule\\\": \\\"Tratar cada marca na reta como 1 unidade inteira, e marcar no ponto {painted}, ignorando que a unidade está dividida em {total} partes\\\",\\n              \\\"description\\\": \\\"Aluno assume que a reta tem marcas de 1 em 1, não percebendo que 0 a 1 está dividido em 7 partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da escala da reta numérica, lê como se fosse uma reta de inteiros\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta vai de 0 a 1. Quantas partes iguais cabem entre 0 e 1? O que cada parte representa?\\\",\\n              \\\"feedback\\\": \\\"Vejo que você marcou além do 1! Mas a reta só mostra de 0 a 1. Isso quer dizer que toda a cerca cabe nesse segmento. Cada parte é uma fração do todo.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar que, em problemas fracionários na reta [0,1], o segmento inteiro representa o 'todo'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_marca_no_total_em_vez_da_parte\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Marcar no final da reta (1) porque o denominador é 7, e 7/7 = 1, confundindo parte com todo\\\",\\n              \\\"description\\\": \\\"Aluno associa o denominador ao ponto final e marca lá, independentemente do numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na relação entre fração e posição, fixa-se no denominador como indicador de fim\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ela tivesse pintado só 1 pé, onde você marcaria? Ainda no final?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Se ela tivesse pintado só um pouquinho, ainda marcaríamos no final? Vamos pensar: quanto mais ela pinta, mais longe do zero ficamos — mas só chegamos ao final quando tudo estiver pintado.\\\",\\n              \\\"howToFix\\\": \\\"Ligar progresso físico (mais pintura = mais longe do início) à posição na reta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"09fence\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os números relevantes\\\",\\n          \\\"thinking\\\": \\\"A cerca tem 7 pés no total, e ela pintou 5 pés. Então... a fração deve ser 5 sobre 7? Mas por que?\\\",\\n          \\\"result\\\": \\\"Identificou que 5 é a parte pintada e 7 é o total\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando queremos mostrar uma parte de um todo, qual número vai em cima e qual vai embaixo na fração? Pense: o que foi feito e o que poderia ser feito?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, identifique o total da cerca — esse é o denominador. Depois, veja quanto já foi pintado — esse é o numerador. Escreva esses números na fração.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração tem numerador menor que o denominador, e ambos são números do enunciado. Um deles é 5... qual seria o outro?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! O total da cerca é 7 pés — então o denominador é 7. Ela pintou 5 pés — então o numerador é 5. Coloque esses números nas caixas corretas!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar o numerador (5) no campo f1\\\",\\n          \\\"thinking\\\": \\\"O numerador é o que já foi pintado, então é 5.\\\",\\n          \\\"result\\\": \\\"f1 = 5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Digitar o denominador (7) no campo f2\\\",\\n          \\\"thinking\\\": \\\"O total é 7, então o denominador é 7.\\\",\\n          \\\"result\\\": \\\"f2 = 7\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Preciso marcar 5/7 na reta... mas as marcas estão escondidas. Como sei onde fica 5/7 se não vejo as divisões?\\\",\\n          \\\"result\\\": \\\"Tenta estimar entre 0 e 1, mais próximo de 1 que de 0\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine, FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se dividirmos o espaço entre 0 e 1 em 7 partes iguais, onde ficaria a quinta parte? Mais perto do começo ou do fim?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você pode imaginar a reta dividida em 7 partes. Conte mentalmente: 1/7, 2/7, 3/7... até 5/7. Marque um pouco depois da metade (que é 3,5/7).\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Lembre-se: 4/7 já passa da metade. Então 5/7 está entre a metade e o final. Tente marcar um pouco à direita do centro da reta!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! A reta tem 7 divisões invisíveis. A metade está em 3,5/7. Então 5/7 está dois 'passos' depois da metade. Arraste o ponto para um pouco antes do final — mas não tão perto de 1!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que está certo: 5/7 e o ponto marcado perto do final da reta.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"5/7\\\",\\n      \\\"totalTime\\\": 68,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Tentar usar número misto mesmo sendo fração própria\\\",\\n          \\\"steps\\\": [\\\"Clicar em Convert\\\", \\\"Deixar m1=0, m2=5, m3=7\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Contar nos dedos ou desenhar divisões imaginárias na reta para localizar 5/7\\\",\\n          \\\"steps\\\": [\\\"Imaginar 7 segmentos\\\", \\\"Contar até o quinto\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "09fence",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado do problema",
+        "thinking": "O problema descreve uma cerca de 7 pés, dos quais Lisa já pintou 5 pés. Preciso identificar a fração que representa a parte pintada em relação ao total.",
+        "result": "Total da cerca = {B} = 7 pés; Parte pintada = {A} = 5 pés",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O numerador é a parte pintada da cerca, que é 5 pés.",
+        "result": "Numerador = {A} = 5",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador é o comprimento total da cerca, que é 7 pés.",
+        "result": "Denominador = {B} = 7",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Verificar se a fração é menor que 1",
+        "thinking": "Como 5 < 7, a fração 5/7 é menor que 1, então não é necessária conversão para número misto.",
+        "result": "FracLess1 = true",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Digitar o numerador no campo f1",
+        "thinking": "Insiro o valor 5 no campo numérico do numerador.",
+        "result": "f1 = {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Digitar o denominador no campo f2",
+        "thinking": "Insiro o valor 7 no campo numérico do denominador.",
+        "result": "f2 = {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Marcar a posição da fração na reta numérica",
+        "thinking": "A fração 5/7 está entre 0 e 1. Como a reta tem encaixe em 7 partes, marco o ponto exatamente na quinta marcação após 0.",
+        "result": "Ponto marcado em {A}/{B} na reta numérica",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Concluir o problema clicando em Done",
+        "thinking": "Todos os componentes foram preenchidos corretamente: fração identificada, campos preenchidos e ponto marcado na reta.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 1,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 23
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "09fence",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "A Lisa pintou 5 pés de um total de 7, então a fração é 5/7. Vou colocar 5 em cima e 7 embaixo.",
+          "result": "Resultado correto nos campos, mas...",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Preciso marcar 5/7 na reta. A reta vai de 0 a 1 e tem 7 partes, então conto 5 marcas a partir do zero.",
+          "result": "Marca na posição correta (5/7)",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Clicar em Done",
+          "thinking": "Terminei!",
+          "result": "Correto",
+          "kcUsed": "FracLess1",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "5/7",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "Ela pintou 5 pés, e o total é 7... então acho que a fração é 7/5, porque o total vem embaixo? Não, espera... talvez seja 5/7, mas fico confuso. Vou botar 7 em cima e 5 embaixo.",
+          "result": "Campos preenchidos como 7/5",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "7/5",
+           "description": "Aluno inverteu numerador e denominador, respondendo com o recíproco da fração correta",
+           "mistakeLocation": "Ao identificar qual valor representa a parte pintada e qual o todo, trocou os papéis dos números 5 e 7",
+           "diagnosticQuestion": "Qual número representa a parte que já foi pintada? E qual representa o comprimento total da cerca?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você usou os números certos do problema. Agora vamos lembrar: o numerador é a parte pintada, e o denominador é o total. Qual é qual?",
+           "howToFix": "Relacionar explicitamente 'parte/total' com 'numerador/denominador' usando frases completas: 'pintei 5 dos 7 pés' → 5/7"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Se a fração é 7/5, isso é mais que 1, mas a reta só vai até 1... então devo marcar no final, em 1.",
+          "result": "Marca o ponto em 1",
+          "kcUsed": "EstFractionNumLine, FracLess1",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_ultrapassa_unidade_na_reta",
+           "type": "conceptual_error",
+           "wrongAnswer": "1",
+           "description": "Aluno tenta representar uma fração imprópria (>1) em uma reta limitada a [0,1] e marca no limite superior",
+           "mistakeLocation": "Ao posicionar a fração na reta, assume que qualquer valor >1 deve ir para a extremidade direita",
+           "diagnosticQuestion": "A fração que você escreveu é maior que 1? A reta mostra valores maiores que 1? O que isso sugere sobre sua fração?",
+           "severity": "moderate",
+           "feedback": "Interessante! Você notou que a reta termina em 1. Isso nos dá uma dica importante: a fração correta deve ser menor que 1. Será que os números estão na ordem certa?",
+           "howToFix": "Usar a restrição da reta ([0,1]) como pista para validar se a fração faz sentido"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Clicar em Done",
+          "thinking": "Pronto.",
+          "result": "Incorreto",
+          "kcUsed": "FracLess1",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "7/5",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração",
+          "thinking": "Ela pintou 5 pés... então a fração é 5. O total é 7, mas talvez eu só precise colocar o que ela pintou.",
+          "result": "Digita 5 no numerador e deixa o denominador em branco ou digita 1 (ou apenas 5 como inteiro)",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_apenas_parte_como_inteiro",
+           "type": "conceptual_error",
+           "wrongAnswer": "5",
+           "description": "Aluno responde apenas com o valor da parte (5) como um número inteiro, ignorando o contexto fracionário",
+           "mistakeLocation": "Ao interpretar 'what is the fraction', responde com o número absoluto da parte pintada, não como razão",
+           "diagnosticQuestion": "O problema pede uma fração. Uma fração tem duas partes: qual é a parte pintada e qual é o total? Onde está o total na sua resposta?",
+           "severity": "high",
+           "feedback": "Você pegou o número certo da parte pintada! Mas lembre-se: uma fração compara a parte com o todo. Precisamos dos dois números — onde está o 'todo' na sua resposta?",
+           "howToFix": "Treinar reconhecimento de problemas fracionários com frases-chave: 'de um total de', 'dos', 'em relação ao todo'"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Se a fração é 5, mas a reta só vai até 1... então não dá. Talvez seja 5/7, mas eu já coloquei 5. Vou marcar na quinta marca.",
+          "result": "Conta 5 marcas e marca no ponto correspondente a 5/7 (posição correta), mesmo tendo digitado 5",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Clicar em Done",
+          "thinking": "Terminei.",
+          "result": "Incorreto por causa da fração digitada",
+          "kcUsed": "FracLess1",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "5",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "09fence",
+        "step": 1,
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total}/{painted}",
+          "buggyRule": "Usar o total como numerador e a parte pintada como denominador: numerador = {total}; denominador = {painted}",
+          "description": "Aluno confunde qual valor é a parte e qual é o todo, invertendo numerador e denominador",
+          "mistakeLocation": "Na atribuição dos valores 5 e 7 às posições de numerador e denominador",
+          "diagnosticQuestion": "Qual número representa quanto já foi feito? E qual representa o tamanho total do trabalho?",
+          "feedback": "Você usou os dois números corretos! Agora pense: quando dizemos 'pintei 5 dos 7 pés', qual número vem primeiro na fração?",
+          "howToFix": "Associar linguagem natural à estrutura fracionária: 'X de Y' → X/Y",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_apenas_parte_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{painted}",
+          "buggyRule": "Responder apenas com o valor da parte pintada, ignorando o denominador: wrongAnswer = {painted} (como inteiro, sem barra)",
+          "description": "Aluno interpreta 'what is the fraction' como 'quanto foi pintado' e responde com o número absoluto",
+          "mistakeLocation": "Na interpretação da pergunta, ignorando que fração exige relação parte/todo",
+          "diagnosticQuestion": "Se a cerca tivesse 14 pés e ela tivesse pintado 10, ainda seria '10'? Ou mudaria?",
+          "feedback": "Você acertou em identificar quanto foi pintado! Mas a fração depende também do tamanho total. Como incluir essa informação?",
+          "howToFix": "Apresentar cenários contrastantes (mesma parte, totais diferentes) para mostrar que a fração muda",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_apenas_total_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total}",
+          "buggyRule": "Responder apenas com o valor total da cerca, ignorando a parte pintada: wrongAnswer = {total}",
+          "description": "Aluno foca no 'todo' e responde com o comprimento total como se fosse a fração",
+          "mistakeLocation": "Na leitura do problema, prioriza o dado do total e ignora a ação de pintar",
+          "diagnosticQuestion": "O problema pergunta quanto foi pintado, ou quanto mede a cerca inteira?",
+          "feedback": "Você notou o comprimento total — ótimo! Mas a pergunta é sobre quanto já foi pintado em relação a esse total. Como mostrar isso?",
+          "howToFix": "Sublinhar a ação no enunciado ('has painted 5 feet') e relacionar com a pergunta",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confusao_com_numero_misto",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "1 {painted - total}/{total}",
+          "buggyRule": "Tentar converter para número misto mesmo com fração própria: se {painted} > {total}, fazer divisão; senão, ainda assim forçar número misto incorreto (ex: 0 5/7 ou só 5/7 mal formatado). Neste caso, como é própria, o erro mais plausível é deixar m1=0 ou confundir campos.",
+          "description": "Aluno ativa mecanismo de número misto desnecessariamente e erra a representação",
+          "mistakeLocation": "Ao preencher os campos, usa o campo m1 (parte inteira) por engano",
+          "diagnosticQuestion": "Essa fração é maior que 1? Precisamos de uma parte inteira?",
+          "feedback": "Frações menores que 1 não têm parte inteira. Vamos usar só os dois campos principais — o de cima e o de baixo.",
+          "howToFix": "Refinar critério para uso de número misto: só quando numerador ≥ denominador",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "09fence",
+        "step": 2,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_um_a_menos_na_reta",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({painted} - 1)/{total}",
+          "buggyRule": "Contar a partir da primeira marca como 1/7, mas começar a contar do zero como se fosse a primeira unidade, marcando uma posição antes: posição = {painted} - 1",
+          "description": "Aluno conta as marcas em vez dos intervalos, ou começa a contar do zero como 'primeira marca'",
+          "mistakeLocation": "Ao posicionar o ponto, conta 5 marcas mas inclui o zero como primeira, terminando em 4/7",
+          "diagnosticQuestion": "Do zero até a primeira marca, que fração temos? E até a segunda?",
+          "feedback": "Boa tentativa! Vamos verificar juntos: do 0 até a primeira linha fina, temos 1/7. Então, até a quinta linha, temos...?",
+          "howToFix": "Rotular mentalmente ou com apoio: 0, 1/7, 2/7, ..., 7/7=1",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Ignorar os números do problema e marcar aproximadamente no meio da reta, assumindo que 'alguma coisa pintada' é metade",
+          "description": "Aluno usa heurística de 'metade' como estimativa padrão para frações desconhecidas",
+          "mistakeLocation": "Na estimativa visual, ignora os dados numéricos e posiciona no centro da reta",
+          "diagnosticQuestion": "Ela pintou mais ou menos da metade da cerca? Como você sabe?",
+          "feedback": "Você pensou em usar a metade como referência — ótimo hábito! Agora, será que 5 de 7 é mais ou menos que metade?",
+          "howToFix": "Comparar 5/7 com 3.5/7 (metade) para decidir se é antes ou depois do centro",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_leitura_errada_da_unidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{painted}",
+          "buggyRule": "Tratar cada marca na reta como 1 unidade inteira, e marcar no ponto {painted}, ignorando que a unidade está dividida em {total} partes",
+          "description": "Aluno assume que a reta tem marcas de 1 em 1, não percebendo que 0 a 1 está dividido em 7 partes",
+          "mistakeLocation": "Na interpretação da escala da reta numérica, lê como se fosse uma reta de inteiros",
+          "diagnosticQuestion": "A reta vai de 0 a 1. Quantas partes iguais cabem entre 0 e 1? O que cada parte representa?",
+          "feedback": "Vejo que você marcou além do 1! Mas a reta só mostra de 0 a 1. Isso quer dizer que toda a cerca cabe nesse segmento. Cada parte é uma fração do todo.",
+          "howToFix": "Ensinar que, em problemas fracionários na reta [0,1], o segmento inteiro representa o 'todo'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_marca_no_total_em_vez_da_parte",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Marcar no final da reta (1) porque o denominador é 7, e 7/7 = 1, confundindo parte com todo",
+          "description": "Aluno associa o denominador ao ponto final e marca lá, independentemente do numerador",
+          "mistakeLocation": "Na relação entre fração e posição, fixa-se no denominador como indicador de fim",
+          "diagnosticQuestion": "Se ela tivesse pintado só 1 pé, onde você marcaria? Ainda no final?",
+          "feedback": "Interessante! Se ela tivesse pintado só um pouquinho, ainda marcaríamos no final? Vamos pensar: quanto mais ela pinta, mais longe do zero ficamos — mas só chegamos ao final quando tudo estiver pintado.",
+          "howToFix": "Ligar progresso físico (mais pintura = mais longe do início) à posição na reta",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "09fence",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os números relevantes",
+        "thinking": "A cerca tem 7 pés no total, e ela pintou 5 pés. Então... a fração deve ser 5 sobre 7? Mas por que?",
+        "result": "Identificou que 5 é a parte pintada e 7 é o total",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando queremos mostrar uma parte de um todo, qual número vai em cima e qual vai embaixo na fração? Pense: o que foi feito e o que poderia ser feito?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, identifique o total da cerca — esse é o denominador. Depois, veja quanto já foi pintado — esse é o numerador. Escreva esses números na fração."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração tem numerador menor que o denominador, e ambos são números do enunciado. Um deles é 5... qual seria o outro?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! O total da cerca é 7 pés — então o denominador é 7. Ela pintou 5 pés — então o numerador é 5. Coloque esses números nas caixas corretas!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar o numerador (5) no campo f1",
+        "thinking": "O numerador é o que já foi pintado, então é 5.",
+        "result": "f1 = 5",
+        "kcUsed": "IdenNumerator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Digitar o denominador (7) no campo f2",
+        "thinking": "O total é 7, então o denominador é 7.",
+        "result": "f2 = 7",
+        "kcUsed": "IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto na reta numérica",
+        "thinking": "Preciso marcar 5/7 na reta... mas as marcas estão escondidas. Como sei onde fica 5/7 se não vejo as divisões?",
+        "result": "Tenta estimar entre 0 e 1, mais próximo de 1 que de 0",
+        "kcUsed": "EstFractionNumLine, FracLess1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se dividirmos o espaço entre 0 e 1 em 7 partes iguais, onde ficaria a quinta parte? Mais perto do começo ou do fim?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você pode imaginar a reta dividida em 7 partes. Conte mentalmente: 1/7, 2/7, 3/7... até 5/7. Marque um pouco depois da metade (que é 3,5/7)."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Lembre-se: 4/7 já passa da metade. Então 5/7 está entre a metade e o final. Tente marcar um pouco à direita do centro da reta!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! A reta tem 7 divisões invisíveis. A metade está em 3,5/7. Então 5/7 está dois 'passos' depois da metade. Arraste o ponto para um pouco antes do final — mas não tão perto de 1!"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Clicar em Done",
+        "thinking": "Acho que está certo: 5/7 e o ponto marcado perto do final da reta.",
+        "result": "Problema concluído",
+        "kcUsed": "FracLess1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "5/7",
+      "totalTime": 68,
+      "alternativeRoutes": [
+       {
+        "description": "Tentar usar número misto mesmo sendo fração própria",
+        "steps": [
+         "Clicar em Convert",
+         "Deixar m1=0, m2=5, m3=7"
+        ],
+        "efficiency": "low"
+       },
+       {
+        "description": "Contar nos dedos ou desenhar divisões imaginárias na reta para localizar 5/7",
+        "steps": [
+         "Imaginar 7 segmentos",
+         "Contar até o quinto"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem?\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto, com encaixe em 7 partes por unidade (marcas ocultas); texto de apoio na reta: \"The number hint is off in this problem!\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "encaixeDenominador": 7,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "text",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "text",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ }
+}

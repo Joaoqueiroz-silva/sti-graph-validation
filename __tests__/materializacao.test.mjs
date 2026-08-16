@@ -228,4 +228,10 @@ describe("materialização — gate de problema fixo (obediência do agent 6 pro
     const g2 = { passos: [{ valor: "0.2" }, { valor: "3/8" }] };
     expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado).toBe(false);
   });
+  it("sensibilidade 3: número misto '1 1/5' ≡ 6/5 (interface com m1/m2/m3); sem a opção vira '11/5' e reprova", () => {
+    const envA = { problem: "Cada um recebe 6/5 de pão, dividido em 5.", correctAnswer: "6/5" };
+    const g = { passos: [{ valor: "5" }, { valor: "6/5" }, { valor: "1 1/5" }] };
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado).toBe(false);
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true }).aprovado).toBe(true);
+  });
 });

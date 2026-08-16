@@ -67,20 +67,29 @@ export function consolidar(raiz = ".") {
       const f = path.join(raiz, c.pasta, `${c.prefixo}${braco}.analise.json`);
       if (!fs.existsSync(f)) continue;
       const A = JSON.parse(fs.readFileSync(f, "utf8"));
-      const b = A.aprovadosEstrito;
+      // RECORTE do consolidado: aprovados na sensibilidade 3 (todas as
+      // sensibilidades declaradas: 0/1, equivalência canônica, números mistos).
+      // O gate estrito é conservador contra grafias legítimas que variam por
+      // interface (0 do número misto, decimais, "2 3/4"); as taxas dos dois
+      // gates e a coluna "todos" ficam na tabela para robustez.
+      const b = A.aprovadosSensibilidade3 || A.aprovadosEstrito;
+      const recorte = A.aprovadosSensibilidade3 ? "sens3" : "estrito";
       if (!b) continue;
       const linha = {
         corpus: c.corpus,
         braco,
+        recorte,
         n: b.n,
+        nTodos: A.todos?.n ?? null,
         exercicios: b.exercicios,
         gateEstrito: A.gate.estrito.taxa,
-        gateSens2: A.gate.sensibilidade2?.taxa ?? null,
+        gateSens3: A.gate.sensibilidade3?.taxa ?? null,
         estadosPorGrafo: b.materializado.extras.estadosPorGrafo,
+        todos: Object.fromEntries(METRICAS.map((m) => [m, A.todos?.materializado.metricas[m]?.estimativa ?? null])),
       };
       for (const m of METRICAS) linha[m] = b.materializado.metricas[m];
       tabela.push(linha);
-      for (const r of A.porRegistro.filter((r) => r.gateEstrito)) {
+      for (const r of A.porRegistro.filter((r) => (recorte === "sens3" ? r.gateSens3 : r.gateEstrito))) {
         for (const m of METRICAS) ((porBraco[braco] ||= {})[m] ||= []).push({ corpus: c.corpus, ex: r.ex, v: r.mat[m] });
       }
     }
@@ -111,8 +120,9 @@ if (ehMain) {
   const ic = (m) => `${f3(m.estimativa)} [${f3(m.bca?.[0] ?? m.percentil?.[0])}; ${f3(m.bca?.[1] ?? m.percentil?.[1])}]`;
   let md = `# Experimento consolidado — validação de grafos de comportamento contra especialistas do CTAT/Mathtutor\n\n`;
   md += `Gerado em ${R.gerado.slice(0, 16)} por \`analysis/bancada-v2/consolidar-corpora.mjs\`. Um único desenho\n(problema + interface do especialista → agents 3 → GraphForge passos-livres → agent 6/7; régua de estados por\nActor/LCS; gate estrito) aplicado a **${R.corporaIncluidos.length} corpus/corpora**: ${R.corporaIncluidos.join("; ")}.\n\n`;
-  md += `## Por corpus × braço (grafo materializado, aprovados no gate estrito; BCa 95 % em cluster de exercício)\n\n| corpus | braço | n grafos (ex.) | gate estrito | cobertura em ordem (LCS) | sem ordem | caminho íntegro | erros no estado certo | estados/grafo |\n|---|---|---|---|---|---|---|---|---|\n`;
-  for (const t of R.tabela) md += `| ${t.corpus} | ${BRACOS[t.braco]} | ${t.n} (${t.exercicios}) | ${(t.gateEstrito * 100).toFixed(0)} % | ${ic(t.coberturaEstados)} | ${ic(t.coberturaSemOrdem)} | ${ic(t.caminhoIntegro)} | ${ic(t.errosNoEstadoCerto)} | ${t.estadosPorGrafo.toFixed(2)} |\n`;
+  md += `## Por corpus × braço (grafo materializado; recorte = aprovados na sensibilidade 3 do gate; BCa 95 % em cluster de exercício; entre parênteses, o valor em TODOS os grafos)\n\n| corpus | braço | n grafos (ex.) / todos | gate estrito · sens. 3 | cobertura em ordem (LCS) | sem ordem | caminho íntegro | erros no estado certo | estados/grafo |\n|---|---|---|---|---|---|---|---|---|\n`;
+  const t3 = (t, m) => (t.todos?.[m] != null ? ` (${f3(t.todos[m])})` : "");
+  for (const t of R.tabela) md += `| ${t.corpus} | ${BRACOS[t.braco]} | ${t.n} (${t.exercicios}) / ${t.nTodos ?? "—"} | ${(t.gateEstrito * 100).toFixed(0)} % · ${t.gateSens3 != null ? (t.gateSens3 * 100).toFixed(0) + " %" : "—"} | ${ic(t.coberturaEstados)}${t3(t, "coberturaEstados")} | ${ic(t.coberturaSemOrdem)}${t3(t, "coberturaSemOrdem")} | ${ic(t.caminhoIntegro)}${t3(t, "caminhoIntegro")} | ${ic(t.errosNoEstadoCerto)}${t3(t, "errosNoEstadoCerto")} | ${t.estadosPorGrafo.toFixed(2)} |\n`;
   md += `\n## Agregado por braço (pool de todos os grafos aprovados; bootstrap estratificado por corpus, cluster = exercício, 10k, seed 42; percentil)\n\n| braço | métrica | pool [IC 95 %] | n grafos | média entre corpora | amplitude entre corpora | corpora |\n|---|---|---|---|---|---|---|\n`;
   for (const [braco, ms] of Object.entries(R.agregado)) for (const [m, v] of Object.entries(ms)) md += `| ${BRACOS[braco]} | ${m} | ${f3(v.pool.estimativa)} [${f3(v.pool.percentil[0])}; ${f3(v.pool.percentil[1])}] | ${v.pool.n} | ${f3(v.mediaEntreCorpora)} | ${v.amplitudeEntreCorpora ? v.amplitudeEntreCorpora.map(f3).join(" – ") : "—"} | ${v.nCorpora} |\n`;
   md += `\nFontes primárias: \`materializado-*.analise.json\` de cada pasta listada em \`CORPORA\` (consolidar-corpora.mjs). Corpora ainda não concluídos não aparecem; a tabela é regenerada a cada corpus fechado.\n`;

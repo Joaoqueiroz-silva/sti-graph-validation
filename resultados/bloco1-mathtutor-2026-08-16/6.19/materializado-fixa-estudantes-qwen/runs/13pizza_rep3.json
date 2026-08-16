@@ -1,0 +1,2479 @@
+{
+ "id": "13pizza",
+ "correctAnswer": "9/6",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.08,
+ "conceptual": 0.087,
+ "precision": 0.083,
+ "recall": 0.077,
+ "functionalAgreement": 0.2,
+ "functionalKappa": -0.333,
+ "missing": [
+  "-1",
+  "6",
+  "-"
+ ],
+ "extra": [
+  "2/3",
+  "1",
+  "3/2"
+ ],
+ "robotMisconceptions": [
+  "6/9",
+  "9",
+  "1.0",
+  "1.5"
+ ],
+ "exercicio": "13pizza",
+ "replica": 3,
+ "geradoEm": "2026-08-16T18:17:45.436Z",
+ "promptSha256": "4d19f0de610b188d2731a98b643179062a7b25de8a6f5977047b8aa0d5f48238",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-16T17:11:00.285Z"
+ },
+ "custo": {
+  "tokensEntrada": 7610,
+  "tokensSaida": 6522,
+  "usd": 0.0313716
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Fração mencionada no texto: 9/6"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} (onde {A} = 9)"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} (onde {B} = 6)"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar o numerador no campo f1",
+    "kc": "IdenNumerator",
+    "valor": "f1 = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o denominador no campo f2",
+    "kc": "IdenDenominator",
+    "valor": "f2 = {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Localizar a fração 9/6 na reta numérica",
+    "kc": "EstFractionNumLine",
+    "valor": "Ponto marcado em 9/6 na reta numérica"
+   },
+   {
+    "indice": 7,
+    "acao": "Confirmar que a fração é maior que 1 e entender sua posição",
+    "kc": "FracGreater1",
+    "valor": "Validação da posição na reta numérica"
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "EstFractionNumLine",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6/9",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem clara: 'comi X de um total de Y' → X/Y; destacar no enunciado as frases-chave",
+    "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+    "misconceptionId": "misc_inverte_numerador_denominador"
+   },
+   {
+    "valor": "9",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar visualmente a caixa da fração: apontar que há dois campos e ambos devem ser preenchidos",
+    "buggyRule": "Ignorar o denominador e responder apenas com o número de fatias comidas ({eaten_slices} = 9)",
+    "misconceptionId": "misc_responde_somente_numerador"
+   },
+   {
+    "valor": "1.0",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Pedir ao aluno para rotular manualmente as marcas entre 0 e 1 como 1/6, 2/6, ..., 6/6 antes de marcar",
+    "buggyRule": "Tratar cada marca na reta como valendo 1 unidade e marcar na posição {eaten_slices} (ex: 9)",
+    "misconceptionId": "misc_contagem_marcas_como_unidades"
+   },
+   {
+    "valor": "1.5",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Conectar explicitamente a posição na reta com a fração: 'quantas marcas de 1/6 até chegar aqui?'",
+    "buggyRule": "Marcar corretamente na reta (posição = {eaten_slices}/{total_slices_per_pizza}), mas digitar apenas o numerador ou um inteiro na caixa da fração",
+    "misconceptionId": "misc_correto_na_reta_mas_errado_na_fracao"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando temos mais partes do que as que formam um inteiro, como representamos isso com frações?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Continue assim! O numerador é o número total de fatias comidas, e o denominador é quantas fatias formam uma pizza inteira. Qual é cada um?"
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração usa o número de fatias comidas (9) e o número de fatias por pizza (6). Confira se você colocou cada um no lugar certo."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está quase! Coloque 9 na caixa de cima (numerador) e 6 na caixa de baixo (denominador). Isso representa exatamente o que o problema diz!"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótima pergunta! A fração do problema precisa ser exatamente como foi descrita, ou pode ser reescrita de outra forma?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Veja a pergunta novamente: 'What is the fraction in the problem?' Ela pede a fração **como aparece no texto**, não uma versão simplificada."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Atenção! O problema diz '9/6 of a pizza'. Você deve usar exatamente essa fração, mesmo que ela seja maior que 1."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Exatamente! O enunciado já dá a fração: 9/6. Digite 9 no numerador e 6 no denominador — não mude nada ainda!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Como podemos usar o denominador para dividir a reta numérica em partes iguais?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Primeiro, lembre-se: 6/6 = 1. Então, conte 3 partes além do 1 (porque 9 – 6 = 3). Cada parte é 1/6."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Dica: 9/6 = 1 + 3/6. Na reta, vá até o 1, depois avance 3 das 6 marcas pequenas."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você consegue! Depois do 1, conte: primeira marca = 7/6, segunda = 8/6, terceira = 9/6. Marque exatamente ali!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13pizza\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema descreve que duas pizzas foram divididas em 6 fatias cada, totalizando 12 fatias. Rick e amigos comeram 9 fatias, o que corresponde a 9/6 de pizza. A pergunta pede explicitamente: 'What is the fraction in the problem?'\\\",\\n          \\\"result\\\": \\\"Fração mencionada no texto: 9/6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O número de fatias comidas é 9, logo o numerador é 9.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} (onde {A} = 9)\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"Cada pizza foi dividida em 6 fatias, então o denominador é 6.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} (onde {B} = 6)\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar o numerador no campo f1\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 9 no campo superior da fração.\\\",\\n          \\\"result\\\": \\\"f1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar o denominador no campo f2\\\",\\n          \\\"thinking\\\": \\\"Insiro o valor 6 no campo inferior da fração.\\\",\\n          \\\"result\\\": \\\"f2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Localizar a fração 9/6 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Como a reta vai de 0 a 2 e está dividida em sextos (denominador 6), 9/6 equivale a 1 inteiro e 3/6, ou seja, está exatamente na marca do ponto 1.5 (ou 3/2). Conto 9 marcas a partir do 0: 1/6, 2/6, ..., 9/6.\\\",\\n          \\\"result\\\": \\\"Ponto marcado em 9/6 na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Confirmar que a fração é maior que 1 e entender sua posição\\\",\\n          \\\"thinking\\\": \\\"9/6 > 1, pois o numerador é maior que o denominador. Isso confirma que o ponto deve estar entre 1 e 2 na reta.\\\",\\n          \\\"result\\\": \\\"Validação da posição na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os componentes foram preenchidos corretamente: fração identificada, campos preenchidos, ponto posicionado.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 30\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13pizza\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador da fração mencionada\\\",\\n              \\\"thinking\\\": \\\"O problema diz que comeram 9 fatias de pizza, e cada pizza tem 6 fatias. Então a fração deve ser 6/9, porque 6 é o total de uma pizza.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6/9\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador, usando o número de partes por pizza como numerador e o total comido como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar qual valor representa o todo (denominador) e qual representa a parte consumida (numerador)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual número representa quantas fatias foram comidas? E qual representa quantas fatias há em uma pizza inteira?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você reconheceu os dois números importantes: 9 e 6. Agora vamos lembrar: o numerador é o que foi comido, e o denominador é o que forma um inteiro. Qual é qual?\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem clara: 'comi X de um total de Y' → X/Y; destacar no enunciado as frases-chave\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar o ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Se a fração é 6/9, então preciso contar 6 marcas a partir do zero. Cada marca é uma fatia, então paro na sexta.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marcas_como_unidades\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1.0\\\",\\n                \\\"description\\\": \\\"Aluno conta marcas como se cada uma valesse 1 unidade, ignorando que a escala está dividida em sextos\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao interpretar a escala da reta numérica: tratou cada marca como 1 em vez de 1/6\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantas marcas há entre 0 e 1 na reta? O que cada marca representa?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você contou direitinho até a sexta marca! Mas vamos olhar juntos: entre 0 e 1, há 6 marcas. Isso quer dizer que cada marca vale quanto?\\\",\\n                \\\"howToFix\\\": \\\"Pedir ao aluno para rotular manualmente as marcas entre 0 e 1 como 1/6, 2/6, ..., 6/6 antes de marcar\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Pronto, coloquei 6/9 e marquei na reta.\\\",\\n              \\\"result\\\": \\\"Submissão final incorreta\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"6/9\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador\\\",\\n              \\\"thinking\\\": \\\"Eles comeram 9 fatias, e cada pizza tem 6, então a fração é 9/6. Mas talvez eu precise simplificar... ou não? Vou colocar só o 9, porque é o que importa.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_somente_numerador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"9\\\",\\n                \\\"description\\\": \\\"Aluno digita apenas o numerador como resposta, ignorando o formato de fração exigido\\\",\\n                \\\"mistakeLocation\\\": \\\"Na entrada da resposta: forneceu um número inteiro em vez de uma fração com numerador e denominador\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta pede uma fração. O que precisamos escrever para mostrar uma fração completa?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você acertou o número de fatias comidas — ótimo! Mas a pergunta pede a fração completa. Lembre-se: fração tem duas partes. Qual é o número de baixo?\\\",\\n                \\\"howToFix\\\": \\\"Reforçar visualmente a caixa da fração: apontar que há dois campos e ambos devem ser preenchidos\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Tentar marcar na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Se comi 9 fatias e cada pizza tem 6, então comi uma pizza inteira e mais 3 fatias. Então devo marcar no 1 e meio.\\\",\\n              \\\"result\\\": \\\"Resultado parcialmente correto na posição, mas inconsistente com a entrada\\\",\\n              \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_correto_na_reta_mas_errado_na_fracao\\\",\\n                \\\"type\\\": \\\"inconsistency_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1.5\\\",\\n                \\\"description\\\": \\\"Aluno posiciona corretamente na reta (1,5 = 9/6), mas sua fração digitada está errada (só 9)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na coordenação entre a representação simbólica (fração) e a representação visual (reta)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você marcou 1,5 na reta, que fração isso representa com denominador 6?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Interessante! Você marcou exatamente onde 9/6 fica. Agora, que fração com denominador 6 corresponde a esse ponto?\\\",\\n                \\\"howToFix\\\": \\\"Conectar explicitamente a posição na reta com a fração: 'quantas marcas de 1/6 até chegar aqui?'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Clicar em Done\\\",\\n              \\\"thinking\\\": \\\"Acho que está certo.\\\",\\n              \\\"result\\\": \\\"Submissão final incorreta\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"9\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"13pizza\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_slices_per_pizza}/{eaten_slices}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação do enunciado: associou erroneamente o denominador à quantidade consumida e o numerador à divisão da pizza\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quando dizemos 'comi 3 de 8 pedaços', escrevemos 3/8 ou 8/3? Por quê?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os dois números certos! Agora vamos lembrar: a fração mostra 'quantos comi' sobre 'quantos formam um inteiro'. Qual é o 'comi' e qual é o 'inteiro' aqui?\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia com situações concretas: fatias comidas vs. fatias por pizza; destacar estrutura 'parte/todo'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_somente_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{eaten_slices}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o denominador e responder apenas com o número de fatias comidas ({eaten_slices} = 9)\\\",\\n              \\\"description\\\": \\\"Aluno foca apenas na quantidade consumida e esquece de expressá-la como fração do todo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na formatação da resposta: omite o denominador e submete um inteiro em vez de uma fração\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se eu como 2 fatias de uma pizza de 8, como escrevemos isso como fração? Só '2' ou algo mais?\\\",\\n              \\\"feedback\\\": \\\"Você pegou o número mais importante — as fatias comidas! Mas para virar fração, precisamos também dizer 'de quantas?'. Que número vai embaixo?\\\",\\n              \\\"howToFix\\\": \\\"Treinar com frases completas: 'comi ___ de ___' → preencher os dois espaços; usar template visual de fração\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_total_de_fatias_duas_pizzas\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{eaten_slices}/({total_slices_per_pizza}*2)\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)\\\",\\n              \\\"description\\\": \\\"Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição da unidade: considera as duas pizzas como um único inteiro, em vez de usar uma pizza como unidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração 9/6 significa '9 fatias de quantas em uma pizza'? Ou de quantas nas duas pizzas?\\\",\\n              \\\"feedback\\\": \\\"Você pensou nas duas pizzas — muito bom! Mas veja: a fração usa UMA pizza como referência. Quantas fatias tem uma pizza?\\\",\\n              \\\"howToFix\\\": \\\"Destacar no enunciado: 'each divided into six slices' → a unidade é uma pizza, não duas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"13pizza\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"EstFractionNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marcas_como_unidades\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{eaten_slices}\\\",\\n              \\\"buggyRule\\\": \\\"Tratar cada marca na reta como valendo 1 unidade e marcar na posição {eaten_slices} (ex: 9)\\\",\\n              \\\"description\\\": \\\"Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura da reta numérica: assume que cada marca = 1, sem considerar a divisão da unidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantas marcas há entre 0 e 1? Se há 6, quanto vale cada marca?\\\",\\n              \\\"feedback\\\": \\\"Você contou com atenção! Mas vamos verificar: entre 0 e 1, há 6 marcas. Isso quer dizer que cada marca é menos que 1. Quanto exatamente?\\\",\\n              \\\"howToFix\\\": \\\"Rotular coletivamente a reta: escrever 1/6, 2/6, ..., 6/6 nos pontos entre 0 e 1 antes de marcar\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_para_na_primeira_unidade\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{eaten_slices} % {total_slices_per_pizza}\\\",\\n              \\\"buggyRule\\\": \\\"Marcar apenas o resto da divisão de fatias comidas pelo total por pizza: posição = {eaten_slices} - {total_slices_per_pizza} se {eaten_slices} > {total_slices_per_pizza}, senão {eaten_slices}; mas sem ultrapassar 1\\\",\\n              \\\"description\\\": \\\"Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Na extensão da reta além de 1: ignora que a fração imprópria ultrapassa o primeiro inteiro\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você comeu mais que uma pizza inteira, o ponto deve ficar antes ou depois do 1 na reta?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que sobraram 3 fatias além da primeira pizza — excelente! Mas onde fica 'uma pizza inteira MAIS 3 fatias'? Antes ou depois do 1?\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem de 'quantas pizzas inteiras + quanto a mais'; mover o ponto além de 1 na reta\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_com_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1.5\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que 9/6 = 1,5 e marcar exatamente no meio entre 1 e 2, mesmo sem calcular\\\",\\n              \\\"description\\\": \\\"Aluno reconhece que 9/6 é 1 e meio, mas faz isso por intuição sem ligar à escala de sextos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão mental para decimal: salta para 1,5 sem verificar se coincide com as marcas da reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantas marcas de 1/6 há entre 1 e 1,5? Isso bate com o que você marcou?\\\",\\n              \\\"feedback\\\": \\\"Você chegou perto! 9/6 realmente é 1,5. Agora, vamos ver se esse ponto coincide com uma das marcas da reta — quantas marcas de 1/6 até lá?\\\",\\n              \\\"howToFix\\\": \\\"Conectar decimal e fração: 1,5 = 3/2 = 9/6; confirmar que 9 marcas de 1/6 levam até 1,5\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"13pizza\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_nao_entende_fracao_impropria\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{eaten_slices}/{total_slices_per_pizza}\\\",\\n              \\\"buggyRule\\\": \\\"Aceitar a fração imprópria como válida, mas hesitar em usá-la na reta — porém, neste caso, a resposta correta É a fração imprópria, então este erro só aparece se o aluno tentar converter desnecessariamente\\\",\\n              \\\"description\\\": \\\"Aluno acha que frações maiores que 1 estão 'erradas' e tenta forçar um número misto, mas o problema não pede isso\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão de formato: acredita que deve converter para número misto mesmo sem instrução\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema pede a fração mencionada. Onde ele fala em número misto?\\\",\\n              \\\"feedback\\\": \\\"Boa iniciativa em pensar no número misto! Mas a pergunta é clara: 'What is the fraction in the problem?' — e o problema diz '9/6'. Precisamos manter assim.\\\",\\n              \\\"howToFix\\\": \\\"Destacar trecho do enunciado: 'or 9/6 of a pizza' — essa é a fração pedida\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_correto_na_reta_mas_errado_na_fracao\\\",\\n              \\\"type\\\": \\\"inconsistency_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{position_on_line_as_decimal}\\\",\\n              \\\"buggyRule\\\": \\\"Marcar corretamente na reta (posição = {eaten_slices}/{total_slices_per_pizza}), mas digitar apenas o numerador ou um inteiro na caixa da fração\\\",\\n              \\\"description\\\": \\\"Aluno tem compreensão parcial: consegue mapear a fração na reta, mas falha na representação simbólica\\\",\\n              \\\"mistakeLocation\\\": \\\"Na sincronização entre componentes: fração digitada não corresponde ao ponto marcado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o ponto está em 9/6, por que você digitou outro valor na caixa da fração?\\\",\\n              \\\"feedback\\\": \\\"Seu ponto na reta está exatamente certo! Agora, vamos garantir que a fração digitada combine com ele. Que números formam 9/6?\\\",\\n              \\\"howToFix\\\": \\\"Pedir para ler em voz alta: 'marquei 9/6, então digito 9 em cima e 6 embaixo'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13pizza\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração mencionada\\\",\\n          \\\"thinking\\\": \\\"Ah, eles comeram nove fatias... e cada pizza tem seis fatias. Então é 9/6? Mas isso é mais que uma pizza inteira... será que tá certo?\\\",\\n          \\\"result\\\": \\\"Identificou corretamente a fração como 9/6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando temos mais partes do que as que formam um inteiro, como representamos isso com frações?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! O numerador é o número total de fatias comidas, e o denominador é quantas fatias formam uma pizza inteira. Qual é cada um?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração usa o número de fatias comidas (9) e o número de fatias por pizza (6). Confira se você colocou cada um no lugar certo.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Coloque 9 na caixa de cima (numerador) e 6 na caixa de baixo (denominador). Isso representa exatamente o que o problema diz!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar 9 em f1 e 6 em f2\\\",\\n          \\\"thinking\\\": \\\"Ok, vou colocar 9 em cima e 6 embaixo... mas será que preciso simplificar ou converter antes de marcar na reta?\\\",\\n          \\\"result\\\": \\\"Preencheu corretamente os campos da fração: f1=9, f2=6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! A fração do problema precisa ser exatamente como foi descrita, ou pode ser reescrita de outra forma?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Veja a pergunta novamente: 'What is the fraction in the problem?' Ela pede a fração **como aparece no texto**, não uma versão simplificada.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Atenção! O problema diz '9/6 of a pizza'. Você deve usar exatamente essa fração, mesmo que ela seja maior que 1.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! O enunciado já dá a fração: 9/6. Digite 9 no numerador e 6 no denominador — não mude nada ainda!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 9/6 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 2, e cada unidade tem 6 partes... então 6/6 é 1, e 9/6 é 1 e 3/6. Mas onde fica isso exatamente?\\\",\\n          \\\"result\\\": \\\"Localizou corretamente 9/6 entre 1 e 2, na terceira marca após o 1\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1, EstFractionNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Como podemos usar o denominador para dividir a reta numérica em partes iguais?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Primeiro, lembre-se: 6/6 = 1. Então, conte 3 partes além do 1 (porque 9 – 6 = 3). Cada parte é 1/6.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 9/6 = 1 + 3/6. Na reta, vá até o 1, depois avance 3 das 6 marcas pequenas.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! Depois do 1, conte: primeira marca = 7/6, segunda = 8/6, terceira = 9/6. Marque exatamente ali!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo... mas será que deveria ter convertido para número misto?\\\",\\n          \\\"result\\\": \\\"Concluiu sem converter, pois a pergunta pedia a fração original\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"9/6\\\",\\n      \\\"totalTime\\\": 75,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter 9/6 para número misto (1 3/6) antes de marcar na reta\\\",\\n          \\\"steps\\\": [\\\"Clicar em Convert\\\", \\\"Preencher m1=1, m2=3, m3=6\\\", \\\"Usar isso para localizar na reta\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Tentar simplificar 9/6 para 3/2 e marcar incorretamente como se fosse a fração pedida\\\",\\n          \\\"steps\\\": [\\\"Simplificar mentalmente\\\", \\\"Digitar 3/2\\\", \\\"Marcar 3/2 na reta\\\"],\\n          \\\"efficiency\\\": \\\"low\\\",\\n          \\\"isCorrect\\\": false\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "13pizza",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema descreve que duas pizzas foram divididas em 6 fatias cada, totalizando 12 fatias. Rick e amigos comeram 9 fatias, o que corresponde a 9/6 de pizza. A pergunta pede explicitamente: 'What is the fraction in the problem?'",
+        "result": "Fração mencionada no texto: 9/6",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O número de fatias comidas é 9, logo o numerador é 9.",
+        "result": "Numerador = {A} (onde {A} = 9)",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "Cada pizza foi dividida em 6 fatias, então o denominador é 6.",
+        "result": "Denominador = {B} (onde {B} = 6)",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Digitar o numerador no campo f1",
+        "thinking": "Insiro o valor 9 no campo superior da fração.",
+        "result": "f1 = {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Digitar o denominador no campo f2",
+        "thinking": "Insiro o valor 6 no campo inferior da fração.",
+        "result": "f2 = {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Localizar a fração 9/6 na reta numérica",
+        "thinking": "Como a reta vai de 0 a 2 e está dividida em sextos (denominador 6), 9/6 equivale a 1 inteiro e 3/6, ou seja, está exatamente na marca do ponto 1.5 (ou 3/2). Conto 9 marcas a partir do 0: 1/6, 2/6, ..., 9/6.",
+        "result": "Ponto marcado em 9/6 na reta numérica",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Confirmar que a fração é maior que 1 e entender sua posição",
+        "thinking": "9/6 > 1, pois o numerador é maior que o denominador. Isso confirma que o ponto deve estar entre 1 e 2 na reta.",
+        "result": "Validação da posição na reta numérica",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todos os componentes foram preenchidos corretamente: fração identificada, campos preenchidos, ponto posicionado.",
+        "result": "Problema concluído",
+        "kcUsed": "EstFractionNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 30
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "13pizza",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador da fração mencionada",
+          "thinking": "O problema diz que comeram 9 fatias de pizza, e cada pizza tem 6 fatias. Então a fração deve ser 6/9, porque 6 é o total de uma pizza.",
+          "result": "Resultado errado",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "6/9",
+           "description": "Aluno inverteu numerador e denominador, usando o número de partes por pizza como numerador e o total comido como denominador",
+           "mistakeLocation": "Ao identificar qual valor representa o todo (denominador) e qual representa a parte consumida (numerador)",
+           "diagnosticQuestion": "Qual número representa quantas fatias foram comidas? E qual representa quantas fatias há em uma pizza inteira?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você reconheceu os dois números importantes: 9 e 6. Agora vamos lembrar: o numerador é o que foi comido, e o denominador é o que forma um inteiro. Qual é qual?",
+           "howToFix": "Usar linguagem clara: 'comi X de um total de Y' → X/Y; destacar no enunciado as frases-chave"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar o ponto na reta numérica",
+          "thinking": "Se a fração é 6/9, então preciso contar 6 marcas a partir do zero. Cada marca é uma fatia, então paro na sexta.",
+          "result": "Resultado errado",
+          "kcUsed": "EstFractionNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marcas_como_unidades",
+           "type": "procedural_error",
+           "wrongAnswer": "1.0",
+           "description": "Aluno conta marcas como se cada uma valesse 1 unidade, ignorando que a escala está dividida em sextos",
+           "mistakeLocation": "Ao interpretar a escala da reta numérica: tratou cada marca como 1 em vez de 1/6",
+           "diagnosticQuestion": "Quantas marcas há entre 0 e 1 na reta? O que cada marca representa?",
+           "severity": "high",
+           "feedback": "Você contou direitinho até a sexta marca! Mas vamos olhar juntos: entre 0 e 1, há 6 marcas. Isso quer dizer que cada marca vale quanto?",
+           "howToFix": "Pedir ao aluno para rotular manualmente as marcas entre 0 e 1 como 1/6, 2/6, ..., 6/6 antes de marcar"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Clicar em Done",
+          "thinking": "Pronto, coloquei 6/9 e marquei na reta.",
+          "result": "Submissão final incorreta",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "6/9",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador",
+          "thinking": "Eles comeram 9 fatias, e cada pizza tem 6, então a fração é 9/6. Mas talvez eu precise simplificar... ou não? Vou colocar só o 9, porque é o que importa.",
+          "result": "Resultado errado",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_somente_numerador",
+           "type": "conceptual_error",
+           "wrongAnswer": "9",
+           "description": "Aluno digita apenas o numerador como resposta, ignorando o formato de fração exigido",
+           "mistakeLocation": "Na entrada da resposta: forneceu um número inteiro em vez de uma fração com numerador e denominador",
+           "diagnosticQuestion": "A pergunta pede uma fração. O que precisamos escrever para mostrar uma fração completa?",
+           "severity": "moderate",
+           "feedback": "Você acertou o número de fatias comidas — ótimo! Mas a pergunta pede a fração completa. Lembre-se: fração tem duas partes. Qual é o número de baixo?",
+           "howToFix": "Reforçar visualmente a caixa da fração: apontar que há dois campos e ambos devem ser preenchidos"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Tentar marcar na reta numérica",
+          "thinking": "Se comi 9 fatias e cada pizza tem 6, então comi uma pizza inteira e mais 3 fatias. Então devo marcar no 1 e meio.",
+          "result": "Resultado parcialmente correto na posição, mas inconsistente com a entrada",
+          "kcUsed": "FracGreater1",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_correto_na_reta_mas_errado_na_fracao",
+           "type": "inconsistency_error",
+           "wrongAnswer": "1.5",
+           "description": "Aluno posiciona corretamente na reta (1,5 = 9/6), mas sua fração digitada está errada (só 9)",
+           "mistakeLocation": "Na coordenação entre a representação simbólica (fração) e a representação visual (reta)",
+           "diagnosticQuestion": "Se você marcou 1,5 na reta, que fração isso representa com denominador 6?",
+           "severity": "moderate",
+           "feedback": "Interessante! Você marcou exatamente onde 9/6 fica. Agora, que fração com denominador 6 corresponde a esse ponto?",
+           "howToFix": "Conectar explicitamente a posição na reta com a fração: 'quantas marcas de 1/6 até chegar aqui?'"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Clicar em Done",
+          "thinking": "Acho que está certo.",
+          "result": "Submissão final incorreta",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "9",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "13pizza",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_slices_per_pizza}/{eaten_slices}",
+          "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+          "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+          "mistakeLocation": "Na interpretação do enunciado: associou erroneamente o denominador à quantidade consumida e o numerador à divisão da pizza",
+          "diagnosticQuestion": "Quando dizemos 'comi 3 de 8 pedaços', escrevemos 3/8 ou 8/3? Por quê?",
+          "feedback": "Você identificou os dois números certos! Agora vamos lembrar: a fração mostra 'quantos comi' sobre 'quantos formam um inteiro'. Qual é o 'comi' e qual é o 'inteiro' aqui?",
+          "howToFix": "Usar analogia com situações concretas: fatias comidas vs. fatias por pizza; destacar estrutura 'parte/todo'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_somente_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{eaten_slices}",
+          "buggyRule": "Ignorar o denominador e responder apenas com o número de fatias comidas ({eaten_slices} = 9)",
+          "description": "Aluno foca apenas na quantidade consumida e esquece de expressá-la como fração do todo",
+          "mistakeLocation": "Na formatação da resposta: omite o denominador e submete um inteiro em vez de uma fração",
+          "diagnosticQuestion": "Se eu como 2 fatias de uma pizza de 8, como escrevemos isso como fração? Só '2' ou algo mais?",
+          "feedback": "Você pegou o número mais importante — as fatias comidas! Mas para virar fração, precisamos também dizer 'de quantas?'. Que número vai embaixo?",
+          "howToFix": "Treinar com frases completas: 'comi ___ de ___' → preencher os dois espaços; usar template visual de fração",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_total_de_fatias_duas_pizzas",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{eaten_slices}/({total_slices_per_pizza}*2)",
+          "buggyRule": "Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)",
+          "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+          "mistakeLocation": "Na definição da unidade: considera as duas pizzas como um único inteiro, em vez de usar uma pizza como unidade",
+          "diagnosticQuestion": "A fração 9/6 significa '9 fatias de quantas em uma pizza'? Ou de quantas nas duas pizzas?",
+          "feedback": "Você pensou nas duas pizzas — muito bom! Mas veja: a fração usa UMA pizza como referência. Quantas fatias tem uma pizza?",
+          "howToFix": "Destacar no enunciado: 'each divided into six slices' → a unidade é uma pizza, não duas",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "13pizza",
+        "step": 2,
+        "kcUsed": "EstFractionNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marcas_como_unidades",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{eaten_slices}",
+          "buggyRule": "Tratar cada marca na reta como valendo 1 unidade e marcar na posição {eaten_slices} (ex: 9)",
+          "description": "Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros",
+          "mistakeLocation": "Na leitura da reta numérica: assume que cada marca = 1, sem considerar a divisão da unidade",
+          "diagnosticQuestion": "Quantas marcas há entre 0 e 1? Se há 6, quanto vale cada marca?",
+          "feedback": "Você contou com atenção! Mas vamos verificar: entre 0 e 1, há 6 marcas. Isso quer dizer que cada marca é menos que 1. Quanto exatamente?",
+          "howToFix": "Rotular coletivamente a reta: escrever 1/6, 2/6, ..., 6/6 nos pontos entre 0 e 1 antes de marcar",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_para_na_primeira_unidade",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{eaten_slices} % {total_slices_per_pizza}",
+          "buggyRule": "Marcar apenas o resto da divisão de fatias comidas pelo total por pizza: posição = {eaten_slices} - {total_slices_per_pizza} se {eaten_slices} > {total_slices_per_pizza}, senão {eaten_slices}; mas sem ultrapassar 1",
+          "description": "Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro",
+          "mistakeLocation": "Na extensão da reta além de 1: ignora que a fração imprópria ultrapassa o primeiro inteiro",
+          "diagnosticQuestion": "Se você comeu mais que uma pizza inteira, o ponto deve ficar antes ou depois do 1 na reta?",
+          "feedback": "Você percebeu que sobraram 3 fatias além da primeira pizza — excelente! Mas onde fica 'uma pizza inteira MAIS 3 fatias'? Antes ou depois do 1?",
+          "howToFix": "Usar linguagem de 'quantas pizzas inteiras + quanto a mais'; mover o ponto além de 1 na reta",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_confunde_com_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1.5",
+          "buggyRule": "Assumir que 9/6 = 1,5 e marcar exatamente no meio entre 1 e 2, mesmo sem calcular",
+          "description": "Aluno reconhece que 9/6 é 1 e meio, mas faz isso por intuição sem ligar à escala de sextos",
+          "mistakeLocation": "Na conversão mental para decimal: salta para 1,5 sem verificar se coincide com as marcas da reta",
+          "diagnosticQuestion": "Quantas marcas de 1/6 há entre 1 e 1,5? Isso bate com o que você marcou?",
+          "feedback": "Você chegou perto! 9/6 realmente é 1,5. Agora, vamos ver se esse ponto coincide com uma das marcas da reta — quantas marcas de 1/6 até lá?",
+          "howToFix": "Conectar decimal e fração: 1,5 = 3/2 = 9/6; confirmar que 9 marcas de 1/6 levam até 1,5",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "13pizza",
+        "step": 3,
+        "kcUsed": "FracGreater1",
+        "errors": [
+         {
+          "misconceptionId": "misc_nao_entende_fracao_impropria",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{eaten_slices}/{total_slices_per_pizza}",
+          "buggyRule": "Aceitar a fração imprópria como válida, mas hesitar em usá-la na reta — porém, neste caso, a resposta correta É a fração imprópria, então este erro só aparece se o aluno tentar converter desnecessariamente",
+          "description": "Aluno acha que frações maiores que 1 estão 'erradas' e tenta forçar um número misto, mas o problema não pede isso",
+          "mistakeLocation": "Na decisão de formato: acredita que deve converter para número misto mesmo sem instrução",
+          "diagnosticQuestion": "O problema pede a fração mencionada. Onde ele fala em número misto?",
+          "feedback": "Boa iniciativa em pensar no número misto! Mas a pergunta é clara: 'What is the fraction in the problem?' — e o problema diz '9/6'. Precisamos manter assim.",
+          "howToFix": "Destacar trecho do enunciado: 'or 9/6 of a pizza' — essa é a fração pedida",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_correto_na_reta_mas_errado_na_fracao",
+          "type": "inconsistency_error",
+          "wrongAnswerPattern": "{position_on_line_as_decimal}",
+          "buggyRule": "Marcar corretamente na reta (posição = {eaten_slices}/{total_slices_per_pizza}), mas digitar apenas o numerador ou um inteiro na caixa da fração",
+          "description": "Aluno tem compreensão parcial: consegue mapear a fração na reta, mas falha na representação simbólica",
+          "mistakeLocation": "Na sincronização entre componentes: fração digitada não corresponde ao ponto marcado",
+          "diagnosticQuestion": "Se o ponto está em 9/6, por que você digitou outro valor na caixa da fração?",
+          "feedback": "Seu ponto na reta está exatamente certo! Agora, vamos garantir que a fração digitada combine com ele. Que números formam 9/6?",
+          "howToFix": "Pedir para ler em voz alta: 'marquei 9/6, então digito 9 em cima e 6 embaixo'",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "13pizza",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração mencionada",
+        "thinking": "Ah, eles comeram nove fatias... e cada pizza tem seis fatias. Então é 9/6? Mas isso é mais que uma pizza inteira... será que tá certo?",
+        "result": "Identificou corretamente a fração como 9/6",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando temos mais partes do que as que formam um inteiro, como representamos isso com frações?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! O numerador é o número total de fatias comidas, e o denominador é quantas fatias formam uma pizza inteira. Qual é cada um?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração usa o número de fatias comidas (9) e o número de fatias por pizza (6). Confira se você colocou cada um no lugar certo."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Coloque 9 na caixa de cima (numerador) e 6 na caixa de baixo (denominador). Isso representa exatamente o que o problema diz!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar 9 em f1 e 6 em f2",
+        "thinking": "Ok, vou colocar 9 em cima e 6 embaixo... mas será que preciso simplificar ou converter antes de marcar na reta?",
+        "result": "Preencheu corretamente os campos da fração: f1=9, f2=6",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! A fração do problema precisa ser exatamente como foi descrita, ou pode ser reescrita de outra forma?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Veja a pergunta novamente: 'What is the fraction in the problem?' Ela pede a fração **como aparece no texto**, não uma versão simplificada."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Atenção! O problema diz '9/6 of a pizza'. Você deve usar exatamente essa fração, mesmo que ela seja maior que 1."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! O enunciado já dá a fração: 9/6. Digite 9 no numerador e 6 no denominador — não mude nada ainda!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 9/6 na reta numérica",
+        "thinking": "A reta vai de 0 a 2, e cada unidade tem 6 partes... então 6/6 é 1, e 9/6 é 1 e 3/6. Mas onde fica isso exatamente?",
+        "result": "Localizou corretamente 9/6 entre 1 e 2, na terceira marca após o 1",
+        "kcUsed": "FracGreater1, EstFractionNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Como podemos usar o denominador para dividir a reta numérica em partes iguais?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Primeiro, lembre-se: 6/6 = 1. Então, conte 3 partes além do 1 (porque 9 – 6 = 3). Cada parte é 1/6."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 9/6 = 1 + 3/6. Na reta, vá até o 1, depois avance 3 das 6 marcas pequenas."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! Depois do 1, conte: primeira marca = 7/6, segunda = 8/6, terceira = 9/6. Marque exatamente ali!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Clicar em Done",
+        "thinking": "Acho que está tudo certo... mas será que deveria ter convertido para número misto?",
+        "result": "Concluiu sem converter, pois a pergunta pedia a fração original",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "9/6",
+      "totalTime": 75,
+      "alternativeRoutes": [
+       {
+        "description": "Converter 9/6 para número misto (1 3/6) antes de marcar na reta",
+        "steps": [
+         "Clicar em Convert",
+         "Preencher m1=1, m2=3, m3=6",
+         "Usar isso para localizar na reta"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Tentar simplificar 9/6 para 3/2 e marcar incorretamente como se fosse a fração pedida",
+        "steps": [
+         "Simplificar mentalmente",
+         "Digitar 3/2",
+         "Marcar 3/2 na reta"
+        ],
+        "efficiency": "low",
+        "isCorrect": false
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 4,
+  "errosEspecificos": 4,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "frac-estimates-6.19",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"What is the fraction in the problem?\" com duas caixas numéricas (f1 em cima = numerador, f2 embaixo = denominador); reta numérica de 0 a 2 (numline) onde o aluno marca um ponto, com encaixe em 6 partes por unidade (marcas ocultas), pontos rotulados; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, converter, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 2,
+   "encaixeDenominador": 6,
+   "ticksOcultos": true
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "f2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "m2",
+    "tipo": "text",
+    "papel": "campo: numerador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "m3",
+    "tipo": "text",
+    "papel": "campo: denominador da parte fracionária do número misto (\"-\" quando não há)"
+   },
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "rightFraction",
+    "tipo": "text",
+    "papel": "grupo com m1/m2/m3, exibido depois de Convert"
+   },
+   {
+    "id": "convert",
+    "tipo": "button",
+    "papel": "botão \"Convert\": abre as caixas do número misto (m1, m2, m3) para reescrever a fração"
+   },
+   {
+    "id": "f1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "m1",
+    "tipo": "numeric",
+    "papel": "campo numérico: parte inteira do número misto"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Read the pizza story and enter the number of slices eaten in the top fraction box.",
+     "kc": "IdenNumerator",
+     "valor": "9"
+    },
+    {
+     "indice": 2,
+     "acao": "Use the story to identify the numerator and enter it in the top fraction box.",
+     "kc": "IdenNumerator",
+     "valor": "9"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter the number of equal slices in one pizza in the bottom fraction box.",
+     "kc": "IdenDenominator",
+     "valor": "6"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter the numerator of the fraction in the top box.",
+     "kc": "IdenNumerator",
+     "valor": "9"
+    },
+    {
+     "indice": 5,
+     "acao": "Enter the denominator of the fraction in the bottom box.",
+     "kc": "IdenDenominator",
+     "valor": "6"
+    },
+    {
+     "indice": 6,
+     "acao": "Place a point on the number line to represent 9/6.",
+     "kc": "EstFractionNumLine",
+     "valor": "1.5"
+    },
+    {
+     "indice": 7,
+     "acao": "Use the number line to show that 9/6 is greater than 1.",
+     "kc": "FracGreater1",
+     "valor": "1.5"
+    },
+    {
+     "indice": 8,
+     "acao": "Click Convert to rewrite the improper fraction as a mixed number.",
+     "kc": "convertToMixedNum",
+     "valor": "convert"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "6",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the number of slices in one pizza as the numerator. The numerator represents the slices eaten.",
+     "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "12",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You counted all slices in both pizzas. The top box asks for the number of slices eaten, not the total number of slices available.",
+     "buggyRule": "Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)",
+     "misconceptionId": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "valor": "6",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the slices in one pizza. That number describes the whole and belongs in the denominator.",
+     "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "12",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the total slices in both pizzas instead of the slices eaten. The numerator records the eaten slices.",
+     "buggyRule": "Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)",
+     "misconceptionId": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "valor": "9",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the slices eaten. The denominator should describe how many equal slices make one whole pizza.",
+     "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "12",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You counted slices in both pizzas. The denominator uses the equal parts in one whole pizza.",
+     "buggyRule": "Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)",
+     "misconceptionId": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "valor": "6",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number of slices per pizza belongs in the denominator, not in f1.",
+     "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "9",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The eaten-slice count belongs in the numerator. f2 must describe the equal parts in one whole pizza.",
+     "buggyRule": "Inverter os valores: usar o número de fatias por pizza ({total_slices_per_pizza} = 6) como numerador e o número de fatias comidas ({eaten_slices} = 9) como denominador",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "12",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator is based on one pizza, not both pizzas together.",
+     "buggyRule": "Usar o número total de fatias das DUAS pizzas (6*2=12) como denominador, em vez do número de fatias por pizza (6)",
+     "misconceptionId": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "valor": "9",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You treated each mark as one whole unit. The marks divide each unit into sixths.",
+     "buggyRule": "Tratar cada marca na reta como valendo 1 unidade e marcar na posição {eaten_slices} (ex: 9)",
+     "misconceptionId": "misc_contagem_marcas_como_unidades"
+    },
+    {
+     "valor": "0.5",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You marked only the three sixths left after one whole. Because there is one whole pizza first, the point must continue past 1.",
+     "buggyRule": "Marcar apenas o resto da divisão de fatias comidas pelo total por pizza: posição = {eaten_slices} - {total_slices_per_pizza} se {eaten_slices} > {total_slices_per_pizza}, senão {eaten_slices}; mas sem ultrapassar 1",
+     "misconceptionId": "misc_para_na_primeira_unidade"
+    },
+    {
+     "valor": "9",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator counts ninths? No—the line is divided into sixths, so nine marks represent a position between whole numbers.",
+     "buggyRule": "Tratar cada marca na reta como valendo 1 unidade e marcar na posição {eaten_slices} (ex: 9)",
+     "misconceptionId": "misc_contagem_marcas_como_unidades"
+    },
+    {
+     "valor": "0.5",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You stopped at the fractional remainder and left out the first whole. The point must be to the right of 1.",
+     "buggyRule": "Marcar apenas o resto da divisão de fatias comidas pelo total por pizza: posição = {eaten_slices} - {total_slices_per_pizza} se {eaten_slices} > {total_slices_per_pizza}, senão {eaten_slices}; mas sem ultrapassar 1",
+     "misconceptionId": "misc_para_na_primeira_unidade"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "The numerator tells how many parts were eaten or counted."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Find the sentence that tells how many pizza slices Rick and his friends ate."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Use the number connected to the word slices eaten, not the number of slices in one pizza."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Enter the quantity of slices eaten in the upper numeric field."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "Ask which number tells how many slices were eaten."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Separate the quantity eaten from the number of equal slices in one whole pizza."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "The numerator goes above the fraction bar and describes the counted parts."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the number stated for the slices eaten in the upper field."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The denominator describes the whole that has been divided into equal parts."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Find the sentence that states how each pizza was divided."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Look for the number of slices in one pizza, not the number eaten."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Enter the number of equal slices in one pizza in the lower numeric field."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The numerator records the parts included in the situation."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Translate the number of slices eaten into the upper fraction field."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "The upper field must contain the eaten-slice count."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Type the number of eaten slices into f1, the top numeric field."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The denominator tells how many equal parts form one whole."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use the number of equal slices that make one pizza."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "The denominator goes below the fraction bar and describes one pizza."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Type the slices-per-pizza count into f2, the bottom numeric field."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "Use the equal sixths shown by the marks between whole numbers."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Count nine intervals of one sixth from zero along the number line."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "After reaching 1, continue three more sixths toward 2."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Click the mark halfway between 1 and 2 after counting three sixths beyond 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Compare the numerator and denominator to decide whether the fraction reaches one whole."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Use six sixths for one whole, then locate the remaining sixths."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Nine sixths contains one complete group of six sixths and three additional sixths."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Start at 1 and move three sixths to the right, then place the point at that mark."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "An improper fraction can be rewritten using whole groups and a remaining fractional part."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Divide the numerator by the denominator to identify the whole-number part and the remainder."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "One group of six fits into nine, leaving three sixths."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Use the button labeled ... to open the mixed-number fields."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": false,
+   "valoresEstranhos": [
+    "1.5→1.5",
+    "1.5→1.5"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "9",
+    "9",
+    "6",
+    "9",
+    "6",
+    "1.5",
+    "1.5",
+    "convert"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Rick ordered two pizzas and invited a couple of friends over for dinner. The pizzas were each divided into six slices. Together Rick and his friends ate nine slices, or 9/6 of a pizza. Use the number line to show this fraction.\nWhat is the fraction in the problem?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Read the pizza story and enter the number of slices eaten in the top fraction box.",
+     "expectedAnswer": "9",
+     "renderAs": "numeric_keypad",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Use the story to identify the numerator and enter it in the top fraction box.",
+     "expectedAnswer": "9",
+     "renderAs": "numeric_keypad",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter the number of equal slices in one pizza in the bottom fraction box.",
+     "expectedAnswer": "6",
+     "renderAs": "numeric_keypad",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter the numerator of the fraction in the top box.",
+     "expectedAnswer": "9",
+     "renderAs": "numeric_keypad",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Enter the denominator of the fraction in the bottom box.",
+     "expectedAnswer": "6",
+     "renderAs": "numeric_keypad",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Place a point on the number line to represent 9/6.",
+     "expectedAnswer": "1.5",
+     "renderAs": "number_line",
+     "kc": "EstFractionNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Use the number line to show that 9/6 is greater than 1.",
+     "expectedAnswer": "1.5",
+     "renderAs": "number_line",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Click Convert to rewrite the improper fraction as a mixed number.",
+     "expectedAnswer": "convert",
+     "renderAs": "dynamic_spec",
+     "kc": "convertToMixedNum",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 48556,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Read the pizza story and enter the number of slices eaten in the top fraction box.",
+     "instruction": "Read the pizza story and enter the number of slices eaten in the top fraction box.",
+     "expectedInput": {
+      "value": "9",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "numeric_keypad",
+      "componentId": "numeric_keypad",
+      "componentProps": null,
+      "config": {
+       "field": "f1",
+       "inputType": "numeric"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "field": "f1",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator tells how many parts were eaten or counted."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the sentence that tells how many pizza slices Rick and his friends ate."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use the number connected to the word slices eaten, not the number of slices in one pizza."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the quantity of slices eaten in the upper numeric field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+       "feedback": "You used the number of slices in one pizza as the numerator. The numerator represents the slices eaten.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_total_de_fatias_duas_pizzas",
+       "wrongAnswer": "12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+       "feedback": "You counted all slices in both pizzas. The top box asks for the number of slices eaten, not the total number of slices available.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_1",
+      "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Use the story to identify the numerator and enter it in the top fraction box.",
+     "instruction": "Use the story to identify the numerator and enter it in the top fraction box.",
+     "expectedInput": {
+      "value": "9",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "numeric_keypad",
+      "componentId": "numeric_keypad",
+      "componentProps": null,
+      "config": {
+       "field": "f1",
+       "inputType": "numeric"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "field": "f1",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Ask which number tells how many slices were eaten."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Separate the quantity eaten from the number of equal slices in one whole pizza."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The numerator goes above the fraction bar and describes the counted parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number stated for the slices eaten in the upper field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+       "feedback": "You entered the slices in one pizza. That number describes the whole and belongs in the denominator.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_total_de_fatias_duas_pizzas",
+       "wrongAnswer": "12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+       "feedback": "You used the total slices in both pizzas instead of the slices eaten. The numerator records the eaten slices.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_2",
+      "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter the number of equal slices in one pizza in the bottom fraction box.",
+     "instruction": "Enter the number of equal slices in one pizza in the bottom fraction box.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "numeric_keypad",
+      "componentId": "numeric_keypad",
+      "componentProps": null,
+      "config": {
+       "field": "f2",
+       "inputType": "numeric"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "field": "f2",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator describes the whole that has been divided into equal parts."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the sentence that states how each pizza was divided."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look for the number of slices in one pizza, not the number eaten."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of equal slices in one pizza in the lower numeric field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "9",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+       "feedback": "You entered the slices eaten. The denominator should describe how many equal slices make one whole pizza.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_total_de_fatias_duas_pizzas",
+       "wrongAnswer": "12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+       "feedback": "You counted slices in both pizzas. The denominator uses the equal parts in one whole pizza.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_3",
+      "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter the numerator of the fraction in the top box.",
+     "instruction": "Enter the numerator of the fraction in the top box.",
+     "expectedInput": {
+      "value": "9",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "numeric_keypad",
+      "componentId": "numeric_keypad",
+      "componentProps": null,
+      "config": {
+       "field": "f1",
+       "inputType": "numeric"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "field": "f1",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator records the parts included in the situation."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Translate the number of slices eaten into the upper fraction field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The upper field must contain the eaten-slice count."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the number of eaten slices into f1, the top numeric field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+       "feedback": "The number of slices per pizza belongs in the denominator, not in f1.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Enter the denominator of the fraction in the bottom box.",
+     "instruction": "Enter the denominator of the fraction in the bottom box.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "numeric_keypad",
+      "componentId": "numeric_keypad",
+      "componentProps": null,
+      "config": {
+       "field": "f2",
+       "inputType": "numeric"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "field": "f2",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many equal parts form one whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the number of equal slices that make one pizza."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator goes below the fraction bar and describes one pizza."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the slices-per-pizza count into f2, the bottom numeric field."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "9",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+       "feedback": "The eaten-slice count belongs in the numerator. f2 must describe the equal parts in one whole pizza.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_total_de_fatias_duas_pizzas",
+       "wrongAnswer": "12",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+       "feedback": "The denominator is based on one pizza, not both pizzas together.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_5",
+      "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Place a point on the number line to represent 9/6.",
+     "instruction": "Place a point on the number line to represent 9/6.",
+     "expectedInput": {
+      "value": "1.5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": {
+       "min": 0,
+       "max": 2,
+       "subdivisionsPerUnit": 6,
+       "snapToSubdivisions": true,
+       "component": "numline"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "min": 0,
+        "max": 2,
+        "subdivisionsPerUnit": 6,
+        "snapToSubdivisions": true,
+        "component": "numline"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Use the equal sixths shown by the marks between whole numbers."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Count nine intervals of one sixth from zero along the number line."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "After reaching 1, continue three more sixths toward 2."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Click the mark halfway between 1 and 2 after counting three sixths beyond 1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marcas_como_unidades",
+       "wrongAnswer": "9",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros",
+       "feedback": "You treated each mark as one whole unit. The marks divide each unit into sixths.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_para_na_primeira_unidade",
+       "wrongAnswer": "0.5",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro",
+       "feedback": "You marked only the three sixths left after one whole. Because there is one whole pizza first, the point must continue past 1.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marcas_como_unidades__step_6",
+      "scaffold_misc_para_na_primeira_unidade__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Use the number line to show that 9/6 is greater than 1.",
+     "instruction": "Use the number line to show that 9/6 is greater than 1.",
+     "expectedInput": {
+      "value": "1.5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": {
+       "min": 0,
+       "max": 2,
+       "subdivisionsPerUnit": 6,
+       "snapToSubdivisions": true,
+       "component": "numline"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "min": 0,
+        "max": 2,
+        "subdivisionsPerUnit": 6,
+        "snapToSubdivisions": true,
+        "component": "numline"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare the numerator and denominator to decide whether the fraction reaches one whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use six sixths for one whole, then locate the remaining sixths."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Nine sixths contains one complete group of six sixths and three additional sixths."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Start at 1 and move three sixths to the right, then place the point at that mark."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marcas_como_unidades",
+       "wrongAnswer": "9",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros",
+       "feedback": "The numerator counts ninths? No—the line is divided into sixths, so nine marks represent a position between whole numbers.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_para_na_primeira_unidade",
+       "wrongAnswer": "0.5",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro",
+       "feedback": "You stopped at the fractional remainder and left out the first whole. The point must be to the right of 1.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marcas_como_unidades__step_7",
+      "scaffold_misc_para_na_primeira_unidade__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Click Convert to rewrite the improper fraction as a mixed number.",
+     "instruction": "Click Convert to rewrite the improper fraction as a mixed number.",
+     "expectedInput": {
+      "value": "convert",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "component": "convert",
+       "sourceFields": [
+        "f1",
+        "f2"
+       ],
+       "targetFields": [
+        "m1",
+        "m2",
+        "m3"
+       ]
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "component": "convert",
+        "sourceFields": [
+         "f1",
+         "f2"
+        ],
+        "targetFields": [
+         "m1",
+         "m2",
+         "m3"
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "An improper fraction can be rewritten using whole groups and a remaining fractional part."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the numerator by the denominator to identify the whole-number part and the remainder."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "One group of six fits into nine, leaving three sixths."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Use the button labeled ... to open the mixed-number fields."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "convertToMixedNum"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_1",
+     "type": "scaffold",
+     "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+     "instruction": "You used the number of slices in one pizza as the numerator. The numerator represents the slices eaten.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_1",
+     "type": "scaffold",
+     "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+     "instruction": "You counted all slices in both pizzas. The top box asks for the number of slices eaten, not the total number of slices available.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "type": "scaffold",
+     "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+     "instruction": "You entered the slices in one pizza. That number describes the whole and belongs in the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_2",
+     "type": "scaffold",
+     "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+     "instruction": "You used the total slices in both pizzas instead of the slices eaten. The numerator records the eaten slices.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "type": "scaffold",
+     "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+     "instruction": "You entered the slices eaten. The denominator should describe how many equal slices make one whole pizza.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_3",
+     "type": "scaffold",
+     "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+     "instruction": "You counted slices in both pizzas. The denominator uses the equal parts in one whole pizza.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "type": "scaffold",
+     "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+     "instruction": "The number of slices per pizza belongs in the denominator, not in f1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "type": "scaffold",
+     "description": "Aluno confunde qual valor representa a parte (numerador) e qual representa o todo unitário (denominador), invertendo-os",
+     "instruction": "The eaten-slice count belongs in the numerator. f2 must describe the equal parts in one whole pizza.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_5",
+     "type": "scaffold",
+     "description": "Aluno pensa que o 'todo' são as duas pizzas juntas, então usa 12 como denominador",
+     "instruction": "The denominator is based on one pizza, not both pizzas together.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_total_de_fatias_duas_pizzas"
+    },
+    {
+     "id": "scaffold_misc_contagem_marcas_como_unidades__step_6",
+     "type": "scaffold",
+     "description": "Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros",
+     "instruction": "You treated each mark as one whole unit. The marks divide each unit into sixths.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marcas_como_unidades"
+    },
+    {
+     "id": "scaffold_misc_para_na_primeira_unidade__step_6",
+     "type": "scaffold",
+     "description": "Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro",
+     "instruction": "You marked only the three sixths left after one whole. Because there is one whole pizza first, the point must continue past 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "EstFractionNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_para_na_primeira_unidade"
+    },
+    {
+     "id": "scaffold_misc_contagem_marcas_como_unidades__step_7",
+     "type": "scaffold",
+     "description": "Aluno ignora a escala da reta (dividida em sextos) e conta marcas como inteiros",
+     "instruction": "The numerator counts ninths? No—the line is divided into sixths, so nine marks represent a position between whole numbers.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marcas_como_unidades"
+    },
+    {
+     "id": "scaffold_misc_para_na_primeira_unidade__step_7",
+     "type": "scaffold",
+     "description": "Aluno entende que 9/6 é mais que 1, mas marca só a parte fracionária (3/6) dentro do primeiro inteiro",
+     "instruction": "You stopped at the fractional remainder and left out the first whole. The point must be to the right of 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_para_na_primeira_unidade"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(EstFractionNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(FracGreater1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(convertToMixedNum, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_1",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_1",
+     "condition": "misconception(misc_usa_total_de_fatias_duas_pizzas)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_2",
+     "condition": "misconception(misc_usa_total_de_fatias_duas_pizzas)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_3",
+     "condition": "misconception(misc_usa_total_de_fatias_duas_pizzas)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_5",
+     "condition": "misconception(misc_usa_total_de_fatias_duas_pizzas)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_total_de_fatias_duas_pizzas__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_contagem_marcas_como_unidades__step_6",
+     "condition": "misconception(misc_contagem_marcas_como_unidades)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marcas_como_unidades__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_para_na_primeira_unidade__step_6",
+     "condition": "misconception(misc_para_na_primeira_unidade)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_para_na_primeira_unidade__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_contagem_marcas_como_unidades__step_7",
+     "condition": "misconception(misc_contagem_marcas_como_unidades)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marcas_como_unidades__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_para_na_primeira_unidade__step_7",
+     "condition": "misconception(misc_para_na_primeira_unidade)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_para_na_primeira_unidade__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

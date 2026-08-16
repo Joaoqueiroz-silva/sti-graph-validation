@@ -62,7 +62,17 @@ export function verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado, 
     permitidos.add("0");
     permitidos.add("1");
   }
-  const canon = (v) => String(v ?? "").trim().replace(/\s+/g, "");
+  // Sensibilidade 3 (declarada 2026-08-16 ao ver o 6.19, cuja interface PEDE
+  // número misto — m1 m2 m3): "2 3/4" é lido como 11/4 antes da checagem, em
+  // vez de virar "23/4". Post hoc para o 6.19; a priori para os corpora seguintes.
+  const misto = (v) => {
+    const m = String(v ?? "").trim().match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+    if (!m) return v;
+    const w = parseInt(m[1], 10), n = parseInt(m[2], 10), d = parseInt(m[3], 10);
+    if (!d) return v;
+    return `${(Math.abs(w) * d + n) * (w < 0 ? -1 : 1)}/${d}`;
+  };
+  const canon = (v) => String(opts.numerosMistos ? misto(v) : v ?? "").trim().replace(/\s+/g, "");
   const valores = (grafoMaterializado?.passos || []).map((p) => canon(p.valor)).filter(Boolean);
   const resposta = canon(envelopeA.correctAnswer);
   // Sensibilidade 2 (declarada 2026-08-16, APÓS ver os motivos de reprovação
