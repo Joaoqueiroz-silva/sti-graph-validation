@@ -221,4 +221,11 @@ describe("materialização — gate de problema fixo (obediência do agent 6 pro
     const g2 = { passos: [{ valor: "1/5" }, { valor: "3/8" }] };
     expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true }).aprovado).toBe(false);
   });
+  it("sensibilidade 2 (post hoc): decimal igual à resposta (0.2 ≡ 1/5) não é número estranho; 3/8 continua sendo", () => {
+    const g = { passos: [{ valor: "5" }, { valor: "0.2" }, { valor: "1/5" }] };
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true }).aprovado).toBe(false);
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado).toBe(true);
+    const g2 = { passos: [{ valor: "0.2" }, { valor: "3/8" }] };
+    expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true, equivalenciaCanonica: true }).aprovado).toBe(false);
+  });
 });

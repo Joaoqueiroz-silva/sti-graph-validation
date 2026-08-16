@@ -1,0 +1,606 @@
+{
+ "id": "13cleanRoom",
+ "correctAnswer": "5/4",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.105,
+ "conceptual": 0.118,
+ "precision": 0.125,
+ "recall": 0.091,
+ "functionalAgreement": 0.4,
+ "functionalKappa": 0.062,
+ "missing": [
+  "-1",
+  "1",
+  "-",
+  "4"
+ ],
+ "extra": [
+  "4/5"
+ ],
+ "robotMisconceptions": [
+  "5",
+  "5",
+  "4/5"
+ ],
+ "exercicio": "13cleanRoom",
+ "replica": 1,
+ "geradoEm": "2026-08-15T22:04:34.674Z",
+ "promptSha256": "b8ccad5b3d4f619b5fcf5eb9222c7b2acfe0648e890f7f4c9c3ccf1298db2c50",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:56:30.519Z"
+ },
+ "custo": {
+  "tokensEntrada": 7358,
+  "tokensSaida": 5444,
+  "usd": 0.02697084
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "IdenNumerator",
+    "valor": "Fração a ser representada: {A}/{B} = 5/4"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador identificado: {B} = 4"
+   },
+   {
+    "indice": 3,
+    "acao": "Dividir a reta numérica no número correto de partes",
+    "kc": "DivNumLine",
+    "valor": "Reta dividida em 4 partes iguais por unidade (total de 8 segmentos entre 0 e 2)"
+   },
+   {
+    "indice": 4,
+    "acao": "Localizar o ponto correspondente à fração 5/4 na reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto localizado corretamente na posição {A}/{B} = 5/4"
+   },
+   {
+    "indice": 5,
+    "acao": "Marcar o ponto na reta numérica",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado na reta na posição {A}/{B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Concluir a tarefa",
+    "kc": "FracGreater1",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar com cartões: mostrar frações e pedir para apontar “quantas partes no total” (denominador) vs “quantas pegamos” (numerador)",
+    "buggyRule": "Usar o numerador da fração dada ({A_num}/{A_den}) como valor no campo 'Number of parts' em vez do denominador",
+    "misconceptionId": "misc_denominador_confundido_com_numerador"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar visualmente as unidades 0–1 e 1–2 separadamente e dividir CADA UMA em 4 partes",
+    "buggyRule": "Contar {A_num} marcas na reta dividida em {A_den} partes totais (0 a 2), resultando em posição {A_num}/{A_den} * 2 (ex: 5 marcas em 4 partes → 5/2)",
+    "misconceptionId": "misc_contagem_marcas_fora_unidade"
+   },
+   {
+    "valor": "4/5",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar tempo real: “1 hora = ponto 1; 1h15min = depois do 1”",
+    "buggyRule": "Posicionar a fração recíproca ({A_den}/{A_num}) na reta, geralmente por ter usado o numerador como número de partes e o denominador como marca",
+    "misconceptionId": "misc_inversao_fracao_posicionamento"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando uma fração é maior que 1, onde ela fica na reta numérica em relação ao número 1? Pense nisso!"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, divida a reta numérica em partes iguais usando o denominador da fração. Depois, conte quantas dessas partes você precisa a partir do zero."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! O denominador é 4, então divida a reta de 0 a 2 em 4 partes entre cada número inteiro. Depois, conte 5 dessas partes a partir do zero."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Divida a reta em quartos (partes de 1/4). Comece em 0 e vá contando: 1/4, 2/4, 3/4, 4/4 (=1), 5/4... onde fica o quinto traço?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Pense: se a fração vai além de 1, será que basta dividir só até o 1? Onde termina sua reta numérica?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Divida toda a reta numérica (de 0 a 2) em partes iguais com base no denominador. Assim, você verá todos os quartos necessários!"
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "A reta vai até 2, então ao digitar 4 em 'Number of parts', cada unidade (0-1 e 1-2) será dividida em 4 partes. Isso te dá 8 divisões no total!"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Exato! Digite 4 e clique OK. Você verá marcas em 0, 1/4, 2/4, 3/4, 1, 5/4, 6/4, 7/4 e 2. Agora, qual delas é 5/4?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13cleanRoom\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O enunciado afirma que Chris levou 5/4 horas para arrumar o quarto. Preciso representar essa fração na reta numérica de 0 a 2.\\\",\\n          \\\"result\\\": \\\"Fração a ser representada: {A}/{B} = 5/4\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador é 4, então preciso dividir a reta numérica em 4 partes iguais entre cada número inteiro.\\\",\\n          \\\"result\\\": \\\"Denominador identificado: {B} = 4\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Dividir a reta numérica no número correto de partes\\\",\\n          \\\"thinking\\\": \\\"Como o denominador é 4, devo digitar '4' no campo 'Number of parts' e clicar em OK para dividir a reta de 0 a 2 em quartos.\\\",\\n          \\\"result\\\": \\\"Reta dividida em 4 partes iguais por unidade (total de 8 segmentos entre 0 e 2)\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Localizar o ponto correspondente à fração 5/4 na reta\\\",\\n          \\\"thinking\\\": \\\"5/4 é maior que 1 e menor que 2. Contando 5 partes a partir do 0 (cada parte valendo 1/4), chego ao ponto entre 1 e 2, exatamente no quinto traço.\\\",\\n          \\\"result\\\": \\\"Ponto localizado corretamente na posição {A}/{B} = 5/4\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Clico na posição correspondente a 5/4 na reta numérica para marcar o ponto.\\\",\\n          \\\"result\\\": \\\"Ponto marcado na reta na posição {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Concluir a tarefa\\\",\\n          \\\"thinking\\\": \\\"Tudo foi feito corretamente: a reta está dividida adequadamente e o ponto está na posição certa. Clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 26\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13cleanRoom\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar denominador no campo 'Number of parts'\\\",\\n              \\\"thinking\\\": \\\"O denominador é 4, então vou dividir a reta em 4 partes.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 4 partes entre 0 e 2\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Preciso marcar 5/4. Já dividi em 4 partes, então conto 5 marcas a partir do zero: 1, 2, 3, 4, 5... então marco na quinta marca.\\\",\\n              \\\"result\\\": \\\"Ponto marcado na posição correspondente a 5/2 (ou 2.5), fora da reta (0 a 2)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marcas_fora_unidade\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno conta 5 marcas na reta dividida em 4 partes totais (de 0 a 2), mas ignora que cada unidade (0-1 e 1-2) tem 4 divisões; conta marcas globais como se fossem quartos de unidade inteira\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar 5/4, o aluno tratou cada marca na reta (0 a 2 dividida em 4) como um quarto, mas na verdade há 8 marcas (4 por unidade). Ele contou 5 marcas a partir do zero, chegando a 5/2.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantos quartos cabem em uma unidade inteira? E em duas unidades?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você lembrou que o denominador é 4. Mas atenção: a reta vai de 0 a 2, ou seja, tem DUAS unidades. Cada unidade deve ter 4 partes. Quantas marcas isso dá no total?\\\",\\n                \\\"howToFix\\\": \\\"Destacar visualmente as unidades 0–1 e 1–2 separadamente e dividir CADA UMA em 4 partes\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/2\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar denominador no campo 'Number of parts'\\\",\\n              \\\"thinking\\\": \\\"Ele levou mais de uma hora, então o denominador deve ser maior... talvez 5?\\\",\\n              \\\"result\\\": \\\"Reta dividida em 5 partes entre 0 e 2\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_denominador_confundido_com_numerador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno confunde numerador e denominador e usa o 5 (numerador) como número de partes\\\",\\n                \\\"mistakeLocation\\\": \\\"Na identificação do denominador, o aluno usou o valor do numerador (5) em vez do denominador (4)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Na fração 5/4, qual número nos diz em quantas partes a unidade foi dividida?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está prestando atenção aos números — ótimo! Mas vamos lembrar: o número de baixo (denominador) é quem diz em quantas partes a unidade foi dividida. Qual é esse número em 5/4?\\\",\\n                \\\"howToFix\\\": \\\"Revisar com cartões: mostrar frações e pedir para apontar “quantas partes no total” (denominador) vs “quantas pegamos” (numerador)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar ponto na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Dividi em 5 partes, agora marco a quarta marca porque o numerador é 4.\\\",\\n              \\\"result\\\": \\\"Ponto marcado na posição 4/5 (entre 0 e 1)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_fracao_posicionamento\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"4/5\\\",\\n                \\\"description\\\": \\\"Aluno inverteu numerador e denominador ao posicionar: usou 4 como numerador e 5 como denominador, mas também trocou os papéis ao marcar\\\",\\n                \\\"mistakeLocation\\\": \\\"Após usar 5 como número de partes, o aluno usou 4 (que era o denominador original) como numerador, posicionando 4/5 em vez de 5/4\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se Chris levou MAIS de uma hora, o ponto deve estar antes ou depois do 1 na reta?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Interessante! Mas lembre-se: Chris levou MAIS de uma hora. Onde fica ‘mais de uma hora’ na reta? Antes ou depois do 1?\\\",\\n                \\\"howToFix\\\": \\\"Associar tempo real: “1 hora = ponto 1; 1h15min = depois do 1”\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"4/5\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"13cleanRoom\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_denominador_confundido_com_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador da fração dada ({A_num}/{A_den}) como valor no campo 'Number of parts' em vez do denominador\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador e denominador e insere o numerador no campo de número de partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do denominador para dividir a reta, o aluno seleciona o numerador da fração fornecida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Na fração 5/4, qual número representa em quantas partes a unidade foi dividida?\\\",\\n              \\\"feedback\\\": \\\"Você está usando os números certos! Só precisamos garantir que cada um vá no lugar certo. O número de baixo é o denominador — ele define as partes. Qual é ele?\\\",\\n              \\\"howToFix\\\": \\\"Praticar com flashcards: mostrar frações e pedir para circular o denominador; associar 'denominador = divisor = divide a unidade'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_da_unidade_errada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den} * 2\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar o denominador por 2 (porque a reta vai até 2) e usar esse valor como número de partes: {A_den} * 2\\\",\\n              \\\"description\\\": \\\"Aluno acha que, como a reta vai até 2, precisa dobrar o número de partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao decidir quantas partes usar, o aluno multiplica o denominador por 2 pensando na extensão total da reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quando dividimos a reta em partes, estamos dividindo cada UNIDADE ou toda a reta de uma vez?\\\",\\n              \\\"feedback\\\": \\\"Boa observação sobre a reta ir até 2! Mas atenção: o denominador diz como dividir UMA unidade. Depois repetimos isso na próxima unidade.\\\",\\n              \\\"howToFix\\\": \\\"Desenhar unidades 0–1 e 1–2 separadamente e dividir cada uma com o mesmo denominador\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_inteiro_ignorando_fracoes\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a parte fracionária e marcar apenas a parte inteira (1, pois 5/4 > 1)\\\",\\n              \\\"description\\\": \\\"Aluno vê que é maior que 1 e marca exatamente no 1, ignorando os 15 minutos extras\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da fração, o aluno arredonda para baixo e ignora a fração\\\",\\n              \\\"diagnosticQuestion\\\": \\\"15 minutos é metade de uma hora? Um quarto? Quanto isso representa em fração de hora?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que é mais de uma hora — muito bem! Agora, quanto é ‘um quarto de hora’? Vamos ver onde isso fica depois do 1.\\\",\\n              \\\"howToFix\\\": \\\"Conectar com relógio: 15 min = 1/4 de hora; marcar 1h + 1/4h na reta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"13cleanRoom\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marcas_fora_unidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Contar {A_num} marcas na reta dividida em {A_den} partes totais (0 a 2), resultando em posição {A_num}/{A_den} * 2 (ex: 5 marcas em 4 partes → 5/2)\\\",\\n              \\\"description\\\": \\\"Aluno conta marcas globais na reta (0 a 2) como se cada marca fosse 1/{A_den}, mas esquece que há duas unidades, então cada unidade tem {A_den} partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar 5/4, o aluno conta 5 marcas na reta dividida em 4 partes entre 0 e 2, mas essa divisão cria apenas 4 intervalos no total, não por unidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide de 0 a 2 em 4 partes, quantas partes existem entre 0 e 1?\\\",\\n              \\\"feedback\\\": \\\"Você contou direitinho, mas vamos pensar: se a reta inteira (0 a 2) tem 4 partes, então de 0 a 1 só tem 2 partes. Isso representa quartos?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a sempre dividir CADA unidade (0–1, 1–2) separadamente com o denominador dado\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_apenas_parte_fracionaria\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Marcar apenas a parte fracionária (1/4) em vez do valor total (1 + 1/4 = 5/4)\\\",\\n              \\\"description\\\": \\\"Aluno foca só na fração além do inteiro e marca 1/4 em vez de 5/4\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar 5/4 como 1 inteiro + 1/4, o aluno marca só o 1/4, esquecendo de somar ao inteiro\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se Chris levou 1 hora e MAIS 15 minutos, onde devemos começar a contar os 15 minutos?\\\",\\n              \\\"feedback\\\": \\\"Você entendeu que há 15 minutos extras — excelente! Mas esses 15 minutos vêm DEPOIS da primeira hora. Então, partimos do 1, não do 0.\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem de caminhada: “anda 1 inteiro, depois mais 1 passo de tamanho 1/4”\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_fracao_posicionamento\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}/{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Posicionar a fração recíproca ({A_den}/{A_num}) na reta, geralmente por ter usado o numerador como número de partes e o denominador como marca\\\",\\n              \\\"description\\\": \\\"Aluno inverte numerador e denominador tanto na divisão quanto na marcação, resultando em {A_den}/{A_num}\\\",\\n              \\\"mistakeLocation\\\": \\\"Na sequência de ações: usa {A_num} como número de partes e {A_den} como posição, gerando {A_den}/{A_num}\\\",\\n              \\\"diagnosticQuestion\\\": \\\"5/4 é maior ou menor que 1? E 4/5?\\\",\\n              \\\"feedback\\\": \\\"Vamos comparar: 5/4 significa mais do que uma unidade inteira. E 4/5? Onde ele ficaria?\\\",\\n              \\\"howToFix\\\": \\\"Comparar visualmente 4/5 (antes do 1) e 5/4 (depois do 1) com desenhos\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Marcar na metade (1/2 ou 1.5) por associação com “tempo parcial” ou “meio caminho”\\\",\\n              \\\"description\\\": \\\"Aluno associa “arrumar o quarto” com “metade do trabalho” e marca 1.5 (ou 1/2)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão da posição, o aluno ignora os números e usa uma referência familiar (metade)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado dá um número exato: 5/4. Isso é igual a 1/2? A 1.5?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando em termos reais — legal! Mas aqui temos um número exato: 5/4. Vamos convertê-lo para decimal ou minutos para verificar.\\\",\\n              \\\"howToFix\\\": \\\"Converter 5/4 para 1.25 ou 75 minutos e comparar com pontos conhecidos\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"13cleanRoom\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração\\\",\\n          \\\"thinking\\\": \\\"Ah, Chris levou 5/4 horas... então preciso marcar 5/4 na reta numérica. Mas como faço isso? A fração é maior que 1, né?\\\",\\n          \\\"result\\\": \\\"Identificou corretamente a fração 5/4\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando uma fração é maior que 1, onde ela fica na reta numérica em relação ao número 1? Pense nisso!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, divida a reta numérica em partes iguais usando o denominador da fração. Depois, conte quantas dessas partes você precisa a partir do zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O denominador é 4, então divida a reta de 0 a 2 em 4 partes entre cada número inteiro. Depois, conte 5 dessas partes a partir do zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Divida a reta em quartos (partes de 1/4). Comece em 0 e vá contando: 1/4, 2/4, 3/4, 4/4 (=1), 5/4... onde fica o quinto traço?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Digitar '4' no campo 'Number of parts' e clicar OK\\\",\\n          \\\"thinking\\\": \\\"Preciso dividir a reta em 4 partes... mas será que é só entre 0 e 1 ou até o 2 também?\\\",\\n          \\\"result\\\": \\\"Reta dividida corretamente em quartos de 0 a 2\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se a fração vai além de 1, será que basta dividir só até o 1? Onde termina sua reta numérica?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Divida toda a reta numérica (de 0 a 2) em partes iguais com base no denominador. Assim, você verá todos os quartos necessários!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"A reta vai até 2, então ao digitar 4 em 'Number of parts', cada unidade (0-1 e 1-2) será dividida em 4 partes. Isso te dá 8 divisões no total!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exato! Digite 4 e clique OK. Você verá marcas em 0, 1/4, 2/4, 3/4, 1, 5/4, 6/4, 7/4 e 2. Agora, qual delas é 5/4?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 5/4 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Vejo as marcas... 4/4 é o 1, então a próxima deve ser 5/4. É ali!\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente na posição 5/4\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que terminei. Marquei 5/4 direitinho.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"5/4\\\",\\n      \\\"totalTime\\\": 78,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter 5/4 para número misto (1 1/4) e localizar 1 inteiro + 1/4\\\",\\n          \\\"steps\\\": [\\\"Reconhecer que 5/4 = 1 + 1/4\\\", \\\"Localizar 1 na reta\\\", \\\"Contar 1/4 além do 1\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Tentar marcar diretamente sem dividir a reta (estimativa visual)\\\",\\n          \\\"steps\\\": [\\\"Olhar a reta\\\", \\\"Adivinhar onde 1.25 estaria\\\"],\\n          \\\"efficiency\\\": \\\"low\\\",\\n          \\\"risk\\\": \\\"alta chance de erro por falta de precisão\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "13cleanRoom",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O enunciado afirma que Chris levou 5/4 horas para arrumar o quarto. Preciso representar essa fração na reta numérica de 0 a 2.",
+        "result": "Fração a ser representada: {A}/{B} = 5/4",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador é 4, então preciso dividir a reta numérica em 4 partes iguais entre cada número inteiro.",
+        "result": "Denominador identificado: {B} = 4",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Dividir a reta numérica no número correto de partes",
+        "thinking": "Como o denominador é 4, devo digitar '4' no campo 'Number of parts' e clicar em OK para dividir a reta de 0 a 2 em quartos.",
+        "result": "Reta dividida em 4 partes iguais por unidade (total de 8 segmentos entre 0 e 2)",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Localizar o ponto correspondente à fração 5/4 na reta",
+        "thinking": "5/4 é maior que 1 e menor que 2. Contando 5 partes a partir do 0 (cada parte valendo 1/4), chego ao ponto entre 1 e 2, exatamente no quinto traço.",
+        "result": "Ponto localizado corretamente na posição {A}/{B} = 5/4",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto na reta numérica",
+        "thinking": "Clico na posição correspondente a 5/4 na reta numérica para marcar o ponto.",
+        "result": "Ponto marcado na reta na posição {A}/{B}",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Concluir a tarefa",
+        "thinking": "Tudo foi feito corretamente: a reta está dividida adequadamente e o ponto está na posição certa. Clico em Done.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 26
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "13cleanRoom",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar denominador no campo 'Number of parts'",
+          "thinking": "O denominador é 4, então vou dividir a reta em 4 partes.",
+          "result": "Reta dividida em 4 partes entre 0 e 2",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Preciso marcar 5/4. Já dividi em 4 partes, então conto 5 marcas a partir do zero: 1, 2, 3, 4, 5... então marco na quinta marca.",
+          "result": "Ponto marcado na posição correspondente a 5/2 (ou 2.5), fora da reta (0 a 2)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marcas_fora_unidade",
+           "type": "conceptual_error",
+           "wrongAnswer": "5",
+           "description": "Aluno conta 5 marcas na reta dividida em 4 partes totais (de 0 a 2), mas ignora que cada unidade (0-1 e 1-2) tem 4 divisões; conta marcas globais como se fossem quartos de unidade inteira",
+           "mistakeLocation": "Ao posicionar 5/4, o aluno tratou cada marca na reta (0 a 2 dividida em 4) como um quarto, mas na verdade há 8 marcas (4 por unidade). Ele contou 5 marcas a partir do zero, chegando a 5/2.",
+           "diagnosticQuestion": "Quantos quartos cabem em uma unidade inteira? E em duas unidades?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você lembrou que o denominador é 4. Mas atenção: a reta vai de 0 a 2, ou seja, tem DUAS unidades. Cada unidade deve ter 4 partes. Quantas marcas isso dá no total?",
+           "howToFix": "Destacar visualmente as unidades 0–1 e 1–2 separadamente e dividir CADA UMA em 4 partes"
+          }
+         }
+        ],
+        "finalAnswer": "5/2",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar denominador no campo 'Number of parts'",
+          "thinking": "Ele levou mais de uma hora, então o denominador deve ser maior... talvez 5?",
+          "result": "Reta dividida em 5 partes entre 0 e 2",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_denominador_confundido_com_numerador",
+           "type": "conceptual_error",
+           "wrongAnswer": "5",
+           "description": "Aluno confunde numerador e denominador e usa o 5 (numerador) como número de partes",
+           "mistakeLocation": "Na identificação do denominador, o aluno usou o valor do numerador (5) em vez do denominador (4)",
+           "diagnosticQuestion": "Na fração 5/4, qual número nos diz em quantas partes a unidade foi dividida?",
+           "severity": "moderate",
+           "feedback": "Você está prestando atenção aos números — ótimo! Mas vamos lembrar: o número de baixo (denominador) é quem diz em quantas partes a unidade foi dividida. Qual é esse número em 5/4?",
+           "howToFix": "Revisar com cartões: mostrar frações e pedir para apontar “quantas partes no total” (denominador) vs “quantas pegamos” (numerador)"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar ponto na reta numérica",
+          "thinking": "Dividi em 5 partes, agora marco a quarta marca porque o numerador é 4.",
+          "result": "Ponto marcado na posição 4/5 (entre 0 e 1)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_fracao_posicionamento",
+           "type": "conceptual_error",
+           "wrongAnswer": "4/5",
+           "description": "Aluno inverteu numerador e denominador ao posicionar: usou 4 como numerador e 5 como denominador, mas também trocou os papéis ao marcar",
+           "mistakeLocation": "Após usar 5 como número de partes, o aluno usou 4 (que era o denominador original) como numerador, posicionando 4/5 em vez de 5/4",
+           "diagnosticQuestion": "Se Chris levou MAIS de uma hora, o ponto deve estar antes ou depois do 1 na reta?",
+           "severity": "high",
+           "feedback": "Interessante! Mas lembre-se: Chris levou MAIS de uma hora. Onde fica ‘mais de uma hora’ na reta? Antes ou depois do 1?",
+           "howToFix": "Associar tempo real: “1 hora = ponto 1; 1h15min = depois do 1”"
+          }
+         }
+        ],
+        "finalAnswer": "4/5",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "13cleanRoom",
+        "step": 1,
+        "kcUsed": "IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_denominador_confundido_com_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Usar o numerador da fração dada ({A_num}/{A_den}) como valor no campo 'Number of parts' em vez do denominador",
+          "description": "Aluno confunde numerador e denominador e insere o numerador no campo de número de partes",
+          "mistakeLocation": "Na identificação do denominador para dividir a reta, o aluno seleciona o numerador da fração fornecida",
+          "diagnosticQuestion": "Na fração 5/4, qual número representa em quantas partes a unidade foi dividida?",
+          "feedback": "Você está usando os números certos! Só precisamos garantir que cada um vá no lugar certo. O número de baixo é o denominador — ele define as partes. Qual é ele?",
+          "howToFix": "Praticar com flashcards: mostrar frações e pedir para circular o denominador; associar 'denominador = divisor = divide a unidade'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_denominador_da_unidade_errada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den} * 2",
+          "buggyRule": "Multiplicar o denominador por 2 (porque a reta vai até 2) e usar esse valor como número de partes: {A_den} * 2",
+          "description": "Aluno acha que, como a reta vai até 2, precisa dobrar o número de partes",
+          "mistakeLocation": "Ao decidir quantas partes usar, o aluno multiplica o denominador por 2 pensando na extensão total da reta",
+          "diagnosticQuestion": "Quando dividimos a reta em partes, estamos dividindo cada UNIDADE ou toda a reta de uma vez?",
+          "feedback": "Boa observação sobre a reta ir até 2! Mas atenção: o denominador diz como dividir UMA unidade. Depois repetimos isso na próxima unidade.",
+          "howToFix": "Desenhar unidades 0–1 e 1–2 separadamente e dividir cada uma com o mesmo denominador",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_inteiro_ignorando_fracoes",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Ignorar a parte fracionária e marcar apenas a parte inteira (1, pois 5/4 > 1)",
+          "description": "Aluno vê que é maior que 1 e marca exatamente no 1, ignorando os 15 minutos extras",
+          "mistakeLocation": "Na interpretação da fração, o aluno arredonda para baixo e ignora a fração",
+          "diagnosticQuestion": "15 minutos é metade de uma hora? Um quarto? Quanto isso representa em fração de hora?",
+          "feedback": "Você percebeu que é mais de uma hora — muito bem! Agora, quanto é ‘um quarto de hora’? Vamos ver onde isso fica depois do 1.",
+          "howToFix": "Conectar com relógio: 15 min = 1/4 de hora; marcar 1h + 1/4h na reta",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "13cleanRoom",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marcas_fora_unidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Contar {A_num} marcas na reta dividida em {A_den} partes totais (0 a 2), resultando em posição {A_num}/{A_den} * 2 (ex: 5 marcas em 4 partes → 5/2)",
+          "description": "Aluno conta marcas globais na reta (0 a 2) como se cada marca fosse 1/{A_den}, mas esquece que há duas unidades, então cada unidade tem {A_den} partes",
+          "mistakeLocation": "Ao posicionar 5/4, o aluno conta 5 marcas na reta dividida em 4 partes entre 0 e 2, mas essa divisão cria apenas 4 intervalos no total, não por unidade",
+          "diagnosticQuestion": "Se você divide de 0 a 2 em 4 partes, quantas partes existem entre 0 e 1?",
+          "feedback": "Você contou direitinho, mas vamos pensar: se a reta inteira (0 a 2) tem 4 partes, então de 0 a 1 só tem 2 partes. Isso representa quartos?",
+          "howToFix": "Ensinar a sempre dividir CADA unidade (0–1, 1–2) separadamente com o denominador dado",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_posiciona_apenas_parte_fracionaria",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/{A_den}",
+          "buggyRule": "Marcar apenas a parte fracionária (1/4) em vez do valor total (1 + 1/4 = 5/4)",
+          "description": "Aluno foca só na fração além do inteiro e marca 1/4 em vez de 5/4",
+          "mistakeLocation": "Ao interpretar 5/4 como 1 inteiro + 1/4, o aluno marca só o 1/4, esquecendo de somar ao inteiro",
+          "diagnosticQuestion": "Se Chris levou 1 hora e MAIS 15 minutos, onde devemos começar a contar os 15 minutos?",
+          "feedback": "Você entendeu que há 15 minutos extras — excelente! Mas esses 15 minutos vêm DEPOIS da primeira hora. Então, partimos do 1, não do 0.",
+          "howToFix": "Usar linguagem de caminhada: “anda 1 inteiro, depois mais 1 passo de tamanho 1/4”",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inversao_fracao_posicionamento",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den}/{A_num}",
+          "buggyRule": "Posicionar a fração recíproca ({A_den}/{A_num}) na reta, geralmente por ter usado o numerador como número de partes e o denominador como marca",
+          "description": "Aluno inverte numerador e denominador tanto na divisão quanto na marcação, resultando em {A_den}/{A_num}",
+          "mistakeLocation": "Na sequência de ações: usa {A_num} como número de partes e {A_den} como posição, gerando {A_den}/{A_num}",
+          "diagnosticQuestion": "5/4 é maior ou menor que 1? E 4/5?",
+          "feedback": "Vamos comparar: 5/4 significa mais do que uma unidade inteira. E 4/5? Onde ele ficaria?",
+          "howToFix": "Comparar visualmente 4/5 (antes do 1) e 5/4 (depois do 1) com desenhos",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Marcar na metade (1/2 ou 1.5) por associação com “tempo parcial” ou “meio caminho”",
+          "description": "Aluno associa “arrumar o quarto” com “metade do trabalho” e marca 1.5 (ou 1/2)",
+          "mistakeLocation": "Na decisão da posição, o aluno ignora os números e usa uma referência familiar (metade)",
+          "diagnosticQuestion": "O enunciado dá um número exato: 5/4. Isso é igual a 1/2? A 1.5?",
+          "feedback": "Você está pensando em termos reais — legal! Mas aqui temos um número exato: 5/4. Vamos convertê-lo para decimal ou minutos para verificar.",
+          "howToFix": "Converter 5/4 para 1.25 ou 75 minutos e comparar com pontos conhecidos",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "13cleanRoom",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração",
+        "thinking": "Ah, Chris levou 5/4 horas... então preciso marcar 5/4 na reta numérica. Mas como faço isso? A fração é maior que 1, né?",
+        "result": "Identificou corretamente a fração 5/4",
+        "kcUsed": "FracGreater1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando uma fração é maior que 1, onde ela fica na reta numérica em relação ao número 1? Pense nisso!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, divida a reta numérica em partes iguais usando o denominador da fração. Depois, conte quantas dessas partes você precisa a partir do zero."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O denominador é 4, então divida a reta de 0 a 2 em 4 partes entre cada número inteiro. Depois, conte 5 dessas partes a partir do zero."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Divida a reta em quartos (partes de 1/4). Comece em 0 e vá contando: 1/4, 2/4, 3/4, 4/4 (=1), 5/4... onde fica o quinto traço?"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Digitar '4' no campo 'Number of parts' e clicar OK",
+        "thinking": "Preciso dividir a reta em 4 partes... mas será que é só entre 0 e 1 ou até o 2 também?",
+        "result": "Reta dividida corretamente em quartos de 0 a 2",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se a fração vai além de 1, será que basta dividir só até o 1? Onde termina sua reta numérica?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Divida toda a reta numérica (de 0 a 2) em partes iguais com base no denominador. Assim, você verá todos os quartos necessários!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "A reta vai até 2, então ao digitar 4 em 'Number of parts', cada unidade (0-1 e 1-2) será dividida em 4 partes. Isso te dá 8 divisões no total!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exato! Digite 4 e clique OK. Você verá marcas em 0, 1/4, 2/4, 3/4, 1, 5/4, 6/4, 7/4 e 2. Agora, qual delas é 5/4?"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 5/4 na reta numérica",
+        "thinking": "Vejo as marcas... 4/4 é o 1, então a próxima deve ser 5/4. É ali!",
+        "result": "Ponto marcado corretamente na posição 5/4",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Clicar em Done",
+        "thinking": "Acho que terminei. Marquei 5/4 direitinho.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracGreater1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "5/4",
+      "totalTime": 78,
+      "alternativeRoutes": [
+       {
+        "description": "Converter 5/4 para número misto (1 1/4) e localizar 1 inteiro + 1/4",
+        "steps": [
+         "Reconhecer que 5/4 = 1 + 1/4",
+         "Localizar 1 na reta",
+         "Contar 1/4 além do 1"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Tentar marcar diretamente sem dividir a reta (estimativa visual)",
+        "steps": [
+         "Olhar a reta",
+         "Adivinhar onde 1.25 estaria"
+        ],
+        "efficiency": "low",
+        "risk": "alta chance de erro por falta de precisão"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 6,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; as caixas da fração (F1/F2) existem mas a pergunta da fração não é exibida (a fração já está no enunciado); reta numérica de 0 a 2 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 2,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ }
+}

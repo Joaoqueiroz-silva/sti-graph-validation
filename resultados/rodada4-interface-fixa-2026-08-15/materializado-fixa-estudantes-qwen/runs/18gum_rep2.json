@@ -1,0 +1,2382 @@
+{
+ "id": "18gum",
+ "correctAnswer": "11/6",
+ "audit": {
+  "ok": true,
+  "stepCount": 7
+ },
+ "f1": 0.087,
+ "conceptual": 0.095,
+ "precision": 0.091,
+ "recall": 0.083,
+ "functionalAgreement": 0.25,
+ "functionalKappa": -0.263,
+ "missing": [
+  "-",
+  "5/3",
+  "-1",
+  "12",
+  "6"
+ ],
+ "extra": [
+  "6/11",
+  "2",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "6/11",
+  "2",
+  "11",
+  "2",
+  "1.0",
+  "2"
+ ],
+ "exercicio": "18gum",
+ "replica": 2,
+ "geradoEm": "2026-08-15T22:31:06.729Z",
+ "promptSha256": "357e6ad12fd38fc7a3b7dcc84e2bbcb1db47acb56c55e00e9d0a1a560fc00e3e",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:56:30.519Z"
+ },
+ "custo": {
+  "tokensEntrada": 7484,
+  "tokensSaida": 8223,
+  "usd": 0.03790722
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 7
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado do problema",
+    "kc": "IdenNumerator",
+    "valor": "Fração a ser representada: 11/6"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador identificado: 6"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador identificado: 11"
+   },
+   {
+    "indice": 4,
+    "acao": "Inserir o denominador no campo 'Number of parts' e clicar em OK para dividir a reta",
+    "kc": "DivNumLine",
+    "valor": "Reta numérica dividida em 6 partes por unidade (total de 12 segmentos entre 0 e 2)"
+   },
+   {
+    "indice": 5,
+    "acao": "Localizar a posição de 11/6 na reta numérica",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado na 11ª divisão da reta (equivalente a 11/6)"
+   },
+   {
+    "indice": 6,
+    "acao": "Digitar o numerador (11) no campo F1 e o denominador (6) no campo F2",
+    "kc": "IdenNumerator",
+    "valor": "F1 = 11, F2 = 6"
+   },
+   {
+    "indice": 7,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "FracGreater1",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6/11",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reformular com linguagem concreta: 'Quantos pacotes de 6 cabem em 11?' → isso é 11 ÷ 6 = 11/6.",
+    "buggyRule": "Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}",
+    "misconceptionId": "misc_inversao_fracoes_distribuicao"
+   },
+   {
+    "valor": "2",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar cubos ou desenhos: mostrar 1 pacote = 6 unidades; 11 unidades = 1 pacote + 5/6 → total = 11/6 pacotes.",
+    "buggyRule": "Responder com o número total de pacotes disponíveis ({total_pacotes}), ignorando que a distribuição usou apenas parte deles.",
+    "misconceptionId": "misc_responde_com_numero_inteiro_pacotes_totais"
+   },
+   {
+    "valor": "11",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar visualmente: '1 pacote = 6 chicletes = 1 inteiro na reta'. Então, para mostrar pedaços de pacote, dividimos cada inteiro em 6 partes.",
+    "buggyRule": "Usar o total de chicletes distribuídos ({total_dado}) como número de partes para dividir a reta.",
+    "misconceptionId": "misc_divide_pela_quantidade_dada"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Converter explicitamente: 'Quantos chicletes? 11. Quantos por pacote? 6. Então, número de pacotes = 11 ÷ 6 = 11/6.'",
+    "buggyRule": "",
+    "misconceptionId": "misc_ignora_representacao_fracionaria"
+   },
+   {
+    "valor": "1.0",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar com retas pré-divididas: identificar o valor de cada marca antes de contar.",
+    "buggyRule": "Contar {numerador} marcas a partir do zero, independentemente do valor real de cada marca, e marcar o ponto naquela posição.",
+    "misconceptionId": "misc_conta_marcas_em_vez_de_valor"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar: '1 na reta = 1 pacote = 6 chicletes'. Portanto, cada parte entre 0 e 1 deve valer 1/6.",
+    "buggyRule": "Usar o número total de pacotes ({total_pacotes}) como número de partes para dividir a reta.",
+    "misconceptionId": "misc_escala_baseada_no_total_de_pacotes"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa pergunta! Se cada pacote tem 6 chicletes, quantos chicletes formam 'um inteiro'? Pense: o que representa o todo aqui?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Conte quantos chicletes ele distribuiu (11) e lembre-se de que cada pacote completo tem 6. A fração será: (número de chicletes dados) sobre (chicletes por pacote)."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! O denominador é o número de chicletes em UM pacote. O numerador é quantos ele deu no total. Verifique: 11 chicletes dados, pacotes de 6."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Pense assim: se 6 chicletes = 1 pacote, então 11 chicletes = quantos pacotes? Escreva isso como fração: 11 sobre 6."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima observação! Se a fração tem denominador 6, em quantas partes iguais cada segmento de 0 a 1 deve ser dividido?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Continue assim! Digite o denominador (6) no campo 'Number of parts' e clique em OK. Isso dividirá a reta em intervalos de 1/6."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Certo! Para mostrar 11/6 na reta, você precisa que cada unidade esteja dividida em 6 partes. Digite 6 no campo e confirme."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Exatamente! O denominador é 6, então digite 6 em 'Number of parts' e clique em OK. Agora a reta terá marcas a cada 1/6."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Pense bem: se 6/6 = 1, quanto é 11/6? Está antes ou depois do 1 na reta?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Conte as marcas a partir do zero: 1/6, 2/6, ..., até chegar à 11ª marca. Essa é a posição de 11/6!"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Dica: 11/6 está entre 1 e 2. Conte 5 marcas depois do 1 (pois 6/6 = 1, então 7/6 é a primeira após 1, e 11/6 é a quinta)."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você consegue! Comece em 0 e conte: 1, 2, 3... até a 11ª divisão. Clique exatamente nessa marca — ela representa 11/6."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado do problema\\\",\\n          \\\"thinking\\\": \\\"Steve tinha 2 pacotes com 6 chicletes cada, totalizando 12 chicletes. Ele deu 11 chicletes, ou seja, 11 unidades. Como cada pacote tem 6 unidades, a fração de pacotes distribuídos é 11/6.\\\",\\n          \\\"result\\\": \\\"Fração a ser representada: 11/6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"Cada pacote tem 6 chicletes, então o todo (1 pacote) corresponde a 6 partes. O denominador é 6.\\\",\\n          \\\"result\\\": \\\"Denominador identificado: 6\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"Foram distribuídas 11 unidades, e como cada unidade é 1/6 de um pacote, o numerador é 11.\\\",\\n          \\\"result\\\": \\\"Numerador identificado: 11\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Inserir o denominador no campo 'Number of parts' e clicar em OK para dividir a reta\\\",\\n          \\\"thinking\\\": \\\"Para representar 11/6 na reta numérica de 0 a 2, preciso dividir cada unidade em 6 partes iguais. Como a reta vai até 2, terei 12 partes no total.\\\",\\n          \\\"result\\\": \\\"Reta numérica dividida em 6 partes por unidade (total de 12 segmentos entre 0 e 2)\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Localizar a posição de 11/6 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"11/6 está entre 1 (=6/6) e 2 (=12/6). Contando 11 marcas a partir do zero, chego à posição correta.\\\",\\n          \\\"result\\\": \\\"Ponto marcado na 11ª divisão da reta (equivalente a 11/6)\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Digitar o numerador (11) no campo F1 e o denominador (6) no campo F2\\\",\\n          \\\"thinking\\\": \\\"A fração correta é 11/6, então insiro esses valores nos campos apropriados.\\\",\\n          \\\"result\\\": \\\"F1 = 11, F2 = 6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os passos foram executados corretamente: fração identificada, reta dividida, ponto marcado, campos preenchidos.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{11}/{6}\\\",\\n      \\\"totalTime\\\": 38\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18gum\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador diretamente\\\",\\n              \\\"thinking\\\": \\\"Ele deu 11 chicletes, e cada pacote tem 6, então a fração deve ser 6/11.\\\",\\n              \\\"result\\\": \\\"Fração invertida\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_fracoes_distribuicao\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6/11\\\",\\n                \\\"description\\\": \\\"Aluno inverte numerador e denominador ao interpretar 'quantos pacotes foram distribuídos': coloca o tamanho do pacote no numerador e o total distribuído no denominador.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao identificar o que representa o todo (denominador) e quantas partes foram usadas (numerador), o aluno trocou os papéis: pensou que 6 era o 'total dado' e 11 era 'o que cabe em um pacote'.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que representa o 'todo' nessa situação: um pacote ou o total de chicletes? Quantos desses 'todos' ele usou?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você reconheceu os números 6 e 11 corretamente. Mas vamos pensar: se cada pacote tem 6 chicletes, quantos pacotes inteiros cabem em 11 chicletes? Isso nos ajuda a ver qual número vai em cima e qual vai embaixo.\\\",\\n                \\\"howToFix\\\": \\\"Reformular com linguagem concreta: 'Quantos pacotes de 6 cabem em 11?' → isso é 11 ÷ 6 = 11/6.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Definir 'Number of parts' na reta numérica\\\",\\n              \\\"thinking\\\": \\\"Como o denominador é 11, divido a reta em 11 partes.\\\",\\n              \\\"result\\\": \\\"Reta dividida incorretamente\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divide_pela_quantidade_dada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"11\\\",\\n                \\\"description\\\": \\\"Aluno divide a reta em tantas partes quanto o número total de chicletes dados (11), em vez de usar o tamanho do pacote (6) como unidade.\\\",\\n                \\\"mistakeLocation\\\": \\\"No campo 'Number of parts', o aluno usou o numerador da fração que imaginou (11) como o número de divisões, confundindo o que define a unidade da fração.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Cada divisão na reta representa uma parte de quê? De um pacote inteiro ou de algo diferente?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está atento à ideia de dividir a reta — ótimo! Mas cada divisão deve representar **uma parte de um pacote**. Se um pacote tem 6 chicletes, em quantas partes devemos dividir **cada unidade** (0 a 1, 1 a 2)?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar visualmente: '1 pacote = 6 chicletes = 1 inteiro na reta'. Então, para mostrar pedaços de pacote, dividimos cada inteiro em 6 partes.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar o ponto na reta\\\",\\n              \\\"thinking\\\": \\\"Conto 6 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Ponto marcado na posição errada\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_conta_marcas_em_vez_de_valor\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1.0\\\",\\n                \\\"description\\\": \\\"Aluno conta 6 marcas (assumindo 11 divisões) e para na sexta marca, que corresponde a 6/11 ≈ 0.55, mas como acha que está certo, marca perto de 1.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao marcar o ponto, o aluno conta posições/marcas sem considerar o valor fracionário que cada marca representa.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em 11 partes, quanto vale cada marca? E quanto valem 6 marcas juntas?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você contou com cuidado! Mas lembre-se: o valor do ponto depende do **tamanho de cada parte**, não só de quantas marcas você conta. Vamos verificar quanto vale cada divisão primeiro.\\\",\\n                \\\"howToFix\\\": \\\"Praticar com retas pré-divididas: identificar o valor de cada marca antes de contar.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"6/11\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Interpretar 'pacotes distribuídos' como número inteiro\\\",\\n              \\\"thinking\\\": \\\"Ele deu 11 chicletes, então distribuiu 11 pacotes... não, espera, são 2 pacotes no total... então talvez 2?\\\",\\n              \\\"result\\\": \\\"Responde com número inteiro (quantidade de pacotes disponíveis)\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_com_numero_inteiro_pacotes_totais\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno ignora a ideia de fração e responde com o número total de pacotes que Steve tinha (2), como se fosse a resposta direta à pergunta 'quantos pacotes distribuiu?'\\\",\\n                \\\"mistakeLocation\\\": \\\"Na interpretação da pergunta: o aluno entende 'quantos pacotes distribuiu' como 'quantos pacotes ele tinha', ignorando que ele distribuiu **parte** de dois pacotes.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Steve distribuiu todos os chicletes dos dois pacotes? Ele usou os dois pacotes inteiros ou só parte deles?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você lembrou que havia dois pacotes — isso é importante! Mas ele não deu os dois pacotes inteiros; ele deu 11 chicletes, que é mais que um pacote (6) e menos que dois (12). Então, quantos **pacotes completos** isso representa?\\\",\\n                \\\"howToFix\\\": \\\"Usar cubos ou desenhos: mostrar 1 pacote = 6 unidades; 11 unidades = 1 pacote + 5/6 → total = 11/6 pacotes.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Deixar campos de fração em branco ou preencher parcialmente\\\",\\n              \\\"thinking\\\": \\\"Se a resposta é 2, não preciso de fração.\\\",\\n              \\\"result\\\": \\\"Campos inconsistentes\\\",\\n              \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_ignora_representacao_fracionaria\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno insiste em responder com inteiro e ignora a necessidade de representar como fração, mesmo com interface exigindo dois campos.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher os campos F1 e F2, o aluno digita '2' em F1 e deixa F2 vazio ou coloca '1', mas não conecta com a ideia de 'partes de pacote'.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta pede uma **fração** que descreva o número de pacotes distribuídos. Mesmo que dê mais de 1, ainda é uma fração. Como escrevemos '11 chicletes' em termos de 'pacotes de 6'?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Percebo que você pensa em termos de pacotes inteiros — ótimo início! Mas como 11 não é múltiplo de 6, precisamos usar uma fração para mostrar exatamente quanto foi usado. Vamos tentar expressar 11 como 'quantos sextos'?\\\",\\n                \\\"howToFix\\\": \\\"Converter explicitamente: 'Quantos chicletes? 11. Quantos por pacote? 6. Então, número de pacotes = 11 ÷ 6 = 11/6.'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Dividir reta em 2 partes (por causa do '2 pacotes')\\\",\\n              \\\"thinking\\\": \\\"São dois pacotes, então divido a reta em 2.\\\",\\n              \\\"result\\\": \\\"Escala incorreta\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_baseada_no_total_de_pacotes\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno usa o número total de pacotes (2) como base para dividir a reta, em vez de usar o conteúdo de um pacote (6) como unidade fracionária.\\\",\\n                \\\"mistakeLocation\\\": \\\"Na definição do número de partes, o aluno associa '2 pacotes' ao número de divisões da reta, confundindo quantidade de objetos com unidade de medida.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quando dividimos a reta para mostrar frações, estamos mostrando partes de **um inteiro**. Neste caso, o que é o 'inteiro'? Um pacote ou dois pacotes?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está tentando usar a informação dos dois pacotes — isso mostra que está lendo com atenção! Mas na reta numérica, o '1' representa **um pacote inteiro**. Então, para mostrar partes de um pacote, em quantas partes devemos dividir o segmento de 0 a 1?\\\",\\n                \\\"howToFix\\\": \\\"Destacar: '1 na reta = 1 pacote = 6 chicletes'. Portanto, cada parte entre 0 e 1 deve valer 1/6.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"2\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"18gum\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_fracoes_distribuicao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"6/11\\\",\\n              \\\"buggyRule\\\": \\\"Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}\\\",\\n              \\\"description\\\": \\\"Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do que constitui o numerador: o aluno vê '6 por pacote' como o que está sendo medido, em vez de ver '11 chicletes dados' como múltiplos de uma unidade de 6.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tivesse que dizer 'quantos pacotes de 6 cabem em 11 chicletes?', qual conta faria? O resultado dessa conta é a fração que buscamos.\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Você usou os números certos. Agora pense: estamos medindo chicletes em **unidades de pacote**. Cada pacote é uma unidade. Então, 11 chicletes equivalem a quantas dessas unidades?\\\",\\n              \\\"howToFix\\\": \\\"Modelar como divisão: 11 ÷ 6 = ? → isso é exatamente 11/6.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_numero_inteiro_pacotes_totais\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o número total de pacotes disponíveis ({total_pacotes}), ignorando que a distribuição usou apenas parte deles.\\\",\\n              \\\"description\\\": \\\"Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da pergunta 'número de pacotes distribuídos': o aluno assume que 'distribuídos' = 'possuídos', sem considerar uso parcial.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Steve tinha 2 pacotes, mas distribuiu 11 chicletes. Um pacote tem 6, então ele usou os 2 pacotes inteiros ou só parte deles?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou corretamente que havia 2 pacotes — isso é um bom ponto de partida! Mas ele não deu 2 pacotes inteiros; ele deu 11 chicletes, que é 1 pacote inteiro e mais 5 chicletes do segundo. Isso é mais ou menos que 2 pacotes?\\\",\\n              \\\"howToFix\\\": \\\"Usar material concreto: montar dois grupos de 6, destacar 11 unidades, e perguntar: 'Isso equivale a quantos grupos de 6?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_total_dado_sem_converter\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"11\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o número total de chicletes distribuídos ({total_dado}), sem convertê-lo para unidades de pacote.\\\",\\n              \\\"description\\\": \\\"Aluno foca no '11 chicletes' e esquece que a pergunta pede o número de **pacotes**, não de chicletes.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na transição da quantidade de chicletes para quantidade de pacotes: o aluno não aplica a conversão 'chicletes → pacotes'.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre **pacotes**, não sobre chicletes. Como transformamos 11 chicletes em número de pacotes, sabendo que cada pacote tem 6?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o total de chicletes — muito bem! Agora, precisamos responder em termos de **pacotes**. Se cada pacote tem 6, quantos pacotes cabem em 11 chicletes?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a relação: 'número de pacotes = total de chicletes ÷ chicletes por pacote'.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"18gum\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pela_quantidade_dada\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"11\\\",\\n              \\\"buggyRule\\\": \\\"Usar o total de chicletes distribuídos ({total_dado}) como número de partes para dividir a reta.\\\",\\n              \\\"description\\\": \\\"Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do número de divisões: o aluno associa o número mais saliente (11) ao número de partes, em vez de usar o denominador da fração correta (6).\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Cada divisão na reta representa uma parte de **um pacote inteiro**. Se um pacote tem 6 chicletes, em quantas partes devemos dividir o segmento de 0 a 1?\\\",\\n              \\\"feedback\\\": \\\"Você está dividindo a reta — ótimo! Mas cada divisão deve representar **1 chiclete de um pacote de 6**, ou seja, 1/6. Então, quantas divisões precisamos entre 0 e 1?\\\",\\n              \\\"howToFix\\\": \\\"Relacionar visualmente: '1 inteiro = 1 pacote = 6 chicletes → divida 0 a 1 em 6 partes iguais.'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escala_baseada_no_total_de_pacotes\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número total de pacotes ({total_pacotes}) como número de partes para dividir a reta.\\\",\\n              \\\"description\\\": \\\"Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição da escala: o aluno usa o número de pacotes como base para a divisão da reta, em vez de usar o conteúdo de um único pacote.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta numérica mostra valores de **pacotes**. O número 1 representa um pacote inteiro. Para mostrar metades de pacote, dividimos em 2. Mas aqui, queremos mostrar **sextos**. Por quê?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Você usou a informação dos 2 pacotes. Mas na reta, o foco é: **quanto vale um pacote?** Como representamos partes menores que um pacote?\\\",\\n              \\\"howToFix\\\": \\\"Refazer com foco na unidade: 'O que é 1 na reta? Um pacote. Um pacote tem 6 chicletes. Então, 1/6 = 1 chiclete.'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pelo_denominador_invertido\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"11\\\",\\n              \\\"buggyRule\\\": \\\"Se o aluno escreveu a fração invertida (6/11), ele divide a reta em 11 partes (o denominador da fração que ele escreveu).\\\",\\n              \\\"description\\\": \\\"Consistência interna com erro anterior: aluno divide a reta de acordo com o denominador da fração incorreta que digitou.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ação de dividir a reta, após ter escrito 6/11, o aluno usa 11 como número de partes, reforçando o erro conceitual.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se sua fração é 6/11, cada inteiro deveria estar dividido em 11 partes. Mas será que 11 partes representam corretamente um pacote de 6 chicletes?\\\",\\n              \\\"feedback\\\": \\\"Você está sendo consistente com a fração que escreveu — isso mostra organização! Mas vamos revisar: a fração deve representar **pacotes**, e cada pacote tem 6 chicletes. Isso muda como dividimos a reta?\\\",\\n              \\\"howToFix\\\": \\\"Conectar fração e reta: 'O denominador diz em quantas partes dividimos **cada inteiro**. Aqui, o inteiro é 1 pacote = 6 chicletes → denominador = 6.'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"18gum\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_conta_marcas_em_vez_de_valor\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"6\\\",\\n              \\\"buggyRule\\\": \\\"Contar {numerador} marcas a partir do zero, independentemente do valor real de cada marca, e marcar o ponto naquela posição.\\\",\\n              \\\"description\\\": \\\"Aluno conta marcas como se cada uma valesse 1, ignorando que o valor depende do número de divisões.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar o ponto, o aluno faz contagem ordinal de marcas em vez de cálculo fracionário.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em N partes, quanto vale a marca número K? É K ou K/N?\\\",\\n              \\\"feedback\\\": \\\"Você contou as marcas com atenção! Mas na reta numérica, o valor do ponto não é o número da marca, e sim **quantas partes do inteiro** ele representa. Vamos calcular isso juntos?\\\",\\n              \\\"howToFix\\\": \\\"Praticar com exemplos simples: reta dividida em 4, marcar 3/4 → explicar que é a 3ª marca, mas o valor é 3/4, não 3.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Posicionar o ponto próximo à metade (0.5) porque 11 está 'perto do meio' entre 6 e 12, sem cálculo preciso.\\\",\\n              \\\"description\\\": \\\"Aluno usa julgamento intuitivo de magnitude ('11 é quase no meio de 6 e 12') e marca perto de 1.5 ou 0.5, dependendo da confusão.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual da posição, o aluno compara 11 com 6 e 12 e assume valor intermediário, sem converter para fração.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"11 chicletes é mais ou menos que um pacote? Mais ou menos que dois? Onde isso ficaria entre 1 e 2 na reta?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na relação entre os números — isso é ótimo! 11 está entre 6 e 12, então o ponto deve estar entre 1 e 2. Mas onde exatamente? Vamos usar frações para ser mais preciso.\\\",\\n              \\\"howToFix\\\": \\\"Calcular: 11/6 = 1 + 5/6 → marcar logo antes do 2.\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_no_total_de_pacotes\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Marcar o ponto exatamente em 2, assumindo que usar dois pacotes (mesmo que parcialmente) equivale a 2 inteiros.\\\",\\n              \\\"description\\\": \\\"Aluno associa 'usou dois pacotes' a 'valor = 2', ignorando que o segundo pacote não foi totalmente usado.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na localização do ponto, o aluno arredonda para cima ou assume uso completo dos dois pacotes.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Steve usou os dois pacotes **inteiros**? Ele deu 12 chicletes ou 11?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que ele precisou abrir dois pacotes — isso está certo! Mas ele não deu todos os chicletes do segundo pacote. Então, o valor deve ser um pouco **menos que 2**. Onde seria isso?\\\",\\n              \\\"howToFix\\\": \\\"Mostrar: 2 pacotes = 12 chicletes. Ele deu 11, então faltou 1 chiclete para chegar a 2 → posição = 2 - 1/6 = 11/6.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"18gum\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar o que é pedido\\\",\\n          \\\"thinking\\\": \\\"Ele deu 11 chicletes no total, e cada pacote tem 6. Então ele deu mais que um pacote... mas como transformar isso em fração?\\\",\\n          \\\"result\\\": \\\"Entendi que preciso representar 11 chicletes em termos de pacotes de 6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Se cada pacote tem 6 chicletes, quantos chicletes formam 'um inteiro'? Pense: o que representa o todo aqui?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Conte quantos chicletes ele distribuiu (11) e lembre-se de que cada pacote completo tem 6. A fração será: (número de chicletes dados) sobre (chicletes por pacote).\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O denominador é o número de chicletes em UM pacote. O numerador é quantos ele deu no total. Verifique: 11 chicletes dados, pacotes de 6.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Pense assim: se 6 chicletes = 1 pacote, então 11 chicletes = quantos pacotes? Escreva isso como fração: 11 sobre 6.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os campos F1 (numerador) e F2 (denominador)\\\",\\n          \\\"thinking\\\": \\\"Numerador é 11, denominador é 6... mas será que posso simplificar? Não, porque 11 é primo e não divide 6.\\\",\\n          \\\"result\\\": \\\"F1 = 11, F2 = 6\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Dividir a reta numérica usando o campo 'Number of parts'\\\",\\n          \\\"thinking\\\": \\\"A reta vai de 0 a 2. Como o denominador é 6, preciso dividir cada unidade em 6 partes... então entre 0 e 1 tem 6 traços, e entre 1 e 2 também.\\\",\\n          \\\"result\\\": \\\"Digitei 6 no campo 'denom' e cliquei em OK para dividir a reta em sextos\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima observação! Se a fração tem denominador 6, em quantas partes iguais cada segmento de 0 a 1 deve ser dividido?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Digite o denominador (6) no campo 'Number of parts' e clique em OK. Isso dividirá a reta em intervalos de 1/6.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Certo! Para mostrar 11/6 na reta, você precisa que cada unidade esteja dividida em 6 partes. Digite 6 no campo e confirme.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! O denominador é 6, então digite 6 em 'Number of parts' e clique em OK. Agora a reta terá marcas a cada 1/6.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 11/6 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"11/6 é mais que 1 (que é 6/6) e menos que 2 (12/6). Então fica entre 1 e 2, exatamente no 5º traço depois do 1... ou seja, 1 + 5/6 = 11/6.\\\",\\n          \\\"result\\\": \\\"Marquei o ponto na 11ª marca a partir do 0 (ou 5ª após o 1)\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine, FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense bem: se 6/6 = 1, quanto é 11/6? Está antes ou depois do 1 na reta?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Conte as marcas a partir do zero: 1/6, 2/6, ..., até chegar à 11ª marca. Essa é a posição de 11/6!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 11/6 está entre 1 e 2. Conte 5 marcas depois do 1 (pois 6/6 = 1, então 7/6 é a primeira após 1, e 11/6 é a quinta).\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! Comece em 0 e conte: 1, 2, 3... até a 11ª divisão. Clique exatamente nessa marca — ela representa 11/6.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Clicar em Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Verifiquei tudo: fração correta, reta dividida, ponto marcado. Deve estar certo.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"11/6\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar adição de frações: 6/6 + 5/6 = 11/6, pensando em pacotes inteiros e restos\\\",\\n          \\\"steps\\\": [\\\"Reconhecer que 1 pacote = 6/6\\\", \\\"Sobram 5 chicletes além do primeiro pacote\\\", \\\"Somar 6/6 + 5/6\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Contar manualmente as marcas na reta sem entender o denominador\\\",\\n          \\\"steps\\\": [\\\"Tentar dividir a reta em 11 partes\\\", \\\"Corrigir ao perceber que não corresponde aos pacotes\\\", \\\"Redividir em 6 partes\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "18gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado do problema",
+        "thinking": "Steve tinha 2 pacotes com 6 chicletes cada, totalizando 12 chicletes. Ele deu 11 chicletes, ou seja, 11 unidades. Como cada pacote tem 6 unidades, a fração de pacotes distribuídos é 11/6.",
+        "result": "Fração a ser representada: 11/6",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o denominador da fração",
+        "thinking": "Cada pacote tem 6 chicletes, então o todo (1 pacote) corresponde a 6 partes. O denominador é 6.",
+        "result": "Denominador identificado: 6",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o numerador da fração",
+        "thinking": "Foram distribuídas 11 unidades, e como cada unidade é 1/6 de um pacote, o numerador é 11.",
+        "result": "Numerador identificado: 11",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Inserir o denominador no campo 'Number of parts' e clicar em OK para dividir a reta",
+        "thinking": "Para representar 11/6 na reta numérica de 0 a 2, preciso dividir cada unidade em 6 partes iguais. Como a reta vai até 2, terei 12 partes no total.",
+        "result": "Reta numérica dividida em 6 partes por unidade (total de 12 segmentos entre 0 e 2)",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Localizar a posição de 11/6 na reta numérica",
+        "thinking": "11/6 está entre 1 (=6/6) e 2 (=12/6). Contando 11 marcas a partir do zero, chego à posição correta.",
+        "result": "Ponto marcado na 11ª divisão da reta (equivalente a 11/6)",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Digitar o numerador (11) no campo F1 e o denominador (6) no campo F2",
+        "thinking": "A fração correta é 11/6, então insiro esses valores nos campos apropriados.",
+        "result": "F1 = 11, F2 = 6",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todos os passos foram executados corretamente: fração identificada, reta dividida, ponto marcado, campos preenchidos.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 3,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{11}/{6}",
+      "totalTime": 38
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "18gum",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador diretamente",
+          "thinking": "Ele deu 11 chicletes, e cada pacote tem 6, então a fração deve ser 6/11.",
+          "result": "Fração invertida",
+          "kcUsed": "IdenNumerator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_fracoes_distribuicao",
+           "type": "conceptual_error",
+           "wrongAnswer": "6/11",
+           "description": "Aluno inverte numerador e denominador ao interpretar 'quantos pacotes foram distribuídos': coloca o tamanho do pacote no numerador e o total distribuído no denominador.",
+           "mistakeLocation": "Ao identificar o que representa o todo (denominador) e quantas partes foram usadas (numerador), o aluno trocou os papéis: pensou que 6 era o 'total dado' e 11 era 'o que cabe em um pacote'.",
+           "diagnosticQuestion": "O que representa o 'todo' nessa situação: um pacote ou o total de chicletes? Quantos desses 'todos' ele usou?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você reconheceu os números 6 e 11 corretamente. Mas vamos pensar: se cada pacote tem 6 chicletes, quantos pacotes inteiros cabem em 11 chicletes? Isso nos ajuda a ver qual número vai em cima e qual vai embaixo.",
+           "howToFix": "Reformular com linguagem concreta: 'Quantos pacotes de 6 cabem em 11?' → isso é 11 ÷ 6 = 11/6."
+          }
+         },
+         {
+          "step": 2,
+          "action": "Definir 'Number of parts' na reta numérica",
+          "thinking": "Como o denominador é 11, divido a reta em 11 partes.",
+          "result": "Reta dividida incorretamente",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divide_pela_quantidade_dada",
+           "type": "procedural_error",
+           "wrongAnswer": "11",
+           "description": "Aluno divide a reta em tantas partes quanto o número total de chicletes dados (11), em vez de usar o tamanho do pacote (6) como unidade.",
+           "mistakeLocation": "No campo 'Number of parts', o aluno usou o numerador da fração que imaginou (11) como o número de divisões, confundindo o que define a unidade da fração.",
+           "diagnosticQuestion": "Cada divisão na reta representa uma parte de quê? De um pacote inteiro ou de algo diferente?",
+           "severity": "moderate",
+           "feedback": "Você está atento à ideia de dividir a reta — ótimo! Mas cada divisão deve representar **uma parte de um pacote**. Se um pacote tem 6 chicletes, em quantas partes devemos dividir **cada unidade** (0 a 1, 1 a 2)?",
+           "howToFix": "Relacionar visualmente: '1 pacote = 6 chicletes = 1 inteiro na reta'. Então, para mostrar pedaços de pacote, dividimos cada inteiro em 6 partes."
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar o ponto na reta",
+          "thinking": "Conto 6 marcas a partir do zero.",
+          "result": "Ponto marcado na posição errada",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_conta_marcas_em_vez_de_valor",
+           "type": "count_error",
+           "wrongAnswer": "1.0",
+           "description": "Aluno conta 6 marcas (assumindo 11 divisões) e para na sexta marca, que corresponde a 6/11 ≈ 0.55, mas como acha que está certo, marca perto de 1.",
+           "mistakeLocation": "Ao marcar o ponto, o aluno conta posições/marcas sem considerar o valor fracionário que cada marca representa.",
+           "diagnosticQuestion": "Se a reta está dividida em 11 partes, quanto vale cada marca? E quanto valem 6 marcas juntas?",
+           "severity": "moderate",
+           "feedback": "Você contou com cuidado! Mas lembre-se: o valor do ponto depende do **tamanho de cada parte**, não só de quantas marcas você conta. Vamos verificar quanto vale cada divisão primeiro.",
+           "howToFix": "Praticar com retas pré-divididas: identificar o valor de cada marca antes de contar."
+          }
+         }
+        ],
+        "finalAnswer": "6/11",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Interpretar 'pacotes distribuídos' como número inteiro",
+          "thinking": "Ele deu 11 chicletes, então distribuiu 11 pacotes... não, espera, são 2 pacotes no total... então talvez 2?",
+          "result": "Responde com número inteiro (quantidade de pacotes disponíveis)",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_com_numero_inteiro_pacotes_totais",
+           "type": "conceptual_error",
+           "wrongAnswer": "2",
+           "description": "Aluno ignora a ideia de fração e responde com o número total de pacotes que Steve tinha (2), como se fosse a resposta direta à pergunta 'quantos pacotes distribuiu?'",
+           "mistakeLocation": "Na interpretação da pergunta: o aluno entende 'quantos pacotes distribuiu' como 'quantos pacotes ele tinha', ignorando que ele distribuiu **parte** de dois pacotes.",
+           "diagnosticQuestion": "Steve distribuiu todos os chicletes dos dois pacotes? Ele usou os dois pacotes inteiros ou só parte deles?",
+           "severity": "high",
+           "feedback": "Você lembrou que havia dois pacotes — isso é importante! Mas ele não deu os dois pacotes inteiros; ele deu 11 chicletes, que é mais que um pacote (6) e menos que dois (12). Então, quantos **pacotes completos** isso representa?",
+           "howToFix": "Usar cubos ou desenhos: mostrar 1 pacote = 6 unidades; 11 unidades = 1 pacote + 5/6 → total = 11/6 pacotes."
+          }
+         },
+         {
+          "step": 2,
+          "action": "Deixar campos de fração em branco ou preencher parcialmente",
+          "thinking": "Se a resposta é 2, não preciso de fração.",
+          "result": "Campos inconsistentes",
+          "kcUsed": "FracGreater1",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_ignora_representacao_fracionaria",
+           "type": "conceptual_error",
+           "wrongAnswer": "2",
+           "description": "Aluno insiste em responder com inteiro e ignora a necessidade de representar como fração, mesmo com interface exigindo dois campos.",
+           "mistakeLocation": "Ao preencher os campos F1 e F2, o aluno digita '2' em F1 e deixa F2 vazio ou coloca '1', mas não conecta com a ideia de 'partes de pacote'.",
+           "diagnosticQuestion": "A pergunta pede uma **fração** que descreva o número de pacotes distribuídos. Mesmo que dê mais de 1, ainda é uma fração. Como escrevemos '11 chicletes' em termos de 'pacotes de 6'?",
+           "severity": "high",
+           "feedback": "Percebo que você pensa em termos de pacotes inteiros — ótimo início! Mas como 11 não é múltiplo de 6, precisamos usar uma fração para mostrar exatamente quanto foi usado. Vamos tentar expressar 11 como 'quantos sextos'?",
+           "howToFix": "Converter explicitamente: 'Quantos chicletes? 11. Quantos por pacote? 6. Então, número de pacotes = 11 ÷ 6 = 11/6.'"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Dividir reta em 2 partes (por causa do '2 pacotes')",
+          "thinking": "São dois pacotes, então divido a reta em 2.",
+          "result": "Escala incorreta",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_baseada_no_total_de_pacotes",
+           "type": "procedural_error",
+           "wrongAnswer": "2",
+           "description": "Aluno usa o número total de pacotes (2) como base para dividir a reta, em vez de usar o conteúdo de um pacote (6) como unidade fracionária.",
+           "mistakeLocation": "Na definição do número de partes, o aluno associa '2 pacotes' ao número de divisões da reta, confundindo quantidade de objetos com unidade de medida.",
+           "diagnosticQuestion": "Quando dividimos a reta para mostrar frações, estamos mostrando partes de **um inteiro**. Neste caso, o que é o 'inteiro'? Um pacote ou dois pacotes?",
+           "severity": "moderate",
+           "feedback": "Você está tentando usar a informação dos dois pacotes — isso mostra que está lendo com atenção! Mas na reta numérica, o '1' representa **um pacote inteiro**. Então, para mostrar partes de um pacote, em quantas partes devemos dividir o segmento de 0 a 1?",
+           "howToFix": "Destacar: '1 na reta = 1 pacote = 6 chicletes'. Portanto, cada parte entre 0 e 1 deve valer 1/6."
+          }
+         }
+        ],
+        "finalAnswer": "2",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "18gum",
+        "step": 1,
+        "kcUsed": "IdenNumerator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_fracoes_distribuicao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "6/11",
+          "buggyRule": "Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}",
+          "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+          "mistakeLocation": "Na identificação do que constitui o numerador: o aluno vê '6 por pacote' como o que está sendo medido, em vez de ver '11 chicletes dados' como múltiplos de uma unidade de 6.",
+          "diagnosticQuestion": "Se você tivesse que dizer 'quantos pacotes de 6 cabem em 11 chicletes?', qual conta faria? O resultado dessa conta é a fração que buscamos.",
+          "feedback": "Boa tentativa! Você usou os números certos. Agora pense: estamos medindo chicletes em **unidades de pacote**. Cada pacote é uma unidade. Então, 11 chicletes equivalem a quantas dessas unidades?",
+          "howToFix": "Modelar como divisão: 11 ÷ 6 = ? → isso é exatamente 11/6.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_numero_inteiro_pacotes_totais",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Responder com o número total de pacotes disponíveis ({total_pacotes}), ignorando que a distribuição usou apenas parte deles.",
+          "description": "Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).",
+          "mistakeLocation": "Na interpretação da pergunta 'número de pacotes distribuídos': o aluno assume que 'distribuídos' = 'possuídos', sem considerar uso parcial.",
+          "diagnosticQuestion": "Steve tinha 2 pacotes, mas distribuiu 11 chicletes. Um pacote tem 6, então ele usou os 2 pacotes inteiros ou só parte deles?",
+          "feedback": "Você lembrou corretamente que havia 2 pacotes — isso é um bom ponto de partida! Mas ele não deu 2 pacotes inteiros; ele deu 11 chicletes, que é 1 pacote inteiro e mais 5 chicletes do segundo. Isso é mais ou menos que 2 pacotes?",
+          "howToFix": "Usar material concreto: montar dois grupos de 6, destacar 11 unidades, e perguntar: 'Isso equivale a quantos grupos de 6?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_total_dado_sem_converter",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "11",
+          "buggyRule": "Responder com o número total de chicletes distribuídos ({total_dado}), sem convertê-lo para unidades de pacote.",
+          "description": "Aluno foca no '11 chicletes' e esquece que a pergunta pede o número de **pacotes**, não de chicletes.",
+          "mistakeLocation": "Na transição da quantidade de chicletes para quantidade de pacotes: o aluno não aplica a conversão 'chicletes → pacotes'.",
+          "diagnosticQuestion": "A pergunta é sobre **pacotes**, não sobre chicletes. Como transformamos 11 chicletes em número de pacotes, sabendo que cada pacote tem 6?",
+          "feedback": "Você acertou o total de chicletes — muito bem! Agora, precisamos responder em termos de **pacotes**. Se cada pacote tem 6, quantos pacotes cabem em 11 chicletes?",
+          "howToFix": "Ensinar a relação: 'número de pacotes = total de chicletes ÷ chicletes por pacote'.",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "18gum",
+        "step": 2,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_pela_quantidade_dada",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "11",
+          "buggyRule": "Usar o total de chicletes distribuídos ({total_dado}) como número de partes para dividir a reta.",
+          "description": "Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).",
+          "mistakeLocation": "Na escolha do número de divisões: o aluno associa o número mais saliente (11) ao número de partes, em vez de usar o denominador da fração correta (6).",
+          "diagnosticQuestion": "Cada divisão na reta representa uma parte de **um pacote inteiro**. Se um pacote tem 6 chicletes, em quantas partes devemos dividir o segmento de 0 a 1?",
+          "feedback": "Você está dividindo a reta — ótimo! Mas cada divisão deve representar **1 chiclete de um pacote de 6**, ou seja, 1/6. Então, quantas divisões precisamos entre 0 e 1?",
+          "howToFix": "Relacionar visualmente: '1 inteiro = 1 pacote = 6 chicletes → divida 0 a 1 em 6 partes iguais.'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_escala_baseada_no_total_de_pacotes",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Usar o número total de pacotes ({total_pacotes}) como número de partes para dividir a reta.",
+          "description": "Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.",
+          "mistakeLocation": "Na definição da escala: o aluno usa o número de pacotes como base para a divisão da reta, em vez de usar o conteúdo de um único pacote.",
+          "diagnosticQuestion": "A reta numérica mostra valores de **pacotes**. O número 1 representa um pacote inteiro. Para mostrar metades de pacote, dividimos em 2. Mas aqui, queremos mostrar **sextos**. Por quê?",
+          "feedback": "Interessante! Você usou a informação dos 2 pacotes. Mas na reta, o foco é: **quanto vale um pacote?** Como representamos partes menores que um pacote?",
+          "howToFix": "Refazer com foco na unidade: 'O que é 1 na reta? Um pacote. Um pacote tem 6 chicletes. Então, 1/6 = 1 chiclete.'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_divide_pelo_denominador_invertido",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "11",
+          "buggyRule": "Se o aluno escreveu a fração invertida (6/11), ele divide a reta em 11 partes (o denominador da fração que ele escreveu).",
+          "description": "Consistência interna com erro anterior: aluno divide a reta de acordo com o denominador da fração incorreta que digitou.",
+          "mistakeLocation": "Na ação de dividir a reta, após ter escrito 6/11, o aluno usa 11 como número de partes, reforçando o erro conceitual.",
+          "diagnosticQuestion": "Se sua fração é 6/11, cada inteiro deveria estar dividido em 11 partes. Mas será que 11 partes representam corretamente um pacote de 6 chicletes?",
+          "feedback": "Você está sendo consistente com a fração que escreveu — isso mostra organização! Mas vamos revisar: a fração deve representar **pacotes**, e cada pacote tem 6 chicletes. Isso muda como dividimos a reta?",
+          "howToFix": "Conectar fração e reta: 'O denominador diz em quantas partes dividimos **cada inteiro**. Aqui, o inteiro é 1 pacote = 6 chicletes → denominador = 6.'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "18gum",
+        "step": 3,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_conta_marcas_em_vez_de_valor",
+          "type": "count_error",
+          "wrongAnswerPattern": "6",
+          "buggyRule": "Contar {numerador} marcas a partir do zero, independentemente do valor real de cada marca, e marcar o ponto naquela posição.",
+          "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor depende do número de divisões.",
+          "mistakeLocation": "Ao posicionar o ponto, o aluno faz contagem ordinal de marcas em vez de cálculo fracionário.",
+          "diagnosticQuestion": "Se a reta está dividida em N partes, quanto vale a marca número K? É K ou K/N?",
+          "feedback": "Você contou as marcas com atenção! Mas na reta numérica, o valor do ponto não é o número da marca, e sim **quantas partes do inteiro** ele representa. Vamos calcular isso juntos?",
+          "howToFix": "Praticar com exemplos simples: reta dividida em 4, marcar 3/4 → explicar que é a 3ª marca, mas o valor é 3/4, não 3.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Posicionar o ponto próximo à metade (0.5) porque 11 está 'perto do meio' entre 6 e 12, sem cálculo preciso.",
+          "description": "Aluno usa julgamento intuitivo de magnitude ('11 é quase no meio de 6 e 12') e marca perto de 1.5 ou 0.5, dependendo da confusão.",
+          "mistakeLocation": "Na estimativa visual da posição, o aluno compara 11 com 6 e 12 e assume valor intermediário, sem converter para fração.",
+          "diagnosticQuestion": "11 chicletes é mais ou menos que um pacote? Mais ou menos que dois? Onde isso ficaria entre 1 e 2 na reta?",
+          "feedback": "Você está pensando na relação entre os números — isso é ótimo! 11 está entre 6 e 12, então o ponto deve estar entre 1 e 2. Mas onde exatamente? Vamos usar frações para ser mais preciso.",
+          "howToFix": "Calcular: 11/6 = 1 + 5/6 → marcar logo antes do 2.",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_posiciona_no_total_de_pacotes",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Marcar o ponto exatamente em 2, assumindo que usar dois pacotes (mesmo que parcialmente) equivale a 2 inteiros.",
+          "description": "Aluno associa 'usou dois pacotes' a 'valor = 2', ignorando que o segundo pacote não foi totalmente usado.",
+          "mistakeLocation": "Na localização do ponto, o aluno arredonda para cima ou assume uso completo dos dois pacotes.",
+          "diagnosticQuestion": "Steve usou os dois pacotes **inteiros**? Ele deu 12 chicletes ou 11?",
+          "feedback": "Você percebeu que ele precisou abrir dois pacotes — isso está certo! Mas ele não deu todos os chicletes do segundo pacote. Então, o valor deve ser um pouco **menos que 2**. Onde seria isso?",
+          "howToFix": "Mostrar: 2 pacotes = 12 chicletes. Ele deu 11, então faltou 1 chiclete para chegar a 2 → posição = 2 - 1/6 = 11/6.",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "18gum",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar o que é pedido",
+        "thinking": "Ele deu 11 chicletes no total, e cada pacote tem 6. Então ele deu mais que um pacote... mas como transformar isso em fração?",
+        "result": "Entendi que preciso representar 11 chicletes em termos de pacotes de 6",
+        "kcUsed": "IdenNumerator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Se cada pacote tem 6 chicletes, quantos chicletes formam 'um inteiro'? Pense: o que representa o todo aqui?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Conte quantos chicletes ele distribuiu (11) e lembre-se de que cada pacote completo tem 6. A fração será: (número de chicletes dados) sobre (chicletes por pacote)."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O denominador é o número de chicletes em UM pacote. O numerador é quantos ele deu no total. Verifique: 11 chicletes dados, pacotes de 6."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Pense assim: se 6 chicletes = 1 pacote, então 11 chicletes = quantos pacotes? Escreva isso como fração: 11 sobre 6."
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher os campos F1 (numerador) e F2 (denominador)",
+        "thinking": "Numerador é 11, denominador é 6... mas será que posso simplificar? Não, porque 11 é primo e não divide 6.",
+        "result": "F1 = 11, F2 = 6",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Dividir a reta numérica usando o campo 'Number of parts'",
+        "thinking": "A reta vai de 0 a 2. Como o denominador é 6, preciso dividir cada unidade em 6 partes... então entre 0 e 1 tem 6 traços, e entre 1 e 2 também.",
+        "result": "Digitei 6 no campo 'denom' e cliquei em OK para dividir a reta em sextos",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima observação! Se a fração tem denominador 6, em quantas partes iguais cada segmento de 0 a 1 deve ser dividido?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Digite o denominador (6) no campo 'Number of parts' e clique em OK. Isso dividirá a reta em intervalos de 1/6."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Certo! Para mostrar 11/6 na reta, você precisa que cada unidade esteja dividida em 6 partes. Digite 6 no campo e confirme."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! O denominador é 6, então digite 6 em 'Number of parts' e clique em OK. Agora a reta terá marcas a cada 1/6."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto correspondente a 11/6 na reta numérica",
+        "thinking": "11/6 é mais que 1 (que é 6/6) e menos que 2 (12/6). Então fica entre 1 e 2, exatamente no 5º traço depois do 1... ou seja, 1 + 5/6 = 11/6.",
+        "result": "Marquei o ponto na 11ª marca a partir do 0 (ou 5ª após o 1)",
+        "kcUsed": "FindValueNumLine, FracGreater1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense bem: se 6/6 = 1, quanto é 11/6? Está antes ou depois do 1 na reta?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Conte as marcas a partir do zero: 1/6, 2/6, ..., até chegar à 11ª marca. Essa é a posição de 11/6!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 11/6 está entre 1 e 2. Conte 5 marcas depois do 1 (pois 6/6 = 1, então 7/6 é a primeira após 1, e 11/6 é a quinta)."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! Comece em 0 e conte: 1, 2, 3... até a 11ª divisão. Clique exatamente nessa marca — ela representa 11/6."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Clicar em Done para concluir",
+        "thinking": "Verifiquei tudo: fração correta, reta dividida, ponto marcado. Deve estar certo.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracGreater1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "11/6",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Usar adição de frações: 6/6 + 5/6 = 11/6, pensando em pacotes inteiros e restos",
+        "steps": [
+         "Reconhecer que 1 pacote = 6/6",
+         "Sobram 5 chicletes além do primeiro pacote",
+         "Somar 6/6 + 5/6"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Contar manualmente as marcas na reta sem entender o denominador",
+        "steps": [
+         "Tentar dividir a reta em 11 partes",
+         "Corrigir ao perceber que não corresponde aos pacotes",
+         "Redividir em 6 partes"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 6,
+  "errosEspecificos": 6,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 6
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 7,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"Qual é a fração presente no problema?\" com duas caixas numéricas (F1 em cima = numerador, F2 embaixo = denominador); reta numérica de 0 a 2 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); o rótulo da fração aparece como apoio na reta; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 2,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "No campo F1, indique quantos chicletes Steve distribuiu.",
+     "kc": "IdenNumerator",
+     "valor": "11"
+    },
+    {
+     "indice": 2,
+     "acao": "No campo F2, indique quantas unidades há em um pacote.",
+     "kc": "IdenDenominator",
+     "valor": "6"
+    },
+    {
+     "indice": 3,
+     "acao": "Confirme no campo F1 a quantidade de chicletes distribuídos.",
+     "kc": "IdenNumerator",
+     "valor": "11"
+    },
+    {
+     "indice": 4,
+     "acao": "No campo Number of parts, digite o número de partes por pacote e clique em OK.",
+     "kc": "DivNumLine",
+     "valor": "6"
+    },
+    {
+     "indice": 5,
+     "acao": "Na reta dividida, marque a posição correspondente a 11/6.",
+     "kc": "FindValueNumLine",
+     "valor": "11/6"
+    },
+    {
+     "indice": 6,
+     "acao": "Escreva a fração no modelo usando F1 como numerador e F2 como denominador.",
+     "kc": "IdenNumerator",
+     "valor": "11/6"
+    },
+    {
+     "indice": 7,
+     "acao": "Clique em Done para concluir a representação da fração.",
+     "kc": "FracGreater1",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "6/11",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Boa tentativa! Você usou os números certos, mas trocou suas funções. O numerador deve representar a quantidade de chicletes distribuídos, enquanto 6 representa o tamanho de um pacote.",
+     "buggyRule": "Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}",
+     "misconceptionId": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "valor": "2",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou a quantidade de pacotes que Steve tinha. Neste campo, observe a quantidade de chicletes que ele realmente distribuiu aos amigos.",
+     "buggyRule": "Responder com o número total de pacotes disponíveis ({total_pacotes}), ignorando que a distribuição usou apenas parte deles.",
+     "misconceptionId": "misc_responde_com_numero_inteiro_pacotes_totais"
+    },
+    {
+     "valor": "11",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o total distribuído. O denominador deve indicar quantas partes iguais formam um pacote, e cada pacote tem 6 unidades.",
+     "buggyRule": "Usar o total de chicletes distribuídos ({total_dado}) como número de partes para dividir a reta.",
+     "misconceptionId": "misc_divide_pela_quantidade_dada"
+    },
+    {
+     "valor": "2",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou a quantidade de pacotes disponíveis. Para o denominador, considere quantas unidades existem dentro de cada pacote.",
+     "buggyRule": "Usar o número total de pacotes ({total_pacotes}) como número de partes para dividir a reta.",
+     "misconceptionId": "misc_escala_baseada_no_total_de_pacotes"
+    },
+    {
+     "valor": "2",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você registrou o número de pacotes que Steve possuía, não a quantidade distribuída. O numerador deve acompanhar as unidades de chiclete entregues.",
+     "buggyRule": "Responder com o número total de pacotes disponíveis ({total_pacotes}), ignorando que a distribuição usou apenas parte deles.",
+     "misconceptionId": "misc_responde_com_numero_inteiro_pacotes_totais"
+    },
+    {
+     "valor": "6/11",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você trocou os papéis dos números. O campo F1 recebe a quantidade distribuída; o tamanho de cada pacote será usado no campo F2.",
+     "buggyRule": "Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}",
+     "misconceptionId": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "valor": "11",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o total distribuído para dividir a reta. Cada pacote é a unidade de referência, então a divisão deve considerar as 6 unidades de um pacote.",
+     "buggyRule": "Usar o total de chicletes distribuídos ({total_dado}) como número de partes para dividir a reta.",
+     "misconceptionId": "misc_divide_pela_quantidade_dada"
+    },
+    {
+     "valor": "2",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o número de pacotes que Steve tinha. A reta deve mostrar as partes de cada pacote, e cada pacote contém 6 unidades.",
+     "buggyRule": "Usar o número total de pacotes ({total_pacotes}) como número de partes para dividir a reta.",
+     "misconceptionId": "misc_escala_baseada_no_total_de_pacotes"
+    },
+    {
+     "valor": "6",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você contou as marcas, mas cada marca representa um sexto de pacote. É preciso considerar o valor de cada parte, não apenas a contagem visual.",
+     "buggyRule": "Contar {numerador} marcas a partir do zero, independentemente do valor real de cada marca, e marcar o ponto naquela posição.",
+     "misconceptionId": "misc_conta_marcas_em_vez_de_valor"
+    },
+    {
+     "valor": "1/2",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A posição marcada ficou perto da metade. Onze unidades são mais que um pacote inteiro, então o ponto deve ficar entre 1 e 2.",
+     "buggyRule": "Posicionar o ponto próximo à metade (0.5) porque 11 está 'perto do meio' entre 6 e 12, sem cálculo preciso.",
+     "misconceptionId": "misc_ancora_na_metade"
+    },
+    {
+     "valor": "2",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Steve abriu dois pacotes, mas não distribuiu as doze unidades. Como faltou uma unidade para completar dois pacotes, o ponto deve ficar um pouco antes de 2.",
+     "buggyRule": "Marcar o ponto exatamente em 2, assumindo que usar dois pacotes (mesmo que parcialmente) equivale a 2 inteiros.",
+     "misconceptionId": "misc_posiciona_no_total_de_pacotes"
+    },
+    {
+     "valor": "6/11",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você inverteu a fração. O número de unidades distribuídas fica em cima, e o número de unidades por pacote fica embaixo.",
+     "buggyRule": "Inverter numerador e denominador: colocar o tamanho do pacote ({pacote_size}) no numerador e o total distribuído ({total_dado}) no denominador → {pacote_size}/{total_dado}",
+     "misconceptionId": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "valor": "2",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você respondeu com um número inteiro. Mesmo usando mais de um pacote, a situação deve ser representada como uma fração formada pelo total distribuído e pelo tamanho do pacote.",
+     "buggyRule": "",
+     "misconceptionId": "misc_ignora_representacao_fracionaria"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Observe qual quantidade do enunciado foi efetivamente distribuída aos amigos."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Para encontrar o numerador, localize o total de unidades de chiclete que saiu dos pacotes."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Conte uma unidade para cada amigo mencionado na situação."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Preencha F1 com a quantidade obtida ao contar todos os chicletes entregues aos amigos."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "Pense no número de partes iguais que formam uma unidade de pacote."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Para encontrar o denominador, procure a informação que descreve o conteúdo de um único pacote."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Leia a frase que informa quantas unidades existem dentro de cada pacote."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Digite em F2 a quantidade de unidades necessária para formar um pacote inteiro."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "O numerador responde à pergunta: quantas unidades foram usadas na distribuição?"
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Retome a informação sobre os amigos e associe cada amigo a uma unidade entregue."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "A quantidade de amigos é igual à quantidade de chicletes entregues, porque cada amigo recebeu uma unidade."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Digite em F1 o total encontrado ao relacionar uma unidade entregue com cada amigo."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "Cada parte da reta deve representar uma unidade de um pacote."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Use como número de partes a quantidade de unidades que compõe um pacote inteiro."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "O intervalo entre 0 e 1 representa um pacote e precisa ser dividido em partes correspondentes às unidades do pacote."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Digite no campo Number of parts a quantidade de unidades de um pacote e clique em OK para dividir a reta."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "Compare a quantidade distribuída com a quantidade necessária para formar um pacote inteiro."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Conte as partes de tamanho 1/6 a partir do zero, mantendo a divisão em seis partes por unidade."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Seis partes chegam ao ponto 1; continue contando mais cinco partes para localizar a posição pedida."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "A partir de 1, avance cinco marcas de um sexto e clique no ponto correspondente entre 1 e 2."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "Relacione a quantidade total distribuída com o tamanho de um pacote."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Coloque a quantidade distribuída no campo de cima e a quantidade que forma um pacote no campo de baixo."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "O campo F1 representa as unidades entregues; o campo F2 representa as unidades necessárias para um pacote."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Preencha F1 com o total distribuído e F2 com o conteúdo de um pacote para formar a fração solicitada."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Verifique se a fração representa mais de um pacote, mas menos de dois pacotes completos."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Confira se a reta, os campos F1 e F2 e o ponto marcado representam a mesma quantidade."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "A posição deve estar entre 1 e 2, e os campos devem mostrar o total distribuído sobre as unidades de um pacote."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Depois de confirmar a posição entre 1 e 2 e a fração nos dois campos, clique em Done para registrar a conclusão."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "11",
+    "6",
+    "11",
+    "6",
+    "11/6",
+    "11/6",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Steve tinha dois pacotes de chiclete. Cada pacote continha seis unidades. Ele deu uma unidade para cada um de seus onze amigos. O número total de chicletes que ele distribuiu foi 11, mas como você descreveria o número de PACOTES de chiclete que ele distribuiu usando uma fração? Use a reta numérica para representar essa fração.\nQual é a fração presente no problema?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "No campo F1, indique quantos chicletes Steve distribuiu.",
+     "expectedAnswer": "11",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "No campo F2, indique quantas unidades há em um pacote.",
+     "expectedAnswer": "6",
+     "renderAs": "composition",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Confirme no campo F1 a quantidade de chicletes distribuídos.",
+     "expectedAnswer": "11",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "No campo Number of parts, digite o número de partes por pacote e clique em OK.",
+     "expectedAnswer": "6",
+     "renderAs": "composition",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Na reta dividida, marque a posição correspondente a 11/6.",
+     "expectedAnswer": "11/6",
+     "renderAs": "number_line",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Escreva a fração no modelo usando F1 como numerador e F2 como denominador.",
+     "expectedAnswer": "11/6",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Clique em Done para concluir a representação da fração.",
+     "expectedAnswer": "ok",
+     "renderAs": "composition",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 40140,
+   "exerciciosGerados": 1,
+   "passosGenericos": 7,
+   "passosMaterializados": 7,
+   "dicasMaterializadas": 28,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "No campo F1, indique quantos chicletes Steve distribuiu.",
+     "instruction": "No campo F1, indique quantos chicletes Steve distribuiu.",
+     "expectedInput": {
+      "value": "11",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "F1",
+       "fieldLabel": "Numerador",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "F1",
+        "fieldLabel": "Numerador",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Observe qual quantidade do enunciado foi efetivamente distribuída aos amigos."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Para encontrar o numerador, localize o total de unidades de chiclete que saiu dos pacotes."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Conte uma unidade para cada amigo mencionado na situação."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Preencha F1 com a quantidade obtida ao contar todos os chicletes entregues aos amigos."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_fracoes_distribuicao",
+       "wrongAnswer": "6/11",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+       "feedback": "Boa tentativa! Você usou os números certos, mas trocou suas funções. O numerador deve representar a quantidade de chicletes distribuídos, enquanto 6 representa o tamanho de um pacote.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_com_numero_inteiro_pacotes_totais",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).",
+       "feedback": "Você usou a quantidade de pacotes que Steve tinha. Neste campo, observe a quantidade de chicletes que ele realmente distribuiu aos amigos.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_fracoes_distribuicao__step_1",
+      "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "No campo F2, indique quantas unidades há em um pacote.",
+     "instruction": "No campo F2, indique quantas unidades há em um pacote.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "F2",
+       "fieldLabel": "Denominador",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "F2",
+        "fieldLabel": "Denominador",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Pense no número de partes iguais que formam uma unidade de pacote."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Para encontrar o denominador, procure a informação que descreve o conteúdo de um único pacote."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Leia a frase que informa quantas unidades existem dentro de cada pacote."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite em F2 a quantidade de unidades necessária para formar um pacote inteiro."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_pela_quantidade_dada",
+       "wrongAnswer": "11",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).",
+       "feedback": "Você usou o total distribuído. O denominador deve indicar quantas partes iguais formam um pacote, e cada pacote tem 6 unidades.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_escala_baseada_no_total_de_pacotes",
+       "wrongAnswer": "2",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.",
+       "feedback": "Você usou a quantidade de pacotes disponíveis. Para o denominador, considere quantas unidades existem dentro de cada pacote.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_pela_quantidade_dada__step_2",
+      "scaffold_misc_escala_baseada_no_total_de_pacotes__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Confirme no campo F1 a quantidade de chicletes distribuídos.",
+     "instruction": "Confirme no campo F1 a quantidade de chicletes distribuídos.",
+     "expectedInput": {
+      "value": "11",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "F1",
+       "fieldLabel": "Numerador",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "F1",
+        "fieldLabel": "Numerador",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O numerador responde à pergunta: quantas unidades foram usadas na distribuição?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Retome a informação sobre os amigos e associe cada amigo a uma unidade entregue."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A quantidade de amigos é igual à quantidade de chicletes entregues, porque cada amigo recebeu uma unidade."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite em F1 o total encontrado ao relacionar uma unidade entregue com cada amigo."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_responde_com_numero_inteiro_pacotes_totais",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).",
+       "feedback": "Você registrou o número de pacotes que Steve possuía, não a quantidade distribuída. O numerador deve acompanhar as unidades de chiclete entregues.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_inversao_fracoes_distribuicao",
+       "wrongAnswer": "6/11",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+       "feedback": "Você trocou os papéis dos números. O campo F1 recebe a quantidade distribuída; o tamanho de cada pacote será usado no campo F2.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_3",
+      "scaffold_misc_inversao_fracoes_distribuicao__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "No campo Number of parts, digite o número de partes por pacote e clique em OK.",
+     "instruction": "No campo Number of parts, digite o número de partes por pacote e clique em OK.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "denom",
+       "fieldLabel": "Number of parts",
+       "buttonLabel": "OK",
+       "min": 0,
+       "max": 2,
+       "partsPerUnit": 6
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "denom",
+        "fieldLabel": "Number of parts",
+        "buttonLabel": "OK",
+        "min": 0,
+        "max": 2,
+        "partsPerUnit": 6
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Cada parte da reta deve representar uma unidade de um pacote."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use como número de partes a quantidade de unidades que compõe um pacote inteiro."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O intervalo entre 0 e 1 representa um pacote e precisa ser dividido em partes correspondentes às unidades do pacote."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo Number of parts a quantidade de unidades de um pacote e clique em OK para dividir a reta."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_pela_quantidade_dada",
+       "wrongAnswer": "11",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).",
+       "feedback": "Você usou o total distribuído para dividir a reta. Cada pacote é a unidade de referência, então a divisão deve considerar as 6 unidades de um pacote.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_escala_baseada_no_total_de_pacotes",
+       "wrongAnswer": "2",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.",
+       "feedback": "Você usou o número de pacotes que Steve tinha. A reta deve mostrar as partes de cada pacote, e cada pacote contém 6 unidades.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_pela_quantidade_dada__step_4",
+      "scaffold_misc_escala_baseada_no_total_de_pacotes__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Na reta dividida, marque a posição correspondente a 11/6.",
+     "instruction": "Na reta dividida, marque a posição correspondente a 11/6.",
+     "expectedInput": {
+      "value": "11/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "number_line",
+      "componentId": "number_line",
+      "componentProps": null,
+      "config": {
+       "min": 0,
+       "max": 2,
+       "subdivisionsPerUnit": 6,
+       "targetValue": "11/6"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "min": 0,
+        "max": 2,
+        "subdivisionsPerUnit": 6,
+        "targetValue": "11/6"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare a quantidade distribuída com a quantidade necessária para formar um pacote inteiro."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Conte as partes de tamanho 1/6 a partir do zero, mantendo a divisão em seis partes por unidade."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Seis partes chegam ao ponto 1; continue contando mais cinco partes para localizar a posição pedida."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "A partir de 1, avance cinco marcas de um sexto e clique no ponto correspondente entre 1 e 2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_conta_marcas_em_vez_de_valor",
+       "wrongAnswer": "6",
+       "misconceptionType": "count_error",
+       "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor depende do número de divisões.",
+       "feedback": "Você contou as marcas, mas cada marca representa um sexto de pacote. É preciso considerar o valor de cada parte, não apenas a contagem visual.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade",
+       "wrongAnswer": "1/2",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno usa julgamento intuitivo de magnitude ('11 é quase no meio de 6 e 12') e marca perto de 1.5 ou 0.5, dependendo da confusão.",
+       "feedback": "A posição marcada ficou perto da metade. Onze unidades são mais que um pacote inteiro, então o ponto deve ficar entre 1 e 2.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_no_total_de_pacotes",
+       "wrongAnswer": "2",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno associa 'usou dois pacotes' a 'valor = 2', ignorando que o segundo pacote não foi totalmente usado.",
+       "feedback": "Steve abriu dois pacotes, mas não distribuiu as doze unidades. Como faltou uma unidade para completar dois pacotes, o ponto deve ficar um pouco antes de 2.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_conta_marcas_em_vez_de_valor",
+      "scaffold_misc_ancora_na_metade",
+      "scaffold_misc_posiciona_no_total_de_pacotes",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Escreva a fração no modelo usando F1 como numerador e F2 como denominador.",
+     "instruction": "Escreva a fração no modelo usando F1 como numerador e F2 como denominador.",
+     "expectedInput": {
+      "value": "11/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "writeFractionStep",
+       "numeratorField": "F1",
+       "denominatorField": "F2",
+       "numerator": 11,
+       "denominator": 6
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "writeFractionStep",
+        "numeratorField": "F1",
+        "denominatorField": "F2",
+        "numerator": 11,
+        "denominator": 6
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Relacione a quantidade total distribuída com o tamanho de um pacote."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Coloque a quantidade distribuída no campo de cima e a quantidade que forma um pacote no campo de baixo."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O campo F1 representa as unidades entregues; o campo F2 representa as unidades necessárias para um pacote."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Preencha F1 com o total distribuído e F2 com o conteúdo de um pacote para formar a fração solicitada."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_fracoes_distribuicao",
+       "wrongAnswer": "6/11",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+       "feedback": "Você inverteu a fração. O número de unidades distribuídas fica em cima, e o número de unidades por pacote fica embaixo.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ignora_representacao_fracionaria",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno insiste em responder com inteiro e ignora a necessidade de representar como fração, mesmo com interface exigindo dois campos.",
+       "feedback": "Você respondeu com um número inteiro. Mesmo usando mais de um pacote, a situação deve ser representada como uma fração formada pelo total distribuído e pelo tamanho do pacote.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_fracoes_distribuicao__step_6",
+      "scaffold_misc_ignora_representacao_fracionaria",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Clique em Done para concluir a representação da fração.",
+     "instruction": "Clique em Done para concluir a representação da fração.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "interfaceComponent": "done",
+       "buttonLabel": "Done",
+       "finalFraction": "11/6",
+       "finalNumberLineValue": "11/6"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "interfaceComponent": "done",
+        "buttonLabel": "Done",
+        "finalFraction": "11/6",
+        "finalNumberLineValue": "11/6"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Verifique se a fração representa mais de um pacote, mas menos de dois pacotes completos."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Confira se a reta, os campos F1 e F2 e o ponto marcado representam a mesma quantidade."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A posição deve estar entre 1 e 2, e os campos devem mostrar o total distribuído sobre as unidades de um pacote."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Depois de confirmar a posição entre 1 e 2 e a fração nos dois campos, clique em Done para registrar a conclusão."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inversao_fracoes_distribuicao__step_1",
+     "type": "scaffold",
+     "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+     "instruction": "Boa tentativa! Você usou os números certos, mas trocou suas funções. O numerador deve representar a quantidade de chicletes distribuídos, enquanto 6 representa o tamanho de um pacote.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "id": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_1",
+     "type": "scaffold",
+     "description": "Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).",
+     "instruction": "Você usou a quantidade de pacotes que Steve tinha. Neste campo, observe a quantidade de chicletes que ele realmente distribuiu aos amigos.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_com_numero_inteiro_pacotes_totais"
+    },
+    {
+     "id": "scaffold_misc_divide_pela_quantidade_dada__step_2",
+     "type": "scaffold",
+     "description": "Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).",
+     "instruction": "Você usou o total distribuído. O denominador deve indicar quantas partes iguais formam um pacote, e cada pacote tem 6 unidades.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_pela_quantidade_dada"
+    },
+    {
+     "id": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_2",
+     "type": "scaffold",
+     "description": "Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.",
+     "instruction": "Você usou a quantidade de pacotes disponíveis. Para o denominador, considere quantas unidades existem dentro de cada pacote.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_escala_baseada_no_total_de_pacotes"
+    },
+    {
+     "id": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_3",
+     "type": "scaffold",
+     "description": "Aluno responde com o número de pacotes que Steve tinha, em vez de calcular quantos pacotes foram efetivamente usados (como fração).",
+     "instruction": "Você registrou o número de pacotes que Steve possuía, não a quantidade distribuída. O numerador deve acompanhar as unidades de chiclete entregues.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_com_numero_inteiro_pacotes_totais"
+    },
+    {
+     "id": "scaffold_misc_inversao_fracoes_distribuicao__step_3",
+     "type": "scaffold",
+     "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+     "instruction": "Você trocou os papéis dos números. O campo F1 recebe a quantidade distribuída; o tamanho de cada pacote será usado no campo F2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "id": "scaffold_misc_divide_pela_quantidade_dada__step_4",
+     "type": "scaffold",
+     "description": "Aluno divide a reta em 11 partes, associando diretamente o número 11 às divisões, sem considerar que a unidade fracionária é definida pelo pacote (6).",
+     "instruction": "Você usou o total distribuído para dividir a reta. Cada pacote é a unidade de referência, então a divisão deve considerar as 6 unidades de um pacote.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_pela_quantidade_dada"
+    },
+    {
+     "id": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_4",
+     "type": "scaffold",
+     "description": "Aluno divide a reta em 2 partes porque Steve tinha 2 pacotes, confundindo quantidade de objetos com unidade de medida fracionária.",
+     "instruction": "Você usou o número de pacotes que Steve tinha. A reta deve mostrar as partes de cada pacote, e cada pacote contém 6 unidades.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_escala_baseada_no_total_de_pacotes"
+    },
+    {
+     "id": "scaffold_misc_conta_marcas_em_vez_de_valor",
+     "type": "scaffold",
+     "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor depende do número de divisões.",
+     "instruction": "Você contou as marcas, mas cada marca representa um sexto de pacote. É preciso considerar o valor de cada parte, não apenas a contagem visual.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_conta_marcas_em_vez_de_valor"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade",
+     "type": "scaffold",
+     "description": "Aluno usa julgamento intuitivo de magnitude ('11 é quase no meio de 6 e 12') e marca perto de 1.5 ou 0.5, dependendo da confusão.",
+     "instruction": "A posição marcada ficou perto da metade. Onze unidades são mais que um pacote inteiro, então o ponto deve ficar entre 1 e 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade"
+    },
+    {
+     "id": "scaffold_misc_posiciona_no_total_de_pacotes",
+     "type": "scaffold",
+     "description": "Aluno associa 'usou dois pacotes' a 'valor = 2', ignorando que o segundo pacote não foi totalmente usado.",
+     "instruction": "Steve abriu dois pacotes, mas não distribuiu as doze unidades. Como faltou uma unidade para completar dois pacotes, o ponto deve ficar um pouco antes de 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_no_total_de_pacotes"
+    },
+    {
+     "id": "scaffold_misc_inversao_fracoes_distribuicao__step_6",
+     "type": "scaffold",
+     "description": "Aluno inverte os papéis: pensa que a fração é 'tamanho do pacote sobre total dado', em vez de 'total dado sobre tamanho do pacote'.",
+     "instruction": "Você inverteu a fração. O número de unidades distribuídas fica em cima, e o número de unidades por pacote fica embaixo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_fracoes_distribuicao"
+    },
+    {
+     "id": "scaffold_misc_ignora_representacao_fracionaria",
+     "type": "scaffold",
+     "description": "Aluno insiste em responder com inteiro e ignora a necessidade de representar como fração, mesmo com interface exigindo dois campos.",
+     "instruction": "Você respondeu com um número inteiro. Mesmo usando mais de um pacote, a situação deve ser representada como uma fração formada pelo total distribuído e pelo tamanho do pacote.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ignora_representacao_fracionaria"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(FracGreater1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inversao_fracoes_distribuicao__step_1",
+     "condition": "misconception(misc_inversao_fracoes_distribuicao)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_fracoes_distribuicao__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_1",
+     "condition": "misconception(misc_responde_com_numero_inteiro_pacotes_totais)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_divide_pela_quantidade_dada__step_2",
+     "condition": "misconception(misc_divide_pela_quantidade_dada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_pela_quantidade_dada__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_2",
+     "condition": "misconception(misc_escala_baseada_no_total_de_pacotes)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_3",
+     "condition": "misconception(misc_responde_com_numero_inteiro_pacotes_totais)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_responde_com_numero_inteiro_pacotes_totais__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_inversao_fracoes_distribuicao__step_3",
+     "condition": "misconception(misc_inversao_fracoes_distribuicao)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_inversao_fracoes_distribuicao__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_divide_pela_quantidade_dada__step_4",
+     "condition": "misconception(misc_divide_pela_quantidade_dada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_pela_quantidade_dada__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_4",
+     "condition": "misconception(misc_escala_baseada_no_total_de_pacotes)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_escala_baseada_no_total_de_pacotes__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_conta_marcas_em_vez_de_valor",
+     "condition": "misconception(misc_conta_marcas_em_vez_de_valor)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_conta_marcas_em_vez_de_valor",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_ancora_na_metade",
+     "condition": "misconception(misc_ancora_na_metade)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_posiciona_no_total_de_pacotes",
+     "condition": "misconception(misc_posiciona_no_total_de_pacotes)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_posiciona_no_total_de_pacotes",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_inversao_fracoes_distribuicao__step_6",
+     "condition": "misconception(misc_inversao_fracoes_distribuicao)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_fracoes_distribuicao__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_ignora_representacao_fracionaria",
+     "condition": "misconception(misc_ignora_representacao_fracionaria)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_ignora_representacao_fracionaria",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  }
+ }
+}

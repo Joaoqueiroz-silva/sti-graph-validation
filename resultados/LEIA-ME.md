@@ -13,7 +13,8 @@ cada pasta para quem vai escrever ou revisar o artigo novo.
 | `bancada-v2-2026-08-14/` | Comparação JUSTA com o especialista (posição relativa, produto, precision@k, TOST) + precisão julgada pelo painel de juízes com gate |
 | `avaliacao-plataforma-2026-08-14/` | Censo intrínseco dos 868 grafos publicados no EducaOFF (sem CTAT); linha do tempo abr→ago |
 | `validacao-preditiva-2026-08-14/` | Validade preditiva contra 476 erros REAIS de alunos (sem CTAT); antecipação 34,6% |
-| `rodada3-passos-livres-2026-08-15/` | Rodada 3: regime passos-livres (agentes geram 4,8–5,4 passos vs corte de 4) + comparação por ESTADO/CAMINHO do orientador (cru e materializado) |
+| `rodada3-passos-livres-2026-08-15/` | Rodada 3: regime passos-livres (agentes geram 4,8–5,4 passos vs corte de 4) + comparação por ESTADO/CAMINHO do orientador (cru, mínima e MATERIALIZADO com agent 6/7 de produção — adendo em RESULTADOS.md) |
+| `rodada4-interface-fixa-2026-08-15/` | Rodada 4: os agentes recebem também a INTERFACE do CTAT (mesmo insumo do especialista); coleta + materialização + Δ pareado contra a rodada 3 — o experimento vigente para a métrica de estados |
 
 Cada pasta vigente tem `RESULTADOS.md` (síntese e leitura), runs completos,
 manifestos de chamada e, quando aplicável, `DECLARACAO-PRE-REGISTRO.md`.

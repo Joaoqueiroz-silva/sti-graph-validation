@@ -32,6 +32,7 @@ import { buildMisconceptionCatalog } from "./step-error-catalog.js";
 import { buildStateFromEnvelopeA } from "./simulate-fluxo-plataforma.js";
 import { montarGrafo } from "./scripts/registro-run-v2.mjs";
 import { descreverInterface, textoRequisitoInterface } from "./interface-ctat.js";
+import { canonAnswer } from "./schema.js";
 
 /**
  * GATE de problema fixo — prova objetiva de que o agent 6 usou o problema do
@@ -64,9 +65,23 @@ export function verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado, 
   const canon = (v) => String(v ?? "").trim().replace(/\s+/g, "");
   const valores = (grafoMaterializado?.passos || []).map((p) => canon(p.valor)).filter(Boolean);
   const resposta = canon(envelopeA.correctAnswer);
-  const contemResposta = valores.some((v) => v === resposta || v.replace(",", ".") === resposta);
+  // Sensibilidade 2 (declarada 2026-08-16, APÓS ver os motivos de reprovação
+  // da rodada 4 — post hoc, portanto): valor conceitualmente igual à resposta
+  // (canonAnswer: 1.25 ≡ 5/4, 0.25 ≡ 1/4) ou a uma fração do enunciado é o
+  // MESMO estado escrito de outro jeito; não é número estranho.
+  const canonicosPermitidos = new Set();
+  if (opts.equivalenciaCanonica) {
+    canonicosPermitidos.add(canonAnswer(envelopeA.correctAnswer));
+    for (const m of String(envelopeA.problem || "").matchAll(/(\d+)\s*\/\s*(\d+)/g)) canonicosPermitidos.add(canonAnswer(`${m[1]}/${m[2]}`));
+  }
+  const contemResposta = valores.some(
+    (v) => v === resposta || v.replace(",", ".") === resposta || (opts.equivalenciaCanonica && canonAnswer(v) === canonAnswer(envelopeA.correctAnswer))
+  );
   const estranhos = [];
-  for (const v of valores) for (const n of nums(v)) if (!permitidos.has(n)) estranhos.push(`${v}→${n}`);
+  for (const v of valores) {
+    if (opts.equivalenciaCanonica && canonicosPermitidos.has(canonAnswer(v))) continue;
+    for (const n of nums(v)) if (!permitidos.has(n)) estranhos.push(`${v}→${n}`);
+  }
   const numsEnunciadoGerado = nums(exercicio?.statement ?? "");
   return {
     aprovado: contemResposta && estranhos.length === 0,

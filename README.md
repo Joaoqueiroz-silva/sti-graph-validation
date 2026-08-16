@@ -17,6 +17,8 @@ A validação atual usa os **agentes de produção portados byte a byte** (espel
 
 **1. Com referência CTAT — a bancada justa (v2).** Comparação com o grafo do especialista sob regras pré-declaradas: pareamento por valor canônico + posição relativa, conjunto candidato de produto, precision@k, cobertura mútua com equivalência TOST e precisão julgada por juízes LLM cegos com gate de calibração. Resultados-chave: cobertura justa de 0,501 no melhor braço; primeiro braço estatisticamente **equivalente** ao especialista (TOST); precisão julgada 0,65–0,75.
 
+**1b. Com referência CTAT — comparação por ESTADO/CAMINHO (orientador, rodadas 3–4).** Os agentes de produção completos (alunos simulados → GraphForge → materialização agent 6/7) recebem **o mesmo insumo do especialista** — problema, resposta, KCs e, na rodada 4, a interface do CTAT — e o grafo materializado é comparado estado a estado (valores canonizados, subsequência ordenada exata/LCS e sem ordem, erros e dicas ancorados no estado casado). Resultados-chave (rodada 4, `resultados/rodada4-interface-fixa-2026-08-15/`): 84–86 % dos estados de valor do especialista presentes (52–70 % na ordem exata); 30–64 % dos erros do especialista previstos no mesmo estado; caminho íntegro em ordem ≈0; efeito pareado da interface +0,25/+0,38 em erros no estado certo.
+
 **2. Sem referência CTAT — a partir dos dados dos estudantes.** Censo intrínseco dos 868 grafos publicados + validade preditiva contra 476 erros reais (antecipação no passo exato: 34,6%, na faixa histórica dos catálogos de especialistas) + protocolo prospectivo pré-registrado e experimento causal de ablação. Desenho completo: [docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md](docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md).
 
 Navegação para a escrita do artigo:

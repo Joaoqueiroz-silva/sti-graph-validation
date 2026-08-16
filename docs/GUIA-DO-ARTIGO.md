@@ -110,3 +110,30 @@ Caminho: portar agent6-story (+agent7) para a bancada — trilha do
 `docs/PLANO-FIDELIDADE-PRODUCAO-2026-08.md` — e reprocessar os registros da
 rodada 3 (os traces dos 3 agentes estão preservados em `bruto.tracos`, então a
 materialização pode rodar sem regenerar os alunos).
+
+## 8. Adendo 2026-08-16 — materialização portada e braço "interface fixa" (rodada 4)
+
+Feito o que o §7 pedia: agent6-story + agent7-adapter portados byte a byte
+(28 módulos espelhados; `materializar-registro.js`, `scripts/materializar-lote.mjs`),
+problema fixo pelo canal de produção (`state.description` → REQUISITOS DO
+PROFESSOR) com **gate objetivo** de obediência (`verificarProblemaFixo`, estrito
+pré-registrado + duas sensibilidades declaradas). Régua de estados corrigida:
+subsequência ordenada **exata (LCS)** em vez de gulosa; cobertura **sem ordem**
+como secundária; sentinelas do CTAT (`-1` do Done, SetVisible vazio) fora dos
+estados de valor — mesma regra dos erros mecânicos.
+
+Descoberta metodológica: até a rodada 3 os agentes NÃO recebiam a interface do
+CTAT (só enunciado/resposta/KCs). Como o especialista autorou por demonstração
+NA tela, parte dos estados dele nasce da interface. A rodada 4
+(`resultados/rodada4-interface-fixa-2026-08-15/`) entrega a interface por texto
+neutro (`interface-ctat.js`: tela + lista branca do `massproduction.txt` +
+`envelope-a.components`; teste anti-vazamento nos 24 problemas) pelos canais
+que os agentes de produção já leem (`seedProblems[].interface` → agents 3;
+`description` → agent 6). Resultado (materializado, gate estrito): cobertura de
+estados em ordem 0,52 / 0,70, sem ordem 0,84 / 0,86, erros no estado certo
+0,30 / 0,64; Δ pareado da interface +0,10/+0,14 (ordem), +0,24/+0,21 (sem
+ordem), +0,25/+0,38 (erros no estado certo). Caminho íntegro em ordem segue ≈0.
+Para o artigo: (i) declarar que "mesmo insumo" = problema + interface, e que o
+modo de autoria (demonstração × simulação) é a pergunta; (ii) reportar ordem e
+sem ordem; (iii) dicas no estado certo satura no materializado (agent 6 põe
+dica em todo passo) — informativa só no estágio 3.
