@@ -214,3 +214,21 @@ describe("caminhoDeReferencia — sentinelas de interface não são estados de v
     expect(p.caminhoIntegro).toBe(1);
   });
 });
+
+describe("caminho de referência — seletor de variante fora dos estados de valor (2026-08-17)", () => {
+  it("no 6.18 o `shield` é bifurcação de variante nos 20 problemas; 6.17 e 6.19 não têm nenhum", async () => {
+    const { carregarReferencia } = await import("../analysis/validacao-v2/lib.mjs");
+    const antes = process.env.STI_DATASET;
+    try {
+      for (const [ds, esperadoVariantes] of [["frac-numberline-6.17", 0], ["frac-estimates-6.19", 0], ["equiv-fractions-6.18", 20]]) {
+        process.env.STI_DATASET = ds;
+        const REF = carregarReferencia(".");
+        const comVariante = Object.values(REF).filter((r) => r.caminho.some((c) => c.variante)).length;
+        expect(comVariante).toBe(esperadoVariantes);
+        for (const r of Object.values(REF)) for (const c of r.caminho) if (c.variante) expect(c.sistema).toBe(true);
+      }
+    } finally {
+      if (antes === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = antes;
+    }
+  });
+});

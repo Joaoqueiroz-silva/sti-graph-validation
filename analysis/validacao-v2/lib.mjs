@@ -11,12 +11,16 @@ import { parseBrdToNeutralV2 } from "../../schema-v2.js";
 import { canonAnswer } from "../../schema.js";
 import { casesDirDataset } from "../../dataset-config.js";
 
-// multi-corpus (2026-08-16): cases/<…> do dataset selecionado por STI_DATASET (default 6.17)
+// multi-corpus (2026-08-16): cases/<…> do dataset selecionado por STI_DATASET
+// (default 6.17). Resolvido em TEMPO DE CHAMADA (corpusAtual()) para que um
+// mesmo processo possa ler mais de um corpus (testes, consolidação); a
+// constante CORPUS fica para compatibilidade com o chamador antigo.
+export const corpusAtual = () => casesDirDataset();
 export const CORPUS = casesDirDataset();
 
 /** Lista os exercícios do corpus congelado. */
 export function listarExercicios(raiz = ".") {
-  const dir = path.join(raiz, CORPUS);
+  const dir = path.join(raiz, corpusAtual());
   return fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, "expert.brd")));
 }
 
@@ -26,7 +30,7 @@ export function listarExercicios(raiz = ".") {
  *  - items : cada erro com posição no caminho, componente, ação e devolutiva
  */
 export function carregarReferencia(raiz = ".") {
-  const dir = path.join(raiz, CORPUS);
+  const dir = path.join(raiz, corpusAtual());
   const out = {};
   for (const ex of listarExercicios(raiz)) {
     const xml = fs.readFileSync(path.join(dir, ex, "expert.brd"), "utf8");
@@ -46,8 +50,18 @@ export function carregarReferencia(raiz = ".") {
     const caminho = [];
     while (cur && guard++ < 200) {
       idx[cur] = n++;
-      const prox = (g.transitions || []).find((t) => t.type === "correct" && t.from === cur);
+      const saindo = (g.transitions || []).filter((t) => t.type === "correct" && t.from === cur);
+      const prox = saindo[0];
       if (!prox) break;
+      // SELETOR DE VARIANTE (2026-08-17): duas ou mais arestas corretas saindo
+      // do MESMO estado pelo MESMO componente, com entradas diferentes, são
+      // bifurcação de variante do problema (autoria), não um passo do aluno.
+      // No 6.18 é o `shield` (componente que sequer existe no HTML da tela;
+      // "1frac"/"tf" escolhem o modo do problema) em 20/20 problemas; no 6.17 e
+      // no 6.19 a regra não marca nada. Não conta como estado de valor.
+      const variante =
+        saindo.filter((t) => String(t.sai?.selection || "") === String(prox.sai?.selection || "")).length > 1 &&
+        new Set(saindo.map((t) => String(t.sai?.input ?? ""))).size > 1;
       const bruto = String(prox.sai?.input ?? "").trim();
       const acao = String(prox.sai?.action || "");
       caminho.push({
@@ -61,7 +75,8 @@ export function carregarReferencia(raiz = ".") {
         // sistema, seja qual for o nome da ação (ex.: 6.17 showAnswer é
         // ButtonPressed executado pelo TUTOR). Sem Actor → aluno.
         ator: String(prox.actor || ""),
-        sistema: ehAcaoDeSistema(acao) || /^tutor/i.test(String(prox.actor || "")),
+        variante,
+        sistema: ehAcaoDeSistema(acao) || /^tutor/i.test(String(prox.actor || "")) || variante,
         mecanico: ehMecanico(bruto),
         dicas: (prox.hints || []).length,
       });

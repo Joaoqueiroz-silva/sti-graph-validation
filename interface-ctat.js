@@ -106,6 +106,7 @@ export function descreverInterface(envelopeA, params) {
   // multi-corpus (2026-08-16): despacho pelo tipo de interface do dataset atual
   const tipo = configDataset().interface?.tipo || "mathtutor-6.17";
   if (tipo === "mathtutor-6.19") return descreverInterface619(envelopeA, params);
+  if (tipo === "mathtutor-6.18") return descreverInterface618(envelopeA, params);
   const p = params || lerParametrosInterface(envelopeA.id);
   const componentes = (envelopeA.components || []).map((c) => ({
     id: c.id,
@@ -203,6 +204,66 @@ export function descreverInterface619(envelopeA, params) {
     retaNumerica: { de: 0, ate: p.retaAte, encaixeDenominador: p.encaixeDenominador, ticksOcultos: p.ticksOcultos },
     caixaFracaoExibida: true,
     caixaNumeroMisto: p.botaoConvertVisivel,
+    componentes,
+  };
+}
+
+
+// ── Mathtutor 6.18 "Equivalent Fractions" (2026-08-17) ───────────────────────
+// Fonte: `_interface/interface.html` do pacote (duas CTATNumberLine — numline1
+// com a fração dada já marcada e numline2/numline2_noLabel para o aluno —,
+// CTATNumericStepper de denominador com CTATSubmitButton por reta, campos da
+// fração à esquerda (L1/L2) e à direita (R1 exibido, R1_user digitável),
+// CTATComboBox de comparação, Hint e Done) e os parâmetros de ESTADO INICIAL
+// do .brd. LISTA BRANCA de mensagens lidas: set_maximum das retas, addClass
+// "hidden" (qual variante da Linha 2 aparece) e statement2 (a pergunta
+// exibida, que é enunciado). **VALORES DE CAMPO NUNCA SÃO LIDOS**: no 6.18 o
+// estado inicial preenche R1 com o NUMERADOR DA RESPOSTA em 20/20 problemas
+// (verificado); L1/L2/R2 repetem números do enunciado e também ficam fora.
+// Teste anti-vazamento trava isso problema a problema.
+const PAPEL_618 = Object.freeze({
+  numline1: "Linha 1 — reta numérica com a fração dada JÁ marcada pelo tutor (referência visual)",
+  numline1_denom: "campo numérico do denominador da Linha 1 (quantas partes) + botão de confirmar",
+  numline2: "Linha 2 — reta numérica com rótulos, onde o aluno divide e marca a fração equivalente",
+  numline2_noLabel: "Linha 2 (versão sem rótulos) — o aluno divide e marca o ponto",
+  numline2_denom: "campo numérico do denominador da Linha 2 + botão de confirmar",
+  numline2_noLabel_denom: "campo numérico do denominador da Linha 2 sem rótulos + botão de confirmar",
+  R1_user: "campo numérico onde o aluno digita o NUMERADOR da fração equivalente",
+  R1: "campo de texto do numerador exibido pelo tutor (não é do aluno)",
+  equals_combo: 'seletor de comparação entre as duas frações: "≟", "=", "≠"',
+  equals: "imagem/rótulo do sinal de comparação entre as frações",
+  done: "botão Done (concluir o problema)",
+  shield: "(controle interno do tutor: escolhe a variante do problema; não é da tela)",
+});
+export function lerParametrosInterface618(exercicioId, raiz = ".") {
+  const p = path.join(dirDataset("equiv-fractions-6.18", raiz), "problems", exercicioId, "interface-params.json");
+  const msgs = fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")).mensagens || [] : [];
+  const val = (sel, act) => (msgs.find((m) => m.selection === sel && m.action === act) || {}).input ?? "";
+  const ocultos = msgs.filter((m) => m.action === "addClass" && String(m.input).includes("hidden")).map((m) => m.selection);
+  return {
+    retaAte: Number(val("numline1", "set_maximum")) || 1,
+    reta2Ate: Number(val("numline2", "set_maximum")) || 1,
+    pergunta: val("statement2", "UpdateTextArea"),
+    linhasOcultas: ocultos,
+  };
+}
+export function descreverInterface618(envelopeA, params) {
+  const p = params || lerParametrosInterface618(envelopeA.id);
+  const componentes = (envelopeA.components || [])
+    .filter((c) => c.id !== "shield" && c.id !== "No_Selection")
+    .map((c) => ({ id: c.id, tipo: c.type, papel: PAPEL_618[c.id] || c.label || c.id }));
+  return {
+    descricao:
+      "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; " +
+      (p.pergunta ? `pergunta exibida "${p.pergunta}"; ` : "") +
+      `DUAS retas numéricas de 0 a ${p.retaAte}, uma acima da outra: na Linha 1 a fração dada já está marcada pelo tutor; ` +
+      "na Linha 2 o aluno digita em quantas partes iguais dividir (campo de denominador + confirmar) e marca o ponto da fração equivalente; " +
+      "à direita das retas, a igualdade entre as duas frações é mostrada em caixas: as da esquerda vêm preenchidas e, na da direita, o aluno digita o NUMERADOR (o denominador alvo já aparece); " +
+      'há também um seletor de comparação ("≟", "=", "≠") entre as duas frações; botão Hint; botão Done. ' +
+      "Os passos do aluno são ações NESSES componentes (dividir a Linha 2, marcar o ponto, digitar o numerador, comparar, concluir).",
+    retaNumerica: { de: 0, ate: p.retaAte, linhas: 2 },
+    caixaFracaoExibida: true,
+    caixaNumeroMisto: false,
     componentes,
   };
 }

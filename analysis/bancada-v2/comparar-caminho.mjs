@@ -42,7 +42,8 @@ import path from "node:path";
 import { carregarReferencia, intervalo, media, fmt, canonAnswer, ehMecanico } from "../validacao-v2/lib.mjs";
 
 import { problemsDirRelativo } from "../../dataset-config.js";
-const DATASET = problemsDirRelativo();
+// resolvido em tempo de chamada (multi-corpus no mesmo processo)
+const DATASET = () => problemsDirRelativo();
 
 /** canonização de VALORES gerados pelos agentes (nunca de texto livre). */
 export const canonizarValor = (v) => canonAnswer(String(v ?? "").trim());
@@ -285,7 +286,7 @@ if (ehMain) {
     const run = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
     const ex = run.exercicio ?? run.id;
     if (!REF[ex] || !run.grafo) continue;
-    const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-b.json"), "utf8"));
+    const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET(), ex, "envelope-b.json"), "utf8"));
     linhas.push(pontuarCaminho(run, envB, REF[ex], { materializar }));
   }
   if (!linhas.length) {

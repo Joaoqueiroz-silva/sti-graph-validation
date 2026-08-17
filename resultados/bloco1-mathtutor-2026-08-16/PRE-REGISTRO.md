@@ -68,3 +68,34 @@ Vista no 6.19: a interface pede NÚMERO MISTO ("2 3/4"); o gate lia como
 imprópria). Post hoc para o 6.19; a priori para 6.18/6.20/8.12/7.12. O
 consolidado usa como recorte principal os aprovados na sens. 3 (com o gate
 estrito e "todos" reportados ao lado); as métricas diferem ≤0,02 entre recortes.
+
+## Adendo 6.18 — interface, variantes e piloto (17/08, 20:10)
+
+**Interface** (`interface-ctat.js: descreverInterface618`): duas retas numéricas
+(Linha 1 com a fração dada já marcada pelo tutor; Linha 2 onde o aluno divide e
+marca), campos de denominador com confirmação, caixas da igualdade (as da
+esquerda preenchidas; na direita o aluno digita o NUMERADOR), seletor de
+comparação ≟/=/≠, Hint, Done. **Nenhum valor de campo entra na descrição**:
+verificado que o estado inicial preenche `R1` com o numerador da RESPOSTA em
+**20/20** problemas; L1/L2/R2 também ficam fora. Lista branca: `set_maximum`
+das retas, `addClass hidden` (qual variante da Linha 2 aparece) e `statement2`
+(pergunta exibida, que é enunciado). Teste anti-vazamento problema a problema.
+
+**Variantes do problema (declarado).** Cada `.brd` do 6.18 traz DUAS variantes
+selecionadas por um componente de controle (`shield`, que sequer existe no HTML
+da tela): (A) preencher a fração equivalente — usa a Linha 2 sem rótulos e o
+campo do numerador; (B) comparar as duas frações no seletor ≟/=/≠. A referência
+usa a variante **A**, que é a que corresponde ao enunciado dos 20 problemas
+("Find another fraction that equals the same amount in eighths"); a variante B
+não entra. Regra geral implementada e testada (`lib.mjs`): duas ou mais arestas
+corretas saindo do mesmo estado pelo mesmo componente, com entradas diferentes,
+são **seletor de variante** e não contam como estado de valor — marca 20/20 no
+6.18 e **nada** no 6.17 e no 6.19. Referência do 6.18: **3 estados de valor**
+(denominador da Linha 2 → ponto na Linha 2 → numerador) e 2–3 erros por problema.
+
+**Piloto** (2 exercícios × 1 réplica, custo-beneficio, agentes da produção
+132c645): agents 3 citam a interface (14–18 menções a Linha 2 / R1_user /
+equals_combo); agent 6 ancora os passos nos componentes; gate de problema fixo
+**2/2 APROVADO**; régua no materializado (n=2, ilustrativo): cobertura em ordem
+**1,00**, caminho íntegro **1,00**, erros no estado certo 0,00. Critério de
+parada não acionado → coleta autorizada.

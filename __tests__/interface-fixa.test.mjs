@@ -105,3 +105,41 @@ describe("interface 6.19 — descrição neutra sem vazamento do grafo do especi
     }
   });
 });
+
+// ── corpus 6.18 (2026-08-17): interface com DUAS retas; R1 do estado inicial carrega a RESPOSTA ──
+describe("interface 6.18 — nenhum valor de campo entra na descrição (R1 = resposta)", () => {
+  const DS18 = "datasets/equiv-fractions-6.18";
+  const ids18 = fs.existsSync(`${DS18}/problems`) ? fs.readdirSync(`${DS18}/problems`) : [];
+  it("dataset com 20 problemas, envelopes e interface-params", () => {
+    expect(ids18.length).toBe(20);
+    for (const id of ids18) expect(fs.existsSync(`${DS18}/problems/${id}/interface-params.json`)).toBe(true);
+  });
+  it("a descrição NÃO contém o valor de R1 (numerador da resposta), nem L1/L2/R2, nem dicas/feedback do .brd", async () => {
+    const prev = process.env.STI_DATASET;
+    process.env.STI_DATASET = "equiv-fractions-6.18";
+    try {
+      const { descreverInterface618, textoRequisitoInterface } = await import("../interface-ctat.js");
+      let comR1 = 0;
+      for (const id of ids18) {
+        const A = JSON.parse(fs.readFileSync(`${DS18}/problems/${id}/envelope-a.json`, "utf8"));
+        const B = JSON.parse(fs.readFileSync(`${DS18}/problems/${id}/envelope-b.json`, "utf8"));
+        const P = JSON.parse(fs.readFileSync(`${DS18}/problems/${id}/interface-params.json`, "utf8"));
+        const d = descreverInterface618(A);
+        const texto = JSON.stringify(d) + textoRequisitoInterface(d);
+        const r1 = (P.mensagens.find((m) => m.selection === "R1" && m.action === "UpdateTextArea") || {}).input;
+        if (r1 && String(A.correctAnswer).includes(String(r1))) comR1++;
+        // o numerador da resposta não pode aparecer como valor citado na descrição
+        for (const campo of ["R1", "L1", "L2", "R2"]) {
+          const v = (P.mensagens.find((m) => m.selection === campo && m.action === "UpdateTextArea") || {}).input;
+          if (v) expect(texto).not.toMatch(new RegExp(`"${v}"|= *${v}\\b`));
+        }
+        for (const h of (B.hintsPerCorrectStep || []).flat()) if (String(h).length > 15) expect(texto.includes(String(h))).toBe(false);
+        for (const m of B.misconceptions || []) if (m.feedback && String(m.feedback).length > 15) expect(texto.includes(String(m.feedback))).toBe(false);
+        expect(texto).not.toContain("shield"); // controle interno não é oferecido ao agente
+      }
+      expect(comR1).toBe(20); // confirma o motivo da regra: R1 traz a resposta em todos
+    } finally {
+      if (prev === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = prev;
+    }
+  });
+});

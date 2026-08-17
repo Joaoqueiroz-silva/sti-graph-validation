@@ -22,7 +22,8 @@ import { pontuarCaminho, dpEntreReplicas } from "./comparar-caminho.mjs";
 import { verificarProblemaFixo } from "../../materializar-registro.js";
 
 import { problemsDirRelativo } from "../../dataset-config.js";
-const DATASET = problemsDirRelativo();
+// resolvido em tempo de chamada (multi-corpus no mesmo processo)
+const DATASET = () => problemsDirRelativo();
 const METRICAS = ["coberturaEstados", "coberturaSemOrdem", "caminhoIntegro", "errosNoEstadoCerto", "dicasNoEstadoCerto"];
 
 export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basename(dirMat) } = {}) {
@@ -33,8 +34,8 @@ export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basena
     const r = JSON.parse(fs.readFileSync(path.join(runsDir, f), "utf8"));
     const ex = r.exercicio ?? r.id;
     if (!REF[ex] || !r.materializado?.grafo) continue;
-    const envA = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-a.json"), "utf8"));
-    const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET, ex, "envelope-b.json"), "utf8"));
+    const envA = JSON.parse(fs.readFileSync(path.join(raiz, DATASET(), ex, "envelope-a.json"), "utf8"));
+    const envB = JSON.parse(fs.readFileSync(path.join(raiz, DATASET(), ex, "envelope-b.json"), "utf8"));
     const gateEstrito = r.materializado.problemaFixo?.aprovado === true;
     const gateSens = verificarProblemaFixo(envA, r.materializado.exercicio, r.materializado.grafo, { constantesDeDominio: true }).aprovado;
     // sensibilidade 2 (post hoc, 2026-08-16): 0/1 + equivalência canônica (1.25 ≡ 5/4)
