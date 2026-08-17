@@ -1,0 +1,2773 @@
+{
+ "id": "20birthday",
+ "correctAnswer": "15/8",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.167,
+ "conceptual": 0.182,
+ "precision": 0.167,
+ "recall": 0.167,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0,
+ "missing": [
+  "-1",
+  "7/4",
+  "16",
+  "-"
+ ],
+ "extra": [
+  "15/2",
+  "2"
+ ],
+ "robotMisconceptions": [
+  "15/2",
+  "8",
+  "15",
+  "2"
+ ],
+ "exercicio": "20birthday",
+ "replica": 1,
+ "geradoEm": "2026-08-15T22:39:59.699Z",
+ "promptSha256": "ed579d67fd17f610372ecacdf7c99b3544e61bfb12250da287d89697ba58b79e",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:56:30.519Z"
+ },
+ "custo": {
+  "tokensEntrada": 7538,
+  "tokensSaida": 8141,
+  "usd": 0.037629539999999996
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado do problema",
+    "kc": "FracGreater1",
+    "valor": "Quantidade comida: 15 pedaços; cada bolo tem 8 pedaços → fração = 15/8"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador = {A} = 15"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador = {B} = 8"
+   },
+   {
+    "indice": 4,
+    "acao": "Digitar o numerador no campo F1",
+    "kc": "IdenNumerator",
+    "valor": "F1 = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Digitar o denominador no campo F2",
+    "kc": "IdenDenominator",
+    "valor": "F2 = {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Definir o número de partes na reta numérica",
+    "kc": "DivNumLine",
+    "valor": "Reta dividida em intervalos de 1/8"
+   },
+   {
+    "indice": 7,
+    "acao": "Localizar a fração 15/8 na reta numérica",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado corretamente em {A}/{B} na reta"
+   },
+   {
+    "indice": 8,
+    "acao": "Confirmar a resposta com o botão Done",
+    "kc": "FracGreater1",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "15/2",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar linguagem: 'dividido em oito pedaços' → denominador = 8; praticar com outros exemplos ('3 pizzas divididas em 6 fatias')",
+    "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+    "misconceptionId": "misc_usa_numero_de_bolos_como_denominador"
+   },
+   {
+    "valor": "8",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar visualmente o segmento de 0 a 1 como um bolo; reforçar que o denominador define divisões por unidade, não no intervalo total",
+    "buggyRule": "Inserir o denominador da fração ({denom}) no campo 'Number of parts', sem ajustar para o intervalo 0–1. Ex: para 15/8, digita 8, dividindo 0–2 em 8 partes.",
+    "misconceptionId": "misc_divide_reta_pelo_denominador_global"
+   },
+   {
+    "valor": "15",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar régua fracionária ou desenho paralelo: marcar 0, 1, 2 e subdividir 0-1 em 8 partes; associar cada parte a 1/8",
+    "buggyRule": "Contar {total_pedacos} marcas a partir do zero, independentemente do valor de cada intervalo. Ex: se a reta tem N divisões, marca na posição min({total_pedacos}, N).",
+    "misconceptionId": "misc_contagem_marcas_em_vez_de_valor"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Calcular explicitamente: 2 bolos × 8 = 16 pedaços → 15/8 < 2; comparar numerador com total de pedaços disponíveis",
+    "buggyRule": "",
+    "misconceptionId": "misc_interpreta_fracao_impropria_como_inteiro_aproximado"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando representamos frações de um todo, o denominador mostra em quantas partes IGUAIS aquele TODO foi dividido. Aqui, cada bolo foi dividido em quantas partes?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Pense assim: se cada bolo tem 8 pedaços, então um bolo inteiro = 8/8. Dois bolos = 16/8. Agora, quantos pedaços foram comidos? Esse número vai no numerador — mas mantenha o mesmo denominador do bolo original!"
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração deve usar o número de pedaços por bolo como denominador. Eles comeram 15 pedaços, e cada bolo tem 8. Então a fração é maior que 1... e começa com 15 em cima."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se cada bolo tem 8 partes, então o denominador é 8. Eles comeram 15 pedaços — então o numerador é 15. Digite 15 em cima e 8 embaixo. Depois, vamos marcar isso na reta!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Lembre-se: a unidade aqui é 'um bolo'. Se um bolo vira 8 pedaços, então 1 = 8/8. Quantos pedaços formam um inteiro? Use isso para escolher o denominador."
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Ótimo! Para representar frações maiores que 1, mantemos o mesmo tamanho de parte (o denominador). Como cada bolo tem 8 partes, use 8 como denominador — mesmo com dois bolos!"
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Cuidado! O denominador não é o total de pedaços disponíveis, mas sim quantos pedaços formam UM bolo inteiro. Quantos são?"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Exatamente! Um bolo = 8 pedaços → denominador = 8. Você já colocou 15 em cima. Agora coloque 8 embaixo — essa é a fração correta!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Como sua fração tem denominador 8, quantas partes iguais você precisa entre cada número inteiro na reta?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Para marcar 15/8, primeiro divida cada unidade (de 0 a 1, e de 1 a 2) em 8 partes. Digite 8 no campo 'Number of parts' e clique OK — a reta se ajustará automaticamente!"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Veja: 15/8 está entre 1 e 2. Para encontrá-lo, a reta precisa mostrar oitavos. Digite 8 em 'Number of parts' — isso divide cada inteiro em 8!"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Perfeito! Digite 8 no campo 'Number of parts' e clique OK. Agora a reta mostra marcas em 1/8, 2/8, ..., 16/8. Pronto para marcar 15/8!"
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Se 8 partes fazem 1 inteiro, quantas partes fazem 1 inteiro e mais algumas? Onde ficaria 15 partes na reta?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Conte as marcas: de 0 a 1 tem 8 marcas (1/8 a 8/8). De 1 a 2, continue contando: 9/8, 10/8, ..., até 15/8. Marque na 15ª marca desde o zero!"
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Dica: 15/8 = 1 inteiro + 7/8. Então, partindo do 1, avance 7 marcas para a direita. É a penúltima marca antes do 2!"
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você consegue! Comece em 1 (que é 8/8), depois conte: 9/8 (1ª), 10/8 (2ª), 11/8 (3ª), 12/8 (4ª), 13/8 (5ª), 14/8 (6ª), 15/8 (7ª). Marque nessa sétima marca após o 1!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20birthday\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado do problema\\\",\\n          \\\"thinking\\\": \\\"O problema envolve dois bolos, cada um dividido em 8 pedaços, totalizando 16 pedaços possíveis. Foram comidos 15 pedaços. Preciso expressar essa quantidade como fração de bolo inteiro.\\\",\\n          \\\"result\\\": \\\"Quantidade comida: 15 pedaços; cada bolo tem 8 pedaços → fração = 15/8\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O numerador representa o número total de pedaços comidos, que é 15.\\\",\\n          \\\"result\\\": \\\"Numerador = {A} = 15\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador representa quantos pedaços formam um bolo inteiro, que é 8.\\\",\\n          \\\"result\\\": \\\"Denominador = {B} = 8\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar o numerador no campo F1\\\",\\n          \\\"thinking\\\": \\\"Insiro 15 na caixa superior da fração.\\\",\\n          \\\"result\\\": \\\"F1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar o denominador no campo F2\\\",\\n          \\\"thinking\\\": \\\"Insiro 8 na caixa inferior da fração.\\\",\\n          \\\"result\\\": \\\"F2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Definir o número de partes na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Como o denominador é 8, preciso dividir a reta em 8 partes iguais por unidade. Como a reta vai de 0 a 2, preciso 16 divisões no total, mas o campo 'Number of parts' se refere ao denominador — então insiro 8 e clico em OK.\\\",\\n          \\\"result\\\": \\\"Reta dividida em intervalos de 1/8\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Localizar a fração 15/8 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"15/8 está entre 1 e 2, pois 8/8 = 1 e 16/8 = 2. Conto 15 marcas a partir do zero (ou 7 marcas após o 1) e posiciono o ponto exatamente em 15/8.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em {A}/{B} na reta\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Confirmar a resposta com o botão Done\\\",\\n          \\\"thinking\\\": \\\"Verifico que a fração está correta e a marcação na reta coincide. Clico em Done para finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 29\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20birthday\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador\\\",\\n              \\\"thinking\\\": \\\"Eles comeram 15 pedaços, e cada bolo tem 8, então a fração deve ser 15/8.\\\",\\n              \\\"result\\\": \\\"Resposta correta nos campos\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Dividir a reta numérica\\\",\\n              \\\"thinking\\\": \\\"Preciso dividir a reta em partes iguais. Como o denominador é 8, vou colocar 8 no campo 'Number of parts'.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 8 partes entre 0 e 2\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divide_reta_pelo_denominador_global\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"8\\\",\\n                \\\"description\\\": \\\"Aluno divide toda a reta (de 0 a 2) em 8 partes, tratando o denominador como se fosse para o intervalo total, não por unidade\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao usar o campo 'Number of parts', o aluno inseriu o denominador da fração (8) sem considerar que a reta vai até 2, então cada unidade precisa de 8 divisões\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se cada bolo tem 8 pedaços, quantos pedaços há em DOIS bolos? E quantas marcas você precisa entre 0 e 1 para representar oitavos?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você acertou a fração. Agora pense: a reta vai de 0 a 2, mas os oitavos são dentro de CADA bolo (cada inteiro). Quantas divisões precisamos entre 0 e 1 para mostrar oitavos?\\\",\\n                \\\"howToFix\\\": \\\"Destacar visualmente o segmento de 0 a 1 como um bolo; reforçar que o denominador define divisões por unidade, não no intervalo total\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar o ponto na reta\\\",\\n              \\\"thinking\\\": \\\"15 pedaços... cada marca é um pedaço, então conto 15 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Marca no ponto correspondente à posição 15/8 na escala errada (reta com 8 divisões totais)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_de_valor\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"15\\\",\\n                \\\"description\\\": \\\"Aluno conta 15 marcas na reta (como se cada marca valesse 1), ignorando o valor real de cada intervalo\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar a fração, o aluno conta marcas discretas em vez de interpretar a escala fracionária\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Cada marca representa 1 inteiro ou uma parte do inteiro? Quanto vale cada espaço entre 0 e 1?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está contando com cuidado — isso é ótimo! Mas cada marca não vale 1 inteiro. Vamos olhar juntos: entre 0 e 1, quantas partes temos? Quanto vale cada uma?\\\",\\n                \\\"howToFix\\\": \\\"Usar régua fracionária ou desenho paralelo: marcar 0, 1, 2 e subdividir 0-1 em 8 partes; associar cada parte a 1/8\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"15/8 (fração correta), mas ponto mal posicionado devido à escala incorreta\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador\\\",\\n              \\\"thinking\\\": \\\"Comeram 15 pedaços no total, e tinham 2 bolos... então a fração é 15/2.\\\",\\n              \\\"result\\\": \\\"Campos F1=15, F2=2\\\",\\n              \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_numero_de_bolos_como_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"15/2\\\",\\n                \\\"description\\\": \\\"Aluno usa o número de bolos (2) como denominador, confundindo 'quantos inteiros' com 'em quantas partes cada inteiro foi dividido'\\\",\\n                \\\"mistakeLocation\\\": \\\"Na identificação do denominador: o aluno associou 'dois bolos' ao denominador, em vez de 'oito pedaços por bolo'\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O denominador mostra quantos pedaços tem EM CADA BOLO ou quantos bolos existem no total?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você leu o problema com atenção — percebeu que eram dois bolos! Mas o denominador vem de como CADA BOLO foi cortado. Quantos pedaços tinha cada bolo?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar linguagem: 'dividido em oito pedaços' → denominador = 8; praticar com outros exemplos ('3 pizzas divididas em 6 fatias')\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Dividir a reta numérica\\\",\\n              \\\"thinking\\\": \\\"O denominador é 2, então divido a reta em 2 partes.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 2 partes (0–1 e 1–2)\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_baseada_na_fração_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno divide a reta com base no denominador incorreto (2), perpetuando o erro conceitual\\\",\\n                \\\"mistakeLocation\\\": \\\"Na configuração da escala, usando o denominador já errado da fração\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se cada bolo foi cortado em 8 pedaços, quantas marcas devem haver entre 0 e 1?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Vamos voltar um passo: cada bolo foi dividido em quantos pedaços? Esse número é o que define as partes na reta.\\\",\\n                \\\"howToFix\\\": \\\"Reler o enunciado destacando 'cada bolo foi dividido em oito pedaços'; vincular diretamente a essa frase\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Marcar o ponto na reta\\\",\\n              \\\"thinking\\\": \\\"15/2 é 7 e meio, então fica depois do 2... mas a reta só vai até 2. Vou marcar no final.\\\",\\n              \\\"result\\\": \\\"Marca no ponto 2\\\",\\n              \\\"kcUsed\\\": \\\"FracGreater1, FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_interpreta_fracao_impropria_como_inteiro_aproximado\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo\\\",\\n                \\\"mistakeLocation\\\": \\\"Na localização do valor na reta: o aluno converteu mentalmente para decimal e, ao ver que não cabe, coloca no extremo\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A fração 15/2 realmente representa mais de 2 bolos? Quantos pedaços tem em 2 bolos inteiros?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando em quanto é a fração — isso é bom! Mas vamos verificar: se cada bolo tem 8 pedaços, quantos pedaços há em 2 bolos? Será que 15 é mais ou menos que isso?\\\",\\n                \\\"howToFix\\\": \\\"Calcular explicitamente: 2 bolos × 8 = 16 pedaços → 15/8 < 2; comparar numerador com total de pedaços disponíveis\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"15/2\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"20birthday\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_numero_de_bolos_como_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_pedacos}/{num_bolos}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.\\\",\\n              \\\"description\\\": \\\"Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação do denominador: o aluno lê 'dois bolos' e associa erroneamente ao denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O denominador vem de quantos pedaços cada bolo foi dividido ou de quantos bolos havia?\\\",\\n              \\\"feedback\\\": \\\"Você notou que eram dois bolos — ótimo! Mas o denominador mostra como CADA bolo foi cortado. Quantos pedaços tinha cada um?\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar no enunciado: 'cada bolo foi dividido em oito pedaços'; repetir com variações ('3 tortas em 6 fatias')\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_somente_com_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_pedacos}\\\",\\n              \\\"buggyRule\\\": \\\"Responder apenas com o número total de pedaços ({total_pedacos} = 15), ignorando a necessidade de representar como fração\\\",\\n              \\\"description\\\": \\\"Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da tarefa: o aluno foca na contagem de pedaços e não converte para medida em bolos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta pede a quantidade de BOLOS, não de pedaços. Como transformamos pedaços em bolos?\\\",\\n              \\\"feedback\\\": \\\"Você contou os pedaços corretamente! Agora, como sabemos quantos BOLos isso representa? Lembre-se: cada bolo tem 8 pedaços.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Se um bolo = 8 fichas, quantos bolos são 15 fichas?' Introduzir ideia de unidade composta\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{pedacos_por_bolo}/{total_pedacos}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter numerador e denominador: usar {pedacos_por_bolo} = 8 como numerador e {total_pedacos} = 15 como denominador → 8/15\\\",\\n              \\\"description\\\": \\\"Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida\\\",\\n              \\\"mistakeLocation\\\": \\\"Na montagem da fração: o aluno coloca o tamanho do pedaço (1/8) como referência e inverte a relação\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se comeram 15 pedaços e cada bolo tem 8, será que comeram mais ou menos que um bolo? A fração 8/15 é maior ou menor que 1?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Mas vamos pensar: 8/15 é menos que um bolo inteiro. Será que 15 pedaços são menos que um bolo se cada bolo tem 8?\\\",\\n              \\\"howToFix\\\": \\\"Comparar com benchmark: '1 bolo = 8 pedaços → 15 > 8 → mais que 1 bolo'; reforçar que numerador = pedaços reais, denominador = pedaços por bolo\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20birthday\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_reta_pelo_denominador_global\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{denominador}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir o denominador da fração ({denom}) no campo 'Number of parts', sem ajustar para o intervalo 0–1. Ex: para 15/8, digita 8, dividindo 0–2 em 8 partes.\\\",\\n              \\\"description\\\": \\\"Aluno aplica o denominador à reta inteira (0 a 2), em vez de por unidade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na configuração da escala: o aluno não reconhece que o denominador define divisões por inteiro, não no domínio total\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantas partes devem haver entre 0 e 1 para mostrar oitavos? E entre 1 e 2?\\\",\\n              \\\"feedback\\\": \\\"Você usou o número certo! Agora pense: os oitavos aparecem dentro de CADA bolo. Quantas marcas precisamos de 0 a 1?\\\",\\n              \\\"howToFix\\\": \\\"Mostrar zoom no segmento 0–1; comparar com relógio (1 hora = 60 min, não 120 min em 2 horas)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_reta_pelo_total_de_pedacos\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_pedacos}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número total de pedaços ({total_pedacos} = 15) como número de partes para dividir a reta\\\",\\n              \\\"description\\\": \\\"Aluno confunde o numerador com o número de divisões da reta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do valor para 'Number of parts': o aluno usa o total de pedaços (15) em vez do denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O número de divisões na reta depende de quantos pedaços COMERAM ou de quantos pedaços tem CADA BOLO?\\\",\\n              \\\"feedback\\\": \\\"Você está ligando os números ao problema — isso é bom! Mas as divisões da reta mostram como CADA bolo foi cortado, não quantos pedaços foram comidos.\\\",\\n              \\\"howToFix\\\": \\\"Associar visualmente: desenhar um bolo cortado em 8 → corresponde às 8 divisões entre 0 e 1\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_deixa_reta_nao_dividida\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Não alterar o valor inicial do campo 'Number of parts' (1), deixando a reta sem subdivisões\\\",\\n              \\\"description\\\": \\\"Aluno ignora a necessidade de dividir a reta, mantendo a configuração padrão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interação com o componente 'denom': o aluno pula o passo ou assume que a reta já está pronta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você vai marcar 15/8 se a reta só mostra 0, 1 e 2? Precisamos de mais marcas?\\\",\\n              \\\"feedback\\\": \\\"Quase lá! Para marcar frações exatas, precisamos dividir a reta. Quantas partes cada bolo tem? Use esse número!\\\",\\n              \\\"howToFix\\\": \\\"Guiar passo a passo: 'Primeiro, divida a reta. Quantos pedaços por bolo? Digite isso.'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"20birthday\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine, FracGreater1\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_de_valor\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total_pedacos}\\\",\\n              \\\"buggyRule\\\": \\\"Contar {total_pedacos} marcas a partir do zero, independentemente do valor de cada intervalo. Ex: se a reta tem N divisões, marca na posição min({total_pedacos}, N).\\\",\\n              \\\"description\\\": \\\"Aluno trata cada marca como uma unidade discreta, não como uma fração do inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"Na localização do ponto: o aluno conta marcas como se fossem objetos, não posições numéricas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Cada marca representa um pedaço inteiro ou uma fração do bolo? Quanto vale o espaço entre 0 e a primeira marca?\\\",\\n              \\\"feedback\\\": \\\"Você está contando com cuidado — isso é ótimo! Mas cada marca não é um bolo inteiro. Vamos ver juntos quanto vale cada pedacinho.\\\",\\n              \\\"howToFix\\\": \\\"Rotular explicitamente as marcas: 1/8, 2/8, ..., 8/8=1; usar seta apontando para 15/8 = 1 + 7/8\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_na_metade_do_segundo_bolo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1.5\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que 15 pedaços em 16 possíveis equivale à metade do segundo bolo, marcando 1.5 (ou 3/2)\\\",\\n              \\\"description\\\": \\\"Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual: o aluno julga pela proximidade do fim, não pelo valor exato\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 8 pedaços = 1 bolo, quantos bolos são 15 pedaços? É mais próximo de 1.5 ou de 1.875?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que está perto do final — muito bem! Mas vamos calcular exatamente: 8 pedaços = 1, então 15 = 1 + 7/8. Onde fica 7/8 depois do 1?\\\",\\n              \\\"howToFix\\\": \\\"Decompor: 15/8 = 8/8 + 7/8 = 1 + 7/8; destacar 7/8 entre 1 e 2\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_com_fracao_propria\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"7/8\\\",\\n              \\\"buggyRule\\\": \\\"Usar apenas a parte fracionária além do inteiro: {total_pedacos} - {pedacos_por_bolo} = 15 - 8 = 7 → 7/8\\\",\\n              \\\"description\\\": \\\"Aluno esquece o inteiro e marca só o resto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação de frações impróprias: o aluno foca no 'excesso' e ignora o(s) inteiro(s) completo(s)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Eles comeram apenas os 7 pedaços extras ou também um bolo inteiro antes disso?\\\",\\n              \\\"feedback\\\": \\\"Você acertou a parte fracionária! Mas lembrando: antes dos 7 pedaços extras, eles já tinham comido um bolo inteiro. Então onde fica 1 + 7/8?\\\",\\n              \\\"howToFix\\\": \\\"Usar modelo de área: colorir 8/8 + 7/8 em dois círculos; transferir para reta numérica\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"20birthday\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os dados\\\",\\n          \\\"thinking\\\": \\\"Tinha dois bolos, cada um dividido em 8 pedaços... então no total tem 16 pedaços. Eles comeram 15. Preciso representar isso como fração de bolo. Mas será que o denominador é 8 ou 16?\\\",\\n          \\\"result\\\": \\\"Entendi que preciso formar uma fração com base nos pedaços comidos e na divisão de cada bolo\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando representamos frações de um todo, o denominador mostra em quantas partes IGUAIS aquele TODO foi dividido. Aqui, cada bolo foi dividido em quantas partes?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Pense assim: se cada bolo tem 8 pedaços, então um bolo inteiro = 8/8. Dois bolos = 16/8. Agora, quantos pedaços foram comidos? Esse número vai no numerador — mas mantenha o mesmo denominador do bolo original!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração deve usar o número de pedaços por bolo como denominador. Eles comeram 15 pedaços, e cada bolo tem 8. Então a fração é maior que 1... e começa com 15 em cima.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se cada bolo tem 8 partes, então o denominador é 8. Eles comeram 15 pedaços — então o numerador é 15. Digite 15 em cima e 8 embaixo. Depois, vamos marcar isso na reta!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher F1 (numerador) com 15\\\",\\n          \\\"thinking\\\": \\\"Comeram 15 pedaços, então o numerador deve ser 15.\\\",\\n          \\\"result\\\": \\\"F1 = 15\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher F2 (denominador) com 8\\\",\\n          \\\"thinking\\\": \\\"Cada bolo foi dividido em 8, então o denominador é 8, não 16 — porque estamos falando de 'bolo', não de 'pedaços totais'.\\\",\\n          \\\"result\\\": \\\"F2 = 8\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Lembre-se: a unidade aqui é 'um bolo'. Se um bolo vira 8 pedaços, então 1 = 8/8. Quantos pedaços formam um inteiro? Use isso para escolher o denominador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Ótimo! Para representar frações maiores que 1, mantemos o mesmo tamanho de parte (o denominador). Como cada bolo tem 8 partes, use 8 como denominador — mesmo com dois bolos!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Cuidado! O denominador não é o total de pedaços disponíveis, mas sim quantos pedaços formam UM bolo inteiro. Quantos são?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! Um bolo = 8 pedaços → denominador = 8. Você já colocou 15 em cima. Agora coloque 8 embaixo — essa é a fração correta!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Digitar 8 no campo 'Number of parts' (denom) e clicar OK\\\",\\n          \\\"thinking\\\": \\\"Preciso dividir a reta em 8 partes iguais entre 0 e 1... mas a fração é maior que 1, então talvez precise até o 2?\\\",\\n          \\\"result\\\": \\\"Reta dividida em oitavos de 0 a 2 (16 partes no total)\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Como sua fração tem denominador 8, quantas partes iguais você precisa entre cada número inteiro na reta?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Para marcar 15/8, primeiro divida cada unidade (de 0 a 1, e de 1 a 2) em 8 partes. Digite 8 no campo 'Number of parts' e clique OK — a reta se ajustará automaticamente!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja: 15/8 está entre 1 e 2. Para encontrá-lo, a reta precisa mostrar oitavos. Digite 8 em 'Number of parts' — isso divide cada inteiro em 8!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Perfeito! Digite 8 no campo 'Number of parts' e clique OK. Agora a reta mostra marcas em 1/8, 2/8, ..., 16/8. Pronto para marcar 15/8!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 15/8 na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Se 8/8 é 1, então 16/8 é 2. Então 15/8 está logo antes do 2... na penúltima marca entre 1 e 2.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em 15/8\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se 8 partes fazem 1 inteiro, quantas partes fazem 1 inteiro e mais algumas? Onde ficaria 15 partes na reta?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Conte as marcas: de 0 a 1 tem 8 marcas (1/8 a 8/8). De 1 a 2, continue contando: 9/8, 10/8, ..., até 15/8. Marque na 15ª marca desde o zero!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 15/8 = 1 inteiro + 7/8. Então, partindo do 1, avance 7 marcas para a direita. É a penúltima marca antes do 2!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! Comece em 1 (que é 8/8), depois conte: 9/8 (1ª), 10/8 (2ª), 11/8 (3ª), 12/8 (4ª), 13/8 (5ª), 14/8 (6ª), 15/8 (7ª). Marque nessa sétima marca após o 1!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo: fração 15/8, reta dividida em oitavos, ponto marcado perto do 2.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"FracGreater1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"15/8\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar número misto (1 7/8) mentalmente, mas converter para fração imprópria ao final\\\",\\n          \\\"steps\\\": [\\\"Reconhecer que 15 pedaços = 1 bolo inteiro + 7 pedaços\\\", \\\"Escrever como 1 7/8\\\", \\\"Converter para 15/8\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Contar manualmente todas as marcas na reta sem dividir corretamente primeiro\\\",\\n          \\\"steps\\\": [\\\"Tentar marcar 15/8 sem ajustar o número de partes\\\", \\\"Perceber que não há marcação suficiente\\\", \\\"Voltar e digitar '8' em 'Number of parts'\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "20birthday",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado do problema",
+        "thinking": "O problema envolve dois bolos, cada um dividido em 8 pedaços, totalizando 16 pedaços possíveis. Foram comidos 15 pedaços. Preciso expressar essa quantidade como fração de bolo inteiro.",
+        "result": "Quantidade comida: 15 pedaços; cada bolo tem 8 pedaços → fração = 15/8",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O numerador representa o número total de pedaços comidos, que é 15.",
+        "result": "Numerador = {A} = 15",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador representa quantos pedaços formam um bolo inteiro, que é 8.",
+        "result": "Denominador = {B} = 8",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Digitar o numerador no campo F1",
+        "thinking": "Insiro 15 na caixa superior da fração.",
+        "result": "F1 = {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Digitar o denominador no campo F2",
+        "thinking": "Insiro 8 na caixa inferior da fração.",
+        "result": "F2 = {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Definir o número de partes na reta numérica",
+        "thinking": "Como o denominador é 8, preciso dividir a reta em 8 partes iguais por unidade. Como a reta vai de 0 a 2, preciso 16 divisões no total, mas o campo 'Number of parts' se refere ao denominador — então insiro 8 e clico em OK.",
+        "result": "Reta dividida em intervalos de 1/8",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Localizar a fração 15/8 na reta numérica",
+        "thinking": "15/8 está entre 1 e 2, pois 8/8 = 1 e 16/8 = 2. Conto 15 marcas a partir do zero (ou 7 marcas após o 1) e posiciono o ponto exatamente em 15/8.",
+        "result": "Ponto marcado corretamente em {A}/{B} na reta",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Confirmar a resposta com o botão Done",
+        "thinking": "Verifico que a fração está correta e a marcação na reta coincide. Clico em Done para finalizar.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracGreater1",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 29
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "20birthday",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador",
+          "thinking": "Eles comeram 15 pedaços, e cada bolo tem 8, então a fração deve ser 15/8.",
+          "result": "Resposta correta nos campos",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Dividir a reta numérica",
+          "thinking": "Preciso dividir a reta em partes iguais. Como o denominador é 8, vou colocar 8 no campo 'Number of parts'.",
+          "result": "Reta dividida em 8 partes entre 0 e 2",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divide_reta_pelo_denominador_global",
+           "type": "conceptual_error",
+           "wrongAnswer": "8",
+           "description": "Aluno divide toda a reta (de 0 a 2) em 8 partes, tratando o denominador como se fosse para o intervalo total, não por unidade",
+           "mistakeLocation": "Ao usar o campo 'Number of parts', o aluno inseriu o denominador da fração (8) sem considerar que a reta vai até 2, então cada unidade precisa de 8 divisões",
+           "diagnosticQuestion": "Se cada bolo tem 8 pedaços, quantos pedaços há em DOIS bolos? E quantas marcas você precisa entre 0 e 1 para representar oitavos?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você acertou a fração. Agora pense: a reta vai de 0 a 2, mas os oitavos são dentro de CADA bolo (cada inteiro). Quantas divisões precisamos entre 0 e 1 para mostrar oitavos?",
+           "howToFix": "Destacar visualmente o segmento de 0 a 1 como um bolo; reforçar que o denominador define divisões por unidade, não no intervalo total"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar o ponto na reta",
+          "thinking": "15 pedaços... cada marca é um pedaço, então conto 15 marcas a partir do zero.",
+          "result": "Marca no ponto correspondente à posição 15/8 na escala errada (reta com 8 divisões totais)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marcas_em_vez_de_valor",
+           "type": "procedural_error",
+           "wrongAnswer": "15",
+           "description": "Aluno conta 15 marcas na reta (como se cada marca valesse 1), ignorando o valor real de cada intervalo",
+           "mistakeLocation": "Ao posicionar a fração, o aluno conta marcas discretas em vez de interpretar a escala fracionária",
+           "diagnosticQuestion": "Cada marca representa 1 inteiro ou uma parte do inteiro? Quanto vale cada espaço entre 0 e 1?",
+           "severity": "high",
+           "feedback": "Você está contando com cuidado — isso é ótimo! Mas cada marca não vale 1 inteiro. Vamos olhar juntos: entre 0 e 1, quantas partes temos? Quanto vale cada uma?",
+           "howToFix": "Usar régua fracionária ou desenho paralelo: marcar 0, 1, 2 e subdividir 0-1 em 8 partes; associar cada parte a 1/8"
+          }
+         }
+        ],
+        "finalAnswer": "15/8 (fração correta), mas ponto mal posicionado devido à escala incorreta",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador",
+          "thinking": "Comeram 15 pedaços no total, e tinham 2 bolos... então a fração é 15/2.",
+          "result": "Campos F1=15, F2=2",
+          "kcUsed": "IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_numero_de_bolos_como_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "15/2",
+           "description": "Aluno usa o número de bolos (2) como denominador, confundindo 'quantos inteiros' com 'em quantas partes cada inteiro foi dividido'",
+           "mistakeLocation": "Na identificação do denominador: o aluno associou 'dois bolos' ao denominador, em vez de 'oito pedaços por bolo'",
+           "diagnosticQuestion": "O denominador mostra quantos pedaços tem EM CADA BOLO ou quantos bolos existem no total?",
+           "severity": "high",
+           "feedback": "Você leu o problema com atenção — percebeu que eram dois bolos! Mas o denominador vem de como CADA BOLO foi cortado. Quantos pedaços tinha cada bolo?",
+           "howToFix": "Relacionar linguagem: 'dividido em oito pedaços' → denominador = 8; praticar com outros exemplos ('3 pizzas divididas em 6 fatias')"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Dividir a reta numérica",
+          "thinking": "O denominador é 2, então divido a reta em 2 partes.",
+          "result": "Reta dividida em 2 partes (0–1 e 1–2)",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_baseada_na_fração_errada",
+           "type": "procedural_error",
+           "wrongAnswer": "2",
+           "description": "Aluno divide a reta com base no denominador incorreto (2), perpetuando o erro conceitual",
+           "mistakeLocation": "Na configuração da escala, usando o denominador já errado da fração",
+           "diagnosticQuestion": "Se cada bolo foi cortado em 8 pedaços, quantas marcas devem haver entre 0 e 1?",
+           "severity": "moderate",
+           "feedback": "Vamos voltar um passo: cada bolo foi dividido em quantos pedaços? Esse número é o que define as partes na reta.",
+           "howToFix": "Reler o enunciado destacando 'cada bolo foi dividido em oito pedaços'; vincular diretamente a essa frase"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Marcar o ponto na reta",
+          "thinking": "15/2 é 7 e meio, então fica depois do 2... mas a reta só vai até 2. Vou marcar no final.",
+          "result": "Marca no ponto 2",
+          "kcUsed": "FracGreater1, FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_interpreta_fracao_impropria_como_inteiro_aproximado",
+           "type": "conceptual_error",
+           "wrongAnswer": "2",
+           "description": "Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo",
+           "mistakeLocation": "Na localização do valor na reta: o aluno converteu mentalmente para decimal e, ao ver que não cabe, coloca no extremo",
+           "diagnosticQuestion": "A fração 15/2 realmente representa mais de 2 bolos? Quantos pedaços tem em 2 bolos inteiros?",
+           "severity": "high",
+           "feedback": "Você está pensando em quanto é a fração — isso é bom! Mas vamos verificar: se cada bolo tem 8 pedaços, quantos pedaços há em 2 bolos? Será que 15 é mais ou menos que isso?",
+           "howToFix": "Calcular explicitamente: 2 bolos × 8 = 16 pedaços → 15/8 < 2; comparar numerador com total de pedaços disponíveis"
+          }
+         }
+        ],
+        "finalAnswer": "15/2",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "20birthday",
+        "step": 1,
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_numero_de_bolos_como_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_pedacos}/{num_bolos}",
+          "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+          "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+          "mistakeLocation": "Na identificação do denominador: o aluno lê 'dois bolos' e associa erroneamente ao denominador",
+          "diagnosticQuestion": "O denominador vem de quantos pedaços cada bolo foi dividido ou de quantos bolos havia?",
+          "feedback": "Você notou que eram dois bolos — ótimo! Mas o denominador mostra como CADA bolo foi cortado. Quantos pedaços tinha cada um?",
+          "howToFix": "Sublinhar no enunciado: 'cada bolo foi dividido em oito pedaços'; repetir com variações ('3 tortas em 6 fatias')",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_somente_com_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total_pedacos}",
+          "buggyRule": "Responder apenas com o número total de pedaços ({total_pedacos} = 15), ignorando a necessidade de representar como fração",
+          "description": "Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos",
+          "mistakeLocation": "Na interpretação da tarefa: o aluno foca na contagem de pedaços e não converte para medida em bolos",
+          "diagnosticQuestion": "A pergunta pede a quantidade de BOLOS, não de pedaços. Como transformamos pedaços em bolos?",
+          "feedback": "Você contou os pedaços corretamente! Agora, como sabemos quantos BOLos isso representa? Lembre-se: cada bolo tem 8 pedaços.",
+          "howToFix": "Usar analogia: 'Se um bolo = 8 fichas, quantos bolos são 15 fichas?' Introduzir ideia de unidade composta",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_numerador_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{pedacos_por_bolo}/{total_pedacos}",
+          "buggyRule": "Inverter numerador e denominador: usar {pedacos_por_bolo} = 8 como numerador e {total_pedacos} = 15 como denominador → 8/15",
+          "description": "Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida",
+          "mistakeLocation": "Na montagem da fração: o aluno coloca o tamanho do pedaço (1/8) como referência e inverte a relação",
+          "diagnosticQuestion": "Se comeram 15 pedaços e cada bolo tem 8, será que comeram mais ou menos que um bolo? A fração 8/15 é maior ou menor que 1?",
+          "feedback": "Boa tentativa! Mas vamos pensar: 8/15 é menos que um bolo inteiro. Será que 15 pedaços são menos que um bolo se cada bolo tem 8?",
+          "howToFix": "Comparar com benchmark: '1 bolo = 8 pedaços → 15 > 8 → mais que 1 bolo'; reforçar que numerador = pedaços reais, denominador = pedaços por bolo",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20birthday",
+        "step": 2,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_reta_pelo_denominador_global",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{denominador}",
+          "buggyRule": "Inserir o denominador da fração ({denom}) no campo 'Number of parts', sem ajustar para o intervalo 0–1. Ex: para 15/8, digita 8, dividindo 0–2 em 8 partes.",
+          "description": "Aluno aplica o denominador à reta inteira (0 a 2), em vez de por unidade",
+          "mistakeLocation": "Na configuração da escala: o aluno não reconhece que o denominador define divisões por inteiro, não no domínio total",
+          "diagnosticQuestion": "Quantas partes devem haver entre 0 e 1 para mostrar oitavos? E entre 1 e 2?",
+          "feedback": "Você usou o número certo! Agora pense: os oitavos aparecem dentro de CADA bolo. Quantas marcas precisamos de 0 a 1?",
+          "howToFix": "Mostrar zoom no segmento 0–1; comparar com relógio (1 hora = 60 min, não 120 min em 2 horas)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_reta_pelo_total_de_pedacos",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{total_pedacos}",
+          "buggyRule": "Usar o número total de pedaços ({total_pedacos} = 15) como número de partes para dividir a reta",
+          "description": "Aluno confunde o numerador com o número de divisões da reta",
+          "mistakeLocation": "Na escolha do valor para 'Number of parts': o aluno usa o total de pedaços (15) em vez do denominador",
+          "diagnosticQuestion": "O número de divisões na reta depende de quantos pedaços COMERAM ou de quantos pedaços tem CADA BOLO?",
+          "feedback": "Você está ligando os números ao problema — isso é bom! Mas as divisões da reta mostram como CADA bolo foi cortado, não quantos pedaços foram comidos.",
+          "howToFix": "Associar visualmente: desenhar um bolo cortado em 8 → corresponde às 8 divisões entre 0 e 1",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_deixa_reta_nao_dividida",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Não alterar o valor inicial do campo 'Number of parts' (1), deixando a reta sem subdivisões",
+          "description": "Aluno ignora a necessidade de dividir a reta, mantendo a configuração padrão",
+          "mistakeLocation": "Na interação com o componente 'denom': o aluno pula o passo ou assume que a reta já está pronta",
+          "diagnosticQuestion": "Como você vai marcar 15/8 se a reta só mostra 0, 1 e 2? Precisamos de mais marcas?",
+          "feedback": "Quase lá! Para marcar frações exatas, precisamos dividir a reta. Quantas partes cada bolo tem? Use esse número!",
+          "howToFix": "Guiar passo a passo: 'Primeiro, divida a reta. Quantos pedaços por bolo? Digite isso.'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "20birthday",
+        "step": 3,
+        "kcUsed": "FindValueNumLine, FracGreater1",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marcas_em_vez_de_valor",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{total_pedacos}",
+          "buggyRule": "Contar {total_pedacos} marcas a partir do zero, independentemente do valor de cada intervalo. Ex: se a reta tem N divisões, marca na posição min({total_pedacos}, N).",
+          "description": "Aluno trata cada marca como uma unidade discreta, não como uma fração do inteiro",
+          "mistakeLocation": "Na localização do ponto: o aluno conta marcas como se fossem objetos, não posições numéricas",
+          "diagnosticQuestion": "Cada marca representa um pedaço inteiro ou uma fração do bolo? Quanto vale o espaço entre 0 e a primeira marca?",
+          "feedback": "Você está contando com cuidado — isso é ótimo! Mas cada marca não é um bolo inteiro. Vamos ver juntos quanto vale cada pedacinho.",
+          "howToFix": "Rotular explicitamente as marcas: 1/8, 2/8, ..., 8/8=1; usar seta apontando para 15/8 = 1 + 7/8",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_posiciona_na_metade_do_segundo_bolo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1.5",
+          "buggyRule": "Assumir que 15 pedaços em 16 possíveis equivale à metade do segundo bolo, marcando 1.5 (ou 3/2)",
+          "description": "Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade",
+          "mistakeLocation": "Na estimativa visual: o aluno julga pela proximidade do fim, não pelo valor exato",
+          "diagnosticQuestion": "Se 8 pedaços = 1 bolo, quantos bolos são 15 pedaços? É mais próximo de 1.5 ou de 1.875?",
+          "feedback": "Você percebeu que está perto do final — muito bem! Mas vamos calcular exatamente: 8 pedaços = 1, então 15 = 1 + 7/8. Onde fica 7/8 depois do 1?",
+          "howToFix": "Decompor: 15/8 = 8/8 + 7/8 = 1 + 7/8; destacar 7/8 entre 1 e 2",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_com_fracao_propria",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "7/8",
+          "buggyRule": "Usar apenas a parte fracionária além do inteiro: {total_pedacos} - {pedacos_por_bolo} = 15 - 8 = 7 → 7/8",
+          "description": "Aluno esquece o inteiro e marca só o resto",
+          "mistakeLocation": "Na interpretação de frações impróprias: o aluno foca no 'excesso' e ignora o(s) inteiro(s) completo(s)",
+          "diagnosticQuestion": "Eles comeram apenas os 7 pedaços extras ou também um bolo inteiro antes disso?",
+          "feedback": "Você acertou a parte fracionária! Mas lembrando: antes dos 7 pedaços extras, eles já tinham comido um bolo inteiro. Então onde fica 1 + 7/8?",
+          "howToFix": "Usar modelo de área: colorir 8/8 + 7/8 em dois círculos; transferir para reta numérica",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "20birthday",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os dados",
+        "thinking": "Tinha dois bolos, cada um dividido em 8 pedaços... então no total tem 16 pedaços. Eles comeram 15. Preciso representar isso como fração de bolo. Mas será que o denominador é 8 ou 16?",
+        "result": "Entendi que preciso formar uma fração com base nos pedaços comidos e na divisão de cada bolo",
+        "kcUsed": "IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando representamos frações de um todo, o denominador mostra em quantas partes IGUAIS aquele TODO foi dividido. Aqui, cada bolo foi dividido em quantas partes?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Pense assim: se cada bolo tem 8 pedaços, então um bolo inteiro = 8/8. Dois bolos = 16/8. Agora, quantos pedaços foram comidos? Esse número vai no numerador — mas mantenha o mesmo denominador do bolo original!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração deve usar o número de pedaços por bolo como denominador. Eles comeram 15 pedaços, e cada bolo tem 8. Então a fração é maior que 1... e começa com 15 em cima."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se cada bolo tem 8 partes, então o denominador é 8. Eles comeram 15 pedaços — então o numerador é 15. Digite 15 em cima e 8 embaixo. Depois, vamos marcar isso na reta!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher F1 (numerador) com 15",
+        "thinking": "Comeram 15 pedaços, então o numerador deve ser 15.",
+        "result": "F1 = 15",
+        "kcUsed": "IdenNumerator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Preencher F2 (denominador) com 8",
+        "thinking": "Cada bolo foi dividido em 8, então o denominador é 8, não 16 — porque estamos falando de 'bolo', não de 'pedaços totais'.",
+        "result": "F2 = 8",
+        "kcUsed": "IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Lembre-se: a unidade aqui é 'um bolo'. Se um bolo vira 8 pedaços, então 1 = 8/8. Quantos pedaços formam um inteiro? Use isso para escolher o denominador."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Ótimo! Para representar frações maiores que 1, mantemos o mesmo tamanho de parte (o denominador). Como cada bolo tem 8 partes, use 8 como denominador — mesmo com dois bolos!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Cuidado! O denominador não é o total de pedaços disponíveis, mas sim quantos pedaços formam UM bolo inteiro. Quantos são?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! Um bolo = 8 pedaços → denominador = 8. Você já colocou 15 em cima. Agora coloque 8 embaixo — essa é a fração correta!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Digitar 8 no campo 'Number of parts' (denom) e clicar OK",
+        "thinking": "Preciso dividir a reta em 8 partes iguais entre 0 e 1... mas a fração é maior que 1, então talvez precise até o 2?",
+        "result": "Reta dividida em oitavos de 0 a 2 (16 partes no total)",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Como sua fração tem denominador 8, quantas partes iguais você precisa entre cada número inteiro na reta?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Para marcar 15/8, primeiro divida cada unidade (de 0 a 1, e de 1 a 2) em 8 partes. Digite 8 no campo 'Number of parts' e clique OK — a reta se ajustará automaticamente!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja: 15/8 está entre 1 e 2. Para encontrá-lo, a reta precisa mostrar oitavos. Digite 8 em 'Number of parts' — isso divide cada inteiro em 8!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Perfeito! Digite 8 no campo 'Number of parts' e clique OK. Agora a reta mostra marcas em 1/8, 2/8, ..., 16/8. Pronto para marcar 15/8!"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto correspondente a 15/8 na reta numérica",
+        "thinking": "Se 8/8 é 1, então 16/8 é 2. Então 15/8 está logo antes do 2... na penúltima marca entre 1 e 2.",
+        "result": "Ponto marcado corretamente em 15/8",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se 8 partes fazem 1 inteiro, quantas partes fazem 1 inteiro e mais algumas? Onde ficaria 15 partes na reta?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Conte as marcas: de 0 a 1 tem 8 marcas (1/8 a 8/8). De 1 a 2, continue contando: 9/8, 10/8, ..., até 15/8. Marque na 15ª marca desde o zero!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 15/8 = 1 inteiro + 7/8. Então, partindo do 1, avance 7 marcas para a direita. É a penúltima marca antes do 2!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! Comece em 1 (que é 8/8), depois conte: 9/8 (1ª), 10/8 (2ª), 11/8 (3ª), 12/8 (4ª), 13/8 (5ª), 14/8 (6ª), 15/8 (7ª). Marque nessa sétima marca após o 1!"
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Clicar em Done",
+        "thinking": "Acho que está tudo certo: fração 15/8, reta dividida em oitavos, ponto marcado perto do 2.",
+        "result": "Problema concluído",
+        "kcUsed": "FracGreater1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "15/8",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Usar número misto (1 7/8) mentalmente, mas converter para fração imprópria ao final",
+        "steps": [
+         "Reconhecer que 15 pedaços = 1 bolo inteiro + 7 pedaços",
+         "Escrever como 1 7/8",
+         "Converter para 15/8"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Contar manualmente todas as marcas na reta sem dividir corretamente primeiro",
+        "steps": [
+         "Tentar marcar 15/8 sem ajustar o número de partes",
+         "Perceber que não há marcação suficiente",
+         "Voltar e digitar '8' em 'Number of parts'"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 4,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"Qual é a fração presente no problema?\" com duas caixas numéricas (F1 em cima = numerador, F2 embaixo = denominador); reta numérica de 0 a 2 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); o rótulo da fração aparece como apoio na reta; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 2,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Manipule o modelo para representar os quinze pedaços como uma quantidade de bolos maior que um.",
+     "kc": "FracGreater1",
+     "valor": "15/8"
+    },
+    {
+     "indice": 2,
+     "acao": "Manipule o campo F1 para indicar a quantidade de pedaços que foi comida.",
+     "kc": "IdenNumerator",
+     "valor": "15"
+    },
+    {
+     "indice": 3,
+     "acao": "Manipule o campo F2 para indicar quantos pedaços formam cada bolo.",
+     "kc": "IdenDenominator",
+     "valor": "8"
+    },
+    {
+     "indice": 4,
+     "acao": "Digite 15 no campo F1, que representa o numerador da fração.",
+     "kc": "IdenNumerator",
+     "valor": "15"
+    },
+    {
+     "indice": 5,
+     "acao": "Digite 8 no campo F2, que representa o denominador da fração.",
+     "kc": "IdenDenominator",
+     "valor": "8"
+    },
+    {
+     "indice": 6,
+     "acao": "Digite 8 em Number of parts e pressione OK para dividir cada unidade da reta em oitavos.",
+     "kc": "DivNumLine",
+     "valor": "8"
+    },
+    {
+     "indice": 7,
+     "acao": "Marque na reta o ponto correspondente a 15/8, entre 1 e 2.",
+     "kc": "FindValueNumLine",
+     "valor": "15/8"
+    },
+    {
+     "indice": 8,
+     "acao": "Pressione Done para confirmar a fração 15/8 e o ponto marcado na reta.",
+     "kc": "FracGreater1",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "7/8",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você encontrou os 7 pedaços que sobraram depois de um bolo inteiro, mas a quantidade total também inclui esse bolo inteiro. Represente os 15 pedaços sobre 8 pedaços por bolo.",
+     "buggyRule": "Usar apenas a parte fracionária além do inteiro: {total_pedacos} - {pedacos_por_bolo} = 15 - 8 = 7 → 7/8",
+     "misconceptionId": "misc_confunde_com_fracao_propria"
+    },
+    {
+     "valor": "1.5",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A quantidade está entre 1 e 2 bolos, mas 15 pedaços correspondem a 1 bolo e mais 7 de 8 pedaços, não exatamente à metade do segundo bolo.",
+     "buggyRule": "Assumir que 15 pedaços em 16 possíveis equivale à metade do segundo bolo, marcando 1.5 (ou 3/2)",
+     "misconceptionId": "misc_posiciona_na_metade_do_segundo_bolo"
+    },
+    {
+     "valor": "2",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Dois bolos inteiros têm 16 pedaços. Como foram comidos 15, a quantidade é menor que 2 bolos e deve ser representada exatamente por uma fração.",
+     "buggyRule": "",
+     "misconceptionId": "misc_interpreta_fracao_impropria_como_inteiro_aproximado"
+    },
+    {
+     "valor": "8",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você colocou no numerador a quantidade de pedaços por bolo. O numerador deve indicar os pedaços comidos, que são 15.",
+     "buggyRule": "Inverter numerador e denominador: usar {pedacos_por_bolo} = 8 como numerador e {total_pedacos} = 15 como denominador → 8/15",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou a quantidade de bolos disponíveis, mas este campo pede a quantidade de pedaços comida. O valor correto para o numerador é 15.",
+     "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+     "misconceptionId": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "O denominador não indica quantos bolos havia. Ele indica em quantos pedaços cada bolo foi dividido, ou seja, 8.",
+     "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+     "misconceptionId": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "valor": "15",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você repetiu a quantidade de pedaços comidos. O campo F2 precisa mostrar quantos pedaços formam um bolo: 8.",
+     "buggyRule": "Responder apenas com o número total de pedaços ({total_pedacos} = 15), ignorando a necessidade de representar como fração",
+     "misconceptionId": "misc_responde_somente_com_numerador"
+    },
+    {
+     "valor": "8",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você colocou o denominador no campo F1. F1 é o campo de cima e deve receber a quantidade de pedaços comidos: 15.",
+     "buggyRule": "Inverter numerador e denominador: usar {pedacos_por_bolo} = 8 como numerador e {total_pedacos} = 15 como denominador → 8/15",
+     "misconceptionId": "misc_inverte_numerador_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "O número 2 indica os bolos disponíveis, não os pedaços comidos. Para F1, use o total de 15 pedaços.",
+     "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+     "misconceptionId": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "valor": "2",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o número de bolos, mas F2 deve indicar quantos pedaços há em cada bolo. Esse valor é 8.",
+     "buggyRule": "Usar o número de bolos ({num_bolos} = 2) como denominador, em vez do número de pedaços por bolo ({pedacos_por_bolo} = 8). Numerador = {total_pedacos} = 15.",
+     "misconceptionId": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "valor": "15",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você repetiu o numerador. O denominador representa os pedaços de um bolo inteiro, portanto deve ser 8.",
+     "buggyRule": "Responder apenas com o número total de pedaços ({total_pedacos} = 15), ignorando a necessidade de representar como fração",
+     "misconceptionId": "misc_responde_somente_com_numerador"
+    },
+    {
+     "valor": "15",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "As divisões representam os pedaços de cada bolo, não o total de pedaços comidos. Use oito partes em cada unidade.",
+     "buggyRule": "Usar o número total de pedaços ({total_pedacos} = 15) como número de partes para dividir a reta",
+     "misconceptionId": "misc_divide_reta_pelo_total_de_pedacos"
+    },
+    {
+     "valor": "1",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Uma única parte entre os números inteiros não permite localizar oitavos. Divida cada unidade em oito partes iguais.",
+     "buggyRule": "Não alterar o valor inicial do campo 'Number of parts' (1), deixando a reta sem subdivisões",
+     "misconceptionId": "misc_deixa_reta_nao_dividida"
+    },
+    {
+     "valor": "15",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você contou as marcas como se cada uma fosse um bolo inteiro. Cada intervalo pequeno vale um oitavo; quinze oitavos ficam entre 1 e 2.",
+     "buggyRule": "Contar {total_pedacos} marcas a partir do zero, independentemente do valor de cada intervalo. Ex: se a reta tem N divisões, marca na posição min({total_pedacos}, N).",
+     "misconceptionId": "misc_contagem_marcas_em_vez_de_valor"
+    },
+    {
+     "valor": "2",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "O ponto não deve ser arredondado para 2. Dois bolos têm 16 pedaços, e foram comidos 15, então a posição fica um oitavo antes de 2.",
+     "buggyRule": "",
+     "misconceptionId": "misc_interpreta_fracao_impropria_como_inteiro_aproximado"
+    },
+    {
+     "valor": "1.5",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Quinze pedaços correspondem a 1 bolo e 7 oitavos, não a 1 bolo e metade. Avance sete marcas depois do 1.",
+     "buggyRule": "Assumir que 15 pedaços em 16 possíveis equivale à metade do segundo bolo, marcando 1.5 (ou 3/2)",
+     "misconceptionId": "misc_posiciona_na_metade_do_segundo_bolo"
+    },
+    {
+     "valor": "7/8",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você marcou apenas a parte restante do segundo bolo. Inclua também o bolo inteiro já consumido: a fração total é 15/8.",
+     "buggyRule": "Usar apenas a parte fracionária além do inteiro: {total_pedacos} - {pedacos_por_bolo} = 15 - 8 = 7 → 7/8",
+     "misconceptionId": "misc_confunde_com_fracao_propria"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Compare a quantidade de pedaços comida com a quantidade de pedaços que forma um bolo inteiro."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Represente como fração colocando a quantidade de pedaços comidos sobre a quantidade de pedaços em cada bolo."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Use 15 como a quantidade de pedaços comidos e 8 como a quantidade de pedaços que forma cada bolo."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Escreva a quantidade de pedaços no campo de cima e a quantidade de pedaços por bolo no campo de baixo."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "Pense no número que conta os pedaços consumidos."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Em uma fração, coloque no numerador a quantidade de partes consideradas."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Procure no enunciado o total de pedaços que Chad e seus amigos comeram."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Digite no campo F1 o total obtido ao contar os pedaços comidos."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "O denominador mostra o tamanho do inteiro usado como referência."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Para uma fração de bolos, coloque no denominador quantos pedaços formam um bolo inteiro."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Observe a informação sobre como cada bolo foi dividido."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Digite no campo F2 o número de pedaços iguais existentes em um bolo."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "O campo de cima registra quantas partes foram tomadas ou comidas."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Identifique primeiro o total de pedaços comidos e depois registre esse total no campo F1."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "O enunciado informa diretamente que foram comidos quinze pedaços."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "No campo F1, digite o número que vem antes da barra em .../8."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "O campo de baixo informa em quantas partes iguais cada bolo foi dividido."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use como denominador a quantidade de pedaços que corresponde a um bolo inteiro."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Cada bolo foi dividido em oito pedaços iguais."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "No campo F2, digite o número que vem depois da barra em 15/8."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "As divisões da reta devem representar os pedaços que formam um bolo inteiro."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Use no campo Number of parts o mesmo número que aparece no denominador."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Cada intervalo entre números inteiros representa um bolo e precisa de oito partes iguais."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Digite oito no campo Number of parts e clique em OK para criar as divisões."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Localize primeiro o bolo inteiro e depois conte os pedaços restantes dentro do segundo bolo."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "A partir de 1, avance sete divisões de oitavos para representar o total de quinze oitavos."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "O ponto deve ficar entre 1 e 2, na sétima marca depois do número 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Clique na marca que representa um bolo inteiro mais sete das oito partes do bolo seguinte."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Antes de concluir, verifique se a fração representa pedaços comidos e pedaços por bolo."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Confira se F1 contém o numerador, F2 contém o denominador e a reta está dividida em oitavos."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "O ponto deve estar entre 1 e 2, sete marcas depois de 1, correspondendo à fração mostrada."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Com 15 em F1, 8 em F2 e o ponto correto marcado, pressione Done para registrar a resposta."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "15/8",
+    "15",
+    "8",
+    "15",
+    "8",
+    "8",
+    "15/8",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Chad deu uma festa de aniversário e convidou muitos amigos. Havia tanta gente que precisaram de dois bolos para garantir que houvesse o suficiente. Cada bolo foi dividido em oito pedaços. Chad e seus amigos comeram quinze pedaços no total. Como você descreveria a quantidade de BOLOS que eles comeram juntos usando uma fração? Represente a fração na reta numérica.\nQual é a fração presente no problema?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Manipule o modelo para representar os quinze pedaços como uma quantidade de bolos maior que um.",
+     "expectedAnswer": "15/8",
+     "renderAs": "composition",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Manipule o campo F1 para indicar a quantidade de pedaços que foi comida.",
+     "expectedAnswer": "15",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Manipule o campo F2 para indicar quantos pedaços formam cada bolo.",
+     "expectedAnswer": "8",
+     "renderAs": "composition",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Digite 15 no campo F1, que representa o numerador da fração.",
+     "expectedAnswer": "15",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Digite 8 no campo F2, que representa o denominador da fração.",
+     "expectedAnswer": "8",
+     "renderAs": "composition",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Digite 8 em Number of parts e pressione OK para dividir cada unidade da reta em oitavos.",
+     "expectedAnswer": "8",
+     "renderAs": "composition",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Marque na reta o ponto correspondente a 15/8, entre 1 e 2.",
+     "expectedAnswer": "15/8",
+     "renderAs": "composition",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Pressione Done para confirmar a fração 15/8 e o ponto marcado na reta.",
+     "expectedAnswer": "ok",
+     "renderAs": "composition",
+     "kc": "FracGreater1",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 52546,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Manipule o modelo para representar os quinze pedaços como uma quantidade de bolos maior que um.",
+     "instruction": "Manipule o modelo para representar os quinze pedaços como uma quantidade de bolos maior que um.",
+     "expectedInput": {
+      "value": "15/8",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "15/8"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "writeFractionStep",
+       "fields": [
+        {
+         "component": "F1",
+         "role": "numerator"
+        },
+        {
+         "component": "F2",
+         "role": "denominator"
+        }
+       ]
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "writeFractionStep",
+        "fields": [
+         {
+          "component": "F1",
+          "role": "numerator"
+         },
+         {
+          "component": "F2",
+          "role": "denominator"
+         }
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare a quantidade de pedaços comida com a quantidade de pedaços que forma um bolo inteiro."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Represente como fração colocando a quantidade de pedaços comidos sobre a quantidade de pedaços em cada bolo."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use 15 como a quantidade de pedaços comidos e 8 como a quantidade de pedaços que forma cada bolo."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Escreva a quantidade de pedaços no campo de cima e a quantidade de pedaços por bolo no campo de baixo."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_confunde_com_fracao_propria",
+       "wrongAnswer": "7/8",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno esquece o inteiro e marca só o resto",
+       "feedback": "Você encontrou os 7 pedaços que sobraram depois de um bolo inteiro, mas a quantidade total também inclui esse bolo inteiro. Represente os 15 pedaços sobre 8 pedaços por bolo.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_na_metade_do_segundo_bolo",
+       "wrongAnswer": "1.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade",
+       "feedback": "A quantidade está entre 1 e 2 bolos, mas 15 pedaços correspondem a 1 bolo e mais 7 de 8 pedaços, não exatamente à metade do segundo bolo.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_interpreta_fracao_impropria_como_inteiro_aproximado",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo",
+       "feedback": "Dois bolos inteiros têm 16 pedaços. Como foram comidos 15, a quantidade é menor que 2 bolos e deve ser representada exatamente por uma fração.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_confunde_com_fracao_propria__step_1",
+      "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_1",
+      "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Manipule o campo F1 para indicar a quantidade de pedaços que foi comida.",
+     "instruction": "Manipule o campo F1 para indicar a quantidade de pedaços que foi comida.",
+     "expectedInput": {
+      "value": "15",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "15"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "F1",
+       "inputType": "numeric",
+       "role": "numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "F1",
+        "inputType": "numeric",
+        "role": "numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Pense no número que conta os pedaços consumidos."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Em uma fração, coloque no numerador a quantidade de partes consideradas."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Procure no enunciado o total de pedaços que Chad e seus amigos comeram."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo F1 o total obtido ao contar os pedaços comidos."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "8",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida",
+       "feedback": "Você colocou no numerador a quantidade de pedaços por bolo. O numerador deve indicar os pedaços comidos, que são 15.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_numero_de_bolos_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+       "feedback": "Você usou a quantidade de bolos disponíveis, mas este campo pede a quantidade de pedaços comida. O valor correto para o numerador é 15.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_2",
+      "scaffold_misc_usa_numero_de_bolos_como_denominador__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Manipule o campo F2 para indicar quantos pedaços formam cada bolo.",
+     "instruction": "Manipule o campo F2 para indicar quantos pedaços formam cada bolo.",
+     "expectedInput": {
+      "value": "8",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "8"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "F2",
+       "inputType": "numeric",
+       "role": "denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "F2",
+        "inputType": "numeric",
+        "role": "denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O denominador mostra o tamanho do inteiro usado como referência."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Para uma fração de bolos, coloque no denominador quantos pedaços formam um bolo inteiro."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Observe a informação sobre como cada bolo foi dividido."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo F2 o número de pedaços iguais existentes em um bolo."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_numero_de_bolos_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+       "feedback": "O denominador não indica quantos bolos havia. Ele indica em quantos pedaços cada bolo foi dividido, ou seja, 8.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_somente_com_numerador",
+       "wrongAnswer": "15",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos",
+       "feedback": "Você repetiu a quantidade de pedaços comidos. O campo F2 precisa mostrar quantos pedaços formam um bolo: 8.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_numero_de_bolos_como_denominador__step_3",
+      "scaffold_misc_responde_somente_com_numerador__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Digite 15 no campo F1, que representa o numerador da fração.",
+     "instruction": "Digite 15 no campo F1, que representa o numerador da fração.",
+     "expectedInput": {
+      "value": "15",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "15"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "F1",
+       "inputType": "numeric",
+       "role": "numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "F1",
+        "inputType": "numeric",
+        "role": "numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O campo de cima registra quantas partes foram tomadas ou comidas."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Identifique primeiro o total de pedaços comidos e depois registre esse total no campo F1."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O enunciado informa diretamente que foram comidos quinze pedaços."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "No campo F1, digite o número que vem antes da barra em .../8."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_numerador_denominador",
+       "wrongAnswer": "8",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida",
+       "feedback": "Você colocou o denominador no campo F1. F1 é o campo de cima e deve receber a quantidade de pedaços comidos: 15.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_numero_de_bolos_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+       "feedback": "O número 2 indica os bolos disponíveis, não os pedaços comidos. Para F1, use o total de 15 pedaços.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_numerador_denominador__step_4",
+      "scaffold_misc_usa_numero_de_bolos_como_denominador__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Digite 8 no campo F2, que representa o denominador da fração.",
+     "instruction": "Digite 8 no campo F2, que representa o denominador da fração.",
+     "expectedInput": {
+      "value": "8",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "8"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "F2",
+       "inputType": "numeric",
+       "role": "denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "F2",
+        "inputType": "numeric",
+        "role": "denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O campo de baixo informa em quantas partes iguais cada bolo foi dividido."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use como denominador a quantidade de pedaços que corresponde a um bolo inteiro."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Cada bolo foi dividido em oito pedaços iguais."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "No campo F2, digite o número que vem depois da barra em 15/8."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_numero_de_bolos_como_denominador",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+       "feedback": "Você usou o número de bolos, mas F2 deve indicar quantos pedaços há em cada bolo. Esse valor é 8.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_somente_com_numerador",
+       "wrongAnswer": "15",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos",
+       "feedback": "Você repetiu o numerador. O denominador representa os pedaços de um bolo inteiro, portanto deve ser 8.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_numero_de_bolos_como_denominador__step_5",
+      "scaffold_misc_responde_somente_com_numerador__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Digite 8 em Number of parts e pressione OK para dividir cada unidade da reta em oitavos.",
+     "instruction": "Digite 8 em Number of parts e pressione OK para dividir cada unidade da reta em oitavos.",
+     "expectedInput": {
+      "value": "8",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "8"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "denom",
+       "inputType": "numeric",
+       "button": "OK",
+       "min": 0,
+       "max": 2,
+       "partsPerUnit": 8
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "denom",
+        "inputType": "numeric",
+        "button": "OK",
+        "min": 0,
+        "max": 2,
+        "partsPerUnit": 8
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "As divisões da reta devem representar os pedaços que formam um bolo inteiro."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use no campo Number of parts o mesmo número que aparece no denominador."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Cada intervalo entre números inteiros representa um bolo e precisa de oito partes iguais."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite oito no campo Number of parts e clique em OK para criar as divisões."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_reta_pelo_total_de_pedacos",
+       "wrongAnswer": "15",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno confunde o numerador com o número de divisões da reta",
+       "feedback": "As divisões representam os pedaços de cada bolo, não o total de pedaços comidos. Use oito partes em cada unidade.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_deixa_reta_nao_dividida",
+       "wrongAnswer": "1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno ignora a necessidade de dividir a reta, mantendo a configuração padrão",
+       "feedback": "Uma única parte entre os números inteiros não permite localizar oitavos. Divida cada unidade em oito partes iguais.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_reta_pelo_total_de_pedacos",
+      "scaffold_misc_deixa_reta_nao_dividida",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Marque na reta o ponto correspondente a 15/8, entre 1 e 2.",
+     "instruction": "Marque na reta o ponto correspondente a 15/8, entre 1 e 2.",
+     "expectedInput": {
+      "value": "15/8",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "15/8"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "numline",
+       "min": 0,
+       "max": 2,
+       "partsPerUnit": 8,
+       "targetNumerator": 15,
+       "targetDenominator": 8
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "numline",
+        "min": 0,
+        "max": 2,
+        "partsPerUnit": 8,
+        "targetNumerator": 15,
+        "targetDenominator": 8
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Localize primeiro o bolo inteiro e depois conte os pedaços restantes dentro do segundo bolo."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "A partir de 1, avance sete divisões de oitavos para representar o total de quinze oitavos."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O ponto deve ficar entre 1 e 2, na sétima marca depois do número 1."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Clique na marca que representa um bolo inteiro mais sete das oito partes do bolo seguinte."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marcas_em_vez_de_valor",
+       "wrongAnswer": "15",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno trata cada marca como uma unidade discreta, não como uma fração do inteiro",
+       "feedback": "Você contou as marcas como se cada uma fosse um bolo inteiro. Cada intervalo pequeno vale um oitavo; quinze oitavos ficam entre 1 e 2.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_interpreta_fracao_impropria_como_inteiro_aproximado",
+       "wrongAnswer": "2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo",
+       "feedback": "O ponto não deve ser arredondado para 2. Dois bolos têm 16 pedaços, e foram comidos 15, então a posição fica um oitavo antes de 2.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_na_metade_do_segundo_bolo",
+       "wrongAnswer": "1.5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade",
+       "feedback": "Quinze pedaços correspondem a 1 bolo e 7 oitavos, não a 1 bolo e metade. Avance sete marcas depois do 1.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_com_fracao_propria",
+       "wrongAnswer": "7/8",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno esquece o inteiro e marca só o resto",
+       "feedback": "Você marcou apenas a parte restante do segundo bolo. Inclua também o bolo inteiro já consumido: a fração total é 15/8.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marcas_em_vez_de_valor",
+      "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_7",
+      "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_7",
+      "scaffold_misc_confunde_com_fracao_propria__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Pressione Done para confirmar a fração 15/8 e o ponto marcado na reta.",
+     "instruction": "Pressione Done para confirmar a fração 15/8 e o ponto marcado na reta.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "fixedComponent": "done",
+       "button": "Done",
+       "requires": {
+        "F1": "15",
+        "F2": "8",
+        "denom": "8",
+        "numline": "15/8"
+       }
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "fixedComponent": "done",
+        "button": "Done",
+        "requires": {
+         "F1": "15",
+         "F2": "8",
+         "denom": "8",
+         "numline": "15/8"
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Antes de concluir, verifique se a fração representa pedaços comidos e pedaços por bolo."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Confira se F1 contém o numerador, F2 contém o denominador e a reta está dividida em oitavos."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O ponto deve estar entre 1 e 2, sete marcas depois de 1, correspondendo à fração mostrada."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Com 15 em F1, 8 em F2 e o ponto correto marcado, pressione Done para registrar a resposta."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_confunde_com_fracao_propria__step_1",
+     "type": "scaffold",
+     "description": "Aluno esquece o inteiro e marca só o resto",
+     "instruction": "Você encontrou os 7 pedaços que sobraram depois de um bolo inteiro, mas a quantidade total também inclui esse bolo inteiro. Represente os 15 pedaços sobre 8 pedaços por bolo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_com_fracao_propria"
+    },
+    {
+     "id": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_1",
+     "type": "scaffold",
+     "description": "Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade",
+     "instruction": "A quantidade está entre 1 e 2 bolos, mas 15 pedaços correspondem a 1 bolo e mais 7 de 8 pedaços, não exatamente à metade do segundo bolo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_na_metade_do_segundo_bolo"
+    },
+    {
+     "id": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_1",
+     "type": "scaffold",
+     "description": "Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo",
+     "instruction": "Dois bolos inteiros têm 16 pedaços. Como foram comidos 15, a quantidade é menor que 2 bolos e deve ser representada exatamente por uma fração.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracGreater1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_interpreta_fracao_impropria_como_inteiro_aproximado"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida",
+     "instruction": "Você colocou no numerador a quantidade de pedaços por bolo. O numerador deve indicar os pedaços comidos, que são 15.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_2",
+     "type": "scaffold",
+     "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+     "instruction": "Você usou a quantidade de bolos disponíveis, mas este campo pede a quantidade de pedaços comida. O valor correto para o numerador é 15.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_3",
+     "type": "scaffold",
+     "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+     "instruction": "O denominador não indica quantos bolos havia. Ele indica em quantos pedaços cada bolo foi dividido, ou seja, 8.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_responde_somente_com_numerador__step_3",
+     "type": "scaffold",
+     "description": "Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos",
+     "instruction": "Você repetiu a quantidade de pedaços comidos. O campo F2 precisa mostrar quantos pedaços formam um bolo: 8.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_somente_com_numerador"
+    },
+    {
+     "id": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador, possivelmente por associar 'parte/todo' de forma invertida",
+     "instruction": "Você colocou o denominador no campo F1. F1 é o campo de cima e deve receber a quantidade de pedaços comidos: 15.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_4",
+     "type": "scaffold",
+     "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+     "instruction": "O número 2 indica os bolos disponíveis, não os pedaços comidos. Para F1, use o total de 15 pedaços.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_5",
+     "type": "scaffold",
+     "description": "Aluno confunde o número de inteiros (bolos) com o número de partes por inteiro (pedaços por bolo)",
+     "instruction": "Você usou o número de bolos, mas F2 deve indicar quantos pedaços há em cada bolo. Esse valor é 8.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numero_de_bolos_como_denominador"
+    },
+    {
+     "id": "scaffold_misc_responde_somente_com_numerador__step_5",
+     "type": "scaffold",
+     "description": "Aluno responde com um número inteiro (15), esquecendo que a pergunta pede uma fração que representa BOLOS consumidos",
+     "instruction": "Você repetiu o numerador. O denominador representa os pedaços de um bolo inteiro, portanto deve ser 8.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_somente_com_numerador"
+    },
+    {
+     "id": "scaffold_misc_divide_reta_pelo_total_de_pedacos",
+     "type": "scaffold",
+     "description": "Aluno confunde o numerador com o número de divisões da reta",
+     "instruction": "As divisões representam os pedaços de cada bolo, não o total de pedaços comidos. Use oito partes em cada unidade.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_reta_pelo_total_de_pedacos"
+    },
+    {
+     "id": "scaffold_misc_deixa_reta_nao_dividida",
+     "type": "scaffold",
+     "description": "Aluno ignora a necessidade de dividir a reta, mantendo a configuração padrão",
+     "instruction": "Uma única parte entre os números inteiros não permite localizar oitavos. Divida cada unidade em oito partes iguais.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_deixa_reta_nao_dividida"
+    },
+    {
+     "id": "scaffold_misc_contagem_marcas_em_vez_de_valor",
+     "type": "scaffold",
+     "description": "Aluno trata cada marca como uma unidade discreta, não como uma fração do inteiro",
+     "instruction": "Você contou as marcas como se cada uma fosse um bolo inteiro. Cada intervalo pequeno vale um oitavo; quinze oitavos ficam entre 1 e 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marcas_em_vez_de_valor"
+    },
+    {
+     "id": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_7",
+     "type": "scaffold",
+     "description": "Aluno calcula 15/2 = 7.5 e, ao ver que ultrapassa a reta (0–2), arredonda ou trunca para o limite máximo",
+     "instruction": "O ponto não deve ser arredondado para 2. Dois bolos têm 16 pedaços, e foram comidos 15, então a posição fica um oitavo antes de 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_interpreta_fracao_impropria_como_inteiro_aproximado"
+    },
+    {
+     "id": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_7",
+     "type": "scaffold",
+     "description": "Aluno usa raciocínio proporcional incorreto: 'faltou 1 de 16, então está quase no fim', mas simplifica para metade",
+     "instruction": "Quinze pedaços correspondem a 1 bolo e 7 oitavos, não a 1 bolo e metade. Avance sete marcas depois do 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_na_metade_do_segundo_bolo"
+    },
+    {
+     "id": "scaffold_misc_confunde_com_fracao_propria__step_7",
+     "type": "scaffold",
+     "description": "Aluno esquece o inteiro e marca só o resto",
+     "instruction": "Você marcou apenas a parte restante do segundo bolo. Inclua também o bolo inteiro já consumido: a fração total é 15/8.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_com_fracao_propria"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(FracGreater1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_confunde_com_fracao_propria__step_1",
+     "condition": "misconception(misc_confunde_com_fracao_propria)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_confunde_com_fracao_propria__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_1",
+     "condition": "misconception(misc_posiciona_na_metade_do_segundo_bolo)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_1",
+     "condition": "misconception(misc_interpreta_fracao_impropria_como_inteiro_aproximado)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_2",
+     "condition": "misconception(misc_usa_numero_de_bolos_como_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_3",
+     "condition": "misconception(misc_usa_numero_de_bolos_como_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_responde_somente_com_numerador__step_3",
+     "condition": "misconception(misc_responde_somente_com_numerador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_somente_com_numerador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "condition": "misconception(misc_inverte_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_numerador_denominador__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_4",
+     "condition": "misconception(misc_usa_numero_de_bolos_como_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_5",
+     "condition": "misconception(misc_usa_numero_de_bolos_como_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_numero_de_bolos_como_denominador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_responde_somente_com_numerador__step_5",
+     "condition": "misconception(misc_responde_somente_com_numerador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_somente_com_numerador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_divide_reta_pelo_total_de_pedacos",
+     "condition": "misconception(misc_divide_reta_pelo_total_de_pedacos)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_reta_pelo_total_de_pedacos",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_deixa_reta_nao_dividida",
+     "condition": "misconception(misc_deixa_reta_nao_dividida)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_deixa_reta_nao_dividida",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_contagem_marcas_em_vez_de_valor",
+     "condition": "misconception(misc_contagem_marcas_em_vez_de_valor)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marcas_em_vez_de_valor",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_7",
+     "condition": "misconception(misc_interpreta_fracao_impropria_como_inteiro_aproximado)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_interpreta_fracao_impropria_como_inteiro_aproximado__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_7",
+     "condition": "misconception(misc_posiciona_na_metade_do_segundo_bolo)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_posiciona_na_metade_do_segundo_bolo__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_confunde_com_fracao_propria__step_7",
+     "condition": "misconception(misc_confunde_com_fracao_propria)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_confunde_com_fracao_propria__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "132c64509dafcd7eab56dad077a6ac8396b2041c"
+ }
+}

@@ -193,3 +193,38 @@ evaluation/notebook-emitter-model, 5 componentes, zod ^4) e **re-materializar
 os mesmos registros** (alunos idênticos → sem nova coleta): ~US$ 1,6 para os
 282 grafos atuais, comparação pareada versão-antiga × versão-nova como
 "efeito de versão". Decisão do autor.
+
+## 11. Adendo 2026-08-17 (tarde) — espelho RE-SINCRONIZADO com a produção e efeito de versão
+
+**O espelho agora é a produção atual.** `scripts/espelhar-producao.mjs` calcula o
+fecho de imports estáticos a partir do repositório de produção, copia byte a
+byte (nunca edita agente), grava `producao/COMMIT-FONTE.txt` e
+`producao/ESPELHO.sha256`, e `--verify --fonte <repo>` confere hash a hash.
+Espelho vigente: **47 módulos do commit 132c645** (release "caderno"), com **0
+diferenças contra o container `sti-backend` em execução**. Dois módulos
+OPCIONAIS que o agent 6 carrega por import dinâmico em produção — guarda de
+payload e sanitizer de consistência — passaram a integrar o espelho (antes o
+agente rodava sem eles na bancada, com aviso no log); `component-router` fica
+fora por ser exclusivo do modo caderno. zod atualizado para ^4 (como produção).
+
+**Efeito de versão, medido e não presumido.** Os 282 registros já coletados
+foram **re-materializados** com a versão de produção (alunos e GraphForge são
+idênticos entre as versões, logo não houve nova coleta): US$ 1,63, 0 falhas.
+Δ pareado (versão nova − antiga, mesmo exercício × réplica, grafo materializado):
+
+| Corpus · braço | cobertura em ordem | sem ordem | caminho íntegro | erros no estado certo |
+|---|---|---|---|---|
+| 6.17 · flash-lite | +0,003 [0,000; 0,010] | −0,007 [−0,042; 0,000] | +0,014 [0,000; 0,042] | −0,015 [−0,048; 0,010] |
+| 6.17 · qwen | −0,003 [−0,021; 0,003] | 0,000 | −0,028 [−0,111; −0,014] | +0,005 [−0,038; 0,033] |
+| 6.19 · flash-lite | −0,018 [−0,047; −0,004] | −0,007 [−0,036; 0,014] | −0,072 [−0,188; −0,014] | −0,002 [−0,065; 0,068] |
+| 6.19 · qwen | +0,011 [−0,006; 0,034] | +0,030 [−0,013; 0,074] | +0,029 [−0,029; 0,101] | −0,017 [−0,082; 0,041] |
+
+Todos os |Δ| ≤ 0,072, a maioria com IC cruzando zero: **a mudança de versão dos
+agentes não altera as conclusões**. O gate estrito melhora um pouco na versão
+nova no 6.17 (60→64 e 55→60 de 72 aprovados), coerente com o worker novo
+preferindo frações a decimais. Fontes: `comparacao-versao-v2-vs-v1-*.json`.
+
+**Consolidado**: passa a usar as materializações da versão de produção
+(`materializado-v2-*`), com as da versão anterior preservadas para a
+comparação. Para o artigo: descrever a versão 132c645 como a medida, citando o
+Δ de versão como análise de robustez.

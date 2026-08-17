@@ -14,6 +14,15 @@ interface/piloto: `../PRE-REGISTRO.md`. Desenho idêntico à rodada 4 do 6.17.
 - Análises: `caminho-*.json` (cru/mínima), `materializado-*.analise.json`
   (gates + régua + Δ pareado materializado − mínima).
 
+> **Atualização 17/08 (tarde) — versão dos agentes.** Os números desta pasta
+> foram recalculados com o espelho re-sincronizado com a PRODUÇÃO (commit
+> 132c645; antes b7ae8780): pastas `materializado-v2-*` e análises
+> `materializado-v2-*.analise.json`. O efeito de versão é desprezível
+> (|Δ| ≤ 0,072, ICs cruzando zero em quase todas as métricas; ver
+> `comparacao-versao-v2-vs-v1-*.json` e docs/GUIA-DO-ARTIGO.md §11). O
+> consolidado usa a versão de produção; as tabelas abaixo, salvo indicação,
+> referem-se à versão anterior e ficam para rastreabilidade.
+
 ## 1. Gate de problema fixo — a grafia do número misto
 
 | Braço | estrito | sens. 1 (0/1) | sens. 2 (+ equiv. canônica) | **sens. 3 (+ números mistos)** |

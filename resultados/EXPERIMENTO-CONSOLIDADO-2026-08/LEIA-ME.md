@@ -14,6 +14,9 @@ todos sob o MESMO desenho vigente:
   mecânica), subsequência ordenada exata (LCS), cobertura sem ordem, caminho
   íntegro, erros e dicas no estado certo, extras; unidade = grafo; BCa em
   cluster de exercício; 3 réplicas justificadas por decomposição de variância;
+- agentes espelhados byte a byte da PRODUÇÃO em execução (commit 132c645,
+  `producao/COMMIT-FONTE.txt` + `ESPELHO.sha256`; verificável com
+  `node scripts/espelhar-producao.mjs --fonte <repo> --verify`);
 - dois braços de modelo nos alunos simulados (flash-lite; qwen), materialização
   gpt-5.6-luna, temperaturas de produção.
 

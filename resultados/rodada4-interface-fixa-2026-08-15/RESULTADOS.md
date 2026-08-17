@@ -48,6 +48,15 @@ do especialista **estado a estado**?
 > flash-lite reproduz 77 % dos estados em ordem. Fontes: `materializado-*.analise.json`,
 > `comparacao-r4-vs-r3-*.json` (regerados 16/08).
 
+> **Atualização 17/08 (tarde) — versão dos agentes.** Os números desta pasta
+> foram recalculados com o espelho re-sincronizado com a PRODUÇÃO (commit
+> 132c645; antes b7ae8780): pastas `materializado-v2-*` e análises
+> `materializado-v2-*.analise.json`. O efeito de versão é desprezível
+> (|Δ| ≤ 0,072, ICs cruzando zero em quase todas as métricas; ver
+> `comparacao-versao-v2-vs-v1-*.json` e docs/GUIA-DO-ARTIGO.md §11). O
+> consolidado usa a versão de produção; as tabelas abaixo, salvo indicação,
+> referem-se à versão anterior e ficam para rastreabilidade.
+
 ## 1. Obediência (gate de problema fixo)
 
 | Braço | estrito (pré-registrado) | sensib. 1 (0/1) | sensib. 2 (+ equivalência canônica, **post hoc**) |
