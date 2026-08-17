@@ -26,7 +26,12 @@
  */
 
 import { logger } from "../lib/logger.js";
-import { isSimpleInterface } from "./config/request-context.js";
+import {
+  isSimpleInterface,
+  isWorksheetInterface,
+  INTERFACE_MODES,
+} from "./config/request-context.js";
+import { normalizeCellRole } from "./notebook/notebook-fallback.js";
 // 2026-06-10 (auditoria): conversões do diversifier revalidam answerContract —
 // trocar componente por diversidade não pode instalar um incompatível com o EA.
 import { analyzeAnswerShape, checkAnswerCompatibility } from "../lib/answer-shape.js";
@@ -609,6 +614,25 @@ export function enforceComponentDiversity(tutor, opts = {}) {
   if (modoSimples) {
     return { applied: false, reason: "simple-interface-mode", changed: 0, total: 0 };
   }
+  // 2026-08-16 (caderno F2): no worksheet o diversifier continua rodando (o
+  // caderno e rico), mas NUNCA mexe em celula C (instrumento compartilhado) e
+  // NUNCA converte celula A em superficie rica: A e "dado / resposta curta" e
+  // C ja tem a superficie do instrumento. Mesma escada de ancoras do gate:
+  // opts.interfaceMode (a rota ja manda) > _metadata > AsyncLocalStorage.
+  const valido = (v) => typeof v === "string" && INTERFACE_MODES.includes(v);
+  const modoInterface = valido(opts.interfaceMode)
+    ? opts.interfaceMode
+    : valido(tutor?._metadata?.interfaceMode)
+      ? tutor._metadata.interfaceMode
+      : isWorksheetInterface()
+        ? "worksheet"
+        : "rich";
+  const modoCaderno = modoInterface === "worksheet";
+  const celulaProtegida = (step) => {
+    if (!modoCaderno) return false;
+    const role = normalizeCellRole(step?.cell?.role);
+    return role === "A" || role === "C";
+  };
   const budget = Number(opts.mcBudget ?? process.env.STI_MC_BUDGET ?? DEFAULT_MC_BUDGET);
   const discipline = opts.discipline || tutor?.discipline || "";
   const outputLanguageCode = opts.outputLanguageCode || tutor?.outputLanguage || "pt-BR";
@@ -658,7 +682,9 @@ export function enforceComponentDiversity(tutor, opts = {}) {
 
   // Ranqueia steps MC por convertibilidade (shape compatível + KC compatível + disciplina coerente)
   const ctx = { discipline, outputLanguageCode };
-  const mcRefs = refs.filter((r) => (r.step?.renderAs || "multiple_choice") === "multiple_choice");
+  const mcRefs = refs.filter(
+    (r) => (r.step?.renderAs || "multiple_choice") === "multiple_choice" && !celulaProtegida(r.step)
+  );
   const evaluated = mcRefs.map((r) => {
     const candidate = inferComponentFromAnswer(r.step, ctx);
     const confidence = candidate ? scoreCandidate(r.step, candidate, ctx) : 0;

@@ -1,3 +1,55 @@
+/**
+ * 2026-08-16 (caderno F2b): bloco "MODO CADERNO" do worker. SO entra no prompt
+ * quando worksheetInterface=true; em simple/rich o prompt e byte-identico ao
+ * anterior (testes caderno-f0-agent6-worker-message e caderno-f2b-worker-prompt
+ * -caderno travam isso). REGRA FORTE + 1 exemplo completo, porque compliance de
+ * prompt e estocastica (gotcha 4 do CLAUDE.md); o lado (b), a medicao, e o
+ * quality-gate do caderno + o fallback deterministico (notebook-fallback.js).
+ */
+export const WORKER_CADERNO_BLOCK = `⚠️⚠️⚠️ REGRA FORTE — MODO CADERNO (worksheet CTAT — 2026-08-16) ⚠️⚠️⚠️
+Este STI e resolvido num CADERNO: os dados do enunciado (givens) ja estao no papel e CADA step e UMA CELULA.
+Em CADA step emita o campo "cell":
+  "cell": { "id": "<graphNodeId do stepIntent>", "label": "<ate 8 palavras>", "role": "A|B|C",
+            "presentation": "dropdown|radio|keypad|input|inline" (opcional),
+            "instrumentRef": "<id do instrumento>" e "target": "<id do alvo>" (SO em role C) }
+PAPEIS (o papel decide o renderAs permitido):
+  A (celula simples): o aluno DIGITA ou SELECIONA. renderAs SOMENTE: multiple_choice, text, numeric_keypad, fraction_input, true_false, word_matcher.
+  B (celula rica inline): UM componente rico inteiro dentro da celula, com UMA resposta unica (o que o componente emite).
+  C (instrumento): a celula aponta um ALVO de um instrumento COMPARTILHADO por varias celulas; renderAs da celula = renderAs do instrumento.
+INSTRUMENTO: no maximo UM por problema, declarado UMA vez no topo do JSON (fora de "steps"):
+  "notebook": { "instrument": { "id": "inst_x", "renderAs": "number_line|fraction_bar|highlight_in_text|table|cell_diagram",
+                                 "componentProps": {...}, "targets": [ { "id": "...", "kind": "...", "label": "..." } ] } }
+  kind do alvo e forma da expectedAnswer da celula C (EA = EXATAMENTE o valor que o alvo emite):
+  - number_line -> kind "marker": EA inteiro dentro de componentProps.min..max (max - min <= 50);
+  - fraction_bar -> kind "bar": EA "k/D" com D = componentProps.denominator FIXO (2..24) para TODOS os alvos;
+  - highlight_in_text -> kind "span": EA = UMA palavra presente em componentProps.text; liste as palavras clicaveis em componentProps.spans [{"value","label"}];
+  - table -> kind "cell": EA = valor da celula {row,col} de componentProps.rows (com editableCells);
+  - cell_diagram -> kind "organelle": EA = id da organela (nucleo, mitocondria, cloroplasto, membrana_plasmatica...), com componentProps.cellType "animal"|"plant".
+NO CADERNO NAO AGREGUE: uma acao cognitiva = uma celula. NAO junte N passos num lab (memory_game, card_sort_lab, true_false_lab); o que "junta" celulas e o instrumento compartilhado. Cada fill_blanks/cloze tem UMA lacuna.
+INSTRUCAO x PAPEL (2026-08-17): a instruction de uma celula A (digitacao/selecao) NUNCA manda manipular, pintar, clicar, arrastar ou marcar em barra/reta/tabela/diagrama; isso e SO para celula C (instrumento). Numa celula A a instrucao pede o VALOR ("Quantas fatias...?", "Escreva a fracao..."); se a acao e manipular, a celula e C com instrumentRef/target.
+  ❌ ERRADO: { "cell": { "role": "A" }, "renderAs": "numeric_keypad", "instruction": "Manipule as barras para encontrar o MMC." }
+  ✅ CERTO:  { "cell": { "role": "A" }, "renderAs": "numeric_keypad", "instruction": "Qual e o MMC de 4 e 6?" }
+O CADERNO PREFERE DIGITAR (2026-08-17): resposta ESCALAR (numero, fracao "a/b", uma palavra, V/F) = celula A DIGITADA (numeric_keypad, fraction_input, text, true_false; multiple_choice so quando ha alternativas reais). Celula B SO para ordenar/montar/parear (drag_to_order, sentence_builder, matching_pairs, equation_builder, timeline_constructor, card_sort). NUNCA dynamic_spec no caderno. fraction_bar SO como instrumento do problema (papel C, com "notebook.instrument"): nunca uma barra solta numa celula B. Options SO em multiple_choice/true_false/word_matcher: numa celula digitada os erros previstos vao em behaviorMisconceptions, nao em options.
+  ❌ ERRADO: { "cell": { "role": "B" }, "renderAs": "fraction_bar", "instruction": "Qual e a fracao equivalente a 1/3 com denominador 6?", "expectedAnswer": "2/6" }
+  ✅ CERTO:  { "cell": { "role": "A", "presentation": "input" }, "renderAs": "fraction_input", "instruction": "Qual e a fracao equivalente a 1/3 com denominador 6?", "expectedAnswer": "2/6" }
+  MMC / denominador comum e um NUMERO: { "cell": { "role": "A" }, "renderAs": "numeric_keypad", "instruction": "Qual e o MMC de 2 e 6?", "expectedAnswer": "6" } (NUNCA "6/6" nem uma barra).
+EXEMPLO COMPLETO (enunciado: "Uma pizza foi dividida em 8 fatias iguais. Joao comeu 3 fatias e Ana comeu 2."):
+{
+  "notebook": { "instrument": { "id": "inst_pizza", "renderAs": "fraction_bar",
+                                 "componentProps": { "denominator": 8, "visualModel": "pizza" },
+                                 "targets": [ { "id": "bar_step_1", "kind": "bar", "label": "Fatias do Joao" },
+                                              { "id": "bar_step_2", "kind": "bar", "label": "Fatias da Ana" } ] } },
+  "steps": [
+    { "id": "step_1", "cell": { "id": "step_1", "label": "Fracao do Joao", "role": "C", "instrumentRef": "inst_pizza", "target": "bar_step_1" },
+      "instruction": "Pinte na pizza a fracao que Joao comeu.", "expectedAnswer": "3/8", "renderAs": "fraction_bar", "operation": "3 de 8", "kc": "kc_fracao", "explanation": "Joao comeu 3 das 8 fatias: 3/8.", "hints": [...], "behaviorMisconceptions": [...] },
+    { "id": "step_2", "cell": { "id": "step_2", "label": "Fracao da Ana", "role": "C", "instrumentRef": "inst_pizza", "target": "bar_step_2" },
+      "instruction": "Pinte na pizza a fracao que Ana comeu.", "expectedAnswer": "2/8", "renderAs": "fraction_bar", "operation": "2 de 8", "kc": "kc_fracao", "explanation": "Ana comeu 2 das 8 fatias: 2/8.", "hints": [...], "behaviorMisconceptions": [...] },
+    { "id": "step_3", "cell": { "id": "step_3", "label": "Fatias comidas ao todo", "role": "A", "presentation": "keypad" },
+      "instruction": "Quantas fatias os dois comeram juntos?", "expectedAnswer": "5", "renderAs": "numeric_keypad", "operation": "3 + 2 = 5", "kc": "kc_soma", "explanation": "3 + 2 = 5 fatias.", "hints": [...], "behaviorMisconceptions": [...] }
+  ]
+}
+`;
+
 export function getWorkerSystemPrompt({
   isExactDisc,
   discipline,
@@ -5,7 +57,36 @@ export function getWorkerSystemPrompt({
   profileInstructions,
   enrichedCatalog = null, // 2026-05-23: texto pré-computado do buildLLMCatalog (SoT)
   simpleInterface = false, // 2026-08-05 (modo simples): true = só multiple_choice/text
+  worksheetInterface = false, // 2026-08-16 (caderno F2b): true = bloco MODO CADERNO + cell/notebook no formato
 }) {
+  // 2026-08-16 (caderno F2b): trechos que mudam SO no worksheet. Fora dele
+  // cada variavel e exatamente o texto anterior (byte-identico em simple/rich).
+  const blocoCaderno = worksheetInterface ? `${WORKER_CADERNO_BLOCK}\n` : "";
+  const regraUltimoBlank = worksheetInterface
+    ? `(4) expectedAnswer = valor do UNICO blank: no caderno cada celula tem UMA lacuna (nao acumule lacunas num template).`
+    : `(4) expectedAnswer = valor do ULTIMO blank (resultado final).`;
+  const regraPareamento = worksheetInterface
+    ? `⚠️ PAREAMENTO/ASSOCIAÇÃO 1:1 NO CADERNO: cada associacao e UMA celula (A com word_matcher/multiple_choice, ou C apontando um alvo de instrumento table).
+NAO agregue pares num memory_game: no caderno "N steps -> 1 lab" NAO vale; uma acao cognitiva = uma celula.`
+    : `⚠️ REGRA FORTE — PAREAMENTO/ASSOCIAÇÃO 1:1 → memory_game:
+Se o tópico do tutor envolve ASSOCIAR/PAREAR pares 1:1 (capital↔país, palavra↔sinônimo, palavra↔inglês,
+animal↔filhote, símbolo↔elemento, autor↔obra), gere UM ÚNICO step com renderAs="memory_game" contendo
+4-6 pares — NÃO espalhe 1 pareamento por step nem por problem. Memory_game cobre o pareamento inteiro
+em uma única atividade gamificada.
+
+❌ ERRADO: distribuir capitais entre problemas (PROB1 capital de Brasil, PROB2 capital de França, etc)
+✅ CERTO: UM step memory_game com pares [Brasil↔Brasília, França↔Paris, Japão↔Tóquio, Alemanha↔Berlim]`;
+  const briefCatalogo = worksheetInterface
+    ? buildComponentCatalogBrief(discipline, { worksheet: true })
+    : buildComponentCatalogBrief(discipline);
+  const formatoNotebook = worksheetInterface
+    ? `"notebook": { "instrument": { "id": "inst_x", "renderAs": "number_line|fraction_bar|highlight_in_text|table|cell_diagram", "componentProps": {}, "targets": [ { "id": "alvo_1", "kind": "marker|bar|span|cell|organelle", "label": "..." } ] } }, // OPCIONAL, UMA vez por problema (so se houver celulas C)
+  `
+    : "";
+  const formatoCell = worksheetInterface
+    ? `"cell": { "id": "step_1", "label": "Rotulo curto da celula", "role": "A|B|C", "presentation": "keypad", "instrumentRef": "inst_x", "target": "alvo_1" }, // OBRIGATORIO no caderno (instrumentRef/target so em C)
+      `
+    : "";
   return `Voce e um gerador detalhado de passos para um Sistema de Tutoria Inteligente (Modelo CTAT).
 Sua funcao e pegar o esqueleto de UM exercicio e materializar TODOS os passos (steps), dicas e alternativas.
 
@@ -231,9 +312,9 @@ misconceptionId DESCRITIVO da leitura errada (ex.: "misc_responde_contagem_segme
 "misc_conta_pecas_sem_valor_posicional"); wrongAnswer SEMPRE ≠ expectedAnswer (se coincidir, descarte NESTE step — regra 6 acima).
 Esses erros de leitura são ADICIONAIS aos do catálogo — nunca substitutos.
 
-${
-  simpleInterface
-    ? `2. TIPO DE RESPOSTA POR STEP — MODO SIMPLES (interface rica DESLIGADA pelo criador):
+${blocoCaderno}${
+    simpleInterface
+      ? `2. TIPO DE RESPOSTA POR STEP — MODO SIMPLES (interface rica DESLIGADA pelo criador):
 Neste STI o aluno responde APENAS de duas formas. NENHUM outro renderAs existe.
 
 A) multiple_choice — UNICO TIPO que usa o campo "options":
@@ -253,7 +334,7 @@ REGRAS DO MODO SIMPLES:
 - NAO escreva instrucoes de manipulacao ("arraste", "clique na figura", "pinte", "monte", "ligue") — o aluno so seleciona ou digita.
 - NAO use o campo "interactionIntent" nem o campo "config" em nenhum step.
 `
-    : `2. TIPO DE RESPOSTA POR STEP — REGRAS ESTRITAS:
+      : `2. TIPO DE RESPOSTA POR STEP — REGRAS ESTRITAS:
 
 A) multiple_choice — UNICO TIPO que usa o campo "options":
    "renderAs": "multiple_choice"
@@ -263,7 +344,7 @@ A) multiple_choice — UNICO TIPO que usa o campo "options":
 B) fill_blanks — PREENCHER LACUNAS:
    "renderAs": "fill_blanks"
    "config": {"template": "2 + ___ = 5", "blanks": [{"hint":"numero que falta"}]}
-   REGRAS CRITICAS: (1) O template DEVE conter exatamente 1 ___ por blank. (2) "blanks.length" DEVE ser igual ao numero de ___ no template. (3) PROIBIDO incluir "options". (4) expectedAnswer = valor do ULTIMO blank (resultado final).
+   REGRAS CRITICAS: (1) O template DEVE conter exatamente 1 ___ por blank. (2) "blanks.length" DEVE ser igual ao numero de ___ no template. (3) PROIBIDO incluir "options". ${regraUltimoBlank}
 
 C) true_false — VERDADEIRO OU FALSO:
    "renderAs": "true_false"
@@ -334,7 +415,7 @@ Se quiser especificamente os componentes v2 em vez dos labs:
 Se não existir surface especializada para a ação, use renderAs="dynamic_spec" e mantenha no
 step todos os dados concretos do enunciado/options. O gerador de specs construirá uma interface
 específica e validada. PROIBIDO degradar para multiple_choice/text apenas por falta de componente.
-${buildComponentCatalogBrief(discipline)}
+${briefCatalogo}
 ${enrichedCatalog ? `\n\n${enrichedCatalog}\n` : ""}
 REGRA GLOBAL: NUNCA inclua o campo "options" em tipos B, C, D, E ou F. Isso quebra a interface!
 REGRA DE ESTABILIDADE: ANTES de "multiple_choice", verifique a seção "COMPONENTES INTERATIVOS DISPONÍVEIS" acima — se um componente interativo cabe no step, USE ELE e formate ea no formato exato que ele aceita. multiple_choice é o ÚLTIMO recurso (apenas quando nenhum manipulativo visual cabe E a resposta é genuinamente categórica/textual).
@@ -372,14 +453,7 @@ QUANDO NÃO HOUVER COMPONENTE DEDICADO:
 - display/select-option não contam como interface rica e serão rejeitados pelo quality gate;
 - inclua dados reais do step e explique em pedagogy.subjectModel qual modelo da disciplina está representado.
 
-⚠️ REGRA FORTE — PAREAMENTO/ASSOCIAÇÃO 1:1 → memory_game:
-Se o tópico do tutor envolve ASSOCIAR/PAREAR pares 1:1 (capital↔país, palavra↔sinônimo, palavra↔inglês,
-animal↔filhote, símbolo↔elemento, autor↔obra), gere UM ÚNICO step com renderAs="memory_game" contendo
-4-6 pares — NÃO espalhe 1 pareamento por step nem por problem. Memory_game cobre o pareamento inteiro
-em uma única atividade gamificada.
-
-❌ ERRADO: distribuir capitais entre problemas (PROB1 capital de Brasil, PROB2 capital de França, etc)
-✅ CERTO: UM step memory_game com pares [Brasil↔Brasília, França↔Paris, Japão↔Tóquio, Alemanha↔Berlim]
+${regraPareamento}
 
 ⚠️ REGRA FORTE — MULTIPLICAÇÃO DE FRAÇÕES → modelo de ÁREA (Sprint 3):
 Se o exercício envolve MULTIPLICAR duas frações (fração de fração), inclua UM step VISUAL com:
@@ -467,7 +541,7 @@ REGRAS UNIVERSAIS:
   - **fill_blanks** com template "O gato pôs o ovo no chão / e fez ninho no ___" (preencher)
   - **multiple_choice** só como último recurso quando os outros não cabem
 - SEMPRE preencha **audioNarration** com a frase do verso completa (sem mostrar a resposta) — pra rima é essencial o aluno ouvir.`
-}
+  }
 
 3. DICAS OBRIGATORIAS (4 PROGRESSIVAS POR STEP):
 - Nivel 1 (conceptual): Pergunta socratica encorajadora direcionando a atencao do aluno para o conceito central.
@@ -484,10 +558,10 @@ ${profileInstructions}
 
 Retorne JSON PURO neste formato para ESTE UNICO EXERCICIO:
 {
-  "steps": [
+  ${formatoNotebook}"steps": [
     {
       "id": "step_1",
-      "instruction": "Instrucao concreta para o aluno",
+      ${formatoCell}"instruction": "Instrucao concreta para o aluno",
       "expectedAnswer": "5",
       "operation": "3 + 2",  // OBRIGATORIO
       "kc": "kc_id_aqui",    // Do stepIntent correspondente

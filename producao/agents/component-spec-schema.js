@@ -305,6 +305,24 @@ function validateInteraction(interaction) {
       buttonLabel: String(input.buttonLabel || "OK").slice(0, 30),
     };
   }
+  // 2026-08-16 (caderno F2b): `targets[]` opcional (schema apenas, sem uso no
+  // runtime ainda). Prepara o dynamic_spec para um dia declarar alvos como os
+  // instrumentos v1 do caderno ({ id, kind, label, elementId? }); hoje
+  // dynamic_spec NAO esta em NOTEBOOK_C_V1 e o frontend ignora a chave. Specs
+  // sem targets continuam normalizados byte-identicos (a chave so aparece
+  // quando veio na entrada e sobrou ao menos um alvo valido).
+  if (Array.isArray(interaction.targets)) {
+    const targets = interaction.targets
+      .slice(0, 12)
+      .filter((t) => t && typeof t === "object" && String(t.id || "").trim())
+      .map((t) => ({
+        id: String(t.id).trim().slice(0, 60),
+        kind: String(t.kind || "element").slice(0, 24),
+        label: String(t.label || "").slice(0, 80),
+        ...(t.elementId ? { elementId: String(t.elementId).slice(0, 60) } : {}),
+      }));
+    if (targets.length) n.targets = targets;
+  }
   return { valid: true, errors: [], normalized: n };
 }
 

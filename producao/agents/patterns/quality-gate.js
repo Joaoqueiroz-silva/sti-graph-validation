@@ -5,7 +5,30 @@ import {
 } from "../../shared/component-sets.js";
 import { typedAnswerObstacle } from "../../shared/answer-shape.js";
 import { explicacaoNaoEnunciaGabarito } from "../../shared/answer-coherence.js";
-import { isSimpleInterface } from "../config/request-context.js";
+import {
+  isSimpleInterface,
+  isWorksheetInterface,
+  INTERFACE_MODES,
+} from "../config/request-context.js";
+// 2026-08-16 (caderno F2): reguas do modo worksheet (paridade celula <-> no,
+// instrumento das celulas C, figura sem gabarito, interacoes proibidas do
+// perfil) e origem do instrumento: helpers do fallback deterministico.
+// 2026-08-17 (stream L): + origem do layout da folha e a regua "celula A com
+// instrucao de manipulacao" (mesma regex do fallback e do interface-audit).
+// 2026-08-17 (stream M): + medicao de "o caderno prefere digitar" (formas
+// escalares, superficies livres, gabarito conceitual), fonte unica no fallback.
+import {
+  FREE_TYPED_RENDER_AS,
+  SCALAR_ANSWER_KINDS,
+  instructionPromisesManipulation,
+  isConceptualTextAnswer,
+  normalizeCellRole,
+  notebookInstrumentSource,
+  notebookLayoutSource,
+  presentationForRenderAs,
+} from "../notebook/notebook-fallback.js";
+import { analyzeAnswerShape } from "../../lib/answer-shape.js";
+import { NOTEBOOK_C_V1 } from "../../shared/component-sets.js";
 import {
   CONTENT_AFFORDANCE_POLICIES,
   DISCIPLINE_AFFORDANCE_POLICIES,
@@ -497,6 +520,250 @@ const AFFORDANCE_POLICIES = CONTENT_AFFORDANCE_POLICIES.map((policy) =>
 );
 
 /**
+ * 2026-08-16 (caderno F2): interacao proibida do perfil (interfaceSpec.
+ * constraints.forbiddenInteractions: text_input | fill_blanks | dropdown |
+ * table) cruzada com a celula. A apresentacao vale quando o autor a
+ * definiu; senao deriva do renderAs (mesma tabela do fallback).
+ */
+function forbiddenInteractionOfCell(step, forbidden) {
+  const renderAs = String(step?.renderAs || "");
+  const presentation =
+    String(step?.cell?.presentation || "").trim() || presentationForRenderAs(renderAs);
+  const hits = [];
+  for (const rule of forbidden) {
+    const r = String(rule || "").trim();
+    if (r === "dropdown" && presentation === "dropdown") hits.push(r);
+    else if (r === "table" && (renderAs === "table" || presentation === "table")) hits.push(r);
+    else if (r === "text_input" && (presentation === "input" || renderAs === "text")) hits.push(r);
+    else if (r === "fill_blanks" && (renderAs === "cloze_test" || presentation === "fill_blanks"))
+      hits.push(r);
+  }
+  return hits;
+}
+
+/**
+ * 2026-08-16 (caderno F2): auditoria do caderno. Puro: devolve { issues,
+ * warnings, metrics } e nao muta o tutor. Regras:
+ *   - paridade celula <-> no BLOQUEANTE: todo step COM cell tem cell.id igual
+ *     ao id canonico do no e o no correspondente tem expectedInput.cellId
+ *     igual (o sync do grafo copiou); step SEM cell e so warning (o fallback
+ *     nao rodou: medicao);
+ *   - figura (notebook.figure) com expectedAnswer BLOQUEANTE: figura e apoio
+ *     readOnly, nao responde;
+ *   - celula C sem instrumento/alvo valido BLOQUEANTE (depois do fallback so
+ *     bug de codigo chega aqui): instrumento presente, na lista fechada
+ *     NOTEBOOK_C_V1, instrumentRef/target existentes e renderAs do passo igual
+ *     ao do instrumento;
+ *   - forbiddenInteractions do perfil: BLOQUEANTE em pre_literate, warning nos
+ *     demais;
+ *   - origem do instrumento por problema (llm|fallback|ausente): warning de
+ *     medicao;
+ *   - problema so com celulas A quando o perfil permite B/C: warning;
+ *   - 2026-08-17 (stream L): celula A cuja instrucao manda manipular (pintar,
+ *     clicar, arrastar, marcar na reta/barra/tabela/diagrama) e que o
+ *     fallback NAO conseguiu converter em C: warning de medicao (o aluno le
+ *     uma ordem que a caixa de digitacao nao cumpre; visto em producao:
+ *     keypad com "Manipule as barras para encontrar o MMC");
+ *   - 2026-08-17 (stream L): origem do layout da folha por problema
+ *     (llm|fallback|ausente): warning de medicao, como o instrumento.
+ *   - 2026-08-17 (stream M, "o caderno prefere digitar"; medicao do que o
+ *     fallback deveria ter consertado, gotcha 4 do CLAUDE.md):
+ *       . celula B (nao C) com gabarito escalar e superficie fora de
+ *         "montar/ordenar/parear": warning "celula B com gabarito escalar";
+ *       . dynamic_spec em celula do caderno: warning (nunca deveria sobrar);
+ *       . fraction_bar fora do instrumento (celula A/B): warning;
+ *       . options em superficie livre (numeric_keypad, fraction_input, text,
+ *         fraction_bar) que sobraram: warning "options em superficie livre";
+ *       . givens descartados pelo fallback (notebook.discardedGivens): warning
+ *         com a contagem;
+ *       . celula A `text` com gabarito conceitual (>= 3 palavras) sem
+ *         alternativas: warning (o aluno teria de digitar uma frase exata).
+ */
+export function auditWorksheetTutor(tutor) {
+  const issues = [];
+  const warnings = [];
+  const metrics = {
+    worksheetStepsWithoutCell: 0,
+    worksheetParityIssues: 0,
+    worksheetCellsC: 0,
+    worksheetCellsCWithoutInstrument: 0,
+    worksheetInstrumentSources: {},
+    worksheetForbiddenInteractionHits: 0,
+    worksheetProblemsOnlyA: 0,
+    worksheetTypedCellsPromisingInstrument: 0,
+    worksheetLayoutSources: {},
+    worksheetScalarCellsB: 0,
+    worksheetDynamicSpecCells: 0,
+    worksheetLooseFractionBars: 0,
+    worksheetOptionsOnFreeSurface: 0,
+    worksheetGivensDiscarded: 0,
+    worksheetConceptualTypedCells: 0,
+  };
+  const profile = String(tutor?.interfaceSpec?.profile || "reader");
+  const forbidden = Array.isArray(tutor?.interfaceSpec?.constraints?.forbiddenInteractions)
+    ? tutor.interfaceSpec.constraints.forbiddenInteractions
+    : [];
+  const perfilPermiteBC = profile !== "pre_literate";
+
+  for (const [pi, p] of (tutor?.problems || []).entries()) {
+    const label = `P${pi + 1}`;
+    const steps = Array.isArray(p?.steps) ? p.steps : [];
+    const ids = canonicalGraphStepIds(steps);
+    const nodes = Array.isArray(p?.behaviorGraph?.nodes) ? p.behaviorGraph.nodes : [];
+    const nodeById = new Map(nodes.filter((n) => n?.type === "step").map((n) => [n.id, n]));
+    const instrument = p?.notebook?.instrument;
+    const targets = new Set(
+      (Array.isArray(instrument?.targets) ? instrument.targets : [])
+        .map((t) => String(t?.id ?? "").trim())
+        .filter(Boolean)
+    );
+    let temBC = false;
+    let temCell = false;
+
+    steps.forEach((step, si) => {
+      const stepLabel = `${label}S${si + 1}`;
+      const cell = step?.cell;
+      if (!cell || typeof cell !== "object") {
+        metrics.worksheetStepsWithoutCell++;
+        return;
+      }
+      temCell = true;
+      const id = ids[si];
+      if (String(cell.id ?? "").trim() !== id) {
+        metrics.worksheetParityIssues++;
+        issues.push(`${stepLabel}: cell.id "${cell.id}" difere do id canonico do no "${id}"`);
+      }
+      const node = nodeById.get(id);
+      if (!node) {
+        metrics.worksheetParityIssues++;
+        issues.push(`${stepLabel}: no "${id}" da celula nao existe no behaviorGraph`);
+      } else if (String(node?.expectedInput?.cellId ?? "").trim() !== id) {
+        metrics.worksheetParityIssues++;
+        issues.push(
+          `${stepLabel}: expectedInput.cellId do no "${id}" (${node?.expectedInput?.cellId ?? "ausente"}) nao bate com a celula`
+        );
+      }
+      const role = normalizeCellRole(cell.role);
+      if (role === "B" || role === "C") temBC = true;
+      // 2026-08-17 (stream M): medicao de "o caderno prefere digitar".
+      const renderAsDoPasso = String(step?.renderAs || "").trim();
+      const kindDoGabarito = analyzeAnswerShape(step).kind;
+      if (renderAsDoPasso === "dynamic_spec") {
+        metrics.worksheetDynamicSpecCells++;
+        warnings.push(`${stepLabel}: dynamic_spec em celula do caderno (cena nunca e celula)`);
+      }
+      if (
+        role === "B" &&
+        SCALAR_ANSWER_KINDS.has(kindDoGabarito) &&
+        !ASSEMBLED_ANSWER_RENDER_AS.has(renderAsDoPasso)
+      ) {
+        metrics.worksheetScalarCellsB++;
+        warnings.push(
+          `${stepLabel}: celula B com gabarito escalar (${kindDoGabarito}, "${renderAsDoPasso || "ausente"}"): o caderno prefere digitar (celula A)`
+        );
+      }
+      if (role !== "C" && renderAsDoPasso === "fraction_bar") {
+        metrics.worksheetLooseFractionBars++;
+        warnings.push(
+          `${stepLabel}: fraction_bar fora do instrumento (celula ${role || "?"}): a barra so vale como instrumento (papel C)`
+        );
+      }
+      if (
+        role !== "C" &&
+        (FREE_TYPED_RENDER_AS.has(renderAsDoPasso) || renderAsDoPasso === "fraction_bar") &&
+        Array.isArray(step?.options) &&
+        step.options.length > 0
+      ) {
+        metrics.worksheetOptionsOnFreeSurface++;
+        warnings.push(
+          `${stepLabel}: options em superficie livre (${renderAsDoPasso}, ${step.options.length} option(s)): erros previstos vao em behaviorMisconceptions`
+        );
+      }
+      if (
+        role === "A" &&
+        renderAsDoPasso === "text" &&
+        isConceptualTextAnswer(step?.expectedAnswer) &&
+        !(Array.isArray(step?.options) && step.options.length >= 2)
+      ) {
+        metrics.worksheetConceptualTypedCells++;
+        warnings.push(
+          `${stepLabel}: celula A com gabarito conceitual sem alternativas ("${String(step.expectedAnswer).trim().slice(0, 60)}"): o aluno teria de digitar a frase exata`
+        );
+      }
+      if (role === "A" && instructionPromisesManipulation(step?.instruction)) {
+        metrics.worksheetTypedCellsPromisingInstrument++;
+        warnings.push(
+          `${stepLabel}: celula A com instrucao de manipulacao ("${String(step.instruction).trim().slice(0, 60)}"): a caixa de digitacao/selecao nao cumpre a ordem`
+        );
+      }
+      if (role === "C") {
+        metrics.worksheetCellsC++;
+        const targetId =
+          typeof cell.target === "object"
+            ? String(cell.target?.id ?? "")
+            : String(cell.target ?? "");
+        const instrumentOk =
+          instrument &&
+          typeof instrument === "object" &&
+          NOTEBOOK_C_V1.has(String(instrument.renderAs || "")) &&
+          String(cell.instrumentRef ?? "").trim() === String(instrument.id ?? "").trim() &&
+          targets.has(targetId.trim()) &&
+          String(step.renderAs || "") === String(instrument.renderAs || "");
+        if (!instrumentOk) {
+          metrics.worksheetCellsCWithoutInstrument++;
+          issues.push(`${stepLabel}: celula C sem instrumento/alvo valido apos o fallback`);
+        }
+      }
+      const hits = forbidden.length ? forbiddenInteractionOfCell(step, forbidden) : [];
+      if (hits.length) {
+        metrics.worksheetForbiddenInteractionHits += hits.length;
+        const msg = `${stepLabel}: interacao proibida para o perfil ${profile} (${hits.join(", ")})`;
+        if (profile === "pre_literate") issues.push(msg);
+        else warnings.push(msg);
+      }
+    });
+
+    const figure = p?.notebook?.figure;
+    if (
+      figure &&
+      typeof figure === "object" &&
+      figure.expectedAnswer != null &&
+      String(figure.expectedAnswer).trim() !== ""
+    ) {
+      issues.push(`${label}: figura do caderno (readOnly) nao pode ter expectedAnswer`);
+    }
+
+    // 2026-08-17 (stream M): givens que o fallback descartou por nao terem
+    // valor literal no enunciado (alucinacao do planner: "24 alunos").
+    const descartados = Array.isArray(p?.notebook?.discardedGivens)
+      ? p.notebook.discardedGivens.length
+      : 0;
+    if (descartados > 0) {
+      metrics.worksheetGivensDiscarded += descartados;
+      warnings.push(
+        `${label}: ${descartados} given(s) descartado(s) por nao ter valor literal no enunciado`
+      );
+    }
+
+    const source = notebookInstrumentSource(p);
+    metrics.worksheetInstrumentSources[label] = source;
+    warnings.push(`${label}: origem do instrumento do caderno = ${source}`);
+    const layoutSource = notebookLayoutSource(p);
+    metrics.worksheetLayoutSources[label] = layoutSource;
+    warnings.push(`${label}: origem do layout do caderno = ${layoutSource}`);
+
+    if (temCell && !temBC && perfilPermiteBC) {
+      metrics.worksheetProblemsOnlyA++;
+      warnings.push(`${label}: caderno so com celulas A (nenhuma celula B ou C)`);
+    }
+  }
+  if (metrics.worksheetStepsWithoutCell > 0) {
+    warnings.push(`${metrics.worksheetStepsWithoutCell} passo(s) do caderno sem cell`);
+  }
+  return { issues, warnings, metrics };
+}
+
+/**
  * Gate universal — retorna { pass, issues, metrics }
  * opts.requestedProblems: quantos problemas o professor pediu (F9 — under-delivery).
  */
@@ -510,6 +777,27 @@ export function runQualityGate(tutor, opts = {}) {
   // under-delivery) continuam valendo integralmente.
   // opts.simpleInterface permite teste unitário sem AsyncLocalStorage.
   const simpleInterfaceMode = opts.simpleInterface ?? isSimpleInterface();
+  // 2026-08-16 (caderno F2): modo tri-estado com a mesma escada de ancoras dos
+  // gates (opts > _metadata > AsyncLocalStorage). No worksheet as reguas que
+  // MEDEM riqueza de interface por passo (interacao semantica, variedade de
+  // modalidade, teto/monotonia de selecao passiva, modelo da disciplina) nao se
+  // aplicam: o caderno e uma unica superficie rica (celulas + instrumento) e
+  // uma celula A "dado" e por definicao seleção/digitacao. Em troca entram as
+  // reguas proprias do caderno (bloco "caderno" mais abaixo). O clamp de
+  // simple continua exclusivo do modo simples: worksheet nunca e simples.
+  const modoValido = (v) => typeof v === "string" && INTERFACE_MODES.includes(v);
+  const interfaceMode = modoValido(opts.interfaceMode)
+    ? opts.interfaceMode
+    : modoValido(tutor?._metadata?.interfaceMode)
+      ? tutor._metadata.interfaceMode
+      : simpleInterfaceMode
+        ? "simple"
+        : isWorksheetInterface()
+          ? "worksheet"
+          : "rich";
+  const worksheetMode = !simpleInterfaceMode && interfaceMode === "worksheet";
+  // As reguas de riqueza por passo sao desligadas em simple E em worksheet.
+  const richnessRulesOff = simpleInterfaceMode || worksheetMode;
   const issues = [];
   const metrics = {
     problems: 0,
@@ -1140,7 +1428,9 @@ export function runQualityGate(tutor, opts = {}) {
   // Garantias UNIVERSAIS de riqueza pedagógica. As policies acima escolhem a
   // surface canônica em casos conhecidos; estes gates cobrem conteúdos novos e
   // interdisciplinares sem depender do nome da matéria ou do tópico.
-  if (!simpleInterfaceMode && metrics.totalSteps >= 3 && metrics.semanticManipulativeSteps === 0) {
+  // (caderno F2: as tres reguas abaixo tambem nao valem no worksheet: ver
+  // richnessRulesOff no topo.)
+  if (!richnessRulesOff && metrics.totalSteps >= 3 && metrics.semanticManipulativeSteps === 0) {
     issues.push(
       "STI sem interação semântica: nenhum step materializa a ação cognitiva do conteúdo"
     );
@@ -1148,7 +1438,7 @@ export function runQualityGate(tutor, opts = {}) {
   const requiredSemanticSteps =
     metrics.totalSteps >= 4 ? Math.max(2, Math.ceil(metrics.totalSteps * 0.35)) : 1;
   if (
-    !simpleInterfaceMode &&
+    !richnessRulesOff &&
     metrics.totalSteps >= 4 &&
     metrics.semanticManipulativeSteps < requiredSemanticSteps
   ) {
@@ -1156,11 +1446,7 @@ export function runQualityGate(tutor, opts = {}) {
       `riqueza interativa insuficiente: ${metrics.semanticManipulativeSteps}/${metrics.totalSteps} steps usam interface semântica (mínimo ${requiredSemanticSteps}, 35%)`
     );
   }
-  if (
-    !simpleInterfaceMode &&
-    metrics.totalSteps >= 4 &&
-    metrics.responseModalityDistinctCount < 2
-  ) {
+  if (!richnessRulesOff && metrics.totalSteps >= 4 && metrics.responseModalityDistinctCount < 2) {
     issues.push(
       `baixa variedade de resposta: ${metrics.totalSteps} steps usam apenas a modalidade "${metrics.responseModalities[0] || "?"}"`
     );
@@ -1176,7 +1462,7 @@ export function runQualityGate(tutor, opts = {}) {
         disciplinePolicy.accepted.has(String(step?.renderAs || "")) ||
         isAnswerProducingDynamicSpec(step)
     );
-    if (!aligned && !simpleInterfaceMode) {
+    if (!aligned && !richnessRulesOff) {
       metrics.disciplinePolicyMissing = true;
       issues.push(
         `interface sem modelo da disciplina: ${disciplinePolicy.id} exige representação própria do conteúdo`
@@ -1247,7 +1533,8 @@ export function runQualityGate(tutor, opts = {}) {
   }
   // A seleção passiva não pode dominar uma sequência que se apresenta como
   // interface rica; o structural gate converte deterministicamente o excesso.
-  if (!simpleInterfaceMode && metrics.totalSteps >= 4 && metrics.passiveShare > 0.35) {
+  // (caderno F2: no worksheet as celulas A sao selecao/digitacao por contrato.)
+  if (!richnessRulesOff && metrics.totalSteps >= 4 && metrics.passiveShare > 0.35) {
     issues.push(
       `excesso de seleção passiva: ${(metrics.passiveShare * 100).toFixed(0)}% dos steps usam MC/V-F/imagem (máximo 35%)`
     );
@@ -1428,8 +1715,9 @@ export function runQualityGate(tutor, opts = {}) {
   // (D2) Monotonia PASSIVA é bloqueante: 3+ steps, todos no mesmo componente de
   // seleção → o aluno nunca digita/constrói/arrasta. Regenera para forçar
   // diversidade de INPUT (ver memory feedback_input_diversity).
+  // (caderno F2: idem no worksheet.)
   if (
-    !simpleInterfaceMode &&
+    !richnessRulesOff &&
     metrics.totalSteps >= 3 &&
     singleRenderAs &&
     PASSIVE_RENDER_AS.has(singleRenderAs)
@@ -1437,6 +1725,22 @@ export function runQualityGate(tutor, opts = {}) {
     issues.push(
       `monotonia passiva: todos os ${metrics.totalSteps} steps usam "${singleRenderAs}" (zero input construído)`
     );
+  }
+
+  // ============================================================
+  // CADERNO (worksheet): 2026-08-16 (F2). So roda no modo worksheet; em
+  // simple/rich nem os contadores entram no metrics (campos novos so aparecem
+  // quando definidos). Bloqueante = o aluno nao consegue jogar o caderno
+  // (celula sem no, no sem celula, celula C sem instrumento renderizavel,
+  // figura que "responde", interacao proibida para quem nao le). Warning =
+  // medicao (passo sem cell, origem do instrumento, so celulas A, interacao
+  // proibida em perfil leitor).
+  // ============================================================
+  if (worksheetMode) {
+    const worksheet = auditWorksheetTutor(tutor);
+    issues.push(...worksheet.issues);
+    warnings.push(...worksheet.warnings);
+    Object.assign(metrics, worksheet.metrics);
   }
 
   // (D2) Perda catastrófica de steps: designer planejou >=4 e o pipeline entregou

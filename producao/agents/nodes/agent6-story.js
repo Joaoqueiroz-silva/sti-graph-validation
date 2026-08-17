@@ -13,7 +13,17 @@ import { buildAdaptivePromptBlock } from "../../lib/student-profile.js";
 import { createAgentLogger } from "../agent-stream-hub.js";
 import { logger } from "../../lib/logger.js";
 import { buildCatalogoRenderAs, buildRegrasDeComponente } from "./agent6-catalogo-renderas.js";
-import { isSimpleInterface } from "../config/request-context.js";
+import { isSimpleInterface, isWorksheetInterface } from "../config/request-context.js";
+// 2026-08-16 (caderno F2): fallback deterministico do caderno, aplicado ao
+// resultado FINAL do worker so no modo worksheet (ver chamada no fim do worker).
+// 2026-08-17 (stream L): normalizeNotebookLayout e a fonte unica das regras do
+// layout da folha (planner aqui, fallback la), para as duas validacoes baterem.
+import {
+  applyNotebookFallback,
+  normalizeNotebookLayout,
+  NOTEBOOK_LAYOUT_MAX_ROWS,
+  NOTEBOOK_LAYOUT_MAX_ROW_CHARS,
+} from "../notebook/notebook-fallback.js";
 import { detectDisciplineArea, contextScenariosForDiscipline } from "../discipline-config.js";
 // 2026-05-04: catálogo de componentes interativos pra Agent6 gerar steps
 // JÁ no formato que os componentes do registry esperam (anti-MC component-aware).
@@ -24,7 +34,15 @@ import { inferRequestedStepMinimum } from "../patterns/quality-gate.js";
 // 2026-08-02 (auditoria de interface): interface-first. A modalidade de resposta
 // de cada passo é decidida ANTES de o worker materializar, para que ele escreva
 // a expectedAnswer em função do que a tela consegue produzir.
-import { formatModalityContract, planProblemModalities } from "../response-modality-planner.js";
+import {
+  formatModalityContract,
+  planNotebookRoles,
+  planProblemModalities,
+} from "../response-modality-planner.js";
+// 2026-08-16 (caderno F2b): schema tolerante do caderno do planner e lista
+// fechada de instrumentos v1 (instrumentHint fora dela vira null).
+import { z } from "zod";
+import { NOTEBOOK_C_V1 } from "../../shared/component-sets.js";
 // 2026-07-18 (cobertura específica 7% + anti-inflação): behaviorMisconceptions
 // do worker nascem aterrados (isGroundedDistractor) e a ROTULAGEM de option sem
 // id só recebe id específico com evidência (catálogo casando por kc/stepIndex E
@@ -941,7 +959,7 @@ export function alignExerciseIntentsWithGraphForge(
         // Só aceita o KC do planner se ele existir no dominio modelado pelo
         // Agent 1 — LLM as vezes inventa id. Sem KC valido, o slot manda.
         const kc = idsValidos.has(kcProposto) ? kcProposto : slot.kc;
-        return {
+        const intent = {
           graphNodeId: slot.graphNodeId,
           kc,
           description:
@@ -949,6 +967,12 @@ export function alignExerciseIntentsWithGraphForge(
             slot.cognitiveAction ||
             `Materializar ${kc} neste contexto`,
         };
+        // 2026-08-16 (caderno F0): no modo worksheet o planner propoe o rotulo
+        // da celula (cellLabel) por passo; o alinhamento com o blueprint nao
+        // pode descarta-lo. So aparece quando o planner mandou (simple/rich
+        // continuam sem a chave).
+        if (proposed[index]?.cellLabel !== undefined) intent.cellLabel = proposed[index].cellLabel;
+        return intent;
       }),
     };
   });
@@ -987,6 +1011,270 @@ export function alignExerciseIntentsWithGraphForge(
   }
 
   return alinhados;
+}
+
+// ============================================================
+// 2026-08-16 (caderno F2b): planner 6a fala "caderno" (so no worksheet)
+// ============================================================
+
+/** Lista fechada de instrumentHint aceitos do planner (= NOTEBOOK_C_V1). */
+export const PLANNER_INSTRUMENT_HINTS = Object.freeze([...NOTEBOOK_C_V1]);
+
+const escalarTexto = z
+  .union([z.string(), z.number(), z.boolean()])
+  .transform((v) => String(v).trim());
+
+// Zod TOLERANTE: entrada invalida nao derruba o planner. Given sem value e
+// descartado (catch null -> filtrado); hint fora da lista vira null; columns
+// invalidas somem. O que o LLM manda a mais fica (passthrough) porque o
+// caderno e um contrato aditivo.
+const plannerGivenSchema = z
+  .object({
+    id: escalarTexto.optional(),
+    label: escalarTexto.optional(),
+    value: escalarTexto,
+  })
+  .passthrough()
+  .catch(null);
+const plannerColumnSchema = z
+  .object({ id: escalarTexto, label: escalarTexto.optional() })
+  .passthrough()
+  .catch(null);
+// 2026-08-17 (stream L): layout da folha. Zod so garante "algo" (objeto,
+// array ou string); a forma final { rows: string[] } e decidida por
+// normalizeNotebookLayout (mesma regra do fallback). Invalido -> null -> some.
+const plannerLayoutSchema = z
+  .union([z.object({}).passthrough(), z.array(z.unknown()), z.string()])
+  .catch(null);
+export const plannerNotebookSchema = z
+  .object({
+    givens: z.array(plannerGivenSchema).catch([]).optional(),
+    instrumentHint: z
+      .string()
+      .transform((v) => v.trim())
+      .refine((v) => NOTEBOOK_C_V1.has(v))
+      .catch(null)
+      .optional(),
+    columns: z.array(plannerColumnSchema).catch(null).optional(),
+    layout: plannerLayoutSchema.optional(),
+  })
+  .passthrough();
+
+/**
+ * Normaliza o `notebook` proposto pelo planner (worksheet). Devolve o objeto
+ * limpo ou undefined quando o planner nao mandou nada aproveitavel (para NAO
+ * criar a chave). givens <= 8 (id "gN" quando ausente); instrumentHint na
+ * lista fechada ou null; columns so quando ha ao menos uma coluna valida;
+ * layout (2026-08-17, stream L) = { rows: string[] } com <= 4 linhas de <= 160
+ * chars, cada uma com >= 1 placeholder {graphNodeId}; com `stepIds` (ids dos
+ * stepIntents), linha que cita id inexistente e descartada INTEIRA (o
+ * fallback revalida contra os steps finais). Sem linha valida a chave some.
+ */
+export function normalizePlannerNotebook(raw, { stepIds = null } = {}) {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const parsed = plannerNotebookSchema.safeParse(raw);
+  if (!parsed.success) return undefined;
+  const data = parsed.data;
+  const out = { ...data };
+  if (Object.hasOwn(data, "layout")) {
+    const layout = normalizeNotebookLayout(data.layout, { validIds: stepIds });
+    if (layout) out.layout = layout;
+    else delete out.layout;
+  }
+  const givens = (Array.isArray(data.givens) ? data.givens : [])
+    .filter((g) => g && typeof g === "object" && String(g.value ?? "").trim() !== "")
+    .slice(0, 8)
+    .map((g, i) => ({
+      ...g,
+      id: g.id && String(g.id).trim() ? String(g.id).trim() : `g${i + 1}`,
+      label: g.label && String(g.label).trim() ? String(g.label).trim() : `dado ${i + 1}`,
+      value: String(g.value).trim(),
+    }));
+  // givens vazios NAO viram chave: o fallback do caderno (f) so extrai do
+  // enunciado quando a lista esta ausente.
+  if (givens.length) out.givens = givens;
+  else delete out.givens;
+  if (Object.hasOwn(data, "instrumentHint")) out.instrumentHint = data.instrumentHint ?? null;
+  const columns = (Array.isArray(data.columns) ? data.columns : []).filter(
+    (c) => c && typeof c === "object" && String(c.id ?? "").trim() !== ""
+  );
+  if (columns.length)
+    out.columns = columns.slice(0, 12).map((c) => ({ ...c, id: String(c.id).trim() }));
+  else delete out.columns;
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** cellLabel do planner: string com <= 8 palavras, ou undefined (nao cria chave). */
+export function normalizePlannerCellLabel(raw) {
+  if (raw === undefined || raw === null) return undefined;
+  const words = String(raw).trim().split(/\s+/).filter(Boolean).slice(0, 8);
+  const label = words.join(" ").replace(/[\s.:;,!?…]+$/u, "");
+  return label ? label : undefined;
+}
+
+/**
+ * Aplica a normalizacao do caderno as cascas do planner. SO no worksheet
+ * (worksheet=true); fora dele devolve a lista intocada (mesma referencia).
+ */
+export function applyPlannerNotebookToExercises(exercises, { worksheet = false } = {}) {
+  if (!worksheet || !Array.isArray(exercises)) return exercises;
+  return exercises.map((exercise) => {
+    if (!exercise || typeof exercise !== "object") return exercise;
+    const out = { ...exercise };
+    // 2026-08-17 (stream L): ids dos stepIntents validam os placeholders do
+    // layout. Sem stepIntents com graphNodeId nao ha contra o que validar
+    // (stepIds=null: o fallback valida contra os steps finais).
+    const stepIds = (Array.isArray(exercise.stepIntents) ? exercise.stepIntents : [])
+      .map((intent) => String(intent?.graphNodeId ?? "").trim())
+      .filter(Boolean);
+    const notebook = normalizePlannerNotebook(exercise.notebook, {
+      stepIds: stepIds.length ? stepIds : null,
+    });
+    if (notebook !== undefined) out.notebook = notebook;
+    else delete out.notebook;
+    if (Array.isArray(exercise.stepIntents)) {
+      out.stepIntents = exercise.stepIntents.map((intent) => {
+        if (!intent || typeof intent !== "object") return intent;
+        const cellLabel = normalizePlannerCellLabel(intent.cellLabel);
+        const copia = { ...intent };
+        if (cellLabel !== undefined) copia.cellLabel = cellLabel;
+        else delete copia.cellLabel;
+        return copia;
+      });
+    }
+    return out;
+  });
+}
+
+/**
+ * Regras do caderno no system prompt do planner (worksheet). Fora do worksheet
+ * devolve "" (prompt de simple/rich byte-identico; teste caderno-f0p-planner-
+ * prompt-snapshot).
+ */
+export function buildPlannerNotebookRules({ worksheet = false } = {}) {
+  if (!worksheet) return "";
+  return `
+
+REGRAS DO CADERNO (modo worksheet): este STI e resolvido num caderno CTAT em que cada stepIntent vira UMA celula.
+- Extraia os dados numericos/textuais do enunciado como "givens" rotulados (ate 8: { "id", "label", "value" }); eles ficam no papel do aluno.
+- givens SOMENTE com valores LITERAIS presentes no enunciado (a fracao "1/2", o numero "24", a palavra exata): NUNCA invente dado que o enunciado nao traz nem derive um valor (se o enunciado diz "comeram 1/2 do bolo e separaram 1/6", os givens sao "1/2" e "1/6", nao "7/8" nem "24 alunos"). Given sem valor literal no enunciado e descartado.
+- Se o problema tem UMA representacao unica que varias celulas compartilham (barra de fracao, reta numerica, texto para destacar, tabela, celula biologica), declare "instrumentHint" com um destes valores: ${PLANNER_INSTRUMENT_HINTS.join(" | ")}. Sem representacao unica, use null.
+- Se o instrumento e uma tabela, declare "columns": [{ "id", "label" }].
+- Uma acao cognitiva = uma celula: nao junte duas quantidades/decisoes num stepIntent.
+- Cada stepIntent leva "cellLabel": rotulo CURTO da celula (ate 8 palavras, sem pontuacao final).
+- Monte a folha como no caderno em "layout": { "rows": [...] } (1 a ${NOTEBOOK_LAYOUT_MAX_ROWS} linhas, cada uma com ate ${NOTEBOOK_LAYOUT_MAX_ROW_CHARS} caracteres): escreva as linhas de conta/preenchimento com os dados literais e as celulas em chaves, ex.: "{step_1}/{step_2} - {step_3}/{step_4} = {step_5}/{step_6}" ou "27 + 15 = {step_2}". Cada chave e o graphNodeId de um stepIntent em que o aluno DIGITA ou SELECIONA; use SOMENTE ids de passos existentes; celulas do instrumento (marcar na reta, pintar a barra, destacar no texto, preencher a tabela) NAO entram no layout. Sem linha de conta (problema so de instrumento ou de texto), use "layout": null.`;
+}
+
+/** Campos do caderno no formato JSON do planner (worksheet); "" fora dele. */
+export function plannerNotebookFormatFields({ worksheet = false } = {}) {
+  if (!worksheet) return { cellLabel: "", notebook: "" };
+  return {
+    cellLabel: `, "cellLabel": "Rotulo curto da celula (ate 8 palavras)"`,
+    notebook: `,
+      "notebook": {
+        "givens": [ { "id": "g1", "label": "fatias da pizza", "value": "8" } ],
+        "instrumentHint": "${PLANNER_INSTRUMENT_HINTS.join("|")}|null",
+        "columns": [ { "id": "c1", "label": "Coluna" } ],
+        "layout": { "rows": [ "{step_1}/{step_2} - {step_3}/{step_4} = {step_5}/{step_6}" ] }
+      }`,
+  };
+}
+
+/**
+ * 2026-08-16 (caderno F0): bloco do caderno no prompt do worker. SO existe no
+ * modo worksheet e SO quando o planner definiu ex.notebook; em simple/rich
+ * devolve string vazia, entao a mensagem do worker fica byte-identica a de
+ * antes (teste caderno-f0-agent6-worker-message pina isso).
+ */
+export function buildWorkerNotebookBlock(ex, { worksheet = isWorksheetInterface() } = {}) {
+  if (!worksheet) return "";
+  if (!ex || ex.notebook === undefined || ex.notebook === null) return "";
+  // 2026-08-17 (stream L): quando o planner montou a folha (layout.rows), o
+  // worker precisa saber que cada {id} ali e uma celula A (digitacao/selecao)
+  // daquele step; so aparece se houver layout (mensagem sem layout intacta).
+  const linhaLayout =
+    ex.notebook.layout && typeof ex.notebook.layout === "object"
+      ? `\nSe houver "layout", ele e a folha de conta do aluno: cada {id} e a caixinha da celula A daquele step (mantenha o papel A e um gabarito curto que caiba na caixinha; nao transforme essa celula em instrumento).`
+      : "";
+  return `
+=== CADERNO (modo worksheet) ===
+Este exercicio e resolvido num caderno: os DADOS abaixo ja estao no papel do aluno (givens),
+e o instrumento/figura (se houver) e a superficie onde ele registra a resposta.
+Cada step corresponde a UMA celula do caderno (use o cellLabel do stepIntent como referencia).
+Se voce refinar o instrumento, devolva-o em "notebook": { "instrument": {...} } (os givens do planner sao mantidos).${linhaLayout}
+${JSON.stringify(ex.notebook, null, 2)}
+`;
+}
+
+/**
+ * 2026-08-16 (caderno F0): mescla o caderno vindo do worker no do planner.
+ * Regras: worker vence em instrument (e nas demais chaves que ele definir);
+ * planner vence em givens quando o worker nao trouxe uma lista nao vazia.
+ * Retorna undefined quando nenhum dos dois definiu (nao cria chave nova).
+ */
+export function mergeWorkerNotebook(plannerNotebook, workerNotebook) {
+  const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
+  if (!isObj(workerNotebook)) return plannerNotebook;
+  if (!isObj(plannerNotebook)) return workerNotebook;
+  const merged = { ...plannerNotebook, ...workerNotebook };
+  const workerGivens = Array.isArray(workerNotebook.givens) ? workerNotebook.givens : null;
+  if (!workerGivens || workerGivens.length === 0) {
+    if (plannerNotebook.givens !== undefined) merged.givens = plannerNotebook.givens;
+    else delete merged.givens;
+  }
+  if (workerNotebook.instrument === undefined && plannerNotebook.instrument !== undefined) {
+    merged.instrument = plannerNotebook.instrument;
+  }
+  // 2026-08-17 (stream L): layout do worker so vence se tiver ao menos uma
+  // linha aproveitavel; senao a folha do planner fica (o fallback revalida
+  // contra os steps finais de qualquer jeito).
+  if (
+    Object.hasOwn(workerNotebook, "layout") &&
+    normalizeNotebookLayout(workerNotebook.layout) === undefined &&
+    plannerNotebook.layout !== undefined
+  ) {
+    merged.layout = plannerNotebook.layout;
+  }
+  return merged;
+}
+
+/**
+ * 2026-08-16 (caderno F0): monta a mensagem do worker (Agent 6b). Extraido do
+ * corpo do fan-out SEM mudar um byte do molde para simple/rich; o unico ponto
+ * novo e `${blocoCaderno}`, vazio fora do modo worksheet.
+ */
+export function buildWorkerUserMessage({
+  index,
+  ex,
+  blocoModalidade = "",
+  blocoCaderno = "",
+  knowledgeComponents = [],
+  misconceptionCatalog = [],
+  empiricalMisconceptionsBlock = "",
+  teacherRequirementsBlock = "",
+  adaptiveBlock = "",
+}) {
+  return `Gere os DETALHES (steps, hints, options) APENAS para este exercicio (Exercicio ${index + 1}):
+Titulo: ${ex.title}
+Enunciado: ${ex.statement}
+Variaveis: ${JSON.stringify(ex.variables)}
+Contexto: ${ex.context}
+
+=== STEP INTENTS (KCs a testar) ===
+${JSON.stringify(ex.stepIntents || [])}
+${blocoModalidade}${blocoCaderno}
+
+=== KNOWLEDGE COMPONENTS ===
+${JSON.stringify(knowledgeComponents || [], null, 2)}
+
+=== CATALOGO DE MISCONCEPTIONS (do Agent 3b) ===
+${JSON.stringify(misconceptionCatalog || [], null, 2)}
+
+=== MISCONCEPTIONS EMPIRICAS ===
+${empiricalMisconceptionsBlock}${teacherRequirementsBlock}
+
+Materialize TODOS os ${ex.stepIntents?.length || 0} stepIntents acima, um por step, mantendo as interações exigidas pelo professor.
+${adaptiveBlock}`;
 }
 
 /**
@@ -1149,9 +1437,16 @@ REGRAS CRITICAS:
     targetStepIntents > 0
       ? `\n4. Cada exercício DEVE conter pelo menos ${targetStepIntents} stepIntents distintos. Não funda ações cognitivas para reduzir essa quantidade.`
       : "";
+  // 2026-08-16 (caderno F2b): so no worksheet o planner recebe as regras do
+  // caderno e o formato ganha notebook/cellLabel; em simple/rich as tres
+  // variaveis sao "" e o prompt e byte-identico (teste caderno-f0p-planner-
+  // prompt-snapshot).
+  const worksheetMode = isWorksheetInterface();
+  const plannerCadernoRules = buildPlannerNotebookRules({ worksheet: worksheetMode });
+  const plannerCadernoFields = plannerNotebookFormatFields({ worksheet: worksheetMode });
 
   const plannerSystemPrompt = `Voce e um planejador arquitetural para Sistemas de Tutoria Inteligente.
-${plannerInstRules}${plannerStepRule}
+${plannerInstRules}${plannerStepRule}${plannerCadernoRules}
 
 SUA TAREFA EXCLUSIVA:
 Voce DEVE apenas PLANEJAR a "casca" dos ${numProblems} exercicios. VOCE NAO DEVE GERAR OS PASSOS DETALHADOS AINDA.
@@ -1170,8 +1465,8 @@ Retorne JSON PURO neste exato formato:
       "context": "fazenda",
       "variables": { "A": 3, "B": 2 },
       "stepIntents": [
-        { "graphNodeId": "step_1", "kc": "kc_id_aqui", "description": "Descricao do que o aluno deve fazer neste passo (ex: 'Isolar o X', 'Identificar a capital')" }
-      ]
+        { "graphNodeId": "step_1", "kc": "kc_id_aqui", "description": "Descricao do que o aluno deve fazer neste passo (ex: 'Isolar o X', 'Identificar a capital')"${plannerCadernoFields.cellLabel} }
+      ]${plannerCadernoFields.notebook}
     }
   ]
 }`;
@@ -1195,6 +1490,10 @@ ${JSON.stringify(graphBlueprint, null, 2)}${adaptiveBlock}`;
   // (#27-#33) e SO DEPOIS completa ate targetStepIntents. A ordem importa:
   // completar antes do alinhamento sobrescreveria intents especificos por pad.
   let exercisesBase = parsedPlanner.exercises || [];
+  // 2026-08-16 (caderno F2b): no worksheet, normaliza notebook/cellLabel do
+  // planner ANTES do alinhamento (que preserva cellLabel e espalha o resto do
+  // exercicio). Fora do worksheet devolve a mesma referencia.
+  exercisesBase = applyPlannerNotebookToExercises(exercisesBase, { worksheet: worksheetMode });
   if (graphBlueprint.length > 0) {
     exercisesBase = alignExerciseIntentsWithGraphForge(
       exercisesBase,
@@ -1377,9 +1676,90 @@ Marque com "isPivotal": true os steps onde a COMPREENSAO conceitual e mais impor
     for (const step of steps) {
       sanitizeWorkerBehaviorMisconceptions(step, state.misconceptionCatalog || []);
     }
+    // 2026-08-16 (caderno F0): no worksheet o worker pode refinar o
+    // instrumento do caderno; captura SO nesse modo (em simple/rich uma chave
+    // "notebook" alucinada nao entra) e SO grava quando algo foi definido.
+    const notebook = isWorksheetInterface()
+      ? mergeWorkerNotebook(ex.notebook, parsedWorker.notebook)
+      : ex.notebook;
+    // 2026-08-16 (caderno F2): depois do sanitizer e do graphNodeId vindo do
+    // GraphForge, o fallback deterministico do caderno completa cell/notebook
+    // (id canonico, label, papel, presentation, givens, instrumento) SO no
+    // worksheet. O notebook e clonado para nao mutar o objeto do planner
+    // (ex.notebook e compartilhado com o retry e com o bloco do prompt); em
+    // simple/rich o retorno e byte-identico ao de antes.
+    if (isWorksheetInterface()) {
+      const problemaDoCaderno = {
+        ...ex,
+        steps,
+        ...(notebook !== undefined ? { notebook: JSON.parse(JSON.stringify(notebook)) } : {}),
+      };
+      // 2026-08-16 (caderno F2b): se o worker escreveu celulas C mas NAO
+      // declarou o instrumento, o roteador monta UM instrumento por problema
+      // a partir do instrumentHint do planner + gabaritos das celulas C
+      // (routeInstrumentForProblem). O fallback logo abaixo valida (ou
+      // degrada). Import dinamico: o roteador so entra no grafo de modulos
+      // do worksheet. Nunca lanca.
+      const temCelulaC = steps.some(
+        (s) =>
+          String(s?.cell?.role ?? "")
+            .trim()
+            .toUpperCase() === "C"
+      );
+      const semInstrumento =
+        !problemaDoCaderno.notebook ||
+        problemaDoCaderno.notebook.instrument === undefined ||
+        problemaDoCaderno.notebook.instrument === null;
+      if (temCelulaC && semInstrumento) {
+        try {
+          const { routeInstrumentForProblem } = await import("../component-router.js");
+          const roteado = routeInstrumentForProblem(problemaDoCaderno, {
+            instrumentHint: problemaDoCaderno.notebook?.instrumentHint ?? null,
+          });
+          if (roteado) {
+            const { cellTargets, ...instrument } = roteado;
+            if (!problemaDoCaderno.notebook || typeof problemaDoCaderno.notebook !== "object") {
+              problemaDoCaderno.notebook = {};
+            }
+            problemaDoCaderno.notebook.instrument = instrument;
+            for (const s of steps) {
+              if (
+                String(s?.cell?.role ?? "")
+                  .trim()
+                  .toUpperCase() !== "C"
+              )
+                continue;
+              const cellId = String(s.cell?.id || s.graphNodeId || s.id || "");
+              const target = cellTargets?.[cellId];
+              if (!target) continue;
+              s.cell.instrumentRef = instrument.id;
+              s.cell.target = target;
+            }
+            logger.info(
+              {
+                module: "agent6b",
+                phase: "notebook-instrument-routed",
+                exId: ex.id,
+                renderAs: instrument.renderAs,
+                cells: Object.keys(cellTargets || {}).length,
+              },
+              "Instrumento do caderno montado pelo roteador"
+            );
+          }
+        } catch (routeErr) {
+          logger.warn(
+            { module: "agent6b", phase: "notebook-instrument-route-fail", err: routeErr.message },
+            "Roteador de instrumento indisponivel; fallback do caderno decide"
+          );
+        }
+      }
+      applyNotebookFallback(problemaDoCaderno, { interfaceMode: "worksheet" });
+      return problemaDoCaderno;
+    }
     return {
       ...ex,
       steps,
+      ...(notebook !== undefined ? { notebook } : {}),
     };
   };
 
@@ -1392,7 +1772,11 @@ Marque com "isPivotal": true os steps onde a COMPREENSAO conceitual e mais impor
   // proibir ao mesmo tempo é compliance de cara ou coroa).
   if (!isSimpleInterface()) {
     try {
-      enrichedCatalog = await buildLLMCatalog({ discipline: state.discipline });
+      // 2026-08-16 (caderno F2b): includeNotebook (linha "Papel no caderno"
+      // por componente) SO no worksheet; em rich a chamada e a de sempre.
+      enrichedCatalog = worksheetMode
+        ? await buildLLMCatalog({ discipline: state.discipline, includeNotebook: true })
+        : await buildLLMCatalog({ discipline: state.discipline });
     } catch (catalogErr) {
       enrichedCatalog = null;
     }
@@ -1405,6 +1789,9 @@ Marque com "isPivotal": true os steps onde a COMPREENSAO conceitual e mais impor
     profileInstructions,
     enrichedCatalog,
     simpleInterface: isSimpleInterface(),
+    // 2026-08-16 (caderno F2b): bloco MODO CADERNO + cell/notebook no formato,
+    // so no worksheet (false = prompt byte-identico ao anterior).
+    worksheetInterface: worksheetMode,
   });
 
   const workerPromises = exercisesBase.map(async (ex, index) => {
@@ -1421,37 +1808,48 @@ Marque com "isPivotal": true os steps onde a COMPREENSAO conceitual e mais impor
           })),
           topic: state.topic,
           discipline: state.discipline,
+          // 2026-08-16 (caderno F2b): no worksheet a anti-monotonia nao
+          // promove o passo 1 a manipulate; em rich `false` = identico.
+          worksheet: worksheetMode,
         });
+    // 2026-08-16 (caderno F2b): papel de cada celula derivado da modalidade
+    // (A/B/C), impresso no contrato SO no worksheet; em rich `celulas` e null
+    // e formatModalityContract recebe os mesmos 2 argumentos de antes.
+    const celulas = worksheetMode
+      ? planNotebookRoles(ex.stepIntents || [], {
+          policy: planosModalidade,
+          instrumentHint: ex.notebook?.instrumentHint ?? null,
+        })
+      : null;
     const blocoModalidade = planosModalidade.length
       ? `\n=== CONTRATO DE INTERFACE POR PASSO (OBRIGATORIO) ===
 Cada passo abaixo JA TEM a modalidade de resposta decidida. Materialize DENTRO dela:
 a expectedAnswer e o que o aluno PRODUZ naquela superficie, nao a resposta de uma
 pergunta dissertativa. Se a resposta que voce pensou nao cabe na modalidade do passo,
 reescreva o passo — nao troque a modalidade.
-${planosModalidade.map((plano, i) => formatModalityContract(plano, i + 1)).join("\n")}\n`
+${planosModalidade
+  .map((plano, i) =>
+    celulas
+      ? formatModalityContract(plano, i + 1, celulas[i])
+      : formatModalityContract(plano, i + 1)
+  )
+  .join("\n")}\n`
       : "";
 
-    const workerUserMessage = `Gere os DETALHES (steps, hints, options) APENAS para este exercicio (Exercicio ${index + 1}):
-Titulo: ${ex.title}
-Enunciado: ${ex.statement}
-Variaveis: ${JSON.stringify(ex.variables)}
-Contexto: ${ex.context}
-
-=== STEP INTENTS (KCs a testar) ===
-${JSON.stringify(ex.stepIntents || [])}
-${blocoModalidade}
-
-=== KNOWLEDGE COMPONENTS ===
-${JSON.stringify(state.knowledgeComponents || [], null, 2)}
-
-=== CATALOGO DE MISCONCEPTIONS (do Agent 3b) ===
-${JSON.stringify(state.misconceptionCatalog || [], null, 2)}
-
-=== MISCONCEPTIONS EMPIRICAS ===
-${empiricalMisconceptionsBlock}${teacherRequirementsBlock}
-
-Materialize TODOS os ${ex.stepIntents?.length || 0} stepIntents acima, um por step, mantendo as interações exigidas pelo professor.
-${adaptiveBlock}`;
+    // 2026-08-16 (caderno F0): no worksheet o worker precisa ver os givens e
+    // o instrumento do caderno; em simple/rich o bloco e "" (molde intacto).
+    const blocoCaderno = buildWorkerNotebookBlock(ex);
+    const workerUserMessage = buildWorkerUserMessage({
+      index,
+      ex,
+      blocoModalidade,
+      blocoCaderno,
+      knowledgeComponents: state.knowledgeComponents,
+      misconceptionCatalog: state.misconceptionCatalog,
+      empiricalMisconceptionsBlock,
+      teacherRequirementsBlock,
+      adaptiveBlock,
+    });
 
     try {
       return await callWorkerJson({

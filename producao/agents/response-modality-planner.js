@@ -31,6 +31,18 @@ import {
   DISCIPLINE_AFFORDANCE_POLICIES,
   componentsForModality,
 } from "../shared/affordance-policies.js";
+// 2026-08-16 (caderno F2b): papeis do caderno derivados da modalidade coarse.
+// component-sets e notebook-emitter-model sao modulos puros (sem LLM/I/O),
+// entao este planejador continua puro; WORKSHEET_A_RENDER_AS vem do fallback
+// do caderno porque e uma regra do CADERNO (nao capacidade de componente).
+import {
+  ASSEMBLED_ANSWER_RENDER_AS,
+  NOTEBOOK_B,
+  NOTEBOOK_C_V1,
+  NOTEBOOK_ROLE_LABELS,
+} from "../shared/component-sets.js";
+import { NOTEBOOK_INSTRUMENT_TARGET_KIND } from "../evaluation/notebook-emitter-model.js";
+import { WORKSHEET_A_RENDER_AS } from "./notebook/notebook-fallback.js";
 
 /**
  * As quatro formas pelas quais um aluno produz uma resposta. Reexportadas da
@@ -180,7 +192,7 @@ export function planStepModality({ kc, stepIntent, instruction, topic, disciplin
  * 3 de 5 passos em numeric_keypad e zero alvos clicáveis). Nesse caso o primeiro
  * passo é promovido para a modalidade rica que o conteúdo aceita.
  */
-export function planProblemModalities({ steps, topic, discipline } = {}) {
+export function planProblemModalities({ steps, topic, discipline, worksheet = false } = {}) {
   const lista = Array.isArray(steps) ? steps : [];
   const planos = lista.map((step) =>
     planStepModality({
@@ -192,7 +204,13 @@ export function planProblemModalities({ steps, topic, discipline } = {}) {
     })
   );
 
-  const todosDigitados = planos.length >= 3 && planos.every((plano) => plano.modality === "type");
+  // 2026-08-16 (caderno F2b): no caderno a anti-monotonia NAO promove o passo
+  // 1 a "manipulate" a forca. Um caderno feito de celulas simples (digitar /
+  // selecionar) e legitimo (e o CTAT classico); a variedade vem do
+  // instrumento compartilhado, nao de um manipulativo forcado no primeiro
+  // passo. Fora do worksheet (worksheet=false, o default) nada muda.
+  const todosDigitados =
+    !worksheet && planos.length >= 3 && planos.every((plano) => plano.modality === "type");
   if (todosDigitados) {
     const rico = planStepModality({ kc: lista[0]?.kc, topic, discipline });
     planos[0] =
@@ -210,15 +228,140 @@ export function planProblemModalities({ steps, topic, discipline } = {}) {
   return planos;
 }
 
-/** Bloco pronto para injetar no prompt do worker do agente 6. */
-export function formatModalityContract(plano, ordem) {
+/**
+ * 2026-08-16 (caderno F2b): apresentacao padrao de uma celula por papel e
+ * modalidade. A (select) e um dropdown compacto; A (type) e um input de uma
+ * linha; B e C sao renderizados inline (o componente inteiro dentro da celula
+ * ou o alvo do instrumento). O fallback do caderno refina por renderAs FINAL
+ * (keypad, radio) quando o worker nao manda presentation.
+ */
+function presentationForRole(role, modality) {
+  if (role === "A") return modality === "select" ? "dropdown" : "input";
+  return "inline";
+}
+
+/**
+ * 2026-08-16 (caderno F2b): planeja o PAPEL de cada celula do caderno a partir
+ * da modalidade coarse ja decidida para o passo (interface-first, mesma
+ * ordem: modalidade -> papel -> worker). Regras:
+ *   select / type -> A (celula simples: o aluno seleciona ou digita);
+ *   construct     -> A por padrao; B SO quando os componentes aceitos do passo
+ *                    incluem algum de ASSEMBLED_ANSWER_RENDER_AS (ordenar,
+ *                    montar, parear: a resposta e MONTADA, nao digitada).
+ *                    2026-08-17 (stream M, "o caderno prefere digitar"): um
+ *                    "construct" cujo aceito e table/diagram_labeler/
+ *                    memory_game nao e celula rica no caderno; a resposta
+ *                    escalar vai numa caixinha (o STI real de fracoes saiu com
+ *                    15/15 celulas B e o juiz LLM reprovou a interface);
+ *   manipulate    -> C (instrumento compartilhado) SO quando o problema tem
+ *                    instrumentHint E os componentes aceitos do passo cruzam
+ *                    NOTEBOOK_C_V1 (lista fechada v1); senao B.
+ * `policy` e a lista devolvida por planProblemModalities (um plano por passo,
+ * mesma ordem dos stepIntents); `acceptedComponentsByStep` sobrescreve os
+ * componentes aceitos de um passo (mesma ordem; entrada ausente = usa a do
+ * plano). Cada saida traz cellId (= graphNodeId do stepIntent), role,
+ * presentation e, para C, targetHint (kind do alvo no instrumento) e os
+ * acceptedComponents ja restritos ao papel (A: WORKSHEET_A_RENDER_AS; B:
+ * NOTEBOOK_B; C: o proprio instrumento). Modulo puro: nada le o modo de
+ * interface; quem chama decide se e caderno.
+ */
+export function planNotebookRoles(
+  stepIntents,
+  { policy = [], acceptedComponentsByStep = null, instrumentHint = null } = {}
+) {
+  const intents = Array.isArray(stepIntents) ? stepIntents : [];
+  const planos = Array.isArray(policy) ? policy : [];
+  const hint = NOTEBOOK_C_V1.has(String(instrumentHint || "")) ? String(instrumentHint) : null;
+  return intents.map((intent, index) => {
+    const plano = planos[index] || null;
+    const modality = String(plano?.modality || "type");
+    const aceitosBase = Array.isArray(acceptedComponentsByStep?.[index])
+      ? acceptedComponentsByStep[index]
+      : Array.isArray(plano?.acceptedComponents)
+        ? plano.acceptedComponents
+        : componentsForModality(modality);
+    const cellId = String(intent?.graphNodeId || intent?.id || `step_${index + 1}`);
+    let role;
+    if (modality === "select" || modality === "type") role = "A";
+    else if (modality === "construct") {
+      // 2026-08-17 (stream M): B so quando ha componente de resposta MONTADA
+      // entre os aceitos (drag_to_order, sentence_builder, matching_pairs...);
+      // senao a celula e A (digitar/selecionar), o padrao do caderno.
+      role = aceitosBase.some((componente) => ASSEMBLED_ANSWER_RENDER_AS.has(componente))
+        ? "B"
+        : "A";
+    } else if (modality === "manipulate") {
+      // "acceptedComponents ∩ NOTEBOOK_C_V1 nao vazio E ha instrumentHint" na
+      // forma util: o instrumento do problema (hint, ja em NOTEBOOK_C_V1) tem
+      // que ser um dos componentes que a modalidade deste passo aceita. Uma
+      // celula de fracao (aceita fraction_bar) nunca vira alvo de um
+      // number_line so porque o problema tem uma reta.
+      // 2026-08-17 (visto em producao: STI de subtracao de fracoes saiu com
+      // 15/15 celulas B porque a politica fraction-model planeja "manipulate"
+      // e nao havia instrumentHint): sem instrumento compativel, manipulate
+      // vira B SO se ha componente de resposta MONTADA entre os aceitos;
+      // senao e A, o padrao do caderno (a mesma regra do construct).
+      if (!!hint && aceitosBase.includes(hint)) role = "C";
+      else
+        role = aceitosBase.some((componente) => ASSEMBLED_ANSWER_RENDER_AS.has(componente))
+          ? "B"
+          : "A";
+    } else role = "B";
+
+    let acceptedComponents;
+    if (role === "A") {
+      const restritos = aceitosBase.filter((componente) => WORKSHEET_A_RENDER_AS.has(componente));
+      acceptedComponents = restritos.length
+        ? restritos
+        : modality === "select"
+          ? ["multiple_choice", "true_false", "word_matcher"]
+          : ["text", "numeric_keypad", "fraction_input"];
+    } else if (role === "C") {
+      acceptedComponents = [hint];
+    } else {
+      const restritos = aceitosBase.filter((componente) => NOTEBOOK_B.has(componente));
+      acceptedComponents = restritos.length ? restritos : aceitosBase;
+    }
+
+    const saida = {
+      cellId,
+      role,
+      presentation: presentationForRole(role, modality),
+      acceptedComponents,
+    };
+    if (role === "C") saida.targetHint = NOTEBOOK_INSTRUMENT_TARGET_KIND[hint] || null;
+    return saida;
+  });
+}
+
+/**
+ * Bloco pronto para injetar no prompt do worker do agente 6.
+ *
+ * 2026-08-16 (caderno F2b): o terceiro argumento (celula planejada por
+ * planNotebookRoles) SO e passado no modo worksheet; com ele o bloco ganha a
+ * linha da celula (id, papel, apresentacao, alvo) e a lista de componentes
+ * fica restrita ao papel. Sem ele, o texto e byte-identico ao de antes.
+ */
+export function formatModalityContract(plano, ordem, celula = null) {
   if (!plano) return "";
-  const componentes = plano.acceptedComponents.slice(0, 8).join(", ");
-  return [
+  const aceitos =
+    celula && Array.isArray(celula.acceptedComponents) && celula.acceptedComponents.length
+      ? celula.acceptedComponents
+      : plano.acceptedComponents;
+  const componentes = aceitos.slice(0, 8).join(", ");
+  const linhas = [
     `- Passo ${ordem}: modalidade OBRIGATÓRIA = ${plano.modality.toUpperCase()}`,
     `  Como o aluno responde: ${plano.contract}`,
     `  Componentes válidos para este passo: ${componentes}`,
-  ].join("\n");
+  ];
+  if (celula) {
+    const rotulo = NOTEBOOK_ROLE_LABELS[celula.role] || "?";
+    const alvo = celula.role === "C" && celula.targetHint ? `, alvo=${celula.targetHint}` : "";
+    linhas.push(
+      `  Celula do caderno: id=${celula.cellId}, papel=${celula.role} (${rotulo}), apresentacao=${celula.presentation}${alvo}`
+    );
+  }
+  return linhas.join("\n");
 }
 
 export const _internals = { CONTRATO_POR_MODALIDADE };

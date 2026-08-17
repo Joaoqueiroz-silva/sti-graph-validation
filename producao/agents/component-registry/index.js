@@ -11,6 +11,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { logger } from "../../lib/logger.js";
 import { detectDisciplineArea } from "../discipline-config.js";
 import { disciplinesFor, serveDisciplina } from "./component-disciplines.js";
+import { NOTEBOOK_ROLE_LABELS } from "../../shared/component-sets.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const COMPONENTS_DIR = join(__dirname, "components");
@@ -126,6 +127,35 @@ function formatConstraint(c) {
 }
 
 /**
+ * formatNotebookRole — 1 linha "Papel no caderno: ..." a partir de spec.notebook.
+ *
+ * 2026-08-16 (F0 do caderno): o worker do modo worksheet precisa saber, por
+ * componente, se ele cabe numa celula simples (A), numa celula rica (B), se e
+ * instrumento compartilhado (C, com os alvos que as celulas podem referenciar)
+ * ou figura readOnly (D). Devolve null quando a spec nao declara notebook,
+ * para nunca inventar papel.
+ */
+function formatNotebookRole(notebook) {
+  const roles = Array.isArray(notebook?.roles) ? notebook.roles : [];
+  if (roles.length === 0) return null;
+  const partes = roles.map((papel) => {
+    const rotulo = NOTEBOOK_ROLE_LABELS[papel] || "?";
+    if (papel === "C" && Array.isArray(notebook?.targets?.kinds) && notebook.targets.kinds.length) {
+      const alvos = notebook.targets.kinds
+        .map((kind) => {
+          const answerKind = notebook.targets.answerKindByKind?.[kind];
+          return answerKind ? `${kind}→${answerKind}` : kind;
+        })
+        .join(", ");
+      return `${papel} (${rotulo}; alvos: ${alvos})`;
+    }
+    return `${papel} (${rotulo})`;
+  });
+  const compacto = notebook?.compact ? "; compacto" : "";
+  return `Papel no caderno: ${partes.join(", ")}${compacto}`;
+}
+
+/**
  * buildLLMCatalog — gera catálogo enriquecido pro Agent 6 / UI Designer agents.
  *
  * Diferente de buildCatalogBrief, EMITE:
@@ -138,11 +168,21 @@ function formatConstraint(c) {
  *  - disciplines: filtra componentes por disciplina (passa adiante)
  *  - ids: lista de IDs específicos a incluir
  *  - includeRepairs: emite seção de repairs (default true)
+ *  - includeNotebook: emite a linha "Papel no caderno" por componente a partir
+ *    de spec.notebook (default false). 2026-08-16 (F0 do caderno): so o modo
+ *    worksheet liga isso; com false o texto e byte-identico ao anterior, e ha
+ *    testes de prompt dos modos simple/rich que dependem disso.
  *
  * O LLM lê isso ANTES de gerar e gera por construção dentro dos limites.
  */
 export async function buildLLMCatalog(opts = {}) {
-  const { ids = null, includeRepairs = true, includeLegacy = false, discipline = null } = opts;
+  const {
+    ids = null,
+    includeRepairs = true,
+    includeLegacy = false,
+    discipline = null,
+    includeNotebook = false,
+  } = opts;
   const registry = await loadRegistry();
   const lines = [
     "## CATÁLOGO DE COMPONENTES — CONSTRAINTS RÍGIDOS",
@@ -184,6 +224,10 @@ export async function buildLLMCatalog(opts = {}) {
   for (const entry of entries) {
     lines.push(`### ${entry.id}`);
     if (entry.description) lines.push(entry.description);
+    if (includeNotebook) {
+      const papel = formatNotebookRole(entry.notebook);
+      if (papel) lines.push(papel);
+    }
     lines.push("");
 
     // Constraints — output declarado

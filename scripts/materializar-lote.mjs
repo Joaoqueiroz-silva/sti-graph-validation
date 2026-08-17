@@ -41,6 +41,8 @@ if (!process.env.OPENROUTER_API_KEY) { console.error("OPENROUTER_API_KEY ausente
 process.env.STI_RUNS_DIR = OUT;
 process.env.STI_RUN_ID = `materializacao-${new Date().toISOString().replace(/[:.]/g, "-")}`;
 const { materializarRegistro } = await import("../materializar-registro.js");
+// versão dos agentes espelhados (producao/COMMIT-FONTE.txt) gravada em cada registro
+const ESPELHO_COMMIT = fs.existsSync("producao/COMMIT-FONTE.txt") ? fs.readFileSync("producao/COMMIT-FONTE.txt", "utf8").trim() : null;
 fs.mkdirSync(path.join(OUT, "runs"), { recursive: true });
 
 let ok = 0; const falhas = [];
@@ -60,7 +62,7 @@ for (const [i, f] of alvo.entries()) {
       })),
       edges: m.behaviorGraph.edges || [],
     };
-    const saida = { ...reg, materializado: { grafo: m.grafoMaterializado, problemaFixo: m.problemaFixo, exercicio: m.exercicio, telemetria: m.telemetria, behaviorGraph, modelos: { materializacao: resolucao.porAgente.materializacao, perfil: resolucao.perfil } } };
+    const saida = { ...reg, materializado: { grafo: m.grafoMaterializado, problemaFixo: m.problemaFixo, exercicio: m.exercicio, telemetria: m.telemetria, behaviorGraph, modelos: { materializacao: resolucao.porAgente.materializacao, perfil: resolucao.perfil }, espelho: ESPELHO_COMMIT } };
     fs.writeFileSync(path.join(OUT, "runs", f), JSON.stringify(saida, null, 1));
     ok++;
     console.log(`[${i + 1}/${alvo.length}] ${f}: passos ${m.telemetria.passosGenericos}→${m.telemetria.passosMaterializados} | dicas ${m.telemetria.dicasMaterializadas} | erros ${m.grafoMaterializado.erros.length} | valores ${JSON.stringify(m.grafoMaterializado.passos.map((p) => p.valor))} | problema fixo: ${m.problemaFixo.aprovado ? 'APROVADO' : 'REPROVADO ' + JSON.stringify(m.problemaFixo.valoresEstranhos.slice(0,3))}`);
@@ -69,5 +71,5 @@ for (const [i, f] of alvo.entries()) {
     console.log(`[${i + 1}/${alvo.length}] ${f}: FALHOU — ${e.message.slice(0, 120)}`);
   }
 }
-fs.writeFileSync(path.join(OUT, "meta.json"), JSON.stringify({ geradoEm: new Date().toISOString(), origem: RUNS, registros: alvo.length, ok, falhas, modelos: resolucao }, null, 1));
+fs.writeFileSync(path.join(OUT, "meta.json"), JSON.stringify({ geradoEm: new Date().toISOString(), origem: RUNS, registros: alvo.length, ok, falhas, modelos: resolucao, espelho: ESPELHO_COMMIT }, null, 1));
 console.log(`✓ materialização: ${ok}/${alvo.length} registros em ${OUT}${falhas.length ? ` (${falhas.length} falhas)` : ""}`);

@@ -20,6 +20,12 @@
  *    (lib/__tests__/componentSets.parity.test.js) amarra o espelho a este arquivo.
  */
 
+// 2026-08-16 (F0 do caderno): affordance-policies.js e um modulo folha (nao
+// importa nada), entao importar daqui NAO fecha ciclo. Se algum dia ele passar
+// a importar component-sets, mova os conjuntos NOTEBOOK_* para um
+// notebook-roles.js proprio e reexporte daqui.
+import { RESPONSE_MODALITIES } from "./affordance-policies.js";
+
 // ============================================================
 // SELEÇÃO vs CONSTRUÇÃO (semântica pedagógica)
 // ============================================================
@@ -125,6 +131,13 @@ export const NON_OPTIONS_COMPONENTS = new Set([
   "numeric_keypad",
   "text",
   "composition",
+  // 2026-08-16 (caderno F4, tarefa 4): fraction_input e digitacao pura
+  // (VisualInputs.FractionInput nao renderiza options) e o proprio guard da
+  // spec rejeita options. Fora deste conjunto o gate final auto-gerava
+  // distratores e depois convertia o passo. NAO entra em RICH_COMPONENTS /
+  // GENERATION_ACCEPTED / DESIGNER_SUPPORTED aqui: isso muda roteamento
+  // (pendencia F3).
+  "fraction_input",
 ]);
 
 // ============================================================
@@ -164,6 +177,14 @@ export const RICH_MANIPULATIVE_RENDER_AS = new Set([
   "concept_map",
   "hot_spot",
   "venn_diagram",
+  // 2026-08-16 (caderno F4, tarefa 5): o aluno MONTA o numero com os blocos
+  // (PlaceValueBlocks.jsx sem options e interativo). Fora deste conjunto o
+  // TutorView/stepPresentation mantinha as options do step e o componente
+  // caia no modo MC (revisao do plano do caderno, item place_value_blocks).
+  // Ja estava em RICH_COMPONENTS e NON_OPTIONS_COMPONENTS, entao os
+  // invariantes do sentinela continuam validos. Espelho no frontend:
+  // frontend/src/lib/componentSets.js (teste de paridade obriga os dois).
+  "place_value_blocks",
 ]);
 
 // ============================================================
@@ -308,3 +329,84 @@ export const ASSEMBLED_ANSWER_RENDER_AS = new Set([
   "cloze_test",
   "image_sequence",
 ]);
+
+// ============================================================
+// CADERNO CTAT (interfaceMode = worksheet): papel de cada componente
+// ============================================================
+
+/**
+ * 2026-08-16 (F0 do caderno): no modo worksheet cada no do grafo vira uma
+ * CELULA de um caderno e cada componente precisa saber que papel pode fazer
+ * nesse caderno. Os papeis:
+ *
+ *   A = celula simples: o aluno digita ou seleciona (input compacto, cabe numa
+ *       linha do caderno);
+ *   B = celula rica inline: o componente inteiro e renderizado dentro da celula
+ *       (o aluno constroi, manipula, ordena ou localiza);
+ *   C = instrumento: componente compartilhado por varias celulas, com ALVOS
+ *       (targets) que as celulas referenciam via instrumentRef/target;
+ *   D = figura: o mesmo componente renderizado readOnly como apoio visual.
+ *
+ * A e B sao DERIVADOS da taxonomia granular RESPONSE_MODALITIES (a acao real
+ * do aluno), e nao uma terceira tabela paralela: este repo ja se queimou com
+ * a mesma classificacao vivendo em copias divergentes (auditoria 2026-08-02).
+ * O teste taxonomia-modalidade-unica.test.js trava a particao granular; o
+ * sentinela em component-sets.test.js trava que todo id do registro cai em
+ * A ou B; coverage.test.js trava a coerencia entre estes conjuntos e o campo
+ * `notebook.roles` declarado em cada spec.
+ *
+ * `dynamic_spec` entra em B por fora porque fica de proposito fora da particao
+ * granular (ver COARSE_EXTRAS em affordance-policies.js): uma cena sob medida
+ * e sempre renderizavel inline.
+ */
+const uniaoDeBaldes = (...baldes) => new Set(baldes.flatMap((balde) => [...balde]));
+
+/** Papel A: o aluno seleciona ou digita (select U type). */
+export const NOTEBOOK_A = uniaoDeBaldes(RESPONSE_MODALITIES.select, RESPONSE_MODALITIES.type);
+
+/** Papel B: o componente vive inteiro dentro da celula (tudo que nao e A). */
+export const NOTEBOOK_B = uniaoDeBaldes(
+  RESPONSE_MODALITIES.construct,
+  RESPONSE_MODALITIES.manipulate,
+  RESPONSE_MODALITIES["order-classify"],
+  RESPONSE_MODALITIES["inspect-locate"],
+  ["dynamic_spec"]
+);
+
+/**
+ * Papel C, versao 1: lista FECHADA dos instrumentos que o caderno sabe montar
+ * (cada um declara `notebook.targets` na spec do registro). Todos sao tambem
+ * B (subconjunto de A U B): um instrumento e sempre um componente rico que
+ * poderia viver sozinho numa celula; C so diz que ele TAMBEM pode ser
+ * compartilhado entre celulas. Abrir a lista exige ensinar o frontend a
+ * resolver o target novo, por isso e fechada e versionada.
+ */
+export const NOTEBOOK_C_V1 = new Set([
+  "number_line",
+  "fraction_bar",
+  "highlight_in_text",
+  "table",
+  "cell_diagram",
+]);
+
+/** Papel D: figura readOnly. Tudo que e renderizavel inline (B) tambem e figura. */
+export const NOTEBOOK_D = new Set(NOTEBOOK_B);
+
+/** Rotulos legiveis dos papeis (catalogo do agente 6 com includeNotebook, docs). */
+export const NOTEBOOK_ROLE_LABELS = Object.freeze({
+  A: "celula simples",
+  B: "celula rica inline",
+  C: "instrumento",
+  D: "figura",
+});
+
+/**
+ * Papel PRINCIPAL de um renderAs no caderno: 'A' | 'B' | null.
+ * A e B sao disjuntos por construcao (a granular e particao), entao a
+ * resposta e unica. null = id fora do registro (ou lacuna, ver o sentinela).
+ */
+export function notebookRoleForRenderAs(renderAs) {
+  if (NOTEBOOK_A.has(renderAs)) return "A";
+  if (NOTEBOOK_B.has(renderAs)) return "B";
+  return null;
+}

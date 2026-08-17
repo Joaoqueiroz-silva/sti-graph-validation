@@ -241,11 +241,41 @@ function _normalizeDiscipline(d) {
 }
 
 /**
+ * 2026-08-16 (caderno F2b): no modo worksheet a REGRA DE AGREGAÇÃO ("N steps
+ * -> 1 lab") e o CONTRARIO do caderno: cada no do grafo e UMA celula e o que
+ * "junta" celulas e o instrumento compartilhado (problem.notebook.instrument),
+ * nao um lab agregado. Este bloco substitui a regra de agregacao SO quando
+ * buildComponentCatalogBrief e chamado com { worksheet: true }; a chamada
+ * antiga (um argumento) continua byte-identica.
+ */
+const REGRA_CADERNO_SEM_AGREGACAO = `🔥🔥🔥 REGRA DO CADERNO (worksheet): NAO AGREGUE — uma acao cognitiva = uma celula 🔥🔥🔥
+
+Neste STI cada step e UMA celula do caderno (bijecao com o no do grafo). NAO junte
+N steps parecidos num unico lab (card_sort_lab, memory_game, true_false_lab,
+image_sequence): isso destroi a celula. Se varias celulas pedem a MESMA
+representacao (varias fracoes de mesmo denominador, varios inteiros numa faixa,
+varias palavras do mesmo texto, varias celulas de uma tabela, varias organelas da
+mesma celula), declare UM instrumento compartilhado em "notebook.instrument" e
+faca cada celula (role C) apontar um alvo (target) dele.
+
+❌ ERRADO (caderno): 5 classificacoes viram 1 card_sort_lab com expectedAnswer "ok"
+✅ CERTO (caderno): 5 celulas A (word_matcher/multiple_choice), uma por classificacao,
+   ou 5 celulas C apontando 5 alvos de UM instrumento table
+
+Padroes equivalentes no caderno:
+- N celulas "qual a fracao de X?" com o MESMO denominador → 1 instrumento fraction_bar com N alvos (kind "bar")
+- N celulas "marque o numero" numa faixa de ate 50 → 1 instrumento number_line com N alvos (kind "marker")
+- N celulas "qual palavra do texto e X?" → 1 instrumento highlight_in_text com N alvos (kind "span")
+- N celulas "qual organela faz X?" → 1 instrumento cell_diagram com N alvos (kind "organelle")`;
+
+/**
  * Constrói o catalog brief pra ser injetado no prompt do Agent6.
  * @param {string} discipline — nome da disciplina (qualquer idioma)
+ * @param {{ worksheet?: boolean }} [opts] — 2026-08-16 (caderno F2b): worksheet=true
+ *   troca a REGRA DE AGREGAÇÃO pela regra do caderno; default false = texto anterior
  * @returns {string} brief textual pronto pra concatenar no system prompt
  */
-export function buildComponentCatalogBrief(discipline) {
+export function buildComponentCatalogBrief(discipline, { worksheet = false } = {}) {
   const key = _normalizeDiscipline(discipline);
   const components =
     COMPONENTS_BY_DISCIPLINE[key] || COMPONENTS_BY_DISCIPLINE[DEFAULT_DISCIPLINE_KEY];
@@ -256,6 +286,23 @@ export function buildComponentCatalogBrief(discipline) {
     if (c.note) entry += `\n  ⚠️ ${c.note}`;
     return entry;
   });
+
+  if (worksheet) {
+    return `
+
+🎯 COMPONENTES INTERATIVOS DISPONÍVEIS (USE PREFERENCIALMENTE — anti-MC):
+
+Antes de gerar um step com renderAs="multiple_choice", VERIFIQUE se ele cabe em um destes componentes interativos. Se sim, USE o componente e formate expectedAnswer NO FORMATO que ele aceita. Se a pergunta natural não cabe, REFORMULE a pergunta pra caber.
+
+${lines.join("\n\n")}
+
+${REGRA_CADERNO_SEM_AGREGACAO}
+
+🎯 REGRA DE OURO: prefira SEMPRE um componente interativo da lista acima a multiple_choice quando o KC permite. multiple_choice é o ÚLTIMO recurso, não o primeiro. STIs pedagogicamente fortes têm 3-5 tipos diferentes de renderAs distribuídos ao longo dos steps, não tudo MC ou tudo numeric_keypad.
+
+⚠️ FORMATO DA expectedAnswer É CRÍTICO: o componente compara a resposta do aluno contra a expectedAnswer literalmente. Se você pedir "qual figura tem 6 lados?" e ea="hexagono" → geometry_shape valida correto. Se você pedir mas ea="6" → vira numeric_keypad. Se você pedir "Pinte 1/2" e ea="0.5" → contract rejeita fraction_bar e cai em numeric_keypad. NÃO MISTURE FORMATOS.
+`;
+  }
 
   return `
 

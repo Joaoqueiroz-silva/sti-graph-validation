@@ -87,6 +87,12 @@ export default {
     rejects: ["ok-token", "mapping-pairs", "assignment-map", "edge-map"],
   },
 
+  // 2026-08-16 (F0 do caderno): papel deste componente no modo worksheet;
+  // ver SPEC-FORMAT.md secao `notebook` e NOTEBOOK_* em shared/component-sets.js.
+  notebook: {
+    roles: ["B", "D"],
+  },
+
   pedagogicalGuard: ({ ea = "", componentProps = {}, step = {}, options = [] }) => {
     const rawSpec = componentProps.spec || step.spec;
     const valid = validatedSpec(rawSpec);

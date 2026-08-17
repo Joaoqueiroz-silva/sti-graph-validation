@@ -8,7 +8,26 @@ import { logger } from "../../lib/logger.js";
 import { tStr } from "../i18n-strings.js";
 import { enforceBehaviorGraphIntegrity } from "../behavior-graph-integrity.js";
 import { graphForge } from "../graphforge.js";
-import { normalizeStepDistractorMetadata } from "../behavior-graph-semantics.js";
+import {
+  normalizeStepDistractorMetadata,
+  cellExpectedInputFields,
+} from "../behavior-graph-semantics.js";
+import { getInterfaceMode, INTERFACE_MODES } from "../config/request-context.js";
+import { applyNotebookFallback } from "../notebook/notebook-fallback.js";
+
+/**
+ * 2026-08-16 (caderno F2): modo de interface visto pelo adapter, com a mesma
+ * escada de ancoras do gate (resolveGateInterfaceMode): valor explicito no
+ * state > metadata do state > AsyncLocalStorage (aqui o contexto ainda esta
+ * vivo, ao contrario do gate final). Fora de contexto devolve "rich".
+ */
+export function resolveAdapterInterfaceMode(state = {}) {
+  const valido = (v) => typeof v === "string" && INTERFACE_MODES.includes(v);
+  if (valido(state?.interfaceMode)) return state.interfaceMode;
+  if (valido(state?._metadata?.interfaceMode)) return state._metadata.interfaceMode;
+  if (valido(state?.metadata?.interfaceMode)) return state.metadata.interfaceMode;
+  return getInterfaceMode();
+}
 
 function buildExpectedInputFromStep(step = {}) {
   const visualConfig = {};
@@ -28,6 +47,9 @@ function buildExpectedInputFromStep(step = {}) {
     interactionMode: step.interactionMode || null,
     contractVersion: step._componentContract?.version || null,
     visualConfig: Object.keys(visualConfig).length ? visualConfig : null,
+    // 2026-08-16 (caderno F0): espelha buildCanonicalExpectedInput: cellId /
+    // cellRole / instrumentRef / target copiados de step.cell SO quando definidos.
+    ...cellExpectedInputFields(step),
   };
 }
 
@@ -92,8 +114,17 @@ export function agent7_interfaceAdapter(state) {
   const exercises = state.exercises || [];
   const graphTemplate = state.genericGraph;
   let enriched = 0;
+  // 2026-08-16 (caderno F2): no worksheet o fallback do caderno roda ANTES de
+  // montar os nos, para que expectedInput.cellId/cellRole/instrumentRef/target
+  // (buildExpectedInputFromStep) nascam do estado FINAL da celula, inclusive
+  // quando o agent 9 reescreveu o passo. Idempotente: se o worker ja aplicou,
+  // nada muda. Em simple/rich e um no-op.
+  const modoInterface = resolveAdapterInterfaceMode(state);
 
   for (const exercise of exercises) {
+    if (modoInterface === "worksheet") {
+      applyNotebookFallback(exercise, { interfaceMode: "worksheet" });
+    }
     const steps = exercise.steps || [];
     let concreteGraph = null;
     try {

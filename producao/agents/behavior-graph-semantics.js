@@ -138,7 +138,7 @@ export function buildCanonicalExpectedInput(step = {}) {
       ? step?.componentProps?.spec?.interaction?.validator?.expected
       : null;
 
-  return {
+  const expectedInput = {
     value: scalar(dynamicExpected ?? step.expectedAnswer ?? "").trim(),
     validator,
     tolerance: step?.expectedInput?.tolerance ?? step.tolerance ?? null,
@@ -152,6 +152,32 @@ export function buildCanonicalExpectedInput(step = {}) {
     contractVersion: step?._componentContract?.version ?? step.contractVersion ?? null,
     visualConfig: Object.keys(visualConfig).length > 0 ? visualConfig : null,
   };
+  // 2026-08-16 (caderno F0): a celula do caderno (step.cell) e copiada por
+  // VALOR para o contrato do no, de forma que o grafo saiba em qual celula /
+  // instrumento / alvo o aluno responde. So adiciona chaves quando o step as
+  // definiu: em simple/rich (sem cell) o expectedInput continua identico, e o
+  // contractFieldMismatches, que itera as chaves deste objeto, passa a comparar
+  // esses campos automaticamente quando presentes.
+  Object.assign(expectedInput, cellExpectedInputFields(step));
+  return expectedInput;
+}
+
+/**
+ * 2026-08-16 (caderno F0): campos de expectedInput derivados de step.cell
+ * (contrato aditivo do modo worksheet). Retorna {} quando o step nao tem cell
+ * ou quando nenhum dos campos esta definido; cellId cai no id canonico da
+ * celula (que por contrato e o id canonico do no).
+ */
+export function cellExpectedInputFields(step = {}) {
+  const cell = step?.cell;
+  if (!cell || typeof cell !== "object") return {};
+  const out = {};
+  if (cell.id !== undefined && cell.id !== null) out.cellId = scalar(cell.id).trim();
+  if (cell.role !== undefined && cell.role !== null) out.cellRole = scalar(cell.role).trim();
+  if (cell.instrumentRef !== undefined && cell.instrumentRef !== null)
+    out.instrumentRef = scalar(cell.instrumentRef).trim();
+  if (cell.target !== undefined && cell.target !== null) out.target = cloneJson(cell.target);
+  return out;
 }
 
 function desiredKnowledgeComponents(step) {
@@ -268,6 +294,7 @@ export function normalizeStepDistractorMetadata(steps = [], opts = {}) {
       }
     }
     mergeStepMisconceptionCollisions(step, repairs, label, stepIndex);
+    normalizeBehaviorMisconceptionIds(step, repairs, label, stepIndex);
     if (!Array.isArray(step.options)) continue;
     const expectedAnswer = scalar(step.expectedAnswer).trim();
     const canonicalCorrectIndex = expectedAnswer
@@ -815,6 +842,50 @@ function mergeCollidingFeedback(survivor, duplicate) {
  * em ponto fixo de 2026-08-05. Fundir cobre as duas leituras sem tocar na
  * topologia.
  */
+/**
+ * 2026-08-17 (rejeicao em producao, 1a geracao do caderno): o worker escreveu
+ * `misconceptionId: "misc_viés_numero_inteiro"` (acento) num passo de superficie
+ * ABERTA (fraction_bar). Este modulo so normalizava ids de `step.options`; o
+ * registro em `behaviorMisconceptions` seguia acentuado, entrava no grafo como
+ * distrator "unusable" (OPERATIONAL_MISCONCEPTION_ID_RE) e virava defeito
+ * semantico FATAL: STI inteiro rejeitado por um acento. Latente tambem no modo
+ * rico (mesma superficie), so mais provavel no caderno porque quase todo passo
+ * de instrumento e superficie aberta. Normaliza no lugar (id e misconceptionId)
+ * ANTES de o agente 7 montar arestas, entao no/aresta/scaffold nascem com o id
+ * canonico e o registro no step continua identico ao do no.
+ */
+function normalizeBehaviorMisconceptionIds(step, repairs, label, stepIndex) {
+  const misconceptions = step?.behaviorMisconceptions;
+  if (!Array.isArray(misconceptions)) return;
+  let fixed = 0;
+  for (const record of misconceptions) {
+    if (!record || typeof record !== "object") continue;
+    for (const key of ["misconceptionId", "id"]) {
+      const raw = scalar(record[key]).trim();
+      if (!raw || isOperationalMisconceptionId(raw)) continue;
+      const canonical = normalizeMisconceptionId(raw);
+      if (canonical && canonical !== raw) {
+        record[key] = canonical;
+        fixed++;
+      }
+    }
+    if (record.misconceptionId && record.id && record.misconceptionId !== record.id) {
+      // Os dois campos sao espelho um do outro em todo o pipeline; se so um
+      // estava acentuado, o normalizado vence para nao criar dois ids.
+      const a = scalar(record.misconceptionId).trim();
+      const b = scalar(record.id).trim();
+      if (isOperationalMisconceptionId(a) && !isOperationalMisconceptionId(b)) record.id = a;
+      else if (isOperationalMisconceptionId(b) && !isOperationalMisconceptionId(a))
+        record.misconceptionId = b;
+    }
+  }
+  if (fixed > 0) {
+    repairs.push(
+      `${label}/${step.id || `step_${stepIndex + 1}`}: ${fixed} id(s) de misconception normalizado(s) (acento/caractere invalido)`
+    );
+  }
+}
+
 function mergeStepMisconceptionCollisions(step, repairs, label, stepIndex) {
   const misconceptions = step?.behaviorMisconceptions;
   if (!Array.isArray(misconceptions) || misconceptions.length < 2) return;
