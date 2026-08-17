@@ -165,9 +165,13 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
     description: requisitoProblemaFixo,
   };
   const t0 = Date.now();
-  const out6 = await agent6_exerciseGenerator(state6);
+  // opts.agentes: injeção de implementações alternativas do agent 6/7 (só para
+  // testes de equivalência entre versões de produção; o padrão é o espelho).
+  const a6 = opts.agentes?.agent6_exerciseGenerator || agent6_exerciseGenerator;
+  const a7 = opts.agentes?.agent7_interfaceAdapter || agent7_interfaceAdapter;
+  const out6 = await a6(state6);
   const exercises = out6.exercises || [];
-  const out7 = agent7_interfaceAdapter({ ...state6, exercises });
+  const out7 = a7({ ...state6, exercises });
   const exercicio = (out7.exercises || [])[0] || null;
   const graph = exercicio?.behaviorGraph || null;
   if (!graph) throw new Error("agent 7 não produziu behaviorGraph");

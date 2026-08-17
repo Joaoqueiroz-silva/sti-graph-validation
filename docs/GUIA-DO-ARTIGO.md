@@ -160,3 +160,36 @@ dica em todo passo) — informativa só no estágio 3.
   corpus × braço + agregado por braço com bootstrap estratificado por corpus),
   regerado por `analysis/bancada-v2/consolidar-corpora.mjs`. É a tabela-mestra
   do artigo: o 6.17 (rodada 4) e os novos corpora sob a mesma régua.
+
+## 10. Adendo 2026-08-17 — produção mudou (release "caderno"): o que a bancada ainda mede
+
+Verificado contra o **container em produção** (`sti-backend`, imagem de
+17/08 03:07 = release `/root/releases/sti-unplugged-caderno-1629ef4`, commit
+fac32bc, 10 commits após b7ae8780): 25 dos 38 módulos espelhados são
+byte-idênticos; 13 diferem — todos da MATERIALIZAÇÃO (agent6-story,
+agent7-adapter, agent6-worker-prompt, quality-gate, component-sets,
+behavior-graph-semantics, response-modality-planner, component-registry…),
+introduzidos pelo modo "caderno/worksheet". **agents3-students, graphforge,
+misconceptions-db e diagnostics são idênticos** — os alunos simulados e o grafo
+genérico não mudaram.
+
+Teste de equivalência offline (`__tests__/equivalencia-producao-caderno.test.mjs`,
+LLM mockado, registros do piloto 6.19, modo padrão — não worksheet):
+- planner do agent 6: system e user prompts **idênticos**;
+- worker do agent 6: user prompt idêntico; **system prompt diferente** — a
+  produção acrescentou o bloco "CATÁLOGO DE COMPONENTES — CONSTRAINTS RÍGIDOS"
+  (~70 linhas: fraction_bar, number_line… com regras de expectedAnswer/props,
+  exemplos ✓/✗) também fora do modo caderno;
+- agent 7 + quality gate (determinísticos): **mesmo grafo** dado o mesmo
+  retorno do LLM.
+
+Consequência: a bancada mede a versão b7ae8780 dos agentes de forma
+consistente em todos os corpora; a produção atual difere só na etapa
+"worker do agent 6" (formato/props de componentes ricos), com efeito
+provável pequeno sobre valores de estado (pode reduzir decimais → gate
+estrito melhora). Caminho recomendado se o artigo deve descrever a versão
+atual: re-espelhar em fac32bc (13 módulos + fecho: agents/notebook,
+evaluation/notebook-emitter-model, 5 componentes, zod ^4) e **re-materializar
+os mesmos registros** (alunos idênticos → sem nova coleta): ~US$ 1,6 para os
+282 grafos atuais, comparação pareada versão-antiga × versão-nova como
+"efeito de versão". Decisão do autor.
