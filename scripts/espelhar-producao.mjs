@@ -31,6 +31,12 @@ const ESPELHO = path.join(RAIZ, "producao");
 const ADAPTADORES = new Set(["agents/pipeline-core.js", "lib/logger.js", "agents/ontology-client.js", "agents/agent-stream-hub.js"]);
 // Arquivos de DADOS lidos por fs (não por import) — entram no espelho e no hash.
 const DADOS = ["data/misconceptions.json"];
+// DIRETÓRIOS varridos em tempo de execução (readdirSync + import dinâmico), que
+// o fecho de imports estáticos NÃO alcança (2026-08-18, auditoria): o registro
+// de componentes descobre cada manifesto por varredura — com 6 dos 44
+// componentes o CATÁLOGO no prompt do worker do agent 6 fica menor que o de
+// produção. Todo .js destes diretórios entra no espelho.
+const DIRETORIOS_VARRIDOS = ["agents/component-registry/components"];
 const ENTRADAS = [
   // 2026-08-17: os dois módulos OPCIONAIS do agent 6 (import dinâmico em
   // try/catch) que RODAM em produção fora do modo caderno — guarda de payload
@@ -78,7 +84,11 @@ if (WRITE) {
   if (!FONTE) { console.error("--write exige --fonte <repo de produção>"); process.exit(2); }
   const backend = path.join(FONTE, "backend");
   const commit = execSync("git rev-parse HEAD", { cwd: FONTE }).toString().trim();
-  const arquivos = [...new Set([...fecho(backend), ...DADOS])].sort();
+  const varridos = DIRETORIOS_VARRIDOS.flatMap((d) => {
+    const abs = path.join(backend, d);
+    return fs.existsSync(abs) ? fs.readdirSync(abs).filter((f) => f.endsWith(".js")).map((f) => `${d}/${f}`) : [];
+  });
+  const arquivos = [...new Set([...fecho(backend), ...DADOS, ...varridos])].sort();
   let copiados = 0, iguais = 0;
   const linhas = [];
   for (const rel of arquivos) {

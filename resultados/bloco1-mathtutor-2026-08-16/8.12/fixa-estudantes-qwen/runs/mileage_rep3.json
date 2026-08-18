@@ -1,0 +1,1121 @@
+{
+ "id": "mileage",
+ "correctAnswer": "50",
+ "audit": {
+  "ok": true,
+  "stepCount": 10
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.143,
+ "functionalKappa": -0.312,
+ "missing": [
+  "100",
+  "24",
+  "81",
+  "*"
+ ],
+ "extra": [
+  "60",
+  "2850"
+ ],
+ "robotMisconceptions": [
+  "60",
+  "2850"
+ ],
+ "exercicio": "mileage",
+ "replica": 3,
+ "geradoEm": "2026-08-18T21:26:19.197Z",
+ "promptSha256": "00f0bd3f40558178a4bd060f89c7d9dcf38fd3902cec488d4a5a50209c3fcd8c",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10291,
+  "tokensSaida": 10339,
+  "usd": 0.048349079999999996
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 10
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: total = {A} = 5000, parte1 = {B} = 1200, parte2 = {C} = 4050"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher linha 'Total' da tabela com razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original (Total): numerador = {A}, denominador = {A}"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher linha 'Part 1' da tabela com razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original (Part 1): numerador = {B}, denominador = {A}"
+   },
+   {
+    "indice": 4,
+    "acao": "Preencher linha 'Part 2' da tabela com razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original (Part 2): numerador = {C}, denominador = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Identificar operação necessária para converter denominador em 100",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: ÷; fator de escala = 50"
+   },
+   {
+    "indice": 6,
+    "acao": "Aplicar operação e fator à linha Total",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Operação (num/denom): ÷, ÷; fator (num/denom): 50, 50; resultado: 100"
+   },
+   {
+    "indice": 7,
+    "acao": "Aplicar mesma operação e fator à linha Part 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Operação: ÷, ÷; fator: 50, 50; resultado: 24"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar mesma operação e fator à linha Part 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Operação: ÷, ÷; fator: 50, 50; resultado: 81"
+   },
+   {
+    "indice": 9,
+    "acao": "Verificar coerência dos resultados",
+    "kc": "identify-percent",
+    "valor": "Resultados consistentes com o enunciado"
+   },
+   {
+    "indice": 10,
+    "acao": "Concluir problema",
+    "kc": "identify-percent",
+    "valor": "Problema finalizado"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "60",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar decomposição: 1200 ÷ 10 = 120, depois ÷5 = 24; ou usar calculadora pedagógica com passo a passo",
+    "buggyRule": "Dividir por 10 e depois multiplicar por 2 (achando que 50 = 10/2), resultando em 1200/10*2 = 240",
+    "misconceptionId": "misc_divisao_incorreta_por_fator_grande"
+   },
+   {
+    "valor": "2850",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Sublinhar no enunciado: 'making a total of 4050 miles' — destacar que o total já foi dado explicitamente",
+    "buggyRule": "Usar a distância adicional (2850) como numerador, ignorando que o total acumulado é 4050",
+    "misconceptionId": "misc_usa_incremento_em_vez_do_total_acumulado"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! A linha 'Total' representa o todo da viagem. Que fração representa 'todo o caminho'? Pense: se você anda todo o percurso, que parte do total isso é?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Em cada linha, o denominador da razão original deve ser o total da viagem (5000). O numerador é o quanto já foi percorrido nessa parte."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! Todas as razões originais têm denominador 5000. Confira: Parte 1 usa 1200, Parte 2 usa 4050, e a linha 'Total' usa 5000 como numerador também."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está muito perto! A linha 'Total' mostra 'todo o caminho', então a razão é 5000 sobre 5000. As outras linhas usam o mesmo denominador: 5000."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Para transformar uma fração em porcentagem, queremos que o denominador vire 100. Se o denominador atual é maior que 100, devemos aumentar ou reduzir a fração?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Continue assim! Calcule quanto você precisa dividir (ou multiplicar) o denominador para chegar a 100. Depois aplique a mesma operação ao numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Muito bem! 5000 ÷ 50 = 100. Então o fator de escala é 50, e a operação é divisão (÷) em ambos os termos da razão."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase lá! Pense: 5000 dividido por quanto dá 100? Esse número é o fator. E como você está reduzindo, a operação é divisão (÷)."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Boa reflexão! Quando aplicamos o mesmo fator ao numerador e denominador, o valor da fração não muda. O que isso significa para a porcentagem?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você está indo bem! Divida o numerador da razão original pelo mesmo fator usado no denominador. O resultado é a porcentagem."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! Lembre-se: 1200 ÷ 50 = 24, e 4050 ÷ 50 = 81. Use cálculo mental ou rascunho para confirmar."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Muito perto! Pense: quantas vezes 50 cabe em 1200? E em 4050? Conte de 50 em 50: 50, 100, 150... até chegar perto."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"mileage\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"A viagem total é de 5000 milhas. Parte 1: já percorreram 1200 milhas. Parte 2: após mais 2850 milhas, totalizam 4050 milhas. Preciso calcular a porcentagem concluída em cada parte.\\\",\\n          \\\"result\\\": \\\"Valores identificados: total = {A} = 5000, parte1 = {B} = 1200, parte2 = {C} = 4050\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha 'Total' da tabela com razão original\\\",\\n          \\\"thinking\\\": \\\"A razão total é 5000/5000, pois representa 100% da viagem.\\\",\\n          \\\"result\\\": \\\"Razão original (Total): numerador = {A}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher linha 'Part 1' da tabela com razão original\\\",\\n          \\\"thinking\\\": \\\"A razão da Parte 1 é 1200/5000.\\\",\\n          \\\"result\\\": \\\"Razão original (Part 1): numerador = {B}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher linha 'Part 2' da tabela com razão original\\\",\\n          \\\"thinking\\\": \\\"A razão da Parte 2 é 4050/5000.\\\",\\n          \\\"result\\\": \\\"Razão original (Part 2): numerador = {C}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Identificar operação necessária para converter denominador em 100\\\",\\n          \\\"thinking\\\": \\\"Para transformar o denominador {A} = 5000 em 100, preciso dividir por 50, pois 5000 ÷ 50 = 100.\\\",\\n          \\\"result\\\": \\\"Operação: ÷; fator de escala = 50\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar operação e fator à linha Total\\\",\\n          \\\"thinking\\\": \\\"Na linha Total, razão é 5000/5000. Divido ambos por 50 → 100/100 = 100%.\\\",\\n          \\\"result\\\": \\\"Operação (num/denom): ÷, ÷; fator (num/denom): 50, 50; resultado: 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Aplicar mesma operação e fator à linha Part 1\\\",\\n          \\\"thinking\\\": \\\"Razão Part 1: {B}/{A} = 1200/5000. Divido numerador e denominador por 50 → 1200 ÷ 50 = 24; 5000 ÷ 50 = 100 → 24/100 = 24%.\\\",\\n          \\\"result\\\": \\\"Operação: ÷, ÷; fator: 50, 50; resultado: 24\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar mesma operação e fator à linha Part 2\\\",\\n          \\\"thinking\\\": \\\"Razão Part 2: {C}/{A} = 4050/5000. Divido por 50 → 4050 ÷ 50 = 81; 5000 ÷ 50 = 100 → 81/100 = 81%.\\\",\\n          \\\"result\\\": \\\"Operação: ÷, ÷; fator: 50, 50; resultado: 81\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Verificar coerência dos resultados\\\",\\n          \\\"thinking\\\": \\\"Total = 100%, Parte 1 = 24%, Parte 2 = 81%. Valores fazem sentido: 1200 < 4050 < 5000 → 24% < 81% < 100%.\\\",\\n          \\\"result\\\": \\\"Resultados consistentes com o enunciado\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Concluir problema\\\",\\n          \\\"thinking\\\": \\\"Todas as células preenchidas corretamente. Clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema finalizado\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B}/{A} = ({B} ÷ 50)/({A} ÷ 50) = {B}/50 %; {C}/{A} = ({C} ÷ 50)/({A} ÷ 50) = {C}/50 %\\\",\\n      \\\"totalTime\\\": 49\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"mileage\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Eles já andaram 1200, então ponho 1200 em cima. O total é 5000, então 5000 embaixo.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para transformar denominador em 100\\\",\\n              \\\"thinking\\\": \\\"Preciso chegar a 100 no denominador. Como 5000 é maior que 100, devo dividir.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"Vou dividir 5000 por 100... dá 50. Então o fator é 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar mesma operação ao numerador\\\",\\n              \\\"thinking\\\": \\\"Se dividi o de baixo por 50, devo dividir o de cima também por 50. 1200 ÷ 50 = ? Vou fazer 1200 ÷ 10 = 120, depois ÷5 = 24. Então 24.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Preencher porcentagem da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Então 24% — vou colocar 24 na caixa da porcentagem.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"Agora eles andaram 4050, então ponho 4050 em cima e 5000 embaixo.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Escolher operação para Parte 2\\\",\\n              \\\"thinking\\\": \\\"Mesma coisa: 5000 → 100, então dividir.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular fator de escala para Parte 2\\\",\\n              \\\"thinking\\\": \\\"5000 ÷ 100 = 50, então fator é 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Aplicar fator ao numerador da Parte 2\\\",\\n              \\\"thinking\\\": \\\"4050 ÷ 50... 4000 ÷ 50 = 80, e 50 ÷ 50 = 1, então 81. Coloco 81.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Preencher porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"Então 81%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Preencher linha Total\\\",\\n              \\\"thinking\\\": \\\"O total é 5000/5000 = 100%. Vou colocar 5000 em cima, 5000 embaixo, operação ×1, fator 1, resultado 100.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"81\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Já andaram 1200, total é 5000, então 1200/5000.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para transformar denominador em 100\\\",\\n              \\\"thinking\\\": \\\"Quero ir de 5000 para 100... como 100 é menor, devo dividir.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"5000 ÷ 100 = 50. Fator é 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar operação ao numerador\\\",\\n              \\\"thinking\\\": \\\"Divido 1200 por 50... mas não sei calcular direito. Acho que 1200 ÷ 50 = 60? Porque 50×60=3000? Não... mas vou colocar 60 mesmo.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divisao_incorreta_por_fator_grande\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"60\\\",\\n                \\\"description\\\": \\\"Aluno erra a divisão do numerador pelo fator de escala (1200 ÷ 50), calculando incorretamente como 60 em vez de 24\\\",\\n                \\\"mistakeLocation\\\": \\\"Na divisão do numerador (1200) pelo fator de escala (50), o aluno confunde a operação e multiplica ou divide mal\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quanto é 50 vezes 24? E quanto é 50 vezes 60? Qual resultado está mais perto de 1200?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você identificou corretamente o fator e a operação. Agora vamos revisar a conta: quanto é 1200 dividido por 50? Pense em quantos grupos de 50 cabem em 1200.\\\",\\n                \\\"howToFix\\\": \\\"Usar decomposição: 1200 ÷ 10 = 120, depois ÷5 = 24; ou usar calculadora pedagógica com passo a passo\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Preencher porcentagem da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Então 60%.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"Andaram 4050 no total, então 4050/5000.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Escolher operação para Parte 2\\\",\\n              \\\"thinking\\\": \\\"Mesmo caso: dividir.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Fator de escala para Parte 2\\\",\\n              \\\"thinking\\\": \\\"5000 ÷ 100 = 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Aplicar ao numerador da Parte 2\\\",\\n              \\\"thinking\\\": \\\"4050 ÷ 50... 50×80=4000, sobra 50, então 81. Isso eu sei.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"81%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Linha Total\\\",\\n              \\\"thinking\\\": \\\"5000/5000 = 100%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"81\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"1200 andados, total 5000 → 1200/5000.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação\\\",\\n              \\\"thinking\\\": \\\"Quero chegar a 100 no denominador. 5000 é maior, então divido.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"5000 ÷ 100 = 50. Fator é 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar ao numerador\\\",\\n              \\\"thinking\\\": \\\"Divido 1200 por 50 → 24. Certo.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Porcentagem Parte 1\\\",\\n              \\\"thinking\\\": \\\"24%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Razão original Parte 2\\\",\\n              \\\"thinking\\\": \\\"Andaram 2850 a mais... então ponho 2850 em cima! Total ainda é 5000.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_incremento_em_vez_do_total_acumulado\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2850\\\",\\n                \\\"description\\\": \\\"Aluno usa a distância adicional (2850) como numerador, em vez do total acumulado (4050)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao interpretar 'then drive another 2850 miles', o aluno ignora que a pergunta é sobre o total percorrido até agora (1200 + 2850 = 4050) e usa apenas o trecho novo\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta é: 'what percentage of their trip have they completed?' — isso se refere ao total andado até agora ou só à nova parte?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você entendeu bem a primeira parte! Na segunda, repare que a pergunta é sobre o total percorrido — não só os novos quilômetros. Quanto eles já tinham andado antes? Quanto andaram agora? Some os dois!\\\",\\n                \\\"howToFix\\\": \\\"Sublinhar no enunciado: 'making a total of 4050 miles' — destacar que o total já foi dado explicitamente\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Operação para Parte 2\\\",\\n              \\\"thinking\\\": \\\"Denominador 5000 → 100, então dividir.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Fator de escala Parte 2\\\",\\n              \\\"thinking\\\": \\\"5000 ÷ 100 = 50.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Aplicar ao numerador errado\\\",\\n              \\\"thinking\\\": \\\"2850 ÷ 50 = 57. Então 57%.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Porcentagem Parte 2\\\",\\n              \\\"thinking\\\": \\\"57%.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Linha Total\\\",\\n              \\\"thinking\\\": \\\"5000/5000 = 100%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"57\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"mileage\\\",\\n          \\\"step\\\": \\\"preencher numerador da razão original (Parte 1)\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_parte_com_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5000\\\",\\n              \\\"buggyRule\\\": \\\"Usar o total da viagem (5000) como numerador da Parte 1, em vez da distância já percorrida (1200)\\\",\\n              \\\"description\\\": \\\"Aluno inverte parte e todo: coloca o total no lugar da parte\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao ler 'driven 1200 miles', o aluno associa erroneamente o número maior (5000) à parte percorrida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual número representa o que já foi feito? E qual representa o total planejado?\\\",\\n              \\\"feedback\\\": \\\"Você está atento aos números! Só precisamos garantir: o numerador é sempre o que já foi feito, e o denominador é o total. Qual é o 'feito' aqui?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas no enunciado: 'driven [1200]' → numerador; 'trip [5000]' → denominador\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_percentual_direto_como_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"24\\\",\\n              \\\"buggyRule\\\": \\\"Calcular mentalmente a porcentagem (24%) e usar esse valor como numerador da razão original, em vez de 1200\\\",\\n              \\\"description\\\": \\\"Aluno confunde a representação fracionária com a porcentagem final\\\",\\n              \\\"mistakeLocation\\\": \\\"Antes de qualquer cálculo, o aluno já insere o resultado esperado na entrada errada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A razão original deve usar os números reais da viagem ou o valor percentual?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Você já pensou na resposta final. Mas a primeira coluna é só para os números reais da viagem — sem converter ainda. Quais são esses números?\\\",\\n              \\\"howToFix\\\": \\\"Separar etapas claramente: primeiro 'dados brutos', depois 'transformação'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"mileage\\\",\\n          \\\"step\\\": \\\"escolher operação para transformar denominador em 100\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_sempre_multiplica_para_aumentar\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação, independentemente da direção da transformação, por acreditar que 'multiplicar aumenta'\\\",\\n              \\\"description\\\": \\\"Aluno aplica heurística 'multiplicar = crescer', mesmo quando precisa reduzir o denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para o denominador, o aluno ignora a relação entre 5000 e 100 e assume que deve multiplicar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você multiplica 5000, ele fica maior ou menor? E 100 é maior ou menor que 5000?\\\",\\n              \\\"feedback\\\": \\\"Boa observação sobre operações! Mas aqui queremos ir de 5000 para 100 — um número menor. Que operação nos ajuda a diminuir?\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Como reduzir uma foto grande para caber em um cartão postal?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_operacao_entre_num_e_den\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷ no numerador, × no denominador\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operações opostas no numerador e denominador (ex: dividir num, multiplicar den), achando que isso 'equilibra'\\\",\\n              \\\"description\\\": \\\"Aluno acredita que para manter a razão, deve fazer o oposto em cima e embaixo\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher os seletores de operação, o aluno escolhe ÷ para numerador e × para denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide o de cima e multiplica o de baixo, a fração fica maior ou menor? Isso mantém o mesmo valor?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando em equilíbrio — ótimo instinto! Mas para manter o valor, as duas partes devem ser tratadas da MESMA forma: ambas multiplicadas ou ambas divididas pelo mesmo fator.\\\",\\n              \\\"howToFix\\\": \\\"Demonstrar com 1/2: (1÷2)/(2×2) = 0.5/4 = 0.125 ≠ 0.5\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"mileage\\\",\\n          \\\"step\\\": \\\"calcular fator de escala do denominador\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_denominador_dividido_por_100_invertido\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0.02\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator como 100 / 5000 = 0.02, em vez de 5000 / 100 = 50\\\",\\n              \\\"description\\\": \\\"Aluno inverte a divisão ao calcular o fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Na determinação do fator, o aluno faz 'alvo / original' em vez de 'original / alvo' quando a operação é divisão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide 5000 por X e quer obter 100, quanto deve valer X?\\\",\\n              \\\"feedback\\\": \\\"Você está quase lá! O fator responde: 'por quanto devo dividir 5000 para chegar a 100?' Tente resolver essa pergunta.\\\",\\n              \\\"howToFix\\\": \\\"Reescrever como equação: 5000 ÷ ? = 100 → ? = 5000 ÷ 100\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_conta_zeros_errado_na_divisao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5\\\",\\n              \\\"buggyRule\\\": \\\"Calcular 5000 ÷ 100 como 5, contando apenas um zero a menos\\\",\\n              \\\"description\\\": \\\"Erro de magnitude: subestima o fator por erro na contagem de zeros\\\",\\n              \\\"mistakeLocation\\\": \\\"Na divisão 5000 ÷ 100, o aluno cancela apenas um zero: 500 ÷ 10 = 50 → errado, ou 5000 → 500 → 50 → 5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantos zeros tem 100? Quantos zeros você pode cancelar de 5000?\\\",\\n              \\\"feedback\\\": \\\"Você reconheceu que envolve zeros — excelente! Vamos contar juntos: 5000 tem três zeros, 100 tem dois. Quantos sobram?\\\",\\n              \\\"howToFix\\\": \\\"Praticar divisão por potências de 10 com cancelamento visual de zeros\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"mileage\\\",\\n          \\\"step\\\": \\\"aplicar fator ao numerador\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_em_vez_de_dividir_numerador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part_miles} * {scale_factor}\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar o numerador pelo fator (ex: 1200 × 50) em vez de dividir, mesmo tendo escolhido '÷' na operação\\\",\\n              \\\"description\\\": \\\"Incoerência interna: escolhe divisão, mas executa multiplicação\\\",\\n              \\\"mistakeLocation\\\": \\\"Após selecionar '÷', o aluno calcula 1200 × 50 = 60000\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Você escolheu dividir o denominador. O que deve acontecer com o numerador para manter a mesma proporção?\\\",\\n              \\\"feedback\\\": \\\"Percebo que você marcou 'dividir' — ótimo! Agora, aplique essa mesma ideia ao número de cima. Se o de baixo foi dividido por 50, o de cima também deve...\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem consistente: 'faça a mesma coisa nos dois lados'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divisao_incorreta_por_fator_grande\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part_miles} / 10 * 2\\\",\\n              \\\"buggyRule\\\": \\\"Dividir por 10 e depois multiplicar por 2 (achando que 50 = 10/2), resultando em 1200/10*2 = 240\\\",\\n              \\\"description\\\": \\\"Erro na decomposição do divisor: confunde 50 com 10/2 em vez de 10*5\\\",\\n              \\\"mistakeLocation\\\": \\\"Na divisão por 50, o aluno faz 1200 ÷ 10 = 120, depois ×2 = 240 (confundindo 1/50 com 2/10)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"50 é igual a 10 dividido por 2 ou 10 multiplicado por 5?\\\",\\n              \\\"feedback\\\": \\\"Você está usando uma estratégia inteligente de quebrar o número! Só precisamos ajustar: 50 é 10 vezes 5, não 10 dividido por 2. Como isso muda a conta?\\\",\\n              \\\"howToFix\\\": \\\"Fatorar o divisor: 50 = 10 × 5 → dividir por 10, depois por 5\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"mileage\\\",\\n          \\\"step\\\": \\\"preencher numerador da razão original (Parte 2)\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_incremento_em_vez_do_total_acumulado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2850\\\",\\n              \\\"buggyRule\\\": \\\"Usar a distância adicional (2850) como numerador, ignorando que o total acumulado é 4050\\\",\\n              \\\"description\\\": \\\"Aluno foca na mudança recente, não no estado atual\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao ler 'drive another 2850 miles', o aluno extrai 2850 como a nova parte, sem somar aos 1200 anteriores\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Depois de andar 1200 e depois mais 2850, quantos quilômetros eles já dirigiram no total?\\\",\\n              \\\"feedback\\\": \\\"Você notou os 2850 novos — muito bom! Mas a pergunta é sobre o total já completado. Quanto era antes? Quanto foi adicionado? Some os dois!\\\",\\n              \\\"howToFix\\\": \\\"Destacar no texto: 'making a total of 4050 miles' — e perguntar: 'quanto é 1200 + 2850?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_soma_errada_1200_2850\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"4000\\\",\\n              \\\"buggyRule\\\": \\\"Calcular 1200 + 2850 como 4000 (ignorando os 50 extras)\\\",\\n              \\\"description\\\": \\\"Erro de adição: arredonda 2850 para 2800 ou ignora as dezenas\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao somar 1200 + 2850, o aluno faz 1200 + 2800 = 4000 e esquece os 50 restantes\\\",\\n              \\\"diagnosticQuestion\\\": \\\"2850 é exatamente 2800? Quanto falta para chegar a 2850?\\\",\\n              \\\"feedback\\\": \\\"Você somou os milhares certinho! Agora, não esqueça as dezenas: 2850 tem 50 a mais que 2800. Inclua esses 50 no total.\\\",\\n              \\\"howToFix\\\": \\\"Somar por partes: 1200 + 2800 = 4000; 4000 + 50 = 4050\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"mileage\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os dados\\\",\\n          \\\"thinking\\\": \\\"A viagem total é de 5000 milhas. Na Parte 1, já andaram 1200 milhas. Na Parte 2, somam mais 2850, totalizando 4050. Preciso achar a porcentagem do total que isso representa.\\\",\\n          \\\"result\\\": \\\"Identifiquei os valores: total = 5000; parte1 = 1200; parte2 = 4050.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher as razões originais na tabela\\\",\\n          \\\"thinking\\\": \\\"Na linha 'Total', a razão original deve ser 5000/5000? Ou será que a linha 'Total' representa o todo como 100%? Talvez eu deva colocar 5000 no denominador em todas as partes... mas e o numerador da linha 'Total'? Será 5000 também?\\\",\\n          \\\"result\\\": \\\"Coloquei: linha Total → numerador = 5000, denominador = 5000; Parte 1 → 1200/5000; Parte 2 → 4050/5000.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! A linha 'Total' representa o todo da viagem. Que fração representa 'todo o caminho'? Pense: se você anda todo o percurso, que parte do total isso é?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Em cada linha, o denominador da razão original deve ser o total da viagem (5000). O numerador é o quanto já foi percorrido nessa parte.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Todas as razões originais têm denominador 5000. Confira: Parte 1 usa 1200, Parte 2 usa 4050, e a linha 'Total' usa 5000 como numerador também.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! A linha 'Total' mostra 'todo o caminho', então a razão é 5000 sobre 5000. As outras linhas usam o mesmo denominador: 5000.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Decidir a operação e fator de escala para converter para porcentagem\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar cada razão em algo com denominador 100. Como faço isso? Divido o denominador por 50? Porque 5000 ÷ 50 = 100. Então devo dividir tanto numerador quanto denominador por 50. Mas será que uso × ou ÷ nos seletores?\\\",\\n          \\\"result\\\": \\\"Escolhi '÷' para numerador e denominador nas três linhas. Fator de escala = 50 em todos os casos.\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Para transformar uma fração em porcentagem, queremos que o denominador vire 100. Se o denominador atual é maior que 100, devemos aumentar ou reduzir a fração?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Calcule quanto você precisa dividir (ou multiplicar) o denominador para chegar a 100. Depois aplique a mesma operação ao numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! 5000 ÷ 50 = 100. Então o fator de escala é 50, e a operação é divisão (÷) em ambos os termos da razão.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Pense: 5000 dividido por quanto dá 100? Esse número é o fator. E como você está reduzindo, a operação é divisão (÷).\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular os numeradores das porcentagens\\\",\\n          \\\"thinking\\\": \\\"Para Parte 1: 1200 ÷ 50 = ? Hmm... 50 × 24 = 1200, então é 24. Para Parte 2: 4050 ÷ 50... 50 × 80 = 4000, sobra 50, então 81. E a linha Total: 5000 ÷ 50 = 100. Isso faz sentido: 100% é o total.\\\",\\n          \\\"result\\\": \\\"Parte 1: 24%; Parte 2: 81%; Total: 100%.\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa reflexão! Quando aplicamos o mesmo fator ao numerador e denominador, o valor da fração não muda. O que isso significa para a porcentagem?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está indo bem! Divida o numerador da razão original pelo mesmo fator usado no denominador. O resultado é a porcentagem.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Lembre-se: 1200 ÷ 50 = 24, e 4050 ÷ 50 = 81. Use cálculo mental ou rascunho para confirmar.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito perto! Pense: quantas vezes 50 cabe em 1200? E em 4050? Conte de 50 em 50: 50, 100, 150... até chegar perto.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Verificar coerência dos resultados\\\",\\n          \\\"thinking\\\": \\\"Parte 1: 1200/5000 = 24% — parece certo. Parte 2: 4050/5000 = 81% — sim, porque 4000 é 80%, e 50 a mais é 1%. Total: 100% — perfeito.\\\",\\n          \\\"result\\\": \\\"Resultados consistentes com o conceito de porcentagem.\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"24 e 81\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar regra de três em vez de fator de escala\\\",\\n          \\\"steps\\\": [\\\"Montar 1200/5000 = x/100\\\", \\\"Multiplicar cruzado: 1200×100 = 5000x\\\", \\\"Resolver x = 120000/5000 = 24\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter para decimal primeiro (1200 ÷ 5000 = 0,24), depois multiplicar por 100\\\",\\n          \\\"steps\\\": [\\\"Dividir parte pelo total\\\", \\\"Mover vírgula duas casas\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "mileage",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "A viagem total é de 5000 milhas. Parte 1: já percorreram 1200 milhas. Parte 2: após mais 2850 milhas, totalizam 4050 milhas. Preciso calcular a porcentagem concluída em cada parte.",
+        "result": "Valores identificados: total = {A} = 5000, parte1 = {B} = 1200, parte2 = {C} = 4050",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha 'Total' da tabela com razão original",
+        "thinking": "A razão total é 5000/5000, pois representa 100% da viagem.",
+        "result": "Razão original (Total): numerador = {A}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher linha 'Part 1' da tabela com razão original",
+        "thinking": "A razão da Parte 1 é 1200/5000.",
+        "result": "Razão original (Part 1): numerador = {B}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Preencher linha 'Part 2' da tabela com razão original",
+        "thinking": "A razão da Parte 2 é 4050/5000.",
+        "result": "Razão original (Part 2): numerador = {C}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Identificar operação necessária para converter denominador em 100",
+        "thinking": "Para transformar o denominador {A} = 5000 em 100, preciso dividir por 50, pois 5000 ÷ 50 = 100.",
+        "result": "Operação: ÷; fator de escala = 50",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Aplicar operação e fator à linha Total",
+        "thinking": "Na linha Total, razão é 5000/5000. Divido ambos por 50 → 100/100 = 100%.",
+        "result": "Operação (num/denom): ÷, ÷; fator (num/denom): 50, 50; resultado: 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Aplicar mesma operação e fator à linha Part 1",
+        "thinking": "Razão Part 1: {B}/{A} = 1200/5000. Divido numerador e denominador por 50 → 1200 ÷ 50 = 24; 5000 ÷ 50 = 100 → 24/100 = 24%.",
+        "result": "Operação: ÷, ÷; fator: 50, 50; resultado: 24",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar mesma operação e fator à linha Part 2",
+        "thinking": "Razão Part 2: {C}/{A} = 4050/5000. Divido por 50 → 4050 ÷ 50 = 81; 5000 ÷ 50 = 100 → 81/100 = 81%.",
+        "result": "Operação: ÷, ÷; fator: 50, 50; resultado: 81",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Verificar coerência dos resultados",
+        "thinking": "Total = 100%, Parte 1 = 24%, Parte 2 = 81%. Valores fazem sentido: 1200 < 4050 < 5000 → 24% < 81% < 100%.",
+        "result": "Resultados consistentes com o enunciado",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Concluir problema",
+        "thinking": "Todas as células preenchidas corretamente. Clico em Done.",
+        "result": "Problema finalizado",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B}/{A} = ({B} ÷ 50)/({A} ÷ 50) = {B}/50 %; {C}/{A} = ({C} ÷ 50)/({A} ÷ 50) = {C}/50 %",
+      "totalTime": 49
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "mileage",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Eles já andaram 1200, então ponho 1200 em cima. O total é 5000, então 5000 embaixo.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para transformar denominador em 100",
+          "thinking": "Preciso chegar a 100 no denominador. Como 5000 é maior que 100, devo dividir.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "Vou dividir 5000 por 100... dá 50. Então o fator é 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar mesma operação ao numerador",
+          "thinking": "Se dividi o de baixo por 50, devo dividir o de cima também por 50. 1200 ÷ 50 = ? Vou fazer 1200 ÷ 10 = 120, depois ÷5 = 24. Então 24.",
+          "result": "Correto",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Preencher porcentagem da Parte 1",
+          "thinking": "Então 24% — vou colocar 24 na caixa da porcentagem.",
+          "result": "Correto",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Preencher razão original da Parte 2",
+          "thinking": "Agora eles andaram 4050, então ponho 4050 em cima e 5000 embaixo.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Escolher operação para Parte 2",
+          "thinking": "Mesma coisa: 5000 → 100, então dividir.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Calcular fator de escala para Parte 2",
+          "thinking": "5000 ÷ 100 = 50, então fator é 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Aplicar fator ao numerador da Parte 2",
+          "thinking": "4050 ÷ 50... 4000 ÷ 50 = 80, e 50 ÷ 50 = 1, então 81. Coloco 81.",
+          "result": "Correto",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Preencher porcentagem da Parte 2",
+          "thinking": "Então 81%.",
+          "result": "Correto",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Preencher linha Total",
+          "thinking": "O total é 5000/5000 = 100%. Vou colocar 5000 em cima, 5000 embaixo, operação ×1, fator 1, resultado 100.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "81",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Já andaram 1200, total é 5000, então 1200/5000.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para transformar denominador em 100",
+          "thinking": "Quero ir de 5000 para 100... como 100 é menor, devo dividir.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "5000 ÷ 100 = 50. Fator é 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar operação ao numerador",
+          "thinking": "Divido 1200 por 50... mas não sei calcular direito. Acho que 1200 ÷ 50 = 60? Porque 50×60=3000? Não... mas vou colocar 60 mesmo.",
+          "result": "Errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divisao_incorreta_por_fator_grande",
+           "type": "procedural_error",
+           "wrongAnswer": "60",
+           "description": "Aluno erra a divisão do numerador pelo fator de escala (1200 ÷ 50), calculando incorretamente como 60 em vez de 24",
+           "mistakeLocation": "Na divisão do numerador (1200) pelo fator de escala (50), o aluno confunde a operação e multiplica ou divide mal",
+           "diagnosticQuestion": "Quanto é 50 vezes 24? E quanto é 50 vezes 60? Qual resultado está mais perto de 1200?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você identificou corretamente o fator e a operação. Agora vamos revisar a conta: quanto é 1200 dividido por 50? Pense em quantos grupos de 50 cabem em 1200.",
+           "howToFix": "Usar decomposição: 1200 ÷ 10 = 120, depois ÷5 = 24; ou usar calculadora pedagógica com passo a passo"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Preencher porcentagem da Parte 1",
+          "thinking": "Então 60%.",
+          "result": "Errado",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Preencher razão original da Parte 2",
+          "thinking": "Andaram 4050 no total, então 4050/5000.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Escolher operação para Parte 2",
+          "thinking": "Mesmo caso: dividir.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Fator de escala para Parte 2",
+          "thinking": "5000 ÷ 100 = 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Aplicar ao numerador da Parte 2",
+          "thinking": "4050 ÷ 50... 50×80=4000, sobra 50, então 81. Isso eu sei.",
+          "result": "Correto",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Porcentagem da Parte 2",
+          "thinking": "81%.",
+          "result": "Correto",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Linha Total",
+          "thinking": "5000/5000 = 100%.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "81",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "1200 andados, total 5000 → 1200/5000.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação",
+          "thinking": "Quero chegar a 100 no denominador. 5000 é maior, então divido.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Fator de escala do denominador",
+          "thinking": "5000 ÷ 100 = 50. Fator é 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar ao numerador",
+          "thinking": "Divido 1200 por 50 → 24. Certo.",
+          "result": "Correto",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Porcentagem Parte 1",
+          "thinking": "24%.",
+          "result": "Correto",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Razão original Parte 2",
+          "thinking": "Andaram 2850 a mais... então ponho 2850 em cima! Total ainda é 5000.",
+          "result": "Errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_incremento_em_vez_do_total_acumulado",
+           "type": "conceptual_error",
+           "wrongAnswer": "2850",
+           "description": "Aluno usa a distância adicional (2850) como numerador, em vez do total acumulado (4050)",
+           "mistakeLocation": "Ao interpretar 'then drive another 2850 miles', o aluno ignora que a pergunta é sobre o total percorrido até agora (1200 + 2850 = 4050) e usa apenas o trecho novo",
+           "diagnosticQuestion": "A pergunta é: 'what percentage of their trip have they completed?' — isso se refere ao total andado até agora ou só à nova parte?",
+           "severity": "high",
+           "feedback": "Você entendeu bem a primeira parte! Na segunda, repare que a pergunta é sobre o total percorrido — não só os novos quilômetros. Quanto eles já tinham andado antes? Quanto andaram agora? Some os dois!",
+           "howToFix": "Sublinhar no enunciado: 'making a total of 4050 miles' — destacar que o total já foi dado explicitamente"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Operação para Parte 2",
+          "thinking": "Denominador 5000 → 100, então dividir.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Fator de escala Parte 2",
+          "thinking": "5000 ÷ 100 = 50.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Aplicar ao numerador errado",
+          "thinking": "2850 ÷ 50 = 57. Então 57%.",
+          "result": "Errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Porcentagem Parte 2",
+          "thinking": "57%.",
+          "result": "Errado",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Linha Total",
+          "thinking": "5000/5000 = 100%.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "57",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "mileage",
+        "step": null,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_parte_com_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "5000",
+          "buggyRule": "Usar o total da viagem (5000) como numerador da Parte 1, em vez da distância já percorrida (1200)",
+          "description": "Aluno inverte parte e todo: coloca o total no lugar da parte",
+          "mistakeLocation": "Ao ler 'driven 1200 miles', o aluno associa erroneamente o número maior (5000) à parte percorrida",
+          "diagnosticQuestion": "Qual número representa o que já foi feito? E qual representa o total planejado?",
+          "feedback": "Você está atento aos números! Só precisamos garantir: o numerador é sempre o que já foi feito, e o denominador é o total. Qual é o 'feito' aqui?",
+          "howToFix": "Usar setas no enunciado: 'driven [1200]' → numerador; 'trip [5000]' → denominador",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_percentual_direto_como_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "24",
+          "buggyRule": "Calcular mentalmente a porcentagem (24%) e usar esse valor como numerador da razão original, em vez de 1200",
+          "description": "Aluno confunde a representação fracionária com a porcentagem final",
+          "mistakeLocation": "Antes de qualquer cálculo, o aluno já insere o resultado esperado na entrada errada",
+          "diagnosticQuestion": "A razão original deve usar os números reais da viagem ou o valor percentual?",
+          "feedback": "Interessante! Você já pensou na resposta final. Mas a primeira coluna é só para os números reais da viagem — sem converter ainda. Quais são esses números?",
+          "howToFix": "Separar etapas claramente: primeiro 'dados brutos', depois 'transformação'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "mileage",
+        "step": null,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_sempre_multiplica_para_aumentar",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação, independentemente da direção da transformação, por acreditar que 'multiplicar aumenta'",
+          "description": "Aluno aplica heurística 'multiplicar = crescer', mesmo quando precisa reduzir o denominador",
+          "mistakeLocation": "Na escolha da operação para o denominador, o aluno ignora a relação entre 5000 e 100 e assume que deve multiplicar",
+          "diagnosticQuestion": "Se você multiplica 5000, ele fica maior ou menor? E 100 é maior ou menor que 5000?",
+          "feedback": "Boa observação sobre operações! Mas aqui queremos ir de 5000 para 100 — um número menor. Que operação nos ajuda a diminuir?",
+          "howToFix": "Usar analogia: 'Como reduzir uma foto grande para caber em um cartão postal?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_operacao_entre_num_e_den",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷ no numerador, × no denominador",
+          "buggyRule": "Aplicar operações opostas no numerador e denominador (ex: dividir num, multiplicar den), achando que isso 'equilibra'",
+          "description": "Aluno acredita que para manter a razão, deve fazer o oposto em cima e embaixo",
+          "mistakeLocation": "Ao preencher os seletores de operação, o aluno escolhe ÷ para numerador e × para denominador",
+          "diagnosticQuestion": "Se você divide o de cima e multiplica o de baixo, a fração fica maior ou menor? Isso mantém o mesmo valor?",
+          "feedback": "Você está pensando em equilíbrio — ótimo instinto! Mas para manter o valor, as duas partes devem ser tratadas da MESMA forma: ambas multiplicadas ou ambas divididas pelo mesmo fator.",
+          "howToFix": "Demonstrar com 1/2: (1÷2)/(2×2) = 0.5/4 = 0.125 ≠ 0.5",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "mileage",
+        "step": null,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_denominador_dividido_por_100_invertido",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "0.02",
+          "buggyRule": "Calcular fator como 100 / 5000 = 0.02, em vez de 5000 / 100 = 50",
+          "description": "Aluno inverte a divisão ao calcular o fator de escala",
+          "mistakeLocation": "Na determinação do fator, o aluno faz 'alvo / original' em vez de 'original / alvo' quando a operação é divisão",
+          "diagnosticQuestion": "Se você divide 5000 por X e quer obter 100, quanto deve valer X?",
+          "feedback": "Você está quase lá! O fator responde: 'por quanto devo dividir 5000 para chegar a 100?' Tente resolver essa pergunta.",
+          "howToFix": "Reescrever como equação: 5000 ÷ ? = 100 → ? = 5000 ÷ 100",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_conta_zeros_errado_na_divisao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "5",
+          "buggyRule": "Calcular 5000 ÷ 100 como 5, contando apenas um zero a menos",
+          "description": "Erro de magnitude: subestima o fator por erro na contagem de zeros",
+          "mistakeLocation": "Na divisão 5000 ÷ 100, o aluno cancela apenas um zero: 500 ÷ 10 = 50 → errado, ou 5000 → 500 → 50 → 5",
+          "diagnosticQuestion": "Quantos zeros tem 100? Quantos zeros você pode cancelar de 5000?",
+          "feedback": "Você reconheceu que envolve zeros — excelente! Vamos contar juntos: 5000 tem três zeros, 100 tem dois. Quantos sobram?",
+          "howToFix": "Praticar divisão por potências de 10 com cancelamento visual de zeros",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "mileage",
+        "step": null,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_em_vez_de_dividir_numerador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{part_miles} * {scale_factor}",
+          "buggyRule": "Multiplicar o numerador pelo fator (ex: 1200 × 50) em vez de dividir, mesmo tendo escolhido '÷' na operação",
+          "description": "Incoerência interna: escolhe divisão, mas executa multiplicação",
+          "mistakeLocation": "Após selecionar '÷', o aluno calcula 1200 × 50 = 60000",
+          "diagnosticQuestion": "Você escolheu dividir o denominador. O que deve acontecer com o numerador para manter a mesma proporção?",
+          "feedback": "Percebo que você marcou 'dividir' — ótimo! Agora, aplique essa mesma ideia ao número de cima. Se o de baixo foi dividido por 50, o de cima também deve...",
+          "howToFix": "Usar linguagem consistente: 'faça a mesma coisa nos dois lados'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divisao_incorreta_por_fator_grande",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{part_miles} / 10 * 2",
+          "buggyRule": "Dividir por 10 e depois multiplicar por 2 (achando que 50 = 10/2), resultando em 1200/10*2 = 240",
+          "description": "Erro na decomposição do divisor: confunde 50 com 10/2 em vez de 10*5",
+          "mistakeLocation": "Na divisão por 50, o aluno faz 1200 ÷ 10 = 120, depois ×2 = 240 (confundindo 1/50 com 2/10)",
+          "diagnosticQuestion": "50 é igual a 10 dividido por 2 ou 10 multiplicado por 5?",
+          "feedback": "Você está usando uma estratégia inteligente de quebrar o número! Só precisamos ajustar: 50 é 10 vezes 5, não 10 dividido por 2. Como isso muda a conta?",
+          "howToFix": "Fatorar o divisor: 50 = 10 × 5 → dividir por 10, depois por 5",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "mileage",
+        "step": null,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_incremento_em_vez_do_total_acumulado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2850",
+          "buggyRule": "Usar a distância adicional (2850) como numerador, ignorando que o total acumulado é 4050",
+          "description": "Aluno foca na mudança recente, não no estado atual",
+          "mistakeLocation": "Ao ler 'drive another 2850 miles', o aluno extrai 2850 como a nova parte, sem somar aos 1200 anteriores",
+          "diagnosticQuestion": "Depois de andar 1200 e depois mais 2850, quantos quilômetros eles já dirigiram no total?",
+          "feedback": "Você notou os 2850 novos — muito bom! Mas a pergunta é sobre o total já completado. Quanto era antes? Quanto foi adicionado? Some os dois!",
+          "howToFix": "Destacar no texto: 'making a total of 4050 miles' — e perguntar: 'quanto é 1200 + 2850?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_soma_errada_1200_2850",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "4000",
+          "buggyRule": "Calcular 1200 + 2850 como 4000 (ignorando os 50 extras)",
+          "description": "Erro de adição: arredonda 2850 para 2800 ou ignora as dezenas",
+          "mistakeLocation": "Ao somar 1200 + 2850, o aluno faz 1200 + 2800 = 4000 e esquece os 50 restantes",
+          "diagnosticQuestion": "2850 é exatamente 2800? Quanto falta para chegar a 2850?",
+          "feedback": "Você somou os milhares certinho! Agora, não esqueça as dezenas: 2850 tem 50 a mais que 2800. Inclua esses 50 no total.",
+          "howToFix": "Somar por partes: 1200 + 2800 = 4000; 4000 + 50 = 4050",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "mileage",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os dados",
+        "thinking": "A viagem total é de 5000 milhas. Na Parte 1, já andaram 1200 milhas. Na Parte 2, somam mais 2850, totalizando 4050. Preciso achar a porcentagem do total que isso representa.",
+        "result": "Identifiquei os valores: total = 5000; parte1 = 1200; parte2 = 4050.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher as razões originais na tabela",
+        "thinking": "Na linha 'Total', a razão original deve ser 5000/5000? Ou será que a linha 'Total' representa o todo como 100%? Talvez eu deva colocar 5000 no denominador em todas as partes... mas e o numerador da linha 'Total'? Será 5000 também?",
+        "result": "Coloquei: linha Total → numerador = 5000, denominador = 5000; Parte 1 → 1200/5000; Parte 2 → 4050/5000.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! A linha 'Total' representa o todo da viagem. Que fração representa 'todo o caminho'? Pense: se você anda todo o percurso, que parte do total isso é?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Em cada linha, o denominador da razão original deve ser o total da viagem (5000). O numerador é o quanto já foi percorrido nessa parte."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Todas as razões originais têm denominador 5000. Confira: Parte 1 usa 1200, Parte 2 usa 4050, e a linha 'Total' usa 5000 como numerador também."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! A linha 'Total' mostra 'todo o caminho', então a razão é 5000 sobre 5000. As outras linhas usam o mesmo denominador: 5000."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Decidir a operação e fator de escala para converter para porcentagem",
+        "thinking": "Preciso transformar cada razão em algo com denominador 100. Como faço isso? Divido o denominador por 50? Porque 5000 ÷ 50 = 100. Então devo dividir tanto numerador quanto denominador por 50. Mas será que uso × ou ÷ nos seletores?",
+        "result": "Escolhi '÷' para numerador e denominador nas três linhas. Fator de escala = 50 em todos os casos.",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Para transformar uma fração em porcentagem, queremos que o denominador vire 100. Se o denominador atual é maior que 100, devemos aumentar ou reduzir a fração?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Calcule quanto você precisa dividir (ou multiplicar) o denominador para chegar a 100. Depois aplique a mesma operação ao numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! 5000 ÷ 50 = 100. Então o fator de escala é 50, e a operação é divisão (÷) em ambos os termos da razão."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Pense: 5000 dividido por quanto dá 100? Esse número é o fator. E como você está reduzindo, a operação é divisão (÷)."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Calcular os numeradores das porcentagens",
+        "thinking": "Para Parte 1: 1200 ÷ 50 = ? Hmm... 50 × 24 = 1200, então é 24. Para Parte 2: 4050 ÷ 50... 50 × 80 = 4000, sobra 50, então 81. E a linha Total: 5000 ÷ 50 = 100. Isso faz sentido: 100% é o total.",
+        "result": "Parte 1: 24%; Parte 2: 81%; Total: 100%.",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa reflexão! Quando aplicamos o mesmo fator ao numerador e denominador, o valor da fração não muda. O que isso significa para a porcentagem?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está indo bem! Divida o numerador da razão original pelo mesmo fator usado no denominador. O resultado é a porcentagem."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Lembre-se: 1200 ÷ 50 = 24, e 4050 ÷ 50 = 81. Use cálculo mental ou rascunho para confirmar."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito perto! Pense: quantas vezes 50 cabe em 1200? E em 4050? Conte de 50 em 50: 50, 100, 150... até chegar perto."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Verificar coerência dos resultados",
+        "thinking": "Parte 1: 1200/5000 = 24% — parece certo. Parte 2: 4050/5000 = 81% — sim, porque 4000 é 80%, e 50 a mais é 1%. Total: 100% — perfeito.",
+        "result": "Resultados consistentes com o conceito de porcentagem.",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "24 e 81",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Usar regra de três em vez de fator de escala",
+        "steps": [
+         "Montar 1200/5000 = x/100",
+         "Multiplicar cruzado: 1200×100 = 5000x",
+         "Resolver x = 120000/5000 = 24"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Converter para decimal primeiro (1200 ÷ 5000 = 0,24), depois multiplicar por 100",
+        "steps": [
+         "Dividir parte pelo total",
+         "Mover vírgula duas casas"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 10,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ }
+}

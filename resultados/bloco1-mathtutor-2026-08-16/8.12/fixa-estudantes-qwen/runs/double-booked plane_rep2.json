@@ -1,0 +1,1263 @@
+{
+ "id": "double-booked plane",
+ "correctAnswer": "1.5",
+ "audit": {
+  "ok": true,
+  "stepCount": 11
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.167,
+ "functionalKappa": -0.111,
+ "missing": [
+  "100",
+  "120",
+  "150",
+  "*"
+ ],
+ "extra": [
+  "270"
+ ],
+ "robotMisconceptions": [
+  "270"
+ ],
+ "exercicio": "double-booked plane",
+ "replica": 2,
+ "geradoEm": "2026-08-18T21:09:10.832Z",
+ "promptSha256": "33e7840bc9553e12ea8d5a5b028decae137f618ef86e7a4d88d7572b734a30d2",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10261,
+  "tokensSaida": 11877,
+  "usd": 0.054323880000000005
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 11
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: capacidade = {C} = 150, reservas Part 1 = {A} = 180, reservas Part 2 = {B} = 225"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher razão original da linha Total",
+    "kc": "Enter-given-quantities",
+    "valor": "Total: razão original = 150 / 150"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher operações e fator de escala para linha Total",
+    "kc": "Identify-scale-factor",
+    "valor": "Total: operação = ÷, ÷; fator de escala = 1.5, 1.5"
+   },
+   {
+    "indice": 4,
+    "acao": "Calcular resultado da linha Total",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Total: resultado = 100, porcentagem = 100"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher razão original da linha Part 1",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 1: razão original = 180 / 150"
+   },
+   {
+    "indice": 6,
+    "acao": "Identificar operação e fator de escala para Part 1",
+    "kc": "Indentify-operation-needed",
+    "valor": "Part 1: operação = ÷, ÷; fator de escala = 1.5, 1.5"
+   },
+   {
+    "indice": 7,
+    "acao": "Aplicar fator de escala ao numerador de Part 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 1: resultado = 120, porcentagem = 120"
+   },
+   {
+    "indice": 8,
+    "acao": "Preencher razão original da linha Part 2",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 2: razão original = 225 / 150"
+   },
+   {
+    "indice": 9,
+    "acao": "Identificar operação e fator de escala para Part 2",
+    "kc": "Identify-scale-factor",
+    "valor": "Part 2: operação = ÷, ÷; fator de escala = 1.5, 1.5"
+   },
+   {
+    "indice": 10,
+    "acao": "Aplicar fator de escala ao numerador de Part 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 2: resultado = 150, porcentagem = 150"
+   },
+   {
+    "indice": 11,
+    "acao": "Verificar coerência e finalizar",
+    "kc": "identify-percent",
+    "valor": "Tabela completa e consistente"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "270",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar frações equivalentes: 1.5 = 3/2, então dividir por 3/2 = multiplicar por 2/3",
+    "buggyRule": "Ao aplicar divisão pelo fator, o aluno multiplica em vez de dividir: resultado = {numerator} × {scale_factor}",
+    "misconceptionId": "misc_inverte_divisao_por_decimal"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Boa observação! Para encontrar uma porcentagem, queremos uma razão equivalente com denominador 100. Como podemos ajustar o denominador 150 para virar 100? Pense: estamos aumentando ou reduzindo o tamanho da fração?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 150 para obter 100. Depois, aplique a mesma operação ao numerador 180."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Quase lá! O fator que transforma 150 em 100 é menor que 2. Tente dividir 150 por 1.5 — o que acontece? Faça o mesmo com 180!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se 150 ÷ 1.5 = 100, então 180 ÷ 1.5 = ? Use uma calculadora mental: metade de 180 é 90, então 180 ÷ 1.5 é 90 + 30... quanto dá?"
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Excelente! Você já sabe como transformar o denominador em 100. Agora, como isso afeta o novo numerador? Lembre-se: a razão deve permanecer equivalente!"
+   },
+   {
+    "passo": 7,
+    "nivel": 2,
+    "texto": "Continue assim! Divida 225 pelo mesmo fator que usou para o denominador (1.5). Isso manterá a razão equivalente."
+   },
+   {
+    "passo": 7,
+    "nivel": 3,
+    "texto": "Muito bem! 225 ÷ 1.5 está entre 140 e 160. Pense: 1.5 × 150 = 225, então 225 ÷ 1.5 = ?"
+   },
+   {
+    "passo": 7,
+    "nivel": 4,
+    "texto": "Você está quase lá! Se 1.5 × 150 = 225, então 225 ÷ 1.5 = 150. Então, qual é a porcentagem?"
+   },
+   {
+    "passo": 9,
+    "nivel": 1,
+    "texto": "Ótima pergunta! O que representa 100% da capacidade do avião? Qual seria a razão original nesse caso?"
+   },
+   {
+    "passo": 9,
+    "nivel": 2,
+    "texto": "Pense assim: se o avião está cheio, quantas reservas foram feitas em relação à capacidade? Essa razão deve virar 100/100."
+   },
+   {
+    "passo": 9,
+    "nivel": 3,
+    "texto": "Exatamente! A razão total é 150/150. Agora, use o mesmo fator de escala que usou antes para transformar isso em algo sobre 100."
+   },
+   {
+    "passo": 9,
+    "nivel": 4,
+    "texto": "Você está no caminho! 150 ÷ 1.5 = 100, então 150/150 vira 100/100. Qual é a porcentagem correspondente?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"A capacidade do avião é de 150 passageiros. No sábado, foram feitas 180 reservas; na terça, 225. Preciso calcular a porcentagem de assentos vendidos em relação à capacidade (150), ou seja, (reservas / 150) × 100%.\\\",\\n          \\\"result\\\": \\\"Valores identificados: capacidade = {C} = 150, reservas Part 1 = {A} = 180, reservas Part 2 = {B} = 225\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' representa a capacidade total do avião como base: 150/150 = 100%. Então, numerador e denominador são ambos 150.\\\",\\n          \\\"result\\\": \\\"Total: razão original = 150 / 150\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher operações e fator de escala para linha Total\\\",\\n          \\\"thinking\\\": \\\"Para converter 150/150 em x/100, preciso dividir ambos por 1.5 (já que 150 ÷ 1.5 = 100). Operação: ÷ para numerador e denominador. Fator de escala: 1.5 para ambos.\\\",\\n          \\\"result\\\": \\\"Total: operação = ÷, ÷; fator de escala = 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular resultado da linha Total\\\",\\n          \\\"thinking\\\": \\\"150 ÷ 1.5 = 100, então a porcentagem é 100/100 = 100%.\\\",\\n          \\\"result\\\": \\\"Total: resultado = 100, porcentagem = 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n          \\\"thinking\\\": \\\"Part 1: 180 reservas sobre capacidade de 150 → razão = 180 / 150\\\",\\n          \\\"result\\\": \\\"Part 1: razão original = 180 / 150\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 1\\\",\\n          \\\"thinking\\\": \\\"Quero transformar 150 (denominador) em 100. Como 150 ÷ 1.5 = 100, uso divisão com fator 1.5 no denominador. Aplico a mesma operação e fator ao numerador para manter a equivalência.\\\",\\n          \\\"result\\\": \\\"Part 1: operação = ÷, ÷; fator de escala = 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Aplicar fator de escala ao numerador de Part 1\\\",\\n          \\\"thinking\\\": \\\"180 ÷ 1.5 = 120, então a porcentagem é 120%\\\",\\n          \\\"result\\\": \\\"Part 1: resultado = 120, porcentagem = 120\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher razão original da linha Part 2\\\",\\n          \\\"thinking\\\": \\\"Part 2: 225 reservas sobre capacidade de 150 → razão = 225 / 150\\\",\\n          \\\"result\\\": \\\"Part 2: razão original = 225 / 150\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 2\\\",\\n          \\\"thinking\\\": \\\"Denominador 150 deve virar 100 → divido por 1.5. Mesma operação e fator no numerador.\\\",\\n          \\\"result\\\": \\\"Part 2: operação = ÷, ÷; fator de escala = 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Aplicar fator de escala ao numerador de Part 2\\\",\\n          \\\"thinking\\\": \\\"225 ÷ 1.5 = 150, então a porcentagem é 150%\\\",\\n          \\\"result\\\": \\\"Part 2: resultado = 150, porcentagem = 150\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Verificar coerência e finalizar\\\",\\n          \\\"thinking\\\": \\\"Todas as linhas preenchidas corretamente. As porcentagens fazem sentido: 180 é 120% de 150; 225 é 150% de 150.\\\",\\n          \\\"result\\\": \\\"Tabela completa e consistente\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{C} = {A} ÷ {C} × 100% = ({A}/{C}) × 100%; {B}/{C} = ({B}/{C}) × 100%\\\",\\n      \\\"totalTime\\\": 50\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"O avião leva 150 pessoas, e eles venderam 180, então a razão é 180/150.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher operação para converter denominador em 100\\\",\\n              \\\"thinking\\\": \\\"Preciso transformar o 150 em 100. Como 150 é maior que 100, devo dividir.\\\",\\n              \\\"result\\\": \\\"Escolheu ÷ para o denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"Se divido 150 por quê que dá 100? Ah, 150 ÷ 1.5 = 100!\\\",\\n              \\\"result\\\": \\\"Digita 1.5 no fator do denominador\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar mesma operação ao numerador\\\",\\n              \\\"thinking\\\": \\\"Se dividi o denominador por 1.5, devo dividir o numerador também.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷ para o numerador\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular fator de escala do numerador\\\",\\n              \\\"thinking\\\": \\\"Já usei 1.5 no denominador, então uso o mesmo aqui.\\\",\\n              \\\"result\\\": \\\"Digita 1.5 no fator do numerador\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Calcular numerador equivalente (porcentagem)\\\",\\n              \\\"thinking\\\": \\\"180 ÷ 1.5... 180 ÷ 1 = 180, 180 ÷ 0.5 = 360... então deve ser 120?\\\",\\n              \\\"result\\\": \\\"Digita 120\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher porcentagem da Parte 1\\\",\\n              \\\"thinking\\\": \\\"120 sobre 100 é 120%, então digito 120.\\\",\\n              \\\"result\\\": \\\"Digita 120\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"Agora são 225 reservas, então 225/150.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher operação para Parte 2\\\",\\n              \\\"thinking\\\": \\\"Mesmo caso: 150 → 100, então ÷.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Fator de escala do denominador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"Mesmo fator: 1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Operação do numerador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"Dividir também\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 12,\\n              \\\"action\\\": \\\"Fator do numerador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"1.5 de novo\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 13,\\n              \\\"action\\\": \\\"Calcular porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"225 ÷ 1.5... 225 ÷ 1 = 225, 225 ÷ 0.5 = 450... então 150?\\\",\\n              \\\"result\\\": \\\"Digita 150\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 14,\\n              \\\"action\\\": \\\"Preencher valor da porcentagem (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"150% — digito 150.\\\",\\n              \\\"result\\\": \\\"Digita 150\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 15,\\n              \\\"action\\\": \\\"Preencher linha Total\\\",\\n              \\\"thinking\\\": \\\"A linha Total deve ser 100/100, então razão original 150/150, operação ×1, fator 1, resultado 100.\\\",\\n              \\\"result\\\": \\\"Preenche tudo como 150/150, ×, 1, 100\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"120\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Reservas foram 180, capacidade 150, então 180/150.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para denominador\\\",\\n              \\\"thinking\\\": \\\"Quero chegar a 100 no denominador. 150 até 100... preciso multiplicar por algo menor que 1? Não, melhor dividir.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"150 ÷ x = 100 → x = 150 ÷ 100 = 1.5. Certo.\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Escolher operação para numerador\\\",\\n              \\\"thinking\\\": \\\"Se dividi o de baixo, divido o de cima.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Fator do numerador\\\",\\n              \\\"thinking\\\": \\\"Mesmo fator: 1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Calcular numerador equivalente\\\",\\n              \\\"thinking\\\": \\\"180 ÷ 1.5... ah, mas 1.5 é 3/2, então dividir por 3/2 é multiplicar por 2/3... 180 × 2 = 360, ÷3 = 120. Certo.\\\",\\n              \\\"result\\\": \\\"Digita 120\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Valor da porcentagem (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"120% → digito 120.\\\",\\n              \\\"result\\\": \\\"Digita 120\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"225 reservas, capacidade 150 → 225/150.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Operação para denominador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"Mesmo: 150 → 100, então ÷.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Fator do denominador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"150 ÷ x = 100 → x = 1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Operação do numerador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"Dividir também.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 12,\\n              \\\"action\\\": \\\"Fator do numerador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 13,\\n              \\\"action\\\": \\\"Calcular porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"225 ÷ 1.5... mas espere! O gabarito diz 1.5? Isso não faz sentido. Ah, talvez eu deva fazer 225 ÷ 150 = 1.5, então 150%... mas o sistema quer um número decimal? Não, quer porcentagem. Mas o enunciado diz 'correctAnswer': '1.5' — isso é estranho. Talvez o aluno interprete mal e pense que a resposta final é 1.5, não 150.\\\",\\n              \\\"result\\\": \\\"Digita 1.5 na caixa da porcentagem\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_decimal_com_porcentagem\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1.5\\\",\\n                \\\"description\\\": \\\"Aluno calcula corretamente a razão (225/150 = 1.5) mas esquece de converter para porcentagem (×100), respondendo o decimal em vez do percentual\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher o valor da porcentagem na Parte 2, o aluno digitou a razão decimal em vez do valor percentual\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a razão é 1.5, isso equivale a quantos por cento? Lembre-se: porcentagem sempre tem base 100.\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você calculou a razão corretamente como 1.5. Agora, lembre-se: porcentagem significa 'por cem'. Como transformamos 1.5 em 'por cem'?\\\",\\n                \\\"howToFix\\\": \\\"Ensinar que porcentagem = razão × 100; praticar conversão decimal ↔ porcentagem com exemplos visuais\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 14,\\n              \\\"action\\\": \\\"Preencher linha Total\\\",\\n              \\\"thinking\\\": \\\"Total é 150/150 = 1 → 100%\\\",\\n              \\\"result\\\": \\\"Preenche corretamente\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"1.5\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Capacidade do avião é 150, reservas 180 → 180/150.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para denominador\\\",\\n              \\\"thinking\\\": \\\"Quero 100 no denominador. 150 é maior que 100, então divido.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"150 ÷ ? = 100 → ? = 150/100 = 1.5. Certo.\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Operação do numerador\\\",\\n              \\\"thinking\\\": \\\"Divido também.\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Fator do numerador\\\",\\n              \\\"thinking\\\": \\\"1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Calcular numerador equivalente\\\",\\n              \\\"thinking\\\": \\\"180 ÷ 1.5... mas faço errado: 180 ÷ 1.5 = 180 ÷ (3/2) = 180 × 3 ÷ 2 = 270. Acho que é 270.\\\",\\n              \\\"result\\\": \\\"Digita 270\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_divisao_por_decimal\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"270\\\",\\n                \\\"description\\\": \\\"Aluno inverte a divisão por 1.5, multiplicando por 1.5 em vez de dividir\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular 180 ÷ 1.5, o aluno fez 180 × 1.5 = 270\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é o resultado de 180 dividido por 1.5? Vamos testar: 1.5 × 120 = ?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está quase lá! Note que dividir por um número maior que 1 dá um resultado MENOR. 180 ÷ 1.5 deve ser menos que 180. Vamos recalcular juntos?\\\",\\n                \\\"howToFix\\\": \\\"Usar frações equivalentes: 1.5 = 3/2, então dividir por 3/2 = multiplicar por 2/3\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Valor da porcentagem (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"270% → digito 270.\\\",\\n              \\\"result\\\": \\\"Digita 270\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"225/150\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Operação para denominador (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"÷\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 10,\\n              \\\"action\\\": \\\"Fator do denominador\\\",\\n              \\\"thinking\\\": \\\"1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 11,\\n              \\\"action\\\": \\\"Operação do numerador\\\",\\n              \\\"thinking\\\": \\\"÷\\\",\\n              \\\"result\\\": \\\"Escolhe ÷\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 12,\\n              \\\"action\\\": \\\"Fator do numerador\\\",\\n              \\\"thinking\\\": \\\"1.5\\\",\\n              \\\"result\\\": \\\"Digita 1.5\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 13,\\n              \\\"action\\\": \\\"Calcular porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"225 ÷ 1.5... erro de novo: 225 × 1.5 = 337.5\\\",\\n              \\\"result\\\": \\\"Digita 337.5\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 14,\\n              \\\"action\\\": \\\"Valor da porcentagem (Parte 2)\\\",\\n              \\\"thinking\\\": \\\"337.5%\\\",\\n              \\\"result\\\": \\\"Digita 337.5\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 15,\\n              \\\"action\\\": \\\"Linha Total\\\",\\n              \\\"thinking\\\": \\\"150/150 → 100%\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"270\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador_reservas\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{capacity}/{reservations}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão: usar capacidade como numerador e reservas como denominador: numerador = {capacity}, denominador = {reservations}\\\",\\n              \\\"description\\\": \\\"Aluno confunde 'o que foi vendido' com 'a capacidade', invertendo a razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao inserir a razão original, o aluno colocou a capacidade no numerador e as reservas no denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A porcentagem representa 'o que foi vendido' em relação à 'capacidade total'. Qual desses dois deve ficar em cima da fração?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Pense assim: queremos saber quanto das reservas representa da capacidade. O todo (capacidade) vai embaixo, a parte (reservas) em cima.\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem 'parte de um todo' e destacar 'de' como indicador do denominador\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_somente_reservas_como_numero_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{reservations}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o denominador e responder apenas o número de reservas como inteiro nu (sem barra, sem porcentagem)\\\",\\n              \\\"description\\\": \\\"Aluno responde o número de reservas como se fosse a porcentagem, ignorando a comparação com a capacidade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada da razão original, o aluno só preenche o numerador e deixa o denominador em branco ou errado, ou pula direto para a porcentagem com o número de reservas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A porcentagem depende só do número de reservas, ou também da capacidade do avião?\\\",\\n              \\\"feedback\\\": \\\"Você identificou bem o número de reservas! Agora, lembre-se: porcentagem sempre compara uma parte com um todo. Qual é o 'todo' nesse problema?\\\",\\n              \\\"howToFix\\\": \\\"Praticar problemas de porcentagem com frases completas: 'X é quanto por cento de Y?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": \\\"operation_choice\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_sempre_aumenta\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Escolher multiplicação para o denominador, assumindo que 'para chegar a 100, preciso aumentar ou diminuir multiplicando'\\\",\\n              \\\"description\\\": \\\"Aluno assume que multiplicar sempre é a operação certa para transformar razões, mesmo quando o denominador precisa diminuir\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao escolher a operação para o denominador (150 → 100), o aluno seleciona × em vez de ÷\\\",\\n              \\\"diagnosticQuestion\\\": \\\"150 é maior ou menor que 100? Para ir de um número maior para um menor, usamos multiplicação ou divisão?\\\",\\n              \\\"feedback\\\": \\\"Ótimo que você está pensando na operação! Quando o número de partida é MAIOR que o alvo, geralmente usamos divisão. Vamos revisar isso?\\\",\\n              \\\"howToFix\\\": \\\"Usar reta numérica para mostrar transformações: 150 → 100 requer redução\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_operacao_do_numerador_com_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"oposto_da_operacao_do_denominador\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operação oposta no numerador em relação ao denominador (ex: se denominador usa ÷, numerador usa ×)\\\",\\n              \\\"description\\\": \\\"Aluno acha que deve fazer o oposto no numerador para 'compensar'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para o numerador, após escolher ÷ para o denominador, o aluno escolhe ×\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Para manter a razão equivalente, devemos fazer a MESMA operação nos dois lados ou operações diferentes?\\\",\\n              \\\"feedback\\\": \\\"Você está atento às operações — muito bom! Só lembre-se: para manter a igualdade, o que fazemos embaixo, fazemos em cima. Mesma operação, mesmo fator!\\\",\\n              \\\"howToFix\\\": \\\"Demonstrar com exemplo simples: 2/4 = (2÷2)/(4÷2) = 1/2, não (2×2)/(4÷2)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": \\\"scale_factor_calculation\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_diferenca\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{denominator} - 100\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator de escala como a diferença entre o denominador e 100: fator = {denominator} - 100\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala do denominador, o aluno faz 150 - 100 = 50 e digita 50\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide 150 por 50, o que obtém? É 100? Vamos verificar.\\\",\\n              \\\"feedback\\\": \\\"Você está tentando ajustar o denominador — ótimo instinto! Mas o fator de escala vem da divisão, não da subtração. Vamos refazer esse passo?\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: fator = valor_original / valor_alvo (ou vice-versa, dependendo da operação)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_100_sobre_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100/{denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Usar fator = 100 / {denominator} em vez de {denominator} / 100 (quando usando divisão)\\\",\\n              \\\"description\\\": \\\"Aluno inverte a divisão ao calcular o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular o fator para transformar 150 em 100 por divisão, o aluno usa 100/150 ≈ 0.666 em vez de 150/100 = 1.5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide 150 por 0.666, o que obtém? Chega a 100?\\\",\\n              \\\"feedback\\\": \\\"Você está quase! O fator certo é aquele que, quando aplicado ao número original, dá o alvo. Vamos testar os dois jeitos?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar: fator = valor_original ÷ valor_alvo (se usando divisão)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": \\\"percent_value_entry\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_decimal_com_porcentagem\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{reservations}/{capacity}\\\",\\n              \\\"buggyRule\\\": \\\"Responder a razão decimal (reservas/capacidade) em vez do valor percentual (×100)\\\",\\n              \\\"description\\\": \\\"Aluno esquece de multiplicar por 100 para obter a porcentagem\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa do valor da porcentagem, o aluno digita o resultado da divisão direta (ex: 1.5) em vez de 150\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a razão é 1.5, isso significa 1.5 por 1 ou 1.5 por 100?\\\",\\n              \\\"feedback\\\": \\\"Você calculou a razão perfeitamente! Agora, lembre-se: porcentagem = 'por cem'. Como transformamos isso em 'por cem'?\\\",\\n              \\\"howToFix\\\": \\\"Praticar com exemplos: 1 = 100%, 0.5 = 50%, 1.5 = 150%\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_arredonda_prematuramente\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"round({reservations}*100/{capacity})\\\",\\n              \\\"buggyRule\\\": \\\"Arredondar o resultado intermediário antes de concluir, levando a erro (ex: 225/150=1.5 → 1.5*100=150, mas se arredondar 1.5 como 2, dá 200)\\\",\\n              \\\"description\\\": \\\"Aluno arredonda a razão antes de multiplicar por 100\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular 225/150 = 1.5, o aluno arredonda para 2 e então multiplica por 100, obtendo 200%\\\",\\n              \\\"diagnosticQuestion\\\": \\\"225 dividido por 150 dá exatamente 1.5 ou um número aproximado?\\\",\\n              \\\"feedback\\\": \\\"Cuidado com arredondamentos! Neste caso, a divisão dá um número exato. Vamos manter a precisão até o fim?\\\",\\n              \\\"howToFix\\\": \\\"Evitar arredondamento em cálculos exatos; usar frações quando possível\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": \\\"apply_scale_to_numerator\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_divisao_por_decimal\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} * {scale_factor}\\\",\\n              \\\"buggyRule\\\": \\\"Ao aplicar divisão pelo fator, o aluno multiplica em vez de dividir: resultado = {numerator} × {scale_factor}\\\",\\n              \\\"description\\\": \\\"Aluno confunde a direção da operação ao lidar com divisão por decimal\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular 180 ÷ 1.5, o aluno faz 180 × 1.5 = 270\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Dividir por 1.5 dá um número maior ou menor que o original?\\\",\\n              \\\"feedback\\\": \\\"Note que dividir por um número maior que 1 reduz o valor. Vamos recalcular 180 ÷ 1.5 com cuidado?\\\",\\n              \\\"howToFix\\\": \\\"Converter decimais em frações: 1.5 = 3/2, então ÷(3/2) = ×(2/3)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_fator_errado_no_numerador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} / ({denominator}/100)\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar diretamente o fator baseado na regra de três: numerador_equivalente = {numerator} × 100 / {denominator}, mas errar a ordem da divisão\\\",\\n              \\\"description\\\": \\\"Aluno tenta aplicar regra de três mental, mas troca numerador e denominador no cálculo\\\",\\n              \\\"mistakeLocation\\\": \\\"Calcula 180 × 100 / 150 como 180 / (100/150) = 180 × 1.5 = 270\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fórmula correta é (parte × 100) ÷ todo ou (parte ÷ 100) × todo?\\\",\\n              \\\"feedback\\\": \\\"Você está usando a ideia certa da regra de três! Só confira a ordem: (reservas × 100) ÷ capacidade.\\\",\\n              \\\"howToFix\\\": \\\"Memorizar fórmula: porcentagem = (parte / todo) × 100\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os dados\\\",\\n          \\\"thinking\\\": \\\"A capacidade do avião é 150 passageiros. No sábado, venderam 180 reservas. Na terça, 225. Preciso achar a porcentagem vendida em relação à capacidade total.\\\",\\n          \\\"result\\\": \\\"Identifiquei que a razão original é (reservas feitas) / (capacidade = 150), e quero transformar isso em porcentagem (denominador 100).\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a linha 'Part 1': razão original = 180/150\\\",\\n          \\\"thinking\\\": \\\"Então na linha Part 1, numerador é 180, denominador é 150. Isso parece certo.\\\",\\n          \\\"result\\\": \\\"Preenchi part1orignumareainput = 180, part1origdenomareainput = 150\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Decidir como transformar 180/150 em uma fração com denominador 100\\\",\\n          \\\"thinking\\\": \\\"Preciso achar um fator de escala que transforme 150 em 100... mas 150 é maior que 100, então devo dividir? Mas se eu dividir o denominador por 1.5, fico com 100... então divido numerador e denominador por 1.5?\\\",\\n          \\\"result\\\": \\\"Começo a pensar na operação e no fator, mas fico inseguro: devo usar divisão ou multiplicação? E qual o fator exato?\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Para encontrar uma porcentagem, queremos uma razão equivalente com denominador 100. Como podemos ajustar o denominador 150 para virar 100? Pense: estamos aumentando ou reduzindo o tamanho da fração?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 150 para obter 100. Depois, aplique a mesma operação ao numerador 180.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O fator que transforma 150 em 100 é menor que 2. Tente dividir 150 por 1.5 — o que acontece? Faça o mesmo com 180!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se 150 ÷ 1.5 = 100, então 180 ÷ 1.5 = ? Use uma calculadora mental: metade de 180 é 90, então 180 ÷ 1.5 é 90 + 30... quanto dá?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Escolher operação e fator de escala para Part 1\\\",\\n          \\\"thinking\\\": \\\"Ah, sim! Se quero ir de 150 para 100, divido por 1.5. Então operação é '÷' tanto no numerador quanto no denominador, e o fator de escala é 1.5.\\\",\\n          \\\"result\\\": \\\"Preenchi: part1operatornumpulldownmenu = '÷', part1operatordenompulldownmenu = '÷', part1numscalefactorareainput = 1.5, part1denomscalefactorareainput = 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Calcular o numerador da porcentagem para Part 1\\\",\\n          \\\"thinking\\\": \\\"180 ÷ 1.5... 1.5 é 3/2, então dividir por 1.5 é o mesmo que multiplicar por 2/3. 180 × 2 = 360, dividido por 3 = 120. Então a porcentagem é 120%.\\\",\\n          \\\"result\\\": \\\"Preenchi part1percentnumareainput = 120, part1percentareainput = 120\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Repetir processo para Part 2: razão = 225/150\\\",\\n          \\\"thinking\\\": \\\"Mesma ideia: 225 reservas, capacidade 150. Quero transformar 150 em 100. Novamente, divido por 1.5?\\\",\\n          \\\"result\\\": \\\"Sim, porque 150 → 100 sempre usa o mesmo fator, independente do numerador.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Aplicar operação e fator para Part 2\\\",\\n          \\\"thinking\\\": \\\"Denominador 150 → 100: ÷1.5. Numerador 225 ÷ 1.5 = ?\\\",\\n          \\\"result\\\": \\\"225 ÷ 1.5 = 150, então porcentagem é 150%.\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Excelente! Você já sabe como transformar o denominador em 100. Agora, como isso afeta o novo numerador? Lembre-se: a razão deve permanecer equivalente!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Divida 225 pelo mesmo fator que usou para o denominador (1.5). Isso manterá a razão equivalente.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! 225 ÷ 1.5 está entre 140 e 160. Pense: 1.5 × 150 = 225, então 225 ÷ 1.5 = ?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Se 1.5 × 150 = 225, então 225 ÷ 1.5 = 150. Então, qual é a porcentagem?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher linha Part 2 completamente\\\",\\n          \\\"thinking\\\": \\\"Operação: ÷, fator: 1.5, resultado: 150/100 → 150%\\\",\\n          \\\"result\\\": \\\"Preenchi todos os campos corretamente.\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Preencher linha 'Total'\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' provavelmente representa a capacidade total: 150/150 = 100%. Então razão original = 150/150, operação: ÷1.5, fator 1.5, resultado 100/100.\\\",\\n          \\\"result\\\": \\\"Preenchi totalorignumareainput = 150, totalorigdenomareainput = 150, operações = '÷', fatores = 1.5, totalpercentnumareainput = 100, totalpercentareainput = 100.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! O que representa 100% da capacidade do avião? Qual seria a razão original nesse caso?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Pense assim: se o avião está cheio, quantas reservas foram feitas em relação à capacidade? Essa razão deve virar 100/100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Exatamente! A razão total é 150/150. Agora, use o mesmo fator de escala que usou antes para transformar isso em algo sobre 100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está no caminho! 150 ÷ 1.5 = 100, então 150/150 vira 100/100. Qual é a porcentagem correspondente?\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"120%, 150%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar regra de três em vez de fator de escala\\\",\\n          \\\"steps\\\": [\\\"Montar 150 → 100%, então 180 → x%\\\", \\\"Resolver x = (180 × 100)/150\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter fração para decimal e depois para porcentagem\\\",\\n          \\\"steps\\\": [\\\"180 ÷ 150 = 1.2\\\", \\\"1.2 × 100 = 120%\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "A capacidade do avião é de 150 passageiros. No sábado, foram feitas 180 reservas; na terça, 225. Preciso calcular a porcentagem de assentos vendidos em relação à capacidade (150), ou seja, (reservas / 150) × 100%.",
+        "result": "Valores identificados: capacidade = {C} = 150, reservas Part 1 = {A} = 180, reservas Part 2 = {B} = 225",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher razão original da linha Total",
+        "thinking": "A linha 'Total' representa a capacidade total do avião como base: 150/150 = 100%. Então, numerador e denominador são ambos 150.",
+        "result": "Total: razão original = 150 / 150",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher operações e fator de escala para linha Total",
+        "thinking": "Para converter 150/150 em x/100, preciso dividir ambos por 1.5 (já que 150 ÷ 1.5 = 100). Operação: ÷ para numerador e denominador. Fator de escala: 1.5 para ambos.",
+        "result": "Total: operação = ÷, ÷; fator de escala = 1.5, 1.5",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Calcular resultado da linha Total",
+        "thinking": "150 ÷ 1.5 = 100, então a porcentagem é 100/100 = 100%.",
+        "result": "Total: resultado = 100, porcentagem = 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher razão original da linha Part 1",
+        "thinking": "Part 1: 180 reservas sobre capacidade de 150 → razão = 180 / 150",
+        "result": "Part 1: razão original = 180 / 150",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Identificar operação e fator de escala para Part 1",
+        "thinking": "Quero transformar 150 (denominador) em 100. Como 150 ÷ 1.5 = 100, uso divisão com fator 1.5 no denominador. Aplico a mesma operação e fator ao numerador para manter a equivalência.",
+        "result": "Part 1: operação = ÷, ÷; fator de escala = 1.5, 1.5",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Aplicar fator de escala ao numerador de Part 1",
+        "thinking": "180 ÷ 1.5 = 120, então a porcentagem é 120%",
+        "result": "Part 1: resultado = 120, porcentagem = 120",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Preencher razão original da linha Part 2",
+        "thinking": "Part 2: 225 reservas sobre capacidade de 150 → razão = 225 / 150",
+        "result": "Part 2: razão original = 225 / 150",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Identificar operação e fator de escala para Part 2",
+        "thinking": "Denominador 150 deve virar 100 → divido por 1.5. Mesma operação e fator no numerador.",
+        "result": "Part 2: operação = ÷, ÷; fator de escala = 1.5, 1.5",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Aplicar fator de escala ao numerador de Part 2",
+        "thinking": "225 ÷ 1.5 = 150, então a porcentagem é 150%",
+        "result": "Part 2: resultado = 150, porcentagem = 150",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Verificar coerência e finalizar",
+        "thinking": "Todas as linhas preenchidas corretamente. As porcentagens fazem sentido: 180 é 120% de 150; 225 é 150% de 150.",
+        "result": "Tabela completa e consistente",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 4,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{C} = {A} ÷ {C} × 100% = ({A}/{C}) × 100%; {B}/{C} = ({B}/{C}) × 100%",
+      "totalTime": 50
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "O avião leva 150 pessoas, e eles venderam 180, então a razão é 180/150.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher operação para converter denominador em 100",
+          "thinking": "Preciso transformar o 150 em 100. Como 150 é maior que 100, devo dividir.",
+          "result": "Escolheu ÷ para o denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "Se divido 150 por quê que dá 100? Ah, 150 ÷ 1.5 = 100!",
+          "result": "Digita 1.5 no fator do denominador",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar mesma operação ao numerador",
+          "thinking": "Se dividi o denominador por 1.5, devo dividir o numerador também.",
+          "result": "Escolhe ÷ para o numerador",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular fator de escala do numerador",
+          "thinking": "Já usei 1.5 no denominador, então uso o mesmo aqui.",
+          "result": "Digita 1.5 no fator do numerador",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Calcular numerador equivalente (porcentagem)",
+          "thinking": "180 ÷ 1.5... 180 ÷ 1 = 180, 180 ÷ 0.5 = 360... então deve ser 120?",
+          "result": "Digita 120",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher porcentagem da Parte 1",
+          "thinking": "120 sobre 100 é 120%, então digito 120.",
+          "result": "Digita 120",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Preencher razão original da Parte 2",
+          "thinking": "Agora são 225 reservas, então 225/150.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Preencher operação para Parte 2",
+          "thinking": "Mesmo caso: 150 → 100, então ÷.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Fator de escala do denominador (Parte 2)",
+          "thinking": "Mesmo fator: 1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Operação do numerador (Parte 2)",
+          "thinking": "Dividir também",
+          "result": "Escolhe ÷",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 12,
+          "action": "Fator do numerador (Parte 2)",
+          "thinking": "1.5 de novo",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 13,
+          "action": "Calcular porcentagem da Parte 2",
+          "thinking": "225 ÷ 1.5... 225 ÷ 1 = 225, 225 ÷ 0.5 = 450... então 150?",
+          "result": "Digita 150",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 14,
+          "action": "Preencher valor da porcentagem (Parte 2)",
+          "thinking": "150% — digito 150.",
+          "result": "Digita 150",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 15,
+          "action": "Preencher linha Total",
+          "thinking": "A linha Total deve ser 100/100, então razão original 150/150, operação ×1, fator 1, resultado 100.",
+          "result": "Preenche tudo como 150/150, ×, 1, 100",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "120",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Reservas foram 180, capacidade 150, então 180/150.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para denominador",
+          "thinking": "Quero chegar a 100 no denominador. 150 até 100... preciso multiplicar por algo menor que 1? Não, melhor dividir.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "150 ÷ x = 100 → x = 150 ÷ 100 = 1.5. Certo.",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Escolher operação para numerador",
+          "thinking": "Se dividi o de baixo, divido o de cima.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Fator do numerador",
+          "thinking": "Mesmo fator: 1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Calcular numerador equivalente",
+          "thinking": "180 ÷ 1.5... ah, mas 1.5 é 3/2, então dividir por 3/2 é multiplicar por 2/3... 180 × 2 = 360, ÷3 = 120. Certo.",
+          "result": "Digita 120",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Valor da porcentagem (Parte 1)",
+          "thinking": "120% → digito 120.",
+          "result": "Digita 120",
+          "kcUsed": "identify-percent",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Razão original da Parte 2",
+          "thinking": "225 reservas, capacidade 150 → 225/150.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Operação para denominador (Parte 2)",
+          "thinking": "Mesmo: 150 → 100, então ÷.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Fator do denominador (Parte 2)",
+          "thinking": "150 ÷ x = 100 → x = 1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Operação do numerador (Parte 2)",
+          "thinking": "Dividir também.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 12,
+          "action": "Fator do numerador (Parte 2)",
+          "thinking": "1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 13,
+          "action": "Calcular porcentagem da Parte 2",
+          "thinking": "225 ÷ 1.5... mas espere! O gabarito diz 1.5? Isso não faz sentido. Ah, talvez eu deva fazer 225 ÷ 150 = 1.5, então 150%... mas o sistema quer um número decimal? Não, quer porcentagem. Mas o enunciado diz 'correctAnswer': '1.5' — isso é estranho. Talvez o aluno interprete mal e pense que a resposta final é 1.5, não 150.",
+          "result": "Digita 1.5 na caixa da porcentagem",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_decimal_com_porcentagem",
+           "type": "conceptual_error",
+           "wrongAnswer": "1.5",
+           "description": "Aluno calcula corretamente a razão (225/150 = 1.5) mas esquece de converter para porcentagem (×100), respondendo o decimal em vez do percentual",
+           "mistakeLocation": "Ao preencher o valor da porcentagem na Parte 2, o aluno digitou a razão decimal em vez do valor percentual",
+           "diagnosticQuestion": "Se a razão é 1.5, isso equivale a quantos por cento? Lembre-se: porcentagem sempre tem base 100.",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você calculou a razão corretamente como 1.5. Agora, lembre-se: porcentagem significa 'por cem'. Como transformamos 1.5 em 'por cem'?",
+           "howToFix": "Ensinar que porcentagem = razão × 100; praticar conversão decimal ↔ porcentagem com exemplos visuais"
+          }
+         },
+         {
+          "step": 14,
+          "action": "Preencher linha Total",
+          "thinking": "Total é 150/150 = 1 → 100%",
+          "result": "Preenche corretamente",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "1.5",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Capacidade do avião é 150, reservas 180 → 180/150.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para denominador",
+          "thinking": "Quero 100 no denominador. 150 é maior que 100, então divido.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Fator de escala do denominador",
+          "thinking": "150 ÷ ? = 100 → ? = 150/100 = 1.5. Certo.",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Operação do numerador",
+          "thinking": "Divido também.",
+          "result": "Escolhe ÷",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Fator do numerador",
+          "thinking": "1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Calcular numerador equivalente",
+          "thinking": "180 ÷ 1.5... mas faço errado: 180 ÷ 1.5 = 180 ÷ (3/2) = 180 × 3 ÷ 2 = 270. Acho que é 270.",
+          "result": "Digita 270",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_divisao_por_decimal",
+           "type": "procedural_error",
+           "wrongAnswer": "270",
+           "description": "Aluno inverte a divisão por 1.5, multiplicando por 1.5 em vez de dividir",
+           "mistakeLocation": "Ao calcular 180 ÷ 1.5, o aluno fez 180 × 1.5 = 270",
+           "diagnosticQuestion": "Qual é o resultado de 180 dividido por 1.5? Vamos testar: 1.5 × 120 = ?",
+           "severity": "high",
+           "feedback": "Você está quase lá! Note que dividir por um número maior que 1 dá um resultado MENOR. 180 ÷ 1.5 deve ser menos que 180. Vamos recalcular juntos?",
+           "howToFix": "Usar frações equivalentes: 1.5 = 3/2, então dividir por 3/2 = multiplicar por 2/3"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Valor da porcentagem (Parte 1)",
+          "thinking": "270% → digito 270.",
+          "result": "Digita 270",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Razão original da Parte 2",
+          "thinking": "225/150",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Operação para denominador (Parte 2)",
+          "thinking": "÷",
+          "result": "Escolhe ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 10,
+          "action": "Fator do denominador",
+          "thinking": "1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 11,
+          "action": "Operação do numerador",
+          "thinking": "÷",
+          "result": "Escolhe ÷",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 12,
+          "action": "Fator do numerador",
+          "thinking": "1.5",
+          "result": "Digita 1.5",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 13,
+          "action": "Calcular porcentagem da Parte 2",
+          "thinking": "225 ÷ 1.5... erro de novo: 225 × 1.5 = 337.5",
+          "result": "Digita 337.5",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 14,
+          "action": "Valor da porcentagem (Parte 2)",
+          "thinking": "337.5%",
+          "result": "Digita 337.5",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 15,
+          "action": "Linha Total",
+          "thinking": "150/150 → 100%",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "270",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "double-booked plane",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_numerador_denominador_reservas",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{capacity}/{reservations}",
+          "buggyRule": "Inverter a razão: usar capacidade como numerador e reservas como denominador: numerador = {capacity}, denominador = {reservations}",
+          "description": "Aluno confunde 'o que foi vendido' com 'a capacidade', invertendo a razão",
+          "mistakeLocation": "Ao inserir a razão original, o aluno colocou a capacidade no numerador e as reservas no denominador",
+          "diagnosticQuestion": "A porcentagem representa 'o que foi vendido' em relação à 'capacidade total'. Qual desses dois deve ficar em cima da fração?",
+          "feedback": "Boa tentativa! Pense assim: queremos saber quanto das reservas representa da capacidade. O todo (capacidade) vai embaixo, a parte (reservas) em cima.",
+          "howToFix": "Usar linguagem 'parte de um todo' e destacar 'de' como indicador do denominador",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_somente_reservas_como_numero_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{reservations}",
+          "buggyRule": "Ignorar o denominador e responder apenas o número de reservas como inteiro nu (sem barra, sem porcentagem)",
+          "description": "Aluno responde o número de reservas como se fosse a porcentagem, ignorando a comparação com a capacidade",
+          "mistakeLocation": "Na entrada da razão original, o aluno só preenche o numerador e deixa o denominador em branco ou errado, ou pula direto para a porcentagem com o número de reservas",
+          "diagnosticQuestion": "A porcentagem depende só do número de reservas, ou também da capacidade do avião?",
+          "feedback": "Você identificou bem o número de reservas! Agora, lembre-se: porcentagem sempre compara uma parte com um todo. Qual é o 'todo' nesse problema?",
+          "howToFix": "Praticar problemas de porcentagem com frases completas: 'X é quanto por cento de Y?'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": null,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_sempre_aumenta",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Escolher multiplicação para o denominador, assumindo que 'para chegar a 100, preciso aumentar ou diminuir multiplicando'",
+          "description": "Aluno assume que multiplicar sempre é a operação certa para transformar razões, mesmo quando o denominador precisa diminuir",
+          "mistakeLocation": "Ao escolher a operação para o denominador (150 → 100), o aluno seleciona × em vez de ÷",
+          "diagnosticQuestion": "150 é maior ou menor que 100? Para ir de um número maior para um menor, usamos multiplicação ou divisão?",
+          "feedback": "Ótimo que você está pensando na operação! Quando o número de partida é MAIOR que o alvo, geralmente usamos divisão. Vamos revisar isso?",
+          "howToFix": "Usar reta numérica para mostrar transformações: 150 → 100 requer redução",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_operacao_do_numerador_com_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "oposto_da_operacao_do_denominador",
+          "buggyRule": "Aplicar operação oposta no numerador em relação ao denominador (ex: se denominador usa ÷, numerador usa ×)",
+          "description": "Aluno acha que deve fazer o oposto no numerador para 'compensar'",
+          "mistakeLocation": "Na escolha da operação para o numerador, após escolher ÷ para o denominador, o aluno escolhe ×",
+          "diagnosticQuestion": "Para manter a razão equivalente, devemos fazer a MESMA operação nos dois lados ou operações diferentes?",
+          "feedback": "Você está atento às operações — muito bom! Só lembre-se: para manter a igualdade, o que fazemos embaixo, fazemos em cima. Mesma operação, mesmo fator!",
+          "howToFix": "Demonstrar com exemplo simples: 2/4 = (2÷2)/(4÷2) = 1/2, não (2×2)/(4÷2)",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": null,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_diferenca",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{denominator} - 100",
+          "buggyRule": "Calcular fator de escala como a diferença entre o denominador e 100: fator = {denominator} - 100",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o fator",
+          "mistakeLocation": "No cálculo do fator de escala do denominador, o aluno faz 150 - 100 = 50 e digita 50",
+          "diagnosticQuestion": "Se você divide 150 por 50, o que obtém? É 100? Vamos verificar.",
+          "feedback": "Você está tentando ajustar o denominador — ótimo instinto! Mas o fator de escala vem da divisão, não da subtração. Vamos refazer esse passo?",
+          "howToFix": "Reforçar: fator = valor_original / valor_alvo (ou vice-versa, dependendo da operação)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_calcula_fator_como_100_sobre_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100/{denominator}",
+          "buggyRule": "Usar fator = 100 / {denominator} em vez de {denominator} / 100 (quando usando divisão)",
+          "description": "Aluno inverte a divisão ao calcular o fator",
+          "mistakeLocation": "Ao calcular o fator para transformar 150 em 100 por divisão, o aluno usa 100/150 ≈ 0.666 em vez de 150/100 = 1.5",
+          "diagnosticQuestion": "Se você divide 150 por 0.666, o que obtém? Chega a 100?",
+          "feedback": "Você está quase! O fator certo é aquele que, quando aplicado ao número original, dá o alvo. Vamos testar os dois jeitos?",
+          "howToFix": "Ensinar: fator = valor_original ÷ valor_alvo (se usando divisão)",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": null,
+        "kcUsed": "identify-percent",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_decimal_com_porcentagem",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{reservations}/{capacity}",
+          "buggyRule": "Responder a razão decimal (reservas/capacidade) em vez do valor percentual (×100)",
+          "description": "Aluno esquece de multiplicar por 100 para obter a porcentagem",
+          "mistakeLocation": "Na caixa do valor da porcentagem, o aluno digita o resultado da divisão direta (ex: 1.5) em vez de 150",
+          "diagnosticQuestion": "Se a razão é 1.5, isso significa 1.5 por 1 ou 1.5 por 100?",
+          "feedback": "Você calculou a razão perfeitamente! Agora, lembre-se: porcentagem = 'por cem'. Como transformamos isso em 'por cem'?",
+          "howToFix": "Praticar com exemplos: 1 = 100%, 0.5 = 50%, 1.5 = 150%",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_arredonda_prematuramente",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "round({reservations}*100/{capacity})",
+          "buggyRule": "Arredondar o resultado intermediário antes de concluir, levando a erro (ex: 225/150=1.5 → 1.5*100=150, mas se arredondar 1.5 como 2, dá 200)",
+          "description": "Aluno arredonda a razão antes de multiplicar por 100",
+          "mistakeLocation": "Ao calcular 225/150 = 1.5, o aluno arredonda para 2 e então multiplica por 100, obtendo 200%",
+          "diagnosticQuestion": "225 dividido por 150 dá exatamente 1.5 ou um número aproximado?",
+          "feedback": "Cuidado com arredondamentos! Neste caso, a divisão dá um número exato. Vamos manter a precisão até o fim?",
+          "howToFix": "Evitar arredondamento em cálculos exatos; usar frações quando possível",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": null,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_divisao_por_decimal",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} * {scale_factor}",
+          "buggyRule": "Ao aplicar divisão pelo fator, o aluno multiplica em vez de dividir: resultado = {numerator} × {scale_factor}",
+          "description": "Aluno confunde a direção da operação ao lidar com divisão por decimal",
+          "mistakeLocation": "Ao calcular 180 ÷ 1.5, o aluno faz 180 × 1.5 = 270",
+          "diagnosticQuestion": "Dividir por 1.5 dá um número maior ou menor que o original?",
+          "feedback": "Note que dividir por um número maior que 1 reduz o valor. Vamos recalcular 180 ÷ 1.5 com cuidado?",
+          "howToFix": "Converter decimais em frações: 1.5 = 3/2, então ÷(3/2) = ×(2/3)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_aplica_fator_errado_no_numerador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} / ({denominator}/100)",
+          "buggyRule": "Aplicar diretamente o fator baseado na regra de três: numerador_equivalente = {numerator} × 100 / {denominator}, mas errar a ordem da divisão",
+          "description": "Aluno tenta aplicar regra de três mental, mas troca numerador e denominador no cálculo",
+          "mistakeLocation": "Calcula 180 × 100 / 150 como 180 / (100/150) = 180 × 1.5 = 270",
+          "diagnosticQuestion": "A fórmula correta é (parte × 100) ÷ todo ou (parte ÷ 100) × todo?",
+          "feedback": "Você está usando a ideia certa da regra de três! Só confira a ordem: (reservas × 100) ÷ capacidade.",
+          "howToFix": "Memorizar fórmula: porcentagem = (parte / todo) × 100",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os dados",
+        "thinking": "A capacidade do avião é 150 passageiros. No sábado, venderam 180 reservas. Na terça, 225. Preciso achar a porcentagem vendida em relação à capacidade total.",
+        "result": "Identifiquei que a razão original é (reservas feitas) / (capacidade = 150), e quero transformar isso em porcentagem (denominador 100).",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher a linha 'Part 1': razão original = 180/150",
+        "thinking": "Então na linha Part 1, numerador é 180, denominador é 150. Isso parece certo.",
+        "result": "Preenchi part1orignumareainput = 180, part1origdenomareainput = 150",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Decidir como transformar 180/150 em uma fração com denominador 100",
+        "thinking": "Preciso achar um fator de escala que transforme 150 em 100... mas 150 é maior que 100, então devo dividir? Mas se eu dividir o denominador por 1.5, fico com 100... então divido numerador e denominador por 1.5?",
+        "result": "Começo a pensar na operação e no fator, mas fico inseguro: devo usar divisão ou multiplicação? E qual o fator exato?",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Para encontrar uma porcentagem, queremos uma razão equivalente com denominador 100. Como podemos ajustar o denominador 150 para virar 100? Pense: estamos aumentando ou reduzindo o tamanho da fração?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 150 para obter 100. Depois, aplique a mesma operação ao numerador 180."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O fator que transforma 150 em 100 é menor que 2. Tente dividir 150 por 1.5 — o que acontece? Faça o mesmo com 180!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se 150 ÷ 1.5 = 100, então 180 ÷ 1.5 = ? Use uma calculadora mental: metade de 180 é 90, então 180 ÷ 1.5 é 90 + 30... quanto dá?"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Escolher operação e fator de escala para Part 1",
+        "thinking": "Ah, sim! Se quero ir de 150 para 100, divido por 1.5. Então operação é '÷' tanto no numerador quanto no denominador, e o fator de escala é 1.5.",
+        "result": "Preenchi: part1operatornumpulldownmenu = '÷', part1operatordenompulldownmenu = '÷', part1numscalefactorareainput = 1.5, part1denomscalefactorareainput = 1.5",
+        "kcUsed": "Identify-scale-factor",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Calcular o numerador da porcentagem para Part 1",
+        "thinking": "180 ÷ 1.5... 1.5 é 3/2, então dividir por 1.5 é o mesmo que multiplicar por 2/3. 180 × 2 = 360, dividido por 3 = 120. Então a porcentagem é 120%.",
+        "result": "Preenchi part1percentnumareainput = 120, part1percentareainput = 120",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Repetir processo para Part 2: razão = 225/150",
+        "thinking": "Mesma ideia: 225 reservas, capacidade 150. Quero transformar 150 em 100. Novamente, divido por 1.5?",
+        "result": "Sim, porque 150 → 100 sempre usa o mesmo fator, independente do numerador.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 7,
+        "action": "Aplicar operação e fator para Part 2",
+        "thinking": "Denominador 150 → 100: ÷1.5. Numerador 225 ÷ 1.5 = ?",
+        "result": "225 ÷ 1.5 = 150, então porcentagem é 150%.",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Excelente! Você já sabe como transformar o denominador em 100. Agora, como isso afeta o novo numerador? Lembre-se: a razão deve permanecer equivalente!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Divida 225 pelo mesmo fator que usou para o denominador (1.5). Isso manterá a razão equivalente."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! 225 ÷ 1.5 está entre 140 e 160. Pense: 1.5 × 150 = 225, então 225 ÷ 1.5 = ?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Se 1.5 × 150 = 225, então 225 ÷ 1.5 = 150. Então, qual é a porcentagem?"
+         }
+        ]
+       },
+       {
+        "step": 8,
+        "action": "Preencher linha Part 2 completamente",
+        "thinking": "Operação: ÷, fator: 1.5, resultado: 150/100 → 150%",
+        "result": "Preenchi todos os campos corretamente.",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 9,
+        "action": "Preencher linha 'Total'",
+        "thinking": "A linha 'Total' provavelmente representa a capacidade total: 150/150 = 100%. Então razão original = 150/150, operação: ÷1.5, fator 1.5, resultado 100/100.",
+        "result": "Preenchi totalorignumareainput = 150, totalorigdenomareainput = 150, operações = '÷', fatores = 1.5, totalpercentnumareainput = 100, totalpercentareainput = 100.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! O que representa 100% da capacidade do avião? Qual seria a razão original nesse caso?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Pense assim: se o avião está cheio, quantas reservas foram feitas em relação à capacidade? Essa razão deve virar 100/100."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Exatamente! A razão total é 150/150. Agora, use o mesmo fator de escala que usou antes para transformar isso em algo sobre 100."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está no caminho! 150 ÷ 1.5 = 100, então 150/150 vira 100/100. Qual é a porcentagem correspondente?"
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "120%, 150%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Usar regra de três em vez de fator de escala",
+        "steps": [
+         "Montar 150 → 100%, então 180 → x%",
+         "Resolver x = (180 × 100)/150"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Converter fração para decimal e depois para porcentagem",
+        "steps": [
+         "180 ÷ 150 = 1.2",
+         "1.2 × 100 = 120%"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 1
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 11,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ }
+}

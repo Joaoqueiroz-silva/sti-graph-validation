@@ -9,8 +9,9 @@
 export const WORKER_CADERNO_BLOCK = `⚠️⚠️⚠️ REGRA FORTE — MODO CADERNO (worksheet CTAT — 2026-08-16) ⚠️⚠️⚠️
 Este STI e resolvido num CADERNO: os dados do enunciado (givens) ja estao no papel e CADA step e UMA CELULA.
 Em CADA step emita o campo "cell":
-  "cell": { "id": "<graphNodeId do stepIntent>", "label": "<ate 8 palavras>", "role": "A|B|C",
+  "cell": { "id": "<graphNodeId do stepIntent>", "label": "<ate 4 palavras, com o objeto: 'Decompor 12'>", "role": "A|B|C",
             "presentation": "dropdown|radio|keypad|input|inline" (opcional),
+            "givenRefs": ["<ids de notebook.givens que ESTA celula usa>"] (copie do stepIntent),
             "instrumentRef": "<id do instrumento>" e "target": "<id do alvo>" (SO em role C) }
 PAPEIS (o papel decide o renderAs permitido):
   A (celula simples): o aluno DIGITA ou SELECIONA. renderAs SOMENTE: multiple_choice, text, numeric_keypad, fraction_input, true_false, word_matcher.
@@ -26,6 +27,11 @@ INSTRUMENTO: no maximo UM por problema, declarado UMA vez no topo do JSON (fora 
   - table -> kind "cell": EA = valor da celula {row,col} de componentProps.rows (com editableCells);
   - cell_diagram -> kind "organelle": EA = id da organela (nucleo, mitocondria, cloroplasto, membrana_plasmatica...), com componentProps.cellType "animal"|"plant".
 NO CADERNO NAO AGREGUE: uma acao cognitiva = uma celula. NAO junte N passos num lab (memory_game, card_sort_lab, true_false_lab); o que "junta" celulas e o instrumento compartilhado. Cada fill_blanks/cloze tem UMA lacuna.
+INSTRUCAO x GABARITO (2026-08-17): o expectedAnswer e EXATAMENTE o que a instruction pede. "Decomponha MDCCCLXXXIV em blocos" tem gabarito "M + DCCC + LXXX + IV" (e nao "1884"); "Qual e o ano?" tem gabarito "1884". Se a resposta certa e uma decomposicao/expressao, escreva-a como gabarito e ofereca alternativas (multiple_choice) com os erros previstos; nunca peça uma coisa e cobre outra.
+  DECOMPOR EM DEZENAS E UNIDADES (regra dura, visto em producao 2 vezes no mesmo STI): o gabarito e a SOMA das parcelas, nunca o proprio numero. A celula e de TEXTO (o teclado numerico nao digita "+").
+  ❌ ERRADO: { "renderAs": "numeric_keypad", "instruction": "Como podemos decompor o numero 12 em dezenas e unidades?", "expectedAnswer": "12" }
+  ✅ CERTO:  { "cell": { "role": "A", "presentation": "input" }, "renderAs": "text", "instruction": "Como podemos decompor o numero 12 em dezenas e unidades?", "expectedAnswer": "10 + 2" }
+LINHA DA FOLHA (notebook.layout.rows, 2026-08-17): cada trecho tem de ser VERDADEIRO com os gabaritos no lugar dos {cellId}. "{step_3} = {step_4}" com gabaritos 20 e 24 vira "20 = 24" e e FALSO (faltou "+ 4") — escreva "{step_3} + 4 = {step_4}". Cada celula aparece UMA vez por linha como caixinha; repetir o mesmo {cellId} so faz sentido para levar o resultado adiante ("6 + 5 = {step_3}; {step_3} + 2 = {step_4}").
 INSTRUCAO x PAPEL (2026-08-17): a instruction de uma celula A (digitacao/selecao) NUNCA manda manipular, pintar, clicar, arrastar ou marcar em barra/reta/tabela/diagrama; isso e SO para celula C (instrumento). Numa celula A a instrucao pede o VALOR ("Quantas fatias...?", "Escreva a fracao..."); se a acao e manipular, a celula e C com instrumentRef/target.
   ❌ ERRADO: { "cell": { "role": "A" }, "renderAs": "numeric_keypad", "instruction": "Manipule as barras para encontrar o MMC." }
   ✅ CERTO:  { "cell": { "role": "A" }, "renderAs": "numeric_keypad", "instruction": "Qual e o MMC de 4 e 6?" }

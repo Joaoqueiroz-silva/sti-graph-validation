@@ -972,6 +972,7 @@ export function alignExerciseIntentsWithGraphForge(
         // pode descarta-lo. So aparece quando o planner mandou (simple/rich
         // continuam sem a chave).
         if (proposed[index]?.cellLabel !== undefined) intent.cellLabel = proposed[index].cellLabel;
+        if (proposed[index]?.givenRefs !== undefined) intent.givenRefs = proposed[index].givenRefs;
         return intent;
       }),
     };
@@ -1104,11 +1105,31 @@ export function normalizePlannerNotebook(raw, { stepIds = null } = {}) {
   return Object.keys(out).length ? out : undefined;
 }
 
-/** cellLabel do planner: string com <= 8 palavras, ou undefined (nao cria chave). */
+/**
+ * cellLabel do planner: <= 4 palavras e <= 24 caracteres, ou undefined.
+ *
+ * 2026-08-18 (fase 3 do foco): era <= 8 palavras. O rotulo passa a ser o NOME
+ * do passo na trilha, entao ele compete com a instrucao pelo mesmo espaco e
+ * precisa caber numa linha; a mediana do que os agentes ja escrevem e 3
+ * palavras, entao o teto novo corta a cauda (6 rotulos acima de 24 chars nos
+ * cadernos de producao) sem mexer no que ja esta bom.
+ */
+/** givenRefs do planner: ids unicos, sem vazio; undefined quando nao ha nada. */
+export function normalizePlannerGivenRefs(raw) {
+  if (!Array.isArray(raw)) return undefined;
+  const ids = [...new Set(raw.map((r) => String(r ?? "").trim()).filter(Boolean))];
+  return ids.length ? ids : undefined;
+}
+
 export function normalizePlannerCellLabel(raw) {
   if (raw === undefined || raw === null) return undefined;
-  const words = String(raw).trim().split(/\s+/).filter(Boolean).slice(0, 8);
-  const label = words.join(" ").replace(/[\s.:;,!?…]+$/u, "");
+  const words = String(raw).trim().split(/\s+/).filter(Boolean).slice(0, 4);
+  let label = words.join(" ").replace(/[\s.:;,!?…]+$/u, "");
+  if (label.length > 24)
+    label = label
+      .slice(0, 24)
+      .replace(/\s+\S*$/, "")
+      .trim();
   return label ? label : undefined;
 }
 
@@ -1139,6 +1160,12 @@ export function applyPlannerNotebookToExercises(exercises, { worksheet = false }
         const copia = { ...intent };
         if (cellLabel !== undefined) copia.cellLabel = cellLabel;
         else delete copia.cellLabel;
+        // 2026-08-18 (fase 6): givenRefs do planner. So ids de given, sem
+        // duplicata; lista vazia ou lixo some (o fallback deriva por
+        // casamento de valor e o gate mede a cobertura).
+        const givenRefs = normalizePlannerGivenRefs(intent.givenRefs);
+        if (givenRefs !== undefined) copia.givenRefs = givenRefs;
+        else delete copia.givenRefs;
         return copia;
       });
     }
@@ -1161,7 +1188,12 @@ REGRAS DO CADERNO (modo worksheet): este STI e resolvido num caderno CTAT em que
 - Se o problema tem UMA representacao unica que varias celulas compartilham (barra de fracao, reta numerica, texto para destacar, tabela, celula biologica), declare "instrumentHint" com um destes valores: ${PLANNER_INSTRUMENT_HINTS.join(" | ")}. Sem representacao unica, use null.
 - Se o instrumento e uma tabela, declare "columns": [{ "id", "label" }].
 - Uma acao cognitiva = uma celula: nao junte duas quantidades/decisoes num stepIntent.
-- Cada stepIntent leva "cellLabel": rotulo CURTO da celula (ate 8 palavras, sem pontuacao final).
+- Cada stepIntent leva "cellLabel": rotulo CURTO da celula (ate 4 palavras, ate 24 caracteres, sem pontuacao final). O rotulo e o NOME DAQUELA celula na trilha de passos: e o que o aluno le quando o passo ja esta respondido e a pergunta some da tela. Duas regras duras, medidas em 139 rotulos gerados:
+  1. FALE DESTA celula, nao da anterior nem da seguinte. Se a celula pergunta o resultado de "5/6 x 12/5", o rotulo NAO pode ser "Achar o inverso" (isso foi o passo passado). 12% dos rotulos gerados caiam nesse erro.
+  2. CARREGUE O OBJETO CONCRETO quando a instrucao tem um: "Decompor 12", "Multiplicar 2/3 x 2/1", "MMC de 4 e 6" — e nao "Decomposicao", "Produto" ou "Valor necessario". 62% dos rotulos gerados nao traziam o numero que a instrucao cita.
+  ❌ ERRADO: instrucao "Agora que temos 5/6 x 12/5, qual e o resultado?" com cellLabel "Achar o inverso"
+  ✅ CERTO:  instrucao "Agora que temos 5/6 x 12/5, qual e o resultado?" com cellLabel "Multiplicar 5/6 x 12/5"
+- Cada stepIntent leva "givenRefs": lista dos ids de notebook.givens que AQUELA celula usa (ex.: ["g1","g2"]); use [] quando a celula nao usa dado nenhum do enunciado. O aluno ve esses dados ao lado do campo, entao errar aqui e mostrar o dado errado na hora de responder. Sem isto, o sistema deriva por casamento de valor, que so acerta quando o valor aparece escrito na instrucao.
 - Monte a folha como no caderno em "layout": { "rows": [...] } (1 a ${NOTEBOOK_LAYOUT_MAX_ROWS} linhas, cada uma com ate ${NOTEBOOK_LAYOUT_MAX_ROW_CHARS} caracteres): escreva as linhas de conta/preenchimento com os dados literais e as celulas em chaves, ex.: "{step_1}/{step_2} - {step_3}/{step_4} = {step_5}/{step_6}" ou "27 + 15 = {step_2}". Cada chave e o graphNodeId de um stepIntent em que o aluno DIGITA ou SELECIONA; use SOMENTE ids de passos existentes; celulas do instrumento (marcar na reta, pintar a barra, destacar no texto, preencher a tabela) NAO entram no layout. Sem linha de conta (problema so de instrumento ou de texto), use "layout": null.`;
 }
 
@@ -1169,7 +1201,7 @@ REGRAS DO CADERNO (modo worksheet): este STI e resolvido num caderno CTAT em que
 export function plannerNotebookFormatFields({ worksheet = false } = {}) {
   if (!worksheet) return { cellLabel: "", notebook: "" };
   return {
-    cellLabel: `, "cellLabel": "Rotulo curto da celula (ate 8 palavras)"`,
+    cellLabel: `, "cellLabel": "Nome desta celula na trilha (ate 4 palavras, com o objeto concreto: 'Decompor 12')", "givenRefs": ["g1"]`,
     notebook: `,
       "notebook": {
         "givens": [ { "id": "g1", "label": "fatias da pizza", "value": "8" } ],

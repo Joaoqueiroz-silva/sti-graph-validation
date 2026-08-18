@@ -10,6 +10,7 @@ import fs from "node:fs";
 import { intervalo } from "../validacao-v2/lib.mjs";
 
 const METRICAS = ["coberturaEstados", "coberturaSemOrdem", "caminhoIntegro", "errosNoEstadoCerto"];
+const sub = (x, y) => (x === null || y === null || x === undefined || y === undefined ? null : x - y);
 
 export function compararRodadas(analiseA, analiseB) {
   const k = (r) => `${r.ex}#${r.replica}`;
@@ -18,8 +19,10 @@ export function compararRodadas(analiseA, analiseB) {
   const bloco = (P) => ({
     n: P.length,
     exercicios: new Set(P.map((p) => p.b.ex)).size,
-    materializado: Object.fromEntries(METRICAS.map((c) => [c, intervalo(P.map((p) => ({ ex: p.b.ex, v: p.b.mat[c] - p.a.mat[c] })), "v")])),
-    minima: Object.fromEntries(METRICAS.map((c) => [c, intervalo(P.map((p) => ({ ex: p.b.ex, v: p.b.minima[c] - p.a.minima[c] })), "v")])),
+    // guarda de N/A (2026-08-18, auditoria): em JS `null - 0.5` é -0.5; sem
+    // isto, métrica não avaliável (ex.: erros no 6.18) virava efeito fabricado.
+    materializado: Object.fromEntries(METRICAS.map((c) => [c, intervalo(P.map((p) => ({ ex: p.b.ex, v: sub(p.b.mat[c], p.a.mat[c]) })), "v")])),
+    minima: Object.fromEntries(METRICAS.map((c) => [c, intervalo(P.map((p) => ({ ex: p.b.ex, v: sub(p.b.minima[c], p.a.minima[c]) })), "v")])),
   });
   return {
     a: analiseA.rotulo,

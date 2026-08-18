@@ -178,9 +178,21 @@ export function intervalo(linhas, campo, { seed = 42, B = 10000 } = {}) {
   // 2026-08-18: métrica N/A (null) para um registro — ex.: "erros no estado
   // certo" quando TODOS os erros do especialista são indistinguíveis por valor
   // (6.18) — sai da amostra; se nenhum registro tem valor, devolve null.
-  linhas = linhas.filter((l) => l[campo] !== null && l[campo] !== undefined);
+  linhas = linhas.filter((l) => Number.isFinite(l[campo]));
   if (!linhas.length) return { estimativa: null, percentil: [null, null], bca: [null, null] };
   const chaves = [...new Set(linhas.map((l) => l.ex))];
+  // SATURAÇÃO (2026-08-18, auditoria): com todos os clusters no mesmo valor o
+  // bootstrap devolve [x; x] — largura zero, certeza que os dados não têm.
+  // Reportamos o limite exato de Clopper-Pearson unilateral no nível de
+  // CLUSTER (k exercícios): 1 − 0,025^(1/k). `degenerado` marca a célula.
+  const valores = linhas.map((l) => l[campo]);
+  if (valores.every((v) => v === valores[0])) {
+    const k = chaves.length;
+    const margem = 1 - Math.pow(0.025, 1 / k);
+    const v0 = valores[0];
+    const ic = v0 === 1 ? [1 - margem, 1] : v0 === 0 ? [0, margem] : [v0, v0];
+    return { estimativa: v0, percentil: ic, bca: ic, degenerado: true, clusters: k };
+  }
   const porEx = {};
   for (const l of linhas) (porEx[l.ex] = porEx[l.ex] || []).push(l[campo]);
 

@@ -1,0 +1,1051 @@
+{
+ "id": "chemical solution",
+ "correctAnswer": "8.7",
+ "audit": {
+  "ok": true,
+  "stepCount": 10
+ },
+ "f1": 0.071,
+ "conceptual": 0.071,
+ "precision": 0.067,
+ "recall": 0.077,
+ "functionalAgreement": 0.111,
+ "functionalKappa": -0.6,
+ "missing": [
+  "100",
+  "40",
+  "*"
+ ],
+ "extra": [
+  "87/10",
+  "10/87",
+  "87/25",
+  "×",
+  "2784"
+ ],
+ "robotMisconceptions": [
+  "870/100",
+  "100/870",
+  "348/100",
+  "×",
+  "8.7",
+  "140",
+  "2784"
+ ],
+ "exercicio": "chemical solution",
+ "replica": 3,
+ "geradoEm": "2026-08-18T20:45:19.415Z",
+ "promptSha256": "7cd8b98102b3d64ba32705a2226bb389a006e3d6653861279e7e975a81166333",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10285,
+  "tokensSaida": 10663,
+  "usd": 0.049608
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 10
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: original = {A} = 870, parte1 = {B} = 1218, parte2 = {C} = 348"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher linha Total da tabela com a razão original 100/100",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original na linha Total: numerador = 100, denominador = 100"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher linha Part 1 com a razão original {B}/{A}",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original Part 1: numerador = {B}, denominador = {A}"
+   },
+   {
+    "indice": 4,
+    "acao": "Preencher linha Part 2 com a razão original {C}/{A}",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original Part 2: numerador = {C}, denominador = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Determinar operação e fator de escala para converter denominador {A} em 100 (Part 1)",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: ×; Fator de escala: 100/{A}"
+   },
+   {
+    "indice": 6,
+    "acao": "Aplicar fator de escala ao numerador da Parte 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Porcentagem Parte 1 = {B} × (100 / {A})"
+   },
+   {
+    "indice": 7,
+    "acao": "Determinar operação e fator de escala para converter denominador {A} em 100 (Part 2)",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: ×; Fator de escala: 100/{A}"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar fator de escala ao numerador da Parte 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Porcentagem Parte 2 = {C} × (100 / {A})"
+   },
+   {
+    "indice": 9,
+    "acao": "Preencher linha Total com operações e fatores consistentes",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Operações: ×; Fatores: 1; Resultado: 100"
+   },
+   {
+    "indice": 10,
+    "acao": "Registrar resultados finais nas células de porcentagem",
+    "kc": "identify-percent",
+    "valor": "Porcentagens registradas corretamente"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "870/100",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar no enunciado: 'solução que mede 870 ml' → essa é a base (denominador) da razão original",
+    "buggyRule": "Usar o valor original como numerador e fixar 100 como denominador na razão original da linha Total",
+    "misconceptionId": "misc_confunde_razao_original_com_percentual"
+   },
+   {
+    "valor": "100/870",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar que a linha Total representa a referência: parte = total → razão = total/total = 1",
+    "buggyRule": "Inverter a razão original do total, colocando 100 como numerador e 870 como denominador",
+    "misconceptionId": "misc_inverte_razao_original_total"
+   },
+   {
+    "valor": "348/100",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Refazer com frase modelo: '348 ml de um total de 870 ml' → razão = 348/870",
+    "buggyRule": "Para qualquer parte, usar o valor dado como numerador e 100 como denominador na razão original",
+    "misconceptionId": "misc_usa_100_como_denominador_na_razao_original"
+   },
+   {
+    "valor": "×",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Comparar numericamente: 870 → 100 é uma redução → operação é divisão",
+    "buggyRule": "Sempre escolher multiplicação para a operação, independentemente de o denominador original ser maior ou menor que 100",
+    "misconceptionId": "misc_assume_que_multiplicar_sempre_aumenta"
+   },
+   {
+    "valor": "8.7",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Calcular fator como (valor alvo) / (valor atual) = 100 / 870 ≈ 0.1149",
+    "buggyRule": "Usar o mesmo fator de escala (8.7) para todas as partes, sem recalcular com base no denominador original",
+    "misconceptionId": "misc_reutiliza_fator_de_escala_sem_contexto"
+   },
+   {
+    "valor": "140",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar calculadora ou método de divisão com vírgula; verificar invertendo: se 140 × 8.7 = 1218?",
+    "buggyRule": "",
+    "misconceptionId": "misc_divisao_aproximada_sem_calculo_exato"
+   },
+   {
+    "valor": "2784",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Verificar ordem de grandeza antes de calcular: parte < total → % < 100",
+    "buggyRule": "Multiplicar o valor da parte pelo fator 8.7 (usado para reduzir o denominador) em vez de dividir",
+    "misconceptionId": "misc_multiplica_quando_deveria_dividir_e_inverte_relacao"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! Quando algo é 100% de si mesmo, qual é a razão entre ele e ele mesmo? Pense: quanto é 100% do total?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Para representar o total como 100%, coloque o valor total (870) tanto no numerador quanto no denominador da razão original."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! A linha 'Total' mostra que 870 ml equivale a 100%. Então a razão original deve ter 870 em cima e 870 embaixo."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Exatamente! Como 870 ml é o todo, escreva 870 no numerador e 870 no denominador da linha Total. Isso representa 100%."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Para transformar uma razão em porcentagem, o que devemos fazer com o denominador? Ele precisa virar quanto?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você está indo bem! Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador original (870) para chegar a 100. Depois, aplique a mesma operação ao numerador."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! 870 dividido por quanto dá 100? Pense: 870 ÷ ? = 100. Use calculadora ou divisão simples."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Muito perto! Se 870 ÷ 8.7 = 100, então o fator de escala é 8.7, e a operação é divisão (÷) tanto no numerador quanto no denominador."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Lembre-se: se o denominador vira 100, o novo numerador é exatamente a porcentagem. O que acontece com o numerador quando você aplica o mesmo fator?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Continue assim! Divida o numerador original pelo mesmo fator usado no denominador. O resultado será a porcentagem."
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Você já sabe que o fator é 8.7. Agora calcule: 1218 ÷ 8.7 e 348 ÷ 8.7. Use estimativa: 8.7 × 100 = 870, então 1218 é mais que isso..."
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você está quase! 8.7 × 140 = 1218, então 1218 ÷ 8.7 = 140. E 8.7 × 40 = 348, então 348 ÷ 8.7 = 40. Esses são os valores da porcentagem!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"chemical solution\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema fornece uma solução original de 870 ml. Parte 1 pede a porcentagem correspondente a 1218 ml em relação à original. Parte 2 pede a porcentagem correspondente a 348 ml em relação à original.\\\",\\n          \\\"result\\\": \\\"Valores identificados: original = {A} = 870, parte1 = {B} = 1218, parte2 = {C} = 348\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha Total da tabela com a razão original 100/100\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' representa 100% do original, então a razão original é 100/100.\\\",\\n          \\\"result\\\": \\\"Razão original na linha Total: numerador = 100, denominador = 100\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher linha Part 1 com a razão original {B}/{A}\\\",\\n          \\\"thinking\\\": \\\"A razão original para Parte 1 é quantidade desejada sobre quantidade original: {B}/{A} = 1218/870.\\\",\\n          \\\"result\\\": \\\"Razão original Part 1: numerador = {B}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher linha Part 2 com a razão original {C}/{A}\\\",\\n          \\\"thinking\\\": \\\"A razão original para Parte 2 é {C}/{A} = 348/870.\\\",\\n          \\\"result\\\": \\\"Razão original Part 2: numerador = {C}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para converter denominador {A} em 100 (Part 1)\\\",\\n          \\\"thinking\\\": \\\"Para transformar o denominador {A} em 100, preciso dividir {A} por ({A}/100), ou seja, aplicar ÷ ({A}/100). Equivalentemente, posso multiplicar numerador e denominador pelo fator 100/{A}.\\\",\\n          \\\"result\\\": \\\"Operação: ×; Fator de escala: 100/{A}\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar fator de escala ao numerador da Parte 1\\\",\\n          \\\"thinking\\\": \\\"Multiplico {B} pelo fator 100/{A} para obter a porcentagem equivalente.\\\",\\n          \\\"result\\\": \\\"Porcentagem Parte 1 = {B} × (100 / {A})\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para converter denominador {A} em 100 (Part 2)\\\",\\n          \\\"thinking\\\": \\\"Mesmo raciocínio: usar fator 100/{A} via multiplicação.\\\",\\n          \\\"result\\\": \\\"Operação: ×; Fator de escala: 100/{A}\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar fator de escala ao numerador da Parte 2\\\",\\n          \\\"thinking\\\": \\\"Multiplico {C} por 100/{A} para obter a porcentagem equivalente.\\\",\\n          \\\"result\\\": \\\"Porcentagem Parte 2 = {C} × (100 / {A})\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Preencher linha Total com operações e fatores consistentes\\\",\\n          \\\"thinking\\\": \\\"Na linha Total, como já está 100/100, não há mudança: operação neutra (×1) ou qualquer equivalente consistente.\\\",\\n          \\\"result\\\": \\\"Operações: ×; Fatores: 1; Resultado: 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Registrar resultados finais nas células de porcentagem\\\",\\n          \\\"thinking\\\": \\\"Insiro os valores calculados nas caixas de porcentagem: Parte 1 = {B}×100/{A}, Parte 2 = {C}×100/{A}.\\\",\\n          \\\"result\\\": \\\"Porcentagens registradas corretamente\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B} * 100 / {A}\\\",\\n      \\\"totalTime\\\": 57\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"chemical solution\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"O total original é 870 ml, então vou colocar 870 em cima e 100 embaixo porque porcentagem sempre tem 100.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_razao_original_com_percentual\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"870/100\\\",\\n                \\\"description\\\": \\\"Aluno coloca o valor original como numerador e 100 como denominador na razão original, confundindo a razão dada com a forma percentual\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao inserir a razão original na linha Total, o aluno usou 100 como denominador em vez do próprio valor total (870)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A razão original representa 'parte sobre total' ou 'porcentagem sobre 100'? Qual é o total real da solução?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você lembrou que porcentagem envolve 100, mas a razão original vem dos dados do problema — qual é o volume total da solução original?\\\",\\n                \\\"howToFix\\\": \\\"Destacar no enunciado: 'solução que mede 870 ml' → essa é a base (denominador) da razão original\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Preciso de 1218 ml, então coloco 1218 em cima e 870 embaixo, porque é quanto preciso do total.\\\",\\n              \\\"result\\\": \\\"Correto parcialmente\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para escalar Parte 1\\\",\\n              \\\"thinking\\\": \\\"Quero transformar 870 em 100, então divido. E 1218 também divido pelo mesmo número.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular fator de escala para Parte 1\\\",\\n              \\\"thinking\\\": \\\"870 dividido por quanto dá 100? Acho que 870 ÷ 8.7 = 100, então o fator é 8.7.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular porcentagem da Parte 1\\\",\\n              \\\"thinking\\\": \\\"1218 ÷ 8.7... deixa eu fazer 1218 ÷ 8 = 152.25, então deve ser 140%.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divisao_aproximada_sem_calculo_exato\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"140\\\",\\n                \\\"description\\\": \\\"Aluno aproxima a divisão 1218 ÷ 8.7 como 1218 ÷ 8 = 152.25 e arredonda mal para 140%\\\",\\n                \\\"mistakeLocation\\\": \\\"Na aplicação do fator de escala ao numerador da Parte 1, o aluno fez uma divisão aproximada incorreta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é exatamente 1218 dividido por 8.7? Você pode verificar multiplicando 140 por 8.7?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você identificou bem o fator de escala! Agora, vamos calcular com mais cuidado: quanto é 1218 ÷ 8.7?\\\",\\n                \\\"howToFix\\\": \\\"Usar calculadora ou método de divisão com vírgula; verificar invertendo: se 140 × 8.7 = 1218?\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"140\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"O total é 870, então coloco 100 em cima e 870 embaixo — assim a porcentagem vai sair certa depois.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_razao_original_total\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"100/870\\\",\\n                \\\"description\\\": \\\"Aluno inverte a razão original do total, colocando 100 como numerador e 870 como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao inserir a razão original na linha Total, o aluno trocou numerador e denominador, usando 100/870 em vez de 870/870\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Na razão original, o que representa o 'todo'? O todo deve estar em cima ou embaixo?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando na porcentagem, o que é bom! Mas a razão original mostra 'total sobre total', ou seja, 870/870. Isso ajuda a manter a proporção correta.\\\",\\n                \\\"howToFix\\\": \\\"Ensinar que a linha Total representa a referência: parte = total → razão = total/total = 1\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"Ele quer 348 ml, então coloco 348 em cima e 100 embaixo, porque é uma porcentagem.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_100_como_denominador_na_razao_original\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"348/100\\\",\\n                \\\"description\\\": \\\"Aluno usa 100 como denominador na razão original da Parte 2, confundindo entrada com saída\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao inserir a razão original da Parte 2, o aluno colocou 100 no denominador em vez do total original (870)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A quantidade 348 ml é comparada com qual valor? Com 100 ou com o total da solução original?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você identificou bem o valor da parte (348 ml)! Agora, lembre-se: toda razão de porcentagem começa comparando com o total real — qual é esse total?\\\",\\n                \\\"howToFix\\\": \\\"Refazer com frase modelo: '348 ml de um total de 870 ml' → razão = 348/870\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para Parte 2\\\",\\n              \\\"thinking\\\": \\\"Vou multiplicar para aumentar até 100.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_assume_que_multiplicar_sempre_aumenta\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"×\\\",\\n                \\\"description\\\": \\\"Aluno assume que, para chegar a 100, sempre deve multiplicar, mesmo quando o denominador original (870) é maior que 100\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha da operação para escalar o denominador de 870 para 100, o aluno escolheu multiplicação em vez de divisão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você multiplica 870 por algum número, o resultado fica maior ou menor que 870? E 100 é maior ou menor que 870?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa observação de que precisamos chegar a 100! Mas pense: 870 é maior que 100 — então devemos aumentar ou diminuir o número?\\\",\\n                \\\"howToFix\\\": \\\"Comparar numericamente: 870 → 100 é uma redução → operação é divisão\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular fator de escala incorreto\\\",\\n              \\\"thinking\\\": \\\"Se 870 × x = 100, então x = 100 ÷ 870 ≈ 0.115, mas vou usar 8.7 porque vi antes.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_reutiliza_fator_de_escala_sem_contexto\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"8.7\\\",\\n                \\\"description\\\": \\\"Aluno reutiliza o fator 8.7 da Parte 1 sem recalcular, mesmo que a direção da escala seja oposta\\\",\\n                \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala para Parte 2, o aluno copiou o valor de Parte 1 em vez de calcular 870 ÷ 100 ou 100 ÷ 870\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que você precisa fazer com 870 para virar 100? Dividir por quanto?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você já viu esse número antes, mas cada parte tem seu próprio caminho! Vamos ver: quanto é 870 ÷ 100?\\\",\\n                \\\"howToFix\\\": \\\"Calcular fator como (valor alvo) / (valor atual) = 100 / 870 ≈ 0.1149\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular porcentagem da Parte 2\\\",\\n              \\\"thinking\\\": \\\"348 × 8.7 = ... 300×8=2400, 48×8=384, total 2784, então 2784%!\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplica_quando_deveria_dividir_e_inverte_relacao\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2784\\\",\\n                \\\"description\\\": \\\"Aluno multiplica 348 pelo fator 8.7 (errado) e obtém valor absurdo, ignorando que 348 < 870 → porcentagem deve ser <100%\\\",\\n                \\\"mistakeLocation\\\": \\\"Na aplicação do fator ao numerador da Parte 2, o aluno multiplicou em vez de dividir, e usou fator incorreto\\\",\\n                \\\"diagnosticQuestion\\\": \\\"348 ml é menos que metade de 870 ml? Então a porcentagem deve ser mais ou menos que 50%?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Esse número parece muito alto! Pense: 348 é menos que 870, então a porcentagem deve ser menor que 100%. Onde podemos ajustar?\\\",\\n                \\\"howToFix\\\": \\\"Verificar ordem de grandeza antes de calcular: parte < total → % < 100\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"2784\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"chemical solution\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_razao_original_com_percentual\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"870/100\\\",\\n              \\\"buggyRule\\\": \\\"Usar o valor original como numerador e fixar 100 como denominador na razão original da linha Total\\\",\\n              \\\"description\\\": \\\"Aluno insere 870/100 como razão original, confundindo a forma da razão dada com a forma percentual desejada\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a razão original da linha Total, o aluno não reconhece que o denominador deve ser o próprio total (870), não 100\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O que representa o 'todo' nesta situação? Esse 'todo' deve aparecer em qual posição da fração?\\\",\\n              \\\"feedback\\\": \\\"Você está no caminho certo ao pensar em porcentagem! Mas primeiro precisamos representar corretamente a situação real: o total da solução é 870 ml — isso define nossa razão de partida.\\\",\\n              \\\"howToFix\\\": \\\"Modelar com frases: 'de um total de X, temos Y' → Y/X. Aqui, total = 870, parte = 870 → 870/870\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_razao_original_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100/870\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão original do total, colocando 100 como numerador e 870 como denominador\\\",\\n              \\\"description\\\": \\\"Aluno coloca 100/870 na linha Total, possivelmente por associar 'total' com '100%' e inverter a relação\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição da razão de referência (Total), o aluno troca numerador e denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a solução inteira é 870 ml, que fração disso corresponde à solução inteira? É 100/870 ou 870/870?\\\",\\n              \\\"feedback\\\": \\\"Interessante que você pensou em 100%! Mas a razão do 'total' deve mostrar 'tudo sobre tudo', ou seja, 870 dividido por ele mesmo.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Se tenho 5 maçãs e uso todas, que fração usei? 5/5 = 1'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_deixa_linha_total_em_branco_ou_poe_1_1\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/1\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que a linha Total deve ser 1/1 porque representa o todo\\\",\\n              \\\"description\\\": \\\"Aluno ignora os valores reais e coloca 1/1 na linha Total, perdendo a escala numérica\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a linha Total, o aluno abstrai demais e usa unidade em vez dos valores concretos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A tabela está trabalhando com quantidades reais (ml) ou com proporções abstratas? O que o enunciado dá como total?\\\",\\n              \\\"feedback\\\": \\\"Você entendeu que o total representa 'tudo' — ótimo! Agora, vamos conectar isso aos números reais do problema: qual é o volume total em ml?\\\",\\n              \\\"howToFix\\\": \\\"Reler enunciado e sublinhar 'solução que mede 870 ml' → usar esse número diretamente\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"chemical solution\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_100_como_denominador_na_razao_original\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part_value}/100\\\",\\n              \\\"buggyRule\\\": \\\"Para qualquer parte, usar o valor dado como numerador e 100 como denominador na razão original\\\",\\n              \\\"description\\\": \\\"Aluno insere, por exemplo, 1218/100 ou 348/100 nas linhas Part 1 e Part 2, confundindo entrada com saída\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao registrar a razão original de uma parte, o aluno fixa 100 no denominador em vez de usar o total original (870)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quando dizemos '348 ml da solução', estamos comparando com 100 ml ou com a solução original completa?\\\",\\n              \\\"feedback\\\": \\\"Você pegou o valor da parte corretamente! Agora, lembre-se: toda porcentagem começa com uma comparação com o total real — e esse total é 870 ml.\\\",\\n              \\\"howToFix\\\": \\\"Praticar com modelo visual: barra de 870 unidades; destacar 348 delas → razão = 348/870\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_troca_numerador_denominador_na_parte\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"870/{part_value}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão da parte: colocar o total original como numerador e o valor da parte como denominador\\\",\\n              \\\"description\\\": \\\"Aluno escreve 870/1218 ou 870/348, invertendo a relação parte/total\\\",\\n              \\\"mistakeLocation\\\": \\\"Na montagem da razão da parte, o aluno coloca o total em cima e a parte embaixo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Estamos buscando 'quanto da solução original' corresponde à nova quantidade? Isso é parte sobre total ou total sobre parte?\\\",\\n              \\\"feedback\\\": \\\"Você está usando os números certos! Só precisamos garantir que a parte esteja em cima e o total embaixo — como uma fração de pizza: pedaços que quero / pedaços totais.\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem consistente: 'de um total de 870, quero 348' → 348 está em cima\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"chemical solution\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_assume_que_multiplicar_sempre_aumenta\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação para a operação, independentemente de o denominador original ser maior ou menor que 100\\\",\\n              \\\"description\\\": \\\"Aluno acredita que para 'chegar a 100' sempre se multiplica, mesmo quando o valor atual (870) > 100\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da operação para escalar o denominador até 100, o aluno ignora a magnitude relativa\\\",\\n              \\\"diagnosticQuestion\\\": \\\"870 é maior ou menor que 100? Para transformar um número maior em um menor, devemos multiplicar ou dividir?\\\",\\n              \\\"feedback\\\": \\\"Você quer alcançar 100 — objetivo claro! Mas observe: 870 é bem maior que 100. O que faz um número grande ficar pequeno?\\\",\\n              \\\"howToFix\\\": \\\"Comparar com exemplos: 200 → 100: divide por 2; 50 → 100: multiplica por 2\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_operacao_diferente_para_num_e_denom_sem_motivo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"× no numerador, ÷ no denominador (ou vice-versa)\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operações diferentes no numerador e denominador sem justificativa proporcional\\\",\\n              \\\"description\\\": \\\"Aluno seleciona × para numerador e ÷ para denominador (ou o contrário), quebrando a equivalência da razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha das operações nas colunas Operation, o aluno não mantém a mesma operação para ambos os termos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você multiplica o numerador e divide o denominador, a fração fica maior ou menor? Isso mantém a proporção?\\\",\\n              \\\"feedback\\\": \\\"Boa iniciativa em pensar separadamente! Mas para manter a mesma razão, o que fazemos com o numerador deve ser feito com o denominador.\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: escalar uma razão = aplicar a mesma operação (e fator) a ambos os termos\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"chemical solution\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_reutiliza_fator_de_escala_sem_contexto\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"8.7\\\",\\n              \\\"buggyRule\\\": \\\"Usar o mesmo fator de escala (8.7) para todas as partes, sem recalcular com base no denominador original\\\",\\n              \\\"description\\\": \\\"Aluno copia o fator de Parte 1 (870 ÷ 100 = 8.7) para Parte 2, mesmo que a direção seja oposta\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala para Parte 2, o aluno não recalcula 870 → 100 como divisão por 8.7 ou multiplicação por ~0.115\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de escala depende só do total, ou também do que queremos alcançar? Como calculamos o fator para ir de 870 a 100?\\\",\\n              \\\"feedback\\\": \\\"Você já encontrou um fator útil! Agora, vamos verificar: esse fator transforma 870 em 100? Se sim, ótimo; se não, precisamos ajustar.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar fórmula: fator = valor_alvo / valor_atual → para denominador: 100 / 870 ≈ 0.1149\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_diferenca_em_vez_de_razao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"770\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator como diferença: 870 - 100 = 770, e usar esse valor como fator\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o 'fator' necessário\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao determinar quanto escalar, o aluno aplica aritmética aditiva em vez de multiplicativa\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Fator de escala é sobre 'quantas vezes cabe' ou 'quanto falta'? Que operação responde 'quantas vezes 100 cabe em 870'?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando em quanto mudar o número — ótimo! Mas em proporções, usamos 'quantas vezes' (multiplicação/divisão), não 'quanto a mais/menos'.\\\",\\n              \\\"howToFix\\\": \\\"Contrastar: 'a mais' → adição; 'vezes maior' → multiplicação\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_fator_para_num_e_denom\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100/870 ≈ 0.115 no numerador, 8.7 no denominador\\\",\\n              \\\"buggyRule\\\": \\\"Usar fator inverso no numerador e correto no denominador (ou vice-versa)\\\",\\n              \\\"description\\\": \\\"Aluno aplica fator = 100/870 ao numerador e fator = 870/100 ao denominador, ou inconsistências similares\\\",\\n              \\\"mistakeLocation\\\": \\\"Na atribuição dos fatores de escala, o aluno não mantém coerência entre numerador e denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide o denominador por 8.7 para virar 100, o que deve fazer com o numerador para manter a mesma razão?\\\",\\n              \\\"feedback\\\": \\\"Você está perto! Lembre-se: o mesmo fator (ou sua operação correspondente) deve ser aplicado aos dois lados.\\\",\\n              \\\"howToFix\\\": \\\"Verificar com exemplo simples: 2/4 = ?/100 → dividir ambos por 4, multiplicar ambos por 25\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"chemical solution\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_quando_deveria_dividir_e_inverte_relacao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part_value} * 8.7\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar o valor da parte pelo fator 8.7 (usado para reduzir o denominador) em vez de dividir\\\",\\n              \\\"description\\\": \\\"Aluno calcula 348 × 8.7 ou 1218 × 8.7, obtendo valores absurdos (>100%) mesmo quando a parte é menor que o total\\\",\\n              \\\"mistakeLocation\\\": \\\"Na aplicação do fator ao numerador, o aluno aplica a operação errada (multiplicação em vez de divisão)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 870 ml corresponde a 100%, então 348 ml (menor que 870) deve corresponder a mais ou menos que 100%?\\\",\\n              \\\"feedback\\\": \\\"Esse resultado parece muito grande! Vamos conferir a lógica: se o total é 100%, qualquer parte menor deve dar menos que 100%.\\\",\\n              \\\"howToFix\\\": \\\"Fazer estimativa antes: 348 é cerca de 40% de 870? Então resposta deve estar perto de 40\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pelo_valor_da_parte_em_vez_do_fator\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100 / {part_value}\\\",\\n              \\\"buggyRule\\\": \\\"Em vez de aplicar o fator, dividir 100 pelo valor da parte (ex: 100/348)\\\",\\n              \\\"description\\\": \\\"Aluno inverte a relação e calcula 100 dividido pela parte, gerando porcentagens menores que 1%\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo da porcentagem, o aluno usa fórmula invertida: 100 / parte\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A porcentagem é (parte / total) × 100 ou (100 / parte)? Qual faz mais sentido para 348 ml de 870 ml?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando conectar 100 à parte — boa ideia! Mas a fórmula padrão é (parte ÷ total) × 100. Vamos testar com números conhecidos?\\\",\\n              \\\"howToFix\\\": \\\"Memorizar esquema: (PARTE ÷ TOTAL) × 100 = %\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_regra_de_tres_mas_erra_posicao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"(100 * 870) / {part_value}\\\",\\n              \\\"buggyRule\\\": \\\"Montar regra de três invertida: 870 → 100%; {part_value} → x% → x = (100 * 870) / {part_value}\\\",\\n              \\\"description\\\": \\\"Aluno aplica regra de três com proporção inversa, gerando porcentagens >100% mesmo para partes menores\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão para porcentagem, o aluno relaciona total com 100% de forma cruzada incorreta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se aumenta a parte, a porcentagem aumenta ou diminui? Sua conta reflete isso?\\\",\\n              \\\"feedback\\\": \\\"Você está usando uma estratégia válida (regra de três)! Vamos revisar a montagem: partes maiores dão porcentagens maiores — sua conta mostra isso?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar montagem linear: parte₁ / total₁ = parte₂ / total₂ → 348/870 = x/100\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"chemical solution\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Identificar as quantidades dadas e o que se pede\\\",\\n          \\\"thinking\\\": \\\"A solução original é 870 ml. Na Parte 1, ele quer 1218 ml — isso é mais que o original, então deve ser mais de 100%. Na Parte 2, são 348 ml, menos que 870, então menos de 100%. Preciso achar a porcentagem em relação ao original.\\\",\\n          \\\"result\\\": \\\"Entendi que preciso comparar cada quantidade com 870 ml usando porcentagem.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a razão original na linha Total\\\",\\n          \\\"thinking\\\": \\\"A razão original é 870/870? Não... espera. A 'razão original' aqui representa o todo: 870 ml corresponde a 100%. Então a razão original deve ser 870 (numerador) sobre 870 (denominador)? Mas isso dá 1... Hmm, talvez a ideia seja usar 870 como base (denominador), e o numerador também 870, porque 870 é 100% de si mesmo.\\\",\\n          \\\"result\\\": \\\"Preenchi totalorignumareainput = 870, totalorigdenomareainput = 870\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando algo é 100% de si mesmo, qual é a razão entre ele e ele mesmo? Pense: quanto é 100% do total?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Para representar o total como 100%, coloque o valor total (870) tanto no numerador quanto no denominador da razão original.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A linha 'Total' mostra que 870 ml equivale a 100%. Então a razão original deve ter 870 em cima e 870 embaixo.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! Como 870 ml é o todo, escreva 870 no numerador e 870 no denominador da linha Total. Isso representa 100%.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher a razão original nas linhas Part 1 e Part 2\\\",\\n          \\\"thinking\\\": \\\"Na Parte 1, ele quer 1218 ml. Então a razão original deve ser 1218 / 870? Sim, porque estamos comparando a nova quantidade com o original. Igual para Parte 2: 348 / 870.\\\",\\n          \\\"result\\\": \\\"part1orignumareainput = 1218, part1origdenomareainput = 870; part2orignumareainput = 348, part2origdenomareainput = 870\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar a operação e fator de escala para transformar o denominador em 100\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar o denominador (870) em 100. Como faço isso? Divido 870 por... quanto? 870 ÷ x = 100 → x = 870 ÷ 100 = 8.7. Então devo dividir o denominador por 8.7. E o numerador também deve ser dividido por 8.7 para manter a razão equivalente.\\\",\\n          \\\"result\\\": \\\"Operação: ÷ para numerador e denominador; fator de escala = 8.7\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Para transformar uma razão em porcentagem, o que devemos fazer com o denominador? Ele precisa virar quanto?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está indo bem! Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador original (870) para chegar a 100. Depois, aplique a mesma operação ao numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 870 dividido por quanto dá 100? Pense: 870 ÷ ? = 100. Use calculadora ou divisão simples.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito perto! Se 870 ÷ 8.7 = 100, então o fator de escala é 8.7, e a operação é divisão (÷) tanto no numerador quanto no denominador.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Aplicar o fator de escala ao numerador para obter a porcentagem\\\",\\n          \\\"thinking\\\": \\\"Para Parte 1: 1218 ÷ 8.7 = ? Vamos ver... 8.7 × 140 = 1218? 8.7 × 100 = 870, 8.7 × 40 = 348, então 870 + 348 = 1218 → sim, 140%. Para Parte 2: 348 ÷ 8.7 = 40, porque 8.7 × 40 = 348. Então 40%.\\\",\\n          \\\"result\\\": \\\"part1percentnumareainput = 140, part1percentareainput = 140; part2percentnumareainput = 40, part2percentareainput = 40\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Lembre-se: se o denominador vira 100, o novo numerador é exatamente a porcentagem. O que acontece com o numerador quando você aplica o mesmo fator?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Divida o numerador original pelo mesmo fator usado no denominador. O resultado será a porcentagem.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Você já sabe que o fator é 8.7. Agora calcule: 1218 ÷ 8.7 e 348 ÷ 8.7. Use estimativa: 8.7 × 100 = 870, então 1218 é mais que isso...\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! 8.7 × 140 = 1218, então 1218 ÷ 8.7 = 140. E 8.7 × 40 = 348, então 348 ÷ 8.7 = 40. Esses são os valores da porcentagem!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher linha Total com resultado 100%\\\",\\n          \\\"thinking\\\": \\\"870 ÷ 8.7 = 100, então totalpercentnumareainput = 100, totalpercentareainput = 100\\\",\\n          \\\"result\\\": \\\"Campos preenchidos corretamente\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 140%, Part 2: 40%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagem diretamente com regra de três em vez de usar fator de escala na tabela\\\",\\n          \\\"steps\\\": [\\\"Montar 870 → 100%, 1218 → x%\\\", \\\"Resolver x = (1218 × 100) / 870\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar calculadora para dividir 1218/870 e multiplicar por 100, sem preencher toda a tabela\\\",\\n          \\\"steps\\\": [\\\"Calcular 1218 ÷ 870 = 1.4\\\", \\\"1.4 × 100 = 140%\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "chemical solution",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema fornece uma solução original de 870 ml. Parte 1 pede a porcentagem correspondente a 1218 ml em relação à original. Parte 2 pede a porcentagem correspondente a 348 ml em relação à original.",
+        "result": "Valores identificados: original = {A} = 870, parte1 = {B} = 1218, parte2 = {C} = 348",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha Total da tabela com a razão original 100/100",
+        "thinking": "A linha 'Total' representa 100% do original, então a razão original é 100/100.",
+        "result": "Razão original na linha Total: numerador = 100, denominador = 100",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher linha Part 1 com a razão original {B}/{A}",
+        "thinking": "A razão original para Parte 1 é quantidade desejada sobre quantidade original: {B}/{A} = 1218/870.",
+        "result": "Razão original Part 1: numerador = {B}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Preencher linha Part 2 com a razão original {C}/{A}",
+        "thinking": "A razão original para Parte 2 é {C}/{A} = 348/870.",
+        "result": "Razão original Part 2: numerador = {C}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Determinar operação e fator de escala para converter denominador {A} em 100 (Part 1)",
+        "thinking": "Para transformar o denominador {A} em 100, preciso dividir {A} por ({A}/100), ou seja, aplicar ÷ ({A}/100). Equivalentemente, posso multiplicar numerador e denominador pelo fator 100/{A}.",
+        "result": "Operação: ×; Fator de escala: 100/{A}",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Aplicar fator de escala ao numerador da Parte 1",
+        "thinking": "Multiplico {B} pelo fator 100/{A} para obter a porcentagem equivalente.",
+        "result": "Porcentagem Parte 1 = {B} × (100 / {A})",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Determinar operação e fator de escala para converter denominador {A} em 100 (Part 2)",
+        "thinking": "Mesmo raciocínio: usar fator 100/{A} via multiplicação.",
+        "result": "Operação: ×; Fator de escala: 100/{A}",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar fator de escala ao numerador da Parte 2",
+        "thinking": "Multiplico {C} por 100/{A} para obter a porcentagem equivalente.",
+        "result": "Porcentagem Parte 2 = {C} × (100 / {A})",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Preencher linha Total com operações e fatores consistentes",
+        "thinking": "Na linha Total, como já está 100/100, não há mudança: operação neutra (×1) ou qualquer equivalente consistente.",
+        "result": "Operações: ×; Fatores: 1; Resultado: 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Registrar resultados finais nas células de porcentagem",
+        "thinking": "Insiro os valores calculados nas caixas de porcentagem: Parte 1 = {B}×100/{A}, Parte 2 = {C}×100/{A}.",
+        "result": "Porcentagens registradas corretamente",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 6,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B} * 100 / {A}",
+      "totalTime": 57
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "chemical solution",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Total",
+          "thinking": "O total original é 870 ml, então vou colocar 870 em cima e 100 embaixo porque porcentagem sempre tem 100.",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_razao_original_com_percentual",
+           "type": "conceptual_error",
+           "wrongAnswer": "870/100",
+           "description": "Aluno coloca o valor original como numerador e 100 como denominador na razão original, confundindo a razão dada com a forma percentual",
+           "mistakeLocation": "Ao inserir a razão original na linha Total, o aluno usou 100 como denominador em vez do próprio valor total (870)",
+           "diagnosticQuestion": "A razão original representa 'parte sobre total' ou 'porcentagem sobre 100'? Qual é o total real da solução?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você lembrou que porcentagem envolve 100, mas a razão original vem dos dados do problema — qual é o volume total da solução original?",
+           "howToFix": "Destacar no enunciado: 'solução que mede 870 ml' → essa é a base (denominador) da razão original"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Preciso de 1218 ml, então coloco 1218 em cima e 870 embaixo, porque é quanto preciso do total.",
+          "result": "Correto parcialmente",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para escalar Parte 1",
+          "thinking": "Quero transformar 870 em 100, então divido. E 1218 também divido pelo mesmo número.",
+          "result": "Correto",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true
+         },
+         {
+          "step": 4,
+          "action": "Calcular fator de escala para Parte 1",
+          "thinking": "870 dividido por quanto dá 100? Acho que 870 ÷ 8.7 = 100, então o fator é 8.7.",
+          "result": "Correto",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true
+         },
+         {
+          "step": 5,
+          "action": "Calcular porcentagem da Parte 1",
+          "thinking": "1218 ÷ 8.7... deixa eu fazer 1218 ÷ 8 = 152.25, então deve ser 140%.",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divisao_aproximada_sem_calculo_exato",
+           "type": "procedural_error",
+           "wrongAnswer": "140",
+           "description": "Aluno aproxima a divisão 1218 ÷ 8.7 como 1218 ÷ 8 = 152.25 e arredonda mal para 140%",
+           "mistakeLocation": "Na aplicação do fator de escala ao numerador da Parte 1, o aluno fez uma divisão aproximada incorreta",
+           "diagnosticQuestion": "Qual é exatamente 1218 dividido por 8.7? Você pode verificar multiplicando 140 por 8.7?",
+           "severity": "moderate",
+           "feedback": "Você identificou bem o fator de escala! Agora, vamos calcular com mais cuidado: quanto é 1218 ÷ 8.7?",
+           "howToFix": "Usar calculadora ou método de divisão com vírgula; verificar invertendo: se 140 × 8.7 = 1218?"
+          }
+         }
+        ],
+        "finalAnswer": "140",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Total",
+          "thinking": "O total é 870, então coloco 100 em cima e 870 embaixo — assim a porcentagem vai sair certa depois.",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_razao_original_total",
+           "type": "conceptual_error",
+           "wrongAnswer": "100/870",
+           "description": "Aluno inverte a razão original do total, colocando 100 como numerador e 870 como denominador",
+           "mistakeLocation": "Ao inserir a razão original na linha Total, o aluno trocou numerador e denominador, usando 100/870 em vez de 870/870",
+           "diagnosticQuestion": "Na razão original, o que representa o 'todo'? O todo deve estar em cima ou embaixo?",
+           "severity": "high",
+           "feedback": "Você está pensando na porcentagem, o que é bom! Mas a razão original mostra 'total sobre total', ou seja, 870/870. Isso ajuda a manter a proporção correta.",
+           "howToFix": "Ensinar que a linha Total representa a referência: parte = total → razão = total/total = 1"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão original da Parte 2",
+          "thinking": "Ele quer 348 ml, então coloco 348 em cima e 100 embaixo, porque é uma porcentagem.",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_100_como_denominador_na_razao_original",
+           "type": "conceptual_error",
+           "wrongAnswer": "348/100",
+           "description": "Aluno usa 100 como denominador na razão original da Parte 2, confundindo entrada com saída",
+           "mistakeLocation": "Ao inserir a razão original da Parte 2, o aluno colocou 100 no denominador em vez do total original (870)",
+           "diagnosticQuestion": "A quantidade 348 ml é comparada com qual valor? Com 100 ou com o total da solução original?",
+           "severity": "high",
+           "feedback": "Você identificou bem o valor da parte (348 ml)! Agora, lembre-se: toda razão de porcentagem começa comparando com o total real — qual é esse total?",
+           "howToFix": "Refazer com frase modelo: '348 ml de um total de 870 ml' → razão = 348/870"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para Parte 2",
+          "thinking": "Vou multiplicar para aumentar até 100.",
+          "result": "Resultado errado",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_assume_que_multiplicar_sempre_aumenta",
+           "type": "conceptual_error",
+           "wrongAnswer": "×",
+           "description": "Aluno assume que, para chegar a 100, sempre deve multiplicar, mesmo quando o denominador original (870) é maior que 100",
+           "mistakeLocation": "Na escolha da operação para escalar o denominador de 870 para 100, o aluno escolheu multiplicação em vez de divisão",
+           "diagnosticQuestion": "Se você multiplica 870 por algum número, o resultado fica maior ou menor que 870? E 100 é maior ou menor que 870?",
+           "severity": "high",
+           "feedback": "Boa observação de que precisamos chegar a 100! Mas pense: 870 é maior que 100 — então devemos aumentar ou diminuir o número?",
+           "howToFix": "Comparar numericamente: 870 → 100 é uma redução → operação é divisão"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Calcular fator de escala incorreto",
+          "thinking": "Se 870 × x = 100, então x = 100 ÷ 870 ≈ 0.115, mas vou usar 8.7 porque vi antes.",
+          "result": "Resultado errado",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_reutiliza_fator_de_escala_sem_contexto",
+           "type": "procedural_error",
+           "wrongAnswer": "8.7",
+           "description": "Aluno reutiliza o fator 8.7 da Parte 1 sem recalcular, mesmo que a direção da escala seja oposta",
+           "mistakeLocation": "No cálculo do fator de escala para Parte 2, o aluno copiou o valor de Parte 1 em vez de calcular 870 ÷ 100 ou 100 ÷ 870",
+           "diagnosticQuestion": "O que você precisa fazer com 870 para virar 100? Dividir por quanto?",
+           "severity": "moderate",
+           "feedback": "Você já viu esse número antes, mas cada parte tem seu próprio caminho! Vamos ver: quanto é 870 ÷ 100?",
+           "howToFix": "Calcular fator como (valor alvo) / (valor atual) = 100 / 870 ≈ 0.1149"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Calcular porcentagem da Parte 2",
+          "thinking": "348 × 8.7 = ... 300×8=2400, 48×8=384, total 2784, então 2784%!",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplica_quando_deveria_dividir_e_inverte_relacao",
+           "type": "procedural_error",
+           "wrongAnswer": "2784",
+           "description": "Aluno multiplica 348 pelo fator 8.7 (errado) e obtém valor absurdo, ignorando que 348 < 870 → porcentagem deve ser <100%",
+           "mistakeLocation": "Na aplicação do fator ao numerador da Parte 2, o aluno multiplicou em vez de dividir, e usou fator incorreto",
+           "diagnosticQuestion": "348 ml é menos que metade de 870 ml? Então a porcentagem deve ser mais ou menos que 50%?",
+           "severity": "high",
+           "feedback": "Esse número parece muito alto! Pense: 348 é menos que 870, então a porcentagem deve ser menor que 100%. Onde podemos ajustar?",
+           "howToFix": "Verificar ordem de grandeza antes de calcular: parte < total → % < 100"
+          }
+         }
+        ],
+        "finalAnswer": "2784",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "chemical solution",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_razao_original_com_percentual",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "870/100",
+          "buggyRule": "Usar o valor original como numerador e fixar 100 como denominador na razão original da linha Total",
+          "description": "Aluno insere 870/100 como razão original, confundindo a forma da razão dada com a forma percentual desejada",
+          "mistakeLocation": "Ao preencher a razão original da linha Total, o aluno não reconhece que o denominador deve ser o próprio total (870), não 100",
+          "diagnosticQuestion": "O que representa o 'todo' nesta situação? Esse 'todo' deve aparecer em qual posição da fração?",
+          "feedback": "Você está no caminho certo ao pensar em porcentagem! Mas primeiro precisamos representar corretamente a situação real: o total da solução é 870 ml — isso define nossa razão de partida.",
+          "howToFix": "Modelar com frases: 'de um total de X, temos Y' → Y/X. Aqui, total = 870, parte = 870 → 870/870",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_razao_original_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100/870",
+          "buggyRule": "Inverter a razão original do total, colocando 100 como numerador e 870 como denominador",
+          "description": "Aluno coloca 100/870 na linha Total, possivelmente por associar 'total' com '100%' e inverter a relação",
+          "mistakeLocation": "Na definição da razão de referência (Total), o aluno troca numerador e denominador",
+          "diagnosticQuestion": "Se a solução inteira é 870 ml, que fração disso corresponde à solução inteira? É 100/870 ou 870/870?",
+          "feedback": "Interessante que você pensou em 100%! Mas a razão do 'total' deve mostrar 'tudo sobre tudo', ou seja, 870 dividido por ele mesmo.",
+          "howToFix": "Usar analogia: 'Se tenho 5 maçãs e uso todas, que fração usei? 5/5 = 1'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_deixa_linha_total_em_branco_ou_poe_1_1",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/1",
+          "buggyRule": "Assumir que a linha Total deve ser 1/1 porque representa o todo",
+          "description": "Aluno ignora os valores reais e coloca 1/1 na linha Total, perdendo a escala numérica",
+          "mistakeLocation": "Ao interpretar a linha Total, o aluno abstrai demais e usa unidade em vez dos valores concretos",
+          "diagnosticQuestion": "A tabela está trabalhando com quantidades reais (ml) ou com proporções abstratas? O que o enunciado dá como total?",
+          "feedback": "Você entendeu que o total representa 'tudo' — ótimo! Agora, vamos conectar isso aos números reais do problema: qual é o volume total em ml?",
+          "howToFix": "Reler enunciado e sublinhar 'solução que mede 870 ml' → usar esse número diretamente",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "chemical solution",
+        "step": 2,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_100_como_denominador_na_razao_original",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{part_value}/100",
+          "buggyRule": "Para qualquer parte, usar o valor dado como numerador e 100 como denominador na razão original",
+          "description": "Aluno insere, por exemplo, 1218/100 ou 348/100 nas linhas Part 1 e Part 2, confundindo entrada com saída",
+          "mistakeLocation": "Ao registrar a razão original de uma parte, o aluno fixa 100 no denominador em vez de usar o total original (870)",
+          "diagnosticQuestion": "Quando dizemos '348 ml da solução', estamos comparando com 100 ml ou com a solução original completa?",
+          "feedback": "Você pegou o valor da parte corretamente! Agora, lembre-se: toda porcentagem começa com uma comparação com o total real — e esse total é 870 ml.",
+          "howToFix": "Praticar com modelo visual: barra de 870 unidades; destacar 348 delas → razão = 348/870",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_troca_numerador_denominador_na_parte",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "870/{part_value}",
+          "buggyRule": "Inverter a razão da parte: colocar o total original como numerador e o valor da parte como denominador",
+          "description": "Aluno escreve 870/1218 ou 870/348, invertendo a relação parte/total",
+          "mistakeLocation": "Na montagem da razão da parte, o aluno coloca o total em cima e a parte embaixo",
+          "diagnosticQuestion": "Estamos buscando 'quanto da solução original' corresponde à nova quantidade? Isso é parte sobre total ou total sobre parte?",
+          "feedback": "Você está usando os números certos! Só precisamos garantir que a parte esteja em cima e o total embaixo — como uma fração de pizza: pedaços que quero / pedaços totais.",
+          "howToFix": "Usar linguagem consistente: 'de um total de 870, quero 348' → 348 está em cima",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "chemical solution",
+        "step": 3,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_assume_que_multiplicar_sempre_aumenta",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação para a operação, independentemente de o denominador original ser maior ou menor que 100",
+          "description": "Aluno acredita que para 'chegar a 100' sempre se multiplica, mesmo quando o valor atual (870) > 100",
+          "mistakeLocation": "Na seleção da operação para escalar o denominador até 100, o aluno ignora a magnitude relativa",
+          "diagnosticQuestion": "870 é maior ou menor que 100? Para transformar um número maior em um menor, devemos multiplicar ou dividir?",
+          "feedback": "Você quer alcançar 100 — objetivo claro! Mas observe: 870 é bem maior que 100. O que faz um número grande ficar pequeno?",
+          "howToFix": "Comparar com exemplos: 200 → 100: divide por 2; 50 → 100: multiplica por 2",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_operacao_diferente_para_num_e_denom_sem_motivo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "× no numerador, ÷ no denominador (ou vice-versa)",
+          "buggyRule": "Aplicar operações diferentes no numerador e denominador sem justificativa proporcional",
+          "description": "Aluno seleciona × para numerador e ÷ para denominador (ou o contrário), quebrando a equivalência da razão",
+          "mistakeLocation": "Na escolha das operações nas colunas Operation, o aluno não mantém a mesma operação para ambos os termos",
+          "diagnosticQuestion": "Se você multiplica o numerador e divide o denominador, a fração fica maior ou menor? Isso mantém a proporção?",
+          "feedback": "Boa iniciativa em pensar separadamente! Mas para manter a mesma razão, o que fazemos com o numerador deve ser feito com o denominador.",
+          "howToFix": "Reforçar: escalar uma razão = aplicar a mesma operação (e fator) a ambos os termos",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "chemical solution",
+        "step": 4,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_reutiliza_fator_de_escala_sem_contexto",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "8.7",
+          "buggyRule": "Usar o mesmo fator de escala (8.7) para todas as partes, sem recalcular com base no denominador original",
+          "description": "Aluno copia o fator de Parte 1 (870 ÷ 100 = 8.7) para Parte 2, mesmo que a direção seja oposta",
+          "mistakeLocation": "No cálculo do fator de escala para Parte 2, o aluno não recalcula 870 → 100 como divisão por 8.7 ou multiplicação por ~0.115",
+          "diagnosticQuestion": "O fator de escala depende só do total, ou também do que queremos alcançar? Como calculamos o fator para ir de 870 a 100?",
+          "feedback": "Você já encontrou um fator útil! Agora, vamos verificar: esse fator transforma 870 em 100? Se sim, ótimo; se não, precisamos ajustar.",
+          "howToFix": "Ensinar fórmula: fator = valor_alvo / valor_atual → para denominador: 100 / 870 ≈ 0.1149",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_calcula_fator_como_diferenca_em_vez_de_razao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "770",
+          "buggyRule": "Calcular fator como diferença: 870 - 100 = 770, e usar esse valor como fator",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o 'fator' necessário",
+          "mistakeLocation": "Ao determinar quanto escalar, o aluno aplica aritmética aditiva em vez de multiplicativa",
+          "diagnosticQuestion": "Fator de escala é sobre 'quantas vezes cabe' ou 'quanto falta'? Que operação responde 'quantas vezes 100 cabe em 870'?",
+          "feedback": "Você está pensando em quanto mudar o número — ótimo! Mas em proporções, usamos 'quantas vezes' (multiplicação/divisão), não 'quanto a mais/menos'.",
+          "howToFix": "Contrastar: 'a mais' → adição; 'vezes maior' → multiplicação",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_confunde_fator_para_num_e_denom",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "100/870 ≈ 0.115 no numerador, 8.7 no denominador",
+          "buggyRule": "Usar fator inverso no numerador e correto no denominador (ou vice-versa)",
+          "description": "Aluno aplica fator = 100/870 ao numerador e fator = 870/100 ao denominador, ou inconsistências similares",
+          "mistakeLocation": "Na atribuição dos fatores de escala, o aluno não mantém coerência entre numerador e denominador",
+          "diagnosticQuestion": "Se você divide o denominador por 8.7 para virar 100, o que deve fazer com o numerador para manter a mesma razão?",
+          "feedback": "Você está perto! Lembre-se: o mesmo fator (ou sua operação correspondente) deve ser aplicado aos dois lados.",
+          "howToFix": "Verificar com exemplo simples: 2/4 = ?/100 → dividir ambos por 4, multiplicar ambos por 25",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "chemical solution",
+        "step": 5,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_quando_deveria_dividir_e_inverte_relacao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{part_value} * 8.7",
+          "buggyRule": "Multiplicar o valor da parte pelo fator 8.7 (usado para reduzir o denominador) em vez de dividir",
+          "description": "Aluno calcula 348 × 8.7 ou 1218 × 8.7, obtendo valores absurdos (>100%) mesmo quando a parte é menor que o total",
+          "mistakeLocation": "Na aplicação do fator ao numerador, o aluno aplica a operação errada (multiplicação em vez de divisão)",
+          "diagnosticQuestion": "Se 870 ml corresponde a 100%, então 348 ml (menor que 870) deve corresponder a mais ou menos que 100%?",
+          "feedback": "Esse resultado parece muito grande! Vamos conferir a lógica: se o total é 100%, qualquer parte menor deve dar menos que 100%.",
+          "howToFix": "Fazer estimativa antes: 348 é cerca de 40% de 870? Então resposta deve estar perto de 40",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_pelo_valor_da_parte_em_vez_do_fator",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "100 / {part_value}",
+          "buggyRule": "Em vez de aplicar o fator, dividir 100 pelo valor da parte (ex: 100/348)",
+          "description": "Aluno inverte a relação e calcula 100 dividido pela parte, gerando porcentagens menores que 1%",
+          "mistakeLocation": "No cálculo da porcentagem, o aluno usa fórmula invertida: 100 / parte",
+          "diagnosticQuestion": "A porcentagem é (parte / total) × 100 ou (100 / parte)? Qual faz mais sentido para 348 ml de 870 ml?",
+          "feedback": "Você está tentando conectar 100 à parte — boa ideia! Mas a fórmula padrão é (parte ÷ total) × 100. Vamos testar com números conhecidos?",
+          "howToFix": "Memorizar esquema: (PARTE ÷ TOTAL) × 100 = %",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_regra_de_tres_mas_erra_posicao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "(100 * 870) / {part_value}",
+          "buggyRule": "Montar regra de três invertida: 870 → 100%; {part_value} → x% → x = (100 * 870) / {part_value}",
+          "description": "Aluno aplica regra de três com proporção inversa, gerando porcentagens >100% mesmo para partes menores",
+          "mistakeLocation": "Na conversão para porcentagem, o aluno relaciona total com 100% de forma cruzada incorreta",
+          "diagnosticQuestion": "Se aumenta a parte, a porcentagem aumenta ou diminui? Sua conta reflete isso?",
+          "feedback": "Você está usando uma estratégia válida (regra de três)! Vamos revisar a montagem: partes maiores dão porcentagens maiores — sua conta mostra isso?",
+          "howToFix": "Ensinar montagem linear: parte₁ / total₁ = parte₂ / total₂ → 348/870 = x/100",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "chemical solution",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Identificar as quantidades dadas e o que se pede",
+        "thinking": "A solução original é 870 ml. Na Parte 1, ele quer 1218 ml — isso é mais que o original, então deve ser mais de 100%. Na Parte 2, são 348 ml, menos que 870, então menos de 100%. Preciso achar a porcentagem em relação ao original.",
+        "result": "Entendi que preciso comparar cada quantidade com 870 ml usando porcentagem.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher a razão original na linha Total",
+        "thinking": "A razão original é 870/870? Não... espera. A 'razão original' aqui representa o todo: 870 ml corresponde a 100%. Então a razão original deve ser 870 (numerador) sobre 870 (denominador)? Mas isso dá 1... Hmm, talvez a ideia seja usar 870 como base (denominador), e o numerador também 870, porque 870 é 100% de si mesmo.",
+        "result": "Preenchi totalorignumareainput = 870, totalorigdenomareainput = 870",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando algo é 100% de si mesmo, qual é a razão entre ele e ele mesmo? Pense: quanto é 100% do total?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Para representar o total como 100%, coloque o valor total (870) tanto no numerador quanto no denominador da razão original."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A linha 'Total' mostra que 870 ml equivale a 100%. Então a razão original deve ter 870 em cima e 870 embaixo."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! Como 870 ml é o todo, escreva 870 no numerador e 870 no denominador da linha Total. Isso representa 100%."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Preencher a razão original nas linhas Part 1 e Part 2",
+        "thinking": "Na Parte 1, ele quer 1218 ml. Então a razão original deve ser 1218 / 870? Sim, porque estamos comparando a nova quantidade com o original. Igual para Parte 2: 348 / 870.",
+        "result": "part1orignumareainput = 1218, part1origdenomareainput = 870; part2orignumareainput = 348, part2origdenomareainput = 870",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Determinar a operação e fator de escala para transformar o denominador em 100",
+        "thinking": "Preciso transformar o denominador (870) em 100. Como faço isso? Divido 870 por... quanto? 870 ÷ x = 100 → x = 870 ÷ 100 = 8.7. Então devo dividir o denominador por 8.7. E o numerador também deve ser dividido por 8.7 para manter a razão equivalente.",
+        "result": "Operação: ÷ para numerador e denominador; fator de escala = 8.7",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Para transformar uma razão em porcentagem, o que devemos fazer com o denominador? Ele precisa virar quanto?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está indo bem! Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador original (870) para chegar a 100. Depois, aplique a mesma operação ao numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 870 dividido por quanto dá 100? Pense: 870 ÷ ? = 100. Use calculadora ou divisão simples."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito perto! Se 870 ÷ 8.7 = 100, então o fator de escala é 8.7, e a operação é divisão (÷) tanto no numerador quanto no denominador."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Aplicar o fator de escala ao numerador para obter a porcentagem",
+        "thinking": "Para Parte 1: 1218 ÷ 8.7 = ? Vamos ver... 8.7 × 140 = 1218? 8.7 × 100 = 870, 8.7 × 40 = 348, então 870 + 348 = 1218 → sim, 140%. Para Parte 2: 348 ÷ 8.7 = 40, porque 8.7 × 40 = 348. Então 40%.",
+        "result": "part1percentnumareainput = 140, part1percentareainput = 140; part2percentnumareainput = 40, part2percentareainput = 40",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Lembre-se: se o denominador vira 100, o novo numerador é exatamente a porcentagem. O que acontece com o numerador quando você aplica o mesmo fator?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Divida o numerador original pelo mesmo fator usado no denominador. O resultado será a porcentagem."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Você já sabe que o fator é 8.7. Agora calcule: 1218 ÷ 8.7 e 348 ÷ 8.7. Use estimativa: 8.7 × 100 = 870, então 1218 é mais que isso..."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! 8.7 × 140 = 1218, então 1218 ÷ 8.7 = 140. E 8.7 × 40 = 348, então 348 ÷ 8.7 = 40. Esses são os valores da porcentagem!"
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Preencher linha Total com resultado 100%",
+        "thinking": "870 ÷ 8.7 = 100, então totalpercentnumareainput = 100, totalpercentareainput = 100",
+        "result": "Campos preenchidos corretamente",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "Part 1: 140%, Part 2: 40%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagem diretamente com regra de três em vez de usar fator de escala na tabela",
+        "steps": [
+         "Montar 870 → 100%, 1218 → x%",
+         "Resolver x = (1218 × 100) / 870"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar calculadora para dividir 1218/870 e multiplicar por 100, sem preencher toda a tabela",
+        "steps": [
+         "Calcular 1218 ÷ 870 = 1.4",
+         "1.4 × 100 = 140%"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 7,
+  "errosEspecificos": 7,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 7
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 10,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ }
+}

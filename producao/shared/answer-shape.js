@@ -116,6 +116,12 @@ export function typedAnswerObstacle(expectedAnswer, { maxPalavras = 5 } = {}) {
   if (/[a-zA-Z]_|_[a-zA-Z]/.test(expected)) {
     return "o gabarito é um identificador interno (underscore): o aluno teria de digitar um id do sistema";
   }
+  // 2026-08-17 (reparo (m7) do caderno, "decomponha 1884 em milhares,
+  // centenas, dezenas e unidades" -> "1000 + 800 + 80 + 4"): SOMA pura de
+  // inteiros e um valor que se digita numa caixinha (18 caracteres), nao uma
+  // resposta dissertativa. A regua de palavras contava 7 e o gate bloqueava a
+  // geracao inteira por "gabarito que o aluno nao consegue digitar".
+  if (/^\d+(?:\s*\+\s*\d+){1,4}$/.test(expected) && expected.length <= 24) return null;
   if (n > maxPalavras) {
     return `o gabarito tem ${n} palavras: é uma resposta dissertativa, não um valor que o aluno digita`;
   }

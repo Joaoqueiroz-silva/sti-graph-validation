@@ -274,13 +274,17 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
 export function dpEntreReplicas(linhas, campo) {
   const porEx = {};
   for (const l of linhas) if (l[campo] !== null && l[campo] !== undefined) (porEx[l.ex] ||= []).push(l[campo]);
-  const dps = Object.values(porEx)
-    .filter((v) => v.length > 1)
-    .map((v) => {
-      const m = media(v);
-      return Math.sqrt(v.reduce((s, x) => s + (x - m) ** 2, 0) / (v.length - 1));
-    });
-  return dps.length ? media(dps) : null;
+  // DP AGRUPADO (2026-08-18, auditoria): antes era a média dos DPs por
+  // exercício, que subestima o ruído. Agora √(Σ SSᵢ / Σ (nᵢ−1)).
+  let ss = 0;
+  let gl = 0;
+  for (const v of Object.values(porEx)) {
+    if (v.length < 2) continue;
+    const m = media(v);
+    ss += v.reduce((s, x) => s + (x - m) ** 2, 0);
+    gl += v.length - 1;
+  }
+  return gl > 0 ? Math.sqrt(ss / gl) : null;
 }
 
 // ── CLI ─────────────────────────────────────────────────────────────────────

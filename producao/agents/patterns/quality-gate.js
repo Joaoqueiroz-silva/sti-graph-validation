@@ -25,7 +25,11 @@ import {
   normalizeCellRole,
   notebookInstrumentSource,
   notebookLayoutSource,
+  joinAnswerFields,
+  labelBelongsToAnotherCell,
+  pendingDecompositionTautology,
   presentationForRenderAs,
+  templateSegmentIsFalse,
 } from "../notebook/notebook-fallback.js";
 import { analyzeAnswerShape } from "../../lib/answer-shape.js";
 import { NOTEBOOK_C_V1 } from "../../shared/component-sets.js";
@@ -598,7 +602,39 @@ export function auditWorksheetTutor(tutor) {
     worksheetOptionsOnFreeSurface: 0,
     worksheetGivensDiscarded: 0,
     worksheetConceptualTypedCells: 0,
+    worksheetDecompositionWithNumericAnswer: 0,
+    worksheetTemplateFalseEquality: 0,
+    worksheetTemplateRepeatedCell: 0,
+    worksheetCellsWithFields: 0,
+    worksheetIncoherentFields: 0,
+    worksheetLabelsDescribingAnotherCell: 0,
+    worksheetLabelsWithoutTheNumber: 0,
+    worksheetOrphanInstrumentTargets: 0,
+    worksheetLongInstructions: 0,
+    worksheetCellsWithGivenRefs: 0,
+    // 2026-08-18 (fase 7, catalogo por conteudo): RIQUEZA do caderno. Estas
+    // reguas existiam no gate universal e sao desligadas no worksheet por
+    // `richnessRulesOff` (a troca prometida em 2026-08-16 foi "entram as
+    // reguas proprias do caderno", mas as que entraram medem ESTRUTURA, nao
+    // riqueza). Sem substituto, o corpus de producao derivou para 42,4% de
+    // celulas de selecao passiva e um tutor inteiro (geopolitica) com 12/12
+    // multiple_choice. Aqui a riqueza volta a ser medida na lingua do caderno:
+    // papel da celula + superficie, por tutor.
+    worksheetPassiveCells: 0,
+    worksheetPassiveShare: 0,
+    worksheetCells: 0,
+    worksheetCellsA: 0,
+    worksheetCellsB: 0,
+    worksheetTutorAllPassive: 0,
+    worksheetProblemsWithoutInstrument: 0,
+    worksheetDistinctSurfaces: 0,
+    // Rotulo de opcao que e um identificador de codigo ("rota_artica"): fossil
+    // de um componente rico (hot_spot) que foi rebaixado para selecao sem que
+    // ninguem traduzisse os alvos para texto que o aluno le.
+    worksheetOptionsLookingLikeIds: 0,
   };
+  // Superficies distintas usadas no tutor inteiro (variedade real da folha).
+  const superficiesDoTutor = new Set();
   const profile = String(tutor?.interfaceSpec?.profile || "reader");
   const forbidden = Array.isArray(tutor?.interfaceSpec?.constraints?.forbiddenInteractions)
     ? tutor.interfaceSpec.constraints.forbiddenInteractions
@@ -647,6 +683,25 @@ export function auditWorksheetTutor(tutor) {
       if (role === "B" || role === "C") temBC = true;
       // 2026-08-17 (stream M): medicao de "o caderno prefere digitar".
       const renderAsDoPasso = String(step?.renderAs || "").trim();
+
+      // (fase 7) riqueza: papel, superficie e selecao passiva por celula.
+      metrics.worksheetCells++;
+      if (role === "A") metrics.worksheetCellsA++;
+      if (role === "B") metrics.worksheetCellsB++;
+      if (renderAsDoPasso) superficiesDoTutor.add(renderAsDoPasso);
+      if (PASSIVE_RENDER_AS.has(renderAsDoPasso)) metrics.worksheetPassiveCells++;
+      // Um rotulo so conta como identificador quando TODAS as opcoes sao
+      // identificadores: uma unica opcao em snake_case pode ser um termo
+      // tecnico legitimo, o conjunto inteiro nao e.
+      const rotulos = (Array.isArray(step?.options) ? step.options : []).map((o) =>
+        String(o?.label ?? o?.value ?? "").trim()
+      );
+      if (rotulos.length >= 2 && rotulos.every((r) => /^[a-z0-9]+(_[a-z0-9]+)+$/.test(r))) {
+        metrics.worksheetOptionsLookingLikeIds++;
+        warnings.push(
+          `${stepLabel}: as opcoes sao identificadores de codigo (${rotulos.slice(0, 3).join(", ")}), nao texto que o aluno le`
+        );
+      }
       const kindDoGabarito = analyzeAnswerShape(step).kind;
       if (renderAsDoPasso === "dynamic_spec") {
         metrics.worksheetDynamicSpecCells++;
@@ -688,6 +743,96 @@ export function auditWorksheetTutor(tutor) {
         metrics.worksheetConceptualTypedCells++;
         warnings.push(
           `${stepLabel}: celula A com gabarito conceitual sem alternativas ("${String(step.expectedAnswer).trim().slice(0, 60)}"): o aluno teria de digitar a frase exata`
+        );
+      }
+      // 2026-08-17 (visto em producao: "Decomponha o numeral MDCCCLXXXIV em
+      // blocos" com gabarito "1884"): a instrucao pede uma DECOMPOSICAO ou
+      // REPRESENTACAO e o gabarito e um numero puro; o aluno escreve a
+      // decomposicao certa e e recusado. Medicao (warning) + regra no worker.
+      if (
+        role === "A" &&
+        /\b(decomponha|decompor|represente como|escreva como|reescreva|expresse como|monte a (soma|expressao|equacao))\b/i.test(
+          String(step?.instruction || "")
+        ) &&
+        /^-?\d+(?:[.,]\d+)?$/.test(String(step?.expectedAnswer ?? "").trim())
+      ) {
+        metrics.worksheetDecompositionWithNumericAnswer =
+          (metrics.worksheetDecompositionWithNumericAnswer || 0) + 1;
+        warnings.push(
+          `${stepLabel}: instrucao pede decomposicao/representacao mas o gabarito e um numero ("${String(step.expectedAnswer).trim()}"): incoerencia instrucao x gabarito`
+        );
+      }
+      // 2026-08-17: SENTINELA da tautologia de decomposicao por valor
+      // posicional ("decomponha 12 em dezenas e unidades" com gabarito "12").
+      // Usa o MESMO predicado do reparo (m7), que roda no structural-gate
+      // ANTES daqui: em pipeline saudavel isto e inalcancavel. Se disparar, o
+      // reparo nao rodou e a celula e uma pegadinha (o unico valor aceito e o
+      // numero que o aluno foi mandado decompor) — a regua do repo classifica
+      // isso como "gabarito que o aluno nao consegue digitar", bloqueante.
+      // 2026-08-18 (fase 2): celula com caixinhas. A juncao das parcelas TEM
+      // de reproduzir o gabarito, senao a folha desenha um campo que nunca
+      // casa — "gabarito que o aluno nao consegue digitar" pela regua do repo,
+      // logo bloqueante. A metrica de adocao existe para saber se o pedido do
+      // professor esta chegando ao aluno (e para acusar regressao da passada
+      // (m8), que roda antes daqui).
+      if (Array.isArray(cell.fields) && cell.fields.length >= 2) {
+        metrics.worksheetCellsWithFields++;
+        const remonta = joinAnswerFields(
+          cell.fields,
+          cell.fields.map((f) => f?.expected)
+        );
+        const semEspaco = (v) => String(v ?? "").replace(/\s+/g, "");
+        const coerente =
+          semEspaco(remonta) === semEspaco(step?.expectedAnswer) &&
+          role === "A" &&
+          !(Array.isArray(step?.options) && step.options.length >= 2);
+        if (!coerente) {
+          metrics.worksheetIncoherentFields++;
+          issues.push(
+            `${stepLabel}: caixinhas nao reproduzem o gabarito ("${remonta}" x "${String(step?.expectedAnswer ?? "").trim()}")`
+          );
+        }
+      }
+      // 2026-08-18 (fase 3 do foco): o ROTULO curto e o que a trilha de passos
+      // promove a leitura primaria — ela esconde a instrucao, entao um rotulo
+      // que descreve outra celula vira a unica coisa que o aluno le sobre
+      // aquele passo. Medido nos 139 rotulos de producao: 61% sincronizados,
+      // 12% descrevendo outro passo, 27% abstracao legitima do subobjetivo.
+      // So MEDICAO (warning): reescrever automaticamente degradaria rotulo bom
+      // (a heuristica acusa "Capital politica" num tutor de capitais), e a
+      // fonte que se usaria (`operation`) esta dessincronizada nas mesmas
+      // celulas. A trilha se defende sozinha quando a regua nao passa.
+      const outraCelula = labelBelongsToAnotherCell(steps, si);
+      if (outraCelula >= 0) {
+        metrics.worksheetLabelsDescribingAnotherCell++;
+        warnings.push(
+          `${stepLabel}: rotulo "${String(cell.label).trim()}" descreve o passo ${outraCelula + 1}, nao este`
+        );
+      }
+      // 2026-08-18 (fase 5): instrucao comprida na celula. Medido: 5% acima de
+      // 120 caracteres. So warning — o texto longo nao impede responder, mas
+      // compete com o campo pela atencao e estoura a linha do cartao.
+      // 2026-08-18 (fase 6): cobertura de givenRefs. O campo existia no
+      // contrato desde o inicio e nunca foi emitido (0 de 112); o fallback
+      // agora deriva por casamento de valor literal (81% das celulas). A
+      // metrica existe para acompanhar a cobertura quando o planner comecar a
+      // emitir — e para acusar se a derivacao regredir.
+      if (Array.isArray(cell.givenRefs) && cell.givenRefs.length) {
+        metrics.worksheetCellsWithGivenRefs++;
+      }
+      const tamanhoInstrucao = String(step?.instruction ?? "").trim().length;
+      if (tamanhoInstrucao > 120) {
+        metrics.worksheetLongInstructions++;
+        warnings.push(`${stepLabel}: instrucao com ${tamanhoInstrucao} caracteres (meta: ate 120)`);
+      }
+      const numerosDaInstrucao = String(step?.instruction ?? "").match(/\d+(?:\/\d+)?/g) || [];
+      if (numerosDaInstrucao.length && !/\d/.test(String(cell.label ?? ""))) {
+        metrics.worksheetLabelsWithoutTheNumber++;
+      }
+      const tautologia = pendingDecompositionTautology(step);
+      if (tautologia) {
+        issues.push(
+          `${stepLabel}: celula pede a decomposicao de ${tautologia.number} mas o gabarito e o proprio ${tautologia.number} (esperado "${tautologia.value}")`
         );
       }
       if (role === "A" && instructionPromisesManipulation(step?.instruction)) {
@@ -745,6 +890,31 @@ export function auditWorksheetTutor(tutor) {
       );
     }
 
+    // 2026-08-18 (fase 5): SENTINELA de alvo orfao. O fallback ((m10)) poda os
+    // alvos que nenhuma celula aponta — um alvo orfao vira um chip "pendente"
+    // que fica a atividade inteira sem poder ser respondido. Aqui deve dar
+    // zero; se subir, a poda tem buraco.
+    const listaDeAlvos = Array.isArray(instrument?.targets) ? instrument.targets : null;
+    if (instrument && listaDeAlvos) {
+      const apontados = new Set(
+        (p.steps || [])
+          .map((step) => {
+            const alvo = step?.cell?.target;
+            return typeof alvo === "object"
+              ? String(alvo?.id ?? "").trim()
+              : String(alvo ?? "").trim();
+          })
+          .filter(Boolean)
+      );
+      const orfaos = listaDeAlvos.filter((t) => !apontados.has(String(t?.id ?? "").trim()));
+      if (orfaos.length) {
+        metrics.worksheetOrphanInstrumentTargets += orfaos.length;
+        warnings.push(
+          `${label}: ${orfaos.length} alvo(s) do instrumento sem celula (${orfaos.map((t) => t?.id).join(", ")})`
+        );
+      }
+    }
+
     const source = notebookInstrumentSource(p);
     metrics.worksheetInstrumentSources[label] = source;
     warnings.push(`${label}: origem do instrumento do caderno = ${source}`);
@@ -752,13 +922,86 @@ export function auditWorksheetTutor(tutor) {
     metrics.worksheetLayoutSources[label] = layoutSource;
     warnings.push(`${label}: origem do layout do caderno = ${layoutSource}`);
 
+    // 2026-08-17 (visto em producao, "Multiplicacoes em Aventuras do Dia a
+    // Dia"): a linha do template trazia "{step_3} = {step_4}", que com os
+    // gabaritos oficiais e a igualdade FALSA "20 = 24". O fallback poda esses
+    // trechos ((i2) de notebook-fallback.js); estas metricas existem para
+    // acusar se algum escapar (devem ficar em zero) e para medir quantas
+    // linhas repetem a mesma celula (renderizada como eco somente leitura).
+    const linhasDoLayout = Array.isArray(p?.notebook?.layout?.rows) ? p.notebook.layout.rows : [];
+    const gabaritoPorCelula = {};
+    for (const step of Array.isArray(p?.steps) ? p.steps : []) {
+      const id = String(step?.cell?.id ?? step?.graphNodeId ?? step?.id ?? "").trim();
+      if (id) gabaritoPorCelula[id] = String(step?.expectedAnswer ?? "").trim();
+    }
+    for (const linha of linhasDoLayout) {
+      const refs = [...String(linha).matchAll(/\{\s*([^{}\s]+)\s*\}/g)].map((m) => m[1]);
+      if (new Set(refs).size !== refs.length) {
+        metrics.worksheetTemplateRepeatedCell++;
+        warnings.push(
+          `${label}: linha do caderno repete a mesma celula ("${String(linha).slice(0, 70)}")`
+        );
+      }
+      for (const trecho of String(linha).split(";")) {
+        const substituido = trecho.replace(/\{\s*([^{}\s]+)\s*\}/g, (m, id) => {
+          const v = gabaritoPorCelula[String(id).trim()];
+          if (!v) return m;
+          return /[+\-*/·×÷]/.test(v) ? `(${v})` : v;
+        });
+        if (templateSegmentIsFalse(substituido) === true) {
+          // SENTINELA: o fallback ((i2)) ja poda esses trechos com o MESMO
+          // detector, entao aqui a metrica deve ficar em zero; se subir, e
+          // porque a poda tem um buraco. Warning, nao issue: rejeitar a
+          // geracao inteira por uma linha DECORATIVA e pior para o professor
+          // do que entregar (politica "reparar > dropar > rejeitar").
+          metrics.worksheetTemplateFalseEquality++;
+          warnings.push(
+            `${label}: linha do caderno afirma uma igualdade FALSA sob os gabaritos ("${substituido.trim().slice(0, 70)}")`
+          );
+        }
+      }
+    }
+
     if (temCell && !temBC && perfilPermiteBC) {
       metrics.worksheetProblemsOnlyA++;
       warnings.push(`${label}: caderno so com celulas A (nenhuma celula B ou C)`);
     }
+    if (temCell && !instrument) metrics.worksheetProblemsWithoutInstrument++;
   }
   if (metrics.worksheetStepsWithoutCell > 0) {
     warnings.push(`${metrics.worksheetStepsWithoutCell} passo(s) do caderno sem cell`);
+  }
+
+  // (fase 7) Agregacao de riqueza no nivel do TUTOR. Por que no tutor e nao no
+  // problema: um problema de 3 celulas com 3 multiple_choice e legitimo (uma
+  // rodada de classificacao); um TUTOR inteiro em que o aluno so escolhe entre
+  // alternativas prontas nao e um caderno, e um questionario. A regua so vale a
+  // partir de 4 celulas para nao reprovar caderno curto.
+  //
+  // 2026-08-18: entra como AVISO, nao como reprovacao. A politica do repo e
+  // "reparar > dropar > rejeitar", e o reparo (roteamento por conteudo) ainda
+  // nao existe: bloquear agora pararia a geracao em producao sem oferecer
+  // saida. Quando o reparo estiver no ar, `worksheetTutorAllPassive` vira
+  // issue.
+  metrics.worksheetDistinctSurfaces = superficiesDoTutor.size;
+  metrics.worksheetPassiveShare =
+    metrics.worksheetCells > 0 ? metrics.worksheetPassiveCells / metrics.worksheetCells : 0;
+  if (metrics.worksheetCells >= 4) {
+    if (metrics.worksheetPassiveCells === metrics.worksheetCells) {
+      metrics.worksheetTutorAllPassive = 1;
+      warnings.push(
+        `caderno inteiro em selecao passiva: ${metrics.worksheetCells}/${metrics.worksheetCells} celulas em MC/V-F (o aluno nunca constroi nem manipula nada)`
+      );
+    } else if (metrics.worksheetPassiveShare > 0.5) {
+      warnings.push(
+        `caderno com ${(metrics.worksheetPassiveShare * 100).toFixed(0)}% de celulas em selecao passiva (${metrics.worksheetPassiveCells}/${metrics.worksheetCells})`
+      );
+    }
+    if (metrics.worksheetDistinctSurfaces <= 1) {
+      warnings.push(
+        `caderno com uma unica superficie em todas as celulas (zero variedade de resposta)`
+      );
+    }
   }
   return { issues, warnings, metrics };
 }

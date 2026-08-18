@@ -1,0 +1,1239 @@
+{
+ "id": "kennel",
+ "correctAnswer": "4",
+ "audit": {
+  "ok": true,
+  "stepCount": 9
+ },
+ "f1": 0.069,
+ "conceptual": 0.069,
+ "precision": 0.063,
+ "recall": 0.077,
+ "functionalAgreement": 0.167,
+ "functionalKappa": -0.429,
+ "missing": [
+  "100",
+  "112",
+  "/",
+  "*"
+ ],
+ "extra": [
+  "1/4",
+  "7/25",
+  "×",
+  "÷",
+  "7",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "25/100",
+  "28/100",
+  "×",
+  "÷",
+  "28",
+  "7",
+  "7",
+  "1"
+ ],
+ "exercicio": "kennel",
+ "replica": 2,
+ "geradoEm": "2026-08-18T21:16:59.217Z",
+ "promptSha256": "4e08775eb48776388f03b44f25fd65c24e535094965fa4cf0a1afb2835699c1c",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10207,
+  "tokensSaida": 11334,
+  "usd": 0.05216406
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 9
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Capacidade total = {C} = 25; Parte 1 = {A} = 28; Parte 2 = {B} = 7"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher linha 'Total' da tabela: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Total: numerador = {C}, denominador = {C}"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher linha 'Part 1': razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 1: numerador = {A}, denominador = {C}"
+   },
+   {
+    "indice": 4,
+    "acao": "Preencher linha 'Part 2': razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 2: numerador = {B}, denominador = {C}"
+   },
+   {
+    "indice": 5,
+    "acao": "Identificar operação necessária para converter denominador em 100",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: × para numerador e denominador; fator = 100 / {C}"
+   },
+   {
+    "indice": 6,
+    "acao": "Aplicar operação e fator à linha 'Total'",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Total: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = 100"
+   },
+   {
+    "indice": 7,
+    "acao": "Aplicar operação e fator à linha 'Part 1'",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 1: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({A} × 100)/{C}"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar operação e fator à linha 'Part 2'",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 2: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({B} × 100)/{C}"
+   },
+   {
+    "indice": 9,
+    "acao": "Identificar porcentagens finais",
+    "kc": "identify-percent",
+    "valor": "Total: 100%; Part 1: ({A} × 100)/{C}%; Part 2: ({B} × 100)/{C}%"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "25/100",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Sublinhar no enunciado 'cages for 25 dogs' e destacar que isso define o todo (denominador da razão original)",
+    "buggyRule": "",
+    "misconceptionId": "misc_confunde_razao_original_com_resultado"
+   },
+   {
+    "valor": "28/100",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar um modelo visual: desenhar 25 caixas (capacidade) e marcar quantas estão ocupadas",
+    "buggyRule": "Usar 100 como denominador da razão original, independentemente da capacidade real: numerador = número de cães/puppies ({part}); denominador = 100",
+    "misconceptionId": "misc_usa_100_como_denominador_padrao"
+   },
+   {
+    "valor": "×",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Promover reflexão sobre magnitude: 'mais cães do que a capacidade → mais de 100%?'",
+    "buggyRule": "",
+    "misconceptionId": "misc_assume_ja_esta_em_porcentagem"
+   },
+   {
+    "valor": "÷",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar: para aumentar o denominador, multiplique; para diminuir, divida",
+    "buggyRule": "Quando o fator é calculado como 100 ÷ denominador_original, o aluno interpreta que deve DIVIDIR a razão por esse fator",
+    "misconceptionId": "misc_confunde_operacao_com_calculo_do_fator"
+   },
+   {
+    "valor": "28",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar analogia com copo d’água: se cabe 250 mL e você coloca 280 mL, transborda — mais de 100%",
+    "buggyRule": "Quando part > denom, ainda assim reportar part como porcentagem (porque usou 100 como denominador desde o início)",
+    "misconceptionId": "misc_percentual_menor_que_100_para_sobrecarga"
+   },
+   {
+    "valor": "7",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar princípio de equivalência: 'o que faz no denominador, faz igual no numerador'",
+    "buggyRule": "Dividir o numerador pelo fator de escala (calculado como 100/denom) em vez de multiplicar: resultado = {part} ÷ (100 ÷ {denom})",
+    "misconceptionId": "misc_divide_quando_deve_multiplicar"
+   },
+   {
+    "valor": "7",
+    "passo": 9,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar proporção mental: '25 para 100 é ×4, então 7 × 4 = 28'",
+    "buggyRule": "",
+    "misconceptionId": "misc_nao_escala_quando_deveria"
+   },
+   {
+    "valor": "1",
+    "passo": 9,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Permitir uso de decimais em porcentagem; comparar 1.75% com estimativa (ex: 7/25 ≈ 1/4 → 25%)",
+    "buggyRule": "Calcular corretamente o valor decimal, mas truncar para inteiro: resultado = floor(7 * 4) = floor(28) = 28 (ok), mas se fosse 7*1.5=10.5 → 10",
+    "misconceptionId": "misc_trunca_decimal_em_porcentagem"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa reflexão! Quando queremos representar 100% de algo, qual deve ser a relação entre a parte e o todo? Pense: se o todo é 25, quanto é 100%?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Para mostrar 100% da capacidade, use o número total (25) como numerador e também como denominador. Assim, a razão representa o todo completo."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! A razão original para 100% sempre tem o mesmo número em cima e embaixo. Como a capacidade é 25, os dois números devem ser 25."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se o canil cheio tem 25 cães, então 100% corresponde a 25 cães de 25 possíveis. Escreva isso como fração: 25 sobre 25."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Para converter uma razão em porcentagem, precisamos que o denominador seja 100. Que operação nos ajuda a aumentar o denominador até 100?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Continue assim! Veja quanto falta para o denominador (25) chegar a 100. Divida 100 por 25 — esse é o fator que você deve usar. Depois, aplique a mesma operação ao numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Muito bem! 25 cabe 4 vezes em 100. Então o fator de escala é 4, e a operação é multiplicação. Aplique isso tanto no numerador quanto no denominador."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase lá! Pense: 25 × ? = 100. A resposta é 4. Então multiplique ambos os lados da fração por 4."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Excelente observação! Se a razão tem denominador 25, como antes, o que podemos reutilizar da linha 'Total' para facilitar o cálculo?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Você já fez isso antes! Use o mesmo fator de escala que usou na linha 'Total' — multiplique numerador e denominador por 4 para obter denominador 100."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Isso mesmo! O fator ainda é 4. Multiplique 28 por 4. Dica: 25×4=100, então 28×4 é um pouco mais que 100."
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Você está quase! Faça 28 × 4: 20×4=80 e 8×4=32, então 80+32=112. Esse é o numerador da porcentagem."
+   },
+   {
+    "passo": 8,
+    "nivel": 1,
+    "texto": "Boa pergunta! Se o denominador continua sendo 25, o que isso sugere sobre o fator de escala que você deve usar novamente?"
+   },
+   {
+    "passo": 8,
+    "nivel": 2,
+    "texto": "Continue com o mesmo padrão! Multiplique o numerador (7) pelo mesmo fator usado antes (4) para manter a razão equivalente com denominador 100."
+   },
+   {
+    "passo": 8,
+    "nivel": 3,
+    "texto": "Exatamente! 7 × 4 = 28. Então a porcentagem é 28%. Confira: 25% seria 6.25, então 7 deve ser um pouco mais — 28% faz sentido!"
+   },
+   {
+    "passo": 8,
+    "nivel": 4,
+    "texto": "Você está quase lá! Calcule 7 × 4: 5×4=20 e 2×4=8, então 20+8=28. Esse é o valor da porcentagem."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"kennel\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O canil tem capacidade para 25 cães (1 por gaiola). Parte 1: 28 cães foram deixados → calcular porcentagem de ocupação. Parte 2: 7 filhotes → calcular porcentagem de ocupação.\\\",\\n          \\\"result\\\": \\\"Capacidade total = {C} = 25; Parte 1 = {A} = 28; Parte 2 = {B} = 7\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha 'Total' da tabela: razão original\\\",\\n          \\\"thinking\\\": \\\"A razão total representa a capacidade total como numerador e denominador iguais, pois 100% corresponde a 25/25.\\\",\\n          \\\"result\\\": \\\"Total: numerador = {C}, denominador = {C}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher linha 'Part 1': razão original\\\",\\n          \\\"thinking\\\": \\\"A razão original para a Parte 1 é número de cães reais sobre capacidade total: {A}/{C}.\\\",\\n          \\\"result\\\": \\\"Part 1: numerador = {A}, denominador = {C}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher linha 'Part 2': razão original\\\",\\n          \\\"thinking\\\": \\\"A razão original para a Parte 2 é número de filhotes sobre capacidade total: {B}/{C}.\\\",\\n          \\\"result\\\": \\\"Part 2: numerador = {B}, denominador = {C}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Identificar operação necessária para converter denominador em 100\\\",\\n          \\\"thinking\\\": \\\"Para transformar o denominador {C} em 100, preciso multiplicar por um fator de escala = 100 / {C}.\\\",\\n          \\\"result\\\": \\\"Operação: × para numerador e denominador; fator = 100 / {C}\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar operação e fator à linha 'Total'\\\",\\n          \\\"thinking\\\": \\\"Razão total: {C}/{C}. Multiplico numerador e denominador por (100 / {C}) → ({C} × 100/{C}) / ({C} × 100/{C}) = 100/100.\\\",\\n          \\\"result\\\": \\\"Total: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Aplicar operação e fator à linha 'Part 1'\\\",\\n          \\\"thinking\\\": \\\"Razão Part 1: {A}/{C}. Multiplico ambos por (100 / {C}) → ({A} × 100/{C}) / 100 → porcentagem = ({A} × 100) / {C}.\\\",\\n          \\\"result\\\": \\\"Part 1: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({A} × 100)/{C}\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar operação e fator à linha 'Part 2'\\\",\\n          \\\"thinking\\\": \\\"Razão Part 2: {B}/{C}. Multiplico ambos por (100 / {C}) → ({B} × 100/{C}) / 100 → porcentagem = ({B} × 100) / {C}.\\\",\\n          \\\"result\\\": \\\"Part 2: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({B} × 100)/{C}\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Identificar porcentagens finais\\\",\\n          \\\"thinking\\\": \\\"As porcentagens são os numeradores das razões equivalentes com denominador 100.\\\",\\n          \\\"result\\\": \\\"Total: 100%; Part 1: ({A} × 100)/{C}%; Part 2: ({B} × 100)/{C}%\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A} dogs → ({A} × 100)/{C}% ; {B} puppies → ({B} × 100)/{C}%\\\",\\n      \\\"totalTime\\\": 54\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"kennel\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"O total de cães que cabem é 25, então a razão total deve ser 25/25.\\\",\\n              \\\"result\\\": \\\"Razão original correta: 25/25\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"Foram deixados 28 cães, e o total é 25, então a razão é 28/25.\\\",\\n              \\\"result\\\": \\\"Razão original correta: 28/25\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para converter Part 1 em porcentagem\\\",\\n              \\\"thinking\\\": \\\"Preciso transformar o denominador 25 em 100. Como 25 × 4 = 100, vou usar multiplicação nos dois.\\\",\\n              \\\"result\\\": \\\"Operação correta: × no numerador e × no denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 1\\\",\\n              \\\"thinking\\\": \\\"Se 25 vira 100, o fator é 4. Então coloco 4 nos dois lados.\\\",\\n              \\\"result\\\": \\\"Fator de escala correto: 4 e 4\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 1\\\",\\n              \\\"thinking\\\": \\\"28 × 4 = 112, então a porcentagem é 112%.\\\",\\n              \\\"result\\\": \\\"Resultado correto: 112\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 2\\\",\\n              \\\"thinking\\\": \\\"São 7 filhotes, então a razão é 7/25.\\\",\\n              \\\"result\\\": \\\"Razão original correta: 7/25\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Escolher operação para Part 2\\\",\\n              \\\"thinking\\\": \\\"Denominador 25 precisa virar 100, então multiplico os dois.\\\",\\n              \\\"result\\\": \\\"Operação correta: × e ×\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 2\\\",\\n              \\\"thinking\\\": \\\"25 × 4 = 100, então fator é 4.\\\",\\n              \\\"result\\\": \\\"Fator correto: 4 e 4\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 2\\\",\\n              \\\"thinking\\\": \\\"7 × 4 = 28, então 28%.\\\",\\n              \\\"result\\\": \\\"Resultado correto: 28\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"112, 28\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"O total é 25, então ponho 25/100 porque porcentagem é sempre sobre 100.\\\",\\n              \\\"result\\\": \\\"Razão errada: 25/100\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_razao_original_com_resultado\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"25/100\\\",\\n                \\\"description\\\": \\\"Aluno coloca diretamente a razão como se já estivesse sobre 100, sem entender que a razão original é parte/sobre capacidade real\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher a razão original da linha Total, o aluno usou 100 como denominador em vez da capacidade real (25)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é o número máximo de cães que cabem no canil? Esse número deve estar no denominador da razão original?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você lembrou que porcentagem envolve 100, mas a razão original vem dos dados reais do problema. Qual é a capacidade máxima do canil?\\\",\\n                \\\"howToFix\\\": \\\"Sublinhar no enunciado 'cages for 25 dogs' e destacar que isso define o todo (denominador da razão original)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"Tem 28 cães, então ponho 28/100.\\\",\\n              \\\"result\\\": \\\"Razão errada: 28/100\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_100_como_denominador_padrao\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"28/100\\\",\\n                \\\"description\\\": \\\"Aluno assume que toda razão de porcentagem já começa com denominador 100, ignorando a unidade real do problema\\\",\\n                \\\"mistakeLocation\\\": \\\"Na entrada da razão original da Parte 1, o aluno ignora o denominador real (25) e usa 100 diretamente\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o canil só tem lugar para 25 cães, por que você usou 100 como denominador? Onde está escrito isso no problema?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você identificou bem o número de cães! Agora pense: a comparação deve ser feita com a capacidade real do canil — quantos cães cabem lá?\\\",\\n                \\\"howToFix\\\": \\\"Usar um modelo visual: desenhar 25 caixas (capacidade) e marcar quantas estão ocupadas\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para Part 1\\\",\\n              \\\"thinking\\\": \\\"Já está sobre 100, então não preciso fazer nada. Ponho ×1.\\\",\\n              \\\"result\\\": \\\"Operação incorreta: × e × com fator 1\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_assume_ja_esta_em_porcentagem\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"×\\\",\\n                \\\"description\\\": \\\"Aluno acredita que, por ter usado 100 como denominador, já chegou à porcentagem e não precisa escalar\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha da operação, o aluno não percebe que a razão original foi mal definida\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você já colocou 28/100, qual seria a porcentagem? Mas será que 28 cães realmente correspondem a 28% da capacidade?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Interessante! Mas vamos verificar: se o canil só cabe 25 cães, como 28 pode ser menos que 100%? Isso faz sentido?\\\",\\n                \\\"howToFix\\\": \\\"Promover reflexão sobre magnitude: 'mais cães do que a capacidade → mais de 100%?'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 1\\\",\\n              \\\"thinking\\\": \\\"Como já está sobre 100, fator é 1.\\\",\\n              \\\"result\\\": \\\"Fator errado: 1 e 1\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 1\\\",\\n              \\\"thinking\\\": \\\"28 × 1 = 28, então 28%.\\\",\\n              \\\"result\\\": \\\"Resultado errado: 28\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_percentual_menor_que_100_para_sobrecarga\\\",\\n                \\\"type\\\": \\\"magnitude_error\\\",\\n                \\\"wrongAnswer\\\": \\\"28\\\",\\n                \\\"description\\\": \\\"Aluno obtém porcentagem abaixo de 100% mesmo com mais cães do que a capacidade, indicando falha na compreensão de que >100% é possível\\\",\\n                \\\"mistakeLocation\\\": \\\"No resultado final da Parte 1, o aluno aceita 28% como resposta plausível apesar de 28 > 25\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o canil cabe 25 cães e tem 28, ele está mais ou menos cheio que 100%?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Ótima observação sobre os números! Mas pense: se cabem 25 e tem 28, o canil está lotado além da capacidade — isso deve dar mais ou menos que 100%?\\\",\\n                \\\"howToFix\\\": \\\"Usar analogia com copo d’água: se cabe 250 mL e você coloca 280 mL, transborda — mais de 100%\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 2\\\",\\n              \\\"thinking\\\": \\\"7 filhotes, então 7/100.\\\",\\n              \\\"result\\\": \\\"Razão errada: 7/100\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Escolher operação para Part 2\\\",\\n              \\\"thinking\\\": \\\"Já está sobre 100, então ×1.\\\",\\n              \\\"result\\\": \\\"Operação incorreta: ×\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 2\\\",\\n              \\\"thinking\\\": \\\"Fator 1.\\\",\\n              \\\"result\\\": \\\"Fator errado: 1\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 2\\\",\\n              \\\"thinking\\\": \\\"7 × 1 = 7, então 7%.\\\",\\n              \\\"result\\\": \\\"Resultado errado: 7\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_nao_escala_quando_deveria\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"7\\\",\\n                \\\"description\\\": \\\"Aluno não converte a razão 7/25 para equivalente sobre 100, mantendo 7 como porcentagem\\\",\\n                \\\"mistakeLocation\\\": \\\"Na conversão da Parte 2, o aluno não aplica escala porque já usou 100 como denominador\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o canil tem capacidade para 25, e só 7 estão ocupados, isso é menos que metade. Metade de 25 é 12,5 — então 7 é menos que 50%. Mas 7% parece muito pouco?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você pegou o número certo de filhotes! Agora, vamos comparar com a capacidade total: 7 de 25 é parecido com quanto de 100?\\\",\\n                \\\"howToFix\\\": \\\"Usar proporção mental: '25 para 100 é ×4, então 7 × 4 = 28'\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"28, 7\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"Capacidade é 25, então razão total é 25/25.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"28 cães, capacidade 25, então 28/25.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para Part 1\\\",\\n              \\\"thinking\\\": \\\"Preciso ir de 25 para 100. 100 ÷ 25 = 4, então devo dividir?\\\",\\n              \\\"result\\\": \\\"Operação errada: ÷ no numerador e ÷ no denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_operacao_com_calculo_do_fator\\\",\\n                \\\"type\\\": \\\"operation_confusion\\\",\\n                \\\"wrongAnswer\\\": \\\"÷\\\",\\n                \\\"description\\\": \\\"Aluno calcula corretamente o fator (100 ÷ 25 = 4), mas interpreta erroneamente que isso significa DIVIDIR a razão\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha da operação, o aluno confunde 'quanto vezes cabe' com a operação a aplicar\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você divide 28 por 4, o resultado fica maior ou menor? E queremos que 28/25 vire algo maior ou menor?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você calculou direitinho que 25 cabe 4 vezes em 100! Agora, para aumentar o denominador de 25 para 100, você multiplica ou divide?\\\",\\n                \\\"howToFix\\\": \\\"Reforçar: para aumentar o denominador, multiplique; para diminuir, divida\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 1\\\",\\n              \\\"thinking\\\": \\\"Fator é 4, então coloco 4.\\\",\\n              \\\"result\\\": \\\"Fator correto numericamente, mas aplicado com operação errada\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 1\\\",\\n              \\\"thinking\\\": \\\"28 ÷ 4 = 7, então 7%.\\\",\\n              \\\"result\\\": \\\"Resultado errado: 7\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divide_quando_deve_multiplicar\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"7\\\",\\n                \\\"description\\\": \\\"Aluno divide o numerador pelo fator em vez de multiplicar, produzindo porcentagem muito baixa\\\",\\n                \\\"mistakeLocation\\\": \\\"Na aplicação do fator ao numerador, o aluno usa divisão em vez de multiplicação\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 25 vira 100 multiplicando por 4, o que devemos fazer com o 28 para manter a mesma proporção?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está quase lá! Se multiplicamos o denominador por 4 para virar 100, o que devemos fazer com o numerador para não mudar o valor da fração?\\\",\\n                \\\"howToFix\\\": \\\"Usar princípio de equivalência: 'o que faz no denominador, faz igual no numerador'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 2\\\",\\n              \\\"thinking\\\": \\\"7/25.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Escolher operação para Part 2\\\",\\n              \\\"thinking\\\": \\\"Mesmo caso: 100 ÷ 25 = 4, então divido.\\\",\\n              \\\"result\\\": \\\"Operação errada: ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Preencher fator de escala para Part 2\\\",\\n              \\\"thinking\\\": \\\"Fator 4.\\\",\\n              \\\"result\\\": \\\"Fator 4\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Calcular numerador equivalente para Part 2\\\",\\n              \\\"thinking\\\": \\\"7 ÷ 4 = 1.75, mas como é porcentagem, ponho 1 ou 2?\\\",\\n              \\\"result\\\": \\\"Resultado errado: 1\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_trunca_decimal_em_porcentagem\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno obtém decimal (1.75) e arredonda/trunca para inteiro, perdendo precisão\\\",\\n                \\\"mistakeLocation\\\": \\\"Na conversão final, o aluno descarta a parte decimal\\\",\\n                \\\"diagnosticQuestion\\\": \\\"7 dividido por 4 dá exatamente 1? Ou há uma parte fracionária?\\\",\\n                \\\"severity\\\": \\\"low\\\",\\n                \\\"feedback\\\": \\\"Você fez a conta e viu que não é exato — bom olho! Mas porcentagens podem ter decimais. Será que 1% representa bem 7 de 25?\\\",\\n                \\\"howToFix\\\": \\\"Permitir uso de decimais em porcentagem; comparar 1.75% com estimativa (ex: 7/25 ≈ 1/4 → 25%)\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"7, 1\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"kennel\\\",\\n          \\\"step\\\": \\\"preencher razão original (Part 1 e Part 2)\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_100_como_denominador_padrao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part}/100\\\",\\n              \\\"buggyRule\\\": \\\"Usar 100 como denominador da razão original, independentemente da capacidade real: numerador = número de cães/puppies ({part}); denominador = 100\\\",\\n              \\\"description\\\": \\\"Aluno assume que razões de porcentagem sempre têm denominador 100 desde o início\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada da razão original, o aluno ignora o denominador real do problema (25) e substitui por 100\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Onde no problema diz que o todo é 100? Qual é a capacidade real do canil?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o número de cães! Agora, lembre-se: a razão original compara com a capacidade real, não com 100. Qual é essa capacidade?\\\",\\n              \\\"howToFix\\\": \\\"Destacar no enunciado 'cages for 25 dogs' e escrever 'todo = 25'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_numerador_denominador_na_razao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"25/{part}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão: colocar capacidade no numerador e número de cães no denominador: numerador = 25; denominador = número de cães ({part})\\\",\\n              \\\"description\\\": \\\"Aluno confunde o que é parte e o que é todo, invertendo a razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição da razão original, o aluno troca parte e todo de lugar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O que estamos comparando: quantos cães temos em relação à capacidade, ou a capacidade em relação aos cães?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Vamos pensar: queremos saber quantos por cento da capacidade está ocupada — então o número de cães é a parte, e a capacidade é o todo.\\\",\\n              \\\"howToFix\\\": \\\"Usar frase-padrão: 'parte de um todo' → parte/TODO\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_denominador_e_coloca_so_numerador\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part}\\\",\\n              \\\"buggyRule\\\": \\\"Preencher apenas o numerador da razão original e deixar o denominador em branco ou implícito; ou tratar a razão como número inteiro {part}\\\",\\n              \\\"description\\\": \\\"Aluno foca só no número de cães e ignora o denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada da razão, o aluno omite ou ignora o denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Uma razão tem duas partes. Qual é o 'todo' com o qual estamos comparando esses cães?\\\",\\n              \\\"feedback\\\": \\\"Você identificou bem quantos cães há! Mas para calcular porcentagem, precisamos comparar com o total possível. Qual é esse total?\\\",\\n              \\\"howToFix\\\": \\\"Exigir verbalização: 'X de Y' → X/Y\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"kennel\\\",\\n          \\\"step\\\": \\\"escolher operação (× ou ÷) para escalar\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_operacao_com_calculo_do_fator\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Quando o fator é calculado como 100 ÷ denominador_original, o aluno interpreta que deve DIVIDIR a razão por esse fator\\\",\\n              \\\"description\\\": \\\"Aluno associa erroneamente o cálculo do fator (divisão) com a operação a aplicar (que deveria ser multiplicação)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da operação, após calcular 100 ÷ 25 = 4, o aluno escolhe ÷ em vez de ×\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você quer aumentar o denominador de 25 para 100, você multiplica ou divide por 4?\\\",\\n              \\\"feedback\\\": \\\"Você calculou certo que 25 × 4 = 100! Para aumentar, usamos multiplicação. Que operação mantém a proporção?\\\",\\n              \\\"howToFix\\\": \\\"Ligar operação ao efeito: multiplicar aumenta, dividir diminui\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_sempre_multiplica_independentemente_da_direcao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação, mesmo quando o denominador original é maior que 100 (não aplicável aqui, mas possível em outros problemas)\\\",\\n              \\\"description\\\": \\\"Aluno tem viés de que 'escalar para porcentagem sempre é multiplicar'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação, o aluno aplica × por hábito, sem analisar a direção do ajuste\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o denominador já fosse 200, você multiplicaria ou dividiria para chegar a 100?\\\",\\n              \\\"feedback\\\": \\\"Multiplicar funciona quando vamos de um número menor para 100. Mas e se fosse ao contrário?\\\",\\n              \\\"howToFix\\\": \\\"Praticar casos com denominadores >100 e <100\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"kennel\\\",\\n          \\\"step\\\": \\\"calcular numerador equivalente (resultado sobre 100)\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_quando_deve_multiplicar\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part} / ({100}/{denom})\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o numerador pelo fator de escala (calculado como 100/denom) em vez de multiplicar: resultado = {part} ÷ (100 ÷ {denom})\\\",\\n              \\\"description\\\": \\\"Aluno aplica operação inversa ao numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na aplicação do fator ao numerador, o aluno divide em vez de multiplicar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 25 vira 100 multiplicando por 4, o que acontece com 28 se você multiplicar por 4? E se dividir?\\\",\\n              \\\"feedback\\\": \\\"Você está quase! Lembre-se: o que fazemos no denominador, fazemos igual no numerador para manter o valor.\\\",\\n              \\\"howToFix\\\": \\\"Usar setas coloridas: '×4 aqui → ×4 aqui'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_soma_fator_ao_numerador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part} + ({100} - {denom})\\\",\\n              \\\"buggyRule\\\": \\\"Em vez de escalar, somar a diferença entre 100 e o denominador ao numerador: resultado = {part} + (100 - {denom})\\\",\\n              \\\"description\\\": \\\"Aluno tenta 'completar para 100' somando a diferença ao numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão, o aluno adiciona (100 - 25) = 75 ao numerador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você soma 75 a 28, o que isso representa? É proporcional?\\\",\\n              \\\"feedback\\\": \\\"Interessante ideia! Mas porcentagem é sobre proporção, não sobre completar para 100. Vamos testar com metade: 12.5/25 deveria ser 50% — sua regra funcionaria?\\\",\\n              \\\"howToFix\\\": \\\"Testar com casos conhecidos (ex: metade → 50%)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_trunca_decimal_em_porcentagem\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"floor({part} * ({100}/{denom}))\\\",\\n              \\\"buggyRule\\\": \\\"Calcular corretamente o valor decimal, mas truncar para inteiro: resultado = floor(7 * 4) = floor(28) = 28 (ok), mas se fosse 7*1.5=10.5 → 10\\\",\\n              \\\"description\\\": \\\"Aluno descarta parte decimal mesmo quando relevante\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do resultado, o aluno arredonda/trunca desnecessariamente\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Porcentagens podem ter casas decimais? O problema pede arredondamento?\\\",\\n              \\\"feedback\\\": \\\"Bom cuidado com os cálculos! A menos que peça, podemos manter decimais em porcentagens.\\\",\\n              \\\"howToFix\\\": \\\"Aceitar respostas decimais; mostrar exemplos reais (ex: 12.5%)\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"kennel\\\",\\n          \\\"step\\\": \\\"interpretar sobrecapacidade (>100%)\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_percentual_menor_que_100_para_sobrecarga\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{part}\\\",\\n              \\\"buggyRule\\\": \\\"Quando part > denom, ainda assim reportar part como porcentagem (porque usou 100 como denominador desde o início)\\\",\\n              \\\"description\\\": \\\"Aluno não reconhece que >100% é válido e necessário\\\",\\n              \\\"mistakeLocation\\\": \\\"Na avaliação da plausibilidade do resultado, o aluno aceita <100% mesmo com sobrecarga\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se cabem 25 e tem 28, o canil está mais cheio que totalmente cheio? Então a porcentagem deve ser maior ou menor que 100%?\\\",\\n              \\\"feedback\\\": \\\"Ótimo raciocínio sobre os números! Agora pense: totalmente cheio é 100%. Com mais cães, passamos disso?\\\",\\n              \\\"howToFix\\\": \\\"Usar termos cotidianos: '112% lotado', 'superlotação'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_limita_porcentagem_a_100\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100\\\",\\n              \\\"buggyRule\\\": \\\"Qualquer valor ≥ capacidade resulta em 100%\\\",\\n              \\\"description\\\": \\\"Aluno acredita que porcentagem não pode exceder 100%\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação final, o aluno fixa o teto em 100%\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 25 cães = 100%, então 50 cães seriam quantos por cento?\\\",\\n              \\\"feedback\\\": \\\"Você entendeu que 25 é o total! Mas porcentagem pode ir além — é só uma comparação. Quanto mais cães, maior a porcentagem.\\\",\\n              \\\"howToFix\\\": \\\"Mostrar gráficos de barras >100%; usar exemplos de vendas (meta = 100%, vendas = 120%)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"kennel\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a capacidade total do canil\\\",\\n          \\\"thinking\\\": \\\"O canil tem 25 gaiolas, uma por cachorro. Então a capacidade total é 25. Isso deve ser o denominador da razão original na linha 'Total'.\\\",\\n          \\\"result\\\": \\\"Capacidade total = 25\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a linha 'Total' da tabela: razão original\\\",\\n          \\\"thinking\\\": \\\"Na linha 'Total', a razão original deve representar 100% da capacidade. Então, se o total é 25, a razão original é 25/25. Mas... será que isso faz sentido? Porque 25/25 = 1, ou 100%. Sim, isso parece certo.\\\",\\n          \\\"result\\\": \\\"Razão original (Total): 25/25\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa reflexão! Quando queremos representar 100% de algo, qual deve ser a relação entre a parte e o todo? Pense: se o todo é 25, quanto é 100%?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Para mostrar 100% da capacidade, use o número total (25) como numerador e também como denominador. Assim, a razão representa o todo completo.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A razão original para 100% sempre tem o mesmo número em cima e embaixo. Como a capacidade é 25, os dois números devem ser 25.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se o canil cheio tem 25 cães, então 100% corresponde a 25 cães de 25 possíveis. Escreva isso como fração: 25 sobre 25.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para transformar 25/25 em algo sobre 100\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar o denominador 25 em 100. Como faço isso? Ah, 25 × 4 = 100. Então devo multiplicar numerador e denominador por 4. Operação: ×, fator: 4.\\\",\\n          \\\"result\\\": \\\"Operação: ×, Fator: 4 (numerador e denominador)\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Para converter uma razão em porcentagem, precisamos que o denominador seja 100. Que operação nos ajuda a aumentar o denominador até 100?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Veja quanto falta para o denominador (25) chegar a 100. Divida 100 por 25 — esse é o fator que você deve usar. Depois, aplique a mesma operação ao numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! 25 cabe 4 vezes em 100. Então o fator de escala é 4, e a operação é multiplicação. Aplique isso tanto no numerador quanto no denominador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Pense: 25 × ? = 100. A resposta é 4. Então multiplique ambos os lados da fração por 4.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular resultado da linha 'Total': 25×4 / 25×4 = 100/100 → 100%\\\",\\n          \\\"thinking\\\": \\\"25 × 4 = 100, então o numerador do resultado é 100, e a porcentagem é 100%.\\\",\\n          \\\"result\\\": \\\"Resultado: 100/100 → 100%\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Analisar Parte 1: 28 cães em um canil para 25\\\",\\n          \\\"thinking\\\": \\\"Agora tenho 28 cães, mas só 25 gaiolas. A razão original é 28/25. Isso faz sentido? Sim, porque estou comparando o número real de cães com a capacidade máxima.\\\",\\n          \\\"result\\\": \\\"Razão original (Part 1): 28/25\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Transformar 28/25 em porcentagem (denominador 100)\\\",\\n          \\\"thinking\\\": \\\"Novamente, preciso mudar o denominador de 25 para 100. Mesmo fator: ×4. Então 28 × 4 = 112. Resultado: 112/100 → 112%.\\\",\\n          \\\"result\\\": \\\"Operação: ×, Fator: 4, Resultado: 112/100 → 112%\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Excelente observação! Se a razão tem denominador 25, como antes, o que podemos reutilizar da linha 'Total' para facilitar o cálculo?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você já fez isso antes! Use o mesmo fator de escala que usou na linha 'Total' — multiplique numerador e denominador por 4 para obter denominador 100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Isso mesmo! O fator ainda é 4. Multiplique 28 por 4. Dica: 25×4=100, então 28×4 é um pouco mais que 100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Faça 28 × 4: 20×4=80 e 8×4=32, então 80+32=112. Esse é o numerador da porcentagem.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Analisar Parte 2: 7 filhotes em canil para 25\\\",\\n          \\\"thinking\\\": \\\"Agora são só 7 cães. Razão original: 7/25. Denominador ainda é 25, então posso usar o mesmo fator ×4.\\\",\\n          \\\"result\\\": \\\"Razão original (Part 2): 7/25\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Converter 7/25 em porcentagem\\\",\\n          \\\"thinking\\\": \\\"7 × 4 = 28, então 28/100 → 28%. Parece certo.\\\",\\n          \\\"result\\\": \\\"Operação: ×, Fator: 4, Resultado: 28/100 → 28%\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Se o denominador continua sendo 25, o que isso sugere sobre o fator de escala que você deve usar novamente?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue com o mesmo padrão! Multiplique o numerador (7) pelo mesmo fator usado antes (4) para manter a razão equivalente com denominador 100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Exatamente! 7 × 4 = 28. Então a porcentagem é 28%. Confira: 25% seria 6.25, então 7 deve ser um pouco mais — 28% faz sentido!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! Calcule 7 × 4: 5×4=20 e 2×4=8, então 20+8=28. Esse é o valor da porcentagem.\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 112%, Part 2: 28%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagem usando divisão decimal (ex: 28 ÷ 25 = 1.12 → 112%)\\\",\\n          \\\"steps\\\": [\\\"Dividir número de cães pela capacidade\\\", \\\"Multiplicar resultado por 100\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar regra de três em vez de fator de escala\\\",\\n          \\\"steps\\\": [\\\"Montar: 25 → 100%, 28 → x%\\\", \\\"Resolver equação cruzada\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "kennel",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O canil tem capacidade para 25 cães (1 por gaiola). Parte 1: 28 cães foram deixados → calcular porcentagem de ocupação. Parte 2: 7 filhotes → calcular porcentagem de ocupação.",
+        "result": "Capacidade total = {C} = 25; Parte 1 = {A} = 28; Parte 2 = {B} = 7",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha 'Total' da tabela: razão original",
+        "thinking": "A razão total representa a capacidade total como numerador e denominador iguais, pois 100% corresponde a 25/25.",
+        "result": "Total: numerador = {C}, denominador = {C}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher linha 'Part 1': razão original",
+        "thinking": "A razão original para a Parte 1 é número de cães reais sobre capacidade total: {A}/{C}.",
+        "result": "Part 1: numerador = {A}, denominador = {C}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Preencher linha 'Part 2': razão original",
+        "thinking": "A razão original para a Parte 2 é número de filhotes sobre capacidade total: {B}/{C}.",
+        "result": "Part 2: numerador = {B}, denominador = {C}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Identificar operação necessária para converter denominador em 100",
+        "thinking": "Para transformar o denominador {C} em 100, preciso multiplicar por um fator de escala = 100 / {C}.",
+        "result": "Operação: × para numerador e denominador; fator = 100 / {C}",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Aplicar operação e fator à linha 'Total'",
+        "thinking": "Razão total: {C}/{C}. Multiplico numerador e denominador por (100 / {C}) → ({C} × 100/{C}) / ({C} × 100/{C}) = 100/100.",
+        "result": "Total: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Aplicar operação e fator à linha 'Part 1'",
+        "thinking": "Razão Part 1: {A}/{C}. Multiplico ambos por (100 / {C}) → ({A} × 100/{C}) / 100 → porcentagem = ({A} × 100) / {C}.",
+        "result": "Part 1: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({A} × 100)/{C}",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar operação e fator à linha 'Part 2'",
+        "thinking": "Razão Part 2: {B}/{C}. Multiplico ambos por (100 / {C}) → ({B} × 100/{C}) / 100 → porcentagem = ({B} × 100) / {C}.",
+        "result": "Part 2: operação = ×, ×; fator numerador = 100/{C}, fator denominador = 100/{C}; resultado = ({B} × 100)/{C}",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Identificar porcentagens finais",
+        "thinking": "As porcentagens são os numeradores das razões equivalentes com denominador 100.",
+        "result": "Total: 100%; Part 1: ({A} × 100)/{C}%; Part 2: ({B} × 100)/{C}%",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 5,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A} dogs → ({A} × 100)/{C}% ; {B} puppies → ({B} × 100)/{C}%",
+      "totalTime": 54
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "kennel",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Total",
+          "thinking": "O total de cães que cabem é 25, então a razão total deve ser 25/25.",
+          "result": "Razão original correta: 25/25",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão original da linha Part 1",
+          "thinking": "Foram deixados 28 cães, e o total é 25, então a razão é 28/25.",
+          "result": "Razão original correta: 28/25",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para converter Part 1 em porcentagem",
+          "thinking": "Preciso transformar o denominador 25 em 100. Como 25 × 4 = 100, vou usar multiplicação nos dois.",
+          "result": "Operação correta: × no numerador e × no denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Preencher fator de escala para Part 1",
+          "thinking": "Se 25 vira 100, o fator é 4. Então coloco 4 nos dois lados.",
+          "result": "Fator de escala correto: 4 e 4",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular numerador equivalente para Part 1",
+          "thinking": "28 × 4 = 112, então a porcentagem é 112%.",
+          "result": "Resultado correto: 112",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Preencher razão original da linha Part 2",
+          "thinking": "São 7 filhotes, então a razão é 7/25.",
+          "result": "Razão original correta: 7/25",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Escolher operação para Part 2",
+          "thinking": "Denominador 25 precisa virar 100, então multiplico os dois.",
+          "result": "Operação correta: × e ×",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Preencher fator de escala para Part 2",
+          "thinking": "25 × 4 = 100, então fator é 4.",
+          "result": "Fator correto: 4 e 4",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Calcular numerador equivalente para Part 2",
+          "thinking": "7 × 4 = 28, então 28%.",
+          "result": "Resultado correto: 28",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "112, 28",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Total",
+          "thinking": "O total é 25, então ponho 25/100 porque porcentagem é sempre sobre 100.",
+          "result": "Razão errada: 25/100",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_razao_original_com_resultado",
+           "type": "conceptual_error",
+           "wrongAnswer": "25/100",
+           "description": "Aluno coloca diretamente a razão como se já estivesse sobre 100, sem entender que a razão original é parte/sobre capacidade real",
+           "mistakeLocation": "Ao preencher a razão original da linha Total, o aluno usou 100 como denominador em vez da capacidade real (25)",
+           "diagnosticQuestion": "Qual é o número máximo de cães que cabem no canil? Esse número deve estar no denominador da razão original?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você lembrou que porcentagem envolve 100, mas a razão original vem dos dados reais do problema. Qual é a capacidade máxima do canil?",
+           "howToFix": "Sublinhar no enunciado 'cages for 25 dogs' e destacar que isso define o todo (denominador da razão original)"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão original da linha Part 1",
+          "thinking": "Tem 28 cães, então ponho 28/100.",
+          "result": "Razão errada: 28/100",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_100_como_denominador_padrao",
+           "type": "conceptual_error",
+           "wrongAnswer": "28/100",
+           "description": "Aluno assume que toda razão de porcentagem já começa com denominador 100, ignorando a unidade real do problema",
+           "mistakeLocation": "Na entrada da razão original da Parte 1, o aluno ignora o denominador real (25) e usa 100 diretamente",
+           "diagnosticQuestion": "Se o canil só tem lugar para 25 cães, por que você usou 100 como denominador? Onde está escrito isso no problema?",
+           "severity": "high",
+           "feedback": "Você identificou bem o número de cães! Agora pense: a comparação deve ser feita com a capacidade real do canil — quantos cães cabem lá?",
+           "howToFix": "Usar um modelo visual: desenhar 25 caixas (capacidade) e marcar quantas estão ocupadas"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para Part 1",
+          "thinking": "Já está sobre 100, então não preciso fazer nada. Ponho ×1.",
+          "result": "Operação incorreta: × e × com fator 1",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_assume_ja_esta_em_porcentagem",
+           "type": "conceptual_error",
+           "wrongAnswer": "×",
+           "description": "Aluno acredita que, por ter usado 100 como denominador, já chegou à porcentagem e não precisa escalar",
+           "mistakeLocation": "Na escolha da operação, o aluno não percebe que a razão original foi mal definida",
+           "diagnosticQuestion": "Se você já colocou 28/100, qual seria a porcentagem? Mas será que 28 cães realmente correspondem a 28% da capacidade?",
+           "severity": "moderate",
+           "feedback": "Interessante! Mas vamos verificar: se o canil só cabe 25 cães, como 28 pode ser menos que 100%? Isso faz sentido?",
+           "howToFix": "Promover reflexão sobre magnitude: 'mais cães do que a capacidade → mais de 100%?'"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Preencher fator de escala para Part 1",
+          "thinking": "Como já está sobre 100, fator é 1.",
+          "result": "Fator errado: 1 e 1",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular numerador equivalente para Part 1",
+          "thinking": "28 × 1 = 28, então 28%.",
+          "result": "Resultado errado: 28",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_percentual_menor_que_100_para_sobrecarga",
+           "type": "magnitude_error",
+           "wrongAnswer": "28",
+           "description": "Aluno obtém porcentagem abaixo de 100% mesmo com mais cães do que a capacidade, indicando falha na compreensão de que >100% é possível",
+           "mistakeLocation": "No resultado final da Parte 1, o aluno aceita 28% como resposta plausível apesar de 28 > 25",
+           "diagnosticQuestion": "Se o canil cabe 25 cães e tem 28, ele está mais ou menos cheio que 100%?",
+           "severity": "high",
+           "feedback": "Ótima observação sobre os números! Mas pense: se cabem 25 e tem 28, o canil está lotado além da capacidade — isso deve dar mais ou menos que 100%?",
+           "howToFix": "Usar analogia com copo d’água: se cabe 250 mL e você coloca 280 mL, transborda — mais de 100%"
+          }
+         },
+         {
+          "step": 6,
+          "action": "Preencher razão original da linha Part 2",
+          "thinking": "7 filhotes, então 7/100.",
+          "result": "Razão errada: 7/100",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Escolher operação para Part 2",
+          "thinking": "Já está sobre 100, então ×1.",
+          "result": "Operação incorreta: ×",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Preencher fator de escala para Part 2",
+          "thinking": "Fator 1.",
+          "result": "Fator errado: 1",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Calcular numerador equivalente para Part 2",
+          "thinking": "7 × 1 = 7, então 7%.",
+          "result": "Resultado errado: 7",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_nao_escala_quando_deveria",
+           "type": "procedural_error",
+           "wrongAnswer": "7",
+           "description": "Aluno não converte a razão 7/25 para equivalente sobre 100, mantendo 7 como porcentagem",
+           "mistakeLocation": "Na conversão da Parte 2, o aluno não aplica escala porque já usou 100 como denominador",
+           "diagnosticQuestion": "Se o canil tem capacidade para 25, e só 7 estão ocupados, isso é menos que metade. Metade de 25 é 12,5 — então 7 é menos que 50%. Mas 7% parece muito pouco?",
+           "severity": "moderate",
+           "feedback": "Você pegou o número certo de filhotes! Agora, vamos comparar com a capacidade total: 7 de 25 é parecido com quanto de 100?",
+           "howToFix": "Usar proporção mental: '25 para 100 é ×4, então 7 × 4 = 28'"
+          }
+         }
+        ],
+        "finalAnswer": "28, 7",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Total",
+          "thinking": "Capacidade é 25, então razão total é 25/25.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão original da linha Part 1",
+          "thinking": "28 cães, capacidade 25, então 28/25.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para Part 1",
+          "thinking": "Preciso ir de 25 para 100. 100 ÷ 25 = 4, então devo dividir?",
+          "result": "Operação errada: ÷ no numerador e ÷ no denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_operacao_com_calculo_do_fator",
+           "type": "operation_confusion",
+           "wrongAnswer": "÷",
+           "description": "Aluno calcula corretamente o fator (100 ÷ 25 = 4), mas interpreta erroneamente que isso significa DIVIDIR a razão",
+           "mistakeLocation": "Na escolha da operação, o aluno confunde 'quanto vezes cabe' com a operação a aplicar",
+           "diagnosticQuestion": "Se você divide 28 por 4, o resultado fica maior ou menor? E queremos que 28/25 vire algo maior ou menor?",
+           "severity": "moderate",
+           "feedback": "Você calculou direitinho que 25 cabe 4 vezes em 100! Agora, para aumentar o denominador de 25 para 100, você multiplica ou divide?",
+           "howToFix": "Reforçar: para aumentar o denominador, multiplique; para diminuir, divida"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Preencher fator de escala para Part 1",
+          "thinking": "Fator é 4, então coloco 4.",
+          "result": "Fator correto numericamente, mas aplicado com operação errada",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular numerador equivalente para Part 1",
+          "thinking": "28 ÷ 4 = 7, então 7%.",
+          "result": "Resultado errado: 7",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divide_quando_deve_multiplicar",
+           "type": "procedural_error",
+           "wrongAnswer": "7",
+           "description": "Aluno divide o numerador pelo fator em vez de multiplicar, produzindo porcentagem muito baixa",
+           "mistakeLocation": "Na aplicação do fator ao numerador, o aluno usa divisão em vez de multiplicação",
+           "diagnosticQuestion": "Se 25 vira 100 multiplicando por 4, o que devemos fazer com o 28 para manter a mesma proporção?",
+           "severity": "high",
+           "feedback": "Você está quase lá! Se multiplicamos o denominador por 4 para virar 100, o que devemos fazer com o numerador para não mudar o valor da fração?",
+           "howToFix": "Usar princípio de equivalência: 'o que faz no denominador, faz igual no numerador'"
+          }
+         },
+         {
+          "step": 6,
+          "action": "Preencher razão original da linha Part 2",
+          "thinking": "7/25.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Escolher operação para Part 2",
+          "thinking": "Mesmo caso: 100 ÷ 25 = 4, então divido.",
+          "result": "Operação errada: ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Preencher fator de escala para Part 2",
+          "thinking": "Fator 4.",
+          "result": "Fator 4",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Calcular numerador equivalente para Part 2",
+          "thinking": "7 ÷ 4 = 1.75, mas como é porcentagem, ponho 1 ou 2?",
+          "result": "Resultado errado: 1",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_trunca_decimal_em_porcentagem",
+           "type": "count_error",
+           "wrongAnswer": "1",
+           "description": "Aluno obtém decimal (1.75) e arredonda/trunca para inteiro, perdendo precisão",
+           "mistakeLocation": "Na conversão final, o aluno descarta a parte decimal",
+           "diagnosticQuestion": "7 dividido por 4 dá exatamente 1? Ou há uma parte fracionária?",
+           "severity": "low",
+           "feedback": "Você fez a conta e viu que não é exato — bom olho! Mas porcentagens podem ter decimais. Será que 1% representa bem 7 de 25?",
+           "howToFix": "Permitir uso de decimais em porcentagem; comparar 1.75% com estimativa (ex: 7/25 ≈ 1/4 → 25%)"
+          }
+         }
+        ],
+        "finalAnswer": "7, 1",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "kennel",
+        "step": null,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_100_como_denominador_padrao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{part}/100",
+          "buggyRule": "Usar 100 como denominador da razão original, independentemente da capacidade real: numerador = número de cães/puppies ({part}); denominador = 100",
+          "description": "Aluno assume que razões de porcentagem sempre têm denominador 100 desde o início",
+          "mistakeLocation": "Na entrada da razão original, o aluno ignora o denominador real do problema (25) e substitui por 100",
+          "diagnosticQuestion": "Onde no problema diz que o todo é 100? Qual é a capacidade real do canil?",
+          "feedback": "Você acertou o número de cães! Agora, lembre-se: a razão original compara com a capacidade real, não com 100. Qual é essa capacidade?",
+          "howToFix": "Destacar no enunciado 'cages for 25 dogs' e escrever 'todo = 25'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_numerador_denominador_na_razao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "25/{part}",
+          "buggyRule": "Inverter a razão: colocar capacidade no numerador e número de cães no denominador: numerador = 25; denominador = número de cães ({part})",
+          "description": "Aluno confunde o que é parte e o que é todo, invertendo a razão",
+          "mistakeLocation": "Na definição da razão original, o aluno troca parte e todo de lugar",
+          "diagnosticQuestion": "O que estamos comparando: quantos cães temos em relação à capacidade, ou a capacidade em relação aos cães?",
+          "feedback": "Boa tentativa! Vamos pensar: queremos saber quantos por cento da capacidade está ocupada — então o número de cães é a parte, e a capacidade é o todo.",
+          "howToFix": "Usar frase-padrão: 'parte de um todo' → parte/TODO",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_esquece_denominador_e_coloca_so_numerador",
+          "type": "count_error",
+          "wrongAnswerPattern": "{part}",
+          "buggyRule": "Preencher apenas o numerador da razão original e deixar o denominador em branco ou implícito; ou tratar a razão como número inteiro {part}",
+          "description": "Aluno foca só no número de cães e ignora o denominador",
+          "mistakeLocation": "Na entrada da razão, o aluno omite ou ignora o denominador",
+          "diagnosticQuestion": "Uma razão tem duas partes. Qual é o 'todo' com o qual estamos comparando esses cães?",
+          "feedback": "Você identificou bem quantos cães há! Mas para calcular porcentagem, precisamos comparar com o total possível. Qual é esse total?",
+          "howToFix": "Exigir verbalização: 'X de Y' → X/Y",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "kennel",
+        "step": null,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_operacao_com_calculo_do_fator",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Quando o fator é calculado como 100 ÷ denominador_original, o aluno interpreta que deve DIVIDIR a razão por esse fator",
+          "description": "Aluno associa erroneamente o cálculo do fator (divisão) com a operação a aplicar (que deveria ser multiplicação)",
+          "mistakeLocation": "Na seleção da operação, após calcular 100 ÷ 25 = 4, o aluno escolhe ÷ em vez de ×",
+          "diagnosticQuestion": "Se você quer aumentar o denominador de 25 para 100, você multiplica ou divide por 4?",
+          "feedback": "Você calculou certo que 25 × 4 = 100! Para aumentar, usamos multiplicação. Que operação mantém a proporção?",
+          "howToFix": "Ligar operação ao efeito: multiplicar aumenta, dividir diminui",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_sempre_multiplica_independentemente_da_direcao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação, mesmo quando o denominador original é maior que 100 (não aplicável aqui, mas possível em outros problemas)",
+          "description": "Aluno tem viés de que 'escalar para porcentagem sempre é multiplicar'",
+          "mistakeLocation": "Na escolha da operação, o aluno aplica × por hábito, sem analisar a direção do ajuste",
+          "diagnosticQuestion": "Se o denominador já fosse 200, você multiplicaria ou dividiria para chegar a 100?",
+          "feedback": "Multiplicar funciona quando vamos de um número menor para 100. Mas e se fosse ao contrário?",
+          "howToFix": "Praticar casos com denominadores >100 e <100",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "kennel",
+        "step": null,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_quando_deve_multiplicar",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{part} / ({100}/{denom})",
+          "buggyRule": "Dividir o numerador pelo fator de escala (calculado como 100/denom) em vez de multiplicar: resultado = {part} ÷ (100 ÷ {denom})",
+          "description": "Aluno aplica operação inversa ao numerador",
+          "mistakeLocation": "Na aplicação do fator ao numerador, o aluno divide em vez de multiplicar",
+          "diagnosticQuestion": "Se 25 vira 100 multiplicando por 4, o que acontece com 28 se você multiplicar por 4? E se dividir?",
+          "feedback": "Você está quase! Lembre-se: o que fazemos no denominador, fazemos igual no numerador para manter o valor.",
+          "howToFix": "Usar setas coloridas: '×4 aqui → ×4 aqui'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_soma_fator_ao_numerador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{part} + ({100} - {denom})",
+          "buggyRule": "Em vez de escalar, somar a diferença entre 100 e o denominador ao numerador: resultado = {part} + (100 - {denom})",
+          "description": "Aluno tenta 'completar para 100' somando a diferença ao numerador",
+          "mistakeLocation": "Na conversão, o aluno adiciona (100 - 25) = 75 ao numerador",
+          "diagnosticQuestion": "Se você soma 75 a 28, o que isso representa? É proporcional?",
+          "feedback": "Interessante ideia! Mas porcentagem é sobre proporção, não sobre completar para 100. Vamos testar com metade: 12.5/25 deveria ser 50% — sua regra funcionaria?",
+          "howToFix": "Testar com casos conhecidos (ex: metade → 50%)",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_trunca_decimal_em_porcentagem",
+          "type": "count_error",
+          "wrongAnswerPattern": "floor({part} * ({100}/{denom}))",
+          "buggyRule": "Calcular corretamente o valor decimal, mas truncar para inteiro: resultado = floor(7 * 4) = floor(28) = 28 (ok), mas se fosse 7*1.5=10.5 → 10",
+          "description": "Aluno descarta parte decimal mesmo quando relevante",
+          "mistakeLocation": "Na entrada do resultado, o aluno arredonda/trunca desnecessariamente",
+          "diagnosticQuestion": "Porcentagens podem ter casas decimais? O problema pede arredondamento?",
+          "feedback": "Bom cuidado com os cálculos! A menos que peça, podemos manter decimais em porcentagens.",
+          "howToFix": "Aceitar respostas decimais; mostrar exemplos reais (ex: 12.5%)",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "kennel",
+        "step": null,
+        "kcUsed": "identify-percent",
+        "errors": [
+         {
+          "misconceptionId": "misc_percentual_menor_que_100_para_sobrecarga",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{part}",
+          "buggyRule": "Quando part > denom, ainda assim reportar part como porcentagem (porque usou 100 como denominador desde o início)",
+          "description": "Aluno não reconhece que >100% é válido e necessário",
+          "mistakeLocation": "Na avaliação da plausibilidade do resultado, o aluno aceita <100% mesmo com sobrecarga",
+          "diagnosticQuestion": "Se cabem 25 e tem 28, o canil está mais cheio que totalmente cheio? Então a porcentagem deve ser maior ou menor que 100%?",
+          "feedback": "Ótimo raciocínio sobre os números! Agora pense: totalmente cheio é 100%. Com mais cães, passamos disso?",
+          "howToFix": "Usar termos cotidianos: '112% lotado', 'superlotação'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_limita_porcentagem_a_100",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100",
+          "buggyRule": "Qualquer valor ≥ capacidade resulta em 100%",
+          "description": "Aluno acredita que porcentagem não pode exceder 100%",
+          "mistakeLocation": "Na interpretação final, o aluno fixa o teto em 100%",
+          "diagnosticQuestion": "Se 25 cães = 100%, então 50 cães seriam quantos por cento?",
+          "feedback": "Você entendeu que 25 é o total! Mas porcentagem pode ir além — é só uma comparação. Quanto mais cães, maior a porcentagem.",
+          "howToFix": "Mostrar gráficos de barras >100%; usar exemplos de vendas (meta = 100%, vendas = 120%)",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "kennel",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a capacidade total do canil",
+        "thinking": "O canil tem 25 gaiolas, uma por cachorro. Então a capacidade total é 25. Isso deve ser o denominador da razão original na linha 'Total'.",
+        "result": "Capacidade total = 25",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher a linha 'Total' da tabela: razão original",
+        "thinking": "Na linha 'Total', a razão original deve representar 100% da capacidade. Então, se o total é 25, a razão original é 25/25. Mas... será que isso faz sentido? Porque 25/25 = 1, ou 100%. Sim, isso parece certo.",
+        "result": "Razão original (Total): 25/25",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa reflexão! Quando queremos representar 100% de algo, qual deve ser a relação entre a parte e o todo? Pense: se o todo é 25, quanto é 100%?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Para mostrar 100% da capacidade, use o número total (25) como numerador e também como denominador. Assim, a razão representa o todo completo."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A razão original para 100% sempre tem o mesmo número em cima e embaixo. Como a capacidade é 25, os dois números devem ser 25."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se o canil cheio tem 25 cães, então 100% corresponde a 25 cães de 25 possíveis. Escreva isso como fração: 25 sobre 25."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Determinar operação e fator de escala para transformar 25/25 em algo sobre 100",
+        "thinking": "Preciso transformar o denominador 25 em 100. Como faço isso? Ah, 25 × 4 = 100. Então devo multiplicar numerador e denominador por 4. Operação: ×, fator: 4.",
+        "result": "Operação: ×, Fator: 4 (numerador e denominador)",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Para converter uma razão em porcentagem, precisamos que o denominador seja 100. Que operação nos ajuda a aumentar o denominador até 100?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Veja quanto falta para o denominador (25) chegar a 100. Divida 100 por 25 — esse é o fator que você deve usar. Depois, aplique a mesma operação ao numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! 25 cabe 4 vezes em 100. Então o fator de escala é 4, e a operação é multiplicação. Aplique isso tanto no numerador quanto no denominador."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Pense: 25 × ? = 100. A resposta é 4. Então multiplique ambos os lados da fração por 4."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Calcular resultado da linha 'Total': 25×4 / 25×4 = 100/100 → 100%",
+        "thinking": "25 × 4 = 100, então o numerador do resultado é 100, e a porcentagem é 100%.",
+        "result": "Resultado: 100/100 → 100%",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Analisar Parte 1: 28 cães em um canil para 25",
+        "thinking": "Agora tenho 28 cães, mas só 25 gaiolas. A razão original é 28/25. Isso faz sentido? Sim, porque estou comparando o número real de cães com a capacidade máxima.",
+        "result": "Razão original (Part 1): 28/25",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Transformar 28/25 em porcentagem (denominador 100)",
+        "thinking": "Novamente, preciso mudar o denominador de 25 para 100. Mesmo fator: ×4. Então 28 × 4 = 112. Resultado: 112/100 → 112%.",
+        "result": "Operação: ×, Fator: 4, Resultado: 112/100 → 112%",
+        "kcUsed": "Identify-scale-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Excelente observação! Se a razão tem denominador 25, como antes, o que podemos reutilizar da linha 'Total' para facilitar o cálculo?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você já fez isso antes! Use o mesmo fator de escala que usou na linha 'Total' — multiplique numerador e denominador por 4 para obter denominador 100."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Isso mesmo! O fator ainda é 4. Multiplique 28 por 4. Dica: 25×4=100, então 28×4 é um pouco mais que 100."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Faça 28 × 4: 20×4=80 e 8×4=32, então 80+32=112. Esse é o numerador da porcentagem."
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Analisar Parte 2: 7 filhotes em canil para 25",
+        "thinking": "Agora são só 7 cães. Razão original: 7/25. Denominador ainda é 25, então posso usar o mesmo fator ×4.",
+        "result": "Razão original (Part 2): 7/25",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 8,
+        "action": "Converter 7/25 em porcentagem",
+        "thinking": "7 × 4 = 28, então 28/100 → 28%. Parece certo.",
+        "result": "Operação: ×, Fator: 4, Resultado: 28/100 → 28%",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Se o denominador continua sendo 25, o que isso sugere sobre o fator de escala que você deve usar novamente?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue com o mesmo padrão! Multiplique o numerador (7) pelo mesmo fator usado antes (4) para manter a razão equivalente com denominador 100."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Exatamente! 7 × 4 = 28. Então a porcentagem é 28%. Confira: 25% seria 6.25, então 7 deve ser um pouco mais — 28% faz sentido!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Calcule 7 × 4: 5×4=20 e 2×4=8, então 20+8=28. Esse é o valor da porcentagem."
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "Part 1: 112%, Part 2: 28%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagem usando divisão decimal (ex: 28 ÷ 25 = 1.12 → 112%)",
+        "steps": [
+         "Dividir número de cães pela capacidade",
+         "Multiplicar resultado por 100"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar regra de três em vez de fator de escala",
+        "steps": [
+         "Montar: 25 → 100%, 28 → x%",
+         "Resolver equação cruzada"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 8,
+  "errosEspecificos": 8,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 8
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 9,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ }
+}

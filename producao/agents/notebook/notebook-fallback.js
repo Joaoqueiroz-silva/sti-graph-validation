@@ -23,6 +23,10 @@
  *       referencias das celulas C, forma da resposta) ou degrada C -> B; sem
  *       instrumento, tenta criar um por regra (fraction_bar, number_line,
  *       highlight_in_text) a partir das celulas SEM papel autorado ou C;
+ *   (m12a) 2026-08-18 (fase 7; roda entre (m1) e (m3)): celula A multiple_choice
+ *       com gabarito numerico/fracao que participa de uma linha de conta ou tem
+ *       operation com igualdade vira superficie DIGITADA (a conta nao e
+ *       alternativa). Os distratores viram behaviorMisconceptions;
  *   (k) 2026-08-17 (stream L; roda entre (g) e (h)): celula A cuja instrucao
  *       manda manipular ("pinte", "clique", "arraste", "manipule", "marque na
  *       reta") e cujo gabarito o instrumento do problema sabe emitir vira
@@ -238,7 +242,318 @@ export function layoutPlaceholderIds(row) {
 export function isEquationLikeAnswer(value) {
   const ea = scalar(value).trim();
   if (!ea || /^-?\d+\s*\/\s*\d+$/.test(ea)) return false;
+  // 2026-08-17: soma pura de inteiros ("10 + 2", "1000 + 800 + 80 + 4") CABE
+  // na caixinha e e o formato natural da decomposicao por valor posicional
+  // (ver (m7)); a exclusao continua valendo para equacao/incognita
+  // ("14x + 30 = 128") e para expressao com outros operadores ("2 · 45 + 18").
+  if (isBoxableSumAnswer(ea)) return false;
   return /=|[a-z]\s*[+\-*/·×÷]|[+\-*/·×÷]\s*[a-z]|\d\s*[a-z]\b|\d\s*[+\-*·×÷]\s*\d/i.test(ea);
+}
+
+/** Soma pura de 2 a 5 inteiros ("10 + 2"): cabe numa caixinha do caderno. */
+export function isBoxableSumAnswer(value) {
+  const ea = scalar(value).trim();
+  if (!ea || ea.length > BOXABLE_SUM_MAX_CHARS) return false;
+  if (!/^\d+(?:\s*\+\s*\d+)+$/.test(ea)) return false;
+  const partes = ea.split("+").length;
+  return partes >= 2 && partes <= 5;
+}
+
+const BOXABLE_SUM_MAX_CHARS = 24;
+
+/**
+ * (m7) Parcelas do valor posicional de um inteiro: 1884 -> [1000, 800, 80, 4].
+ * Zeros nao viram parcela (305 -> [300, 5]).
+ */
+export function placeValueParts(n) {
+  const inteiro = Math.trunc(Math.abs(Number(n)));
+  if (!Number.isSafeInteger(inteiro) || inteiro <= 0) return [];
+  const digitos = String(inteiro);
+  const out = [];
+  for (let i = 0; i < digitos.length; i++) {
+    const d = Number(digitos[i]);
+    if (d === 0) continue;
+    out.push(d * Math.pow(10, digitos.length - 1 - i));
+  }
+  return out;
+}
+
+/** (m7) Instrucao que pede REESCREVER o numero (nao "quantas dezenas ha?"). */
+export const DECOMPOSITION_INSTRUCTION_RE =
+  /(decomponha|decompor|decomposi[cç][aã]o|represente\s+(?:o\s+)?(?:n[uú]mero\s+)?\d+\s+como|escreva\s+(?:o\s+)?(?:n[uú]mero\s+)?\d+\s+como|reescreva|expresse\s+(?:o\s+)?(?:n[uú]mero\s+)?\d+\s+como)/i;
+
+/** (m7) Instrucao que situa a decomposicao no VALOR POSICIONAL. */
+const PLACE_VALUE_RE =
+  /(dezena|dezenas|unidade|unidades|centena|centenas|milhar|milhares|valor\s+posicional)/i;
+
+/**
+ * (m7) Predicado UNICO da tautologia de decomposicao (o reparo e a sentinela
+ * do quality-gate usam este mesmo, para nao poderem divergir): a celula pede a
+ * decomposicao, o gabarito e o proprio numero e nao ha alternativas na tela.
+ * Depois do reparo ele devolve null — por isso, no gate, so dispara se o
+ * fallback nao tiver rodado.
+ */
+
+/**
+ * (m7) Decomposicao por valor posicional que a celula DEVERIA pedir, ou null.
+ *
+ * 2026-08-17 (reportado ao vivo, "Multiplicacoes em Aventuras do Dia a Dia"):
+ * a instrucao "Como podemos decompor o numero 12 em dezenas e unidades?" veio
+ * com gabarito "12" - o proprio numero a decompor. O aluno digitou "10+2" (a
+ * resposta certa) e levou vermelho. So devolve quando as tres condicoes valem,
+ * para nao inventar gabarito onde a instrucao pede outra coisa:
+ *   1. a instrucao PEDE a reescrita e cita valor posicional;
+ *   2. o gabarito atual e TAUTOLOGICO (o proprio numero da instrucao);
+ *   3. o numero tem >= 2 parcelas (100 nao tem decomposicao diferente de si).
+ * "Decomponha 12 e diga quantas dezenas?" (gabarito "1") nao e tautologia e
+ * nao entra aqui.
+ */
+export function pendingDecompositionTautology(step) {
+  if (!step || typeof step !== "object") return null;
+  // Com alternativas na tela a celula ja e respondivel por selecao: o reparo
+  // nao mexe nela e o gate tambem nao pode reclamar (so o warning largo mede).
+  if (usableOptions(step)) return null;
+  return placeValueDecompositionForCell(step);
+}
+
+export function placeValueDecompositionForCell(step) {
+  const instrucao = scalar(step?.instruction);
+  if (!DECOMPOSITION_INSTRUCTION_RE.test(instrucao)) return null;
+  if (!PLACE_VALUE_RE.test(instrucao)) return null;
+  const ea = scalar(step?.expectedAnswer).trim();
+  if (!/^\d+$/.test(ea)) return null;
+  const alvo = Number(ea);
+  const { integers } = numericTokensOf(instrucao);
+  if (!integers.includes(alvo)) return null;
+  const parts = placeValueParts(alvo);
+  if (parts.length < 2) return null;
+  return { value: parts.join(" + "), parts, number: alvo };
+}
+
+/**
+ * (m8) CAIXINHAS de uma celula cujo gabarito e uma soma pura: "10 + 2" vira
+ * [{expected:"10"}, {prefix:"+", expected:"2"}]. O aluno ve duas caixas com o
+ * "+" entre elas (o "12 = [10] + [2]" do mockup) e a folha submete a string
+ * JUNTADA — o motor, o gabarito e o gate continuam vendo "10 + 2", sem no novo
+ * no grafo e sem tocar em expectedInput. Devolve null quando o gabarito nao e
+ * soma pura de 2 a 5 parcelas.
+ */
+export function answerFieldsForSum(expectedAnswer) {
+  const ea = scalar(expectedAnswer).trim();
+  if (!isBoxableSumAnswer(ea)) return null;
+  const partes = ea.split("+").map((p) => p.trim());
+  if (partes.some((p) => !p)) return null;
+  return partes.map((p, i) => (i === 0 ? { expected: p } : { prefix: "+", expected: p }));
+}
+
+/** Junta o que o aluno digitou nas caixinhas na string unica do gabarito. */
+export function joinAnswerFields(fields = [], values = []) {
+  const list = Array.isArray(fields) ? fields : [];
+  if (!list.length) return "";
+  const partes = list.map((f, i) => {
+    const v = scalar(values?.[i]).trim();
+    if (!v) return null;
+    return i === 0 ? v : `${scalar(f?.prefix).trim() || "+"} ${v}`;
+  });
+  if (partes.some((p) => p === null)) return "";
+  return partes.join(" ");
+}
+
+/**
+ * Avalia uma expressao aritmetica simples (inteiros/decimais, + - x × * ÷ / e
+ * parenteses). Devolve o numero ou null quando ha QUALQUER coisa fora disso
+ * (letras, "e", unidades, sinais de comparacao): o desconhecido nunca vira
+ * veredito. Puro.
+ */
+export function evalArithmeticExpression(src) {
+  const norm = scalar(src)
+    .replace(/[×xX·]/g, "*")
+    .replace(/[÷]/g, "/")
+    .replace(/[−–—]/g, "-")
+    .replace(/(\d),(\d)/g, "$1.$2")
+    .replace(/\s+/g, "");
+  if (!norm || norm.length > 120 || !/^[0-9.()+\-*/]+$/.test(norm)) return null;
+  let i = 0;
+  const peek = () => norm[i];
+  function parseExpr() {
+    let v = parseTerm();
+    if (v === null) return null;
+    while (peek() === "+" || peek() === "-") {
+      const op = norm[i++];
+      const r = parseTerm();
+      if (r === null) return null;
+      v = op === "+" ? v + r : v - r;
+    }
+    return v;
+  }
+  function parseTerm() {
+    let v = parseFactor();
+    if (v === null) return null;
+    while (peek() === "*" || peek() === "/") {
+      const op = norm[i++];
+      const r = parseFactor();
+      if (r === null) return null;
+      if (op === "/" && r === 0) return null;
+      v = op === "*" ? v * r : v / r;
+    }
+    return v;
+  }
+  function parseFactor() {
+    if (peek() === "(") {
+      i++;
+      const v = parseExpr();
+      if (v === null || peek() !== ")") return null;
+      i++;
+      return v;
+    }
+    if (peek() === "-") {
+      i++;
+      const v = parseFactor();
+      return v === null ? null : -v;
+    }
+    const m = /^\d+(\.\d+)?/.exec(norm.slice(i));
+    if (!m) return null;
+    i += m[0].length;
+    return Number(m[0]);
+  }
+  const v = parseExpr();
+  if (v === null || i !== norm.length || !Number.isFinite(v)) return null;
+  return v;
+}
+
+/** Igualdade "a = b" provavelmente FALSA sob os gabaritos (null = nao da para dizer). */
+export function templateSegmentIsFalse(segment) {
+  const partes = scalar(segment).split("=");
+  if (partes.length < 2) return null;
+  const valores = partes.map((x) => evalArithmeticExpression(x));
+  if (valores.some((v) => v === null)) return null;
+  const ref = valores[0];
+  const tol = Math.max(1e-9, Math.abs(ref) * 1e-9);
+  return valores.some((v) => Math.abs(v - ref) > tol);
+}
+
+/**
+ * (i2) 2026-08-17 (reportado ao vivo, "Multiplicacoes em Aventuras do Dia a
+ * Dia"): o planner escreveu a linha "12 = {step_2}; 2 × 10 e 2 × 2 = {step_3};
+ * {step_3} = {step_4}" - o ultimo trecho, com os gabaritos oficiais, e a
+ * igualdade FALSA "20 = 24" (faltou "+ 4"). A folha do aluno nao pode ensinar
+ * uma igualdade falsa. Aqui cada trecho (separado por ";") recebe os gabaritos
+ * no lugar dos {cellId} e e avaliado: so sai o que da para PROVAR falso; o
+ * que nao da para avaliar ("2 × 10 e 2 × 2 = 20", "total = 9") fica.
+ * Valor com operador entra entre parenteses para nao trocar a precedencia.
+ * Devolve a linha podada, ou null quando nao sobra trecho com caixinha.
+ */
+export function pruneFalseTemplateSegments(row, valueById = {}) {
+  const linha = scalar(row);
+  if (!linha.trim()) return null;
+  const segmentos = linha.split(";");
+  const mantidos = [];
+  let podou = false;
+  for (const seg of segmentos) {
+    const substituido = seg.replace(LAYOUT_PLACEHOLDER_RE, (m, id) => {
+      const v = scalar(valueById[scalar(id).trim()]).trim();
+      if (!v) return m;
+      return /[+\-*/·×÷]/.test(v) ? `(${v})` : v;
+    });
+    if (templateSegmentIsFalse(substituido) === true) {
+      podou = true;
+      continue;
+    }
+    mantidos.push(seg);
+  }
+  if (!podou) return linha;
+  const nova = mantidos.join(";").replace(/^[\s;]+|[\s;]+$/g, "");
+  if (!nova.trim() || layoutPlaceholderIds(nova).length === 0) return null;
+  return nova;
+}
+
+/**
+ * (m9) SINCRONIA DO ROTULO. O rotulo curto da celula e o que a trilha de passos
+ * promove a leitura primaria (fase 4 do plano de foco): ele esconde a
+ * instrucao, entao um rotulo que descreve OUTRO passo passa a ser a unica coisa
+ * que o aluno le sobre aquela celula.
+ *
+ * Medido nos 139 rotulos dos cadernos de producao (18/08/2026):
+ *   61% sincronizados com a propria celula;
+ *   12% casam melhor com OUTRO passo do mesmo problema  <- reparo aqui;
+ *   27% nao casam com passo nenhum — sao abstracoes legitimas do subobjetivo
+ *       ("Produto dos numeradores" para "qual e o resultado da multiplicacao"),
+ *       e reescrever isso seria PIORAR: subgoal label abstrato e justamente o
+ *       que a literatura de Catrambone mostra que ajuda na transferencia.
+ * Por isso o reparo so age no caso PROVAVEL de troca de celula, e o resto e
+ * medido pelo gate.
+ */
+const ROTULO_STOP = new Set(
+  "a o as os um uma de do da dos das em no na nos nas e ou que qual quais para por com sem ao aos se sua seu este esta isso essa esse forma parte partes primeiro primeira segundo segunda agora temos devemos quanto quantos como onde".split(
+    " "
+  )
+);
+
+/** Radicais das palavras de conteudo (5 primeiras letras: casa flexao). */
+export function labelStems(text) {
+  return new Set(
+    stripAccentsLower(text)
+      .split(/[^a-z0-9/]+/)
+      .filter((w) => w && !ROTULO_STOP.has(w) && (w.length > 2 || /^\d/.test(w)))
+      .map((w) => (w.length > 5 ? w.slice(0, 5) : w))
+  );
+}
+
+/** Tudo que a celula de fato diz: instrucao + conta + gabarito. */
+function textoDaCelula(step) {
+  return [step?.instruction, step?.operation, step?.expectedAnswer].map(scalar).join(" ");
+}
+
+/**
+ * (m9) Rotulo provavelmente na celula ERRADA: nao casa com a propria celula e
+ * casa com outra do mesmo problema. Devolve o indice da celula com que ele
+ * casa, ou -1.
+ *
+ * SO MEDICAO, de proposito. Tentei o reparo deterministico (reescrever o
+ * rotulo a partir da propria celula) e MEDI que ele nao se paga: das 17
+ * reescritas nos cadernos de producao, metade nao melhorava e uma piorava
+ * ("Capital politica" -> "Clique na cidade que funciona como sede do"),
+ * porque (a) `operation` esta dessincronizado justamente nas celulas em que o
+ * rotulo tambem esta, e (b) num tutor sobre capitais a palavra "capital"
+ * aparece em varios passos, o que faz esta heuristica acusar rotulo BOM.
+ * Reescrever com fonte ruim degradaria rotulo bom, que e o oposto do objetivo.
+ * Fica a medicao no gate, a regra forte no prompt do planner, e a trilha
+ * (fase 4) se defende caindo para o eco da linha da folha quando o rotulo do
+ * problema nao passa na regua.
+ */
+export function labelBelongsToAnotherCell(steps, index) {
+  const step = steps?.[index];
+  const label = scalar(step?.cell?.label).trim();
+  if (!label) return -1;
+  const doRotulo = [...labelStems(label)];
+  if (!doRotulo.length) return -1;
+  const casa = (i) => {
+    const alvo = labelStems(textoDaCelula(steps[i]));
+    return doRotulo.some((w) => alvo.has(w));
+  };
+  if (casa(index)) return -1;
+  for (let i = 0; i < steps.length; i++) {
+    if (i !== index && steps[i] && casa(i)) return i;
+  }
+  return -1;
+}
+
+/**
+ * (m11) O VALOR aparece no texto, com FRONTEIRA. `includes` cru da o falso
+ * positivo classico: o dado "2" casa dentro de "12", e toda celula que cita 12
+ * apareceria usando o dado 2. Numero so casa quando nao esta colado a outro
+ * digito, ponto, virgula ou barra; palavra casa por fronteira de palavra.
+ * Recebe o texto JA sem espacos.
+ */
+export function valorApareceEm(textoSemEspaco, valor) {
+  const v = scalar(valor).replace(/\s+/g, "").trim();
+  if (!v) return false;
+  const escapado = v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const numerico = /\d/.test(v);
+  const re = numerico
+    ? new RegExp(`(?<![\\d.,/])${escapado}(?![\\d.,/])`)
+    : new RegExp(`(?<!\\p{L})${escapado}(?!\\p{L})`, "u");
+  return re.test(scalar(textoSemEspaco));
 }
 
 export function normalizeNotebookLayout(raw, { validIds = null, excludeIds = null } = {}) {
@@ -545,6 +860,26 @@ export function typedSurfaceForAnswer(step) {
   return { renderAs: "text", synthesize: false };
 }
 
+/**
+ * (m12a) O lado esquerdo da operation e uma CONTA a fazer, e nao um rotulo?
+ *
+ * "90 / 2 = 45" e "8 - 5 = 3" sao contas; "parcela_1 = 6" e "Primeira parcela =
+ * 2 unidades" sao rotulos, e a celula por tras deles pede que o aluno DISCRIMINE
+ * qual dado do enunciado a pergunta quer, competencia que as alternativas
+ * avaliam e uma caixinha transformaria em copia do cabecalho.
+ *
+ * Este criterio substituiu "o gabarito e igual ao valor de um dado": aquele
+ * excluia, por colisao numerica, contas legitimas cujo resultado por acaso
+ * aparecia no enunciado (medido: "90 / 2 = 45" caia fora porque 45 era um dado).
+ */
+function operationLeftSideIsArithmetic(operation) {
+  const op = scalar(operation).trim();
+  const eq = op.indexOf("=");
+  if (eq <= 0) return false;
+  const lhs = op.slice(0, eq);
+  return /\d/.test(lhs) && /[+\-*/×÷:]/.test(lhs.replace(/[_-](?=[a-zA-Z])/g, ""));
+}
+
 /** Sequencia de >= 3 itens ("a, b, c" / "a > b > c" / "a -> b -> c") ou null. */
 function sequenceTokensOf(step) {
   const ea = scalar(step?.expectedAnswer).trim();
@@ -583,10 +918,39 @@ function switchRenderAs(step, renderAs) {
 }
 
 /** Props minimas do numeric_keypad para o gabarito (o gate final realinha). */
-function keypadPropsFor(expectedAnswer) {
+function keypadPropsFor(expectedAnswer, step = null) {
   const ea = scalar(expectedAnswer).trim();
   const digits = (ea.match(/\d/g) || []).length;
-  const props = { expectedAnswer: ea, maxDigits: Math.max(digits + 1, 3) };
+  // 2026-08-18 (fase 7): o teclado tambem precisa CABER os erros previstos, nao
+  // so o gabarito. Dimensionado so pelo gabarito, um distrator como
+  // "1000800804" (concatenar o valor dos blocos em vez de somar, com gabarito
+  // "1884") sobrevive em behaviorMisconceptions e fica INDIGITAVEL: a
+  // concepcao errada mais informativa do tutor vira rota morta, do mesmo jeito
+  // que o passe (m8) ja tratou nas caixinhas da soma.
+  //
+  // As duas fontes sao lidas juntas porque a migracao das options acontece
+  // DEPOIS desta chamada: na 1a passada os erros estao em options, da 2a em
+  // diante em behaviorMisconceptions. A uniao mantem o mesmo maxDigits nas 4
+  // passadas (idempotencia).
+  const erros = [
+    ...(Array.isArray(step?.behaviorMisconceptions) ? step.behaviorMisconceptions : []).map(
+      (m) => m?.wrongAnswer
+    ),
+    ...(Array.isArray(step?.options) ? step.options : [])
+      .filter((o) => o && o.isCorrect !== true)
+      .map((o) => o?.value),
+  ];
+  const digitosDoErro = erros.reduce((maior, valor) => {
+    const t = scalar(valor).trim();
+    // So erro que a propria superficie emite: numero puro, sem fracao nem texto.
+    if (!/^-?\d+(?:[.,]\d+)?$/.test(t)) return maior;
+    return Math.max(maior, (t.match(/\d/g) || []).length);
+  }, 0);
+  const props = {
+    expectedAnswer: ea,
+    maxDigits: Math.max(digits, digitosDoErro) + 1,
+  };
+  if (props.maxDigits < 3) props.maxDigits = 3;
   if (/\d[.,]\d/.test(ea)) props.allowDecimal = true;
   if (/^-/.test(ea)) props.allowNegative = true;
   return props;
@@ -608,7 +972,8 @@ export function applyTypedSurfaceToCell(step, renderAs, { synthesize = false } =
   delete cell.target;
   const mudou = switchRenderAs(step, renderAs);
   dropSceneProps(step);
-  if (renderAs === "numeric_keypad") step.componentProps = keypadPropsFor(step.expectedAnswer);
+  if (renderAs === "numeric_keypad")
+    step.componentProps = keypadPropsFor(step.expectedAnswer, step);
   else delete step.componentProps;
   if (synthesize && renderAs === "multiple_choice") {
     const ea = scalar(step.expectedAnswer).trim();
@@ -1351,6 +1716,13 @@ export function applyNotebookFallback(problem, opts = {}) {
     if (!jaCerto && !podeTrocar) return;
     if (!jaCerto) {
       step.expectedAnswer = String(alvo.value);
+      // 2026-08-17 (revisao): o sanitizer ja tinha pinado acceptableVariations
+      // em [EA antigo]; sem limpar, o grafo aceitava o gabarito errado tambem.
+      if (Array.isArray(step.acceptableVariations)) {
+        step.acceptableVariations = step.acceptableVariations.filter(
+          (v) => scalar(v).trim() !== ea && scalar(v).trim() !== ""
+        );
+      }
       note(
         `caderno: celula ${ids[index]} pede MMC/denominador comum de ${alvo.a} e ${alvo.b}: gabarito "${ea}" -> "${alvo.value}"`
       );
@@ -1359,6 +1731,44 @@ export function applyNotebookFallback(problem, opts = {}) {
       applyTypedSurfaceToCell(step, "numeric_keypad");
       note(`caderno: celula ${ids[index]} de MMC/denominador comum garantida como A numerica`);
     }
+  });
+
+  // (m7) 2026-08-17 (reportado ao vivo, "Multiplicacoes em Aventuras do Dia a
+  // Dia", P1 step_2 e P2 step_2): a instrucao pedia "decomponha o numero 12 em
+  // dezenas e unidades" e o gabarito era "12" - o proprio numero. Quem
+  // digitava "10+2" (o certo) levava vermelho. Repara como (m4) faz com o MMC:
+  // o gabarito passa a ser a decomposicao ("10 + 2") e a celula vira A de
+  // TEXTO, porque num teclado numerico o aluno nao consegue digitar "+".
+  // So mexe em celula de digitacao: com alternativas na tela a celula ja e
+  // respondivel por selecao e trocar o gabarito deixaria a correta obvia (o
+  // gate mede esses casos em worksheetDecompositionWithNumericAnswer).
+  // Roda antes de (g) para a celula nao virar alvo de instrumento. Idempotente:
+  // na 2a passada o gabarito ja e a soma e placeValueDecompositionForCell
+  // devolve null.
+  problem.steps.forEach((step, index) => {
+    if (!step || typeof step !== "object") return;
+    const alvo = pendingDecompositionTautology(step);
+    if (!alvo) return;
+    const antes = scalar(step.expectedAnswer).trim();
+    step.expectedAnswer = alvo.value;
+    // O gabarito antigo (o proprio numero) NAO pode sobreviver como variacao
+    // aceita - era exatamente o que tornava a celula uma pegadinha.
+    const variacoes = new Set(
+      (Array.isArray(step.acceptableVariations) ? step.acceptableVariations : [])
+        .map((v) => scalar(v).trim())
+        .filter((v) => v && v !== antes)
+    );
+    variacoes.add(alvo.parts.join("+"));
+    if (alvo.parts.length === 2) {
+      variacoes.add([...alvo.parts].reverse().join(" + "));
+      variacoes.add([...alvo.parts].reverse().join("+"));
+    }
+    variacoes.delete(alvo.value);
+    step.acceptableVariations = [...variacoes];
+    note(
+      `caderno: celula ${ids[index]} pede decomposicao de ${alvo.number} por valor posicional: gabarito "${antes}" -> "${alvo.value}"`
+    );
+    applyTypedSurfaceToCell(step, "text");
   });
 
   // (g) instrumento.
@@ -1535,6 +1945,81 @@ export function applyNotebookFallback(problem, opts = {}) {
     );
   });
 
+  // (m12a) 2026-08-18 (fase 7, catalogo por conteudo): A CONTA NAO E
+  // ALTERNATIVA. Celula A com superficie multiple_choice cujo gabarito e um
+  // NUMERO ou uma FRACAO, e que participa de uma linha de conta da folha
+  // (layout) ou cuja operation traz uma igualdade, vira superficie DIGITADA.
+  //
+  // Por que: escolher "15" entre quatro alternativas e reconhecimento; digitar
+  // "15" e fazer a conta, que e exatamente o que o passo diz avaliar. Medido no
+  // corpus de producao (11 tutores, 139 celulas): 30 das 58 celulas
+  // multiple_choice satisfazem a condicao, e a fracao de celulas em selecao
+  // passiva cai de 42,4% para 20,9% sem uma geracao nova.
+  //
+  // SEM perda de diagnostico: applyTypedSurfaceToCell migra as options para
+  // behaviorMisconceptions. Medido: os 83 distratores dessas 30 celulas tem
+  // todos a forma que numeric_keypad/fraction_input emitem, entao
+  // pruneMisconceptionsIncompatibleWith nao poda nenhum e nenhuma celula fica
+  // sem rota de erro.
+  //
+  // A condicao e ESTAVEL nas 4 passadas do fallback: (i) so DERIVA linha de
+  // conta a partir de operation "lhs = rhs" com gabarito numerico, que e a
+  // mesma perna da igualdade — uma celula que entraria no layout derivado ja
+  // qualificava antes de ele existir. Idempotente: na 2a passada o renderAs
+  // nao e mais multiple_choice e nada casa.
+  //
+  // Nao ha guarda de perfil pre_literate de proposito: a celula CONTINUA no
+  // papel A e a troca e "escolher entre quatro" -> "tocar os algarismos num
+  // teclado numerico", que nao exige leitura. Uma guarda so faria sentido com o
+  // perfil carimbado no problema (hoje ele vive no tutor e o fallback so recebe
+  // o problema), e guarda inerte e pior que guarda nenhuma.
+  //
+  // O gatilho e o MESMO criterio que deriveArithmeticLayout usa para decidir
+  // que a celula E a conta (operation "lhs = rhs" com o rhs contendo o
+  // gabarito), e nao adesao solta a uma linha de layout: a adesao solta pegava
+  // celulas cuja instrucao nao determina o que digitar.
+  //
+  // Tres exclusoes, cada uma medida no corpus:
+  //   - instrucao que promete manipulativo ("use os blocos", "na balanca"):
+  //     converter ali PIORA o defeito que a fase 7 existe para consertar, que e
+  //     justamente a instrucao descrever uma interface que nao esta na tela;
+  //   - instrucao de decompor/interpretar/representar: o gabarito ali costuma
+  //     estar errado (o numeral MDCCCLXXXIV com gabarito "1884" quando o proprio
+  //     prompt do worker pede "M + DCCC + LXXX + IV"), e a caixinha cimentaria
+  //     a violacao em vez de deixa-la visivel;
+  //   - celula de SELECAO DE DADO, reconhecida pelo lado esquerdo da operation
+  //     ser um rotulo e nao uma conta ("parcela_1 = 6"): escolher entre 9/10,
+  //     8/8 e 1/2 e discriminar QUAL dado a pergunta pede, que e competencia;
+  //     digitar 9/10 e copiar do cabecalho.
+  problem.steps.forEach((step, index) => {
+    if (!step || typeof step !== "object") return;
+    if (normalizeCellRole(step.cell?.role) !== "A") return;
+    if (scalar(step.renderAs).trim() !== "multiple_choice") return;
+    const kind = shapeOf(step).kind;
+    if (kind !== "numeric-pure" && kind !== "fraction") return;
+    // A celula e a conta?
+    const op = scalar(step.operation).trim();
+    const eq = op.indexOf("=");
+    if (eq <= 0) return;
+    const eaToken = arithmeticAnswerToken(step);
+    if (!eaToken || !rhsMatchesAnswer(op.slice(eq + 1).trim(), eaToken)) return;
+    // Exclusoes.
+    const instrucao = scalar(step.instruction);
+    if (instructionPromisesManipulation(instrucao)) return;
+    if (/\b(decomponha|decompor|interprete|interpretar|represente|representar)\b/i.test(instrucao))
+      return;
+    if (!operationLeftSideIsArithmetic(op)) return;
+    const { renderAs: destino } = typedSurfaceForAnswer(step);
+    // Cinto de seguranca: so superficie LIVRE (o aluno produz o valor). Se a
+    // forma do gabarito levasse de volta a uma superficie de selecao, a
+    // conversao nao teria sentido e o passe fica quieto.
+    if (!FREE_TYPED_RENDER_AS.has(destino)) return;
+    applyTypedSurfaceToCell(step, destino, { synthesize: false });
+    note(
+      `caderno: celula A ${ids[index]} com gabarito ${kind} em multiple_choice -> ${destino} (a conta nao e alternativa)`
+    );
+  });
+
   // (m3) 2026-08-17 (stream M): options em superficie LIVRE de celula A
   // (numeric_keypad, fraction_input, text) migram para behaviorMisconceptions
   // e options esvazia; gabarito conceitual em `text` com distratores textuais
@@ -1601,6 +2086,164 @@ export function applyNotebookFallback(problem, opts = {}) {
     for (const step of cSteps) applyInstrumentToCell(step, notebook.instrument, cSteps);
   }
 
+  // (m11) 2026-08-18 (fase 6 do foco): GIVEN REFS — que dado do enunciado cada
+  // celula usa. Serve a contiguidade espacial, o efeito mais forte da familia
+  // de carga cognitiva (22/22 testes, d=1,10): o dado tem de estar ao lado do
+  // campo que o usa, nao so no cabecalho.
+  //
+  // `cell.givenRefs` existe no contrato desde o inicio e NUNCA foi emitido por
+  // agente nenhum (0 de 112 passos medidos). Em vez de esperar o LLM, deriva-se
+  // por casamento de VALOR LITERAL: o valor do given aparece na instrucao, na
+  // conta ou no gabarito da celula. Medido no corpus: 81% das celulas casam com
+  // pelo menos um dado, 1,28 em media. O planner pode emitir melhor (ele ve o
+  // enunciado inteiro); quando emitir, o que ele mandou MANDA e aqui so se
+  // valida contra os ids reais.
+  {
+    const givens = Array.isArray(problem.notebook?.givens) ? problem.notebook.givens : [];
+    const idsValidos = new Set(givens.map((g) => scalar(g?.id).trim()).filter(Boolean));
+    const semEspaco = (v) => scalar(v).replace(/\s+/g, "");
+    problem.steps.forEach((step, index) => {
+      if (!step || typeof step !== "object" || !step.cell) return;
+      if (!givens.length) {
+        if (step.cell.givenRefs) delete step.cell.givenRefs;
+        return;
+      }
+      const autorado = Array.isArray(step.cell.givenRefs)
+        ? step.cell.givenRefs.map((r) => scalar(r).trim()).filter((r) => idsValidos.has(r))
+        : null;
+      if (autorado && autorado.length) {
+        if (autorado.join("|") !== (step.cell.givenRefs || []).join("|"))
+          step.cell.givenRefs = autorado;
+        return;
+      }
+      // Cada campo perde os espacos SOZINHO e depois se junta com separador:
+      // juntar antes colava "12" com "10 + 2" em "1210+2" e a fronteira sumia
+      // (o dado 12 deixava de casar). O gabarito NAO entra: os numeros dele sao
+      // o RESULTADO, e casavam por coincidencia (o dado "2" com a resposta
+      // "10 + 2"). O que liga o dado a celula e a conta, nao a resposta.
+      const texto = [step.instruction, step.operation].map(semEspaco).join(" | ");
+      const usados = givens
+        .filter((g) => valorApareceEm(texto, g?.value))
+        .map((g) => scalar(g.id).trim())
+        .filter(Boolean);
+      if (!usados.length) {
+        if (step.cell.givenRefs) delete step.cell.givenRefs;
+        return;
+      }
+      if ((step.cell.givenRefs || []).join("|") === usados.join("|")) return;
+      step.cell.givenRefs = usados;
+      note(`caderno: celula ${ids[index]} usa o(s) dado(s) ${usados.join(", ")}`);
+    });
+  }
+
+  // (m10) 2026-08-18 (fase 5 do foco): ALVO ORFAO do instrumento. Alvo que
+  // nenhuma celula aponta vira um chip "pendente" que fica a atividade inteira
+  // sem poder ser respondido — o aluno ve uma lacuna que nunca fecha. Medido:
+  // 7 alvos orfaos nos 9 cadernos de producao. Poda deterministica, com nota;
+  // se sobrar menos de 1 alvo, o instrumento inteiro cai (as celulas C ja
+  // degradam por (g)/(h)).
+  if (notebook.instrument && Array.isArray(notebook.instrument.targets)) {
+    const apontados = new Set(
+      problem.steps
+        .map((step) => {
+          const alvo = step?.cell?.target;
+          return typeof alvo === "object" ? scalar(alvo?.id).trim() : scalar(alvo).trim();
+        })
+        .filter(Boolean)
+    );
+    const antes = notebook.instrument.targets.length;
+    const vivos = notebook.instrument.targets.filter((t) => apontados.has(scalar(t?.id).trim()));
+    if (vivos.length !== antes) {
+      const orfaos = notebook.instrument.targets
+        .filter((t) => !apontados.has(scalar(t?.id).trim()))
+        .map((t) => scalar(t?.id));
+      if (vivos.length === 0) {
+        delete notebook.instrument;
+        note(
+          `caderno: instrumento removido — nenhum alvo e apontado por celula (${orfaos.join(", ")})`
+        );
+      } else {
+        notebook.instrument.targets = vivos;
+        note(
+          `caderno: ${orfaos.length} alvo(s) orfao(s) do instrumento podado(s) (${orfaos.join(", ")})`
+        );
+      }
+    }
+  }
+
+  // (m8) 2026-08-18 (fase 2 do foco): CAIXINHAS da soma — "12 = [10] + [2]" em
+  // vez de uma caixa unica onde o aluno digita "10 + 2". Roda AQUI, depois de
+  // (m1)/(m3)/(k)/(h), porque so agora papel, superficie e options sao os
+  // finais: rodando antes, a celula que so vira A depois nao ganhava caixinha
+  // na 1a passada e ganhava na 2a (o fallback roda ate 4 vezes e tem de ser
+  // idempotente). A limpeza e INCONDICIONAL: celula que deixou de qualificar
+  // nao pode carregar fields obsoleto para o front.
+  problem.steps.forEach((step, index) => {
+    if (!step || typeof step !== "object" || !step.cell) return;
+    const caixas = answerFieldsForSum(step.expectedAnswer);
+    const ehA = normalizeCellRole(step.cell.role) === "A";
+    // (m8b) DIAGNOSTICO ANTES DE ESTETICA. Com UMA caixa o aluno digita o que
+    // quiser e qualquer erro previsto e alcancavel; com N caixinhas a folha so
+    // emite "a + b", entao erro que nao tenha essa forma vira rota morta no
+    // grafo. Duas regras, calibradas no corpus real:
+    //   1. erro previsto que e o PROPRIO numero a decompor ("12" numa celula
+    //      de gabarito "10 + 2") preserva a caixa unica: essa e exatamente a
+    //      confusao que o reparo (m7) existe para diagnosticar, e vale mais
+    //      que a estetica das caixinhas;
+    //   2. os demais erros nao emitiveis (nos cadernos de hoje sao sobras dos
+    //      distratores da pergunta ANTIGA — "11", "7" numa celula que agora
+    //      pede decomposicao) sao podados com nota, como ja se faz com o
+    //      distrator que o instrumento nao emite (280f217). O gate mede.
+    const errosPrevistos = Array.isArray(step.behaviorMisconceptions)
+      ? step.behaviorMisconceptions
+      : [];
+    const totalDasParcelas = caixas
+      ? caixas.reduce((soma, f) => soma + Number(f.expected), 0)
+      : null;
+    const emitivel = (wrong) => {
+      const partes = answerFieldsForSum(wrong);
+      return !!partes && !!caixas && partes.length === caixas.length;
+    };
+    const temErroTautologico =
+      totalDasParcelas != null &&
+      errosPrevistos.some((m) => scalar(m?.wrongAnswer).trim() === String(totalDasParcelas));
+    const querCaixas = !!caixas && ehA && !usableOptions(step) && !temErroTautologico;
+    if (!querCaixas) {
+      if (step.cell.fields) {
+        delete step.cell.fields;
+        note(`caderno: celula ${ids[index]} perdeu as caixinhas (nao qualifica mais)`);
+      }
+      if (caixas && ehA && !usableOptions(step) && temErroTautologico) {
+        note(
+          `caderno: celula ${ids[index]} fica com caixa unica para preservar o diagnostico de "${totalDasParcelas}" (escrever o proprio numero)`
+        );
+      }
+      return;
+    }
+    const mortos = errosPrevistos.filter(
+      (m) => scalar(m?.wrongAnswer).trim() && !emitivel(m.wrongAnswer)
+    );
+    if (mortos.length) {
+      step.behaviorMisconceptions = errosPrevistos.filter((m) => !mortos.includes(m));
+      note(
+        `caderno: celula ${ids[index]} com caixinhas podou ${mortos.length} erro(s) previsto(s) que a folha nao emite (${mortos
+          .map((m) => scalar(m.wrongAnswer))
+          .join(", ")})`
+      );
+    }
+    const igual =
+      Array.isArray(step.cell.fields) &&
+      step.cell.fields.length === caixas.length &&
+      step.cell.fields.every(
+        (f, i) =>
+          scalar(f?.expected) === caixas[i].expected &&
+          scalar(f?.prefix) === scalar(caixas[i].prefix)
+      );
+    if (igual) return;
+    step.cell.fields = caixas;
+    note(`caderno: celula ${ids[index]} com gabarito em soma ganhou ${caixas.length} caixinhas`);
+  });
+
   // (i) 2026-08-17 (stream L): layout da folha, validado contra os steps
   // FINAIS (papeis ja decididos): linha com id inexistente ou de celula C
   // some; sem linha, a chave some. Sem layout do LLM, deriva o aritmetico.
@@ -1618,8 +2261,26 @@ export function applyNotebookFallback(problem, opts = {}) {
       validIds: ids,
       excludeIds: excluidas,
     });
-    if (layout) notebook.layout = layout;
-    else {
+    // (i2) trecho com igualdade FALSA sob os gabaritos sai da folha.
+    const gabaritoPorCelula = {};
+    problem.steps.forEach((step, index) => {
+      gabaritoPorCelula[ids[index]] = scalar(step?.expectedAnswer).trim();
+    });
+    const podadas = layout
+      ? layout.rows.map((r) => pruneFalseTemplateSegments(r, gabaritoPorCelula)).filter(Boolean)
+      : [];
+    if (layout && podadas.length) {
+      const mudou =
+        podadas.length !== layout.rows.length || podadas.some((r, i) => r !== layout.rows[i]);
+      notebook.layout = layout.source
+        ? { rows: podadas, source: layout.source }
+        : { rows: podadas };
+      if (mudou)
+        note("caderno: trecho(s) de layout com igualdade falsa sob os gabaritos removido(s)");
+    } else if (layout) {
+      delete notebook.layout;
+      note("caderno: layout do LLM so tinha igualdade falsa sob os gabaritos; descartado");
+    } else {
       delete notebook.layout;
       note("caderno: layout do LLM sem linha valida (ids inexistentes ou de celula C); descartado");
     }
@@ -1633,9 +2294,25 @@ export function applyNotebookFallback(problem, opts = {}) {
     }
   }
 
-  // (d) presentation por renderAs FINAL (depois de (h)), so se ausente.
+  // (d) presentation por renderAs FINAL (depois de (h)), so se ausente; e
+  // 2026-08-17 (visto em producao: multiple_choice com 4 alternativas e
+  // presentation "keypad" autorada virava caixinha numerica, escondendo as
+  // alternativas com os diagnosticos): com alternativas, a apresentacao
+  // SEGUE o renderAs (dropdown/radio), qualquer que seja a autorada.
   problem.steps.forEach((step) => {
     if (!step || typeof step !== "object") return;
+    const optionsBased =
+      OPTIONS_RENDER_AS.has(scalar(step.renderAs).trim()) &&
+      Array.isArray(step.options) &&
+      step.options.length >= 2;
+    if (optionsBased) {
+      const certa = presentationForRenderAs(step.renderAs);
+      if (scalar(step.cell.presentation).trim() !== certa) {
+        step.cell.presentation = certa;
+        note(`caderno: celula ${step.cell.id} tem alternativas: apresentacao ${certa}`);
+      }
+      return;
+    }
     if (scalar(step.cell.presentation).trim() === "") {
       step.cell.presentation = presentationForRenderAs(step.renderAs);
     }

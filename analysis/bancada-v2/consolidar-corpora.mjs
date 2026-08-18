@@ -7,8 +7,8 @@
  *   - tabela por corpus × braço (materializado, gate estrito): cobertura de
  *     estados em ordem (LCS), sem ordem, caminho íntegro, erros no estado
  *     certo, estados/grafo, gate;
- *   - estimativa AGREGADA por braço: pool de todos os grafos com bootstrap BCa
- *     em cluster de EXERCÍCIO (o corpus entra como estrato: reamostram-se
+ *   - estimativa AGREGADA por braço: pool de todos os grafos com bootstrap
+ *     PERCENTÍLICO (não BCa) em cluster de EXERCÍCIO (o corpus entra como estrato: reamostram-se
  *     exercícios dentro de cada corpus, preservando o peso de cada um) e
  *     também a média simples entre corpora (cada corpus com peso 1);
  *   - heterogeneidade: amplitude entre corpora e I² descritivo.
@@ -35,7 +35,7 @@ export const CORPORA = [
 
 const media = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);
 
-/** BCa estratificado por corpus, cluster = exercício. linhas: [{corpus, ex, v}] */
+/** Bootstrap PERCENTÍLICO estratificado por corpus, cluster = exercício (sem z0/aceleração — não é BCa). */
 function intervaloEstratificado(linhas, { seed = 42, B = 10000 } = {}) {
   const porCorpus = {};
   for (const l of linhas) ((porCorpus[l.corpus] ||= {})[l.ex] ||= []).push(l.v);

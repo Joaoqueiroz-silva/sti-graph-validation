@@ -262,3 +262,38 @@ describe("erro indistinguível por valor (valor = resposta correta do estado) �
     expect(misto.errosNoEstadoCerto).toBe(1);
   });
 });
+
+describe("correções da auditoria (2026-08-18)", () => {
+  it("dpEntreReplicas usa DP agrupado por graus de liberdade, não média de DPs", () => {
+    // ex A: [0,1] → SS=0,5, gl=1 ; ex B: [0,0,1] → média 1/3, SS=2/3, gl=2
+    const linhas = [
+      { ex: "A", v: 0 }, { ex: "A", v: 1 },
+      { ex: "B", v: 0 }, { ex: "B", v: 0 }, { ex: "B", v: 1 },
+    ];
+    const esperado = Math.sqrt((0.5 + 2 / 3) / 3);
+    expect(dpEntreReplicas(linhas, "v")).toBeCloseTo(esperado, 12);
+    // a média dos DPs daria outro valor (menor) — o defeito corrigido
+    const mediaDeDps = (Math.sqrt(0.5) + Math.sqrt((2 / 3) / 2)) / 2;
+    expect(Math.abs(esperado - mediaDeDps)).toBeGreaterThan(0.015); // pooled > média de DPs
+  });
+});
+
+describe("IC de métrica saturada não tem largura zero (auditoria 2026-08-18)", async () => {
+  const { intervalo } = await import("../analysis/validacao-v2/lib.mjs");
+  it("k exercícios todos em 1,000 → limite inferior de Clopper-Pearson, não [1;1]", () => {
+    const linhas = Array.from({ length: 20 }, (_, i) => ({ ex: `e${i}`, v: 1 }));
+    const ic = intervalo(linhas, "v");
+    expect(ic.estimativa).toBe(1);
+    expect(ic.degenerado).toBe(true);
+    expect(ic.bca[1]).toBe(1);
+    expect(ic.bca[0]).toBeLessThan(1);
+    // Clopper-Pearson unilateral com 20 sucessos em 20 clusters: p ≥ 0,025^(1/20) ≈ 0,832
+    expect(ic.bca[0]).toBeCloseTo(Math.pow(0.025, 1 / 20), 10);
+  });
+  it("todos em 0 → limite superior, não [0;0]", () => {
+    const linhas = Array.from({ length: 10 }, (_, i) => ({ ex: `e${i}`, v: 0 }));
+    const ic = intervalo(linhas, "v");
+    expect(ic.bca[0]).toBe(0);
+    expect(ic.bca[1]).toBeGreaterThan(0);
+  });
+});
