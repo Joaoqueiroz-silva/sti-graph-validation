@@ -107,7 +107,18 @@ export function isMechanicalMisconception(wrongAnswer) {
  *   edge: { id, from, to, selection, action, input, hints[], buggy, success, actionType, isCorrect }
  *   skill: { ruleName, productionSet, label, hints[] }
  */
-export function parseBrd(xml) {
+/**
+ * Campos de TEXTO do estado inicial que compõem o ENUNCIADO (2026-08-18).
+ * Padrão: statement/statement2 — o que os corpora 6.17/6.18/6.19 usam. Alguns
+ * tutores guardam os dados do problema em outros campos exibidos ao aluno
+ * (6.20: `var1`/`var2` trazem as duas frações e `question` a pergunta), sem os
+ * quais o enunciado fica incompleto. A lista é DECLARADA por corpus em
+ * `cases/<corpus>/_interface/campos-enunciado.json` e usada na construção do
+ * envelope A. Só entram campos de texto exibidos na tela; nada do grafo.
+ */
+export const CAMPOS_ENUNCIADO_PADRAO = ["statement", "statement2"];
+
+export function parseBrd(xml, { camposEnunciado = CAMPOS_ENUNCIADO_PADRAO } = {}) {
   if (!xml || typeof xml !== "string") throw new Error("parseBrd: XML vazio");
   const root = parse(xml, { lowerCaseTagName: false, comment: false });
   const sg = findFirst(root, "stateGraph");
@@ -122,7 +133,7 @@ export function parseBrd(xml) {
     for (const msg of findAll(startBlock, "message")) {
       const props = findFirst(msg, "properties");
       const sel = canon(saiValue(props, "Selection"));
-      if (sel === "statement" || sel === "statement2") {
+      if (camposEnunciado.includes(sel)) {
         const input = saiValue(props, "Input");
         if (input) {
           statement = statement ? `${statement}\n${input}` : input;
@@ -212,7 +223,7 @@ function orderCorrectPath(correctEdges) {
  * Anexa `hints`/`skills` como metadados (o comparador ignora extras).
  */
 export function parseBrdToExpertNeutral(xml, meta = {}) {
-  const { statement, edges, skills } = parseBrd(xml);
+  const { statement, edges, skills } = parseBrd(xml, { camposEnunciado: meta.camposEnunciado ?? CAMPOS_ENUNCIADO_PADRAO });
   const correct = orderCorrectPath(edges.filter((e) => e.isCorrect));
   const misc = edges.filter((e) => !e.isCorrect);
 
@@ -288,7 +299,7 @@ function deriveCorrectAnswer(correctEdges) {
  * NUNCA inclui misconceptions, dicas, caminho correto nem arestas (anti-contaminação).
  */
 export function parseBrdToRobotInput(xml, opts = {}) {
-  const { startState, statement, edges, skills } = parseBrd(xml);
+  const { startState, statement, edges, skills } = parseBrd(xml, { camposEnunciado: opts.camposEnunciado ?? CAMPOS_ENUNCIADO_PADRAO });
 
   // Componentes = Selections interativos distintos (na ordem de 1ª aparição).
   const order = [];

@@ -107,6 +107,7 @@ export function descreverInterface(envelopeA, params) {
   const tipo = configDataset().interface?.tipo || "mathtutor-6.17";
   if (tipo === "mathtutor-6.19") return descreverInterface619(envelopeA, params);
   if (tipo === "mathtutor-6.18") return descreverInterface618(envelopeA, params);
+  if (tipo === "mathtutor-6.20") return descreverInterface620(envelopeA, params);
   const p = params || lerParametrosInterface(envelopeA.id);
   const componentes = (envelopeA.components || []).map((c) => ({
     id: c.id,
@@ -263,6 +264,61 @@ export function descreverInterface618(envelopeA, params) {
       "Os passos do aluno são ações NESSES componentes (dividir a Linha 2, marcar o ponto, digitar o numerador, comparar, concluir).",
     retaNumerica: { de: 0, ate: p.retaAte, linhas: 2 },
     caixaFracaoExibida: true,
+    caixaNumeroMisto: false,
+    componentes,
+  };
+}
+
+
+// ── Mathtutor 6.20 "Fraction Ordering" (2026-08-18) ──────────────────────────
+// Fonte: `_interface/6.20.html` do pacote (duas CTATNumberLine com stepper de
+// denominador, CTATComboBox de comparação, Hint, Done) e o ESTADO INICIAL do
+// .brd. Lista branca: `set_maximum` das retas, `setLabels` do seletor (as
+// alternativas que o aluno VÊ na tela — é uma escolha múltipla visível, não o
+// gabarito do especialista) e os rótulos das retas (statement_line1/2).
+// Os dados do problema (var1/var2/question) NÃO entram aqui: já compõem o
+// ENUNCIADO do envelope A (campos-enunciado.json declarado no corpus).
+const PAPEL_620 = Object.freeze({
+  denom1: "campo numérico do denominador da primeira reta (em quantas partes dividir) + confirmar",
+  numline1: "primeira reta numérica; o aluno marca o ponto da primeira fração",
+  denom2: "campo numérico do denominador da segunda reta + confirmar",
+  numline2: "segunda reta numérica; o aluno marca o ponto da segunda fração",
+  compBox: "seletor com as alternativas de comparação; o aluno escolhe uma delas",
+  done: "botão Done (concluir o problema)",
+});
+export function lerParametrosInterface620(exercicioId, raiz = ".") {
+  const p = path.join(dirDataset("fraction-ordering-6.20", raiz), "problems", exercicioId, "interface-params.json");
+  const msgs = fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")).mensagens || [] : [];
+  const val = (sel, act) => (msgs.find((m) => m.selection === sel && m.action === act) || {}).input ?? "";
+  const alternativas = String(val("compBox", "setLabels"))
+    .split(",")
+    .map((x) => x.trim())
+    .filter((x) => x && !/^-+$/.test(x));
+  return {
+    reta1Ate: Number(val("numline1", "set_maximum")) || 1,
+    reta2Ate: Number(val("numline2", "set_maximum")) || 1,
+    rotulo1: val("statement_line1", "UpdateTextArea"),
+    rotulo2: val("statement_line2", "UpdateTextArea"),
+    alternativas,
+  };
+}
+export function descreverInterface620(envelopeA, params) {
+  const p = params || lerParametrosInterface620(envelopeA.id);
+  const componentes = (envelopeA.components || [])
+    .filter((c) => c.id !== "No_Selection")
+    .map((c) => ({ id: c.id, tipo: c.type, papel: PAPEL_620[c.id] || c.label || c.id }));
+  return {
+    descricao:
+      "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; " +
+      `DUAS retas numéricas de 0 a ${p.reta1Ate}, uma para cada quantidade` +
+      (p.rotulo1 && p.rotulo2 ? ` (rotuladas "${p.rotulo1.trim()}" e "${p.rotulo2.trim()}")` : "") +
+      "; para cada reta há um campo onde o aluno digita em quantas partes iguais dividi-la (com confirmação) e, depois, marca o ponto da fração correspondente; " +
+      (p.alternativas.length
+        ? `abaixo, um seletor em que o aluno escolhe UMA destas alternativas: ${p.alternativas.map((a) => `"${a}"`).join("; ")}; `
+        : "abaixo, um seletor de comparação; ") +
+      "botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
+    retaNumerica: { de: 0, ate: p.reta1Ate, linhas: 2 },
+    caixaFracaoExibida: false,
     caixaNumeroMisto: false,
     componentes,
   };

@@ -111,3 +111,34 @@ Vistas no 6.18 e aplicadas a TODOS os corpora (recalculado):
    denominador (`errosIndistinguiveis`). 6.18: 20/20 dos ancoráveis — a métrica
    fica **N/A**, não 0; 6.17: 0/110; 6.19: 0/54.
 Ambas travadas por teste em `__tests__/comparar-caminho.test.mjs`.
+
+## Adendo 6.20 — enunciado declarado, interface e piloto (18/08)
+
+**Enunciado (novo mecanismo, declarado).** No 6.20 os dados do problema não
+estão no campo `statement`: as duas frações ficam em `var1`/`var2` e a pergunta
+em `question` — todos TEXTO EXIBIDO ao aluno no estado inicial. Sem eles o
+enunciado é insolúvel ("use a reta para descobrir quem leu menos", sem dizer
+quanto cada um leu). Os campos que compõem o enunciado passam a ser
+**declarados por corpus** em `cases/<corpus>/_interface/campos-enunciado.json`
+(`parse-ctat-brd.js: CAMPOS_ENUNCIADO_PADRAO` = statement/statement2 segue
+valendo para 6.17/6.18/6.19, que não mudam). Para o 6.20: statement, statement2,
+var1, var2, question. `statement_line1/2` (rótulos das retas) ficam fora do
+enunciado e entram na descrição da interface.
+
+**Interface** (`descreverInterface620`): duas retas numéricas rotuladas (uma por
+pessoa/quantidade), campo de denominador com confirmação em cada uma, e um
+seletor com as ALTERNATIVAS de comparação. As alternativas entram na descrição
+porque são o que o aluno vê na tela (é uma escolha múltipla visível) — não são
+o gabarito do especialista; a escolha certa continua desconhecida ao agente.
+Lista branca: `set_maximum`, `setLabels` do seletor, rótulos das retas.
+
+**Referência**: 5 estados de valor por problema (denominador 1 → ponto 1 →
+denominador 2 → ponto 2 → alternativa escolhida) e 4 erros por problema (2 em
+um dos 19). O 5º estado tem valor TEXTUAL (a alternativa) — primeiro corpus do
+bloco com estado não numérico; reportado à parte se afetar a leitura.
+
+**Piloto** (2 exercícios × 1 réplica, custo-beneficio, produção 132c645): 39–40
+menções à interface nos traces; o caminho dos agentes segue exatamente
+dividir → marcar → dividir → marcar → comparar → concluir; gate **2/2
+APROVADO**; régua (n=2, ilustrativo): cobertura 0,90, caminho íntegro 0,50,
+erros no estado certo 0,375. Critério de parada não acionado → coleta autorizada.

@@ -36,8 +36,8 @@ const sha256 = (s) => crypto.createHash("sha256").update(s).digest("hex").slice(
  * Transforma UM `.brd` nos três artefatos do dataset. Pura e determinística (sem I/O, sem LLM).
  * @returns {{ envelopeA, envelopeB, meta }}
  */
-export function buildProblemRecord(brdXml, id) {
-  const envelopeA = parseBrdToRobotInput(brdXml, { id });
+export function buildProblemRecord(brdXml, id, { camposEnunciado } = {}) {
+  const envelopeA = parseBrdToRobotInput(brdXml, { id, camposEnunciado });
   const envelopeB = parseBrdToExpertNeutral(brdXml);
   const leaks = findLeaksInRobotInput(envelopeA); // anti-contaminação: deve ser []
 
@@ -157,13 +157,21 @@ function main() {
     `Materializando ${dirs.length} problema(s) → ${path.relative(process.cwd(), outDir)}`
   );
 
+  // Campos de enunciado declarados pelo corpus (2026-08-18): alguns tutores
+  // guardam os dados do problema em campos de texto próprios (6.20: var1/var2/
+  // question). Ver CAMPOS_ENUNCIADO_PADRAO em parse-ctat-brd.js.
+  const campoDecl = path.join(args.corpus, "_interface", "campos-enunciado.json");
+  const camposEnunciado = fs.existsSync(campoDecl) ? JSON.parse(read(campoDecl)).campos : undefined;
+  if (camposEnunciado) console.log(`campos de enunciado declarados: ${camposEnunciado.join(", ")}`);
+
   const index = [];
   let totalLeaks = 0;
   for (const dir of dirs) {
     const id = path.basename(dir);
     const { envelopeA, envelopeB, meta } = buildProblemRecord(
       read(path.join(dir, "expert.brd")),
-      id
+      id,
+      { camposEnunciado }
     );
     const probDir = path.join(outDir, "problems", id);
     fs.mkdirSync(probDir, { recursive: true });

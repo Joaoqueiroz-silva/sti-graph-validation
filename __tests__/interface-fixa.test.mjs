@@ -143,3 +143,35 @@ describe("interface 6.18 — nenhum valor de campo entra na descrição (R1 = re
     }
   });
 });
+
+// ── corpus 6.20 (2026-08-18): duas retas + seletor de comparação com alternativas visíveis ──
+describe("interface 6.20 — alternativas do seletor entram (são da tela); nada do grafo entra", () => {
+  const DS20 = "datasets/fraction-ordering-6.20";
+  const ids20 = fs.existsSync(`${DS20}/problems`) ? fs.readdirSync(`${DS20}/problems`) : [];
+  it("dataset com 19 problemas; enunciado inclui var1/var2/question (declarado em campos-enunciado.json)", () => {
+    expect(ids20.length).toBe(19);
+    const A = JSON.parse(fs.readFileSync(`${DS20}/problems/01book/envelope-a.json`, "utf8"));
+    expect(A.problem).toMatch(/1\/4/);
+    expect(A.problem).toMatch(/1\/5/);
+    const decl = JSON.parse(fs.readFileSync("cases/ctat-6.20/_interface/campos-enunciado.json", "utf8"));
+    expect(decl.campos).toContain("var1");
+  });
+  it("a descrição traz as alternativas visíveis do seletor, e nenhuma dica/feedback do .brd", async () => {
+    const prev = process.env.STI_DATASET;
+    process.env.STI_DATASET = "fraction-ordering-6.20";
+    try {
+      const { descreverInterface620, textoRequisitoInterface } = await import("../interface-ctat.js");
+      for (const id of ids20) {
+        const A = JSON.parse(fs.readFileSync(`${DS20}/problems/${id}/envelope-a.json`, "utf8"));
+        const B = JSON.parse(fs.readFileSync(`${DS20}/problems/${id}/envelope-b.json`, "utf8"));
+        const d = descreverInterface620(A);
+        const texto = JSON.stringify(d) + textoRequisitoInterface(d);
+        expect(d.componentes.map((c) => c.id)).toContain("compBox");
+        for (const h of (B.hintsPerCorrectStep || []).flat()) if (String(h).length > 15) expect(texto.includes(String(h))).toBe(false);
+        for (const m of B.misconceptions || []) if (m.feedback && String(m.feedback).length > 15) expect(texto.includes(String(m.feedback))).toBe(false);
+      }
+    } finally {
+      if (prev === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = prev;
+    }
+  });
+});
