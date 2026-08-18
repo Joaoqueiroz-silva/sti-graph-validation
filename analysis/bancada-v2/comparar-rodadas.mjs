@@ -39,7 +39,10 @@ if (ehMain) {
   const A = JSON.parse(fs.readFileSync(opt("--a"), "utf8"));
   const B = JSON.parse(fs.readFileSync(opt("--b"), "utf8"));
   const R = compararRodadas(A, B);
-  const f = (i) => `${i.estimativa >= 0 ? "+" : ""}${i.estimativa.toFixed(3)} [${i.bca[0].toFixed(3)}; ${i.bca[1].toFixed(3)}]`;
+  const f = (i) =>
+    i == null || !Number.isFinite(i.estimativa)
+      ? "N/A (não avaliável)"
+      : `${i.estimativa >= 0 ? "+" : ""}${i.estimativa.toFixed(3)} [${i.bca[0].toFixed(3)}; ${i.bca[1].toFixed(3)}]`;
   console.log(`Δ pareado ${R.b} − ${R.a}`);
   for (const [nome, b] of [["todos os pares", R.todosOsPares], ["aprovados nos dois gates estritos", R.aprovadosNosDoisGates]]) {
     console.log(`  ${nome}: ${b.n} pares (${b.exercicios} exercícios)`);
