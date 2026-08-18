@@ -72,7 +72,15 @@ export function verificarProblemaFixo(envelopeA, exercicio, grafoMaterializado, 
     if (!d) return v;
     return `${(Math.abs(w) * d + n) * (w < 0 ? -1 : 1)}/${d}`;
   };
-  const canon = (v) => String(opts.numerosMistos ? misto(v) : v ?? "").trim().replace(/\s+/g, "");
+  // Sensibilidade 4 (declarada 2026-08-18 ANTES da coleta do 8.12, corpus de
+  // PORCENTAGEM): "152%" é o mesmo valor que "152" — o símbolo é unidade, não
+  // número estranho. Aplicada só quando pedida.
+  const semPercent = (v) => String(v ?? "").trim().replace(/\s*%\s*$/, "");
+  const canon = (v) => {
+    let x = opts.sufixoPercentual ? semPercent(v) : v;
+    x = opts.numerosMistos ? misto(x) : x;
+    return String(x ?? "").trim().replace(/\s+/g, "");
+  };
   const valores = (grafoMaterializado?.passos || []).map((p) => canon(p.valor)).filter(Boolean);
   const resposta = canon(envelopeA.correctAnswer);
   // Sensibilidade 2 (declarada 2026-08-16, APÓS ver os motivos de reprovação

@@ -175,3 +175,38 @@ describe("interface 6.20 — alternativas do seletor entram (são da tela); nada
     }
   });
 });
+
+// ── corpus 8.12 (2026-08-18): tabela de razões/porcentagem; 24 estados de valor ──
+describe("interface 8.12 — descrição estrutural da tabela, sem valores do problema", () => {
+  const DS = "datasets/factors-scaling-8.12";
+  const ids = fs.existsSync(`${DS}/problems`) ? fs.readdirSync(`${DS}/problems`) : [];
+  it("dataset com 19 problemas; enunciado vem de problemstatement + problemstatementparts", () => {
+    expect(ids.length).toBe(19);
+    const decl = JSON.parse(fs.readFileSync("cases/ctat-8.12/_interface/campos-enunciado.json", "utf8"));
+    expect(decl.campos).toContain("problemstatement");
+    expect(decl.campos).toContain("problemstatementparts");
+    const A = JSON.parse(fs.readFileSync(`${DS}/problems/animal shelter/envelope-a.json`, "utf8"));
+    expect(A.problem).toMatch(/Part 1/);
+  });
+  it("a descrição é estrutural: não cita nenhum valor do problema nem dicas/feedback do .brd", async () => {
+    const prev = process.env.STI_DATASET;
+    process.env.STI_DATASET = "factors-scaling-8.12";
+    try {
+      const { descreverInterface812, textoRequisitoInterface } = await import("../interface-ctat.js");
+      for (const id of ids) {
+        const A = JSON.parse(fs.readFileSync(`${DS}/problems/${id}/envelope-a.json`, "utf8"));
+        const B = JSON.parse(fs.readFileSync(`${DS}/problems/${id}/envelope-b.json`, "utf8"));
+        const d = descreverInterface812(A);
+        const texto = JSON.stringify(d) + textoRequisitoInterface(d);
+        // nenhuma resposta correta do caminho aparece na descrição
+        for (const st of B.steps || []) {
+          const v = String(st.answer ?? "").trim();
+          if (v && v.length >= 3 && !["100"].includes(v)) expect(texto).not.toMatch(new RegExp(`\\b${v.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}\\b`));
+        }
+        for (const h of (B.hintsPerCorrectStep || []).flat()) if (String(h).length > 15) expect(texto.includes(String(h))).toBe(false);
+      }
+    } finally {
+      if (prev === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = prev;
+    }
+  });
+});

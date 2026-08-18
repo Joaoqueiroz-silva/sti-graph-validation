@@ -142,3 +142,33 @@ menções à interface nos traces; o caminho dos agentes segue exatamente
 dividir → marcar → dividir → marcar → comparar → concluir; gate **2/2
 APROVADO**; régua (n=2, ilustrativo): cobertura 0,90, caminho íntegro 0,50,
 erros no estado certo 0,375. Critério de parada não acionado → coleta autorizada.
+
+## Adendo 8.12 — o corpus mais duro do bloco (18/08, noite)
+
+**Enunciado declarado**: `problemstatement` (contexto) + `problemstatementparts`
+(Partes 1 e 2 da tarefa) — o `statement` não existe neste pacote.
+
+**Interface**: TABELA de razões com 3 linhas (Total, Part 1, Part 2) × 4 grupos
+de células — razão original (num/denom), Operation (× ou ÷, dois seletores),
+Scale Factor (num/denom) e resultado sobre 100 (a porcentagem). 18 campos + 6
+seletores + Done. Descrição ESTRUTURAL: diz quais linhas/colunas existem e o
+que cada célula espera; **nenhum valor do problema entra** (teste percorre os
+19 problemas verificando que nenhuma resposta do caminho aparece na descrição).
+
+**Referência: 24 estados de valor por problema** (uma célula por vez) e 11
+erros — contra 3–5 estados nos corpora de frações. É a granularidade mais fina
+do bloco e, por isso, o teste mais duro de decomposição.
+
+**Sensibilidade 4 do gate, declarada A PRIORI**: corpus de porcentagem, em que
+"152%" é o mesmo valor que "152" (o símbolo é unidade). Entra como mais um
+nível de sensibilidade; estrito e demais continuam reportados.
+
+**Piloto** (2 × 1, custo-beneficio, produção 132c645): 45–52 menções à tabela
+nos traces (os agentes usam a interface); gate 1/2 (o reprovado foi por "152%",
+motivo da sensibilidade 4); **cobertura 0,083 (2 de 24 estados)**. Causa
+declarada: os agentes **AGREGAM** — produzem 4–5 passos ("preencher as razões
+originais", "identificar os fatores de escala") que cobrem a tabela inteira,
+enquanto o especialista trata cada célula como um passo. Critério de parada
+pré-registrado (0 menções à interface, ou gate 0/2) NÃO acionado → coleta
+autorizada. A expectativa declarada é de cobertura baixa; o valor do corpus é
+justamente medir o LIMITE do método em tarefas de granularidade fina.

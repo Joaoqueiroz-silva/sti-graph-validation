@@ -235,3 +235,14 @@ describe("materialização — gate de problema fixo (obediência do agent 6 pro
     expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true }).aprovado).toBe(true);
   });
 });
+
+describe("gate — sensibilidade 4 (sufixo de porcentagem), a priori para o 8.12", () => {
+  const envA = { problem: "A sala tem 50 gaiolas e 76 gatos.", correctAnswer: "152" };
+  it('"152%" conta como 152; número estranho continua reprovando', () => {
+    const g = { passos: [{ valor: "76" }, { valor: "50" }, { valor: "152%" }] };
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true }).aprovado).toBe(false);
+    expect(verificarProblemaFixo(envA, {}, g, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true, sufixoPercentual: true }).aprovado).toBe(true);
+    const g2 = { passos: [{ valor: "152%" }, { valor: "999%" }] };
+    expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true, sufixoPercentual: true }).aprovado).toBe(false);
+  });
+});

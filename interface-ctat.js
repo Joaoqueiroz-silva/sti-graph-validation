@@ -108,6 +108,7 @@ export function descreverInterface(envelopeA, params) {
   if (tipo === "mathtutor-6.19") return descreverInterface619(envelopeA, params);
   if (tipo === "mathtutor-6.18") return descreverInterface618(envelopeA, params);
   if (tipo === "mathtutor-6.20") return descreverInterface620(envelopeA, params);
+  if (tipo === "mathtutor-8.12") return descreverInterface812(envelopeA, params);
   const p = params || lerParametrosInterface(envelopeA.id);
   const componentes = (envelopeA.components || []).map((c) => ({
     id: c.id,
@@ -318,6 +319,49 @@ export function descreverInterface620(envelopeA, params) {
         : "abaixo, um seletor de comparação; ") +
       "botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
     retaNumerica: { de: 0, ate: p.reta1Ate, linhas: 2 },
+    caixaFracaoExibida: false,
+    caixaNumeroMisto: false,
+    componentes,
+  };
+}
+
+
+// ── Mathtutor 8.12 "Factors, Scaling, and Percents" (2026-08-18) ─────────────
+// Fonte: `_interface/8.12.html` (tabela com 18 CTATTextInput e 6 CTATComboBox,
+// colunas "Operation" e "Scale Factor", denominador 100 impresso em cada linha)
+// e o ESTADO INICIAL do .brd. Não há parâmetro por problema além do enunciado
+// (que já vai no envelope A por campos-enunciado.json: problemstatement e
+// problemstatementparts). A descrição é ESTRUTURAL: quais linhas e colunas a
+// tabela tem e o que cada célula espera; nenhum valor de problema entra.
+const PAPEL_812 = Object.freeze({
+  done: "botão Done (concluir o problema)",
+});
+function papel812(id) {
+  const linha = id.startsWith("total") ? "linha Total" : id.startsWith("part1") ? "linha Part 1" : id.startsWith("part2") ? "linha Part 2" : "linha";
+  if (id.includes("orignumarea")) return `${linha}: numerador da razão original`;
+  if (id.includes("origdenomarea")) return `${linha}: denominador da razão original`;
+  if (id.includes("operatornumpulldown")) return `${linha}: operação aplicada ao numerador (× ou ÷)`;
+  if (id.includes("operatordenompulldown")) return `${linha}: operação aplicada ao denominador (× ou ÷)`;
+  if (id.includes("numscalefactorarea")) return `${linha}: fator de escala do numerador`;
+  if (id.includes("denomscalefactorarea")) return `${linha}: fator de escala do denominador`;
+  if (id.includes("percentnumarea")) return `${linha}: numerador do resultado (a porcentagem), com denominador 100`;
+  if (id.includes("percentarea")) return `${linha}: valor da porcentagem`;
+  return PAPEL_812[id] || id;
+}
+export function descreverInterface812(envelopeA) {
+  const componentes = (envelopeA.components || [])
+    .filter((c) => c.id !== "No_Selection")
+    .map((c) => ({ id: c.id, tipo: c.type, papel: papel812(c.id) }));
+  return {
+    descricao:
+      "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, " +
+      "uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: " +
+      "(1) a razão ORIGINAL (numerador e denominador, dois campos); " +
+      '(2) a coluna "Operation": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); ' +
+      '(3) a coluna "Scale Factor": dois campos com o fator aplicado ao numerador e ao denominador; ' +
+      "(4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. " +
+      "Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+    tabela: { linhas: ["Total", "Part 1", "Part 2"], colunas: ["razão original", "Operation (× ou ÷)", "Scale Factor", "resultado sobre 100"] },
     caixaFracaoExibida: false,
     caixaNumeroMisto: false,
     componentes,
