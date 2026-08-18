@@ -95,7 +95,10 @@ export function consolidar(raiz = ".") {
       for (const m of METRICAS) linha[m] = b.materializado.metricas[m];
       tabela.push(linha);
       for (const r of A.porRegistro.filter((r) => (recorte === "sens3" ? r.gateSens3 : r.gateEstrito))) {
-        for (const m of METRICAS) ((porBraco[braco] ||= {})[m] ||= []).push({ corpus: c.corpus, ex: r.ex, v: r.mat[m] });
+        for (const m of METRICAS) {
+        if (r.mat[m] === null || r.mat[m] === undefined) continue; // N/A não entra no pool
+        ((porBraco[braco] ||= {})[m] ||= []).push({ corpus: c.corpus, ex: r.ex, v: r.mat[m] });
+      }
       }
     }
   }
@@ -103,7 +106,9 @@ export function consolidar(raiz = ".") {
   for (const [braco, ms] of Object.entries(porBraco)) {
     agregado[braco] = {};
     for (const [m, linhas] of Object.entries(ms)) {
-      const porCorpus = tabela.filter((t) => t.braco === braco).map((t) => t[m].estimativa);
+      // corpora em que a métrica é N/A (ex.: erros no 6.18, todos indistinguíveis
+      // por valor) ficam fora da média/amplitude entre corpora.
+      const porCorpus = tabela.filter((t) => t.braco === braco).map((t) => t[m].estimativa).filter((x) => Number.isFinite(x));
       agregado[braco][m] = {
         pool: intervaloEstratificado(linhas),
         mediaEntreCorpora: media(porCorpus),
@@ -122,11 +127,14 @@ if (ehMain) {
   fs.mkdirSync(out, { recursive: true });
   fs.writeFileSync(path.join(out, "consolidado.json"), JSON.stringify(R, null, 1));
   const f3 = (x) => (Number.isFinite(x) ? x.toFixed(3) : "—");
-  const ic = (m) => `${f3(m.estimativa)} [${f3(m.bca?.[0] ?? m.percentil?.[0])}; ${f3(m.bca?.[1] ?? m.percentil?.[1])}]`;
+  const ic = (m) =>
+    m.estimativa === null || m.estimativa === undefined
+      ? "N/A (não avaliável)"
+      : `${f3(m.estimativa)} [${f3(m.bca?.[0] ?? m.percentil?.[0])}; ${f3(m.bca?.[1] ?? m.percentil?.[1])}]`;
   let md = `# Experimento consolidado — validação de grafos de comportamento contra especialistas do CTAT/Mathtutor\n\n`;
   md += `Gerado em ${R.gerado.slice(0, 16)} por \`analysis/bancada-v2/consolidar-corpora.mjs\`. Um único desenho\n(problema + interface do especialista → agents 3 → GraphForge passos-livres → agent 6/7 espelhados da PRODUÇÃO\natual, commit 132c645; régua de estados por Actor/LCS) aplicado a **${R.corporaIncluidos.length} corpus/corpora**: ${R.corporaIncluidos.join("; ")}.\n\n`;
   md += `## Por corpus × braço (grafo materializado; recorte = aprovados na sensibilidade 3 do gate; BCa 95 % em cluster de exercício; entre parênteses, o valor em TODOS os grafos)\n\n| corpus | braço | n grafos (ex.) / todos | gate estrito · sens. 3 | cobertura em ordem (LCS) | sem ordem | caminho íntegro | erros no estado certo | estados/grafo |\n|---|---|---|---|---|---|---|---|---|\n`;
-  const t3 = (t, m) => (t.todos?.[m] != null ? ` (${f3(t.todos[m])})` : "");
+  const t3 = (t, m) => (Number.isFinite(t.todos?.[m]) ? ` (${f3(t.todos[m])})` : "");
   for (const t of R.tabela) md += `| ${t.corpus} | ${BRACOS[t.braco]} | ${t.n} (${t.exercicios}) / ${t.nTodos ?? "—"} | ${(t.gateEstrito * 100).toFixed(0)} % · ${t.gateSens3 != null ? (t.gateSens3 * 100).toFixed(0) + " %" : "—"} | ${ic(t.coberturaEstados)}${t3(t, "coberturaEstados")} | ${ic(t.coberturaSemOrdem)}${t3(t, "coberturaSemOrdem")} | ${ic(t.caminhoIntegro)}${t3(t, "caminhoIntegro")} | ${ic(t.errosNoEstadoCerto)}${t3(t, "errosNoEstadoCerto")} | ${t.estadosPorGrafo.toFixed(2)} |\n`;
   md += `\n## Agregado por braço (pool de todos os grafos aprovados; bootstrap estratificado por corpus, cluster = exercício, 10k, seed 42; percentil)\n\n| braço | métrica | pool [IC 95 %] | n grafos | média entre corpora | amplitude entre corpora | corpora |\n|---|---|---|---|---|---|---|\n`;
   for (const [braco, ms] of Object.entries(R.agregado)) for (const [m, v] of Object.entries(ms)) md += `| ${BRACOS[braco]} | ${m} | ${f3(v.pool.estimativa)} [${f3(v.pool.percentil[0])}; ${f3(v.pool.percentil[1])}] | ${v.pool.n} | ${f3(v.mediaEntreCorpora)} | ${v.amplitudeEntreCorpora ? v.amplitudeEntreCorpora.map(f3).join(" – ") : "—"} | ${v.nCorpora} |\n`;

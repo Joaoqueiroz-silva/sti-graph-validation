@@ -232,3 +232,33 @@ describe("caminho de referência — seletor de variante fora dos estados de val
     }
   });
 });
+
+describe("erros do especialista sem estado ancorável saem do denominador (2026-08-18)", () => {
+  const envB = { steps: [{ key: "5", answer: "5", order: 1 }, { key: "1/5", answer: "1/5", order: 2 }], hintsPerCorrectStep: [[], []] };
+  const run = { exercicio: "x", grafo: { passos: [{ indice: 1, valor: "5" }, { indice: 2, valor: "1/5" }], erros: [{ passo: 2, valor: "5" }], dicas: [] } };
+  it("erro com passo indefinido não é contado nem como acerto nem como erro (antes ancorava no passo 1)", () => {
+    const comAncora = pontuarCaminho(run, envB, [{ valor: "5", passo: 1 }]);
+    expect(comAncora.nErrosRef).toBe(1);
+    expect(comAncora.errosNoEstadoCerto).toBe(1);
+    const semAncora = pontuarCaminho(run, envB, [{ valor: "5", passo: 1 }, { valor: "3", passo: undefined }]);
+    expect(semAncora.nErrosRef).toBe(1); // o segundo saiu do denominador
+    expect(semAncora.errosNaoAncoraveis).toBe(1);
+    expect(semAncora.errosNoEstadoCerto).toBe(1); // 1 de 1 ancorável
+  });
+});
+
+describe("erro indistinguível por valor (valor = resposta correta do estado) — 2026-08-18", () => {
+  const envB = { steps: [{ key: "5", answer: "5", order: 1 }, { key: "1/5", answer: "1/5", order: 2 }], hintsPerCorrectStep: [[], []] };
+  const run = { exercicio: "x", grafo: { passos: [{ indice: 1, valor: "5" }, { indice: 2, valor: "1/5" }], erros: [{ passo: 2, valor: "3" }], dicas: [] } };
+  it("sai do denominador; quando TODOS saem, a métrica é null (N/A), não 0", () => {
+    // erro do especialista com valor "1/5" ancorado no estado cuja resposta é "1/5"
+    const soIndistinguivel = pontuarCaminho(run, envB, [{ valor: "1/5", passo: 1 }]);
+    expect(soIndistinguivel.errosIndistinguiveis).toBe(1);
+    expect(soIndistinguivel.nErrosRef).toBe(0);
+    expect(soIndistinguivel.errosNoEstadoCerto).toBeNull();
+    // com um erro distinguível junto, a métrica volta a existir
+    const misto = pontuarCaminho(run, envB, [{ valor: "1/5", passo: 1 }, { valor: "3", passo: 1 }]);
+    expect(misto.nErrosRef).toBe(1);
+    expect(misto.errosNoEstadoCerto).toBe(1);
+  });
+});

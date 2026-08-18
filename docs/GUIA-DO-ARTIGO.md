@@ -228,3 +228,30 @@ preferindo frações a decimais. Fontes: `comparacao-versao-v2-vs-v1-*.json`.
 (`materializado-v2-*`), com as da versão anterior preservadas para a
 comparação. Para o artigo: descrever a versão 132c645 como a medida, citando o
 Δ de versão como análise de robustez.
+
+## 12. Adendo 2026-08-18 — 6.18 concluído e a régua de erros ganha duas exclusões
+
+**6.18 Equivalent Fractions** (20 problemas, 120 grafos, US$ 3,29, agentes da
+produção 132c645): cobertura de estados em ordem **0,953 / 1,000** e **caminho
+íntegro 0,860 / 1,000** (flash-lite / qwen) — o melhor resultado estrutural do
+experimento. Gate estrito 88 % / 68 %; sens. 3 95 % / 92 %.
+
+**Duas exclusões declaradas na métrica "erros no estado certo"** (aplicadas a
+todos os corpora e recalculadas):
+1. *não ancorável* — a aresta de erro sai de estado fora do caminho de
+   referência (no 6.18, do ramo de variante não seguido): 30/50 no 6.18, 0 nos
+   demais. Antes eram ancorados no primeiro estado e só podiam falhar;
+2. *indistinguível por valor* — o `wrongAnswer` do especialista é a própria
+   resposta correta daquele estado (erro de COMPONENTE/ORDEM: "marcar a fração
+   certa na Linha 1 em vez da Linha 2"): 20/20 dos ancoráveis no 6.18, 0/110 no
+   6.17, 0/54 no 6.19. Quando todos caem, a métrica é **N/A**, nunca 0.
+
+Para o artigo: declarar que a régua de erros pressupõe erro com valor diferente
+da resposta; corpora cujo especialista modela erros de componente exigiriam uma
+régua com seleção/ação (nível 3), fora do escopo. O consolidado reporta N/A e
+exclui esses corpora do pool dessa métrica (as demais métricas seguem inteiras).
+
+**Consolidado, 3 corpora (67 problemas de especialista, 379 grafos analisados):**
+pool flash-lite — cobertura em ordem 0,809 [0,786; 0,831], sem ordem 0,937,
+caminho íntegro 0,342, erros no estado certo 0,337 (2 corpora);
+pool qwen — 0,891 [0,873; 0,909], 0,949, 0,608, 0,476 (2 corpora).

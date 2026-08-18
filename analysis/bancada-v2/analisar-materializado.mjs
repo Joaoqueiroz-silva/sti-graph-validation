@@ -61,7 +61,7 @@ export function analisarMaterializado(dirMat, { raiz = ".", rotulo = path.basena
     if (!rs.length) return null;
     const L = (k) => rs.map((r) => ({ ...r[k], ex: r.ex }));
     // diferença pareada por registro: materializado − mínima
-    const dif = rs.map((r) => Object.fromEntries([["ex", r.ex], ...METRICAS.map((c) => [c, r.mat[c] - r.minima[c]])]));
+    const dif = rs.map((r) => Object.fromEntries([["ex", r.ex], ...METRICAS.map((c) => [c, r.mat[c] === null || r.minima[c] === null ? null : r.mat[c] - r.minima[c]])]));
     return {
       n: rs.length,
       exercicios: new Set(rs.map((r) => r.ex)).size,
@@ -103,8 +103,9 @@ if (ehMain) {
       const m = b.materializado.metricas[c];
       const mi = b.minima.metricas[c];
       const d = b.difMatMenosMinima[c];
+      const n3 = (x) => (Number.isFinite(x) ? x.toFixed(3) : "N/A");
       console.log(
-        `    ${c.padEnd(20)} mat ${fmt(m).padEnd(40)} | mínima ${mi.estimativa.toFixed(3)} | Δ ${d.estimativa >= 0 ? "+" : ""}${d.estimativa.toFixed(3)} [${d.bca[0].toFixed(3)}; ${d.bca[1].toFixed(3)}] | DP ${(m.dpEntreReplicas ?? 0).toFixed(3)}`
+        `    ${c.padEnd(20)} mat ${(m.estimativa === null ? "N/A (não avaliável)" : fmt(m)).padEnd(40)} | mínima ${n3(mi.estimativa)} | Δ ${n3(d.estimativa)} [${n3(d.bca?.[0])}; ${n3(d.bca?.[1])}] | DP ${n3(m.dpEntreReplicas ?? 0)}`
       );
     }
     console.log(`    estados/grafo ${b.materializado.extras.estadosPorGrafo.toFixed(2)} | extras: estados ${b.materializado.extras.estados.toFixed(2)} erros ${b.materializado.extras.erros.toFixed(2)} dicas ${b.materializado.extras.dicas.toFixed(2)}`);

@@ -1,0 +1,880 @@
+{
+ "id": "03_1",
+ "correctAnswer": "1/3",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0,
+ "functionalKappa": -0.714,
+ "missing": [
+  "1/3",
+  "-1",
+  "0",
+  "1/2"
+ ],
+ "extra": [
+  "6",
+  "2",
+  "="
+ ],
+ "robotMisconceptions": [
+  "6",
+  "2",
+  "2",
+  "=",
+  "="
+ ],
+ "exercicio": "03_1",
+ "replica": 3,
+ "geradoEm": "2026-08-18T04:00:09.512Z",
+ "promptSha256": "841e2568c896fcdc4949e9f4c2c018e6f32cb9bf451161982d69c734b969f488",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T03:38:56.407Z"
+ },
+ "custo": {
+  "tokensEntrada": 8264,
+  "tokensSaida": 8870,
+  "usd": 0.04103892
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "FracLess1",
+    "valor": "Objetivo definido: comparar visualmente 4/6 e 1/3 nas retas numéricas"
+   },
+   {
+    "indice": 2,
+    "acao": "Analisar a posição de 4/6 na Linha 1",
+    "kc": "FindValueNumLine",
+    "valor": "Posição de 4/6 identificada como maior que 1/2"
+   },
+   {
+    "indice": 3,
+    "acao": "Preparar a Linha 2 para marcar 1/3",
+    "kc": "DivNumLine",
+    "valor": "Linha 2 dividida em 3 partes iguais"
+   },
+   {
+    "indice": 4,
+    "acao": "Marcar o ponto correspondente a 1/3 na Linha 2",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto 1/3 marcado corretamente na Linha 2"
+   },
+   {
+    "indice": 5,
+    "acao": "Comparar visualmente as posições das duas frações",
+    "kc": "IdenNoneEquivFrac",
+    "valor": "Conclusão: 4/6 ≠ 1/3"
+   },
+   {
+    "indice": 6,
+    "acao": "Ajustar o sinal de comparação",
+    "kc": "IdenNoneEquivFrac",
+    "valor": "Sinal de comparação alterado para '≠'"
+   },
+   {
+    "indice": 7,
+    "acao": "Digitar o numerador correto na caixa da fração equivalente (se necessário)",
+    "kc": "IdenNoneEquivFrac",
+    "valor": "Numerador '1' digitado no campo R1_user"
+   },
+   {
+    "indice": 8,
+    "acao": "Concluir a tarefa",
+    "kc": "IdenNoneEquivFrac",
+    "valor": "Problema concluído com resposta correta"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reler o enunciado destacando \"mark 1/3 on Line 2\"; sublinhar denominador da fração alvo",
+    "buggyRule": "Usar o denominador da fração da Linha 1 ({ref_num}/{ref_den}) como denominador da Linha 2, ignorando a fração alvo {target_num}/{target_den}. Resultado: {ref_den}",
+    "misconceptionId": "misc_copia_denominador_linha1"
+   },
+   {
+    "valor": "2",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar conversão: se a reta tem 6 partes, 1/3 = ?/6 → resposta 2/6; então marcar 2/6, não \"posição 2 como 1/3\"",
+    "buggyRule": "Quando a Linha 2 foi dividida em {used_den} partes (errado), calcular posição como ({used_den} ÷ {target_den}) × {target_num} e marcar essa marca (ex: usado 6, alvo 1/3 → (6÷3)×1 = 2ª marca)",
+    "misconceptionId": "misc_aplica_fracao_sobre_denominador_errado"
+   },
+   {
+    "valor": "2",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar marcação com rótulo: sempre dizer \"essa marca é X/Y\" ao clicar",
+    "buggyRule": "Digitar o número da POSIÇÃO da marca (1ª, 2ª, etc.) como numerador, sem considerar o denominador da linha",
+    "misconceptionId": "misc_numerador_posicao_contagem"
+   },
+   {
+    "valor": "=",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar a simplificar 4/6 → 2/3 e comparar com 1/3; usar cores ou sobreposição de retas para mostrar diferença",
+    "buggyRule": "Selecionar '=' se os pontos nas duas retas parecerem próximos visualmente, mesmo que não sejam exatamente iguais",
+    "misconceptionId": "misc_visual_approximation_same_position"
+   },
+   {
+    "valor": "=",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar simplificação: 4/6 = 2/3 ≠ 1/3; usar barra de frações ou desenho para contrastar",
+    "buggyRule": "",
+    "misconceptionId": "misc_assume_equivalencia_se_marcou_algo"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Duas frações são equivalentes quando representam a mesma parte do todo. Como podemos verificar isso numa reta numérica?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Muito bem! Primeiro, divida a Linha 2 em 3 partes iguais (porque o denominador de 1/3 é 3). Depois, marque o primeiro segmento — isso representa 1/3."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! Na Linha 1, 4/6 está exatamente na metade da reta. Será que 1/3 também está na metade? Divida a Linha 2 em 3 partes e veja onde fica o ponto."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está quase descobrindo! Se 4/6 está na metade (0,5), e 1/3 está antes da metade, então elas não são iguais. Marque 1/3 corretamente e compare as posições!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Boa observação! Se dois pontos estão em lugares diferentes na reta, o que isso nos diz sobre os números que eles representam?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Compare com atenção: olhe para a posição de 4/6 na Linha 1 e de 1/3 na Linha 2. Estão alinhados verticalmente? Se não, o que isso significa?"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Veja bem: 4/6 está na metade (0,5), mas 1/3 está em torno de 0,33. Eles ocupam o mesmo lugar? Não? Então qual sinal você deve usar?"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Exato! Eles não estão no mesmo ponto. Então o sinal correto não é '='. Qual dos outros sinais mostra que são diferentes?"
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Pense: se as frações NÃO são equivalentes, será que precisamos preencher uma nova fração? Ou só ajustar a comparação?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "A caixa à direita serve para digitar uma fração EQUIVALENTE. Mas se elas não forem equivalentes, essa caixa pode ficar vazia ou não ser usada. Foque no sinal!"
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Atenção: o problema diz 'Correct the equal sign', não 'find an equivalent fraction'. Então o que realmente importa aqui?"
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Você já viu que 4/6 ≠ 1/3. Então não há fração equivalente para digitar — só confirme o sinal certo e clique em Done!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03_1\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Preciso verificar se 4/6 e 1/3 são frações equivalentes usando duas retas numéricas. A fração 4/6 já está marcada na Linha 1. Na Linha 2, devo representar 1/3 corretamente para comparar as posições.\\\",\\n          \\\"result\\\": \\\"Objetivo definido: comparar visualmente 4/6 e 1/3 nas retas numéricas\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Analisar a posição de 4/6 na Linha 1\\\",\\n          \\\"thinking\\\": \\\"Na Linha 1, 4/6 está marcado. Isso equivale a 2/3 quando simplificado, ou seja, está após a metade da reta (0,5) e antes de 1.\\\",\\n          \\\"result\\\": \\\"Posição de 4/6 identificada como maior que 1/2\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preparar a Linha 2 para marcar 1/3\\\",\\n          \\\"thinking\\\": \\\"Para marcar 1/3 na Linha 2, preciso dividir a reta em 3 partes iguais. Vou digitar '3' no campo de denominador da Linha 2 e confirmar.\\\",\\n          \\\"result\\\": \\\"Linha 2 dividida em 3 partes iguais\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 1/3 na Linha 2\\\",\\n          \\\"thinking\\\": \\\"Após dividir em 3 partes, o primeiro ponto após 0 representa 1/3. Clico nesse ponto para marcá-lo.\\\",\\n          \\\"result\\\": \\\"Ponto 1/3 marcado corretamente na Linha 2\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Comparar visualmente as posições das duas frações\\\",\\n          \\\"thinking\\\": \\\"4/6 está mais à direita (próximo de 0,67), enquanto 1/3 está mais à esquerda (aproximadamente 0,33). As posições são diferentes, logo as frações não são equivalentes.\\\",\\n          \\\"result\\\": \\\"Conclusão: 4/6 ≠ 1/3\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Ajustar o sinal de comparação\\\",\\n          \\\"thinking\\\": \\\"Como as frações não são equivalentes, devo mudar o seletor de '=' para '≠'.\\\",\\n          \\\"result\\\": \\\"Sinal de comparação alterado para '≠'\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Digitar o numerador correto na caixa da fração equivalente (se necessário)\\\",\\n          \\\"thinking\\\": \\\"O problema pede para 'corrigir o sinal de igualdade', não exige nova fração equivalente a 4/6. Mas a interface mostra uma caixa para digitar o numerador da fração da direita, cujo denominador já é dado. Como a fração da direita é 1/3, o numerador correto é 1.\\\",\\n          \\\"result\\\": \\\"Numerador '1' digitado no campo R1_user\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Concluir a tarefa\\\",\\n          \\\"thinking\\\": \\\"Todas as ações foram realizadas corretamente: divisão da Linha 2, marcação do ponto, ajuste do sinal e preenchimento do numerador. Clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema concluído com resposta correta\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"1/3\\\",\\n      \\\"totalTime\\\": 32\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03_1\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Divide Line 2 into 3 equal parts (correct denominator)\\\",\\n              \\\"thinking\\\": \\\"The fraction is 1/3, so I need to split the line into 3 parts.\\\",\\n              \\\"result\\\": \\\"Correct division\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marks the first tick on Line 2 as 1/3\\\",\\n              \\\"thinking\\\": \\\"First mark after zero is 1/3.\\\",\\n              \\\"result\\\": \\\"Correct position\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Types '1' in R1_user (numerator field for equivalent fraction)\\\",\\n              \\\"thinking\\\": \\\"I marked 1/3, so numerator is 1.\\\",\\n              \\\"result\\\": \\\"Correct numerator\\\",\\n              \\\"kcUsed\\\": \\\"IdenEquivFrac\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Selects '=' in equals_combo\\\",\\n              \\\"thinking\\\": \\\"Both points look like they're at the same place... so they must be equal!\\\",\\n              \\\"result\\\": \\\"Incorrect comparison\\\",\\n              \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_visual_approximation_same_position\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"=\\\",\\n                \\\"description\\\": \\\"Aluno julga equivalência pela posição visual aproximada nas retas, sem calcular valores exatos\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha do sinal de comparação, após observar visualmente os pontos nas duas retas\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Vamos verificar com cuidado: em quantas partes a Linha 1 está dividida? E a Linha 2? Onde exatamente está cada ponto?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você dividiu e marcou corretamente. Agora, vamos comparar com mais precisão: 4/6 e 1/3 representam o mesmo valor numérico? Que fração simplificada é igual a 4/6?\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a simplificar 4/6 → 2/3 e comparar com 1/3; usar cores ou sobreposição de retas para mostrar diferença\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"1\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Divides Line 2 into 6 equal parts\\\",\\n              \\\"thinking\\\": \\\"The first fraction is over 6, so I should use 6 here too.\\\",\\n              \\\"result\\\": \\\"Incorrect division\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_copia_denominador_linha1\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6\\\",\\n                \\\"description\\\": \\\"Aluno copia o denominador da fração da Linha 1 (4/6) e usa na Linha 2, ignorando que deve representar 1/3\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao decidir em quantas partes dividir a Linha 2, o aluno usa o denominador da outra fração em vez do necessário para 1/3\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é a fração que você precisa marcar na Linha 2? Que número está no denominador dela?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está prestando atenção nos números — ótimo! Mas lembre-se: a Linha 2 é só para a fração 1/3. Qual é o denominador dessa fração?\\\",\\n                \\\"howToFix\\\": \\\"Reler o enunciado destacando \\\\\\\"mark 1/3 on Line 2\\\\\\\"; sublinhar denominador da fração alvo\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marks the second tick on Line 2 (thinking it's 1/3 of 6 parts)\\\",\\n              \\\"thinking\\\": \\\"If there are 6 parts, 1/3 should be at the second mark because 6 ÷ 3 = 2.\\\",\\n              \\\"result\\\": \\\"Correct logic but wrong base\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_aplica_fracao_sobre_denominador_errado\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno calcula 1/3 de 6 marcas (obtém 2) e marca a segunda posição, mas esquece que a unidade é fixa (0 a 1), não o número de divisões\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao localizar 1/3 na reta dividida incorretamente em 6 partes, o aluno aplica regra de proporção sem considerar que o inteiro é sempre 0–1\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a reta vai de 0 a 1, e você a divide em 6 partes, quanto vale cada parte? Onde fica 1/3 nesse caso?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você usou uma ideia inteligente ao calcular 6 ÷ 3! Mas lembre-se: cada parte de uma reta de 0 a 1 dividida em 6 vale 1/6. Então, onde fica exatamente 1/3?\\\",\\n                \\\"howToFix\\\": \\\"Praticar conversão: se a reta tem 6 partes, 1/3 = ?/6 → resposta 2/6; então marcar 2/6, não \\\\\\\"posição 2 como 1/3\\\\\\\"\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Types '2' in R1_user\\\",\\n              \\\"thinking\\\": \\\"I marked the second tick, so numerator is 2.\\\",\\n              \\\"result\\\": \\\"Consistent but based on prior error\\\",\\n              \\\"kcUsed\\\": \\\"IdenEquivFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_numerador_posicao_contagem\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno usa a POSIÇÃO da marca (segunda marca) como numerador, sem verificar o valor fracionário real\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao digitar o numerador, o aluno assume que a contagem da marca (1ª, 2ª, etc.) é o numerador\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Na sua reta dividida em 6 partes, qual fração corresponde à segunda marca? É 2/6 ou 1/3?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você contou as marcas direitinho! Agora, pense: se a reta tem 6 partes iguais, a segunda marca representa qual fração? Vamos escrever isso.\\\",\\n                \\\"howToFix\\\": \\\"Associar marcação com rótulo: sempre dizer \\\\\\\"essa marca é X/Y\\\\\\\" ao clicar\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Selects '=' in equals_combo\\\",\\n              \\\"thinking\\\": \\\"I marked something and put 2, so now it matches 4/6.\\\",\\n              \\\"result\\\": \\\"Incorrect conclusion\\\",\\n              \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_assume_equivalencia_se_marcou_algo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"=\\\",\\n                \\\"description\\\": \\\"Aluno assume que, como marcou um ponto e digitou um número, as frações devem ser equivalentes\\\",\\n                \\\"mistakeLocation\\\": \\\"Na decisão final de igualdade, sem comparar os valores numéricos reais das duas frações\\\",\\n                \\\"diagnosticQuestion\\\": \\\"4/6 é igual a 2/6? Ou a 1/3? Vamos comparar os valores exatos.\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você fez vários passos com dedicação! Agora, vamos verificar: 4/6 simplificado é igual a 1/3? Que fração equivale a 4/6?\\\",\\n                \\\"howToFix\\\": \\\"Revisar simplificação: 4/6 = 2/3 ≠ 1/3; usar barra de frações ou desenho para contrastar\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"2\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"03_1\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_copia_denominador_linha1\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{ref_den}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o denominador da fração da Linha 1 ({ref_num}/{ref_den}) como denominador da Linha 2, ignorando a fração alvo {target_num}/{target_den}. Resultado: {ref_den}\\\",\\n              \\\"description\\\": \\\"Aluno replica o denominador da fração dada (4/6) na linha que deveria representar 1/3\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao decidir quantas partes dividir a Linha 2, o aluno olha para a fração da Linha 1 em vez da instrução 'mark 1/3'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual fração você precisa mostrar na Linha 2? Qual número está no denominador dela?\\\",\\n              \\\"feedback\\\": \\\"Você notou o 6 na primeira fração — bom olhar atento! Mas a Linha 2 é só para 1/3. Qual é o denominador dessa fração?\\\",\\n              \\\"howToFix\\\": \\\"Destacar verbalmente: 'Linha 1: 4/6 (já feito). Linha 2: agora é só 1/3.'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_comum_em_vez_do_alvo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"lcm({ref_den}, {target_den})\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o mínimo múltiplo comum dos denominadores (6 e 3 → 6) e usar esse como denominador da Linha 2, pensando que é necessário para 'comparar melhor'\\\",\\n              \\\"description\\\": \\\"Aluno acredita que precisa usar um denominador comum para representar a fração alvo, em vez do próprio denominador da fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do número de divisões da Linha 2, o aluno aplica ideia de denominador comum de soma/comparação, não de representação isolada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Para marcar 1/3 sozinho na reta, você precisa usar o denominador 3 ou pode usar outro?\\\",\\n              \\\"feedback\\\": \\\"Que legal que você pensou em denominador comum! Isso é útil para somar frações. Mas aqui, só precisamos mostrar 1/3 — e 1/3 já está em sua forma mais simples.\\\",\\n              \\\"howToFix\\\": \\\"Separar conceitos: 'representar uma fração' vs 'comparar duas frações'; praticar primeiro representar isoladamente\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_unidade_com_numero_de_marcas\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{ref_num}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador da fração da Linha 1 (4) como número de divisões da Linha 2, confundindo quantidade de partes marcadas com valor do numerador\\\",\\n              \\\"description\\\": \\\"Aluno vê que 4/6 tem 4 partes sombreadas ou marcadas e decide dividir a Linha 2 em 4 partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a representação visual da Linha 1, o aluno conta as partes selecionadas e usa esse número para dividir a Linha 2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Na Linha 1, quantas partes IGUAIS há entre 0 e 1? Esse número é o denominador. Quantas estão marcadas? Esse é o numerador.\\\",\\n              \\\"feedback\\\": \\\"Você está observando os detalhes — muito bom! Vamos separar: o número total de partes iguais é o denominador. Na Linha 2, queremos 1/3, então quantas partes iguais precisamos?\\\",\\n              \\\"howToFix\\\": \\\"Praticar leitura de retas: 'total de divisões = denominador'; 'marcação = numerador'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03_1\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_marca_primeira_posicao_para_qualquer_fracao_com_numerador_1\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Sempre marcar a PRIMEIRA marca após zero para qualquer fração com numerador 1, independentemente do denominador\\\",\\n              \\\"description\\\": \\\"Aluno associa 'numerador 1' com 'primeira marca', ignorando o denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Na localização do ponto na Linha 2, o aluno ignora quantas partes existem e marca a primeira marca como 1/qualquer-coisa\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em 5 partes, onde fica 1/5? E se em 10 partes, onde fica 1/10? É sempre a primeira marca?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou que o numerador é 1 — ótimo! Agora, onde essa '1 parte' fica depende de quantas partes totais temos. Se há 3 partes, 1/3 é a primeira marca. Mas se há 6?\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem: '1 de 3 partes' vs '1 de 6 partes'; enfatizar relação parte/todo\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_menos_na_posicao\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{target_num} - 1\\\",\\n              \\\"buggyRule\\\": \\\"Marcar a posição ({target_num} - 1) em vez de {target_num}, por contar a partir do zero ou confundir índice com valor\\\",\\n              \\\"description\\\": \\\"Aluno marca a posição errada por erro de contagem (ex: para 1/3, marca a posição 0 ou pula a primeira marca)\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao contar as marcas para posicionar a fração, o aluno começa a contagem do zero ou esquece que a primeira marca já é 1/{den}\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Vamos contar juntos: a primeira marca depois do zero é qual fração? A segunda?\\\",\\n              \\\"feedback\\\": \\\"Vamos contar devagar: começamos no zero. A primeira risca depois dele já é uma parte. Se temos 3 partes, essa primeira risca é 1/3!\\\",\\n              \\\"howToFix\\\": \\\"Contar em voz alta apontando: 'zero... primeira marca: 1/3... segunda: 2/3...'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_fracao_sobre_denominador_errado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({used_den} / {target_den}) * {target_num}\\\",\\n              \\\"buggyRule\\\": \\\"Quando a Linha 2 foi dividida em {used_den} partes (errado), calcular posição como ({used_den} ÷ {target_den}) × {target_num} e marcar essa marca (ex: usado 6, alvo 1/3 → (6÷3)×1 = 2ª marca)\\\",\\n              \\\"description\\\": \\\"Aluno tenta converter 1/3 para o sistema de divisões que criou (ex: 6 partes), mas interpreta a marca como sendo a fração original, não a equivalente\\\",\\n              \\\"mistakeLocation\\\": \\\"Na marcação do ponto, após dividir incorretamente, o aluno faz cálculo proporcional correto, mas não entende que agora representa uma fração diferente (2/6, não 1/3 diretamente)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide a reta em 6 partes e marca a segunda, que fração isso representa? É 1/3 ou 2/6?\\\",\\n              \\\"feedback\\\": \\\"Seu cálculo de '6 ÷ 3 = 2' está certo! Mas quando a reta tem 6 partes, a segunda marca é 2/6. E 2/6 é igual a 1/3 — então você acertou o VALOR, mas agora precisa digitar a fração correta na caixa!\\\",\\n              \\\"howToFix\\\": \\\"Ligar marcação à fração resultante: 'você marcou 2/6, que é igual a 1/3, então a fração equivalente a 4/6 NÃO é essa'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03_1\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"IdenEquivFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_numerador_posicao_contagem\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{marked_position}\\\",\\n              \\\"buggyRule\\\": \\\"Digitar o número da POSIÇÃO da marca (1ª, 2ª, etc.) como numerador, sem considerar o denominador da linha\\\",\\n              \\\"description\\\": \\\"Aluno assume que a contagem ordinal da marca é o numerador, independente do número de divisões\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao digitar o numerador na caixa, o aluno relata 'marquei a segunda marca, então é 2', ignorando que a fração é 2/6 ou 1/3\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Na sua reta, quantas partes há no total? E quantas você marcou até o ponto? Qual fração isso forma?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou exatamente onde marcou — excelente memória visual! Agora, vamos transformar isso em fração: quantas partes tem a reta? Quantas você percorreu até o ponto?\\\",\\n              \\\"howToFix\\\": \\\"Treinar: após marcar, verbalizar 'isso é X de Y, ou seja, X/Y'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_numerador_da_linha1\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{ref_num}\\\",\\n              \\\"buggyRule\\\": \\\"Digitar o numerador da fração da Linha 1 ({ref_num}) como resposta, achando que é o valor equivalente\\\",\\n              \\\"description\\\": \\\"Aluno responde com 4, pensando que precisa 'igualar' os numeradores ou que 4/6 = 1/3 implica que o numerador da segunda deve ser 4\\\",\\n              \\\"mistakeLocation\\\": \\\"Na digitação do numerador alvo, o aluno foca na igualdade simbólica e tenta fazer os numeradores coincidirem\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 4/6 fosse igual a 1/3, multiplicando cruzado daria o mesmo? Vamos testar: 4×3 e 1×6 são iguais?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando equilibrar os dois lados — ótimo instinto! Mas frações equivalentes não têm necessariamente os mesmos numeradores. Vamos verificar com multiplicação cruzada.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar teste de equivalência: a/b = c/d se a×d = b×c\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_simplifica_errado_e_usa_resultado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{ref_num} / gcd({ref_num}, {ref_den})\\\",\\n              \\\"buggyRule\\\": \\\"Simplificar 4/6 corretamente para 2/3, mas depois, ao comparar com 1/3, digitar 2 achando que é o numerador equivalente a 1/3\\\",\\n              \\\"description\\\": \\\"Aluno simplifica 4/6 → 2/3, vê que 1/3 ≠ 2/3, mas ainda assim digita 2 como 'resposta relacionada'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do numerador para a caixa, o aluno confunde qual fração está sendo pedida e responde com o numerador da simplificada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é: qual fração é igual a 4/6? Ou estamos verificando se 4/6 = 1/3? Qual delas está sendo marcada na Linha 2?\\\",\\n              \\\"feedback\\\": \\\"Você simplificou 4/6 direitinho — parabéns! Mas a Linha 2 é para 1/3, não para a fração equivalente a 4/6. A pergunta é: 4/6 e 1/3 são iguais?\\\",\\n              \\\"howToFix\\\": \\\"Clarificar tarefa: 'marcar 1/3' ≠ 'achar equivalente a 4/6'; são ações distintas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03_1\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_visual_approximation_same_position\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"=\\\",\\n              \\\"buggyRule\\\": \\\"Selecionar '=' se os pontos nas duas retas parecerem próximos visualmente, mesmo que não sejam exatamente iguais\\\",\\n              \\\"description\\\": \\\"Aluno julga equivalência por aparência espacial, não por valor numérico\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do sinal de comparação, após observar as duas retas lado a lado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"4/6 está mais perto de 1/2 ou de 1/3? Vamos pensar: 4 de 6 partes é quase tudo ou pouco?\\\",\\n              \\\"feedback\\\": \\\"Você comparou com os olhos — e isso é um bom começo! Mas vamos usar números: 4/6 simplificado é 2/3, que é maior que 1/2. Já 1/3 é menor que 1/2. Então, podem ser iguais?\\\",\\n              \\\"howToFix\\\": \\\"Usar benchmarks: 1/3 ≈ 0.33, 4/6 ≈ 0.66; marcar 1/2 como referência nas retas\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_assume_que_todas_fracoes_sao_equivalentes_se_menor_que_1\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"=\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que quaisquer duas frações entre 0 e 1 são equivalentes, especialmente se ambas forem próprias\\\",\\n              \\\"description\\\": \\\"Aluno não entende que equivalência exige mesmo valor, não apenas estar entre 0 e 1\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão final, o aluno generaliza que 'frações pequenas são todas iguais'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"1/2 e 1/4 são iguais? Ambas estão entre 0 e 1. Então por que não?\\\",\\n              \\\"feedback\\\": \\\"Todas essas frações estão entre 0 e 1, verdade! Mas elas representam quantidades diferentes. Vamos comparar usando pizzas: 1/3 de pizza é o mesmo que 4/6?\\\",\\n              \\\"howToFix\\\": \\\"Usar modelos concretos (pizza, barra) para contrastar tamanhos\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_igualdade_por_pressao_do_enunciado\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"=\\\",\\n              \\\"buggyRule\\\": \\\"Como o enunciado mostra um sinal de igual ('Correct the equal sign'), o aluno assume que a resposta correta deve manter o '='\\\",\\n              \\\"description\\\": \\\"Aluno interpreta a instrução 'correct the equal sign' como 'decida se mantém ou muda', mas acha que provavelmente é igual\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da tarefa de comparação, influenciado pela presença inicial do símbolo '='\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A palavra 'correct' significa que o sinal atual está errado. Então, ele deve mudar ou não?\\\",\\n              \\\"feedback\\\": \\\"A instrução diz 'corrija o sinal de igual' — isso quer dizer que talvez ele esteja errado! Não assuma; verifique com cálculos.\\\",\\n              \\\"howToFix\\\": \\\"Reformular mentalmente: 'o sinal pode estar errado; minha missão é descobrir qual é o certo'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03_1\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e observar as retas numéricas\\\",\\n          \\\"thinking\\\": \\\"Na Linha 1 já está marcado 4/6. Preciso marcar 1/3 na Linha 2 e ver se caem no mesmo ponto... mas como sei se são equivalentes?\\\",\\n          \\\"result\\\": \\\"Entendi que preciso comparar visualmente as posições das frações nas retas\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Duas frações são equivalentes quando representam a mesma parte do todo. Como podemos verificar isso numa reta numérica?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Muito bem! Primeiro, divida a Linha 2 em 3 partes iguais (porque o denominador de 1/3 é 3). Depois, marque o primeiro segmento — isso representa 1/3.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Na Linha 1, 4/6 está exatamente na metade da reta. Será que 1/3 também está na metade? Divida a Linha 2 em 3 partes e veja onde fica o ponto.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase descobrindo! Se 4/6 está na metade (0,5), e 1/3 está antes da metade, então elas não são iguais. Marque 1/3 corretamente e compare as posições!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a Linha 2 em 3 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Vou digitar 3 no campo do denominador da Linha 2 e confirmar.\\\",\\n          \\\"result\\\": \\\"Linha 2 dividida em terços\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 1/3 na Linha 2\\\",\\n          \\\"thinking\\\": \\\"Como é 1/3, marco o primeiro traço depois do zero.\\\",\\n          \\\"result\\\": \\\"Ponto de 1/3 marcado corretamente\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Comparar visualmente as posições de 4/6 e 1/3\\\",\\n          \\\"thinking\\\": \\\"4/6 está mais longe do zero do que 1/3... então não são iguais!\\\",\\n          \\\"result\\\": \\\"Concluiu que as frações não são equivalentes\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Se dois pontos estão em lugares diferentes na reta, o que isso nos diz sobre os números que eles representam?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Compare com atenção: olhe para a posição de 4/6 na Linha 1 e de 1/3 na Linha 2. Estão alinhados verticalmente? Se não, o que isso significa?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja bem: 4/6 está na metade (0,5), mas 1/3 está em torno de 0,33. Eles ocupam o mesmo lugar? Não? Então qual sinal você deve usar?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exato! Eles não estão no mesmo ponto. Então o sinal correto não é '='. Qual dos outros sinais mostra que são diferentes?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Selecionar o sinal de comparação '≠'\\\",\\n          \\\"thinking\\\": \\\"Como os pontos não coincidem, uso '≠'.\\\",\\n          \\\"result\\\": \\\"Sinal de desigualdade selecionado\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Digitar o numerador da fração equivalente (se aplicável)\\\",\\n          \\\"thinking\\\": \\\"Mas o problema pede para 'corrigir o sinal de igual', não para encontrar uma fração equivalente... então talvez eu não precise digitar nada aqui?\\\",\\n          \\\"result\\\": \\\"Percebeu que não há fração equivalente a ser digitada — apenas corrigir o sinal\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se as frações NÃO são equivalentes, será que precisamos preencher uma nova fração? Ou só ajustar a comparação?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"A caixa à direita serve para digitar uma fração EQUIVALENTE. Mas se elas não forem equivalentes, essa caixa pode ficar vazia ou não ser usada. Foque no sinal!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Atenção: o problema diz 'Correct the equal sign', não 'find an equivalent fraction'. Então o que realmente importa aqui?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você já viu que 4/6 ≠ 1/3. Então não há fração equivalente para digitar — só confirme o sinal certo e clique em Done!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Terminei! As frações não são equivalentes, então o sinal é '≠' e não preciso mudar o numerador.\\\",\\n          \\\"result\\\": \\\"Problema concluído corretamente\\\",\\n          \\\"kcUsed\\\": \\\"IdenNoneEquivFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"4/6 ≠ 1/3\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Tentar simplificar 4/6 mentalmente para 2/3 e comparar com 1/3 sem usar a reta\\\",\\n          \\\"steps\\\": [\\\"Simplificar 4/6 → 2/3\\\", \\\"Comparar 2/3 com 1/3\\\", \\\"Concluir que são diferentes\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Dividir ambas as retas no mesmo número de partes (ex: 6) e marcar 1/3 como 2/6\\\",\\n          \\\"steps\\\": [\\\"Redivide Linha 2 em 6 partes\\\", \\\"Marca 2/6 como equivalente a 1/3\\\", \\\"Compara com 4/6\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "03_1",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Preciso verificar se 4/6 e 1/3 são frações equivalentes usando duas retas numéricas. A fração 4/6 já está marcada na Linha 1. Na Linha 2, devo representar 1/3 corretamente para comparar as posições.",
+        "result": "Objetivo definido: comparar visualmente 4/6 e 1/3 nas retas numéricas",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Analisar a posição de 4/6 na Linha 1",
+        "thinking": "Na Linha 1, 4/6 está marcado. Isso equivale a 2/3 quando simplificado, ou seja, está após a metade da reta (0,5) e antes de 1.",
+        "result": "Posição de 4/6 identificada como maior que 1/2",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preparar a Linha 2 para marcar 1/3",
+        "thinking": "Para marcar 1/3 na Linha 2, preciso dividir a reta em 3 partes iguais. Vou digitar '3' no campo de denominador da Linha 2 e confirmar.",
+        "result": "Linha 2 dividida em 3 partes iguais",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto correspondente a 1/3 na Linha 2",
+        "thinking": "Após dividir em 3 partes, o primeiro ponto após 0 representa 1/3. Clico nesse ponto para marcá-lo.",
+        "result": "Ponto 1/3 marcado corretamente na Linha 2",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Comparar visualmente as posições das duas frações",
+        "thinking": "4/6 está mais à direita (próximo de 0,67), enquanto 1/3 está mais à esquerda (aproximadamente 0,33). As posições são diferentes, logo as frações não são equivalentes.",
+        "result": "Conclusão: 4/6 ≠ 1/3",
+        "kcUsed": "IdenNoneEquivFrac",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Ajustar o sinal de comparação",
+        "thinking": "Como as frações não são equivalentes, devo mudar o seletor de '=' para '≠'.",
+        "result": "Sinal de comparação alterado para '≠'",
+        "kcUsed": "IdenNoneEquivFrac",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Digitar o numerador correto na caixa da fração equivalente (se necessário)",
+        "thinking": "O problema pede para 'corrigir o sinal de igualdade', não exige nova fração equivalente a 4/6. Mas a interface mostra uma caixa para digitar o numerador da fração da direita, cujo denominador já é dado. Como a fração da direita é 1/3, o numerador correto é 1.",
+        "result": "Numerador '1' digitado no campo R1_user",
+        "kcUsed": "IdenNoneEquivFrac",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Concluir a tarefa",
+        "thinking": "Todas as ações foram realizadas corretamente: divisão da Linha 2, marcação do ponto, ajuste do sinal e preenchimento do numerador. Clico em Done.",
+        "result": "Problema concluído com resposta correta",
+        "kcUsed": "IdenNoneEquivFrac",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "1/3",
+      "totalTime": 32
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "03_1",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Divide Line 2 into 3 equal parts (correct denominator)",
+          "thinking": "The fraction is 1/3, so I need to split the line into 3 parts.",
+          "result": "Correct division",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marks the first tick on Line 2 as 1/3",
+          "thinking": "First mark after zero is 1/3.",
+          "result": "Correct position",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Types '1' in R1_user (numerator field for equivalent fraction)",
+          "thinking": "I marked 1/3, so numerator is 1.",
+          "result": "Correct numerator",
+          "kcUsed": "IdenEquivFrac",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Selects '=' in equals_combo",
+          "thinking": "Both points look like they're at the same place... so they must be equal!",
+          "result": "Incorrect comparison",
+          "kcUsed": "IdenNoneEquivFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_visual_approximation_same_position",
+           "type": "conceptual_error",
+           "wrongAnswer": "=",
+           "description": "Aluno julga equivalência pela posição visual aproximada nas retas, sem calcular valores exatos",
+           "mistakeLocation": "Na escolha do sinal de comparação, após observar visualmente os pontos nas duas retas",
+           "diagnosticQuestion": "Vamos verificar com cuidado: em quantas partes a Linha 1 está dividida? E a Linha 2? Onde exatamente está cada ponto?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você dividiu e marcou corretamente. Agora, vamos comparar com mais precisão: 4/6 e 1/3 representam o mesmo valor numérico? Que fração simplificada é igual a 4/6?",
+           "howToFix": "Ensinar a simplificar 4/6 → 2/3 e comparar com 1/3; usar cores ou sobreposição de retas para mostrar diferença"
+          }
+         }
+        ],
+        "finalAnswer": "1",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Divides Line 2 into 6 equal parts",
+          "thinking": "The first fraction is over 6, so I should use 6 here too.",
+          "result": "Incorrect division",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_copia_denominador_linha1",
+           "type": "procedural_error",
+           "wrongAnswer": "6",
+           "description": "Aluno copia o denominador da fração da Linha 1 (4/6) e usa na Linha 2, ignorando que deve representar 1/3",
+           "mistakeLocation": "Ao decidir em quantas partes dividir a Linha 2, o aluno usa o denominador da outra fração em vez do necessário para 1/3",
+           "diagnosticQuestion": "Qual é a fração que você precisa marcar na Linha 2? Que número está no denominador dela?",
+           "severity": "moderate",
+           "feedback": "Você está prestando atenção nos números — ótimo! Mas lembre-se: a Linha 2 é só para a fração 1/3. Qual é o denominador dessa fração?",
+           "howToFix": "Reler o enunciado destacando \"mark 1/3 on Line 2\"; sublinhar denominador da fração alvo"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marks the second tick on Line 2 (thinking it's 1/3 of 6 parts)",
+          "thinking": "If there are 6 parts, 1/3 should be at the second mark because 6 ÷ 3 = 2.",
+          "result": "Correct logic but wrong base",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_aplica_fracao_sobre_denominador_errado",
+           "type": "conceptual_error",
+           "wrongAnswer": "2",
+           "description": "Aluno calcula 1/3 de 6 marcas (obtém 2) e marca a segunda posição, mas esquece que a unidade é fixa (0 a 1), não o número de divisões",
+           "mistakeLocation": "Ao localizar 1/3 na reta dividida incorretamente em 6 partes, o aluno aplica regra de proporção sem considerar que o inteiro é sempre 0–1",
+           "diagnosticQuestion": "Se a reta vai de 0 a 1, e você a divide em 6 partes, quanto vale cada parte? Onde fica 1/3 nesse caso?",
+           "severity": "high",
+           "feedback": "Você usou uma ideia inteligente ao calcular 6 ÷ 3! Mas lembre-se: cada parte de uma reta de 0 a 1 dividida em 6 vale 1/6. Então, onde fica exatamente 1/3?",
+           "howToFix": "Praticar conversão: se a reta tem 6 partes, 1/3 = ?/6 → resposta 2/6; então marcar 2/6, não \"posição 2 como 1/3\""
+          }
+         },
+         {
+          "step": 3,
+          "action": "Types '2' in R1_user",
+          "thinking": "I marked the second tick, so numerator is 2.",
+          "result": "Consistent but based on prior error",
+          "kcUsed": "IdenEquivFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_numerador_posicao_contagem",
+           "type": "count_error",
+           "wrongAnswer": "2",
+           "description": "Aluno usa a POSIÇÃO da marca (segunda marca) como numerador, sem verificar o valor fracionário real",
+           "mistakeLocation": "Ao digitar o numerador, o aluno assume que a contagem da marca (1ª, 2ª, etc.) é o numerador",
+           "diagnosticQuestion": "Na sua reta dividida em 6 partes, qual fração corresponde à segunda marca? É 2/6 ou 1/3?",
+           "severity": "moderate",
+           "feedback": "Você contou as marcas direitinho! Agora, pense: se a reta tem 6 partes iguais, a segunda marca representa qual fração? Vamos escrever isso.",
+           "howToFix": "Associar marcação com rótulo: sempre dizer \"essa marca é X/Y\" ao clicar"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Selects '=' in equals_combo",
+          "thinking": "I marked something and put 2, so now it matches 4/6.",
+          "result": "Incorrect conclusion",
+          "kcUsed": "IdenNoneEquivFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_assume_equivalencia_se_marcou_algo",
+           "type": "conceptual_error",
+           "wrongAnswer": "=",
+           "description": "Aluno assume que, como marcou um ponto e digitou um número, as frações devem ser equivalentes",
+           "mistakeLocation": "Na decisão final de igualdade, sem comparar os valores numéricos reais das duas frações",
+           "diagnosticQuestion": "4/6 é igual a 2/6? Ou a 1/3? Vamos comparar os valores exatos.",
+           "severity": "high",
+           "feedback": "Você fez vários passos com dedicação! Agora, vamos verificar: 4/6 simplificado é igual a 1/3? Que fração equivale a 4/6?",
+           "howToFix": "Revisar simplificação: 4/6 = 2/3 ≠ 1/3; usar barra de frações ou desenho para contrastar"
+          }
+         }
+        ],
+        "finalAnswer": "2",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "03_1",
+        "step": 1,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_copia_denominador_linha1",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{ref_den}",
+          "buggyRule": "Usar o denominador da fração da Linha 1 ({ref_num}/{ref_den}) como denominador da Linha 2, ignorando a fração alvo {target_num}/{target_den}. Resultado: {ref_den}",
+          "description": "Aluno replica o denominador da fração dada (4/6) na linha que deveria representar 1/3",
+          "mistakeLocation": "Ao decidir quantas partes dividir a Linha 2, o aluno olha para a fração da Linha 1 em vez da instrução 'mark 1/3'",
+          "diagnosticQuestion": "Qual fração você precisa mostrar na Linha 2? Qual número está no denominador dela?",
+          "feedback": "Você notou o 6 na primeira fração — bom olhar atento! Mas a Linha 2 é só para 1/3. Qual é o denominador dessa fração?",
+          "howToFix": "Destacar verbalmente: 'Linha 1: 4/6 (já feito). Linha 2: agora é só 1/3.'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_denominador_comum_em_vez_do_alvo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "lcm({ref_den}, {target_den})",
+          "buggyRule": "Calcular o mínimo múltiplo comum dos denominadores (6 e 3 → 6) e usar esse como denominador da Linha 2, pensando que é necessário para 'comparar melhor'",
+          "description": "Aluno acredita que precisa usar um denominador comum para representar a fração alvo, em vez do próprio denominador da fração",
+          "mistakeLocation": "Na escolha do número de divisões da Linha 2, o aluno aplica ideia de denominador comum de soma/comparação, não de representação isolada",
+          "diagnosticQuestion": "Para marcar 1/3 sozinho na reta, você precisa usar o denominador 3 ou pode usar outro?",
+          "feedback": "Que legal que você pensou em denominador comum! Isso é útil para somar frações. Mas aqui, só precisamos mostrar 1/3 — e 1/3 já está em sua forma mais simples.",
+          "howToFix": "Separar conceitos: 'representar uma fração' vs 'comparar duas frações'; praticar primeiro representar isoladamente",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_unidade_com_numero_de_marcas",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{ref_num}",
+          "buggyRule": "Usar o numerador da fração da Linha 1 (4) como número de divisões da Linha 2, confundindo quantidade de partes marcadas com valor do numerador",
+          "description": "Aluno vê que 4/6 tem 4 partes sombreadas ou marcadas e decide dividir a Linha 2 em 4 partes",
+          "mistakeLocation": "Ao interpretar a representação visual da Linha 1, o aluno conta as partes selecionadas e usa esse número para dividir a Linha 2",
+          "diagnosticQuestion": "Na Linha 1, quantas partes IGUAIS há entre 0 e 1? Esse número é o denominador. Quantas estão marcadas? Esse é o numerador.",
+          "feedback": "Você está observando os detalhes — muito bom! Vamos separar: o número total de partes iguais é o denominador. Na Linha 2, queremos 1/3, então quantas partes iguais precisamos?",
+          "howToFix": "Praticar leitura de retas: 'total de divisões = denominador'; 'marcação = numerador'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03_1",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_marca_primeira_posicao_para_qualquer_fracao_com_numerador_1",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Sempre marcar a PRIMEIRA marca após zero para qualquer fração com numerador 1, independentemente do denominador",
+          "description": "Aluno associa 'numerador 1' com 'primeira marca', ignorando o denominador",
+          "mistakeLocation": "Na localização do ponto na Linha 2, o aluno ignora quantas partes existem e marca a primeira marca como 1/qualquer-coisa",
+          "diagnosticQuestion": "Se a reta está dividida em 5 partes, onde fica 1/5? E se em 10 partes, onde fica 1/10? É sempre a primeira marca?",
+          "feedback": "Você lembrou que o numerador é 1 — ótimo! Agora, onde essa '1 parte' fica depende de quantas partes totais temos. Se há 3 partes, 1/3 é a primeira marca. Mas se há 6?",
+          "howToFix": "Usar linguagem: '1 de 3 partes' vs '1 de 6 partes'; enfatizar relação parte/todo",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_contagem_um_a_menos_na_posicao",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "{target_num} - 1",
+          "buggyRule": "Marcar a posição ({target_num} - 1) em vez de {target_num}, por contar a partir do zero ou confundir índice com valor",
+          "description": "Aluno marca a posição errada por erro de contagem (ex: para 1/3, marca a posição 0 ou pula a primeira marca)",
+          "mistakeLocation": "Ao contar as marcas para posicionar a fração, o aluno começa a contagem do zero ou esquece que a primeira marca já é 1/{den}",
+          "diagnosticQuestion": "Vamos contar juntos: a primeira marca depois do zero é qual fração? A segunda?",
+          "feedback": "Vamos contar devagar: começamos no zero. A primeira risca depois dele já é uma parte. Se temos 3 partes, essa primeira risca é 1/3!",
+          "howToFix": "Contar em voz alta apontando: 'zero... primeira marca: 1/3... segunda: 2/3...'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_aplica_fracao_sobre_denominador_errado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "({used_den} / {target_den}) * {target_num}",
+          "buggyRule": "Quando a Linha 2 foi dividida em {used_den} partes (errado), calcular posição como ({used_den} ÷ {target_den}) × {target_num} e marcar essa marca (ex: usado 6, alvo 1/3 → (6÷3)×1 = 2ª marca)",
+          "description": "Aluno tenta converter 1/3 para o sistema de divisões que criou (ex: 6 partes), mas interpreta a marca como sendo a fração original, não a equivalente",
+          "mistakeLocation": "Na marcação do ponto, após dividir incorretamente, o aluno faz cálculo proporcional correto, mas não entende que agora representa uma fração diferente (2/6, não 1/3 diretamente)",
+          "diagnosticQuestion": "Se você divide a reta em 6 partes e marca a segunda, que fração isso representa? É 1/3 ou 2/6?",
+          "feedback": "Seu cálculo de '6 ÷ 3 = 2' está certo! Mas quando a reta tem 6 partes, a segunda marca é 2/6. E 2/6 é igual a 1/3 — então você acertou o VALOR, mas agora precisa digitar a fração correta na caixa!",
+          "howToFix": "Ligar marcação à fração resultante: 'você marcou 2/6, que é igual a 1/3, então a fração equivalente a 4/6 NÃO é essa'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03_1",
+        "step": 3,
+        "kcUsed": "IdenEquivFrac",
+        "errors": [
+         {
+          "misconceptionId": "misc_numerador_posicao_contagem",
+          "type": "count_error",
+          "wrongAnswerPattern": "{marked_position}",
+          "buggyRule": "Digitar o número da POSIÇÃO da marca (1ª, 2ª, etc.) como numerador, sem considerar o denominador da linha",
+          "description": "Aluno assume que a contagem ordinal da marca é o numerador, independente do número de divisões",
+          "mistakeLocation": "Ao digitar o numerador na caixa, o aluno relata 'marquei a segunda marca, então é 2', ignorando que a fração é 2/6 ou 1/3",
+          "diagnosticQuestion": "Na sua reta, quantas partes há no total? E quantas você marcou até o ponto? Qual fração isso forma?",
+          "feedback": "Você lembrou exatamente onde marcou — excelente memória visual! Agora, vamos transformar isso em fração: quantas partes tem a reta? Quantas você percorreu até o ponto?",
+          "howToFix": "Treinar: após marcar, verbalizar 'isso é X de Y, ou seja, X/Y'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_numerador_da_linha1",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "{ref_num}",
+          "buggyRule": "Digitar o numerador da fração da Linha 1 ({ref_num}) como resposta, achando que é o valor equivalente",
+          "description": "Aluno responde com 4, pensando que precisa 'igualar' os numeradores ou que 4/6 = 1/3 implica que o numerador da segunda deve ser 4",
+          "mistakeLocation": "Na digitação do numerador alvo, o aluno foca na igualdade simbólica e tenta fazer os numeradores coincidirem",
+          "diagnosticQuestion": "Se 4/6 fosse igual a 1/3, multiplicando cruzado daria o mesmo? Vamos testar: 4×3 e 1×6 são iguais?",
+          "feedback": "Você está tentando equilibrar os dois lados — ótimo instinto! Mas frações equivalentes não têm necessariamente os mesmos numeradores. Vamos verificar com multiplicação cruzada.",
+          "howToFix": "Ensinar teste de equivalência: a/b = c/d se a×d = b×c",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_simplifica_errado_e_usa_resultado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{ref_num} / gcd({ref_num}, {ref_den})",
+          "buggyRule": "Simplificar 4/6 corretamente para 2/3, mas depois, ao comparar com 1/3, digitar 2 achando que é o numerador equivalente a 1/3",
+          "description": "Aluno simplifica 4/6 → 2/3, vê que 1/3 ≠ 2/3, mas ainda assim digita 2 como 'resposta relacionada'",
+          "mistakeLocation": "Na escolha do numerador para a caixa, o aluno confunde qual fração está sendo pedida e responde com o numerador da simplificada",
+          "diagnosticQuestion": "A pergunta é: qual fração é igual a 4/6? Ou estamos verificando se 4/6 = 1/3? Qual delas está sendo marcada na Linha 2?",
+          "feedback": "Você simplificou 4/6 direitinho — parabéns! Mas a Linha 2 é para 1/3, não para a fração equivalente a 4/6. A pergunta é: 4/6 e 1/3 são iguais?",
+          "howToFix": "Clarificar tarefa: 'marcar 1/3' ≠ 'achar equivalente a 4/6'; são ações distintas",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03_1",
+        "step": 4,
+        "kcUsed": "IdenNoneEquivFrac",
+        "errors": [
+         {
+          "misconceptionId": "misc_visual_approximation_same_position",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "=",
+          "buggyRule": "Selecionar '=' se os pontos nas duas retas parecerem próximos visualmente, mesmo que não sejam exatamente iguais",
+          "description": "Aluno julga equivalência por aparência espacial, não por valor numérico",
+          "mistakeLocation": "Na escolha do sinal de comparação, após observar as duas retas lado a lado",
+          "diagnosticQuestion": "4/6 está mais perto de 1/2 ou de 1/3? Vamos pensar: 4 de 6 partes é quase tudo ou pouco?",
+          "feedback": "Você comparou com os olhos — e isso é um bom começo! Mas vamos usar números: 4/6 simplificado é 2/3, que é maior que 1/2. Já 1/3 é menor que 1/2. Então, podem ser iguais?",
+          "howToFix": "Usar benchmarks: 1/3 ≈ 0.33, 4/6 ≈ 0.66; marcar 1/2 como referência nas retas",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_assume_que_todas_fracoes_sao_equivalentes_se_menor_que_1",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "=",
+          "buggyRule": "Assumir que quaisquer duas frações entre 0 e 1 são equivalentes, especialmente se ambas forem próprias",
+          "description": "Aluno não entende que equivalência exige mesmo valor, não apenas estar entre 0 e 1",
+          "mistakeLocation": "Na decisão final, o aluno generaliza que 'frações pequenas são todas iguais'",
+          "diagnosticQuestion": "1/2 e 1/4 são iguais? Ambas estão entre 0 e 1. Então por que não?",
+          "feedback": "Todas essas frações estão entre 0 e 1, verdade! Mas elas representam quantidades diferentes. Vamos comparar usando pizzas: 1/3 de pizza é o mesmo que 4/6?",
+          "howToFix": "Usar modelos concretos (pizza, barra) para contrastar tamanhos",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_igualdade_por_pressao_do_enunciado",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "=",
+          "buggyRule": "Como o enunciado mostra um sinal de igual ('Correct the equal sign'), o aluno assume que a resposta correta deve manter o '='",
+          "description": "Aluno interpreta a instrução 'correct the equal sign' como 'decida se mantém ou muda', mas acha que provavelmente é igual",
+          "mistakeLocation": "Na interpretação da tarefa de comparação, influenciado pela presença inicial do símbolo '='",
+          "diagnosticQuestion": "A palavra 'correct' significa que o sinal atual está errado. Então, ele deve mudar ou não?",
+          "feedback": "A instrução diz 'corrija o sinal de igual' — isso quer dizer que talvez ele esteja errado! Não assuma; verifique com cálculos.",
+          "howToFix": "Reformular mentalmente: 'o sinal pode estar errado; minha missão é descobrir qual é o certo'",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "03_1",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e observar as retas numéricas",
+        "thinking": "Na Linha 1 já está marcado 4/6. Preciso marcar 1/3 na Linha 2 e ver se caem no mesmo ponto... mas como sei se são equivalentes?",
+        "result": "Entendi que preciso comparar visualmente as posições das frações nas retas",
+        "kcUsed": "IdenNoneEquivFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Duas frações são equivalentes quando representam a mesma parte do todo. Como podemos verificar isso numa reta numérica?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Muito bem! Primeiro, divida a Linha 2 em 3 partes iguais (porque o denominador de 1/3 é 3). Depois, marque o primeiro segmento — isso representa 1/3."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Na Linha 1, 4/6 está exatamente na metade da reta. Será que 1/3 também está na metade? Divida a Linha 2 em 3 partes e veja onde fica o ponto."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase descobrindo! Se 4/6 está na metade (0,5), e 1/3 está antes da metade, então elas não são iguais. Marque 1/3 corretamente e compare as posições!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Dividir a Linha 2 em 3 partes iguais",
+        "thinking": "Vou digitar 3 no campo do denominador da Linha 2 e confirmar.",
+        "result": "Linha 2 dividida em terços",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 1/3 na Linha 2",
+        "thinking": "Como é 1/3, marco o primeiro traço depois do zero.",
+        "result": "Ponto de 1/3 marcado corretamente",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Comparar visualmente as posições de 4/6 e 1/3",
+        "thinking": "4/6 está mais longe do zero do que 1/3... então não são iguais!",
+        "result": "Concluiu que as frações não são equivalentes",
+        "kcUsed": "IdenNoneEquivFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Se dois pontos estão em lugares diferentes na reta, o que isso nos diz sobre os números que eles representam?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Compare com atenção: olhe para a posição de 4/6 na Linha 1 e de 1/3 na Linha 2. Estão alinhados verticalmente? Se não, o que isso significa?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja bem: 4/6 está na metade (0,5), mas 1/3 está em torno de 0,33. Eles ocupam o mesmo lugar? Não? Então qual sinal você deve usar?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exato! Eles não estão no mesmo ponto. Então o sinal correto não é '='. Qual dos outros sinais mostra que são diferentes?"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Selecionar o sinal de comparação '≠'",
+        "thinking": "Como os pontos não coincidem, uso '≠'.",
+        "result": "Sinal de desigualdade selecionado",
+        "kcUsed": "IdenNoneEquivFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Digitar o numerador da fração equivalente (se aplicável)",
+        "thinking": "Mas o problema pede para 'corrigir o sinal de igual', não para encontrar uma fração equivalente... então talvez eu não precise digitar nada aqui?",
+        "result": "Percebeu que não há fração equivalente a ser digitada — apenas corrigir o sinal",
+        "kcUsed": "IdenNoneEquivFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se as frações NÃO são equivalentes, será que precisamos preencher uma nova fração? Ou só ajustar a comparação?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "A caixa à direita serve para digitar uma fração EQUIVALENTE. Mas se elas não forem equivalentes, essa caixa pode ficar vazia ou não ser usada. Foque no sinal!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Atenção: o problema diz 'Correct the equal sign', não 'find an equivalent fraction'. Então o que realmente importa aqui?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você já viu que 4/6 ≠ 1/3. Então não há fração equivalente para digitar — só confirme o sinal certo e clique em Done!"
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Clicar em Done",
+        "thinking": "Terminei! As frações não são equivalentes, então o sinal é '≠' e não preciso mudar o numerador.",
+        "result": "Problema concluído corretamente",
+        "kcUsed": "IdenNoneEquivFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "4/6 ≠ 1/3",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Tentar simplificar 4/6 mentalmente para 2/3 e comparar com 1/3 sem usar a reta",
+        "steps": [
+         "Simplificar 4/6 → 2/3",
+         "Comparar 2/3 com 1/3",
+         "Concluir que são diferentes"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Dividir ambas as retas no mesmo número de partes (ex: 6) e marcar 1/3 como 2/6",
+        "steps": [
+         "Redivide Linha 2 em 6 partes",
+         "Marca 2/6 como equivalente a 1/3",
+         "Compara com 4/6"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 5,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 5
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "equiv-fractions-6.18",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta exibida \"Are they the same? Correct the equal sign.\"; DUAS retas numéricas de 0 a 1, uma acima da outra: na Linha 1 a fração dada já está marcada pelo tutor; na Linha 2 o aluno digita em quantas partes iguais dividir (campo de denominador + confirmar) e marca o ponto da fração equivalente; à direita das retas, a igualdade entre as duas frações é mostrada em caixas: as da esquerda vêm preenchidas e, na da direita, o aluno digita o NUMERADOR (o denominador alvo já aparece); há também um seletor de comparação (\"≟\", \"=\", \"≠\") entre as duas frações; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir a Linha 2, marcar o ponto, digitar o numerador, comparar, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "linhas": 2
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline2_noLabel",
+    "tipo": "numberline",
+    "papel": "Linha 2 (versão sem rótulos) — o aluno divide e marca o ponto"
+   },
+   {
+    "id": "numline1",
+    "tipo": "numberline",
+    "papel": "Linha 1 — reta numérica com a fração dada JÁ marcada pelo tutor (referência visual)"
+   },
+   {
+    "id": "numline2",
+    "tipo": "numberline",
+    "papel": "Linha 2 — reta numérica com rótulos, onde o aluno divide e marca a fração equivalente"
+   },
+   {
+    "id": "equals_combo",
+    "tipo": "text",
+    "papel": "seletor de comparação entre as duas frações: \"≟\", \"=\", \"≠\""
+   },
+   {
+    "id": "R1_user",
+    "tipo": "numeric",
+    "papel": "campo numérico onde o aluno digita o NUMERADOR da fração equivalente"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "numline2_noLabel_denom",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da Linha 2 sem rótulos + botão de confirmar"
+   },
+   {
+    "id": "numline1_denom",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da Linha 1 (quantas partes) + botão de confirmar"
+   },
+   {
+    "id": "numline2_denom",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da Linha 2 + botão de confirmar"
+   },
+   {
+    "id": "R1",
+    "tipo": "text",
+    "papel": "campo de texto do numerador exibido pelo tutor (não é do aluno)"
+   },
+   {
+    "id": "equals",
+    "tipo": "text",
+    "papel": "imagem/rótulo do sinal de comparação entre as frações"
+   }
+  ]
+ }
+}

@@ -99,3 +99,15 @@ equals_combo); agent 6 ancora os passos nos componentes; gate de problema fixo
 **2/2 APROVADO**; régua no materializado (n=2, ilustrativo): cobertura em ordem
 **1,00**, caminho íntegro **1,00**, erros no estado certo 0,00. Critério de
 parada não acionado → coleta autorizada.
+
+## Adendo geral (18/08) — duas exclusões declaradas na régua de erros
+
+Vistas no 6.18 e aplicadas a TODOS os corpora (recalculado):
+1. **Erro não ancorável**: aresta de erro que sai de estado fora do caminho de
+   referência (variante não seguida) não tem passo; sai do denominador
+   (`errosNaoAncoraveis`). 6.18: 30/50; 6.17 e 6.19: 0.
+2. **Erro indistinguível por valor**: `wrongAnswer` igual à resposta correta do
+   estado onde está ancorado (erro de componente/ordem, não de valor); sai do
+   denominador (`errosIndistinguiveis`). 6.18: 20/20 dos ancoráveis — a métrica
+   fica **N/A**, não 0; 6.17: 0/110; 6.19: 0/54.
+Ambas travadas por teste em `__tests__/comparar-caminho.test.mjs`.

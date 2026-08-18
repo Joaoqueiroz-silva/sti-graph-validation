@@ -175,6 +175,11 @@ const pnorm = (z) => {
  * situação em que o percentil simples é o pior estimador disponível.
  */
 export function intervalo(linhas, campo, { seed = 42, B = 10000 } = {}) {
+  // 2026-08-18: métrica N/A (null) para um registro — ex.: "erros no estado
+  // certo" quando TODOS os erros do especialista são indistinguíveis por valor
+  // (6.18) — sai da amostra; se nenhum registro tem valor, devolve null.
+  linhas = linhas.filter((l) => l[campo] !== null && l[campo] !== undefined);
+  if (!linhas.length) return { estimativa: null, percentil: [null, null], bca: [null, null] };
   const chaves = [...new Set(linhas.map((l) => l.ex))];
   const porEx = {};
   for (const l of linhas) (porEx[l.ex] = porEx[l.ex] || []).push(l[campo]);

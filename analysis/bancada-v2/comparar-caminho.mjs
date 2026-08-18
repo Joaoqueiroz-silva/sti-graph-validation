@@ -183,11 +183,28 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
   );
   const presentesSemOrdem = avaliaveis.filter((c) => estadosAgenteSet.has(c.ref.estado)).length;
 
-  // erros do especialista: valor + estado (passo da referência, 0-based na lib)
-  const errosRef = (refItens || []).map((it) => ({
-    valor: it.valor,
-    estadoOrdem: (it.passo ?? 0) + 1, // idx do estado ANTES do passo → ordem 1-based
-  }));
+  // Erros do especialista: valor + estado (passo da referência, 0-based na lib).
+  // 2026-08-18: erro cuja aresta sai de um estado FORA do caminho de referência
+  // não tem passo (`idx[t.from]` indefinido) — acontece quando o .brd traz
+  // variantes do problema e o erro pertence ao ramo não seguido (6.18: 60 % dos
+  // erros; 6.17 e 6.19: 0 %). Antes viravam `passo 0` e eram ancorados no
+  // PRIMEIRO estado, o que só podia falhar. Agora ficam FORA do denominador e
+  // são contados em `errosNaoAncoraveis` (reportado).
+  const errosRefTodos = refItens || [];
+  const ancoraveis = errosRefTodos.filter((it) => Number.isInteger(it.passo));
+  const errosNaoAncoraveis = errosRefTodos.length - ancoraveis.length;
+  // 2026-08-18 (2ª exclusão): erro cujo VALOR é igual à resposta correta do
+  // estado onde ele está ancorado é INDISTINGUÍVEL de acerto por uma régua de
+  // valor — o especialista modelou um erro de COMPONENTE/ORDEM ("marcar a
+  // coisa certa no lugar errado"), não de valor. No 6.18 são 20/20 dos erros
+  // ancoráveis (o `.brd` prevê marcar a fração na Linha 1 em vez da Linha 2);
+  // no 6.17 e no 6.19, 0/110 e 0/54. Ficam fora do denominador e são contados
+  // em `errosIndistinguiveis`; quando TODOS caem, a métrica é N/A (null), não 0.
+  const valorDoEstado = new Map(refCaminho.map((r) => [r.ordem, r.estado]));
+  const errosRef = ancoraveis
+    .filter((it) => valorDoEstado.get(it.passo + 1) !== it.valor)
+    .map((it) => ({ valor: it.valor, estadoOrdem: it.passo + 1 }));
+  const errosIndistinguiveis = ancoraveis.length - errosRef.length;
   const mapaRefParaAgente = new Map(
     casados.map((c) => [c.ref.ordem, c.agenteIdx + 1]) // ordem ref → passo agente (1-based)
   );
@@ -238,8 +255,11 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
     coberturaEstados: avaliaveis.length ? casados.length / avaliaveis.length : 0,
     coberturaSemOrdem: avaliaveis.length ? presentesSemOrdem / avaliaveis.length : 0,
     caminhoIntegro: avaliaveis.length && casados.length === avaliaveis.length ? 1 : 0,
-    errosNoEstadoCerto: errosRef.length ? errosNoEstadoCerto / errosRef.length : 0,
-    errosValorSomente: errosRef.length ? errosValorSomente / errosRef.length : 0,
+    errosNoEstadoCerto: errosRef.length ? errosNoEstadoCerto / errosRef.length : null,
+    errosValorSomente: errosRef.length ? errosValorSomente / errosRef.length : null,
+    nErrosRef: errosRef.length,
+    errosNaoAncoraveis,
+    errosIndistinguiveis,
     dicasNoEstadoCerto: estadosRefComDica.length ? dicasNoEstadoCerto / estadosRefComDica.length : 0,
     extras: {
       estados: estadosExtras,
@@ -253,7 +273,7 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
 /** desvio padrão amostral entre réplicas do mesmo exercício (item 8). */
 export function dpEntreReplicas(linhas, campo) {
   const porEx = {};
-  for (const l of linhas) (porEx[l.ex] ||= []).push(l[campo]);
+  for (const l of linhas) if (l[campo] !== null && l[campo] !== undefined) (porEx[l.ex] ||= []).push(l[campo]);
   const dps = Object.values(porEx)
     .filter((v) => v.length > 1)
     .map((v) => {
