@@ -1,0 +1,911 @@
+{
+ "id": "15sauce",
+ "correctAnswer": "10/9",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.167,
+ "conceptual": 0.182,
+ "precision": 0.143,
+ "recall": 0.2,
+ "functionalAgreement": 0.429,
+ "functionalKappa": 0.222,
+ "missing": [
+  "",
+  "-"
+ ],
+ "extra": [
+  "9/10",
+  "0",
+  "1/2",
+  "saucemadebyliz"
+ ],
+ "robotMisconceptions": [
+  "10",
+  "10",
+  "9/10",
+  "1",
+  "0",
+  "0.5",
+  "Sauce made by Liz."
+ ],
+ "exercicio": "15sauce",
+ "replica": 3,
+ "geradoEm": "2026-08-18T16:58:06.301Z",
+ "promptSha256": "38bcd1991d3fcd398edbbf4e997974bda5e5a286c9479338b7f057f417842ec3",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T15:22:41.028Z"
+ },
+ "custo": {
+  "tokensEntrada": 7391,
+  "tokensSaida": 9456,
+  "usd": 0.04264338
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "compFrac",
+    "valor": "Valores identificados: Dale = 10/9, Liz = 1"
+   },
+   {
+    "indice": 2,
+    "acao": "Decidir divisão da primeira reta numérica (Dale)",
+    "kc": "DivNumLine",
+    "valor": "Denominador escolhido: 9"
+   },
+   {
+    "indice": 3,
+    "acao": "Marcar ponto de 10/9 na primeira reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado corretamente em 10/9"
+   },
+   {
+    "indice": 4,
+    "acao": "Decidir divisão da segunda reta numérica (Liz)",
+    "kc": "DivNumLine",
+    "valor": "Denominador escolhido: 1"
+   },
+   {
+    "indice": 5,
+    "acao": "Marcar ponto de 1 na segunda reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado corretamente em 1"
+   },
+   {
+    "indice": 6,
+    "acao": "Comparar visualmente os pontos nas retas",
+    "kc": "compFrac",
+    "valor": "Conclusão: 10/9 > 1"
+   },
+   {
+    "indice": 7,
+    "acao": "Selecionar a alternativa correta",
+    "kc": "compFrac",
+    "valor": "Alternativa selecionada: 'Sauce made by Dale.'"
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar em Done para concluir",
+    "kc": "compFrac",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "10",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar denominação: 'denominador = nome das partes = quantas partes iguais entre 0 e 1'",
+    "buggyRule": "Usar o numerador da fração como número de divisões: divisões = {A_num} (onde {A_num}=10 para Dale)",
+    "misconceptionId": "numline_use_numerator_instead_denominator"
+   },
+   {
+    "valor": "10",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar com réguas físicas: mostrar que 1/2 está no meio do segmento, não na segunda marca",
+    "buggyRule": "Contar {A_num} marcas a partir do zero (em vez de {A_num} intervalos), resultando em posição em ({A_num})/({A_den}-1) ou similar",
+    "misconceptionId": "numline_off_by_one_count_marks_instead_intervals"
+   },
+   {
+    "valor": "9/10",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar modelo visual: desenhar 10/9 como 1 inteiro + 1/9, destacando que é MAIOR que 1",
+    "buggyRule": "Inverte numerador e denominador ao marcar: posiciona em {A_den}/{A_num} (ex: 9/10)",
+    "misconceptionId": "numline_invert_fraction_when_placing"
+   },
+   {
+    "valor": "1",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Mostrar que o inteiro 1 requer pelo menos 1 divisão (duas marcas: 0 e 1); associar 'denominador = número de partes IGUAIS entre 0 e 1'",
+    "buggyRule": "Para representar 1 (que é 1/1), divide a reta em 1 parte",
+    "misconceptionId": "numline_divide_by_denominator_of_1_as_1_part"
+   },
+   {
+    "valor": "0",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Demonstrar que mesmo inteiros exigem marcas visíveis; dividir em pelo menos 1 parte (marcas em 0 e 1)",
+    "buggyRule": "Deixa o campo de divisão vazio ou digita 0, assumindo que inteiros não precisam de divisão",
+    "misconceptionId": "numline_skip_division_for_integer"
+   },
+   {
+    "valor": "0.5",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar régua numerada: destacar que 1 está entre 0 e 2, e corresponde a metade do comprimento total",
+    "buggyRule": "Posiciona o valor 1 no meio geométrico da reta 0–2, ou seja, em 1, mas se a reta for mal interpretada, pode ir para 0.5; aqui assume que 'meio' = 0.5",
+    "misconceptionId": "numline_anchor_half_for_integer"
+   },
+   {
+    "valor": "Sauce made by Liz.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar régua ou fita métrica: medir distâncias reais de 0 a cada ponto",
+    "buggyRule": "Julga que 10/9 < 1 porque 'só falta 1/9 para completar o próximo inteiro', enquanto 1 'já está completo'; logo 1 é maior",
+    "misconceptionId": "comp_frac_gap_thinking_more_to_go_means_less"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! Quando uma fração é maior que 1, como 10/9, ela fica à direita do 1 na reta. Quantas partes iguais você precisa entre 0 e 1 para representar nonos?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Divida o segmento de 0 a 1 em 9 partes iguais. Depois, continue contando: o ponto 10/9 estará logo após o 1, na primeira marca depois dele."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! 10/9 é só um pouquinho mais que 1. Se você dividir de 0 a 1 em 9 partes, o 10º pedacinho começa exatamente onde o 1 termina."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase! Marque 0, depois divida até 1 em 9 partes. Conte: 1/9, 2/9, ..., 9/9 = 1, então 10/9 é a próxima marca à direita do 1. É só um passinho além!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Pense bem: o número 1 é um número inteiro. Para localizá-lo na reta, você precisa dividir o intervalo? Ou ele já está claramente marcado?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Ótimo! Você pode dividir a reta em qualquer número de partes, mas o ponto 1 sempre fica no mesmo lugar. Tente dividir em 1 parte (ou até 2) — o importante é marcar exatamente o ponto 1."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Não se preocupe com o número de divisões aqui — o valor 1 está fixo. Basta garantir que você marque o ponto exato do 1 na reta."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Exato! O número 1 está bem no meio da reta de 0 a 2. Independentemente de quantas partes você escolher, clique diretamente no risco que representa o 1."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"15sauce\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Preciso comparar as quantidades de carne moída usadas por Dale (10/9 lb) e Liz (1 lb) para decidir qual molho tem mais carne. Vou usar as retas numéricas conforme a interface exige.\\\",\\n          \\\"result\\\": \\\"Valores identificados: Dale = 10/9, Liz = 1\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Decidir divisão da primeira reta numérica (Dale)\\\",\\n          \\\"thinking\\\": \\\"A fração de Dale é 10/9. Para representá-la na reta de 0 a 2, preciso dividir a reta em partes iguais com base no denominador 9.\\\",\\n          \\\"result\\\": \\\"Denominador escolhido: 9\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar ponto de 10/9 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Conto 10 partes a partir do 0 na reta dividida em nonos. Como 10/9 > 1, o ponto fica entre 1 e 2, especificamente um nono após 1.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em 10/9\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Decidir divisão da segunda reta numérica (Liz)\\\",\\n          \\\"thinking\\\": \\\"Liz usa exatamente 1 libra. Qualquer divisão que permita marcar o inteiro 1 é suficiente; posso usar denominador 1, mas como a interface aceita qualquer valor que permita localizar 1, escolho 1 para simplicidade.\\\",\\n          \\\"result\\\": \\\"Denominador escolhido: 1\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar ponto de 1 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Na reta dividida em 1 parte por unidade, o ponto 1 está exatamente no meio entre 0 e 2.\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente em 1\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"10/9 está à direita de 1 na reta numérica, logo é maior. Isso significa que o molho de Dale tem mais carne moída.\\\",\\n          \\\"result\\\": \\\"Conclusão: 10/9 > 1\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta\\\",\\n          \\\"thinking\\\": \\\"Como 10/9 > 1, devo escolher 'Sauce made by Dale.'\\\",\\n          \\\"result\\\": \\\"Alternativa selecionada: 'Sauce made by Dale.'\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar em Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todas as etapas foram completadas corretamente. Posso finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"10/9\\\",\\n      \\\"totalTime\\\": 32\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"15sauce\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Decide dividir a primeira reta em 9 partes\\\",\\n              \\\"thinking\\\": \\\"Dale usa 10/9, então divido em 9 partes.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marca o ponto na primeira reta\\\",\\n              \\\"thinking\\\": \\\"10/9 é mais que 1, então vou até o 1 e depois uma marca a mais... mas conto só as marcas, não os intervalos. Conto 10 marcas a partir do zero.\\\",\\n              \\\"result\\\": \\\"Errado: marca no lugar errado (em 10/8 ou ~1.25)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_off_by_one_count_marks_instead_intervals\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"10\\\",\\n                \\\"description\\\": \\\"Aluno conta 10 marcas em vez de 10 intervalos (deveria contar 10 passos entre marcas)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar 10/9 na reta numérica, o aluno contou as marcas em vez dos espaços entre elas\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantos ESPAÇOS há entre o zero e a primeira marca? E entre a nona e a décima?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você dividiu a reta corretamente. Agora, lembre-se: cada fração corresponde a um ESPAÇO, não à marca em si. Vamos contar os espaços juntos!\\\",\\n                \\\"howToFix\\\": \\\"Praticar com réguas físicas: mostrar que 1/2 está no meio do segmento, não na segunda marca\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Decide dividir a segunda reta em 1 parte\\\",\\n              \\\"thinking\\\": \\\"Liz usa 1, então divido em 1 parte.\\\",\\n              \\\"result\\\": \\\"Errado: divisão inválida (não se divide reta em 1 parte para representar 1)\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_divide_by_denominator_of_1_as_1_part\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Aluno interpreta denominador 1 como 'dividir em 1 parte', resultando em nenhuma marca útil\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha do número de divisões para representar o inteiro 1\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você divide a reta de 0 a 2 em 1 parte, onde fica o número 1? Consegue ver essa marca?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você entendeu que Liz usa exatamente 1 libra — isso está certo! Mas para ver onde fica o 1 na reta, precisamos de pelo menos DUAS marcas: 0 e 1. Quantas divisões dão essas duas marcas?\\\",\\n                \\\"howToFix\\\": \\\"Mostrar que o inteiro 1 requer pelo menos 1 divisão (duas marcas: 0 e 1); associar 'denominador = número de partes IGUAIS entre 0 e 1'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marca o ponto da segunda fração\\\",\\n              \\\"thinking\\\": \\\"Como dividi em 1 parte, o 1 deve estar no final da primeira metade... ou talvez no meio? Acho que no meio da reta de 0 a 2.\\\",\\n              \\\"result\\\": \\\"Errado: marca em 1, mas por acaso; ou marca em 0.5 se confundiu\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_anchor_half_for_integer\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"0.5\\\",\\n                \\\"description\\\": \\\"Aluno posiciona o inteiro 1 no meio da reta de 0 a 2 (confunde com metade do segmento total)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao localizar o valor 1 na reta de 0 a 2, o aluno assume que 'meio da reta' = 1, sem considerar a escala\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A reta vai de 0 a 2. Onde fica o número 1? É exatamente no meio?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está pensando na posição da reta — ótimo! Mas lembre-se: o número 1 está exatamente na metade do CAMINHO de 0 a 2, sim, MAS isso é correto apenas porque 1 é metade de 2. Então está certo! ... Espere, mas por que você marcou errado antes?\\\",\\n                \\\"howToFix\\\": \\\"Usar régua numerada: destacar que 1 está entre 0 e 2, e corresponde a metade do comprimento total\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolhe a alternativa\\\",\\n              \\\"thinking\\\": \\\"Vi que Dale está depois do 1, então ele tem mais. Escolho Dale.\\\",\\n              \\\"result\\\": \\\"Correto (por sorte, apesar dos erros anteriores)\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Sauce made by Dale.\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Decide dividir a primeira reta em 10 partes\\\",\\n              \\\"thinking\\\": \\\"O numerador é 10, então divido em 10 partes.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_use_numerator_instead_denominator\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"10\\\",\\n                \\\"description\\\": \\\"Aluno usa o numerador (10) como número de divisões em vez do denominador (9)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha do número de partes para dividir a reta de Dale\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que o número de baixo (denominador) nos diz sobre a divisão da reta?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você notou os números da fração. Mas lembre-se: o número de BAIXO (denominador) é quem diz em quantas partes IGUAIS devemos dividir o segmento de 0 a 1.\\\",\\n                \\\"howToFix\\\": \\\"Associar denominação: 'denominador = nome das partes = quantas partes iguais entre 0 e 1'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marca o ponto na primeira reta\\\",\\n              \\\"thinking\\\": \\\"Dividi em 10, então 10/10 é o 1. Mas ele tem 10/9... então deve ser antes do 1? Acho que marco no 9.\\\",\\n              \\\"result\\\": \\\"Errado: marca em 9/10 (~0.9)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_invert_fraction_when_placing\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"9/10\\\",\\n                \\\"description\\\": \\\"Aluno inverte a fração ao marcar: usa 9 como numerador e 10 como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao converter a fração 10/9 para posição na reta já dividida incorretamente em 10 partes\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a fração é 10/9, quantos pedaços você deve contar? De qual tamanho são esses pedaços?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está quase lá! Mas cuidado: o número de cima (numerador) diz QUANTOS pedaços pegar, e o de baixo diz o TAMANHO de cada pedaço. Vamos revisar qual é qual?\\\",\\n                \\\"howToFix\\\": \\\"Usar modelo visual: desenhar 10/9 como 1 inteiro + 1/9, destacando que é MAIOR que 1\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Deixa a segunda reta sem dividir (ou digita 0)\\\",\\n              \\\"thinking\\\": \\\"1 é inteiro, não precisa dividir.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"numline_skip_division_for_integer\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"0\\\",\\n                \\\"description\\\": \\\"Aluno acredita que inteiros não requerem divisão da reta\\\",\\n                \\\"mistakeLocation\\\": \\\"Na preparação da reta para representar o valor 1\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Mesmo sendo inteiro, como você sabe onde fica o 1 na reta se não dividir?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"É verdade que 1 é um número inteiro! Mas para vê-lo claramente na reta, ainda precisamos marcar onde ele está. Como podemos fazer isso?\\\",\\n                \\\"howToFix\\\": \\\"Demonstrar que mesmo inteiros exigem marcas visíveis; dividir em pelo menos 1 parte (marcas em 0 e 1)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marca o ponto da segunda fração no meio da reta\\\",\\n              \\\"thinking\\\": \\\"1 deve estar no meio de 0 a 2.\\\",\\n              \\\"result\\\": \\\"Correto (acidentalmente)\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolhe a alternativa\\\",\\n              \\\"thinking\\\": \\\"Dale está em 0.9, Liz em 1. Então Liz tem mais.\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"comp_frac_gap_thinking_more_to_go_means_less\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Sauce made by Liz.\\\",\\n                \\\"description\\\": \\\"Aluno julga que 10/9 é menor que 1 porque 'falta menos para completar' (erro de gap thinking invertido)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na comparação final, após posicionamento incorreto de 10/9\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual número está mais longe do zero: 0.9 ou 1? E qual está mais perto do 2?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você comparou os dois pontos — ótimo passo! Mas vamos pensar: quanto MAIOR o número, mais longe ele está do zero. Qual dos dois está mais longe?\\\",\\n                \\\"howToFix\\\": \\\"Usar régua ou fita métrica: medir distâncias reais de 0 a cada ponto\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Sauce made by Liz.\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"15sauce\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_use_numerator_instead_denominator\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador da fração como número de divisões: divisões = {A_num} (onde {A_num}=10 para Dale)\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador com denominador ao decidir quantas partes dividir a reta\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a fração 10/9, o aluno usa o 10 (numerador) como número de divisões em vez do 9 (denominador)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O número de baixo na fração diz em quantas partes iguais dividimos o segmento de 0 a 1. Qual é esse número em 10/9?\\\",\\n              \\\"feedback\\\": \\\"Boa observação dos números! Mas lembre-se: o número de BAIXO (denominador) é quem define o tamanho dos pedaços. Ele sempre vai no campo de divisão.\\\",\\n              \\\"howToFix\\\": \\\"Praticar com cartões: mostrar frações e pedir para circular o denominador e dizer 'esse é o número de divisões'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_divide_full_range_instead_unit_interval\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den} * 2\\\",\\n              \\\"buggyRule\\\": \\\"Dividir todo o intervalo de 0 a 2 em {A_den} partes, em vez de dividir 0 a 1; então responde com {A_den} * 2 como número de divisões totais (ex: 9*2=18)\\\",\\n              \\\"description\\\": \\\"Aluno acha que deve dividir toda a reta (0 a 2) usando o denominador, e multiplica por 2\\\",\\n              \\\"mistakeLocation\\\": \\\"Na extensão da divisão: aplica o denominador ao intervalo total (0-2) em vez do unitário (0-1)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração 10/9 se refere a quantos inteiros? Precisamos dividir só o primeiro inteiro (0 a 1) ou toda a reta?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando no tamanho total da reta — isso mostra atenção! Mas para frações, sempre começamos dividindo o PRIMEIRO segmento, de 0 a 1, usando o denominador.\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente o segmento 0–1 com cor; praticar com múltiplas unidades depois\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_assume_denom_equals_whole_number_parts\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Para fração maior que 1, divide a reta em {A_den} partes por unidade, mas esquece que há mais de uma unidade; ainda assim digita {A_den} (correto por coincidência, mas com raciocínio errado)\\\",\\n              \\\"description\\\": \\\"Aluno digita o denominador correto, mas por razão errada (acha que basta para todo o intervalo)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na justificativa implícita para o número de divisões, mesmo que o valor digitado esteja certo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Por que você escolheu dividir em 9 partes? Isso cobre até onde na reta?\\\",\\n              \\\"feedback\\\": \\\"Você acertou o número de divisões! Agora vamos garantir que você entende por quê: cada unidade (0–1, 1–2) deve ter 9 partes. Mas o campo pede só para a primeira unidade.\\\",\\n              \\\"howToFix\\\": \\\"Discutir que o campo de divisão aplica-se ao segmento 0–1; o restante é cópia\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"15sauce\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_off_by_one_count_marks_instead_intervals\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Contar {A_num} marcas a partir do zero (em vez de {A_num} intervalos), resultando em posição em ({A_num})/({A_den}-1) ou similar\\\",\\n              \\\"description\\\": \\\"Aluno conta marcas em vez de intervalos ao posicionar a fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem do ponto correspondente a 10/9: conta 10 marcas, não 10 espaços\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Entre o 0 e a primeira marca, há quantos espaços? E quantas marcas?\\\",\\n              \\\"feedback\\\": \\\"Você está contando com cuidado — isso é ótimo! Só lembre-se: cada fração corresponde a um ESPAÇO entre marcas, não à própria marca. Vamos contar os espaços juntos?\\\",\\n              \\\"howToFix\\\": \\\"Usar dedo ou caneta para 'andar' pelos espaços, não apontar marcas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_stop_at_first_unit_for_improper_frac\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num - A_den}/{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Trata 10/9 como se fosse 1/9 (só a parte fracionária), ignorando o inteiro; marca em 1/9\\\",\\n              \\\"description\\\": \\\"Aluno ignora a parte inteira da fração imprópria e marca só o resto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação de 10/9: vê como '1 inteiro e 1/9', mas marca só o 1/9\\\",\\n              \\\"diagnosticQuestion\\\": \\\"10/9 é mais que 1 ou menos que 1? Onde deveria ficar em relação ao 1?\\\",\\n              \\\"feedback\\\": \\\"Você identificou que há um 'pedacinho' além do inteiro — muito bom! Mas não se esqueça do inteiro inteiro! O ponto deve estar DEPOIS do 1, não antes.\\\",\\n              \\\"howToFix\\\": \\\"Converter para número misto explicitamente: 10/9 = 1 + 1/9; marcar 1, depois avançar 1/9\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_invert_fraction_when_placing\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}/{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Inverte numerador e denominador ao marcar: posiciona em {A_den}/{A_num} (ex: 9/10)\\\",\\n              \\\"description\\\": \\\"Aluno troca numerador e denominador ao localizar o ponto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na conversão da fração para posição: lê 10/9 como '9 partes de 10'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se cada parte é 1/9, quantas dessas partes você precisa para chegar a 10/9?\\\",\\n              \\\"feedback\\\": \\\"Você está atento à fração! Mas vamos confirmar: o número de cima diz QUANTOS pedaços, e o de baixo diz o TAMANHO. Qual é qual em 10/9?\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem consistente: 'dez nonos' = 10 pedaços de tamanho 1/9\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"15sauce\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_divide_by_denominator_of_1_as_1_part\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Para representar 1 (que é 1/1), divide a reta em 1 parte\\\",\\n              \\\"description\\\": \\\"Aluno interpreta o inteiro 1 como tendo denominador 1 e divide em 1 parte\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão de divisões para a fração 1 = 1/1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide de 0 a 1 em 1 parte, quantas marcas você vê? Onde fica o 1?\\\",\\n              \\\"feedback\\\": \\\"Você reconheceu que 1 pode ser escrito como 1/1 — isso é avançado! Mas para ver o 1 na reta, precisamos de pelo menos DUAS marcas: 0 e 1. Quantas divisões dão isso?\\\",\\n              \\\"howToFix\\\": \\\"Mostrar que '1 parte' significa 'nenhum corte', logo só há 0 e 2; não há marca em 1\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_skip_division_for_integer\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0\\\",\\n              \\\"buggyRule\\\": \\\"Deixa o campo de divisão vazio ou digita 0, assumindo que inteiros não precisam de divisão\\\",\\n              \\\"description\\\": \\\"Aluno acredita que números inteiros não requerem subdivisão da reta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interação com o campo de divisão para Liz\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você sabe onde fica o 1 se não dividir a reta? Tem certeza de que a marca existe?\\\",\\n              \\\"feedback\\\": \\\"É verdade que 1 é inteiro! Mas sem marcar onde ele está, como temos certeza da posição? Vamos garantir que a marca do 1 apareça.\\\",\\n              \\\"howToFix\\\": \\\"Exigir que todos os valores, mesmo inteiros, tenham suas posições marcadas via divisão mínima\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_use_default_division_2_for_integer\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Divide a reta em 2 partes (metades) por padrão para qualquer inteiro\\\",\\n              \\\"description\\\": \\\"Aluno associa inteiro à metade da reta 0–2 e divide em 2\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do número de divisões para representar 1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Dividir em 2 partes ajuda a encontrar o 1? Sim, mas é necessário? Qual é o mínimo?\\\",\\n              \\\"feedback\\\": \\\"Dividir em 2 funciona para achar o 1 — bom senso! Mas o sistema espera que você pense no denominador da fração, mesmo que seja 1.\\\",\\n              \\\"howToFix\\\": \\\"Reforçar que 1 = 1/1, logo denominador = 1 → mas na prática, usamos 1 divisão (marcas em 0 e 1)\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"15sauce\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_anchor_half_for_integer\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0.5\\\",\\n              \\\"buggyRule\\\": \\\"Posiciona o valor 1 no meio geométrico da reta 0–2, ou seja, em 1, mas se a reta for mal interpretada, pode ir para 0.5; aqui assume que 'meio' = 0.5\\\",\\n              \\\"description\\\": \\\"Aluno confunde 'meio da reta' com 0.5, não com 1\\\",\\n              \\\"mistakeLocation\\\": \\\"Na localização do número 1 na reta numerada de 0 a 2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta vai de 0 a 2. O número 1 está na metade do caminho? Quanto é metade de 2?\\\",\\n              \\\"feedback\\\": \\\"Você está usando a posição visual — ótimo! Metade do caminho de 0 a 2 é realmente 1. Então o ponto certo é exatamente no meio. Confira se você marcou aí!\\\",\\n              \\\"howToFix\\\": \\\"Medir com régua: meio de 0 a 2 cm é 1 cm\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"numline_mark_end_of_line_for_1\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Confunde o valor 1 com o fim da reta (2), especialmente se não dividiu corretamente\\\",\\n              \\\"description\\\": \\\"Aluno marca 1 no final da reta (posição 2)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ausência de marcas claras, assume que '1' = fim da linha\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A reta termina em 2. O número 1 é o final ou o meio?\\\",\\n              \\\"feedback\\\": \\\"Cuidado! A reta vai até 2, mas o número 1 é só metade disso. Onde fica metade?\\\",\\n              \\\"howToFix\\\": \\\"Rotular extremidades claramente: 0 —— ? —— 2; perguntar 'onde fica 1?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"15sauce\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"comp_frac_gap_thinking_more_to_go_means_less\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Sauce made by Liz.\\\",\\n              \\\"buggyRule\\\": \\\"Julga que 10/9 < 1 porque 'só falta 1/9 para completar o próximo inteiro', enquanto 1 'já está completo'; logo 1 é maior\\\",\\n              \\\"description\\\": \\\"Aluno usa 'gap thinking': quanto menos falta para o inteiro, maior o número (lógica invertida)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na comparação final baseada na intuição de 'quanto falta'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual número está mais longe do zero: 1 ou 10/9? Use a régua da reta para medir!\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na relação com o inteiro — isso é interessante! Mas vamos testar: se você tem 10/9 de carne, isso é mais ou menos que 1 libra inteira?\\\",\\n              \\\"howToFix\\\": \\\"Converter para decimal: 10/9 ≈ 1.11 > 1.0; usar calculadora simples\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"comp_frac_assume_improper_always_greater_without_checking\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Sauce made by Dale.\\\",\\n              \\\"buggyRule\\\": \\\"Assume que qualquer fração imprópria (>1) é automaticamente maior que 1, sem verificar posicionamento\\\",\\n              \\\"description\\\": \\\"Aluno acerta por regra geral, mas sem fundamentação visual\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão final, sem usar a reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você soube que 10/9 é maior que 1? Pode mostrar na reta?\\\",\\n              \\\"feedback\\\": \\\"Você chegou à resposta certa! Agora, vamos garantir que ela vem da reta, não só da memória. Mostre-me onde estão os dois pontos.\\\",\\n              \\\"howToFix\\\": \\\"Exigir justificativa baseada na reta numérica, não em regras isoladas\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"comp_frac_equal_if_both_near_1\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Both will have same amount of ground beef.\\\",\\n              \\\"buggyRule\\\": \\\"Vê ambos próximos de 1 e julga como iguais\\\",\\n              \\\"description\\\": \\\"Aluno aproxima visualmente e ignora diferença fina\\\",\\n              \\\"mistakeLocation\\\": \\\"Na comparação visual quando pontos estão próximos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Eles estão EXATAMENTE no mesmo lugar? Ou um está um pouquinho à frente?\\\",\\n              \\\"feedback\\\": \\\"Eles estão bem pertinho, né? Mas mesmo uma pequena diferença conta! Veja: um está ANTES do 1, o outro DEPOIS?\\\",\\n              \\\"howToFix\\\": \\\"Ampliar visualmente a região perto de 1; usar zoom ou régua milimetrada\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"15sauce\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar as frações\\\",\\n          \\\"thinking\\\": \\\"Dale usa 10/9 de libra e Liz usa exatamente 1 libra. Preciso comparar essas duas quantidades usando a reta numérica.\\\",\\n          \\\"result\\\": \\\"Identifiquei que preciso comparar 10/9 com 1.\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Decidir como dividir a primeira reta (para 10/9)\\\",\\n          \\\"thinking\\\": \\\"A fração é 10/9... então a reta precisa ser dividida em 9 partes iguais entre 0 e 1? Mas 10/9 é maior que 1, então talvez eu precise ir além de 1... Será que divido só até 1 ou até 2? E quantas partes no total?\\\",\\n          \\\"result\\\": \\\"Decidi dividir a primeira reta em 9 partes iguais entre 0 e 1, mas fiquei confuso se isso basta para marcar 10/9.\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando uma fração é maior que 1, como 10/9, ela fica à direita do 1 na reta. Quantas partes iguais você precisa entre 0 e 1 para representar nonos?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Divida o segmento de 0 a 1 em 9 partes iguais. Depois, continue contando: o ponto 10/9 estará logo após o 1, na primeira marca depois dele.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 10/9 é só um pouquinho mais que 1. Se você dividir de 0 a 1 em 9 partes, o 10º pedacinho começa exatamente onde o 1 termina.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Marque 0, depois divida até 1 em 9 partes. Conte: 1/9, 2/9, ..., 9/9 = 1, então 10/9 é a próxima marca à direita do 1. É só um passinho além!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar 10/9 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Se 9/9 é 1, então 10/9 deve estar logo depois do 1. Vou marcar um pouco à direita do 1.\\\",\\n          \\\"result\\\": \\\"Marquei corretamente 10/9 na primeira reta.\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta (para 1 = 1/1)\\\",\\n          \\\"thinking\\\": \\\"Liz usa exatamente 1 libra. Isso é fácil — é só o ponto 1. Mas a interface pede para eu digitar em quantas partes dividir... Será que posso deixar em 1 parte? Ou preciso dividir em algo específico?\\\",\\n          \\\"result\\\": \\\"Digitei '1' como número de partes (ou talvez '2', hesitando), mas fiquei inseguro sobre o que colocar.\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense bem: o número 1 é um número inteiro. Para localizá-lo na reta, você precisa dividir o intervalo? Ou ele já está claramente marcado?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Ótimo! Você pode dividir a reta em qualquer número de partes, mas o ponto 1 sempre fica no mesmo lugar. Tente dividir em 1 parte (ou até 2) — o importante é marcar exatamente o ponto 1.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Não se preocupe com o número de divisões aqui — o valor 1 está fixo. Basta garantir que você marque o ponto exato do 1 na reta.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exato! O número 1 está bem no meio da reta de 0 a 2. Independentemente de quantas partes você escolher, clique diretamente no risco que representa o 1.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar 1 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"O 1 está bem no meio da reta de 0 a 2. Vou clicar ali.\\\",\\n          \\\"result\\\": \\\"Marquei corretamente o ponto 1 na segunda reta.\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"Vejo que 10/9 está um pouco à direita do 1. Então Dale usa mais carne moída. Devo escolher a opção 'Sauce made by Dale.'\\\",\\n          \\\"result\\\": \\\"Concluí que 10/9 > 1, então a resposta correta é a de Dale.\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta\\\",\\n          \\\"thinking\\\": \\\"Vou escolher 'Sauce made by Dale.'\\\",\\n          \\\"result\\\": \\\"Alternativa selecionada corretamente.\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Terminei!\\\",\\n          \\\"result\\\": \\\"Problema concluído.\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"10/9\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter 10/9 em número misto (1 1/9) e comparar com 1 mentalmente, sem usar a reta\\\",\\n          \\\"steps\\\": [\\\"Reconhecer que 10/9 = 1 + 1/9\\\", \\\"Concluir que é maior que 1\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar tentativa e erro na divisão da reta (ex: dividir em 10 partes primeiro, depois corrigir)\\\",\\n          \\\"steps\\\": [\\\"Tentar dividir em 10\\\", \\\"Perceber que não ajuda\\\", \\\"Mudar para 9\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "15sauce",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Preciso comparar as quantidades de carne moída usadas por Dale (10/9 lb) e Liz (1 lb) para decidir qual molho tem mais carne. Vou usar as retas numéricas conforme a interface exige.",
+        "result": "Valores identificados: Dale = 10/9, Liz = 1",
+        "kcUsed": "compFrac",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Decidir divisão da primeira reta numérica (Dale)",
+        "thinking": "A fração de Dale é 10/9. Para representá-la na reta de 0 a 2, preciso dividir a reta em partes iguais com base no denominador 9.",
+        "result": "Denominador escolhido: 9",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Marcar ponto de 10/9 na primeira reta",
+        "thinking": "Conto 10 partes a partir do 0 na reta dividida em nonos. Como 10/9 > 1, o ponto fica entre 1 e 2, especificamente um nono após 1.",
+        "result": "Ponto marcado corretamente em 10/9",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Decidir divisão da segunda reta numérica (Liz)",
+        "thinking": "Liz usa exatamente 1 libra. Qualquer divisão que permita marcar o inteiro 1 é suficiente; posso usar denominador 1, mas como a interface aceita qualquer valor que permita localizar 1, escolho 1 para simplicidade.",
+        "result": "Denominador escolhido: 1",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Marcar ponto de 1 na segunda reta",
+        "thinking": "Na reta dividida em 1 parte por unidade, o ponto 1 está exatamente no meio entre 0 e 2.",
+        "result": "Ponto marcado corretamente em 1",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os pontos nas retas",
+        "thinking": "10/9 está à direita de 1 na reta numérica, logo é maior. Isso significa que o molho de Dale tem mais carne moída.",
+        "result": "Conclusão: 10/9 > 1",
+        "kcUsed": "compFrac",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta",
+        "thinking": "Como 10/9 > 1, devo escolher 'Sauce made by Dale.'",
+        "result": "Alternativa selecionada: 'Sauce made by Dale.'",
+        "kcUsed": "compFrac",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar em Done para concluir",
+        "thinking": "Todas as etapas foram completadas corretamente. Posso finalizar.",
+        "result": "Problema concluído",
+        "kcUsed": "compFrac",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "10/9",
+      "totalTime": 32
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "15sauce",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Decide dividir a primeira reta em 9 partes",
+          "thinking": "Dale usa 10/9, então divido em 9 partes.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marca o ponto na primeira reta",
+          "thinking": "10/9 é mais que 1, então vou até o 1 e depois uma marca a mais... mas conto só as marcas, não os intervalos. Conto 10 marcas a partir do zero.",
+          "result": "Errado: marca no lugar errado (em 10/8 ou ~1.25)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_off_by_one_count_marks_instead_intervals",
+           "type": "count_error",
+           "wrongAnswer": "10",
+           "description": "Aluno conta 10 marcas em vez de 10 intervalos (deveria contar 10 passos entre marcas)",
+           "mistakeLocation": "Ao posicionar 10/9 na reta numérica, o aluno contou as marcas em vez dos espaços entre elas",
+           "diagnosticQuestion": "Quantos ESPAÇOS há entre o zero e a primeira marca? E entre a nona e a décima?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você dividiu a reta corretamente. Agora, lembre-se: cada fração corresponde a um ESPAÇO, não à marca em si. Vamos contar os espaços juntos!",
+           "howToFix": "Praticar com réguas físicas: mostrar que 1/2 está no meio do segmento, não na segunda marca"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Decide dividir a segunda reta em 1 parte",
+          "thinking": "Liz usa 1, então divido em 1 parte.",
+          "result": "Errado: divisão inválida (não se divide reta em 1 parte para representar 1)",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_divide_by_denominator_of_1_as_1_part",
+           "type": "conceptual_error",
+           "wrongAnswer": "1",
+           "description": "Aluno interpreta denominador 1 como 'dividir em 1 parte', resultando em nenhuma marca útil",
+           "mistakeLocation": "Na escolha do número de divisões para representar o inteiro 1",
+           "diagnosticQuestion": "Se você divide a reta de 0 a 2 em 1 parte, onde fica o número 1? Consegue ver essa marca?",
+           "severity": "moderate",
+           "feedback": "Você entendeu que Liz usa exatamente 1 libra — isso está certo! Mas para ver onde fica o 1 na reta, precisamos de pelo menos DUAS marcas: 0 e 1. Quantas divisões dão essas duas marcas?",
+           "howToFix": "Mostrar que o inteiro 1 requer pelo menos 1 divisão (duas marcas: 0 e 1); associar 'denominador = número de partes IGUAIS entre 0 e 1'"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Marca o ponto da segunda fração",
+          "thinking": "Como dividi em 1 parte, o 1 deve estar no final da primeira metade... ou talvez no meio? Acho que no meio da reta de 0 a 2.",
+          "result": "Errado: marca em 1, mas por acaso; ou marca em 0.5 se confundiu",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_anchor_half_for_integer",
+           "type": "conceptual_error",
+           "wrongAnswer": "0.5",
+           "description": "Aluno posiciona o inteiro 1 no meio da reta de 0 a 2 (confunde com metade do segmento total)",
+           "mistakeLocation": "Ao localizar o valor 1 na reta de 0 a 2, o aluno assume que 'meio da reta' = 1, sem considerar a escala",
+           "diagnosticQuestion": "A reta vai de 0 a 2. Onde fica o número 1? É exatamente no meio?",
+           "severity": "moderate",
+           "feedback": "Você está pensando na posição da reta — ótimo! Mas lembre-se: o número 1 está exatamente na metade do CAMINHO de 0 a 2, sim, MAS isso é correto apenas porque 1 é metade de 2. Então está certo! ... Espere, mas por que você marcou errado antes?",
+           "howToFix": "Usar régua numerada: destacar que 1 está entre 0 e 2, e corresponde a metade do comprimento total"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Escolhe a alternativa",
+          "thinking": "Vi que Dale está depois do 1, então ele tem mais. Escolho Dale.",
+          "result": "Correto (por sorte, apesar dos erros anteriores)",
+          "kcUsed": "compFrac",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "Sauce made by Dale.",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Decide dividir a primeira reta em 10 partes",
+          "thinking": "O numerador é 10, então divido em 10 partes.",
+          "result": "Errado",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_use_numerator_instead_denominator",
+           "type": "conceptual_error",
+           "wrongAnswer": "10",
+           "description": "Aluno usa o numerador (10) como número de divisões em vez do denominador (9)",
+           "mistakeLocation": "Na escolha do número de partes para dividir a reta de Dale",
+           "diagnosticQuestion": "O que o número de baixo (denominador) nos diz sobre a divisão da reta?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você notou os números da fração. Mas lembre-se: o número de BAIXO (denominador) é quem diz em quantas partes IGUAIS devemos dividir o segmento de 0 a 1.",
+           "howToFix": "Associar denominação: 'denominador = nome das partes = quantas partes iguais entre 0 e 1'"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marca o ponto na primeira reta",
+          "thinking": "Dividi em 10, então 10/10 é o 1. Mas ele tem 10/9... então deve ser antes do 1? Acho que marco no 9.",
+          "result": "Errado: marca em 9/10 (~0.9)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_invert_fraction_when_placing",
+           "type": "conceptual_error",
+           "wrongAnswer": "9/10",
+           "description": "Aluno inverte a fração ao marcar: usa 9 como numerador e 10 como denominador",
+           "mistakeLocation": "Ao converter a fração 10/9 para posição na reta já dividida incorretamente em 10 partes",
+           "diagnosticQuestion": "Se a fração é 10/9, quantos pedaços você deve contar? De qual tamanho são esses pedaços?",
+           "severity": "high",
+           "feedback": "Você está quase lá! Mas cuidado: o número de cima (numerador) diz QUANTOS pedaços pegar, e o de baixo diz o TAMANHO de cada pedaço. Vamos revisar qual é qual?",
+           "howToFix": "Usar modelo visual: desenhar 10/9 como 1 inteiro + 1/9, destacando que é MAIOR que 1"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Deixa a segunda reta sem dividir (ou digita 0)",
+          "thinking": "1 é inteiro, não precisa dividir.",
+          "result": "Errado",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "numline_skip_division_for_integer",
+           "type": "procedural_error",
+           "wrongAnswer": "0",
+           "description": "Aluno acredita que inteiros não requerem divisão da reta",
+           "mistakeLocation": "Na preparação da reta para representar o valor 1",
+           "diagnosticQuestion": "Mesmo sendo inteiro, como você sabe onde fica o 1 na reta se não dividir?",
+           "severity": "moderate",
+           "feedback": "É verdade que 1 é um número inteiro! Mas para vê-lo claramente na reta, ainda precisamos marcar onde ele está. Como podemos fazer isso?",
+           "howToFix": "Demonstrar que mesmo inteiros exigem marcas visíveis; dividir em pelo menos 1 parte (marcas em 0 e 1)"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Marca o ponto da segunda fração no meio da reta",
+          "thinking": "1 deve estar no meio de 0 a 2.",
+          "result": "Correto (acidentalmente)",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Escolhe a alternativa",
+          "thinking": "Dale está em 0.9, Liz em 1. Então Liz tem mais.",
+          "result": "Errado",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "comp_frac_gap_thinking_more_to_go_means_less",
+           "type": "conceptual_error",
+           "wrongAnswer": "Sauce made by Liz.",
+           "description": "Aluno julga que 10/9 é menor que 1 porque 'falta menos para completar' (erro de gap thinking invertido)",
+           "mistakeLocation": "Na comparação final, após posicionamento incorreto de 10/9",
+           "diagnosticQuestion": "Qual número está mais longe do zero: 0.9 ou 1? E qual está mais perto do 2?",
+           "severity": "high",
+           "feedback": "Você comparou os dois pontos — ótimo passo! Mas vamos pensar: quanto MAIOR o número, mais longe ele está do zero. Qual dos dois está mais longe?",
+           "howToFix": "Usar régua ou fita métrica: medir distâncias reais de 0 a cada ponto"
+          }
+         }
+        ],
+        "finalAnswer": "Sauce made by Liz.",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "15sauce",
+        "step": 1,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "numline_use_numerator_instead_denominator",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Usar o numerador da fração como número de divisões: divisões = {A_num} (onde {A_num}=10 para Dale)",
+          "description": "Aluno confunde numerador com denominador ao decidir quantas partes dividir a reta",
+          "mistakeLocation": "Ao interpretar a fração 10/9, o aluno usa o 10 (numerador) como número de divisões em vez do 9 (denominador)",
+          "diagnosticQuestion": "O número de baixo na fração diz em quantas partes iguais dividimos o segmento de 0 a 1. Qual é esse número em 10/9?",
+          "feedback": "Boa observação dos números! Mas lembre-se: o número de BAIXO (denominador) é quem define o tamanho dos pedaços. Ele sempre vai no campo de divisão.",
+          "howToFix": "Praticar com cartões: mostrar frações e pedir para circular o denominador e dizer 'esse é o número de divisões'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "numline_divide_full_range_instead_unit_interval",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den} * 2",
+          "buggyRule": "Dividir todo o intervalo de 0 a 2 em {A_den} partes, em vez de dividir 0 a 1; então responde com {A_den} * 2 como número de divisões totais (ex: 9*2=18)",
+          "description": "Aluno acha que deve dividir toda a reta (0 a 2) usando o denominador, e multiplica por 2",
+          "mistakeLocation": "Na extensão da divisão: aplica o denominador ao intervalo total (0-2) em vez do unitário (0-1)",
+          "diagnosticQuestion": "A fração 10/9 se refere a quantos inteiros? Precisamos dividir só o primeiro inteiro (0 a 1) ou toda a reta?",
+          "feedback": "Você está pensando no tamanho total da reta — isso mostra atenção! Mas para frações, sempre começamos dividindo o PRIMEIRO segmento, de 0 a 1, usando o denominador.",
+          "howToFix": "Destacar visualmente o segmento 0–1 com cor; praticar com múltiplas unidades depois",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "numline_assume_denom_equals_whole_number_parts",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den}",
+          "buggyRule": "Para fração maior que 1, divide a reta em {A_den} partes por unidade, mas esquece que há mais de uma unidade; ainda assim digita {A_den} (correto por coincidência, mas com raciocínio errado)",
+          "description": "Aluno digita o denominador correto, mas por razão errada (acha que basta para todo o intervalo)",
+          "mistakeLocation": "Na justificativa implícita para o número de divisões, mesmo que o valor digitado esteja certo",
+          "diagnosticQuestion": "Por que você escolheu dividir em 9 partes? Isso cobre até onde na reta?",
+          "feedback": "Você acertou o número de divisões! Agora vamos garantir que você entende por quê: cada unidade (0–1, 1–2) deve ter 9 partes. Mas o campo pede só para a primeira unidade.",
+          "howToFix": "Discutir que o campo de divisão aplica-se ao segmento 0–1; o restante é cópia",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "15sauce",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "numline_off_by_one_count_marks_instead_intervals",
+          "type": "count_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Contar {A_num} marcas a partir do zero (em vez de {A_num} intervalos), resultando em posição em ({A_num})/({A_den}-1) ou similar",
+          "description": "Aluno conta marcas em vez de intervalos ao posicionar a fração",
+          "mistakeLocation": "Na contagem do ponto correspondente a 10/9: conta 10 marcas, não 10 espaços",
+          "diagnosticQuestion": "Entre o 0 e a primeira marca, há quantos espaços? E quantas marcas?",
+          "feedback": "Você está contando com cuidado — isso é ótimo! Só lembre-se: cada fração corresponde a um ESPAÇO entre marcas, não à própria marca. Vamos contar os espaços juntos?",
+          "howToFix": "Usar dedo ou caneta para 'andar' pelos espaços, não apontar marcas",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "numline_stop_at_first_unit_for_improper_frac",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_num - A_den}/{A_den}",
+          "buggyRule": "Trata 10/9 como se fosse 1/9 (só a parte fracionária), ignorando o inteiro; marca em 1/9",
+          "description": "Aluno ignora a parte inteira da fração imprópria e marca só o resto",
+          "mistakeLocation": "Na interpretação de 10/9: vê como '1 inteiro e 1/9', mas marca só o 1/9",
+          "diagnosticQuestion": "10/9 é mais que 1 ou menos que 1? Onde deveria ficar em relação ao 1?",
+          "feedback": "Você identificou que há um 'pedacinho' além do inteiro — muito bom! Mas não se esqueça do inteiro inteiro! O ponto deve estar DEPOIS do 1, não antes.",
+          "howToFix": "Converter para número misto explicitamente: 10/9 = 1 + 1/9; marcar 1, depois avançar 1/9",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "numline_invert_fraction_when_placing",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den}/{A_num}",
+          "buggyRule": "Inverte numerador e denominador ao marcar: posiciona em {A_den}/{A_num} (ex: 9/10)",
+          "description": "Aluno troca numerador e denominador ao localizar o ponto",
+          "mistakeLocation": "Na conversão da fração para posição: lê 10/9 como '9 partes de 10'",
+          "diagnosticQuestion": "Se cada parte é 1/9, quantas dessas partes você precisa para chegar a 10/9?",
+          "feedback": "Você está atento à fração! Mas vamos confirmar: o número de cima diz QUANTOS pedaços, e o de baixo diz o TAMANHO. Qual é qual em 10/9?",
+          "howToFix": "Usar linguagem consistente: 'dez nonos' = 10 pedaços de tamanho 1/9",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "15sauce",
+        "step": 3,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "numline_divide_by_denominator_of_1_as_1_part",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Para representar 1 (que é 1/1), divide a reta em 1 parte",
+          "description": "Aluno interpreta o inteiro 1 como tendo denominador 1 e divide em 1 parte",
+          "mistakeLocation": "Na decisão de divisões para a fração 1 = 1/1",
+          "diagnosticQuestion": "Se você divide de 0 a 1 em 1 parte, quantas marcas você vê? Onde fica o 1?",
+          "feedback": "Você reconheceu que 1 pode ser escrito como 1/1 — isso é avançado! Mas para ver o 1 na reta, precisamos de pelo menos DUAS marcas: 0 e 1. Quantas divisões dão isso?",
+          "howToFix": "Mostrar que '1 parte' significa 'nenhum corte', logo só há 0 e 2; não há marca em 1",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "numline_skip_division_for_integer",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "0",
+          "buggyRule": "Deixa o campo de divisão vazio ou digita 0, assumindo que inteiros não precisam de divisão",
+          "description": "Aluno acredita que números inteiros não requerem subdivisão da reta",
+          "mistakeLocation": "Na interação com o campo de divisão para Liz",
+          "diagnosticQuestion": "Como você sabe onde fica o 1 se não dividir a reta? Tem certeza de que a marca existe?",
+          "feedback": "É verdade que 1 é inteiro! Mas sem marcar onde ele está, como temos certeza da posição? Vamos garantir que a marca do 1 apareça.",
+          "howToFix": "Exigir que todos os valores, mesmo inteiros, tenham suas posições marcadas via divisão mínima",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "numline_use_default_division_2_for_integer",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Divide a reta em 2 partes (metades) por padrão para qualquer inteiro",
+          "description": "Aluno associa inteiro à metade da reta 0–2 e divide em 2",
+          "mistakeLocation": "Na escolha do número de divisões para representar 1",
+          "diagnosticQuestion": "Dividir em 2 partes ajuda a encontrar o 1? Sim, mas é necessário? Qual é o mínimo?",
+          "feedback": "Dividir em 2 funciona para achar o 1 — bom senso! Mas o sistema espera que você pense no denominador da fração, mesmo que seja 1.",
+          "howToFix": "Reforçar que 1 = 1/1, logo denominador = 1 → mas na prática, usamos 1 divisão (marcas em 0 e 1)",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "15sauce",
+        "step": 4,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "numline_anchor_half_for_integer",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0.5",
+          "buggyRule": "Posiciona o valor 1 no meio geométrico da reta 0–2, ou seja, em 1, mas se a reta for mal interpretada, pode ir para 0.5; aqui assume que 'meio' = 0.5",
+          "description": "Aluno confunde 'meio da reta' com 0.5, não com 1",
+          "mistakeLocation": "Na localização do número 1 na reta numerada de 0 a 2",
+          "diagnosticQuestion": "A reta vai de 0 a 2. O número 1 está na metade do caminho? Quanto é metade de 2?",
+          "feedback": "Você está usando a posição visual — ótimo! Metade do caminho de 0 a 2 é realmente 1. Então o ponto certo é exatamente no meio. Confira se você marcou aí!",
+          "howToFix": "Medir com régua: meio de 0 a 2 cm é 1 cm",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "numline_mark_end_of_line_for_1",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Confunde o valor 1 com o fim da reta (2), especialmente se não dividiu corretamente",
+          "description": "Aluno marca 1 no final da reta (posição 2)",
+          "mistakeLocation": "Na ausência de marcas claras, assume que '1' = fim da linha",
+          "diagnosticQuestion": "A reta termina em 2. O número 1 é o final ou o meio?",
+          "feedback": "Cuidado! A reta vai até 2, mas o número 1 é só metade disso. Onde fica metade?",
+          "howToFix": "Rotular extremidades claramente: 0 —— ? —— 2; perguntar 'onde fica 1?'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "15sauce",
+        "step": 5,
+        "kcUsed": "compFrac",
+        "errors": [
+         {
+          "misconceptionId": "comp_frac_gap_thinking_more_to_go_means_less",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Sauce made by Liz.",
+          "buggyRule": "Julga que 10/9 < 1 porque 'só falta 1/9 para completar o próximo inteiro', enquanto 1 'já está completo'; logo 1 é maior",
+          "description": "Aluno usa 'gap thinking': quanto menos falta para o inteiro, maior o número (lógica invertida)",
+          "mistakeLocation": "Na comparação final baseada na intuição de 'quanto falta'",
+          "diagnosticQuestion": "Qual número está mais longe do zero: 1 ou 10/9? Use a régua da reta para medir!",
+          "feedback": "Você está pensando na relação com o inteiro — isso é interessante! Mas vamos testar: se você tem 10/9 de carne, isso é mais ou menos que 1 libra inteira?",
+          "howToFix": "Converter para decimal: 10/9 ≈ 1.11 > 1.0; usar calculadora simples",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "comp_frac_assume_improper_always_greater_without_checking",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Sauce made by Dale.",
+          "buggyRule": "Assume que qualquer fração imprópria (>1) é automaticamente maior que 1, sem verificar posicionamento",
+          "description": "Aluno acerta por regra geral, mas sem fundamentação visual",
+          "mistakeLocation": "Na decisão final, sem usar a reta",
+          "diagnosticQuestion": "Como você soube que 10/9 é maior que 1? Pode mostrar na reta?",
+          "feedback": "Você chegou à resposta certa! Agora, vamos garantir que ela vem da reta, não só da memória. Mostre-me onde estão os dois pontos.",
+          "howToFix": "Exigir justificativa baseada na reta numérica, não em regras isoladas",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "comp_frac_equal_if_both_near_1",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Both will have same amount of ground beef.",
+          "buggyRule": "Vê ambos próximos de 1 e julga como iguais",
+          "description": "Aluno aproxima visualmente e ignora diferença fina",
+          "mistakeLocation": "Na comparação visual quando pontos estão próximos",
+          "diagnosticQuestion": "Eles estão EXATAMENTE no mesmo lugar? Ou um está um pouquinho à frente?",
+          "feedback": "Eles estão bem pertinho, né? Mas mesmo uma pequena diferença conta! Veja: um está ANTES do 1, o outro DEPOIS?",
+          "howToFix": "Ampliar visualmente a região perto de 1; usar zoom ou régua milimetrada",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "15sauce",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar as frações",
+        "thinking": "Dale usa 10/9 de libra e Liz usa exatamente 1 libra. Preciso comparar essas duas quantidades usando a reta numérica.",
+        "result": "Identifiquei que preciso comparar 10/9 com 1.",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Decidir como dividir a primeira reta (para 10/9)",
+        "thinking": "A fração é 10/9... então a reta precisa ser dividida em 9 partes iguais entre 0 e 1? Mas 10/9 é maior que 1, então talvez eu precise ir além de 1... Será que divido só até 1 ou até 2? E quantas partes no total?",
+        "result": "Decidi dividir a primeira reta em 9 partes iguais entre 0 e 1, mas fiquei confuso se isso basta para marcar 10/9.",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando uma fração é maior que 1, como 10/9, ela fica à direita do 1 na reta. Quantas partes iguais você precisa entre 0 e 1 para representar nonos?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Divida o segmento de 0 a 1 em 9 partes iguais. Depois, continue contando: o ponto 10/9 estará logo após o 1, na primeira marca depois dele."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 10/9 é só um pouquinho mais que 1. Se você dividir de 0 a 1 em 9 partes, o 10º pedacinho começa exatamente onde o 1 termina."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Marque 0, depois divida até 1 em 9 partes. Conte: 1/9, 2/9, ..., 9/9 = 1, então 10/9 é a próxima marca à direita do 1. É só um passinho além!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Marcar 10/9 na primeira reta",
+        "thinking": "Se 9/9 é 1, então 10/9 deve estar logo depois do 1. Vou marcar um pouco à direita do 1.",
+        "result": "Marquei corretamente 10/9 na primeira reta.",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta (para 1 = 1/1)",
+        "thinking": "Liz usa exatamente 1 libra. Isso é fácil — é só o ponto 1. Mas a interface pede para eu digitar em quantas partes dividir... Será que posso deixar em 1 parte? Ou preciso dividir em algo específico?",
+        "result": "Digitei '1' como número de partes (ou talvez '2', hesitando), mas fiquei inseguro sobre o que colocar.",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense bem: o número 1 é um número inteiro. Para localizá-lo na reta, você precisa dividir o intervalo? Ou ele já está claramente marcado?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Ótimo! Você pode dividir a reta em qualquer número de partes, mas o ponto 1 sempre fica no mesmo lugar. Tente dividir em 1 parte (ou até 2) — o importante é marcar exatamente o ponto 1."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Não se preocupe com o número de divisões aqui — o valor 1 está fixo. Basta garantir que você marque o ponto exato do 1 na reta."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exato! O número 1 está bem no meio da reta de 0 a 2. Independentemente de quantas partes você escolher, clique diretamente no risco que representa o 1."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Marcar 1 na segunda reta",
+        "thinking": "O 1 está bem no meio da reta de 0 a 2. Vou clicar ali.",
+        "result": "Marquei corretamente o ponto 1 na segunda reta.",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Comparar os dois pontos nas retas",
+        "thinking": "Vejo que 10/9 está um pouco à direita do 1. Então Dale usa mais carne moída. Devo escolher a opção 'Sauce made by Dale.'",
+        "result": "Concluí que 10/9 > 1, então a resposta correta é a de Dale.",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta",
+        "thinking": "Vou escolher 'Sauce made by Dale.'",
+        "result": "Alternativa selecionada corretamente.",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 8,
+        "action": "Clicar em Done",
+        "thinking": "Terminei!",
+        "result": "Problema concluído.",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "10/9",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Converter 10/9 em número misto (1 1/9) e comparar com 1 mentalmente, sem usar a reta",
+        "steps": [
+         "Reconhecer que 10/9 = 1 + 1/9",
+         "Concluir que é maior que 1"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar tentativa e erro na divisão da reta (ex: dividir em 10 partes primeiro, depois corrigir)",
+        "steps": [
+         "Tentar dividir em 10",
+         "Perceber que não ajuda",
+         "Mudar para 9"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 7,
+  "errosEspecificos": 7,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 7
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "fraction-ordering-6.20",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; DUAS retas numéricas de 0 a 2, uma para cada quantidade (rotuladas \"Pound of Dale's ground beef\" e \"Pound of Liz's ground beef\"); para cada reta há um campo onde o aluno digita em quantas partes iguais dividi-la (com confirmação) e, depois, marca o ponto da fração correspondente; abaixo, um seletor em que o aluno escolhe UMA destas alternativas: \"Sauce made by Dale.\"; \"Sauce made by Liz.\"; \"Both will have same amount of ground beef.\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 2,
+   "linhas": 2
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "denom1",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da primeira reta (em quantas partes dividir) + confirmar"
+   },
+   {
+    "id": "numline1",
+    "tipo": "numberline",
+    "papel": "primeira reta numérica; o aluno marca o ponto da primeira fração"
+   },
+   {
+    "id": "denom2",
+    "tipo": "text",
+    "papel": "campo numérico do denominador da segunda reta + confirmar"
+   },
+   {
+    "id": "numline2",
+    "tipo": "numberline",
+    "papel": "segunda reta numérica; o aluno marca o ponto da segunda fração"
+   },
+   {
+    "id": "compBox",
+    "tipo": "text",
+    "papel": "seletor com as alternativas de comparação; o aluno escolhe uma delas"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ }
+}

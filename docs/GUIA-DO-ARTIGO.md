@@ -255,3 +255,36 @@ exclui esses corpora do pool dessa métrica (as demais métricas seguem inteiras
 pool flash-lite — cobertura em ordem 0,809 [0,786; 0,831], sem ordem 0,937,
 caminho íntegro 0,342, erros no estado certo 0,337 (2 corpora);
 pool qwen — 0,891 [0,873; 0,909], 0,949, 0,608, 0,476 (2 corpora).
+
+
+## 13. Adendo 2026-08-18 (noite) — 6.20 concluído; bloco 1 com 4 corpora
+
+**6.20 Fraction Ordering** (19 problemas, 114 grafos, US$ 3,43, produção
+132c645): cobertura em ordem **0,926 / 0,946**, caminho íntegro **0,632 / 0,731**,
+erros no estado certo **0,297 / 0,619**; gate estrito 98 % / 88 %. Aqui cobertura
+com e sem ordem coincidem — a tarefa impõe a sequência. Primeiro corpus com um
+estado de valor **textual** (alternativa do seletor): casou em 45/57 no qwen, e
+parte das falhas é escolha errada da alternativa (erro real de conteúdo),
+mostrando que estados textuais são avaliáveis quando as alternativas estão na
+tela e entram na descrição da interface.
+
+Dois pontos de método fixados neste corpus:
+- **campos de enunciado declaráveis por corpus** (`campos-enunciado.json`): no
+  6.20 os dados do problema estão em `var1`/`var2`/`question`, não em
+  `statement`; sem eles o enunciado é insolúvel. Default (statement/statement2)
+  inalterado para 6.17/6.18/6.19;
+- **execução como serviço transitório do systemd**: as cadeias longas passaram
+  a rodar fora da sessão (duas cadeias haviam sido interrompidas ao fim da
+  sessão, com perda de runs e recoleta).
+
+**Consolidado — 4 corpora, 86 problemas de especialista, 488 grafos analisados:**
+
+| braço | cobertura em ordem | sem ordem | caminho íntegro | erros no estado certo |
+|---|---|---|---|---|
+| flash-lite | 0,836 [0,816; 0,855] | 0,934 | 0,408 [0,348; 0,469] | 0,325 (3 corpora) |
+| qwen | 0,903 [0,887; 0,919] | 0,949 | 0,634 [0,573; 0,695] | 0,659 (3 corpora) |
+
+Heterogeneidade entre corpora (amplitude): cobertura 0,712–0,953 (flash-lite) e
+0,742–1,000 (qwen); caminho íntegro 0,108–0,860 e 0,098–1,000 — a variação é
+explicada pelo grau em que a interface impõe a sequência (6.18/6.20 alto,
+6.19 baixo por causa da conversão a número misto).

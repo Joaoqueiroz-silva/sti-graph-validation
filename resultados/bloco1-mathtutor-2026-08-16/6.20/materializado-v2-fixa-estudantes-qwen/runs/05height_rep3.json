@@ -1,0 +1,2698 @@
+{
+ "id": "05height",
+ "correctAnswer": "5/12",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.125,
+ "functionalKappa": -0.436,
+ "missing": [
+  "5",
+  "",
+  "1/3",
+  "1",
+  "0"
+ ],
+ "extra": [
+  "6",
+  "1/2",
+  "bothgrewthesameamouth"
+ ],
+ "robotMisconceptions": [
+  "6",
+  "6/12",
+  "3/6",
+  "Both grew the same amouth.",
+  "Both grew the same amouth."
+ ],
+ "exercicio": "05height",
+ "replica": 3,
+ "geradoEm": "2026-08-18T15:54:43.880Z",
+ "promptSha256": "4b02e42b69e5350e794607a4c5ec87c8d6b2d01822ee6171a982b38507898b03",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T15:22:41.028Z"
+ },
+ "custo": {
+  "tokensEntrada": 7349,
+  "tokensSaida": 9111,
+  "usd": 0.04126512
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "FracLess1",
+    "valor": "Valores identificados: Shandell = {A} = 5/12, Nicole = {B} = 1/2"
+   },
+   {
+    "indice": 2,
+    "acao": "Dividir a primeira reta numérica em 12 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 1 dividida em 12 partes"
+   },
+   {
+    "indice": 3,
+    "acao": "Marcar o ponto correspondente a 5/12 na primeira reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto 5/12 marcado corretamente na reta 1"
+   },
+   {
+    "indice": 4,
+    "acao": "Dividir a segunda reta numérica em 2 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 2 dividida em 2 partes"
+   },
+   {
+    "indice": 5,
+    "acao": "Marcar o ponto correspondente a 1/2 na segunda reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto 1/2 marcado corretamente na reta 2"
+   },
+   {
+    "indice": 6,
+    "acao": "Comparar visualmente os dois pontos nas retas",
+    "kc": "compFrac",
+    "valor": "Conclusão: {B} > {A}"
+   },
+   {
+    "indice": 7,
+    "acao": "Selecionar a alternativa correta no seletor de comparação",
+    "kc": "compFrac",
+    "valor": "Alternativa selecionada: 'Nicole grew more.'"
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "compFrac",
+    "valor": "Problema finalizado"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar critérios de simplificação: só se numerador e denominador tiverem divisor comum maior que 1",
+    "buggyRule": "Tenta simplificar a fração dividindo numerador e denominador por 2, mesmo quando não possível, e usa o novo denominador (arredondado ou truncado): floor({A_den}/2) ou {A_den}//2",
+    "misconceptionId": "misc_divide_pela_metade_para_simplificar_na_retas"
+   },
+   {
+    "valor": "6/12",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem de 'pular segmentos' e não 'contar marcas'; praticar com réguas ou fitas divididas",
+    "buggyRule": "Conta as marcas em vez dos segmentos, marcando na posição ({A_num}+1)/{A_den}",
+    "misconceptionId": "misc_contagem_um_a_mais"
+   },
+   {
+    "valor": "3/6",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar conversão precisa entre denominadores: 3/6 = 6/12 ≠ 5/12",
+    "buggyRule": "",
+    "misconceptionId": "misc_aproxima_com_equivalente_incorreto"
+   },
+   {
+    "valor": "Both grew the same amouth.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Revisar a marcação com foco em contar segmentos, não marcas; usar equivalência (5/12 vs 6/12) para validar visualmente",
+    "buggyRule": "Conclui igualdade quando os pontos marcados coincidem na reta, mesmo que por erro de marcação",
+    "misconceptionId": "misc_conclusao_baseada_em_posicao_errada"
+   },
+   {
+    "valor": "Both grew the same amouth.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Exigir fidelidade à fração dada; evitar aproximações visuais sem conversão exata",
+    "buggyRule": "",
+    "misconceptionId": "misc_compara_fracoes_aproximadas_como_iguais"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa reflexão! Quando representamos uma fração na reta numérica, em quantas partes iguais devemos dividir o segmento entre 0 e 1? Pense no denominador!"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Para marcar 5/12, primeiro divida a reta de 0 a 1 em 12 partes iguais — cada parte representa 1/12."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! O denominador da fração de Shandell é 12, então a reta deve ter exatamente 12 divisões iguais. Confira se o número digitado corresponde ao denominador."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase! A fração é 5/12 — o número abaixo da barra é 12. Digite esse número no campo de divisões da primeira reta e confirme."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Ótima dúvida! Na reta numérica, onde fica 1/12? E 2/12? Pense: cada traço novo representa um passo adicional a partir do zero."
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Continue assim! Comece no 0 e avance um passo por vez: o primeiro traço é 1/12, o segundo é 2/12... até chegar a 5/12."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Muito bem! Você precisa marcar o quinto traço depois do zero. Não conte o zero como o primeiro passo!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase! Após dividir em 12, toque no quinto traço à direita do zero — não no sexto, nem no quarto. É o quinto!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Pergunta inteligente! Se a fração é 1/2, quantas partes iguais você precisa para mostrar metade do caminho de 0 a 1?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Isso mesmo! Para 1/2, basta dividir a reta em 2 partes iguais — o ponto do meio é exatamente 1/2."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Certo! O denominador é 2, então digite 2 no campo da segunda reta. Isso cria um único ponto no meio."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você consegue! A fração de Nicole é 1/2 — digite o número 2 no campo de divisões da segunda reta e confirme."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Excelente observação! Se duas frações têm tamanhos diferentes, como podemos saber qual é maior? Será que transformar em denominadores comuns ajuda?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Vamos pensar juntos! Converta 1/2 para doze avos: quantos doze avos equivalem a metade? Depois compare com 5/12."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Quase descobriu! Lembre-se: 1/2 é igual a 6/12. Agora compare 5/12 com 6/12 — qual é maior?"
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Você está muito perto! Pense: se 1/2 = 6/12, e Shandell tem 5/12, quem tem mais? Nicole tem 6 partes, Shandell tem 5…"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05height\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Preciso comparar o crescimento de Shandell (5/12) e Nicole (1/2) usando retas numéricas para determinar quem cresceu mais.\\\",\\n          \\\"result\\\": \\\"Valores identificados: Shandell = {A} = 5/12, Nicole = {B} = 1/2\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a primeira reta numérica em 12 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 5/12 corretamente, preciso dividir a reta de 0 a 1 em 12 partes iguais.\\\",\\n          \\\"result\\\": \\\"Reta 1 dividida em 12 partes\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 5/12 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Contando 5 marcas a partir do 0 na reta dividida em 12 partes, localizo exatamente 5/12.\\\",\\n          \\\"result\\\": \\\"Ponto 5/12 marcado corretamente na reta 1\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta numérica em 2 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 1/2, divido a reta de 0 a 1 em 2 partes iguais.\\\",\\n          \\\"result\\\": \\\"Reta 2 dividida em 2 partes\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 1/2 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"O ponto médio entre 0 e 1 corresponde a 1/2.\\\",\\n          \\\"result\\\": \\\"Ponto 1/2 marcado corretamente na reta 2\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"Observo que 1/2 equivale a 6/12, que é maior que 5/12. Portanto, Nicole cresceu mais.\\\",\\n          \\\"result\\\": \\\"Conclusão: {B} > {A}\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta no seletor de comparação\\\",\\n          \\\"thinking\\\": \\\"Como Nicole cresceu mais, escolho 'Nicole grew more.'\\\",\\n          \\\"result\\\": \\\"Alternativa selecionada: 'Nicole grew more.'\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todas as etapas foram concluídas corretamente; posso enviar a resposta.\\\",\\n          \\\"result\\\": \\\"Problema finalizado\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B}\\\",\\n      \\\"totalTime\\\": 33\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05height\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o denominador da primeira reta (Shandell)\\\",\\n              \\\"thinking\\\": \\\"A fração é 5/12, então divido em 12 partes.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar o ponto na primeira reta (Shandell)\\\",\\n              \\\"thinking\\\": \\\"Conto 5 marcas a partir do zero... mas talvez eu conte errado.\\\",\\n              \\\"result\\\": \\\"Erro: marca na posição 6/12\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_um_a_mais\\\",\\n                \\\"type\\\": \\\"off_by_one\\\",\\n                \\\"wrongAnswer\\\": \\\"6/12\\\",\\n                \\\"description\\\": \\\"Aluno conta as marcas em vez dos intervalos, marcando uma unidade a mais\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao contar os espaços entre as marcas na reta numérica, o aluno contou as marcas em vez dos segmentos\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantos segmentos há entre 0 e a quinta marca? Vamos apontar cada segmento com o dedo.\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você dividiu a reta certinho em 12 partes! Agora, lembre-se: o número da fração indica quantos segmentos (espaços) você percorre desde o zero — não quantas marcas você passa.\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem de 'pular segmentos' e não 'contar marcas'; praticar com réguas ou fitas divididas\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Digitar o denominador da segunda reta (Nicole)\\\",\\n              \\\"thinking\\\": \\\"1/2, então divido em 2 partes.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marcar o ponto na segunda reta (Nicole)\\\",\\n              \\\"thinking\\\": \\\"Metade... então marco no meio, que é a primeira marca.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolher a alternativa de comparação\\\",\\n              \\\"thinking\\\": \\\"Vejo que Shandell está em 6/12 e Nicole em 1/2 = 6/12, então cresceram igual.\\\",\\n              \\\"result\\\": \\\"Erro: escolhe 'Both grew the same amount.'\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_conclusao_baseada_em_posicao_errada\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Both grew the same amouth.\\\",\\n                \\\"description\\\": \\\"Conclusão incorreta baseada em posição marcada errada na reta\\\",\\n                \\\"mistakeLocation\\\": \\\"Na etapa final de comparação, após posicionar incorretamente Shandell em 6/12\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se Shandell cresceu 5/12, ela deveria estar antes ou depois da metade? Onde está a metade na reta?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você entendeu bem como comparar usando a reta! Mas vamos revisar: onde exatamente fica 5/12 em relação à metade? Talvez tenhamos colocado o ponto um pouco além...\\\",\\n                \\\"howToFix\\\": \\\"Revisar a marcação com foco em contar segmentos, não marcas; usar equivalência (5/12 vs 6/12) para validar visualmente\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Both grew the same amouth.\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar o denominador da primeira reta (Shandell)\\\",\\n              \\\"thinking\\\": \\\"5/12... mas talvez eu possa simplificar antes?\\\",\\n              \\\"result\\\": \\\"Erro: digita 6\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divide_pela_metade_para_simplificar_na_retas\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6\\\",\\n                \\\"description\\\": \\\"Aluno tenta 'simplificar' 5/12 dividindo numerador e denominador por 2, obtendo 2.5/6, e arredonda ou ignora decimal, usando 6 como denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Na decisão de em quantas partes dividir a reta, o aluno aplica simplificação incorreta a uma fração que não é redutível\\\",\\n                \\\"diagnosticQuestion\\\": \\\"5/12 pode ser simplificado? Quais números dividem 5 e 12 ao mesmo tempo?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa ideia pensar em simplificar! Mas 5 e 12 não têm divisores em comum — então 5/12 já está na forma mais simples. Vamos manter o denominador original para dividir a reta.\\\",\\n                \\\"howToFix\\\": \\\"Revisar critérios de simplificação: só se numerador e denominador tiverem divisor comum maior que 1\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar o ponto na primeira reta (Shandell)\\\",\\n              \\\"thinking\\\": \\\"Se dividi em 6 partes, e o crescimento é 5/12... talvez seja 3/6?\\\",\\n              \\\"result\\\": \\\"Marca em 3/6\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_aproxima_com_equivalente_incorreto\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3/6\\\",\\n                \\\"description\\\": \\\"Aluno assume equivocadamente que 5/12 ≈ 3/6 por parecer 'quase metade'\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao converter mentalmente 5/12 para uma fração com denominador 6, o aluno arredonda para cima\\\",\\n                \\\"diagnosticQuestion\\\": \\\"5/12 é maior ou menor que 6/12? E 3/6 é igual a quanto em doze avos?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está pensando em frações equivalentes — ótimo instinto! Mas 3/6 é igual a 6/12, e 5/12 é um pouco menos. Vamos ver isso juntos na reta dividida em 12 partes.\\\",\\n                \\\"howToFix\\\": \\\"Praticar conversão precisa entre denominadores: 3/6 = 6/12 ≠ 5/12\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Digitar o denominador da segunda reta (Nicole)\\\",\\n              \\\"thinking\\\": \\\"1/2, então uso 2.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marcar o ponto na segunda reta (Nicole)\\\",\\n              \\\"thinking\\\": \\\"Metade... marco no meio.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolher a alternativa de comparação\\\",\\n              \\\"thinking\\\": \\\"Shandell em 3/6, Nicole em 1/2 = 3/6, então iguais.\\\",\\n              \\\"result\\\": \\\"Erro: escolhe 'Both grew the same amount.'\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_compara_fracoes_aproximadas_como_iguais\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Both grew the same amouth.\\\",\\n                \\\"description\\\": \\\"Aluno trata aproximações ou erros de representação como igualdades exatas\\\",\\n                \\\"mistakeLocation\\\": \\\"Na conclusão, após representar incorretamente ambas as frações como 3/6\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se duas pessoas cresceram quantidades diferentes, elas podem estar no mesmo ponto da reta? Vamos conferir os valores originais.\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está comparando os pontos corretamente — parabéns por isso! Mas será que os pontos estão nos lugares certos? Vamos voltar às frações originais: 5/12 e 1/2.\\\",\\n                \\\"howToFix\\\": \\\"Exigir fidelidade à fração dada; evitar aproximações visuais sem conversão exata\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Both grew the same amouth.\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"05height\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_numerador_em_vez_de_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Usa o numerador da fração como o número de divisões da reta: {A_num} (ex: para 5/12, digita 5)\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador com denominador ao decidir em quantas partes dividir a reta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação do significado do denominador na representação na reta numérica\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O número debaixo da fração (denominador) diz em quantas partes o todo foi dividido. Qual é esse número em 5/12?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na fração corretamente! Só lembrar: o número de baixo (denominador) é que define quantas partes iguais fazemos na reta.\\\",\\n              \\\"howToFix\\\": \\\"Associar 'denominador' com 'dividir' verbalmente; usar cores para destacar denominador no enunciado\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pela_metade_para_simplificar_na_retas\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}/2\\\",\\n              \\\"buggyRule\\\": \\\"Tenta simplificar a fração dividindo numerador e denominador por 2, mesmo quando não possível, e usa o novo denominador (arredondado ou truncado): floor({A_den}/2) ou {A_den}//2\\\",\\n              \\\"description\\\": \\\"Aluno aplica simplificação automática por 2, ignorando se a fração é redutível\\\",\\n              \\\"mistakeLocation\\\": \\\"Antes de dividir a reta, o aluno modifica a fração original com uma regra heurística inválida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Podemos dividir 5 por 2 e obter um número inteiro? E 12?\\\",\\n              \\\"feedback\\\": \\\"Simplificar frações é uma ótima estratégia — mas só funciona quando ambos os números são divisíveis pelo mesmo número. Será que 5 e 12 são?\\\",\\n              \\\"howToFix\\\": \\\"Listar divisores de numerador e denominador; só simplificar se houver interseção\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_unidade_com_intervalo_da_reta\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Assume que toda reta numérica representa apenas uma unidade inteira, então sempre divide em 1 parte (ou digita 1)\\\",\\n              \\\"description\\\": \\\"Aluno não entende que o denominador determina a granularidade da divisão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na concepção da escala da reta numérica\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a fração é 5/12, quantos pedacinhos iguais precisamos ter entre 0 e 1?\\\",\\n              \\\"feedback\\\": \\\"A reta vai de 0 a 1, mas dentro desse espaço precisamos marcar frações menores. Quantas partes iguais precisamos para mostrar 12 avos?\\\",\\n              \\\"howToFix\\\": \\\"Mostrar exemplos com pizzas ou barras divididas: 12 fatias = 12 partes na reta\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05height\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_mais\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({A_num}+1)/{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Conta as marcas em vez dos segmentos, marcando na posição ({A_num}+1)/{A_den}\\\",\\n              \\\"description\\\": \\\"Erro clássico de contagem: confunde número de marcas com número de intervalos\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao mover do zero até a fração desejada, o aluno conta a marca de chegada como parte do total\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Entre 0 e a primeira marca, há quantos segmentos? E entre 0 e a quinta marca?\\\",\\n              \\\"feedback\\\": \\\"Você dividiu perfeitamente! Agora, experimente tocar cada segmento (não as marcas) enquanto conta: 1, 2, 3… até 5.\\\",\\n              \\\"howToFix\\\": \\\"Usar setas entre as marcas para indicar segmentos; praticar com réguas físicas\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_marca_no_numerador_como_inteiro\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Ignora o denominador e marca o ponto na posição correspondente ao numerador como se fosse um número inteiro (ex: marca 5 em vez de 5/12)\\\",\\n              \\\"description\\\": \\\"Viés do número inteiro: trata o numerador como valor absoluto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação do valor da fração na reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração 5/12 é maior ou menor que 1? Onde fica o 1 na reta?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Mas lembre-se: todas essas frações são MENORES que 1, pois o numerador é menor que o denominador. Então o ponto deve ficar entre 0 e 1.\\\",\\n              \\\"howToFix\\\": \\\"Ref orçar que frações próprias (<1) ficam entre 0 e 1; nunca além\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Como 5/12 está 'perto da metade', marca diretamente na metade (1/2), independentemente do denominador usado\\\",\\n              \\\"description\\\": \\\"Aluno usa a metade como âncora visual e ignora o valor exato\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual do ponto, substituindo o valor real por uma referência familiar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"5/12 é exatamente a metade? Quantos doze avos formam a metade?\\\",\\n              \\\"feedback\\\": \\\"Você reconhece bem onde fica a metade — isso é muito útil! Agora, vamos ver: a metade é 6/12, e 5/12 é um pouco antes disso.\\\",\\n              \\\"howToFix\\\": \\\"Comparar explicitamente com 6/12; usar reta com ambas as frações lado a lado\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05height\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_da_outra_fracao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Confunde as frações e usa o denominador da primeira fração (Shandell) para dividir a segunda reta (Nicole): {A_den}\\\",\\n              \\\"description\\\": \\\"Aluno aplica o mesmo denominador às duas retas por automatismo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na transição entre as duas retas, o aluno repete a ação anterior sem ler o novo valor\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual é a fração de crescimento de Nicole? Em quantas partes ela deve dividir sua reta?\\\",\\n              \\\"feedback\\\": \\\"Você fez certo na primeira reta! Agora, olhe com atenção: qual é a fração de Nicole? Ela é diferente da de Shandell.\\\",\\n              \\\"howToFix\\\": \\\"Pedir ao aluno que sublinhe cada fração antes de agir; associar cada reta à sua pessoa\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_assume_que_meio_eh_sempre_2_partes\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Para 1/2, sempre digita 2 — correto neste caso, mas por razão frágil (não generalizável)\\\",\\n              \\\"description\\\": \\\"Apesar de acertar numericamente, o aluno tem uma regra rasa que falha em outros contextos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na justificativa implícita para a divisão da reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a fração fosse 3/6, em quantas partes dividiríamos a reta? E se fosse 4/8?\\\",\\n              \\\"feedback\\\": \\\"Você acertou aqui! Mas vamos pensar: se alguém cresceu 3/6 de polegada, ainda seria metade? Como dividiríamos a reta nesse caso?\\\",\\n              \\\"howToFix\\\": \\\"Explorar múltiplas representações da metade (2/4, 3/6, 4/8) para mostrar que o denominador varia\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05height\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_marca_no_zero_para_fracoes_pequenas\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0\\\",\\n              \\\"buggyRule\\\": \\\"Para qualquer fração menor que 1/2, marca próximo ou exatamente no zero\\\",\\n              \\\"description\\\": \\\"Subestima o valor de frações não triviais\\\",\\n              \\\"mistakeLocation\\\": \\\"Na estimativa visual de 1/2, o aluno acha que 'meio' é grande demais e recua\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se dividirmos a reta em 2 partes, onde fica o fim da primeira parte?\\\",\\n              \\\"feedback\\\": \\\"A metade é exatamente o ponto do meio entre 0 e 1. Se você dobrar a reta ao meio, é ali que fica!\\\",\\n              \\\"howToFix\\\": \\\"Usar dobra física de papel; enfatizar simetria\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_menos\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0/2\\\",\\n              \\\"buggyRule\\\": \\\"Conta a partir da primeira marca como '1', então para 1/2 marca a posição 0 (erro raro, mas possível em ansiedade)\\\",\\n              \\\"description\\\": \\\"Erro inverso: subtrai um em vez de somar\\\",\\n              \\\"mistakeLocation\\\": \\\"Na indexação do primeiro segmento\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Depois de dividir em 2 partes, quantos segmentos você percorre para chegar a 1/2?\\\",\\n              \\\"feedback\\\": \\\"Você dividiu certo! Agora, o primeiro segmento (do zero até a primeira marca) já é metade do caminho.\\\",\\n              \\\"howToFix\\\": \\\"Nomear os segmentos: 'segmento 1 = 1/2', 'segmento 2 = 1 inteiro'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05height\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_compara_pela_diferenca_para_o_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Shandell grew more.\\\",\\n              \\\"buggyRule\\\": \\\"Compara frações pela diferença entre denominador e numerador: menor diferença = maior fração. Para 5/12 (diferença=7) e 1/2=6/12 (diferença=6), conclui que 5/12 é maior porque 7>6 — interpretação invertida do gap thinking\\\",\\n              \\\"description\\\": \\\"Gap thinking mal aplicado: julga que quanto mais longe do inteiro, maior a fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na lógica de comparação, usando um atributo irrelevante (diferença) como critério\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual das duas frações está mais perto do zero? E qual está mais perto do 1? A que está mais perto do 1 é maior?\\\",\\n              \\\"feedback\\\": \\\"Interessante como você está pensando! Mas vamos testar: se algo cresceu 11/12, ele cresceu mais ou menos que quem cresceu 1/2?\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia com corrida: quem está mais longe da largada (zero) cresceu mais\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_assume_que_denominador_maior_significa_valor_maior\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Shandell grew more.\\\",\\n              \\\"buggyRule\\\": \\\"Vê que 12 > 2 e conclui que 5/12 > 1/2, ignorando o numerador\\\",\\n              \\\"description\\\": \\\"Foco excessivo no denominador como indicador de magnitude\\\",\\n              \\\"mistakeLocation\\\": \\\"Na comparação direta sem conversão ou uso da reta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem 1 pedaço de uma pizza cortada em 12 fatias, ou 1 pedaço de uma pizza cortada em 2 fatias, qual pedaço é maior?\\\",\\n              \\\"feedback\\\": \\\"Você notou bem os números! Mas lembre-se: quanto mais fatias, menor cada uma. Então 1/2 é um pedaço bem maior que 1/12 — e 5/12 ainda é menor que 6/12 = 1/2.\\\",\\n              \\\"howToFix\\\": \\\"Usar modelos de área (pizza, chocolate) para contrastar tamanhos de fatias\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_pela_primeira_fracao_lida\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Shandell grew more.\\\",\\n              \\\"buggyRule\\\": \\\"Escolhe a primeira pessoa mencionada no enunciado como tendo crescido mais, independentemente dos valores\\\",\\n              \\\"description\\\": \\\"Decisão baseada em ordem textual, não matemática\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da alternativa, sem consultar a reta ou os valores\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O que as retas mostram? Onde está o ponto de Shandell em relação ao de Nicole?\\\",\\n              \\\"feedback\\\": \\\"Você leu o problema com atenção! Agora, vamos deixar os números falarem: olhe para os dois pontos nas retas. Qual está mais longe do zero?\\\",\\n              \\\"howToFix\\\": \\\"Treinar com problemas onde a ordem textual é invertida em relação à resposta correta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_conclusao_baseada_em_posicao_errada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Both grew the same amouth.\\\",\\n              \\\"buggyRule\\\": \\\"Conclui igualdade quando os pontos marcados coincidem na reta, mesmo que por erro de marcação\\\",\\n              \\\"description\\\": \\\"Valida conclusão com base em representação incorreta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na inferência final, após erros anteriores de posicionamento\\\",\\n              \\\"diagnosticQuestion\\\": \\\"As frações originais são iguais? 5/12 é o mesmo que 1/2?\\\",\\n              \\\"feedback\\\": \\\"Você está comparando os pontos corretamente! Mas será que os pontos estão nos lugares certos? Vamos verificar os valores originais outra vez.\\\",\\n              \\\"howToFix\\\": \\\"Separar claramente: primeiro representar com precisão, depois comparar\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05height\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar as frações\\\",\\n          \\\"thinking\\\": \\\"Shandell cresceu 5/12 de polegada e Nicole, 1/2. Preciso comparar essas duas frações usando as retas numéricas.\\\",\\n          \\\"result\\\": \\\"Entendi que devo comparar 5/12 e 1/2\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Decidir como dividir a primeira reta (Shandell: 5/12)\\\",\\n          \\\"thinking\\\": \\\"A fração é 5/12... então preciso dividir a reta em 12 partes iguais, certo? Mas como eu sei se 12 é o número certo? Será que posso usar outra divisão?\\\",\\n          \\\"result\\\": \\\"Digitei 12 no campo 'denom1' e confirmei\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa reflexão! Quando representamos uma fração na reta numérica, em quantas partes iguais devemos dividir o segmento entre 0 e 1? Pense no denominador!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Para marcar 5/12, primeiro divida a reta de 0 a 1 em 12 partes iguais — cada parte representa 1/12.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O denominador da fração de Shandell é 12, então a reta deve ter exatamente 12 divisões iguais. Confira se o número digitado corresponde ao denominador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! A fração é 5/12 — o número abaixo da barra é 12. Digite esse número no campo de divisões da primeira reta e confirme.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar 5/12 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Contei 5 marcas a partir do zero... mas será que começo contando do zero ou da primeira marca?\\\",\\n          \\\"result\\\": \\\"Marquei corretamente o ponto após 5 segmentos (ou seja, na quinta marca após 0)\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima dúvida! Na reta numérica, onde fica 1/12? E 2/12? Pense: cada traço novo representa um passo adicional a partir do zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Comece no 0 e avance um passo por vez: o primeiro traço é 1/12, o segundo é 2/12... até chegar a 5/12.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! Você precisa marcar o quinto traço depois do zero. Não conte o zero como o primeiro passo!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Após dividir em 12, toque no quinto traço à direita do zero — não no sexto, nem no quarto. É o quinto!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Decidir como dividir a segunda reta (Nicole: 1/2)\\\",\\n          \\\"thinking\\\": \\\"1/2... então divido em 2 partes? Mas e se eu dividir em mais partes, tipo 12 também? Será que dá na mesma?\\\",\\n          \\\"result\\\": \\\"Digitei 2 no campo 'denom2' e confirmei\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pergunta inteligente! Se a fração é 1/2, quantas partes iguais você precisa para mostrar metade do caminho de 0 a 1?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Isso mesmo! Para 1/2, basta dividir a reta em 2 partes iguais — o ponto do meio é exatamente 1/2.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Certo! O denominador é 2, então digite 2 no campo da segunda reta. Isso cria um único ponto no meio.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! A fração de Nicole é 1/2 — digite o número 2 no campo de divisões da segunda reta e confirme.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar 1/2 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Ah, só tem um ponto no meio... então é ali. Mas será que 1/2 é maior que 5/12?\\\",\\n          \\\"result\\\": \\\"Marquei o ponto central da segunda reta\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"Na primeira reta, 5/12 parece estar antes do meio... e 1/2 está exatamente no meio. Então 1/2 é maior? Mas a resposta correta é 5/12? Espera... isso não faz sentido!\\\",\\n          \\\"result\\\": \\\"Percebi que cometi um erro de interpretação: preciso lembrar que 1/2 = 6/12, então 5/12 < 6/12 → Nicole cresceu mais.\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Excelente observação! Se duas frações têm tamanhos diferentes, como podemos saber qual é maior? Será que transformar em denominadores comuns ajuda?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Vamos pensar juntos! Converta 1/2 para doze avos: quantos doze avos equivalem a metade? Depois compare com 5/12.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase descobriu! Lembre-se: 1/2 é igual a 6/12. Agora compare 5/12 com 6/12 — qual é maior?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Pense: se 1/2 = 6/12, e Shandell tem 5/12, quem tem mais? Nicole tem 6 partes, Shandell tem 5…\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta\\\",\\n          \\\"thinking\\\": \\\"Então Nicole cresceu mais, porque 1/2 = 6/12 > 5/12. Vou escolher 'Nicole grew more.'\\\",\\n          \\\"result\\\": \\\"Selecionei 'Nicole grew more.'\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Pronto! Acho que está certo.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Nicole grew more.\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar denominador comum (12) em ambas as retas para facilitar comparação visual\\\",\\n          \\\"steps\\\": [\\\"Dividir ambas as retas em 12 partes\\\", \\\"Marcar 5/12 e 6/12\\\", \\\"Comparar diretamente\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter mentalmente 1/2 para 6/12 sem usar a reta\\\",\\n          \\\"steps\\\": [\\\"Reconhecer equivalência\\\", \\\"Comparar numeradores\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "05height",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Preciso comparar o crescimento de Shandell (5/12) e Nicole (1/2) usando retas numéricas para determinar quem cresceu mais.",
+        "result": "Valores identificados: Shandell = {A} = 5/12, Nicole = {B} = 1/2",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Dividir a primeira reta numérica em 12 partes iguais",
+        "thinking": "Para representar 5/12 corretamente, preciso dividir a reta de 0 a 1 em 12 partes iguais.",
+        "result": "Reta 1 dividida em 12 partes",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 5/12 na primeira reta",
+        "thinking": "Contando 5 marcas a partir do 0 na reta dividida em 12 partes, localizo exatamente 5/12.",
+        "result": "Ponto 5/12 marcado corretamente na reta 1",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta numérica em 2 partes iguais",
+        "thinking": "Para representar 1/2, divido a reta de 0 a 1 em 2 partes iguais.",
+        "result": "Reta 2 dividida em 2 partes",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto correspondente a 1/2 na segunda reta",
+        "thinking": "O ponto médio entre 0 e 1 corresponde a 1/2.",
+        "result": "Ponto 1/2 marcado corretamente na reta 2",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas",
+        "thinking": "Observo que 1/2 equivale a 6/12, que é maior que 5/12. Portanto, Nicole cresceu mais.",
+        "result": "Conclusão: {B} > {A}",
+        "kcUsed": "compFrac",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta no seletor de comparação",
+        "thinking": "Como Nicole cresceu mais, escolho 'Nicole grew more.'",
+        "result": "Alternativa selecionada: 'Nicole grew more.'",
+        "kcUsed": "compFrac",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todas as etapas foram concluídas corretamente; posso enviar a resposta.",
+        "result": "Problema finalizado",
+        "kcUsed": "compFrac",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B}",
+      "totalTime": 33
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "05height",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o denominador da primeira reta (Shandell)",
+          "thinking": "A fração é 5/12, então divido em 12 partes.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marcar o ponto na primeira reta (Shandell)",
+          "thinking": "Conto 5 marcas a partir do zero... mas talvez eu conte errado.",
+          "result": "Erro: marca na posição 6/12",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_um_a_mais",
+           "type": "off_by_one",
+           "wrongAnswer": "6/12",
+           "description": "Aluno conta as marcas em vez dos intervalos, marcando uma unidade a mais",
+           "mistakeLocation": "Ao contar os espaços entre as marcas na reta numérica, o aluno contou as marcas em vez dos segmentos",
+           "diagnosticQuestion": "Quantos segmentos há entre 0 e a quinta marca? Vamos apontar cada segmento com o dedo.",
+           "severity": "moderate",
+           "feedback": "Você dividiu a reta certinho em 12 partes! Agora, lembre-se: o número da fração indica quantos segmentos (espaços) você percorre desde o zero — não quantas marcas você passa.",
+           "howToFix": "Usar linguagem de 'pular segmentos' e não 'contar marcas'; praticar com réguas ou fitas divididas"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Digitar o denominador da segunda reta (Nicole)",
+          "thinking": "1/2, então divido em 2 partes.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Marcar o ponto na segunda reta (Nicole)",
+          "thinking": "Metade... então marco no meio, que é a primeira marca.",
+          "result": "Correto",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Escolher a alternativa de comparação",
+          "thinking": "Vejo que Shandell está em 6/12 e Nicole em 1/2 = 6/12, então cresceram igual.",
+          "result": "Erro: escolhe 'Both grew the same amount.'",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_conclusao_baseada_em_posicao_errada",
+           "type": "conceptual_error",
+           "wrongAnswer": "Both grew the same amouth.",
+           "description": "Conclusão incorreta baseada em posição marcada errada na reta",
+           "mistakeLocation": "Na etapa final de comparação, após posicionar incorretamente Shandell em 6/12",
+           "diagnosticQuestion": "Se Shandell cresceu 5/12, ela deveria estar antes ou depois da metade? Onde está a metade na reta?",
+           "severity": "high",
+           "feedback": "Você entendeu bem como comparar usando a reta! Mas vamos revisar: onde exatamente fica 5/12 em relação à metade? Talvez tenhamos colocado o ponto um pouco além...",
+           "howToFix": "Revisar a marcação com foco em contar segmentos, não marcas; usar equivalência (5/12 vs 6/12) para validar visualmente"
+          }
+         }
+        ],
+        "finalAnswer": "Both grew the same amouth.",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar o denominador da primeira reta (Shandell)",
+          "thinking": "5/12... mas talvez eu possa simplificar antes?",
+          "result": "Erro: digita 6",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divide_pela_metade_para_simplificar_na_retas",
+           "type": "conceptual_error",
+           "wrongAnswer": "6",
+           "description": "Aluno tenta 'simplificar' 5/12 dividindo numerador e denominador por 2, obtendo 2.5/6, e arredonda ou ignora decimal, usando 6 como denominador",
+           "mistakeLocation": "Na decisão de em quantas partes dividir a reta, o aluno aplica simplificação incorreta a uma fração que não é redutível",
+           "diagnosticQuestion": "5/12 pode ser simplificado? Quais números dividem 5 e 12 ao mesmo tempo?",
+           "severity": "moderate",
+           "feedback": "Boa ideia pensar em simplificar! Mas 5 e 12 não têm divisores em comum — então 5/12 já está na forma mais simples. Vamos manter o denominador original para dividir a reta.",
+           "howToFix": "Revisar critérios de simplificação: só se numerador e denominador tiverem divisor comum maior que 1"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marcar o ponto na primeira reta (Shandell)",
+          "thinking": "Se dividi em 6 partes, e o crescimento é 5/12... talvez seja 3/6?",
+          "result": "Marca em 3/6",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_aproxima_com_equivalente_incorreto",
+           "type": "conceptual_error",
+           "wrongAnswer": "3/6",
+           "description": "Aluno assume equivocadamente que 5/12 ≈ 3/6 por parecer 'quase metade'",
+           "mistakeLocation": "Ao converter mentalmente 5/12 para uma fração com denominador 6, o aluno arredonda para cima",
+           "diagnosticQuestion": "5/12 é maior ou menor que 6/12? E 3/6 é igual a quanto em doze avos?",
+           "severity": "moderate",
+           "feedback": "Você está pensando em frações equivalentes — ótimo instinto! Mas 3/6 é igual a 6/12, e 5/12 é um pouco menos. Vamos ver isso juntos na reta dividida em 12 partes.",
+           "howToFix": "Praticar conversão precisa entre denominadores: 3/6 = 6/12 ≠ 5/12"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Digitar o denominador da segunda reta (Nicole)",
+          "thinking": "1/2, então uso 2.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Marcar o ponto na segunda reta (Nicole)",
+          "thinking": "Metade... marco no meio.",
+          "result": "Correto",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Escolher a alternativa de comparação",
+          "thinking": "Shandell em 3/6, Nicole em 1/2 = 3/6, então iguais.",
+          "result": "Erro: escolhe 'Both grew the same amount.'",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_compara_fracoes_aproximadas_como_iguais",
+           "type": "conceptual_error",
+           "wrongAnswer": "Both grew the same amouth.",
+           "description": "Aluno trata aproximações ou erros de representação como igualdades exatas",
+           "mistakeLocation": "Na conclusão, após representar incorretamente ambas as frações como 3/6",
+           "diagnosticQuestion": "Se duas pessoas cresceram quantidades diferentes, elas podem estar no mesmo ponto da reta? Vamos conferir os valores originais.",
+           "severity": "high",
+           "feedback": "Você está comparando os pontos corretamente — parabéns por isso! Mas será que os pontos estão nos lugares certos? Vamos voltar às frações originais: 5/12 e 1/2.",
+           "howToFix": "Exigir fidelidade à fração dada; evitar aproximações visuais sem conversão exata"
+          }
+         }
+        ],
+        "finalAnswer": "Both grew the same amouth.",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "05height",
+        "step": 1,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_numerador_em_vez_de_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Usa o numerador da fração como o número de divisões da reta: {A_num} (ex: para 5/12, digita 5)",
+          "description": "Aluno confunde numerador com denominador ao decidir em quantas partes dividir a reta",
+          "mistakeLocation": "Na interpretação do significado do denominador na representação na reta numérica",
+          "diagnosticQuestion": "O número debaixo da fração (denominador) diz em quantas partes o todo foi dividido. Qual é esse número em 5/12?",
+          "feedback": "Você está pensando na fração corretamente! Só lembrar: o número de baixo (denominador) é que define quantas partes iguais fazemos na reta.",
+          "howToFix": "Associar 'denominador' com 'dividir' verbalmente; usar cores para destacar denominador no enunciado",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_divide_pela_metade_para_simplificar_na_retas",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{A_den}/2",
+          "buggyRule": "Tenta simplificar a fração dividindo numerador e denominador por 2, mesmo quando não possível, e usa o novo denominador (arredondado ou truncado): floor({A_den}/2) ou {A_den}//2",
+          "description": "Aluno aplica simplificação automática por 2, ignorando se a fração é redutível",
+          "mistakeLocation": "Antes de dividir a reta, o aluno modifica a fração original com uma regra heurística inválida",
+          "diagnosticQuestion": "Podemos dividir 5 por 2 e obter um número inteiro? E 12?",
+          "feedback": "Simplificar frações é uma ótima estratégia — mas só funciona quando ambos os números são divisíveis pelo mesmo número. Será que 5 e 12 são?",
+          "howToFix": "Listar divisores de numerador e denominador; só simplificar se houver interseção",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_unidade_com_intervalo_da_reta",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Assume que toda reta numérica representa apenas uma unidade inteira, então sempre divide em 1 parte (ou digita 1)",
+          "description": "Aluno não entende que o denominador determina a granularidade da divisão",
+          "mistakeLocation": "Na concepção da escala da reta numérica",
+          "diagnosticQuestion": "Se a fração é 5/12, quantos pedacinhos iguais precisamos ter entre 0 e 1?",
+          "feedback": "A reta vai de 0 a 1, mas dentro desse espaço precisamos marcar frações menores. Quantas partes iguais precisamos para mostrar 12 avos?",
+          "howToFix": "Mostrar exemplos com pizzas ou barras divididas: 12 fatias = 12 partes na reta",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "05height",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_um_a_mais",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({A_num}+1)/{A_den}",
+          "buggyRule": "Conta as marcas em vez dos segmentos, marcando na posição ({A_num}+1)/{A_den}",
+          "description": "Erro clássico de contagem: confunde número de marcas com número de intervalos",
+          "mistakeLocation": "Ao mover do zero até a fração desejada, o aluno conta a marca de chegada como parte do total",
+          "diagnosticQuestion": "Entre 0 e a primeira marca, há quantos segmentos? E entre 0 e a quinta marca?",
+          "feedback": "Você dividiu perfeitamente! Agora, experimente tocar cada segmento (não as marcas) enquanto conta: 1, 2, 3… até 5.",
+          "howToFix": "Usar setas entre as marcas para indicar segmentos; praticar com réguas físicas",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_marca_no_numerador_como_inteiro",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Ignora o denominador e marca o ponto na posição correspondente ao numerador como se fosse um número inteiro (ex: marca 5 em vez de 5/12)",
+          "description": "Viés do número inteiro: trata o numerador como valor absoluto",
+          "mistakeLocation": "Na interpretação do valor da fração na reta",
+          "diagnosticQuestion": "A fração 5/12 é maior ou menor que 1? Onde fica o 1 na reta?",
+          "feedback": "Boa tentativa! Mas lembre-se: todas essas frações são MENORES que 1, pois o numerador é menor que o denominador. Então o ponto deve ficar entre 0 e 1.",
+          "howToFix": "Ref orçar que frações próprias (<1) ficam entre 0 e 1; nunca além",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Como 5/12 está 'perto da metade', marca diretamente na metade (1/2), independentemente do denominador usado",
+          "description": "Aluno usa a metade como âncora visual e ignora o valor exato",
+          "mistakeLocation": "Na estimativa visual do ponto, substituindo o valor real por uma referência familiar",
+          "diagnosticQuestion": "5/12 é exatamente a metade? Quantos doze avos formam a metade?",
+          "feedback": "Você reconhece bem onde fica a metade — isso é muito útil! Agora, vamos ver: a metade é 6/12, e 5/12 é um pouco antes disso.",
+          "howToFix": "Comparar explicitamente com 6/12; usar reta com ambas as frações lado a lado",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "05height",
+        "step": 3,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_denominador_da_outra_fracao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{A_den}",
+          "buggyRule": "Confunde as frações e usa o denominador da primeira fração (Shandell) para dividir a segunda reta (Nicole): {A_den}",
+          "description": "Aluno aplica o mesmo denominador às duas retas por automatismo",
+          "mistakeLocation": "Na transição entre as duas retas, o aluno repete a ação anterior sem ler o novo valor",
+          "diagnosticQuestion": "Qual é a fração de crescimento de Nicole? Em quantas partes ela deve dividir sua reta?",
+          "feedback": "Você fez certo na primeira reta! Agora, olhe com atenção: qual é a fração de Nicole? Ela é diferente da de Shandell.",
+          "howToFix": "Pedir ao aluno que sublinhe cada fração antes de agir; associar cada reta à sua pessoa",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_assume_que_meio_eh_sempre_2_partes",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Para 1/2, sempre digita 2 — correto neste caso, mas por razão frágil (não generalizável)",
+          "description": "Apesar de acertar numericamente, o aluno tem uma regra rasa que falha em outros contextos",
+          "mistakeLocation": "Na justificativa implícita para a divisão da reta",
+          "diagnosticQuestion": "Se a fração fosse 3/6, em quantas partes dividiríamos a reta? E se fosse 4/8?",
+          "feedback": "Você acertou aqui! Mas vamos pensar: se alguém cresceu 3/6 de polegada, ainda seria metade? Como dividiríamos a reta nesse caso?",
+          "howToFix": "Explorar múltiplas representações da metade (2/4, 3/6, 4/8) para mostrar que o denominador varia",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "05height",
+        "step": 4,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_marca_no_zero_para_fracoes_pequenas",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "0",
+          "buggyRule": "Para qualquer fração menor que 1/2, marca próximo ou exatamente no zero",
+          "description": "Subestima o valor de frações não triviais",
+          "mistakeLocation": "Na estimativa visual de 1/2, o aluno acha que 'meio' é grande demais e recua",
+          "diagnosticQuestion": "Se dividirmos a reta em 2 partes, onde fica o fim da primeira parte?",
+          "feedback": "A metade é exatamente o ponto do meio entre 0 e 1. Se você dobrar a reta ao meio, é ali que fica!",
+          "howToFix": "Usar dobra física de papel; enfatizar simetria",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_contagem_um_a_menos",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "0/2",
+          "buggyRule": "Conta a partir da primeira marca como '1', então para 1/2 marca a posição 0 (erro raro, mas possível em ansiedade)",
+          "description": "Erro inverso: subtrai um em vez de somar",
+          "mistakeLocation": "Na indexação do primeiro segmento",
+          "diagnosticQuestion": "Depois de dividir em 2 partes, quantos segmentos você percorre para chegar a 1/2?",
+          "feedback": "Você dividiu certo! Agora, o primeiro segmento (do zero até a primeira marca) já é metade do caminho.",
+          "howToFix": "Nomear os segmentos: 'segmento 1 = 1/2', 'segmento 2 = 1 inteiro'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "05height",
+        "step": 5,
+        "kcUsed": "compFrac",
+        "errors": [
+         {
+          "misconceptionId": "misc_compara_pela_diferenca_para_o_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Shandell grew more.",
+          "buggyRule": "Compara frações pela diferença entre denominador e numerador: menor diferença = maior fração. Para 5/12 (diferença=7) e 1/2=6/12 (diferença=6), conclui que 5/12 é maior porque 7>6 — interpretação invertida do gap thinking",
+          "description": "Gap thinking mal aplicado: julga que quanto mais longe do inteiro, maior a fração",
+          "mistakeLocation": "Na lógica de comparação, usando um atributo irrelevante (diferença) como critério",
+          "diagnosticQuestion": "Qual das duas frações está mais perto do zero? E qual está mais perto do 1? A que está mais perto do 1 é maior?",
+          "feedback": "Interessante como você está pensando! Mas vamos testar: se algo cresceu 11/12, ele cresceu mais ou menos que quem cresceu 1/2?",
+          "howToFix": "Usar analogia com corrida: quem está mais longe da largada (zero) cresceu mais",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_assume_que_denominador_maior_significa_valor_maior",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Shandell grew more.",
+          "buggyRule": "Vê que 12 > 2 e conclui que 5/12 > 1/2, ignorando o numerador",
+          "description": "Foco excessivo no denominador como indicador de magnitude",
+          "mistakeLocation": "Na comparação direta sem conversão ou uso da reta",
+          "diagnosticQuestion": "Se você tem 1 pedaço de uma pizza cortada em 12 fatias, ou 1 pedaço de uma pizza cortada em 2 fatias, qual pedaço é maior?",
+          "feedback": "Você notou bem os números! Mas lembre-se: quanto mais fatias, menor cada uma. Então 1/2 é um pedaço bem maior que 1/12 — e 5/12 ainda é menor que 6/12 = 1/2.",
+          "howToFix": "Usar modelos de área (pizza, chocolate) para contrastar tamanhos de fatias",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_pela_primeira_fracao_lida",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "Shandell grew more.",
+          "buggyRule": "Escolhe a primeira pessoa mencionada no enunciado como tendo crescido mais, independentemente dos valores",
+          "description": "Decisão baseada em ordem textual, não matemática",
+          "mistakeLocation": "Na seleção da alternativa, sem consultar a reta ou os valores",
+          "diagnosticQuestion": "O que as retas mostram? Onde está o ponto de Shandell em relação ao de Nicole?",
+          "feedback": "Você leu o problema com atenção! Agora, vamos deixar os números falarem: olhe para os dois pontos nas retas. Qual está mais longe do zero?",
+          "howToFix": "Treinar com problemas onde a ordem textual é invertida em relação à resposta correta",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_conclusao_baseada_em_posicao_errada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Both grew the same amouth.",
+          "buggyRule": "Conclui igualdade quando os pontos marcados coincidem na reta, mesmo que por erro de marcação",
+          "description": "Valida conclusão com base em representação incorreta",
+          "mistakeLocation": "Na inferência final, após erros anteriores de posicionamento",
+          "diagnosticQuestion": "As frações originais são iguais? 5/12 é o mesmo que 1/2?",
+          "feedback": "Você está comparando os pontos corretamente! Mas será que os pontos estão nos lugares certos? Vamos verificar os valores originais outra vez.",
+          "howToFix": "Separar claramente: primeiro representar com precisão, depois comparar",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "05height",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar as frações",
+        "thinking": "Shandell cresceu 5/12 de polegada e Nicole, 1/2. Preciso comparar essas duas frações usando as retas numéricas.",
+        "result": "Entendi que devo comparar 5/12 e 1/2",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Decidir como dividir a primeira reta (Shandell: 5/12)",
+        "thinking": "A fração é 5/12... então preciso dividir a reta em 12 partes iguais, certo? Mas como eu sei se 12 é o número certo? Será que posso usar outra divisão?",
+        "result": "Digitei 12 no campo 'denom1' e confirmei",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa reflexão! Quando representamos uma fração na reta numérica, em quantas partes iguais devemos dividir o segmento entre 0 e 1? Pense no denominador!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Para marcar 5/12, primeiro divida a reta de 0 a 1 em 12 partes iguais — cada parte representa 1/12."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O denominador da fração de Shandell é 12, então a reta deve ter exatamente 12 divisões iguais. Confira se o número digitado corresponde ao denominador."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! A fração é 5/12 — o número abaixo da barra é 12. Digite esse número no campo de divisões da primeira reta e confirme."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Marcar 5/12 na primeira reta",
+        "thinking": "Contei 5 marcas a partir do zero... mas será que começo contando do zero ou da primeira marca?",
+        "result": "Marquei corretamente o ponto após 5 segmentos (ou seja, na quinta marca após 0)",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima dúvida! Na reta numérica, onde fica 1/12? E 2/12? Pense: cada traço novo representa um passo adicional a partir do zero."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Comece no 0 e avance um passo por vez: o primeiro traço é 1/12, o segundo é 2/12... até chegar a 5/12."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! Você precisa marcar o quinto traço depois do zero. Não conte o zero como o primeiro passo!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Após dividir em 12, toque no quinto traço à direita do zero — não no sexto, nem no quarto. É o quinto!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Decidir como dividir a segunda reta (Nicole: 1/2)",
+        "thinking": "1/2... então divido em 2 partes? Mas e se eu dividir em mais partes, tipo 12 também? Será que dá na mesma?",
+        "result": "Digitei 2 no campo 'denom2' e confirmei",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pergunta inteligente! Se a fração é 1/2, quantas partes iguais você precisa para mostrar metade do caminho de 0 a 1?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Isso mesmo! Para 1/2, basta dividir a reta em 2 partes iguais — o ponto do meio é exatamente 1/2."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Certo! O denominador é 2, então digite 2 no campo da segunda reta. Isso cria um único ponto no meio."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! A fração de Nicole é 1/2 — digite o número 2 no campo de divisões da segunda reta e confirme."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Marcar 1/2 na segunda reta",
+        "thinking": "Ah, só tem um ponto no meio... então é ali. Mas será que 1/2 é maior que 5/12?",
+        "result": "Marquei o ponto central da segunda reta",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas",
+        "thinking": "Na primeira reta, 5/12 parece estar antes do meio... e 1/2 está exatamente no meio. Então 1/2 é maior? Mas a resposta correta é 5/12? Espera... isso não faz sentido!",
+        "result": "Percebi que cometi um erro de interpretação: preciso lembrar que 1/2 = 6/12, então 5/12 < 6/12 → Nicole cresceu mais.",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Excelente observação! Se duas frações têm tamanhos diferentes, como podemos saber qual é maior? Será que transformar em denominadores comuns ajuda?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Vamos pensar juntos! Converta 1/2 para doze avos: quantos doze avos equivalem a metade? Depois compare com 5/12."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase descobriu! Lembre-se: 1/2 é igual a 6/12. Agora compare 5/12 com 6/12 — qual é maior?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Pense: se 1/2 = 6/12, e Shandell tem 5/12, quem tem mais? Nicole tem 6 partes, Shandell tem 5…"
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta",
+        "thinking": "Então Nicole cresceu mais, porque 1/2 = 6/12 > 5/12. Vou escolher 'Nicole grew more.'",
+        "result": "Selecionei 'Nicole grew more.'",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 8,
+        "action": "Clicar em Done",
+        "thinking": "Pronto! Acho que está certo.",
+        "result": "Problema concluído",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "Nicole grew more.",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Usar denominador comum (12) em ambas as retas para facilitar comparação visual",
+        "steps": [
+         "Dividir ambas as retas em 12 partes",
+         "Marcar 5/12 e 6/12",
+         "Comparar diretamente"
+        ],
+        "efficiency": "high"
+       },
+       {
+        "description": "Converter mentalmente 1/2 para 6/12 sem usar a reta",
+        "steps": [
+         "Reconhecer equivalência",
+         "Comparar numeradores"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 5,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 5
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "fraction-ordering-6.20",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; DUAS retas numéricas de 0 a 1, uma para cada quantidade (rotuladas \"Shandell's growth\" e \"Nicole's growth\"); para cada reta há um campo onde o aluno digita em quantas partes iguais dividi-la (com confirmação) e, depois, marca o ponto da fração correspondente; abaixo, um seletor em que o aluno escolhe UMA destas alternativas: \"Shandell grew more.\"; \"Nicole grew more.\"; \"Both grew the same amouth.\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "linhas": 2
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "denom1",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da primeira reta (em quantas partes dividir) + confirmar"
+   },
+   {
+    "id": "numline1",
+    "tipo": "numberline",
+    "papel": "primeira reta numérica; o aluno marca o ponto da primeira fração"
+   },
+   {
+    "id": "denom2",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da segunda reta + confirmar"
+   },
+   {
+    "id": "numline2",
+    "tipo": "numberline",
+    "papel": "segunda reta numérica; o aluno marca o ponto da segunda fração"
+   },
+   {
+    "id": "compBox",
+    "tipo": "text",
+    "papel": "seletor com as alternativas de comparação; o aluno escolhe uma delas"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Manipulate the fraction model to identify Shandell's growth as a fraction less than 1.",
+     "kc": "FracLess1",
+     "valor": "5/12"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter how many equal parts to use on Shandell's growth number line.",
+     "kc": "DivNumLine",
+     "valor": "12"
+    },
+    {
+     "indice": 3,
+     "acao": "Mark the point for Shandell's growth on the divided number line.",
+     "kc": "FindValueNumLine",
+     "valor": "5/12"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter how many equal parts to use on Nicole's growth number line.",
+     "kc": "DivNumLine",
+     "valor": "2"
+    },
+    {
+     "indice": 5,
+     "acao": "Mark the point for Nicole's growth on the divided number line.",
+     "kc": "FindValueNumLine",
+     "valor": "1/2"
+    },
+    {
+     "indice": 6,
+     "acao": "Compare the marked positions on the two number lines.",
+     "kc": "compFrac",
+     "valor": "Nicole grew more."
+    },
+    {
+     "indice": 7,
+     "acao": "Use the comparison selector to choose the stated answer.",
+     "kc": "compFrac",
+     "valor": "Shandell grew more."
+    },
+    {
+     "indice": 8,
+     "acao": "Click Done to submit the completed comparison.",
+     "kc": "compFrac",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "6",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You tried to simplify by dividing by 2, but 5 and 12 cannot both be divided evenly by 2. The denominator remains 12.",
+     "buggyRule": "Tenta simplificar a fração dividindo numerador e denominador por 2, mesmo quando não possível, e usa o novo denominador (arredondado ou truncado): floor({A_den}/2) ou {A_den}//2",
+     "misconceptionId": "misc_divide_pela_metade_para_simplificar_na_retas"
+    },
+    {
+     "valor": "5",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the numerator. The denominator is the number below the fraction bar, and it tells us to make 12 equal parts.",
+     "buggyRule": "Usa o numerador da fração como o número de divisões da reta: {A_num} (ex: para 5/12, digita 5)",
+     "misconceptionId": "misc_usa_numerador_em_vez_de_denominador"
+    },
+    {
+     "valor": "1",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The line goes from 0 to 1, but it must be split into smaller equal intervals. For 5/12, use 12 parts.",
+     "buggyRule": "Assume que toda reta numérica representa apenas uma unidade inteira, então sempre divide em 1 parte (ou digita 1)",
+     "misconceptionId": "misc_confunde_unidade_com_intervalo_da_reta"
+    },
+    {
+     "valor": "6/12",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You counted a mark instead of the intervals. Count the segments from 0: the fifth segment ends at 5/12.",
+     "buggyRule": "Conta as marcas em vez dos segmentos, marcando na posição ({A_num}+1)/{A_den}",
+     "misconceptionId": "misc_contagem_um_a_mais"
+    },
+    {
+     "valor": "3/6",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You chose a fraction that looks close to one-half, but 3/6 equals 6/12, not 5/12.",
+     "buggyRule": "",
+     "misconceptionId": "misc_aproxima_com_equivalente_incorreto"
+    },
+    {
+     "valor": "5",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator is not a whole-number position here. Because 5/12 is less than 1, the point must lie between 0 and 1.",
+     "buggyRule": "Ignora o denominador e marca o ponto na posição correspondente ao numerador como se fosse um número inteiro (ex: marca 5 em vez de 5/12)",
+     "misconceptionId": "misc_marca_no_numerador_como_inteiro"
+    },
+    {
+     "valor": "1/2",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the halfway point as an estimate. One-half is 6/12, so 5/12 is one interval before the halfway point.",
+     "buggyRule": "Como 5/12 está 'perto da metade', marca diretamente na metade (1/2), independentemente do denominador usado",
+     "misconceptionId": "misc_ancora_na_metade"
+    },
+    {
+     "valor": "12",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You reused Shandell's denominator. Look at Nicole's fraction: the denominator of 1/2 requires 2 equal parts.",
+     "buggyRule": "Confunde as frações e usa o denominador da primeira fração (Shandell) para dividir a segunda reta (Nicole): {A_den}",
+     "misconceptionId": "misc_usa_denominador_da_outra_fracao"
+    },
+    {
+     "valor": "0",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The point is not at zero. One of the two equal intervals reaches the halfway point.",
+     "buggyRule": "Para qualquer fração menor que 1/2, marca próximo ou exatamente no zero",
+     "misconceptionId": "misc_marca_no_zero_para_fracoes_pequenas"
+    },
+    {
+     "valor": "0/2",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The first segment begins at zero and ends at the halfway mark. Count that first segment as one interval.",
+     "buggyRule": "Conta a partir da primeira marca como '1', então para 1/2 marca a posição 0 (erro raro, mas possível em ansiedade)",
+     "misconceptionId": "misc_contagem_um_a_menos"
+    },
+    {
+     "valor": "Both grew the same amouth.",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The points are not equal when the fractions are read precisely. One-half equals 6/12, which is different from 5/12.",
+     "buggyRule": "Conclui igualdade quando os pontos marcados coincidem na reta, mesmo que por erro de marcação",
+     "misconceptionId": "misc_conclusao_baseada_em_posicao_errada"
+    },
+    {
+     "valor": "Shandell grew more.",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Being farther from 1 does not make a fraction greater. Compare the positions from zero: 1/2 is to the right of 5/12.",
+     "buggyRule": "Compara frações pela diferença entre denominador e numerador: menor diferença = maior fração. Para 5/12 (diferença=7) e 1/2=6/12 (diferença=6), conclui que 5/12 é maior porque 7>6 — interpretação invertida do gap thinking",
+     "misconceptionId": "misc_compara_pela_diferenca_para_o_inteiro"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Look for the number of equal parts selected and the total number of equal parts in the whole."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Use the numerator for the selected parts and the denominator for all equal parts."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "The fraction has 5 selected parts and 12 equal parts altogether."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Set the model to show five selected parts out of twelve total parts, then confirm the fraction."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "The denominator tells how many equal parts make the whole."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Read the denominator in Shandell's fraction and enter that number in the division field."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "In 5/..., the number below the fraction bar tells the number of equal parts."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the number of equal intervals needed between 0 and 1 for twelfths, then confirm it."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The numerator tells how many equal intervals to move from zero."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Count equal intervals from 0 toward 1, using one interval for each twelfth."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Move across five intervals, not five numbered whole units."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Begin at 0, count five of the twelve equal segments, and mark the endpoint of the fifth segment."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The denominator shows how many equal parts make the whole."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Read the denominator in Nicole's fraction and enter it in the second division field."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "Nicole's fraction has 2 below the fraction bar."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Split the interval from 0 to 1 into two equal sections, then confirm the number of sections."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The numerator tells how many equal intervals to move from zero."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use the two equal sections to locate the endpoint of the first section."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "For ..., move across one of the two equal segments."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Start at 0 and click the middle mark, where the first of the two equal intervals ends."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "On the same 0-to-1 scale, the point farther to the right represents the greater amount."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Compare both points with the halfway position between 0 and 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "The halfway point is 1/2, while 5/12 is one twelfth before halfway."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Identify which point is farther from zero and use that person's name for the comparison."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Use the comparison represented by the marked points rather than choosing from the names alone."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Read the two fractions and compare their locations on the number lines."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Check which marked point is farther to the right before selecting a statement."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Choose the statement that names the person represented by the greater marked value."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Review the two marked points and the selected comparison before submitting."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Make sure both number lines are divided, both points are marked, and the selector has a choice."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Check that Shandell's line uses 12 parts and Nicole's line uses 2 parts."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "When every required field is complete, press the Done button once to submit the activity."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "5/12",
+    "12",
+    "5/12",
+    "2",
+    "1/2",
+    "Nicolegrewmore.",
+    "Shandellgrewmore.",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Shandell and Nicole are not the same height, but they both grew quite a lot since they started sixth grade this year. They are comparing their amount of growth to see who has grown more. Use the number line to find out.\nShandell grew 5/12 of an inch.\nNicole grew 1/2 an inch.\nWho has grown more?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Manipulate the fraction model to identify Shandell's growth as a fraction less than 1.",
+     "expectedAnswer": "5/12",
+     "renderAs": "composition",
+     "kc": "FracLess1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter how many equal parts to use on Shandell's growth number line.",
+     "expectedAnswer": "12",
+     "renderAs": "dynamic_spec",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Mark the point for Shandell's growth on the divided number line.",
+     "expectedAnswer": "5/12",
+     "renderAs": "dynamic_spec",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter how many equal parts to use on Nicole's growth number line.",
+     "expectedAnswer": "2",
+     "renderAs": "dynamic_spec",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Mark the point for Nicole's growth on the divided number line.",
+     "expectedAnswer": "1/2",
+     "renderAs": "dynamic_spec",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Compare the marked positions on the two number lines.",
+     "expectedAnswer": "Nicole grew more.",
+     "renderAs": "composition",
+     "kc": "compFrac",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Use the comparison selector to choose the stated answer.",
+     "expectedAnswer": "Shandell grew more.",
+     "renderAs": "dynamic_spec",
+     "kc": "compFrac",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Click Done to submit the completed comparison.",
+     "expectedAnswer": "ok",
+     "renderAs": "dynamic_spec",
+     "kc": "compFrac",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 66060,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Manipulate the fraction model to identify Shandell's growth as a fraction less than 1.",
+     "instruction": "Manipulate the fraction model to identify Shandell's growth as a fraction less than 1.",
+     "expectedInput": {
+      "value": "5/12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5/12"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "componentId": "fraction_reading_model",
+       "models": [
+        {
+         "label": "Shandell's growth",
+         "numerator": 5,
+         "denominator": 12
+        },
+        {
+         "label": "Nicole's growth",
+         "numerator": 1,
+         "denominator": 2
+        }
+       ],
+       "target": "Shandell's growth"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "fraction_reading_model",
+        "models": [
+         {
+          "label": "Shandell's growth",
+          "numerator": 5,
+          "denominator": 12
+         },
+         {
+          "label": "Nicole's growth",
+          "numerator": 1,
+          "denominator": 2
+         }
+        ],
+        "target": "Shandell's growth"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Look for the number of equal parts selected and the total number of equal parts in the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the numerator for the selected parts and the denominator for all equal parts."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The fraction has 5 selected parts and 12 equal parts altogether."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Set the model to show five selected parts out of twelve total parts, then confirm the fraction."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter how many equal parts to use on Shandell's growth number line.",
+     "instruction": "Enter how many equal parts to use on Shandell's growth number line.",
+     "expectedInput": {
+      "value": "12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "12"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "denom1",
+       "min": 1,
+       "max": 24,
+       "confirmRequired": true
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "denom1",
+        "min": 1,
+        "max": 24,
+        "confirmRequired": true
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator tells how many equal parts make the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the denominator in Shandell's fraction and enter that number in the division field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "In 5/..., the number below the fraction bar tells the number of equal parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of equal intervals needed between 0 and 1 for twelfths, then confirm it."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_pela_metade_para_simplificar_na_retas",
+       "wrongAnswer": "6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno aplica simplificação automática por 2, ignorando se a fração é redutível",
+       "feedback": "You tried to simplify by dividing by 2, but 5 and 12 cannot both be divided evenly by 2. The denominator remains 12.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_numerador_em_vez_de_denominador",
+       "wrongAnswer": "5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno confunde numerador com denominador ao decidir em quantas partes dividir a reta",
+       "feedback": "You used the numerator. The denominator is the number below the fraction bar, and it tells us to make 12 equal parts.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_unidade_com_intervalo_da_reta",
+       "wrongAnswer": "1",
+       "misconceptionType": "magnitude_error",
+       "description": "Aluno não entende que o denominador determina a granularidade da divisão",
+       "feedback": "The line goes from 0 to 1, but it must be split into smaller equal intervals. For 5/12, use 12 parts.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_pela_metade_para_simplificar_na_retas",
+      "scaffold_misc_usa_numerador_em_vez_de_denominador",
+      "scaffold_misc_confunde_unidade_com_intervalo_da_reta",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Mark the point for Shandell's growth on the divided number line.",
+     "instruction": "Mark the point for Shandell's growth on the divided number line.",
+     "expectedInput": {
+      "value": "5/12",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5/12"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "numline1",
+       "min": 0,
+       "max": 1,
+       "denominator": 12,
+       "markerFormat": "fraction"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "numline1",
+        "min": 0,
+        "max": 1,
+        "denominator": 12,
+        "markerFormat": "fraction"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator tells how many equal intervals to move from zero."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Count equal intervals from 0 toward 1, using one interval for each twelfth."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Move across five intervals, not five numbered whole units."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Begin at 0, count five of the twelve equal segments, and mark the endpoint of the fifth segment."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_um_a_mais",
+       "wrongAnswer": "6/12",
+       "misconceptionType": "off_by_one",
+       "description": "Erro clássico de contagem: confunde número de marcas com número de intervalos",
+       "feedback": "You counted a mark instead of the intervals. Count the segments from 0: the fifth segment ends at 5/12.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_aproxima_com_equivalente_incorreto",
+       "wrongAnswer": "3/6",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume equivocadamente que 5/12 ≈ 3/6 por parecer 'quase metade'",
+       "feedback": "You chose a fraction that looks close to one-half, but 3/6 equals 6/12, not 5/12.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_marca_no_numerador_como_inteiro",
+       "wrongAnswer": "5",
+       "misconceptionType": "magnitude_error",
+       "description": "Viés do número inteiro: trata o numerador como valor absoluto",
+       "feedback": "The numerator is not a whole-number position here. Because 5/12 is less than 1, the point must lie between 0 and 1.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade",
+       "wrongAnswer": "1/2",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa a metade como âncora visual e ignora o valor exato",
+       "feedback": "You used the halfway point as an estimate. One-half is 6/12, so 5/12 is one interval before the halfway point.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_um_a_mais",
+      "scaffold_misc_aproxima_com_equivalente_incorreto",
+      "scaffold_misc_marca_no_numerador_como_inteiro",
+      "scaffold_misc_ancora_na_metade",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter how many equal parts to use on Nicole's growth number line.",
+     "instruction": "Enter how many equal parts to use on Nicole's growth number line.",
+     "expectedInput": {
+      "value": "2",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "2"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "denom2",
+       "min": 1,
+       "max": 24,
+       "confirmRequired": true
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "denom2",
+        "min": 1,
+        "max": 24,
+        "confirmRequired": true
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator shows how many equal parts make the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the denominator in Nicole's fraction and enter it in the second division field."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Nicole's fraction has 2 below the fraction bar."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Split the interval from 0 to 1 into two equal sections, then confirm the number of sections."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_denominador_da_outra_fracao",
+       "wrongAnswer": "12",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno aplica o mesmo denominador às duas retas por automatismo",
+       "feedback": "You reused Shandell's denominator. Look at Nicole's fraction: the denominator of 1/2 requires 2 equal parts.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_denominador_da_outra_fracao",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Mark the point for Nicole's growth on the divided number line.",
+     "instruction": "Mark the point for Nicole's growth on the divided number line.",
+     "expectedInput": {
+      "value": "1/2",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "1/2"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "numline2",
+       "min": 0,
+       "max": 1,
+       "denominator": 2,
+       "markerFormat": "fraction"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "numline2",
+        "min": 0,
+        "max": 1,
+        "denominator": 2,
+        "markerFormat": "fraction"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator tells how many equal intervals to move from zero."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the two equal sections to locate the endpoint of the first section."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "For ..., move across one of the two equal segments."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Start at 0 and click the middle mark, where the first of the two equal intervals ends."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_marca_no_zero_para_fracoes_pequenas",
+       "wrongAnswer": "0",
+       "misconceptionType": "magnitude_error",
+       "description": "Subestima o valor de frações não triviais",
+       "feedback": "The point is not at zero. One of the two equal intervals reaches the halfway point.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_contagem_um_a_menos",
+       "wrongAnswer": "0/2",
+       "misconceptionType": "off_by_one",
+       "description": "Erro inverso: subtrai um em vez de somar",
+       "feedback": "The first segment begins at zero and ends at the halfway mark. Count that first segment as one interval.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_marca_no_zero_para_fracoes_pequenas",
+      "scaffold_misc_contagem_um_a_menos",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Compare the marked positions on the two number lines.",
+     "instruction": "Compare the marked positions on the two number lines.",
+     "expectedInput": {
+      "value": "Nicole grew more.",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "Nicole grew more."
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": null,
+      "config": {
+       "componentId": "comparison_view",
+       "fractions": [
+        {
+         "label": "Shandell's growth",
+         "value": "5/12"
+        },
+        {
+         "label": "Nicole's growth",
+         "value": "1/2"
+        }
+       ],
+       "target": "Nicole grew more."
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "comparison_view",
+        "fractions": [
+         {
+          "label": "Shandell's growth",
+          "value": "5/12"
+         },
+         {
+          "label": "Nicole's growth",
+          "value": "1/2"
+         }
+        ],
+        "target": "Nicole grew more."
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "On the same 0-to-1 scale, the point farther to the right represents the greater amount."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Compare both points with the halfway position between 0 and 1."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The halfway point is 1/2, while 5/12 is one twelfth before halfway."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Identify which point is farther from zero and use that person's name for the comparison."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_conclusao_baseada_em_posicao_errada",
+       "wrongAnswer": "Both grew the same amouth.",
+       "misconceptionType": "conceptual_error",
+       "description": "Valida conclusão com base em representação incorreta",
+       "feedback": "The points are not equal when the fractions are read precisely. One-half equals 6/12, which is different from 5/12.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_compara_pela_diferenca_para_o_inteiro",
+       "wrongAnswer": "Shandell grew more.",
+       "misconceptionType": "conceptual_error",
+       "description": "Gap thinking mal aplicado: julga que quanto mais longe do inteiro, maior a fração",
+       "feedback": "Being farther from 1 does not make a fraction greater. Compare the positions from zero: 1/2 is to the right of 5/12.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_conclusao_baseada_em_posicao_errada",
+      "scaffold_misc_compara_pela_diferenca_para_o_inteiro",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Use the comparison selector to choose the stated answer.",
+     "instruction": "Use the comparison selector to choose the stated answer.",
+     "expectedInput": {
+      "value": "Shandell grew more.",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "Shandell grew more."
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "compBox",
+       "options": [
+        "Shandell grew more.",
+        "Nicole grew more.",
+        "Both grew the same amouth."
+       ]
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "compBox",
+        "options": [
+         "Shandell grew more.",
+         "Nicole grew more.",
+         "Both grew the same amouth."
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Use the comparison represented by the marked points rather than choosing from the names alone."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Read the two fractions and compare their locations on the number lines."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Check which marked point is farther to the right before selecting a statement."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Choose the statement that names the person represented by the greater marked value."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Click Done to submit the completed comparison.",
+     "instruction": "Click Done to submit the completed comparison.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "done",
+       "buttonLabel": "Done",
+       "completionToken": "ok"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "done",
+        "buttonLabel": "Done",
+        "completionToken": "ok"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Review the two marked points and the selected comparison before submitting."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Make sure both number lines are divided, both points are marked, and the selector has a choice."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Check that Shandell's line uses 12 parts and Nicole's line uses 2 parts."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "When every required field is complete, press the Done button once to submit the activity."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_divide_pela_metade_para_simplificar_na_retas",
+     "type": "scaffold",
+     "description": "Aluno aplica simplificação automática por 2, ignorando se a fração é redutível",
+     "instruction": "You tried to simplify by dividing by 2, but 5 and 12 cannot both be divided evenly by 2. The denominator remains 12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_pela_metade_para_simplificar_na_retas"
+    },
+    {
+     "id": "scaffold_misc_usa_numerador_em_vez_de_denominador",
+     "type": "scaffold",
+     "description": "Aluno confunde numerador com denominador ao decidir em quantas partes dividir a reta",
+     "instruction": "You used the numerator. The denominator is the number below the fraction bar, and it tells us to make 12 equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_numerador_em_vez_de_denominador"
+    },
+    {
+     "id": "scaffold_misc_confunde_unidade_com_intervalo_da_reta",
+     "type": "scaffold",
+     "description": "Aluno não entende que o denominador determina a granularidade da divisão",
+     "instruction": "The line goes from 0 to 1, but it must be split into smaller equal intervals. For 5/12, use 12 parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_unidade_com_intervalo_da_reta"
+    },
+    {
+     "id": "scaffold_misc_contagem_um_a_mais",
+     "type": "scaffold",
+     "description": "Erro clássico de contagem: confunde número de marcas com número de intervalos",
+     "instruction": "You counted a mark instead of the intervals. Count the segments from 0: the fifth segment ends at 5/12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_um_a_mais"
+    },
+    {
+     "id": "scaffold_misc_aproxima_com_equivalente_incorreto",
+     "type": "scaffold",
+     "description": "Aluno assume equivocadamente que 5/12 ≈ 3/6 por parecer 'quase metade'",
+     "instruction": "You chose a fraction that looks close to one-half, but 3/6 equals 6/12, not 5/12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_aproxima_com_equivalente_incorreto"
+    },
+    {
+     "id": "scaffold_misc_marca_no_numerador_como_inteiro",
+     "type": "scaffold",
+     "description": "Viés do número inteiro: trata o numerador como valor absoluto",
+     "instruction": "The numerator is not a whole-number position here. Because 5/12 is less than 1, the point must lie between 0 and 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_marca_no_numerador_como_inteiro"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade",
+     "type": "scaffold",
+     "description": "Aluno usa a metade como âncora visual e ignora o valor exato",
+     "instruction": "You used the halfway point as an estimate. One-half is 6/12, so 5/12 is one interval before the halfway point.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_da_outra_fracao",
+     "type": "scaffold",
+     "description": "Aluno aplica o mesmo denominador às duas retas por automatismo",
+     "instruction": "You reused Shandell's denominator. Look at Nicole's fraction: the denominator of 1/2 requires 2 equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_da_outra_fracao"
+    },
+    {
+     "id": "scaffold_misc_marca_no_zero_para_fracoes_pequenas",
+     "type": "scaffold",
+     "description": "Subestima o valor de frações não triviais",
+     "instruction": "The point is not at zero. One of the two equal intervals reaches the halfway point.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_marca_no_zero_para_fracoes_pequenas"
+    },
+    {
+     "id": "scaffold_misc_contagem_um_a_menos",
+     "type": "scaffold",
+     "description": "Erro inverso: subtrai um em vez de somar",
+     "instruction": "The first segment begins at zero and ends at the halfway mark. Count that first segment as one interval.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_um_a_menos"
+    },
+    {
+     "id": "scaffold_misc_conclusao_baseada_em_posicao_errada",
+     "type": "scaffold",
+     "description": "Valida conclusão com base em representação incorreta",
+     "instruction": "The points are not equal when the fractions are read precisely. One-half equals 6/12, which is different from 5/12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_conclusao_baseada_em_posicao_errada"
+    },
+    {
+     "id": "scaffold_misc_compara_pela_diferenca_para_o_inteiro",
+     "type": "scaffold",
+     "description": "Gap thinking mal aplicado: julga que quanto mais longe do inteiro, maior a fração",
+     "instruction": "Being farther from 1 does not make a fraction greater. Compare the positions from zero: 1/2 is to the right of 5/12.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_compara_pela_diferenca_para_o_inteiro"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_divide_pela_metade_para_simplificar_na_retas",
+     "condition": "misconception(misc_divide_pela_metade_para_simplificar_na_retas)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_pela_metade_para_simplificar_na_retas",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_numerador_em_vez_de_denominador",
+     "condition": "misconception(misc_usa_numerador_em_vez_de_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_numerador_em_vez_de_denominador",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_confunde_unidade_com_intervalo_da_reta",
+     "condition": "misconception(misc_confunde_unidade_com_intervalo_da_reta)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_confunde_unidade_com_intervalo_da_reta",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_contagem_um_a_mais",
+     "condition": "misconception(misc_contagem_um_a_mais)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_um_a_mais",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_aproxima_com_equivalente_incorreto",
+     "condition": "misconception(misc_aproxima_com_equivalente_incorreto)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_aproxima_com_equivalente_incorreto",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_marca_no_numerador_como_inteiro",
+     "condition": "misconception(misc_marca_no_numerador_como_inteiro)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_marca_no_numerador_como_inteiro",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_ancora_na_metade",
+     "condition": "misconception(misc_ancora_na_metade)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_usa_denominador_da_outra_fracao",
+     "condition": "misconception(misc_usa_denominador_da_outra_fracao)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_da_outra_fracao",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_marca_no_zero_para_fracoes_pequenas",
+     "condition": "misconception(misc_marca_no_zero_para_fracoes_pequenas)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_marca_no_zero_para_fracoes_pequenas",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_contagem_um_a_menos",
+     "condition": "misconception(misc_contagem_um_a_menos)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_contagem_um_a_menos",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_conclusao_baseada_em_posicao_errada",
+     "condition": "misconception(misc_conclusao_baseada_em_posicao_errada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_conclusao_baseada_em_posicao_errada",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_compara_pela_diferenca_para_o_inteiro",
+     "condition": "misconception(misc_compara_pela_diferenca_para_o_inteiro)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_compara_pela_diferenca_para_o_inteiro",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "132c64509dafcd7eab56dad077a6ac8396b2041c"
+ }
+}

@@ -1,0 +1,914 @@
+{
+ "id": "06fence",
+ "correctAnswer": "2/3",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.143,
+ "functionalKappa": -0.312,
+ "missing": [
+  "2",
+  "",
+  "1/3",
+  "4",
+  "3/7"
+ ],
+ "extra": [
+  "1",
+  "adampaintedmorefence"
+ ],
+ "robotMisconceptions": [
+  "1",
+  "Adam painted more fence.",
+  "Adam painted more fence."
+ ],
+ "exercicio": "06fence",
+ "replica": 3,
+ "geradoEm": "2026-08-18T16:01:06.622Z",
+ "promptSha256": "0d823e25ae6ac6ab1e3c3ac9ed953ee325b70a7eb475e5cb5b85b73fec8a2c17",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T15:22:41.028Z"
+ },
+ "custo": {
+  "tokensEntrada": 7382,
+  "tokensSaida": 8541,
+  "usd": 0.03906786
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "FracLess1",
+    "valor": "Frações a comparar: {A} = 2/3, {B} = 4/7"
+   },
+   {
+    "indice": 2,
+    "acao": "Dividir a primeira reta numérica em 3 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 1 dividida em 3 partes iguais"
+   },
+   {
+    "indice": 3,
+    "acao": "Marcar o ponto correspondente a 2/3 na primeira reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto 2/3 marcado corretamente na reta 1"
+   },
+   {
+    "indice": 4,
+    "acao": "Dividir a segunda reta numérica em 7 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 2 dividida em 7 partes iguais"
+   },
+   {
+    "indice": 5,
+    "acao": "Marcar o ponto correspondente a 4/7 na segunda reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto 4/7 marcado corretamente na reta 2"
+   },
+   {
+    "indice": 6,
+    "acao": "Comparar visualmente os dois pontos nas retas",
+    "kc": "compFrac",
+    "valor": "Conclusão: {A} > {B}"
+   },
+   {
+    "indice": 7,
+    "acao": "Selecionar a alternativa correta no seletor de comparação",
+    "kc": "compFrac",
+    "valor": "Alternativa selecionada: 'Kewana painted more fence.'"
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "compFrac",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "1",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Require confirmation step: 'You entered 4 parts for 4/7. Is the denominator 4 or 7?' before allowing marking",
+    "buggyRule": "",
+    "misconceptionId": "leitura_escala_errada_devido_denom_confusao"
+   },
+   {
+    "valor": "Adam painted more fence.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Use visual models to compare both the painted part AND the unpainted part side by side; reinforce that comparing fractions requires comparing the same type of quantity (both painted or both unpainted)",
+    "buggyRule": "Compare (denominator - numerator) for both fractions; if (A_den - A_num) > (B_den - B_num), conclude B painted more. Here: (3-2)=1, (7-4)=3 → 1 < 3 → Kewana has less left → Kewana painted more. BUT student reverses logic: thinks larger remainder means more painted, OR confuses which remainder is smaller due to integer bias (sees 3 > 1 and thinks Adam has less left). In practice, common outcome: chooses Adam because 4 > 2.",
+    "misconceptionId": "gap_thinking_compare_by_remainder"
+   },
+   {
+    "valor": "Adam painted more fence.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Link denominator input to visual feedback: show shaded fraction preview before marking to catch mismatches",
+    "buggyRule": "",
+    "misconceptionId": "comparacao_com_valor_errado_devido_escala_incorreta"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa pergunta! Se a fração é 2/3, quantas partes iguais devemos dividir o todo? Pense no denominador..."
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Digite o número do denominador (3) no campo da primeira reta e clique em confirmar para ver as divisões."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! O denominador da fração de Kewana é 3. Digite esse número no primeiro campo de divisão."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase pronto! Veja: a fração é 2/3, então a reta deve ter 3 partes iguais. Digite 3 no campo acima da primeira reta e confirme."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Pense: se o numerador é 2, quantos passos você dá a partir do zero? Cada parte representa um passo!"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Ótimo! Comece no 0 e avance 2 das 3 partes iguais. Clique no final da segunda parte para marcar 2/3."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Veja os traços: o primeiro é 1/3, o segundo é 2/3. Clique exatamente no segundo traço."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase lá! A reta tem 3 partes: 1/3, 2/3, 3/3. Clique no ponto que fica logo antes do último traço — esse é o 2/3!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "O denominador mostra em quantas partes iguais o todo foi dividido. Qual é o denominador da fração de Adam?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Continue assim! Digite o denominador da fração de Adam (7) no segundo campo e confirme para ver as divisões."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "A fração de Adam é 4/7, então a reta deve ter 7 partes. Digite 7 no segundo campo de divisão."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Exato! Para 4/7, a reta precisa de 7 divisões. Digite 7 no campo acima da segunda reta e clique em confirmar."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Se cada parte é 1/7, quantas partes você precisa contar para chegar a 4/7?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Vamos lá! Conte 1/7, 2/7, 3/7, 4/7 — clique no final da quarta parte a partir do zero."
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "A quarta marcação após o zero é 4/7. Mesmo que os traços estejam próximos, conte com calma: 1, 2, 3, 4."
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você consegue! A partir do zero, o primeiro traço é 1/7, o segundo 2/7, terceiro 3/7, e o quarto — onde você deve clicar — é 4/7."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Na reta numérica, qual fração está mais longe do zero? Isso indica qual é maior!"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Compare as posições: a fração que está mais à direita na reta é a maior. Olhe com atenção para os dois pontos marcados."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Veja: 2/3 está claramente mais perto de 1 do que 4/7. Isso significa que Kewana pintou mais."
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Muito bem! O ponto de Kewana está depois do meio (1/2), e o de Adam está antes do meio? Não — ambos estão depois, mas 2/3 está mais próximo do 1. Quem está mais à direita vence!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06fence\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Preciso comparar as frações 2/3 e 4/7 para determinar quem pintou mais. Ambas são menores que 1, então posso usar retas numéricas de 0 a 1.\\\",\\n          \\\"result\\\": \\\"Frações a comparar: {A} = 2/3, {B} = 4/7\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a primeira reta numérica em 3 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 2/3, devo dividir a reta em 3 partes iguais, pois o denominador é 3.\\\",\\n          \\\"result\\\": \\\"Reta 1 dividida em 3 partes iguais\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 2/3 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Contando 2 das 3 partes a partir do 0, marco o ponto em 2/3.\\\",\\n          \\\"result\\\": \\\"Ponto 2/3 marcado corretamente na reta 1\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta numérica em 7 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 4/7, divido a reta em 7 partes iguais, já que o denominador é 7.\\\",\\n          \\\"result\\\": \\\"Reta 2 dividida em 7 partes iguais\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 4/7 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Conto 4 das 7 partes a partir do 0 e marco o ponto em 4/7.\\\",\\n          \\\"result\\\": \\\"Ponto 4/7 marcado corretamente na reta 2\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"Observo que 2/3 está mais à direita que 4/7 na escala de 0 a 1, logo 2/3 > 4/7.\\\",\\n          \\\"result\\\": \\\"Conclusão: {A} > {B}\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta no seletor de comparação\\\",\\n          \\\"thinking\\\": \\\"Como Kewana pintou 2/3 e Adam 4/7, e 2/3 é maior, escolho 'Kewana painted more fence.'\\\",\\n          \\\"result\\\": \\\"Alternativa selecionada: 'Kewana painted more fence.'\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todas as etapas foram concluídas corretamente; posso enviar a resposta.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}\\\",\\n      \\\"totalTime\\\": 39\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06fence\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Input denominator for Kewana's number line\\\",\\n              \\\"thinking\\\": \\\"Kewana painted 2/3, so I need to divide the line into 3 parts.\\\",\\n              \\\"result\\\": \\\"Correct input: 3\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Mark Kewana's position on number line\\\",\\n              \\\"thinking\\\": \\\"2 out of 3 parts, so I count 2 marks from 0.\\\",\\n              \\\"result\\\": \\\"Correct mark at 2/3\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Input denominator for Adam's number line\\\",\\n              \\\"thinking\\\": \\\"Adam painted 4/7, so divide into 7 parts.\\\",\\n              \\\"result\\\": \\\"Correct input: 7\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Mark Adam's position on number line\\\",\\n              \\\"thinking\\\": \\\"4 out of 7, so I count 4 marks from 0.\\\",\\n              \\\"result\\\": \\\"Correct mark at 4/7\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Choose comparison option\\\",\\n              \\\"thinking\\\": \\\"4 is bigger than 2, and 7 is bigger than 3, but 4 is closer to 7 than 2 is to 3... Wait, 4/7 looks smaller on the line, but maybe I should go by how much is left? Kewana has 1/3 left, Adam has 3/7 left. 1 is less than 3, so Kewana finished more... But 4 > 2, so maybe Adam did more?\\\",\\n              \\\"result\\\": \\\"Chose 'Adam painted more fence.'\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"gap_thinking_compare_by_remainder\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Adam painted more fence.\\\",\\n                \\\"description\\\": \\\"Student compares fractions by how much is LEFT (denominator - numerator) instead of the actual value painted\\\",\\n                \\\"mistakeLocation\\\": \\\"When deciding who painted more, the student focused on the uncompleted part (1/3 vs 3/7) and incorrectly inferred that smaller remainder means more painted — but then confused which remainder was smaller due to integer bias\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Who has LESS left to paint: Kewana or Adam? Does having less left mean they painted MORE?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Great observation that we can look at what’s left! You're right that less left usually means more painted. Let’s double-check: Kewana has 1/3 left, Adam has 3/7 left. Is 1/3 smaller or larger than 3/7? Maybe draw both remainders to compare.\\\",\\n                \\\"howToFix\\\": \\\"Use visual models to compare both the painted part AND the unpainted part side by side; reinforce that comparing fractions requires comparing the same type of quantity (both painted or both unpainted)\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Adam painted more fence.\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Input denominator for Kewana's number line\\\",\\n              \\\"thinking\\\": \\\"2/3, so divide into 2 parts? No, wait—the bottom number tells how many parts, so 3.\\\",\\n              \\\"result\\\": \\\"Correct input: 3\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Mark Kewana's position on number line\\\",\\n              \\\"thinking\\\": \\\"I need to mark 2/3. There are 3 parts, so I click the second tick.\\\",\\n              \\\"result\\\": \\\"Marks at 2/3 — correct\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Input denominator for Adam's number line\\\",\\n              \\\"thinking\\\": \\\"4/7... the top number is 4, so maybe divide into 4 parts? Or is it 7? I think it's 7.\\\",\\n              \\\"result\\\": \\\"Inputs 4 instead of 7\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"viés_numerador_como_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"4\\\",\\n                \\\"description\\\": \\\"Student confuses numerator with denominator when setting division of number line\\\",\\n                \\\"mistakeLocation\\\": \\\"When entering how many parts to divide Adam’s number line, the student used the numerator (4) instead of the denominator (7)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"In the fraction 4/7, which number tells you how many equal parts the whole is divided into?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"You’re thinking hard about the numbers — good! Remember: the bottom number (denominator) tells us how many equal parts the whole is split into. For 4/7, how many total parts should the line have?\\\",\\n                \\\"howToFix\\\": \\\"Label fraction components explicitly: circle denominator and say 'this is how many parts'; use consistent color-coding for numerator vs denominator\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Mark Adam's position on number line (with wrong scale)\\\",\\n              \\\"thinking\\\": \\\"I divided into 4 parts, and he painted 4/7... but now I only have 4 marks. I’ll mark the 4th one.\\\",\\n              \\\"result\\\": \\\"Marks at 4/4 = 1\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"leitura_escala_errada_devido_denom_confusao\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"1\\\",\\n                \\\"description\\\": \\\"Due to wrong denominator input, student marks numerator as if it were the full amount on an incorrectly scaled line\\\",\\n                \\\"mistakeLocation\\\": \\\"After dividing the line into 4 parts (incorrectly), the student marks the 4th tick, interpreting 4/7 as 'all 4 parts', landing at 1\\\",\\n                \\\"diagnosticQuestion\\\": \\\"If the line is divided into 4 parts, what does the last tick represent? Is that equal to 4/7?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Ah, I see what happened! You marked the end of the line, which is 4/4 or 1 whole. But Adam only painted 4/7, which is less than 1. Let’s fix the number of parts first — how many parts should 4/7 have?\\\",\\n                \\\"howToFix\\\": \\\"Require confirmation step: 'You entered 4 parts for 4/7. Is the denominator 4 or 7?' before allowing marking\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Choose comparison option\\\",\\n              \\\"thinking\\\": \\\"Kewana is at 2/3, Adam is at 1. So Adam painted more!\\\",\\n              \\\"result\\\": \\\"Chose 'Adam painted more fence.'\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"comparacao_com_valor_errado_devido_escala_incorreta\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Adam painted more fence.\\\",\\n                \\\"description\\\": \\\"Student compares correct fraction (2/3) to an incorrectly placed point (1 instead of 4/7), leading to wrong conclusion\\\",\\n                \\\"mistakeLocation\\\": \\\"In the final comparison, using a mispositioned Adam value due to earlier scaling error\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Is Adam’s mark really at 4/7? Let’s check: if the whole fence is 1, can someone paint 4/7 and be all the way at the end?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"You compared the positions carefully — that’s great! But let’s double-check Adam’s position. If he painted 4 out of 7 parts, should he be at the very end of the fence?\\\",\\n                \\\"howToFix\\\": \\\"Link denominator input to visual feedback: show shaded fraction preview before marking to catch mismatches\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Adam painted more fence.\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"06fence\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"viés_numerador_como_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Use the numerator of the fraction as the number of divisions instead of the denominator: input = {A_num}\\\",\\n              \\\"description\\\": \\\"Student inputs the numerator (2) instead of denominator (3) when dividing Kewana's number line\\\",\\n              \\\"mistakeLocation\\\": \\\"When reading 2/3, the student confuses which number indicates the total parts and enters 2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"In 2/3, does the 2 tell you how many parts the whole is split into, or how many parts are taken?\\\",\\n              \\\"feedback\\\": \\\"Nice try! Remember: the bottom number (3) tells us how many equal parts the whole is divided into. The top number (2) tells how many of those parts we have.\\\",\\n              \\\"howToFix\\\": \\\"Use mnemonic: 'Denominator = Down number = Division of whole'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"confunde_unidade_com_numero_de_marcas\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den} + 1\\\",\\n              \\\"buggyRule\\\": \\\"Add one extra division because student counts marks instead of intervals: input = {A_den} + 1\\\",\\n              \\\"description\\\": \\\"Student divides the line into one more part than needed, confusing number of ticks with number of intervals\\\",\\n              \\\"mistakeLocation\\\": \\\"When setting up the number line for 2/3, the student thinks 3 parts require 4 ticks and enters 4\\\",\\n              \\\"diagnosticQuestion\\\": \\\"If you divide a stick into 3 equal pieces, how many cuts do you make? How many pieces do you get?\\\",\\n              \\\"feedback\\\": \\\"You’re thinking about the lines on the number line — good attention to detail! But remember: 3 equal parts come from 2 marks between 0 and 1. The number you enter is the number of PARTS, not the number of little lines.\\\",\\n              \\\"howToFix\\\": \\\"Use physical string or paper strip: fold into 3 parts and count the segments (not the creases)\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06fence\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"off_by_one_na_contagem_de_marcas\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({A_num} - 1)/{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Count starting from 0 as the first mark, so stop one short: position = ({A_num} - 1) / {A_den}\\\",\\n              \\\"description\\\": \\\"Student marks one interval too early, e.g., marks 1/3 instead of 2/3 for 2/3\\\",\\n              \\\"mistakeLocation\\\": \\\"When counting ticks from 0, treats 0 as the first part and stops at the (numerator - 1)th tick\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Starting at 0, which tick shows 1/3? Which shows 2/3? Can you point to each?\\\",\\n              \\\"feedback\\\": \\\"You’re close! Let’s count together: the first tick after 0 is 1/3, the second is 2/3. Where should 2/3 go?\\\",\\n              \\\"howToFix\\\": \\\"Label each tick explicitly during practice: 'This is 1/3, this is 2/3' before asking to mark\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"ancora_na_metade_para_fracoes_proximas\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Default to marking 1/2 regardless of fraction, especially for fractions near the middle\\\",\\n              \\\"description\\\": \\\"Student assumes any fraction between 1/3 and 2/3 is 'about half' and marks 1/2\\\",\\n              \\\"mistakeLocation\\\": \\\"Instead of locating 2/3 precisely, the student places the mark at the midpoint\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Is 2/3 closer to 1/2 or to 1? How can you tell?\\\",\\n              \\\"feedback\\\": \\\"You know where halfway is — that’s helpful! But 2/3 is actually past the halfway point. Let’s divide the line into 3 equal parts to see exactly where it goes.\\\",\\n              \\\"howToFix\\\": \\\"Compare 2/3 to 1/2 using common denominators (4/6 vs 3/6) or visual overlay\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06fence\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"viés_numerador_como_denominador_adam\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_num}\\\",\\n              \\\"buggyRule\\\": \\\"Use Adam's numerator (4) as the denominator input: input = {B_num}\\\",\\n              \\\"description\\\": \\\"Student enters 4 instead of 7 when setting divisions for Adam’s fraction 4/7\\\",\\n              \\\"mistakeLocation\\\": \\\"Confuses numerator and denominator in 4/7, inputs 4\\\",\\n              \\\"diagnosticQuestion\\\": \\\"For Adam’s 4/7, which number tells you how many total parts the fence side is divided into?\\\",\\n              \\\"feedback\\\": \\\"Good effort! Just like with Kewana, the bottom number (7) tells us the total number of equal parts. Can you try entering 7?\\\",\\n              \\\"howToFix\\\": \\\"Consistent prompting: 'Denominator = total parts = bottom number'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"inversao_fracao_leitura_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_den}\\\",\\n              \\\"buggyRule\\\": \\\"Correctly inputs denominator (7), but this is listed for completeness — however, a plausible distinct error is using the OTHER student’s denominator: input = {A_den}\\\",\\n              \\\"description\\\": \\\"Student reuses Kewana’s denominator (3) for Adam’s line out of habit or confusion\\\",\\n              \\\"mistakeLocation\\\": \\\"After working with 2/3, automatically enters 3 again for 4/7\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Did you use the same number of parts for both students? Should Adam’s fence be divided the same way as Kewana’s?\\\",\\n              \\\"feedback\\\": \\\"You remembered how to divide the line — awesome! But each fraction has its own denominator. What’s the bottom number in Adam’s fraction?\\\",\\n              \\\"howToFix\\\": \\\"Color-code each student’s data; require verbalization: 'Adam’s fraction is __ out of __'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06fence\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"marca_numerador_como_posicao_absoluta\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_num}\\\",\\n              \\\"buggyRule\\\": \\\"Regardless of denominator, mark at position equal to numerator as if on integer scale: mark = {B_num} (but since line is 0-1, this collapses to 1 if {B_num} >= 1)\\\",\\n              \\\"description\\\": \\\"Student ignores denominator and treats numerator as absolute position, marking at '4' which maps to end of line (1)\\\",\\n              \\\"mistakeLocation\\\": \\\"When placing Adam’s point, disregards the scale and uses numerator as direct measure\\\",\\n              \\\"diagnosticQuestion\\\": \\\"If the whole fence is length 1, can painting 4/7 put you at position 4? Where is the end of the fence?\\\",\\n              \\\"feedback\\\": \\\"You’re trying to use the number 4 — that’s part of the fraction! But remember, we’re working between 0 and 1. The 4 means 4 out of 7 parts, not 4 units.\\\",\\n              \\\"howToFix\\\": \\\"Emphasize that all values are between 0 and 1; use ruler analogy: 'The whole ruler is 1; 4/7 is a point along it'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"confusao_entre_numerador_e_posicao_com_denom_correto\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({B_num} + 1)/{B_den}\\\",\\n              \\\"buggyRule\\\": \\\"Count one extra tick: mark at ({B_num} + 1) / {B_den}, e.g., 5/7 instead of 4/7\\\",\\n              \\\"description\\\": \\\"Student counts 0 as first tick and adds an extra, or starts counting from 1 incorrectly\\\",\\n              \\\"mistakeLocation\\\": \\\"While marking 4/7 on a correctly divided line, lands on the 5th tick\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Let’s count the ticks slowly: 1st tick = 1/7, 2nd = 2/7… which is 4/7?\\\",\\n              \\\"feedback\\\": \\\"You’re almost there! Let’s count the parts one by one from 0. The first part ends at 1/7, the second at 2/7… where does the fourth part end?\\\",\\n              \\\"howToFix\\\": \\\"Number each tick during practice: label 1/7, 2/7, ..., 7/7 above the line\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06fence\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"gap_thinking_compare_by_remainder\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Adam painted more fence.\\\",\\n              \\\"buggyRule\\\": \\\"Compare (denominator - numerator) for both fractions; if (A_den - A_num) > (B_den - B_num), conclude B painted more. Here: (3-2)=1, (7-4)=3 → 1 < 3 → Kewana has less left → Kewana painted more. BUT student reverses logic: thinks larger remainder means more painted, OR confuses which remainder is smaller due to integer bias (sees 3 > 1 and thinks Adam has less left). In practice, common outcome: chooses Adam because 4 > 2.\\\",\\n              \\\"description\\\": \\\"Student uses 'gap thinking': judges fraction size by difference between numerator and denominator, not actual value\\\",\\n              \\\"mistakeLocation\\\": \\\"In final comparison, uses 'how far from whole' as proxy but applies it inconsistently or inversely\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Kewana has 1/3 left, Adam has 3/7 left. Which leftover amount is smaller? Does smaller leftover mean more painted?\\\",\\n              \\\"feedback\\\": \\\"You’re thinking about what’s left — that’s a smart strategy! Now, let’s compare the leftovers: is 1/3 smaller or larger than 3/7? Whichever is smaller means that person painted more.\\\",\\n              \\\"howToFix\\\": \\\"Explicitly calculate and compare remainders using common denominators (7/21 vs 9/21) to see 1/3 < 3/7 → Kewana painted more\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"comparacao_por_numerador_isolado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Adam painted more fence.\\\",\\n              \\\"buggyRule\\\": \\\"Compare only numerators: if B_num > A_num, conclude B > A, ignoring denominators. Here: 4 > 2 → Adam painted more.\\\",\\n              \\\"description\\\": \\\"Student assumes larger numerator always means larger fraction, without considering denominator\\\",\\n              \\\"mistakeLocation\\\": \\\"When choosing between options, focuses only on '4 vs 2' and ignores that parts are different sizes\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Would you rather have 4 pieces of a pizza cut into 7 slices, or 2 pieces of a pizza cut into 3 slices? Which gives you more pizza?\\\",\\n              \\\"feedback\\\": \\\"You noticed that 4 is bigger than 2 — great observation! But the size of each piece matters too. In 4/7, the pieces are smaller than in 2/3. Let’s think about the size of each part.\\\",\\n              \\\"howToFix\\\": \\\"Use concrete analogies (pizza, chocolate bar); convert to decimals (0.666 vs 0.571) for verification\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"equivocadamente_assume_iguais_por_aproximacao_visual_rapida\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Both painted same amount of fence.\\\",\\n              \\\"buggyRule\\\": \\\"If fractions appear visually close on number line (especially without precise division), assume they are equal\\\",\\n              \\\"description\\\": \\\"Student sees both marks in the 'right half' and concludes they’re the same\\\",\\n              \\\"mistakeLocation\\\": \\\"During visual comparison, fails to distinguish between 2/3 (~0.67) and 4/7 (~0.57)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Are the two marks exactly on top of each other? Which one is farther from 0?\\\",\\n              \\\"feedback\\\": \\\"You’re checking if they’re close — that’s careful! But even small differences matter. Let’s zoom in: which mark is closer to 1? That one is larger.\\\",\\n              \\\"howToFix\\\": \\\"Overlay transparent number lines or use digital zoom; calculate decimal equivalents\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06fence\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar as frações\\\",\\n          \\\"thinking\\\": \\\"Kewana pintou 2/3 e Adam 4/7. Preciso comparar essas duas frações usando as retas numéricas.\\\",\\n          \\\"result\\\": \\\"Identificadas as frações: 2/3 e 4/7\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a primeira reta (Kewana) em 3 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para marcar 2/3, preciso dividir a reta de 0 a 1 em 3 partes... mas como o sistema faz isso? Será que digito '3' no campo?\\\",\\n          \\\"result\\\": \\\"Digitou '3' no campo denom1 e confirmou\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Se a fração é 2/3, quantas partes iguais devemos dividir o todo? Pense no denominador...\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Digite o número do denominador (3) no campo da primeira reta e clique em confirmar para ver as divisões.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O denominador da fração de Kewana é 3. Digite esse número no primeiro campo de divisão.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase pronto! Veja: a fração é 2/3, então a reta deve ter 3 partes iguais. Digite 3 no campo acima da primeira reta e confirme.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto 2/3 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Agora que está dividida em 3, preciso contar até o segundo traço... mas será que clico exatamente no segundo ou entre os traços?\\\",\\n          \\\"result\\\": \\\"Marcou corretamente o ponto correspondente a 2/3\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se o numerador é 2, quantos passos você dá a partir do zero? Cada parte representa um passo!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Ótimo! Comece no 0 e avance 2 das 3 partes iguais. Clique no final da segunda parte para marcar 2/3.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja os traços: o primeiro é 1/3, o segundo é 2/3. Clique exatamente no segundo traço.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase lá! A reta tem 3 partes: 1/3, 2/3, 3/3. Clique no ponto que fica logo antes do último traço — esse é o 2/3!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta (Adam) em 7 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Agora preciso fazer o mesmo com 4/7... mas dividir em 7 partes parece difícil de visualizar. Será que o sistema ajuda?\\\",\\n          \\\"result\\\": \\\"Digitou '7' no campo denom2 e confirmou\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"O denominador mostra em quantas partes iguais o todo foi dividido. Qual é o denominador da fração de Adam?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Digite o denominador da fração de Adam (7) no segundo campo e confirme para ver as divisões.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"A fração de Adam é 4/7, então a reta deve ter 7 partes. Digite 7 no segundo campo de divisão.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exato! Para 4/7, a reta precisa de 7 divisões. Digite 7 no campo acima da segunda reta e clique em confirmar.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto 4/7 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Com 7 partes, preciso achar a quarta... mas os traços estão tão juntos! Como tenho certeza de qual é o quarto?\\\",\\n          \\\"result\\\": \\\"Marcou corretamente o ponto correspondente a 4/7\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se cada parte é 1/7, quantas partes você precisa contar para chegar a 4/7?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Vamos lá! Conte 1/7, 2/7, 3/7, 4/7 — clique no final da quarta parte a partir do zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"A quarta marcação após o zero é 4/7. Mesmo que os traços estejam próximos, conte com calma: 1, 2, 3, 4.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! A partir do zero, o primeiro traço é 1/7, o segundo 2/7, terceiro 3/7, e o quarto — onde você deve clicar — é 4/7.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"Olhando as duas retas, o ponto de Kewana parece mais à direita... mas será que posso confiar nisso? Talvez eu devesse calcular mentalmente também.\\\",\\n          \\\"result\\\": \\\"Concluiu que 2/3 > 4/7\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Na reta numérica, qual fração está mais longe do zero? Isso indica qual é maior!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Compare as posições: a fração que está mais à direita na reta é a maior. Olhe com atenção para os dois pontos marcados.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja: 2/3 está claramente mais perto de 1 do que 4/7. Isso significa que Kewana pintou mais.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! O ponto de Kewana está depois do meio (1/2), e o de Adam está antes do meio? Não — ambos estão depois, mas 2/3 está mais próximo do 1. Quem está mais à direita vence!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta\\\",\\n          \\\"thinking\\\": \\\"Então Kewana pintou mais... vou escolher 'Kewana painted more fence.'\\\",\\n          \\\"result\\\": \\\"Selecionou corretamente a opção: 'Kewana painted more fence.'\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que terminei tudo certo!\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Kewana painted more fence.\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter frações para decimais mentalmente (2/3 ≈ 0.666, 4/7 ≈ 0.571) e comparar\\\",\\n          \\\"steps\\\": [\\\"Calcular valor decimal aproximado\\\", \\\"Comparar os decimais\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Encontrar denominador comum (21) e comparar 14/21 com 12/21\\\",\\n          \\\"steps\\\": [\\\"Calcular mmc(3,7)=21\\\", \\\"Converter 2/3 → 14/21\\\", \\\"Converter 4/7 → 12/21\\\", \\\"Comparar numeradores\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar regra de comparação cruzada: 2×7=14 vs 4×3=12 → 14>12 ⇒ 2/3 > 4/7\\\",\\n          \\\"steps\\\": [\\\"Multiplicar numerador de uma pelo denominador da outra\\\", \\\"Comparar os produtos\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "06fence",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Preciso comparar as frações 2/3 e 4/7 para determinar quem pintou mais. Ambas são menores que 1, então posso usar retas numéricas de 0 a 1.",
+        "result": "Frações a comparar: {A} = 2/3, {B} = 4/7",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Dividir a primeira reta numérica em 3 partes iguais",
+        "thinking": "Para representar 2/3, devo dividir a reta em 3 partes iguais, pois o denominador é 3.",
+        "result": "Reta 1 dividida em 3 partes iguais",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 2/3 na primeira reta",
+        "thinking": "Contando 2 das 3 partes a partir do 0, marco o ponto em 2/3.",
+        "result": "Ponto 2/3 marcado corretamente na reta 1",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta numérica em 7 partes iguais",
+        "thinking": "Para representar 4/7, divido a reta em 7 partes iguais, já que o denominador é 7.",
+        "result": "Reta 2 dividida em 7 partes iguais",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto correspondente a 4/7 na segunda reta",
+        "thinking": "Conto 4 das 7 partes a partir do 0 e marco o ponto em 4/7.",
+        "result": "Ponto 4/7 marcado corretamente na reta 2",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas",
+        "thinking": "Observo que 2/3 está mais à direita que 4/7 na escala de 0 a 1, logo 2/3 > 4/7.",
+        "result": "Conclusão: {A} > {B}",
+        "kcUsed": "compFrac",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta no seletor de comparação",
+        "thinking": "Como Kewana pintou 2/3 e Adam 4/7, e 2/3 é maior, escolho 'Kewana painted more fence.'",
+        "result": "Alternativa selecionada: 'Kewana painted more fence.'",
+        "kcUsed": "compFrac",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todas as etapas foram concluídas corretamente; posso enviar a resposta.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "compFrac",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}",
+      "totalTime": 39
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "06fence",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Input denominator for Kewana's number line",
+          "thinking": "Kewana painted 2/3, so I need to divide the line into 3 parts.",
+          "result": "Correct input: 3",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Mark Kewana's position on number line",
+          "thinking": "2 out of 3 parts, so I count 2 marks from 0.",
+          "result": "Correct mark at 2/3",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Input denominator for Adam's number line",
+          "thinking": "Adam painted 4/7, so divide into 7 parts.",
+          "result": "Correct input: 7",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Mark Adam's position on number line",
+          "thinking": "4 out of 7, so I count 4 marks from 0.",
+          "result": "Correct mark at 4/7",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Choose comparison option",
+          "thinking": "4 is bigger than 2, and 7 is bigger than 3, but 4 is closer to 7 than 2 is to 3... Wait, 4/7 looks smaller on the line, but maybe I should go by how much is left? Kewana has 1/3 left, Adam has 3/7 left. 1 is less than 3, so Kewana finished more... But 4 > 2, so maybe Adam did more?",
+          "result": "Chose 'Adam painted more fence.'",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "gap_thinking_compare_by_remainder",
+           "type": "conceptual_error",
+           "wrongAnswer": "Adam painted more fence.",
+           "description": "Student compares fractions by how much is LEFT (denominator - numerator) instead of the actual value painted",
+           "mistakeLocation": "When deciding who painted more, the student focused on the uncompleted part (1/3 vs 3/7) and incorrectly inferred that smaller remainder means more painted — but then confused which remainder was smaller due to integer bias",
+           "diagnosticQuestion": "Who has LESS left to paint: Kewana or Adam? Does having less left mean they painted MORE?",
+           "severity": "high",
+           "feedback": "Great observation that we can look at what’s left! You're right that less left usually means more painted. Let’s double-check: Kewana has 1/3 left, Adam has 3/7 left. Is 1/3 smaller or larger than 3/7? Maybe draw both remainders to compare.",
+           "howToFix": "Use visual models to compare both the painted part AND the unpainted part side by side; reinforce that comparing fractions requires comparing the same type of quantity (both painted or both unpainted)"
+          }
+         }
+        ],
+        "finalAnswer": "Adam painted more fence.",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Input denominator for Kewana's number line",
+          "thinking": "2/3, so divide into 2 parts? No, wait—the bottom number tells how many parts, so 3.",
+          "result": "Correct input: 3",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Mark Kewana's position on number line",
+          "thinking": "I need to mark 2/3. There are 3 parts, so I click the second tick.",
+          "result": "Marks at 2/3 — correct",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Input denominator for Adam's number line",
+          "thinking": "4/7... the top number is 4, so maybe divide into 4 parts? Or is it 7? I think it's 7.",
+          "result": "Inputs 4 instead of 7",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "viés_numerador_como_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "4",
+           "description": "Student confuses numerator with denominator when setting division of number line",
+           "mistakeLocation": "When entering how many parts to divide Adam’s number line, the student used the numerator (4) instead of the denominator (7)",
+           "diagnosticQuestion": "In the fraction 4/7, which number tells you how many equal parts the whole is divided into?",
+           "severity": "moderate",
+           "feedback": "You’re thinking hard about the numbers — good! Remember: the bottom number (denominator) tells us how many equal parts the whole is split into. For 4/7, how many total parts should the line have?",
+           "howToFix": "Label fraction components explicitly: circle denominator and say 'this is how many parts'; use consistent color-coding for numerator vs denominator"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Mark Adam's position on number line (with wrong scale)",
+          "thinking": "I divided into 4 parts, and he painted 4/7... but now I only have 4 marks. I’ll mark the 4th one.",
+          "result": "Marks at 4/4 = 1",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "leitura_escala_errada_devido_denom_confusao",
+           "type": "procedural_error",
+           "wrongAnswer": "1",
+           "description": "Due to wrong denominator input, student marks numerator as if it were the full amount on an incorrectly scaled line",
+           "mistakeLocation": "After dividing the line into 4 parts (incorrectly), the student marks the 4th tick, interpreting 4/7 as 'all 4 parts', landing at 1",
+           "diagnosticQuestion": "If the line is divided into 4 parts, what does the last tick represent? Is that equal to 4/7?",
+           "severity": "high",
+           "feedback": "Ah, I see what happened! You marked the end of the line, which is 4/4 or 1 whole. But Adam only painted 4/7, which is less than 1. Let’s fix the number of parts first — how many parts should 4/7 have?",
+           "howToFix": "Require confirmation step: 'You entered 4 parts for 4/7. Is the denominator 4 or 7?' before allowing marking"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Choose comparison option",
+          "thinking": "Kewana is at 2/3, Adam is at 1. So Adam painted more!",
+          "result": "Chose 'Adam painted more fence.'",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "comparacao_com_valor_errado_devido_escala_incorreta",
+           "type": "procedural_error",
+           "wrongAnswer": "Adam painted more fence.",
+           "description": "Student compares correct fraction (2/3) to an incorrectly placed point (1 instead of 4/7), leading to wrong conclusion",
+           "mistakeLocation": "In the final comparison, using a mispositioned Adam value due to earlier scaling error",
+           "diagnosticQuestion": "Is Adam’s mark really at 4/7? Let’s check: if the whole fence is 1, can someone paint 4/7 and be all the way at the end?",
+           "severity": "high",
+           "feedback": "You compared the positions carefully — that’s great! But let’s double-check Adam’s position. If he painted 4 out of 7 parts, should he be at the very end of the fence?",
+           "howToFix": "Link denominator input to visual feedback: show shaded fraction preview before marking to catch mismatches"
+          }
+         }
+        ],
+        "finalAnswer": "Adam painted more fence.",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "06fence",
+        "step": 1,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "confunde_unidade_com_numero_de_marcas",
+          "type": "count_error",
+          "wrongAnswerPattern": "{A_den} + 1",
+          "buggyRule": "Add one extra division because student counts marks instead of intervals: input = {A_den} + 1",
+          "description": "Student divides the line into one more part than needed, confusing number of ticks with number of intervals",
+          "mistakeLocation": "When setting up the number line for 2/3, the student thinks 3 parts require 4 ticks and enters 4",
+          "diagnosticQuestion": "If you divide a stick into 3 equal pieces, how many cuts do you make? How many pieces do you get?",
+          "feedback": "You’re thinking about the lines on the number line — good attention to detail! But remember: 3 equal parts come from 2 marks between 0 and 1. The number you enter is the number of PARTS, not the number of little lines.",
+          "howToFix": "Use physical string or paper strip: fold into 3 parts and count the segments (not the creases)",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "06fence",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "off_by_one_na_contagem_de_marcas",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({A_num} - 1)/{A_den}",
+          "buggyRule": "Count starting from 0 as the first mark, so stop one short: position = ({A_num} - 1) / {A_den}",
+          "description": "Student marks one interval too early, e.g., marks 1/3 instead of 2/3 for 2/3",
+          "mistakeLocation": "When counting ticks from 0, treats 0 as the first part and stops at the (numerator - 1)th tick",
+          "diagnosticQuestion": "Starting at 0, which tick shows 1/3? Which shows 2/3? Can you point to each?",
+          "feedback": "You’re close! Let’s count together: the first tick after 0 is 1/3, the second is 2/3. Where should 2/3 go?",
+          "howToFix": "Label each tick explicitly during practice: 'This is 1/3, this is 2/3' before asking to mark",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "ancora_na_metade_para_fracoes_proximas",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Default to marking 1/2 regardless of fraction, especially for fractions near the middle",
+          "description": "Student assumes any fraction between 1/3 and 2/3 is 'about half' and marks 1/2",
+          "mistakeLocation": "Instead of locating 2/3 precisely, the student places the mark at the midpoint",
+          "diagnosticQuestion": "Is 2/3 closer to 1/2 or to 1? How can you tell?",
+          "feedback": "You know where halfway is — that’s helpful! But 2/3 is actually past the halfway point. Let’s divide the line into 3 equal parts to see exactly where it goes.",
+          "howToFix": "Compare 2/3 to 1/2 using common denominators (4/6 vs 3/6) or visual overlay",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "06fence",
+        "step": 3,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "inversao_fracao_leitura_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{B_den}",
+          "buggyRule": "Correctly inputs denominator (7), but this is listed for completeness — however, a plausible distinct error is using the OTHER student’s denominator: input = {A_den}",
+          "description": "Student reuses Kewana’s denominator (3) for Adam’s line out of habit or confusion",
+          "mistakeLocation": "After working with 2/3, automatically enters 3 again for 4/7",
+          "diagnosticQuestion": "Did you use the same number of parts for both students? Should Adam’s fence be divided the same way as Kewana’s?",
+          "feedback": "You remembered how to divide the line — awesome! But each fraction has its own denominator. What’s the bottom number in Adam’s fraction?",
+          "howToFix": "Color-code each student’s data; require verbalization: 'Adam’s fraction is __ out of __'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "06fence",
+        "step": 4,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "marca_numerador_como_posicao_absoluta",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{B_num}",
+          "buggyRule": "Regardless of denominator, mark at position equal to numerator as if on integer scale: mark = {B_num} (but since line is 0-1, this collapses to 1 if {B_num} >= 1)",
+          "description": "Student ignores denominator and treats numerator as absolute position, marking at '4' which maps to end of line (1)",
+          "mistakeLocation": "When placing Adam’s point, disregards the scale and uses numerator as direct measure",
+          "diagnosticQuestion": "If the whole fence is length 1, can painting 4/7 put you at position 4? Where is the end of the fence?",
+          "feedback": "You’re trying to use the number 4 — that’s part of the fraction! But remember, we’re working between 0 and 1. The 4 means 4 out of 7 parts, not 4 units.",
+          "howToFix": "Emphasize that all values are between 0 and 1; use ruler analogy: 'The whole ruler is 1; 4/7 is a point along it'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "confusao_entre_numerador_e_posicao_com_denom_correto",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "({B_num} + 1)/{B_den}",
+          "buggyRule": "Count one extra tick: mark at ({B_num} + 1) / {B_den}, e.g., 5/7 instead of 4/7",
+          "description": "Student counts 0 as first tick and adds an extra, or starts counting from 1 incorrectly",
+          "mistakeLocation": "While marking 4/7 on a correctly divided line, lands on the 5th tick",
+          "diagnosticQuestion": "Let’s count the ticks slowly: 1st tick = 1/7, 2nd = 2/7… which is 4/7?",
+          "feedback": "You’re almost there! Let’s count the parts one by one from 0. The first part ends at 1/7, the second at 2/7… where does the fourth part end?",
+          "howToFix": "Number each tick during practice: label 1/7, 2/7, ..., 7/7 above the line",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "06fence",
+        "step": 5,
+        "kcUsed": "compFrac",
+        "errors": [
+         {
+          "misconceptionId": "gap_thinking_compare_by_remainder",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Adam painted more fence.",
+          "buggyRule": "Compare (denominator - numerator) for both fractions; if (A_den - A_num) > (B_den - B_num), conclude B painted more. Here: (3-2)=1, (7-4)=3 → 1 < 3 → Kewana has less left → Kewana painted more. BUT student reverses logic: thinks larger remainder means more painted, OR confuses which remainder is smaller due to integer bias (sees 3 > 1 and thinks Adam has less left). In practice, common outcome: chooses Adam because 4 > 2.",
+          "description": "Student uses 'gap thinking': judges fraction size by difference between numerator and denominator, not actual value",
+          "mistakeLocation": "In final comparison, uses 'how far from whole' as proxy but applies it inconsistently or inversely",
+          "diagnosticQuestion": "Kewana has 1/3 left, Adam has 3/7 left. Which leftover amount is smaller? Does smaller leftover mean more painted?",
+          "feedback": "You’re thinking about what’s left — that’s a smart strategy! Now, let’s compare the leftovers: is 1/3 smaller or larger than 3/7? Whichever is smaller means that person painted more.",
+          "howToFix": "Explicitly calculate and compare remainders using common denominators (7/21 vs 9/21) to see 1/3 < 3/7 → Kewana painted more",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "comparacao_por_numerador_isolado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Adam painted more fence.",
+          "buggyRule": "Compare only numerators: if B_num > A_num, conclude B > A, ignoring denominators. Here: 4 > 2 → Adam painted more.",
+          "description": "Student assumes larger numerator always means larger fraction, without considering denominator",
+          "mistakeLocation": "When choosing between options, focuses only on '4 vs 2' and ignores that parts are different sizes",
+          "diagnosticQuestion": "Would you rather have 4 pieces of a pizza cut into 7 slices, or 2 pieces of a pizza cut into 3 slices? Which gives you more pizza?",
+          "feedback": "You noticed that 4 is bigger than 2 — great observation! But the size of each piece matters too. In 4/7, the pieces are smaller than in 2/3. Let’s think about the size of each part.",
+          "howToFix": "Use concrete analogies (pizza, chocolate bar); convert to decimals (0.666 vs 0.571) for verification",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "equivocadamente_assume_iguais_por_aproximacao_visual_rapida",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "Both painted same amount of fence.",
+          "buggyRule": "If fractions appear visually close on number line (especially without precise division), assume they are equal",
+          "description": "Student sees both marks in the 'right half' and concludes they’re the same",
+          "mistakeLocation": "During visual comparison, fails to distinguish between 2/3 (~0.67) and 4/7 (~0.57)",
+          "diagnosticQuestion": "Are the two marks exactly on top of each other? Which one is farther from 0?",
+          "feedback": "You’re checking if they’re close — that’s careful! But even small differences matter. Let’s zoom in: which mark is closer to 1? That one is larger.",
+          "howToFix": "Overlay transparent number lines or use digital zoom; calculate decimal equivalents",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "06fence",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar as frações",
+        "thinking": "Kewana pintou 2/3 e Adam 4/7. Preciso comparar essas duas frações usando as retas numéricas.",
+        "result": "Identificadas as frações: 2/3 e 4/7",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Dividir a primeira reta (Kewana) em 3 partes iguais",
+        "thinking": "Para marcar 2/3, preciso dividir a reta de 0 a 1 em 3 partes... mas como o sistema faz isso? Será que digito '3' no campo?",
+        "result": "Digitou '3' no campo denom1 e confirmou",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Se a fração é 2/3, quantas partes iguais devemos dividir o todo? Pense no denominador..."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Digite o número do denominador (3) no campo da primeira reta e clique em confirmar para ver as divisões."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O denominador da fração de Kewana é 3. Digite esse número no primeiro campo de divisão."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase pronto! Veja: a fração é 2/3, então a reta deve ter 3 partes iguais. Digite 3 no campo acima da primeira reta e confirme."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto 2/3 na primeira reta",
+        "thinking": "Agora que está dividida em 3, preciso contar até o segundo traço... mas será que clico exatamente no segundo ou entre os traços?",
+        "result": "Marcou corretamente o ponto correspondente a 2/3",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se o numerador é 2, quantos passos você dá a partir do zero? Cada parte representa um passo!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Ótimo! Comece no 0 e avance 2 das 3 partes iguais. Clique no final da segunda parte para marcar 2/3."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja os traços: o primeiro é 1/3, o segundo é 2/3. Clique exatamente no segundo traço."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! A reta tem 3 partes: 1/3, 2/3, 3/3. Clique no ponto que fica logo antes do último traço — esse é o 2/3!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta (Adam) em 7 partes iguais",
+        "thinking": "Agora preciso fazer o mesmo com 4/7... mas dividir em 7 partes parece difícil de visualizar. Será que o sistema ajuda?",
+        "result": "Digitou '7' no campo denom2 e confirmou",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "O denominador mostra em quantas partes iguais o todo foi dividido. Qual é o denominador da fração de Adam?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Digite o denominador da fração de Adam (7) no segundo campo e confirme para ver as divisões."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "A fração de Adam é 4/7, então a reta deve ter 7 partes. Digite 7 no segundo campo de divisão."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exato! Para 4/7, a reta precisa de 7 divisões. Digite 7 no campo acima da segunda reta e clique em confirmar."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto 4/7 na segunda reta",
+        "thinking": "Com 7 partes, preciso achar a quarta... mas os traços estão tão juntos! Como tenho certeza de qual é o quarto?",
+        "result": "Marcou corretamente o ponto correspondente a 4/7",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se cada parte é 1/7, quantas partes você precisa contar para chegar a 4/7?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Vamos lá! Conte 1/7, 2/7, 3/7, 4/7 — clique no final da quarta parte a partir do zero."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "A quarta marcação após o zero é 4/7. Mesmo que os traços estejam próximos, conte com calma: 1, 2, 3, 4."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! A partir do zero, o primeiro traço é 1/7, o segundo 2/7, terceiro 3/7, e o quarto — onde você deve clicar — é 4/7."
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas",
+        "thinking": "Olhando as duas retas, o ponto de Kewana parece mais à direita... mas será que posso confiar nisso? Talvez eu devesse calcular mentalmente também.",
+        "result": "Concluiu que 2/3 > 4/7",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Na reta numérica, qual fração está mais longe do zero? Isso indica qual é maior!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Compare as posições: a fração que está mais à direita na reta é a maior. Olhe com atenção para os dois pontos marcados."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja: 2/3 está claramente mais perto de 1 do que 4/7. Isso significa que Kewana pintou mais."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! O ponto de Kewana está depois do meio (1/2), e o de Adam está antes do meio? Não — ambos estão depois, mas 2/3 está mais próximo do 1. Quem está mais à direita vence!"
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta",
+        "thinking": "Então Kewana pintou mais... vou escolher 'Kewana painted more fence.'",
+        "result": "Selecionou corretamente a opção: 'Kewana painted more fence.'",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 8,
+        "action": "Clicar em Done",
+        "thinking": "Acho que terminei tudo certo!",
+        "result": "Problema concluído",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "Kewana painted more fence.",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Converter frações para decimais mentalmente (2/3 ≈ 0.666, 4/7 ≈ 0.571) e comparar",
+        "steps": [
+         "Calcular valor decimal aproximado",
+         "Comparar os decimais"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Encontrar denominador comum (21) e comparar 14/21 com 12/21",
+        "steps": [
+         "Calcular mmc(3,7)=21",
+         "Converter 2/3 → 14/21",
+         "Converter 4/7 → 12/21",
+         "Comparar numeradores"
+        ],
+        "efficiency": "high"
+       },
+       {
+        "description": "Usar regra de comparação cruzada: 2×7=14 vs 4×3=12 → 14>12 ⇒ 2/3 > 4/7",
+        "steps": [
+         "Multiplicar numerador de uma pelo denominador da outra",
+         "Comparar os produtos"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 4,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "fraction-ordering-6.20",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; DUAS retas numéricas de 0 a 1, uma para cada quantidade (rotuladas \"Amount Kewana painted\" e \"Amount Adam painted\"); para cada reta há um campo onde o aluno digita em quantas partes iguais dividi-la (com confirmação) e, depois, marca o ponto da fração correspondente; abaixo, um seletor em que o aluno escolhe UMA destas alternativas: \"Kewana painted more fence.\"; \"Adam painted more fence.\"; \"Both painted same amount of fence.\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "linhas": 2
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "denom1",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da primeira reta (em quantas partes dividir) + confirmar"
+   },
+   {
+    "id": "numline1",
+    "tipo": "numberline",
+    "papel": "primeira reta numérica; o aluno marca o ponto da primeira fração"
+   },
+   {
+    "id": "denom2",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da segunda reta + confirmar"
+   },
+   {
+    "id": "numline2",
+    "tipo": "numberline",
+    "papel": "segunda reta numérica; o aluno marca o ponto da segunda fração"
+   },
+   {
+    "id": "compBox",
+    "tipo": "text",
+    "papel": "seletor com as alternativas de comparação; o aluno escolhe uma delas"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ }
+}
