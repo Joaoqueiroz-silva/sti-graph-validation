@@ -36,3 +36,15 @@ cada commit; os manuscritos v6/v7 os citam; e a CONTRADIÇÃO entre C4 (0,20) e
 C5 (0,90) é parte do resultado novo — a rodada 2 explicou-a com comparação
 pareada (estágio × produto). Apagar histórico quebraria a reprodutibilidade e
 empobreceria o artigo.
+
+## Organização para a banca (19/08/2026)
+
+As pastas vigentes, usadas pelo artigo, são `rodada3-passos-livres-2026-08-15/`,
+`rodada4-interface-fixa-2026-08-15/`, `bloco1-mathtutor-2026-08-16/`,
+`EXPERIMENTO-CONSOLIDADO-2026-08/`, `juizo-2026-08-19/` e
+`bancada-v2-2026-08-14/`; `campanha3-2026-07-13/` fica por ser fixture da suíte
+de testes.
+
+O restante do material histórico foi removido da árvore em 19/08/2026 e
+permanece integralmente no histórico git — ver `README-BANCA.md` na raiz para o
+mapa completo, a ordem de leitura e os comandos de reprodução.
