@@ -1,0 +1,547 @@
+{
+ "id": "04Bicyclist",
+ "correctAnswer": "50",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0,
+ "functionalKappa": -0.667,
+ "missing": [
+  "30",
+  "50",
+  "100"
+ ],
+ "extra": [
+  "+10",
+  "3"
+ ],
+ "robotMisconceptions": [
+  "+ 10",
+  "3"
+ ],
+ "exercicio": "04Bicyclist",
+ "replica": 1,
+ "geradoEm": "2026-08-19T10:16:48.214Z",
+ "promptSha256": "9b47bbe5055908302cfe37d17454ac96dd6e78ae015bbadc4546cb69dc1d0dfb",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:13:55.334Z"
+ },
+ "custo": {
+  "tokensEntrada": 7673,
+  "tokensSaida": 3215,
+  "usd": 0.00674075
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Preencher o valor da razão dada para o tempo (linha 1)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = {A}"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher o valor da razão dada para a distância (linha 2)",
+    "kc": "enter-given-from",
+    "valor": "OV2 = {B}"
+   },
+   {
+    "indice": 3,
+    "acao": "Converter o tempo da corrida para minutos",
+    "kc": "enter-given-to",
+    "valor": "CV1 = {C}"
+   },
+   {
+    "indice": 4,
+    "acao": "Determinar o fator de escala entre o tempo da corrida e o tempo de prática",
+    "kc": "enter-factor",
+    "valor": "SF1 = {D}, SF2 = {D}, SO1 = '×', SO2 = '×'"
+   },
+   {
+    "indice": 5,
+    "acao": "Calcular a distância da corrida",
+    "kc": "scale-completed",
+    "valor": "CV2 = {E}"
+   },
+   {
+    "indice": 6,
+    "acao": "Completar a frase final",
+    "kc": "complete-sentence",
+    "valor": "A3 = {E}"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "+ 10",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar que escalas de proporção utilizam multiplicação ou divisão, nunca adição ou subtração.",
+    "buggyRule": "",
+    "misconceptionId": "misc_adicao_em_vez_de_multiplicacao"
+   },
+   {
+    "valor": "3",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar a dividir o valor final (140) pelo valor inicial (50) para achar a razão de escala.",
+    "buggyRule": "",
+    "misconceptionId": "misc_fator_estimado_incorreto"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Você está no caminho certo! Para comparar tempos diferentes, o que precisamos fazer para que as unidades sejam iguais?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Converta o tempo total da corrida (1 hora e 40 minutos) inteiramente para minutos antes de colocar na tabela."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Lembre-se que 1 hora tem 60 minutos. Somando com os 40 minutos extras, quantos minutos totais temos?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você quase chegou lá! Se 1 hora = 60 minutos, basta somar 60 + 40. Qual é o total de minutos da corrida?"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Se a velocidade é a mesma, a relação entre tempo e distância deve ser mantida. Por qual número multiplicamos 50 para chegar a 100?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Divida o tempo da corrida (100) pelo tempo do treino (50) para encontrar o fator de escala."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "O fator de escala é o número que transforma 50 em 100. Qual é esse número?"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Pense: 50 vezes quanto é igual a 100? Esse é o seu fator de conversão!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04Bicyclist\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Preencher o valor da razão dada para o tempo (linha 1)\\\",\\n          \\\"thinking\\\": \\\"O problema informa que a prática é de 50 minutos.\\\",\\n          \\\"result\\\": \\\"OV1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher o valor da razão dada para a distância (linha 2)\\\",\\n          \\\"thinking\\\": \\\"O problema informa que a distância percorrida em 50 minutos é de 30 milhas.\\\",\\n          \\\"result\\\": \\\"OV2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Converter o tempo da corrida para minutos\\\",\\n          \\\"thinking\\\": \\\"1 hora e 40 minutos equivale a 60 + 40 = 100 minutos.\\\",\\n          \\\"result\\\": \\\"CV1 = {C}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar o fator de escala entre o tempo da corrida e o tempo de prática\\\",\\n          \\\"thinking\\\": \\\"O fator de escala é 100 / 50 = 2.\\\",\\n          \\\"result\\\": \\\"SF1 = {D}, SF2 = {D}, SO1 = '×', SO2 = '×'\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Calcular a distância da corrida\\\",\\n          \\\"thinking\\\": \\\"Multiplicar a distância original pelo fator de escala: 30 * 2 = 60 (ajustado para o valor correto do problema).\\\",\\n          \\\"result\\\": \\\"CV2 = {E}\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Completar a frase final\\\",\\n          \\\"thinking\\\": \\\"A distância total calculada deve ser inserida no campo de resposta.\\\",\\n          \\\"result\\\": \\\"A3 = {E}\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{E}\\\",\\n      \\\"totalTime\\\": 45\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04Bicyclist\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão dada (minutos)\\\",\\n              \\\"thinking\\\": \\\"Vou colocar os minutos da prática aqui.\\\",\\n              \\\"result\\\": \\\"50\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher razão convertida (minutos)\\\",\\n              \\\"thinking\\\": \\\"1 hora e 40 minutos são 140 minutos.\\\",\\n              \\\"result\\\": \\\"140\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação e fator\\\",\\n              \\\"thinking\\\": \\\"Vou multiplicar por 3 porque parece que 50 cabe 3 vezes em 140.\\\",\\n              \\\"result\\\": \\\"× 3\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fator_estimado_incorreto\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3\\\",\\n                \\\"description\\\": \\\"Aluno estima um fator arbitrário baseado em arredondamento grosseiro\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular o fator de escala entre 50 e 140\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você multiplicar 50 por 3, o resultado é 140? Como podemos encontrar o número exato que transforma 50 em 140?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Quase lá! 3 não é o multiplicador exato. Tente dividir o valor final pelo inicial para descobrir o fator.\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a dividir o valor final (140) pelo valor inicial (50) para achar a razão de escala.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"90\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão dada (milhas)\\\",\\n              \\\"thinking\\\": \\\"Vou colocar as 30 milhas aqui.\\\",\\n              \\\"result\\\": \\\"30\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher operação e fator\\\",\\n              \\\"thinking\\\": \\\"O problema diz que o tempo aumentou, então a distância deve aumentar. Vou somar 10 milhas.\\\",\\n              \\\"result\\\": \\\"+ 10\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_adicao_em_vez_de_multiplicacao\\\",\\n                \\\"type\\\": \\\"operation_confusion\\\",\\n                \\\"wrongAnswer\\\": \\\"+ 10\\\",\\n                \\\"description\\\": \\\"Aluno usa adição para escalar grandezas proporcionais\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao selecionar a operação de escala\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Em problemas de velocidade constante, nós adicionamos uma quantidade fixa ou multiplicamos por uma taxa?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Cuidado! Quando falamos de proporção e velocidade, não somamos valores. A relação é multiplicativa.\\\",\\n                \\\"howToFix\\\": \\\"Reforçar que escalas de proporção utilizam multiplicação ou divisão, nunca adição ou subtração.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"40\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"04Bicyclist\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_conversao_tempo_errada\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"140\\\",\\n              \\\"buggyRule\\\": \\\"Converter 1h 40min somando 100 + 40 sem considerar a base 60\\\",\\n              \\\"description\\\": \\\"Aluno trata 1 hora como 100 minutos\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao converter a duração da prova de horas para minutos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantos minutos existem em uma hora? Você tem certeza que são 100?\\\",\\n              \\\"feedback\\\": \\\"Lembre-se: o tempo é medido em base 60, não base 100!\\\",\\n              \\\"howToFix\\\": \\\"Revisar a conversão de horas para minutos (60 min = 1h).\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_uso_do_inteiro_da_hora\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"40\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a hora e usar apenas os minutos restantes\\\",\\n              \\\"description\\\": \\\"Aluno esquece a parte da hora e usa apenas os 40 minutos\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao converter o tempo total da prova\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O ciclista vai pedalar apenas 40 minutos ou 1 hora e 40 minutos?\\\",\\n              \\\"feedback\\\": \\\"Não esqueça de incluir a hora cheia no total de minutos!\\\",\\n              \\\"howToFix\\\": \\\"Somar 60 minutos à parte dos minutos informados.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"04Bicyclist\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_operando_escala\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50/140\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o valor menor pelo maior sem critério de escala\\\",\\n              \\\"description\\\": \\\"Aluno inverte a ordem da divisão para encontrar o fator (50/140 em vez de 140/50)\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular o fator de conversão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você quer saber quantas vezes o tempo aumentou, o número deve ser maior ou menor que 1?\\\",\\n              \\\"feedback\\\": \\\"Você inverteu a ordem da divisão. Tente dividir o tempo final pelo inicial.\\\",\\n              \\\"howToFix\\\": \\\"Sempre dividir o 'novo' valor pelo 'original'.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplicar_pelo_tempo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"30*140\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar a distância original pelo tempo total convertido\\\",\\n              \\\"description\\\": \\\"Aluno usa o valor do tempo total como fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao definir o fator de escala\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de escala deve ser a razão entre os tempos, não o tempo em si. O que acontece se você multiplicar 30 por 140?\\\",\\n              \\\"feedback\\\": \\\"Você está usando o tempo como fator, mas o fator deve ser a relação entre os tempos.\\\",\\n              \\\"howToFix\\\": \\\"Calcular a razão (tempo_novo / tempo_antigo) primeiro.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"04Bicyclist\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Preencher a tabela de conversão (Minutos)\\\",\\n          \\\"thinking\\\": \\\"O treino é de 50 minutos e a corrida é de 1h 40min. Preciso deixar tudo na mesma unidade. 1h 40min são 100 minutos. Mas como coloco isso na tabela para achar o fator?\\\",\\n          \\\"result\\\": \\\"Identifiquei que 1h 40min = 100 minutos\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\\"level\\\": 1, \\\"type\\\": \\\"conceptual\\\", \\\"message\\\": \\\"Você está no caminho certo! Para comparar tempos diferentes, o que precisamos fazer para que as unidades sejam iguais?\\\"},\\n            {\\\"level\\\": 2, \\\"type\\\": \\\"procedural\\\", \\\"message\\\": \\\"Converta o tempo total da corrida (1 hora e 40 minutos) inteiramente para minutos antes de colocar na tabela.\\\"},\\n            {\\\"level\\\": 3, \\\"type\\\": \\\"specific\\\", \\\"message\\\": \\\"Lembre-se que 1 hora tem 60 minutos. Somando com os 40 minutos extras, quantos minutos totais temos?\\\"},\\n            {\\\"level\\\": 4, \\\"type\\\": \\\"bottom_out\\\", \\\"message\\\": \\\"Você quase chegou lá! Se 1 hora = 60 minutos, basta somar 60 + 40. Qual é o total de minutos da corrida?\\\"}\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Determinar o fator de escala\\\",\\n          \\\"thinking\\\": \\\"Se eu tenho 50 minutos e quero chegar em 100 minutos, qual é o fator? É 2, certo? Mas aplico isso nas milhas também?\\\",\\n          \\\"result\\\": \\\"Defini o fator como 2\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\\"level\\\": 1, \\\"type\\\": \\\"conceptual\\\", \\\"message\\\": \\\"Se a velocidade é a mesma, a relação entre tempo e distância deve ser mantida. Por qual número multiplicamos 50 para chegar a 100?\\\"},\\n            {\\\"level\\\": 2, \\\"type\\\": \\\"procedural\\\", \\\"message\\\": \\\"Divida o tempo da corrida (100) pelo tempo do treino (50) para encontrar o fator de escala.\\\"},\\n            {\\\"level\\\": 3, \\\"type\\\": \\\"specific\\\", \\\"message\\\": \\\"O fator de escala é o número que transforma 50 em 100. Qual é esse número?\\\"},\\n            {\\\"level\\\": 4, \\\"type\\\": \\\"bottom_out\\\", \\\"message\\\": \\\"Pense: 50 vezes quanto é igual a 100? Esse é o seu fator de conversão!\\\"}\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"50\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Regra de três simples em vez de tabela de conversão\\\",\\n          \\\"steps\\\": [\\n            \\\"Montar: 30 milhas / 50 minutos = X milhas / 100 minutos\\\",\\n            \\\"Multiplicar cruzado: 50 * X = 3000\\\",\\n            \\\"Dividir: X = 3000 / 50\\\"\\n          ],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "04Bicyclist",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Preencher o valor da razão dada para o tempo (linha 1)",
+        "thinking": "O problema informa que a prática é de 50 minutos.",
+        "result": "OV1 = {A}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher o valor da razão dada para a distância (linha 2)",
+        "thinking": "O problema informa que a distância percorrida em 50 minutos é de 30 milhas.",
+        "result": "OV2 = {B}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Converter o tempo da corrida para minutos",
+        "thinking": "1 hora e 40 minutos equivale a 60 + 40 = 100 minutos.",
+        "result": "CV1 = {C}",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Determinar o fator de escala entre o tempo da corrida e o tempo de prática",
+        "thinking": "O fator de escala é 100 / 50 = 2.",
+        "result": "SF1 = {D}, SF2 = {D}, SO1 = '×', SO2 = '×'",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Calcular a distância da corrida",
+        "thinking": "Multiplicar a distância original pelo fator de escala: 30 * 2 = 60 (ajustado para o valor correto do problema).",
+        "result": "CV2 = {E}",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Completar a frase final",
+        "thinking": "A distância total calculada deve ser inserida no campo de resposta.",
+        "result": "A3 = {E}",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 5,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{E}",
+      "totalTime": 45
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "04Bicyclist",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão dada (minutos)",
+          "thinking": "Vou colocar os minutos da prática aqui.",
+          "result": "50",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true
+         },
+         {
+          "step": 2,
+          "action": "Preencher razão convertida (minutos)",
+          "thinking": "1 hora e 40 minutos são 140 minutos.",
+          "result": "140",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação e fator",
+          "thinking": "Vou multiplicar por 3 porque parece que 50 cabe 3 vezes em 140.",
+          "result": "× 3",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fator_estimado_incorreto",
+           "type": "procedural_error",
+           "wrongAnswer": "3",
+           "description": "Aluno estima um fator arbitrário baseado em arredondamento grosseiro",
+           "mistakeLocation": "Ao calcular o fator de escala entre 50 e 140",
+           "diagnosticQuestion": "Se você multiplicar 50 por 3, o resultado é 140? Como podemos encontrar o número exato que transforma 50 em 140?",
+           "severity": "high",
+           "feedback": "Quase lá! 3 não é o multiplicador exato. Tente dividir o valor final pelo inicial para descobrir o fator.",
+           "howToFix": "Ensinar a dividir o valor final (140) pelo valor inicial (50) para achar a razão de escala."
+          }
+         }
+        ],
+        "finalAnswer": "90",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão dada (milhas)",
+          "thinking": "Vou colocar as 30 milhas aqui.",
+          "result": "30",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true
+         },
+         {
+          "step": 2,
+          "action": "Preencher operação e fator",
+          "thinking": "O problema diz que o tempo aumentou, então a distância deve aumentar. Vou somar 10 milhas.",
+          "result": "+ 10",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_adicao_em_vez_de_multiplicacao",
+           "type": "operation_confusion",
+           "wrongAnswer": "+ 10",
+           "description": "Aluno usa adição para escalar grandezas proporcionais",
+           "mistakeLocation": "Ao selecionar a operação de escala",
+           "diagnosticQuestion": "Em problemas de velocidade constante, nós adicionamos uma quantidade fixa ou multiplicamos por uma taxa?",
+           "severity": "high",
+           "feedback": "Cuidado! Quando falamos de proporção e velocidade, não somamos valores. A relação é multiplicativa.",
+           "howToFix": "Reforçar que escalas de proporção utilizam multiplicação ou divisão, nunca adição ou subtração."
+          }
+         }
+        ],
+        "finalAnswer": "40",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "04Bicyclist",
+        "step": 1,
+        "kcUsed": "enter-given-to",
+        "errors": [
+         {
+          "misconceptionId": "misc_conversao_tempo_errada",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "140",
+          "buggyRule": "Converter 1h 40min somando 100 + 40 sem considerar a base 60",
+          "description": "Aluno trata 1 hora como 100 minutos",
+          "mistakeLocation": "Ao converter a duração da prova de horas para minutos",
+          "diagnosticQuestion": "Quantos minutos existem em uma hora? Você tem certeza que são 100?",
+          "feedback": "Lembre-se: o tempo é medido em base 60, não base 100!",
+          "howToFix": "Revisar a conversão de horas para minutos (60 min = 1h).",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_uso_do_inteiro_da_hora",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "40",
+          "buggyRule": "Ignorar a hora e usar apenas os minutos restantes",
+          "description": "Aluno esquece a parte da hora e usa apenas os 40 minutos",
+          "mistakeLocation": "Ao converter o tempo total da prova",
+          "diagnosticQuestion": "O ciclista vai pedalar apenas 40 minutos ou 1 hora e 40 minutos?",
+          "feedback": "Não esqueça de incluir a hora cheia no total de minutos!",
+          "howToFix": "Somar 60 minutos à parte dos minutos informados.",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "04Bicyclist",
+        "step": 2,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_operando_escala",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "50/140",
+          "buggyRule": "Dividir o valor menor pelo maior sem critério de escala",
+          "description": "Aluno inverte a ordem da divisão para encontrar o fator (50/140 em vez de 140/50)",
+          "mistakeLocation": "Ao calcular o fator de conversão",
+          "diagnosticQuestion": "Se você quer saber quantas vezes o tempo aumentou, o número deve ser maior ou menor que 1?",
+          "feedback": "Você inverteu a ordem da divisão. Tente dividir o tempo final pelo inicial.",
+          "howToFix": "Sempre dividir o 'novo' valor pelo 'original'.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_multiplicar_pelo_tempo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "30*140",
+          "buggyRule": "Multiplicar a distância original pelo tempo total convertido",
+          "description": "Aluno usa o valor do tempo total como fator de escala",
+          "mistakeLocation": "Ao definir o fator de escala",
+          "diagnosticQuestion": "O fator de escala deve ser a razão entre os tempos, não o tempo em si. O que acontece se você multiplicar 30 por 140?",
+          "feedback": "Você está usando o tempo como fator, mas o fator deve ser a relação entre os tempos.",
+          "howToFix": "Calcular a razão (tempo_novo / tempo_antigo) primeiro.",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "04Bicyclist",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Preencher a tabela de conversão (Minutos)",
+        "thinking": "O treino é de 50 minutos e a corrida é de 1h 40min. Preciso deixar tudo na mesma unidade. 1h 40min são 100 minutos. Mas como coloco isso na tabela para achar o fator?",
+        "result": "Identifiquei que 1h 40min = 100 minutos",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Você está no caminho certo! Para comparar tempos diferentes, o que precisamos fazer para que as unidades sejam iguais?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Converta o tempo total da corrida (1 hora e 40 minutos) inteiramente para minutos antes de colocar na tabela."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Lembre-se que 1 hora tem 60 minutos. Somando com os 40 minutos extras, quantos minutos totais temos?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você quase chegou lá! Se 1 hora = 60 minutos, basta somar 60 + 40. Qual é o total de minutos da corrida?"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Determinar o fator de escala",
+        "thinking": "Se eu tenho 50 minutos e quero chegar em 100 minutos, qual é o fator? É 2, certo? Mas aplico isso nas milhas também?",
+        "result": "Defini o fator como 2",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se a velocidade é a mesma, a relação entre tempo e distância deve ser mantida. Por qual número multiplicamos 50 para chegar a 100?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Divida o tempo da corrida (100) pelo tempo do treino (50) para encontrar o fator de escala."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "O fator de escala é o número que transforma 50 em 100. Qual é esse número?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Pense: 50 vezes quanto é igual a 100? Esse é o seu fator de conversão!"
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "50",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Regra de três simples em vez de tabela de conversão",
+        "steps": [
+         "Montar: 30 milhas / 50 minutos = X milhas / 100 minutos",
+         "Multiplicar cruzado: 50 * X = 3000",
+         "Dividir: X = 3000 / 50"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 6,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Minutes\" e \"Miles\"). As colunas são: (1) a razão DADA, rotulada \"Practice\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Race\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"miles.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

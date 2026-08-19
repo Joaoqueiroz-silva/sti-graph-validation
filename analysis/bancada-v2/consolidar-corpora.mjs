@@ -30,7 +30,10 @@ export const CORPORA = [
   { corpus: "6.18 Equivalent Fractions (equiv-fractions-6.18)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.18", prefixo: "materializado-v3-fixa-" },
   { corpus: "6.20 Fraction Ordering (fraction-ordering-6.20)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.20", prefixo: "materializado-v3-fixa-" },
   { corpus: "8.12 Factors, Scaling, and Percents (8.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/8.12", prefixo: "materializado-v3-fixa-" },
-  { corpus: "7.12 Conversion Factors (7.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/7.12", prefixo: "materializado-v3-fixa-" },
+  // 7.12 Conversion Factors: corpus preparado, coleta INTERROMPIDA por decisão
+  // do autor em 19/08 (ver resultados/bloco1-mathtutor-2026-08-16/7.12/LEIA-ME.md).
+  // Reativar esta linha se a coleta for retomada.
+  // { corpus: "7.12 Conversion Factors (7.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/7.12", prefixo: "materializado-v3-fixa-" },
 ];
 
 const media = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);

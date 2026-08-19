@@ -1,0 +1,1036 @@
+{
+ "id": "07Driving",
+ "correctAnswer": "50",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.095,
+ "conceptual": 0.095,
+ "precision": 0.091,
+ "recall": 0.1,
+ "functionalAgreement": 0.2,
+ "functionalKappa": -0.667,
+ "missing": [
+  "1",
+  "400"
+ ],
+ "extra": [
+  "25/4",
+  "20000"
+ ],
+ "robotMisconceptions": [
+  "6.25",
+  "50",
+  "20000"
+ ],
+ "exercicio": "07Driving",
+ "replica": 2,
+ "geradoEm": "2026-08-19T11:21:19.596Z",
+ "promptSha256": "e122f7b0938a238abe59d6c2bd479e2979efe4af3bb13e3006ec6d544ebdf0f0",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7760,
+  "tokensSaida": 10644,
+  "usd": 0.0475644
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Valores identificados: distância = {A}, velocidade = {B}"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar a razão dada (velocidade) e suas unidades",
+    "kc": "enter-per1",
+    "valor": "Razão dada: {B} miles/hour"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher os valores dados na tabela de conversão",
+    "kc": "enter-given-to",
+    "valor": "OV1 = {B}, OV2 = 1"
+   },
+   {
+    "indice": 4,
+    "acao": "Determinar o fator de conversão necessário para obter a distância total",
+    "kc": "enter-factor",
+    "valor": "Fator de conversão = {A} / {B}"
+   },
+   {
+    "indice": 5,
+    "acao": "Aplicar a operação correta nas linhas da tabela",
+    "kc": "scale-completed",
+    "valor": "SO1 = '×', SO2 = '×'"
+   },
+   {
+    "indice": 6,
+    "acao": "Preencher os fatores de conversão nas linhas",
+    "kc": "enter-factor",
+    "valor": "SF1 = {A}/{B}, SF2 = {A}/{B}"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular os valores convertidos",
+    "kc": "scale-completed",
+    "valor": "CV1 = {A}, CV2 = {A}/{B}"
+   },
+   {
+    "indice": 8,
+    "acao": "Inserir a resposta final na caixa apropriada",
+    "kc": "complete-sentence",
+    "valor": "Resposta final = {A}/{B}"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6.25",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar visualmente que CV1 = 400 (viagem total em milhas) e CV2 é o que queremos (horas)",
+    "buggyRule": "",
+    "misconceptionId": "misc_confunde_linha_da_resposta"
+   },
+   {
+    "valor": "50",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Pedir ao aluno justificar verbalmente o significado de cada número antes de digitar a resposta final",
+    "buggyRule": "",
+    "misconceptionId": "misc_responde_com_dado_da_velocidade"
+   },
+   {
+    "valor": "20000",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar estimativa: 'Se fosse 100 milhas a 50 mph, levaria 2 horas. Então 400 milhas deve levar mais ou menos?'",
+    "buggyRule": "",
+    "misconceptionId": "misc_multiplicar_sempre_aumenta_distancia_tempo"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! A velocidade é uma taxa: 'milhas por hora'. Quando queremos converter uma distância total em tempo, estamos usando essa taxa como base. O que representa o 400 milhas nesse contexto?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, coloque a taxa dada: 50 milhas na linha das milhas e 1 hora na linha das horas. Depois, pense: para obter 400 milhas, por quanto precisamos multiplicar ou dividir a taxa original?"
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! O 400 milhas é a distância total da viagem — ele corresponde à coluna 'Trip' (razão convertida) na linha das milhas. Agora, qual operação liga 50 a 400?"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se 50 milhas correspondem a 1 hora, então 400 milhas correspondem a quantas vezes mais? Pense: 50 × ___ = 400. Esse número será o mesmo que você usa na linha das horas!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Parece que há uma confusão! Lembre-se: tempo = distância ÷ velocidade. Se Bill dirige 400 milhas a 50 mph, ele leva mais ou menos de 10 horas?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Use a fórmula: tempo = distância / velocidade. Divida 400 por 50. Na tabela, isso significa: na linha das milhas, você tem 50 (dado) e quer 400 (convertido). Para ir de 50 a 400, você multiplica por 8. Então, na linha das horas, 1 × 8 = 8."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Atenção: a resposta correta é 8 horas, não 50. O valor 50 é a velocidade, não o tempo. Verifique se o campo 'correctAnswer' foi preenchido incorretamente. Sua conta deve dar 8."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Vamos lá! 50 milhas → 1 hora. Quantos grupos de 50 cabem em 400? Conte: 50, 100, 150... até 400. São 8 grupos. Então, 8 horas!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema fornece uma distância total de {A} milhas e uma velocidade constante de {B} milhas por hora. Preciso encontrar o tempo total de viagem em horas.\\\",\\n          \\\"result\\\": \\\"Valores identificados: distância = {A}, velocidade = {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar a razão dada (velocidade) e suas unidades\\\",\\n          \\\"thinking\\\": \\\"A velocidade é dada como {B} milhas por hora, ou seja, {B} miles / 1 hour. Essa é a razão unitária que relaciona as duas grandezas.\\\",\\n          \\\"result\\\": \\\"Razão dada: {B} miles/hour\\\",\\n          \\\"kcUsed\\\": \\\"enter-per1\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela de conversão\\\",\\n          \\\"thinking\\\": \\\"Na linha 1 (Miles), o valor da razão dada é {B}. Na linha 2 (Hours), o valor da razão dada é 1 (pois a velocidade é por 1 hora).\\\",\\n          \\\"result\\\": \\\"OV1 = {B}, OV2 = 1\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar o fator de conversão necessário para obter a distância total\\\",\\n          \\\"thinking\\\": \\\"Quero converter da razão unitária ({B} miles / 1 hour) para a viagem total ({A} miles / ? hours). O fator de escala é {A} ÷ {B}, pois preciso descobrir quantas 'unidades' de {B} cabem em {A}.\\\",\\n          \\\"result\\\": \\\"Fator de conversão = {A} / {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Aplicar a operação correta nas linhas da tabela\\\",\\n          \\\"thinking\\\": \\\"Para escalar a razão unitária até a viagem total, devo multiplicar ambos os lados pelo fator {A}/{B}. Portanto, a operação em ambas as linhas é ×.\\\",\\n          \\\"result\\\": \\\"SO1 = '×', SO2 = '×'\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher os fatores de conversão nas linhas\\\",\\n          \\\"thinking\\\": \\\"O mesmo fator {A}/{B} é aplicado às duas grandezas. Assim, SF1 = SF2 = {A}/{B}.\\\",\\n          \\\"result\\\": \\\"SF1 = {A}/{B}, SF2 = {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular os valores convertidos\\\",\\n          \\\"thinking\\\": \\\"Linha 1 (Miles): {B} × ({A}/{B}) = {A}. Linha 2 (Hours): 1 × ({A}/{B}) = {A}/{B}. Esse último é o tempo total.\\\",\\n          \\\"result\\\": \\\"CV1 = {A}, CV2 = {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Inserir a resposta final na caixa apropriada\\\",\\n          \\\"thinking\\\": \\\"O tempo total de condução é CV2 = {A}/{B} horas. Como o enunciado pede para completar a frase com o número antes de 'hours.', insiro esse valor.\\\",\\n          \\\"result\\\": \\\"Resposta final = {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A} / {B}\\\",\\n      \\\"totalTime\\\": 40\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher valor dado na linha 1 (miles)\\\",\\n              \\\"thinking\\\": \\\"A velocidade é 50 miles per hour, então coloco 50 em OV1.\\\",\\n              \\\"result\\\": \\\"OV1 = 50\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher valor dado na linha 2 (hours)\\\",\\n              \\\"thinking\\\": \\\"A velocidade tem 1 hora, então coloco 1 em OV2.\\\",\\n              \\\"result\\\": \\\"OV2 = 1\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação na linha 1\\\",\\n              \\\"thinking\\\": \\\"Quero converter de miles para hours... acho que tenho que dividir os miles.\\\",\\n              \\\"result\\\": \\\"SO1 = '÷'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Escolher operação na linha 2\\\",\\n              \\\"thinking\\\": \\\"Se dividi na linha 1, devo multiplicar na linha 2 pra manter a proporção.\\\",\\n              \\\"result\\\": \\\"SO2 = '×'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular fator de conversão\\\",\\n              \\\"thinking\\\": \\\"Preciso descobrir quanto é 400 ÷ 50... ah, isso é 8! Então SF1 = 8 e SF2 = 8.\\\",\\n              \\\"result\\\": \\\"SF1 = 8, SF2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Calcular valor convertido na linha 1 (CV1)\\\",\\n              \\\"thinking\\\": \\\"CV1 é o resultado da operação: 50 ÷ 8 = ... 6.25?\\\",\\n              \\\"result\\\": \\\"CV1 = 6.25\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_linha_da_resposta\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6.25\\\",\\n                \\\"description\\\": \\\"Aluno calcula a conversão na linha errada — aplica a operação na razão dada em vez de no trip\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular CV1, o aluno aplicou a operação (50 ÷ 8) na razão dada, mas CV1 deveria ser o valor do trip em miles (400), já fornecido implicitamente\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que representa CV1? É o total da viagem em milhas ou o resultado da conversão da velocidade?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você entendeu que precisamos usar um fator, mas CV1 não é onde calculamos a resposta. CV1 deve ser o total da viagem em milhas — olhe o enunciado novamente!\\\",\\n                \\\"howToFix\\\": \\\"Destacar visualmente que CV1 = 400 (viagem total em milhas) e CV2 é o que queremos (horas)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Calcular valor convertido na linha 2 (CV2)\\\",\\n              \\\"thinking\\\": \\\"CV2 = 1 × 8 = 8\\\",\\n              \\\"result\\\": \\\"CV2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Digitar resposta final\\\",\\n              \\\"thinking\\\": \\\"A resposta é CV2, que é 8.\\\",\\n              \\\"result\\\": \\\"A3 = 8\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"8\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher valor dado na linha 1 (miles)\\\",\\n              \\\"thinking\\\": \\\"Velocidade é 50 mph, então OV1 = 50.\\\",\\n              \\\"result\\\": \\\"OV1 = 50\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher valor dado na linha 2 (hours)\\\",\\n              \\\"thinking\\\": \\\"É 1 hora, então OV2 = 1.\\\",\\n              \\\"result\\\": \\\"OV2 = 1\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação na linha 1\\\",\\n              \\\"thinking\\\": \\\"Tenho 400 milhas... pra ir de 50 pra 400, multiplico!\\\",\\n              \\\"result\\\": \\\"SO1 = '×'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Escolher operação na linha 2\\\",\\n              \\\"thinking\\\": \\\"Se multipliquei na linha 1, devo multiplicar também na linha 2.\\\",\\n              \\\"result\\\": \\\"SO2 = '×'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular fator de conversão\\\",\\n              \\\"thinking\\\": \\\"400 ÷ 50 = 8, então SF1 = 8, SF2 = 8.\\\",\\n              \\\"result\\\": \\\"SF1 = 8, SF2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher CV1\\\",\\n              \\\"thinking\\\": \\\"CV1 = 50 × 8 = 400 — certo!\\\",\\n              \\\"result\\\": \\\"CV1 = 400\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher CV2\\\",\\n              \\\"thinking\\\": \\\"CV2 = 1 × 8 = 8 — correto.\\\",\\n              \\\"result\\\": \\\"CV2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Digitar resposta final\\\",\\n              \\\"thinking\\\": \\\"Mas espere... o enunciado diz 'how many hours', e a velocidade é 50 mph... talvez eu deva dividir 50 por 400?\\\",\\n              \\\"result\\\": \\\"A3 = 50\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_com_dado_da_velocidade\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"50\\\",\\n                \\\"description\\\": \\\"Aluno ignora todo o raciocínio proporcional e responde com o número da velocidade (50) porque aparece no enunciado e parece relevante\\\",\\n                \\\"mistakeLocation\\\": \\\"Na digitação da resposta final, após ter feito corretamente a tabela, o aluno desconfia do resultado e substitui pela velocidade dada\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Você confiou no seu cálculo de CV2? Por que escolheu 50 em vez de 8?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Interessante! Você montou toda a tabela certinho e chegou a 8 horas, mas depois mudou. Vamos revisar: se ele dirige 50 milhas por hora, quantas horas para 400 milhas? Isso dá mais ou menos que 50?\\\",\\n                \\\"howToFix\\\": \\\"Pedir ao aluno justificar verbalmente o significado de cada número antes de digitar a resposta final\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"50\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1\\\",\\n              \\\"thinking\\\": \\\"Velocidade é 50 miles/hour → OV1 = 50\\\",\\n              \\\"result\\\": \\\"OV1 = 50\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2\\\",\\n              \\\"thinking\\\": \\\"OV2 = 1\\\",\\n              \\\"result\\\": \\\"OV2 = 1\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação linha 1\\\",\\n              \\\"thinking\\\": \\\"Quero sair de 50 para 400... então multiplico.\\\",\\n              \\\"result\\\": \\\"SO1 = '×'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Escolher operação linha 2\\\",\\n              \\\"thinking\\\": \\\"Multiplico também na linha 2.\\\",\\n              \\\"result\\\": \\\"SO2 = '×'\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Determinar fator\\\",\\n              \\\"thinking\\\": \\\"Fator = 400 / 50 = 8\\\",\\n              \\\"result\\\": \\\"SF1 = 8, SF2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher CV1\\\",\\n              \\\"thinking\\\": \\\"50 × 8 = 400\\\",\\n              \\\"result\\\": \\\"CV1 = 400\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher CV2\\\",\\n              \\\"thinking\\\": \\\"1 × 8 = 8\\\",\\n              \\\"result\\\": \\\"CV2 = 8\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Digitar resposta final\\\",\\n              \\\"thinking\\\": \\\"Mas o enunciado diz '400 miles' e '50 mph'... talvez seja 400 ÷ 50 = 8... mas espera, será que é 400 × 50?\\\",\\n              \\\"result\\\": \\\"A3 = 20000\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplicar_sempre_aumenta_distancia_tempo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"20000\\\",\\n                \\\"description\\\": \\\"Aluno assume que, como a viagem é longa, deve multiplicar os dois números grandes (400 e 50), ignorando unidades e lógica proporcional\\\",\\n                \\\"mistakeLocation\\\": \\\"Na etapa final, o aluno rejeita o resultado proporcional e aplica uma operação intuitiva baseada na ideia de 'mais distância = mais tempo = multiplicar tudo'\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se ele dirige 50 milhas em 1 hora, em 2 horas ele dirige quantas milhas? E em 8 horas?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando na relação entre distância e tempo — ótimo! Mas vamos testar: se ele dirige 50 milhas por hora, em 8 horas ele dirige 400 milhas. Isso faz sentido? E 20.000 milhas seria quanto tempo?\\\",\\n                \\\"howToFix\\\": \\\"Usar estimativa: 'Se fosse 100 milhas a 50 mph, levaria 2 horas. Então 400 milhas deve levar mais ou menos?'\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"20000\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_velocidade_miles_hours\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Colocar 1 em OV1 (miles) porque o aluno lê 'per hour' e assume que o numerador é 1\\\",\\n              \\\"description\\\": \\\"Aluno inverte a razão da velocidade, colocando 1 mile por 50 hours\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar '50 miles per hour', o aluno associa 'per' ao numerador em vez do denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Em '50 miles per hour', quantas milhas ele percorre em uma hora?\\\",\\n              \\\"feedback\\\": \\\"Boa observação sobre a palavra 'per'! Ela indica divisão, mas quem está em cima? Se ele anda 50 milhas a cada hora, quantas milhas estão no numerador?\\\",\\n              \\\"howToFix\\\": \\\"Reescrever '50 miles per hour' como fração: 50 mi / 1 h\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_distancia_total_como_velocidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"400\\\",\\n              \\\"buggyRule\\\": \\\"Colocar a distância total (400) em OV1 em vez da velocidade (50)\\\",\\n              \\\"description\\\": \\\"Aluno confunde o dado da velocidade com o dado da viagem total\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura do enunciado, o aluno prioriza o número maior (400) e o coloca como valor da razão dada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual número descreve a velocidade de Bill? Qual descreve a distância total?\\\",\\n              \\\"feedback\\\": \\\"Você notou os dois números importantes! Agora vamos separar: qual é a velocidade (milhas por hora)? Qual é a distância total da viagem?\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar no enunciado: 'driving at a speed of 50 miles per hour' vs 'driving 400 miles'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_coloca_zero_em_horas_base\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0\\\",\\n              \\\"buggyRule\\\": \\\"Colocar 0 em OV2 porque o aluno acha que a unidade de tempo começa do zero\\\",\\n              \\\"description\\\": \\\"Aluno associa 'hour' com zero inicial, como em relógios\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a unidade de tempo da razão unitária, o aluno insere 0 em vez de 1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Em uma hora, quantas horas passaram? É 0 ou 1?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Mas pense: a velocidade é 'por hora' — ou seja, em 1 hora, ele anda 50 milhas. Quantas horas estão nessa base?\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Se como 3 maçãs por dia, em 1 dia como 3 maçãs. O 'por dia' sempre vem com 1.'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_repete_velocidade_em_ambas_linhas\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50\\\",\\n              \\\"buggyRule\\\": \\\"Copiar o valor de OV1 (50) para OV2, sem entender que são unidades diferentes\\\",\\n              \\\"description\\\": \\\"Aluno preenche OV2 = 50, repetindo o número da velocidade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha 2, o aluno não reconhece que a unidade muda e repete o mesmo número\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A velocidade tem duas partes: milhas e horas. Qual número vai com as horas?\\\",\\n              \\\"feedback\\\": \\\"Você está atento ao número 50! Mas ele está ligado às milhas. Com quantas horas ele está associado?\\\",\\n              \\\"howToFix\\\": \\\"Escrever explicitamente: 50 [milhas] / ? [horas] → completar com 1\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_quando_deve_multiplicar_na_linha_base\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Escolher '÷' em SO1 porque o aluno vê que 400 > 50 e acha que precisa 'reduzir' a velocidade para chegar à viagem\\\",\\n              \\\"description\\\": \\\"Aluno inverte a direção da escala: divide quando deveria multiplicar\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao comparar 50 (base) com 400 (alvo), o aluno decide dividir a base para 'ajustar', sem considerar a proporção\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Para ir de 50 milhas para 400 milhas, você aumenta ou diminui o valor?\\\",\\n              \\\"feedback\\\": \\\"Boa reflexão sobre comparar os números! Se 400 é maior que 50, o que precisamos fazer com a velocidade base para chegar lá?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas: 50 → ??? → 400. Precisamos ir para a direita (multiplicar) ou esquerda (dividir)?\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_operacao_pela_palavra_chave_driving\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Escolher '×' em SO1 porque a palavra 'driving' sugere movimento contínuo, associado a multiplicação\\\",\\n              \\\"description\\\": \\\"Aluno usa pista lexical ('driving') para decidir operação, sem análise matemática\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação, o aluno se guia por palavras em vez de relações numéricas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A operação depende da palavra 'driving' ou da relação entre 50 e 400?\\\",\\n              \\\"feedback\\\": \\\"Você está conectando o enunciado com a matemática — ótimo! Mas vamos focar nos números: como transformamos 50 em 400?\\\",\\n              \\\"howToFix\\\": \\\"Isolar os números: esconder o texto e perguntar 'como ir de 50 para 400?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_copia_mesma_operacao_para_ambas_linhas\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{SO1}\\\",\\n              \\\"buggyRule\\\": \\\"Definir SO2 igual a SO1, ignorando que as operações devem ser consistentes com a escala (mesmo fator, mesma direção)\\\",\\n              \\\"description\\\": \\\"Aluno aplica a mesma operação nas duas linhas, sem entender que ambas são escaladas pelo mesmo fator\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher SO2, o aluno copia SO1 em vez de manter coerência com a direção da escala\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se multiplicamos a distância por 8, o que acontece com o tempo?\\\",\\n              \\\"feedback\\\": \\\"Você está sendo consistente — legal! Na verdade, sim: se multiplicamos a distância, também multiplicamos o tempo. Nesse caso, está certo! Mas cuidado em outros problemas.\\\",\\n              \\\"howToFix\\\": \\\"Validar que, em proporções diretas, a operação é a mesma nas duas linhas\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_operacao_na_linha_do_tempo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"oposto de {SO1}\\\",\\n              \\\"buggyRule\\\": \\\"Escolher a operação inversa em SO2 (se SO1=×, então SO2=÷), achando que é como em equações\\\",\\n              \\\"description\\\": \\\"Aluno aplica lógica de equilíbrio de equações (fazer o oposto no outro lado) em contexto de proporção\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha 2, o aluno inverte a operação por analogia com resolução de equações\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a distância aumenta, o tempo aumenta ou diminui? Devemos fazer o mesmo ou o oposto?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Você lembra de equações, mas aqui é diferente: mais distância exige mais tempo, então fazemos a mesma coisa nas duas linhas.\\\",\\n              \\\"howToFix\\\": \\\"Contrastar com equações: 'Aqui não estamos isolando x, estamos ampliando uma receita.'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_velocidade_dividida_por_distancia\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} / {distancia_total}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator = velocidade / distância total = 50 / 400 = 0.125\\\",\\n              \\\"description\\\": \\\"Aluno inverte a divisão ao calcular o fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao determinar o fator, o aluno divide base por alvo em vez de alvo por base\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantas vezes 50 cabe em 400? Isso é 400 ÷ 50 ou 50 ÷ 400?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando encontrar o fator — importante! Pense: quantos grupos de 50 cabem em 400?\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem de agrupamento: 'Quantos pacotes de 50 milhas tem em 400 milhas?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_soma_numeros_para_fator\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} + {distancia_total}\\\",\\n              \\\"buggyRule\\\": \\\"Somar velocidade e distância total: 50 + 400 = 450\\\",\\n              \\\"description\\\": \\\"Aluno soma os dois números principais para obter o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ausência de clareza sobre como obter o fator, o aluno combina os números com adição\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator deve nos levar de 50 para 400. Somar 50+400 nos ajuda nisso?\\\",\\n              \\\"feedback\\\": \\\"Você está usando os números certos! Mas somar não nos ajuda a escalar. Que operação transforma 50 em 400?\\\",\\n              \\\"howToFix\\\": \\\"Testar: 'Se eu multiplicar 50 por 450, fico com quanto? É mais ou menos que 400?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_velocidade_como_fator\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1}\\\",\\n              \\\"buggyRule\\\": \\\"Usar a velocidade (50) como fator de conversão diretamente\\\",\\n              \\\"description\\\": \\\"Aluno assume que o número da velocidade é o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"Na determinação do fator, o aluno reutiliza o dado mais saliente\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se usarmos 50 como fator, 50 × 50 = 2500. Isso é igual a 400?\\\",\\n              \\\"feedback\\\": \\\"O 50 é muito importante! Mas ele já está na base. O fator é o que multiplicamos pela base para chegar ao total.\\\",\\n              \\\"howToFix\\\": \\\"Escrever: 50 × ??? = 400 → o ??? é o fator\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 6,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_operacao_errada_no_valor_convertido_linha1\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} {op_inversa(SO1)} {SF1}\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar a operação inversa ao calcular CV1: se SO1=×, então CV1 = OV1 ÷ SF1\\\",\\n              \\\"description\\\": \\\"Aluno confunde a direção da operação no cálculo do valor convertido\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular CV1, o aluno inverte a operação selecionada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Você escolheu multiplicar. Então por que dividiu na conta?\\\",\\n              \\\"feedback\\\": \\\"Você escolheu a operação certa! Agora vamos aplicá-la: se é ×, então fazemos OV1 × SF1.\\\",\\n              \\\"howToFix\\\": \\\"Ligar visualmente SO1 com o cálculo: destacar que o símbolo define a conta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_deixa_CV1_em_branco_ou_zero\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que CV1 é irrelevante e colocar 0\\\",\\n              \\\"description\\\": \\\"Aluno foca apenas na linha do tempo e ignora a linha da distância\\\",\\n              \\\"mistakeLocation\\\": \\\"No preenchimento de CV1, o aluno não entende seu papel como distância total\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual é a distância total da viagem? Onde ela aparece na tabela?\\\",\\n              \\\"feedback\\\": \\\"Você está focado na resposta — bom! Mas CV1 é onde colocamos a distância total da viagem. Quanto é?\\\",\\n              \\\"howToFix\\\": \\\"Perguntar: 'Se CV2 é o tempo da viagem, o que CV1 deve ser?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 7,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_fator_errado_na_linha2\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV2} {SO2} {SF1_invertido}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o recíproco do fator na linha 2: CV2 = 1 × (1/8) = 0.125\\\",\\n              \\\"description\\\": \\\"Aluno inverte o fator ao aplicar na segunda linha\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo de CV2, o aluno usa 1/fator em vez do fator\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a distância foi multiplicada por 8, o tempo também deve ser multiplicado por 8 ou por 1/8?\\\",\\n              \\\"feedback\\\": \\\"Você entendeu que o tempo muda! Mas se a viagem é 8 vezes maior, o tempo também é 8 vezes maior.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia culinária: 'Se triplico a receita, triplico todos os ingredientes.'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_soma_OV2_e_SF2\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV2} + {SF2}\\\",\\n              \\\"buggyRule\\\": \\\"Somar OV2 e SF2 em vez de multiplicar/dividir: 1 + 8 = 9\\\",\\n              \\\"description\\\": \\\"Aluno combina os números com adição por falta de clareza na operação\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ausência de compreensão do papel do fator, o aluno adiciona os valores\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A operação escolhida foi ×. A conta deve ser 1 × 8 ou 1 + 8?\\\",\\n              \\\"feedback\\\": \\\"Você tem os números certos! Só falta usar a operação que você mesmo escolheu.\\\",\\n              \\\"howToFix\\\": \\\"Revisar o símbolo em SO2 e vincular diretamente à conta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 8,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_distancia_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"400\\\",\\n              \\\"buggyRule\\\": \\\"Digitar a distância total (400) como resposta final\\\",\\n              \\\"description\\\": \\\"Aluno responde com o número mais proeminente do enunciado\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa de resposta final, o aluno digita 400, ignorando a pergunta por 'hours'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta pede milhas ou horas?\\\",\\n              \\\"feedback\\\": \\\"Você notou o número grande da viagem! Mas a pergunta termina com 'hours'. O que estamos procurando?\\\",\\n              \\\"howToFix\\\": \\\"Cercar a pergunta no enunciado: 'how many hours...?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_velocidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50\\\",\\n              \\\"buggyRule\\\": \\\"Digitar a velocidade (50) como resposta final\\\",\\n              \\\"description\\\": \\\"Aluno associa 'resposta' ao dado técnico (velocidade)\\\",\\n              \\\"mistakeLocation\\\": \\\"Após cálculo correto, o aluno duvida e volta ao dado da velocidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ele dirige 50 milhas por hora, ele leva 50 horas para ir a Nova York?\\\",\\n              \\\"feedback\\\": \\\"Interessante escolha! Vamos testar: em 50 horas a 50 mph, ele dirige 2500 milhas. Isso é mais ou menos que 400?\\\",\\n              \\\"howToFix\\\": \\\"Estimativa rápida: 'Mais de 10 horas? Menos de 10?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_distancia_por_velocidade\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{distancia_total} * {velocidade}\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar 400 × 50 = 20000\\\",\\n              \\\"description\\\": \\\"Aluno combina os dois dados principais com multiplicação, guiado pela intuição 'mais números = mais tempo'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno rejeita o resultado proporcional e aplica operação intuitiva\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Multiplicar distância por velocidade dá horas? Que unidade resulta de milhas × (milhas/hora)?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando usar os dois números — bom instinto! Mas vamos pensar nas unidades: milhas vezes milhas por hora dá o quê?\\\",\\n              \\\"howToFix\\\": \\\"Introduzir análise dimensional simples: 'Queremos horas. Temos milhas e milhas/hora. Como cancelar milhas?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_velocidade_por_distancia\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{velocidade} / {distancia_total}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular 50 / 400 = 0.125\\\",\\n              \\\"description\\\": \\\"Aluno inverte a divisão correta (tempo = distância / velocidade)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno divide velocidade por distância em vez do contrário\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ele dirige rápido (50 mph), o tempo deve ser pequeno ou grande? 0.125 horas é quanto?\\\",\\n              \\\"feedback\\\": \\\"Você está dividindo — ótimo sinal! Mas quem está em cima? Se ele anda 50 milhas em 1 hora, quantas horas para 400?\\\",\\n              \\\"howToFix\\\": \\\"Usar frase: 'Horas = Milhas ÷ (Milhas por Hora)'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar grandezas\\\",\\n          \\\"thinking\\\": \\\"Bill dirige 400 milhas a 50 milhas por hora... preciso achar quantas horas. Então, tenho distância e velocidade, quero tempo.\\\",\\n          \\\"result\\\": \\\"Identifiquei que preciso usar a relação entre distância, velocidade e tempo.\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela\\\",\\n          \\\"thinking\\\": \\\"Na linha 'Miles', a razão dada é 50 (milhas por hora). Na linha 'Hours', a razão dada deve ser 1, porque é 'por hora'. Mas fico em dúvida: onde vai o 400?\\\",\\n          \\\"result\\\": \\\"Preenchi OV1 = 50 (miles), OV2 = 1 (hour), mas não sei se o 400 vai na coluna 'fator' ou 'convertida'.\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! A velocidade é uma taxa: 'milhas por hora'. Quando queremos converter uma distância total em tempo, estamos usando essa taxa como base. O que representa o 400 milhas nesse contexto?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, coloque a taxa dada: 50 milhas na linha das milhas e 1 hora na linha das horas. Depois, pense: para obter 400 milhas, por quanto precisamos multiplicar ou dividir a taxa original?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O 400 milhas é a distância total da viagem — ele corresponde à coluna 'Trip' (razão convertida) na linha das milhas. Agora, qual operação liga 50 a 400?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se 50 milhas correspondem a 1 hora, então 400 milhas correspondem a quantas vezes mais? Pense: 50 × ___ = 400. Esse número será o mesmo que você usa na linha das horas!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar a operação e o fator\\\",\\n          \\\"thinking\\\": \\\"Se tenho 50 milhas → 1 hora, e quero 400 milhas, preciso multiplicar 50 por 8 para chegar a 400. Então, devo multiplicar também a hora por 8? Mas isso daria 8 horas... mas a resposta correta é 8, não 50! Espere... o enunciado diz que a resposta correta é 50? Isso não faz sentido...\\\",\\n          \\\"result\\\": \\\"Percebo que interpretei mal a 'correctAnswer'. Na verdade, a resposta correta é 8 horas, não 50. Provavelmente houve um erro no campo 'correctAnswer' do problema. Vou resolver corretamente com base na física.\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Parece que há uma confusão! Lembre-se: tempo = distância ÷ velocidade. Se Bill dirige 400 milhas a 50 mph, ele leva mais ou menos de 10 horas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Use a fórmula: tempo = distância / velocidade. Divida 400 por 50. Na tabela, isso significa: na linha das milhas, você tem 50 (dado) e quer 400 (convertido). Para ir de 50 a 400, você multiplica por 8. Então, na linha das horas, 1 × 8 = 8.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Atenção: a resposta correta é 8 horas, não 50. O valor 50 é a velocidade, não o tempo. Verifique se o campo 'correctAnswer' foi preenchido incorretamente. Sua conta deve dar 8.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Vamos lá! 50 milhas → 1 hora. Quantos grupos de 50 cabem em 400? Conte: 50, 100, 150... até 400. São 8 grupos. Então, 8 horas!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher a tabela corretamente\\\",\\n          \\\"thinking\\\": \\\"Então: linha Miles: dado = 50, operação = ×, fator = 8, convertido = 400. Linha Hours: dado = 1, operação = ×, fator = 8, convertido = 8.\\\",\\n          \\\"result\\\": \\\"Tabela preenchida corretamente com fator 8 e resultado 8 horas.\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Digitar a resposta final\\\",\\n          \\\"thinking\\\": \\\"A resposta é 8 horas. Vou colocar 8 no campo final.\\\",\\n          \\\"result\\\": \\\"Resposta final: 8\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"8\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar divisão direta: 400 ÷ 50 = 8, sem usar a tabela de proporção\\\",\\n          \\\"steps\\\": [\\\"Identificar fórmula tempo = distância / velocidade\\\", \\\"Calcular 400 ÷ 50\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Resolver por tentativa: '50 mph → 1h, 100 → 2h, ..., 400 → ?'\\\",\\n          \\\"steps\\\": [\\\"Contar de 50 em 50 até 400\\\", \\\"Associar cada 50 a 1 hora\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema fornece uma distância total de {A} milhas e uma velocidade constante de {B} milhas por hora. Preciso encontrar o tempo total de viagem em horas.",
+        "result": "Valores identificados: distância = {A}, velocidade = {B}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar a razão dada (velocidade) e suas unidades",
+        "thinking": "A velocidade é dada como {B} milhas por hora, ou seja, {B} miles / 1 hour. Essa é a razão unitária que relaciona as duas grandezas.",
+        "result": "Razão dada: {B} miles/hour",
+        "kcUsed": "enter-per1",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher os valores dados na tabela de conversão",
+        "thinking": "Na linha 1 (Miles), o valor da razão dada é {B}. Na linha 2 (Hours), o valor da razão dada é 1 (pois a velocidade é por 1 hora).",
+        "result": "OV1 = {B}, OV2 = 1",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Determinar o fator de conversão necessário para obter a distância total",
+        "thinking": "Quero converter da razão unitária ({B} miles / 1 hour) para a viagem total ({A} miles / ? hours). O fator de escala é {A} ÷ {B}, pois preciso descobrir quantas 'unidades' de {B} cabem em {A}.",
+        "result": "Fator de conversão = {A} / {B}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Aplicar a operação correta nas linhas da tabela",
+        "thinking": "Para escalar a razão unitária até a viagem total, devo multiplicar ambos os lados pelo fator {A}/{B}. Portanto, a operação em ambas as linhas é ×.",
+        "result": "SO1 = '×', SO2 = '×'",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Preencher os fatores de conversão nas linhas",
+        "thinking": "O mesmo fator {A}/{B} é aplicado às duas grandezas. Assim, SF1 = SF2 = {A}/{B}.",
+        "result": "SF1 = {A}/{B}, SF2 = {A}/{B}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular os valores convertidos",
+        "thinking": "Linha 1 (Miles): {B} × ({A}/{B}) = {A}. Linha 2 (Hours): 1 × ({A}/{B}) = {A}/{B}. Esse último é o tempo total.",
+        "result": "CV1 = {A}, CV2 = {A}/{B}",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Inserir a resposta final na caixa apropriada",
+        "thinking": "O tempo total de condução é CV2 = {A}/{B} horas. Como o enunciado pede para completar a frase com o número antes de 'hours.', insiro esse valor.",
+        "result": "Resposta final = {A}/{B}",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 3,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A} / {B}",
+      "totalTime": 40
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher valor dado na linha 1 (miles)",
+          "thinking": "A velocidade é 50 miles per hour, então coloco 50 em OV1.",
+          "result": "OV1 = 50",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher valor dado na linha 2 (hours)",
+          "thinking": "A velocidade tem 1 hora, então coloco 1 em OV2.",
+          "result": "OV2 = 1",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação na linha 1",
+          "thinking": "Quero converter de miles para hours... acho que tenho que dividir os miles.",
+          "result": "SO1 = '÷'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Escolher operação na linha 2",
+          "thinking": "Se dividi na linha 1, devo multiplicar na linha 2 pra manter a proporção.",
+          "result": "SO2 = '×'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular fator de conversão",
+          "thinking": "Preciso descobrir quanto é 400 ÷ 50... ah, isso é 8! Então SF1 = 8 e SF2 = 8.",
+          "result": "SF1 = 8, SF2 = 8",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Calcular valor convertido na linha 1 (CV1)",
+          "thinking": "CV1 é o resultado da operação: 50 ÷ 8 = ... 6.25?",
+          "result": "CV1 = 6.25",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_linha_da_resposta",
+           "type": "conceptual_error",
+           "wrongAnswer": "6.25",
+           "description": "Aluno calcula a conversão na linha errada — aplica a operação na razão dada em vez de no trip",
+           "mistakeLocation": "Ao calcular CV1, o aluno aplicou a operação (50 ÷ 8) na razão dada, mas CV1 deveria ser o valor do trip em miles (400), já fornecido implicitamente",
+           "diagnosticQuestion": "O que representa CV1? É o total da viagem em milhas ou o resultado da conversão da velocidade?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você entendeu que precisamos usar um fator, mas CV1 não é onde calculamos a resposta. CV1 deve ser o total da viagem em milhas — olhe o enunciado novamente!",
+           "howToFix": "Destacar visualmente que CV1 = 400 (viagem total em milhas) e CV2 é o que queremos (horas)"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Calcular valor convertido na linha 2 (CV2)",
+          "thinking": "CV2 = 1 × 8 = 8",
+          "result": "CV2 = 8",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Digitar resposta final",
+          "thinking": "A resposta é CV2, que é 8.",
+          "result": "A3 = 8",
+          "kcUsed": "complete-sentence",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "8",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher valor dado na linha 1 (miles)",
+          "thinking": "Velocidade é 50 mph, então OV1 = 50.",
+          "result": "OV1 = 50",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher valor dado na linha 2 (hours)",
+          "thinking": "É 1 hora, então OV2 = 1.",
+          "result": "OV2 = 1",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação na linha 1",
+          "thinking": "Tenho 400 milhas... pra ir de 50 pra 400, multiplico!",
+          "result": "SO1 = '×'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Escolher operação na linha 2",
+          "thinking": "Se multipliquei na linha 1, devo multiplicar também na linha 2.",
+          "result": "SO2 = '×'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular fator de conversão",
+          "thinking": "400 ÷ 50 = 8, então SF1 = 8, SF2 = 8.",
+          "result": "SF1 = 8, SF2 = 8",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Preencher CV1",
+          "thinking": "CV1 = 50 × 8 = 400 — certo!",
+          "result": "CV1 = 400",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher CV2",
+          "thinking": "CV2 = 1 × 8 = 8 — correto.",
+          "result": "CV2 = 8",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Digitar resposta final",
+          "thinking": "Mas espere... o enunciado diz 'how many hours', e a velocidade é 50 mph... talvez eu deva dividir 50 por 400?",
+          "result": "A3 = 50",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_com_dado_da_velocidade",
+           "type": "conceptual_error",
+           "wrongAnswer": "50",
+           "description": "Aluno ignora todo o raciocínio proporcional e responde com o número da velocidade (50) porque aparece no enunciado e parece relevante",
+           "mistakeLocation": "Na digitação da resposta final, após ter feito corretamente a tabela, o aluno desconfia do resultado e substitui pela velocidade dada",
+           "diagnosticQuestion": "Você confiou no seu cálculo de CV2? Por que escolheu 50 em vez de 8?",
+           "severity": "moderate",
+           "feedback": "Interessante! Você montou toda a tabela certinho e chegou a 8 horas, mas depois mudou. Vamos revisar: se ele dirige 50 milhas por hora, quantas horas para 400 milhas? Isso dá mais ou menos que 50?",
+           "howToFix": "Pedir ao aluno justificar verbalmente o significado de cada número antes de digitar a resposta final"
+          }
+         }
+        ],
+        "finalAnswer": "50",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1",
+          "thinking": "Velocidade é 50 miles/hour → OV1 = 50",
+          "result": "OV1 = 50",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2",
+          "thinking": "OV2 = 1",
+          "result": "OV2 = 1",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação linha 1",
+          "thinking": "Quero sair de 50 para 400... então multiplico.",
+          "result": "SO1 = '×'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Escolher operação linha 2",
+          "thinking": "Multiplico também na linha 2.",
+          "result": "SO2 = '×'",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Determinar fator",
+          "thinking": "Fator = 400 / 50 = 8",
+          "result": "SF1 = 8, SF2 = 8",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Preencher CV1",
+          "thinking": "50 × 8 = 400",
+          "result": "CV1 = 400",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher CV2",
+          "thinking": "1 × 8 = 8",
+          "result": "CV2 = 8",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Digitar resposta final",
+          "thinking": "Mas o enunciado diz '400 miles' e '50 mph'... talvez seja 400 ÷ 50 = 8... mas espera, será que é 400 × 50?",
+          "result": "A3 = 20000",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplicar_sempre_aumenta_distancia_tempo",
+           "type": "conceptual_error",
+           "wrongAnswer": "20000",
+           "description": "Aluno assume que, como a viagem é longa, deve multiplicar os dois números grandes (400 e 50), ignorando unidades e lógica proporcional",
+           "mistakeLocation": "Na etapa final, o aluno rejeita o resultado proporcional e aplica uma operação intuitiva baseada na ideia de 'mais distância = mais tempo = multiplicar tudo'",
+           "diagnosticQuestion": "Se ele dirige 50 milhas em 1 hora, em 2 horas ele dirige quantas milhas? E em 8 horas?",
+           "severity": "high",
+           "feedback": "Você está pensando na relação entre distância e tempo — ótimo! Mas vamos testar: se ele dirige 50 milhas por hora, em 8 horas ele dirige 400 milhas. Isso faz sentido? E 20.000 milhas seria quanto tempo?",
+           "howToFix": "Usar estimativa: 'Se fosse 100 milhas a 50 mph, levaria 2 horas. Então 400 milhas deve levar mais ou menos?'"
+          }
+         }
+        ],
+        "finalAnswer": "20000",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "07Driving",
+        "step": 1,
+        "kcUsed": "enter-given-from",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_velocidade_miles_hours",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Colocar 1 em OV1 (miles) porque o aluno lê 'per hour' e assume que o numerador é 1",
+          "description": "Aluno inverte a razão da velocidade, colocando 1 mile por 50 hours",
+          "mistakeLocation": "Ao interpretar '50 miles per hour', o aluno associa 'per' ao numerador em vez do denominador",
+          "diagnosticQuestion": "Em '50 miles per hour', quantas milhas ele percorre em uma hora?",
+          "feedback": "Boa observação sobre a palavra 'per'! Ela indica divisão, mas quem está em cima? Se ele anda 50 milhas a cada hora, quantas milhas estão no numerador?",
+          "howToFix": "Reescrever '50 miles per hour' como fração: 50 mi / 1 h",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_distancia_total_como_velocidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "400",
+          "buggyRule": "Colocar a distância total (400) em OV1 em vez da velocidade (50)",
+          "description": "Aluno confunde o dado da velocidade com o dado da viagem total",
+          "mistakeLocation": "Na leitura do enunciado, o aluno prioriza o número maior (400) e o coloca como valor da razão dada",
+          "diagnosticQuestion": "Qual número descreve a velocidade de Bill? Qual descreve a distância total?",
+          "feedback": "Você notou os dois números importantes! Agora vamos separar: qual é a velocidade (milhas por hora)? Qual é a distância total da viagem?",
+          "howToFix": "Sublinhar no enunciado: 'driving at a speed of 50 miles per hour' vs 'driving 400 miles'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 2,
+        "kcUsed": "enter-given-to",
+        "errors": [
+         {
+          "misconceptionId": "misc_coloca_zero_em_horas_base",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0",
+          "buggyRule": "Colocar 0 em OV2 porque o aluno acha que a unidade de tempo começa do zero",
+          "description": "Aluno associa 'hour' com zero inicial, como em relógios",
+          "mistakeLocation": "Ao preencher a unidade de tempo da razão unitária, o aluno insere 0 em vez de 1",
+          "diagnosticQuestion": "Em uma hora, quantas horas passaram? É 0 ou 1?",
+          "feedback": "Interessante! Mas pense: a velocidade é 'por hora' — ou seja, em 1 hora, ele anda 50 milhas. Quantas horas estão nessa base?",
+          "howToFix": "Usar analogia: 'Se como 3 maçãs por dia, em 1 dia como 3 maçãs. O 'por dia' sempre vem com 1.'",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_repete_velocidade_em_ambas_linhas",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "50",
+          "buggyRule": "Copiar o valor de OV1 (50) para OV2, sem entender que são unidades diferentes",
+          "description": "Aluno preenche OV2 = 50, repetindo o número da velocidade",
+          "mistakeLocation": "Na linha 2, o aluno não reconhece que a unidade muda e repete o mesmo número",
+          "diagnosticQuestion": "A velocidade tem duas partes: milhas e horas. Qual número vai com as horas?",
+          "feedback": "Você está atento ao número 50! Mas ele está ligado às milhas. Com quantas horas ele está associado?",
+          "howToFix": "Escrever explicitamente: 50 [milhas] / ? [horas] → completar com 1",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 3,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_quando_deve_multiplicar_na_linha_base",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Escolher '÷' em SO1 porque o aluno vê que 400 > 50 e acha que precisa 'reduzir' a velocidade para chegar à viagem",
+          "description": "Aluno inverte a direção da escala: divide quando deveria multiplicar",
+          "mistakeLocation": "Ao comparar 50 (base) com 400 (alvo), o aluno decide dividir a base para 'ajustar', sem considerar a proporção",
+          "diagnosticQuestion": "Para ir de 50 milhas para 400 milhas, você aumenta ou diminui o valor?",
+          "feedback": "Boa reflexão sobre comparar os números! Se 400 é maior que 50, o que precisamos fazer com a velocidade base para chegar lá?",
+          "howToFix": "Usar setas: 50 → ??? → 400. Precisamos ir para a direita (multiplicar) ou esquerda (dividir)?",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_operacao_pela_palavra_chave_driving",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Escolher '×' em SO1 porque a palavra 'driving' sugere movimento contínuo, associado a multiplicação",
+          "description": "Aluno usa pista lexical ('driving') para decidir operação, sem análise matemática",
+          "mistakeLocation": "Na escolha da operação, o aluno se guia por palavras em vez de relações numéricas",
+          "diagnosticQuestion": "A operação depende da palavra 'driving' ou da relação entre 50 e 400?",
+          "feedback": "Você está conectando o enunciado com a matemática — ótimo! Mas vamos focar nos números: como transformamos 50 em 400?",
+          "howToFix": "Isolar os números: esconder o texto e perguntar 'como ir de 50 para 400?'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 4,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_copia_mesma_operacao_para_ambas_linhas",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{SO1}",
+          "buggyRule": "Definir SO2 igual a SO1, ignorando que as operações devem ser consistentes com a escala (mesmo fator, mesma direção)",
+          "description": "Aluno aplica a mesma operação nas duas linhas, sem entender que ambas são escaladas pelo mesmo fator",
+          "mistakeLocation": "Ao preencher SO2, o aluno copia SO1 em vez de manter coerência com a direção da escala",
+          "diagnosticQuestion": "Se multiplicamos a distância por 8, o que acontece com o tempo?",
+          "feedback": "Você está sendo consistente — legal! Na verdade, sim: se multiplicamos a distância, também multiplicamos o tempo. Nesse caso, está certo! Mas cuidado em outros problemas.",
+          "howToFix": "Validar que, em proporções diretas, a operação é a mesma nas duas linhas",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_inverte_operacao_na_linha_do_tempo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "oposto de {SO1}",
+          "buggyRule": "Escolher a operação inversa em SO2 (se SO1=×, então SO2=÷), achando que é como em equações",
+          "description": "Aluno aplica lógica de equilíbrio de equações (fazer o oposto no outro lado) em contexto de proporção",
+          "mistakeLocation": "Na linha 2, o aluno inverte a operação por analogia com resolução de equações",
+          "diagnosticQuestion": "Se a distância aumenta, o tempo aumenta ou diminui? Devemos fazer o mesmo ou o oposto?",
+          "feedback": "Boa tentativa! Você lembra de equações, mas aqui é diferente: mais distância exige mais tempo, então fazemos a mesma coisa nas duas linhas.",
+          "howToFix": "Contrastar com equações: 'Aqui não estamos isolando x, estamos ampliando uma receita.'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 5,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_velocidade_dividida_por_distancia",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV1} / {distancia_total}",
+          "buggyRule": "Calcular fator = velocidade / distância total = 50 / 400 = 0.125",
+          "description": "Aluno inverte a divisão ao calcular o fator de escala",
+          "mistakeLocation": "Ao determinar o fator, o aluno divide base por alvo em vez de alvo por base",
+          "diagnosticQuestion": "Quantas vezes 50 cabe em 400? Isso é 400 ÷ 50 ou 50 ÷ 400?",
+          "feedback": "Você está tentando encontrar o fator — importante! Pense: quantos grupos de 50 cabem em 400?",
+          "howToFix": "Usar linguagem de agrupamento: 'Quantos pacotes de 50 milhas tem em 400 milhas?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_soma_numeros_para_fator",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV1} + {distancia_total}",
+          "buggyRule": "Somar velocidade e distância total: 50 + 400 = 450",
+          "description": "Aluno soma os dois números principais para obter o fator",
+          "mistakeLocation": "Na ausência de clareza sobre como obter o fator, o aluno combina os números com adição",
+          "diagnosticQuestion": "O fator deve nos levar de 50 para 400. Somar 50+400 nos ajuda nisso?",
+          "feedback": "Você está usando os números certos! Mas somar não nos ajuda a escalar. Que operação transforma 50 em 400?",
+          "howToFix": "Testar: 'Se eu multiplicar 50 por 450, fico com quanto? É mais ou menos que 400?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_velocidade_como_fator",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{OV1}",
+          "buggyRule": "Usar a velocidade (50) como fator de conversão diretamente",
+          "description": "Aluno assume que o número da velocidade é o fator",
+          "mistakeLocation": "Na determinação do fator, o aluno reutiliza o dado mais saliente",
+          "diagnosticQuestion": "Se usarmos 50 como fator, 50 × 50 = 2500. Isso é igual a 400?",
+          "feedback": "O 50 é muito importante! Mas ele já está na base. O fator é o que multiplicamos pela base para chegar ao total.",
+          "howToFix": "Escrever: 50 × ??? = 400 → o ??? é o fator",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 6,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_aplica_operacao_errada_no_valor_convertido_linha1",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV1} {op_inversa(SO1)} {SF1}",
+          "buggyRule": "Aplicar a operação inversa ao calcular CV1: se SO1=×, então CV1 = OV1 ÷ SF1",
+          "description": "Aluno confunde a direção da operação no cálculo do valor convertido",
+          "mistakeLocation": "Ao calcular CV1, o aluno inverte a operação selecionada",
+          "diagnosticQuestion": "Você escolheu multiplicar. Então por que dividiu na conta?",
+          "feedback": "Você escolheu a operação certa! Agora vamos aplicá-la: se é ×, então fazemos OV1 × SF1.",
+          "howToFix": "Ligar visualmente SO1 com o cálculo: destacar que o símbolo define a conta",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_deixa_CV1_em_branco_ou_zero",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0",
+          "buggyRule": "Assumir que CV1 é irrelevante e colocar 0",
+          "description": "Aluno foca apenas na linha do tempo e ignora a linha da distância",
+          "mistakeLocation": "No preenchimento de CV1, o aluno não entende seu papel como distância total",
+          "diagnosticQuestion": "Qual é a distância total da viagem? Onde ela aparece na tabela?",
+          "feedback": "Você está focado na resposta — bom! Mas CV1 é onde colocamos a distância total da viagem. Quanto é?",
+          "howToFix": "Perguntar: 'Se CV2 é o tempo da viagem, o que CV1 deve ser?'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 7,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_aplica_fator_errado_na_linha2",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV2} {SO2} {SF1_invertido}",
+          "buggyRule": "Usar o recíproco do fator na linha 2: CV2 = 1 × (1/8) = 0.125",
+          "description": "Aluno inverte o fator ao aplicar na segunda linha",
+          "mistakeLocation": "No cálculo de CV2, o aluno usa 1/fator em vez do fator",
+          "diagnosticQuestion": "Se a distância foi multiplicada por 8, o tempo também deve ser multiplicado por 8 ou por 1/8?",
+          "feedback": "Você entendeu que o tempo muda! Mas se a viagem é 8 vezes maior, o tempo também é 8 vezes maior.",
+          "howToFix": "Usar analogia culinária: 'Se triplico a receita, triplico todos os ingredientes.'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_soma_OV2_e_SF2",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV2} + {SF2}",
+          "buggyRule": "Somar OV2 e SF2 em vez de multiplicar/dividir: 1 + 8 = 9",
+          "description": "Aluno combina os números com adição por falta de clareza na operação",
+          "mistakeLocation": "Na ausência de compreensão do papel do fator, o aluno adiciona os valores",
+          "diagnosticQuestion": "A operação escolhida foi ×. A conta deve ser 1 × 8 ou 1 + 8?",
+          "feedback": "Você tem os números certos! Só falta usar a operação que você mesmo escolheu.",
+          "howToFix": "Revisar o símbolo em SO2 e vincular diretamente à conta",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "07Driving",
+        "step": 8,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_responde_com_distancia_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "400",
+          "buggyRule": "Digitar a distância total (400) como resposta final",
+          "description": "Aluno responde com o número mais proeminente do enunciado",
+          "mistakeLocation": "Na caixa de resposta final, o aluno digita 400, ignorando a pergunta por 'hours'",
+          "diagnosticQuestion": "A pergunta pede milhas ou horas?",
+          "feedback": "Você notou o número grande da viagem! Mas a pergunta termina com 'hours'. O que estamos procurando?",
+          "howToFix": "Cercar a pergunta no enunciado: 'how many hours...?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_velocidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "50",
+          "buggyRule": "Digitar a velocidade (50) como resposta final",
+          "description": "Aluno associa 'resposta' ao dado técnico (velocidade)",
+          "mistakeLocation": "Após cálculo correto, o aluno duvida e volta ao dado da velocidade",
+          "diagnosticQuestion": "Se ele dirige 50 milhas por hora, ele leva 50 horas para ir a Nova York?",
+          "feedback": "Interessante escolha! Vamos testar: em 50 horas a 50 mph, ele dirige 2500 milhas. Isso é mais ou menos que 400?",
+          "howToFix": "Estimativa rápida: 'Mais de 10 horas? Menos de 10?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_multiplica_distancia_por_velocidade",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{distancia_total} * {velocidade}",
+          "buggyRule": "Multiplicar 400 × 50 = 20000",
+          "description": "Aluno combina os dois dados principais com multiplicação, guiado pela intuição 'mais números = mais tempo'",
+          "mistakeLocation": "Na resposta final, o aluno rejeita o resultado proporcional e aplica operação intuitiva",
+          "diagnosticQuestion": "Multiplicar distância por velocidade dá horas? Que unidade resulta de milhas × (milhas/hora)?",
+          "feedback": "Você está tentando usar os dois números — bom instinto! Mas vamos pensar nas unidades: milhas vezes milhas por hora dá o quê?",
+          "howToFix": "Introduzir análise dimensional simples: 'Queremos horas. Temos milhas e milhas/hora. Como cancelar milhas?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_velocidade_por_distancia",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{velocidade} / {distancia_total}",
+          "buggyRule": "Calcular 50 / 400 = 0.125",
+          "description": "Aluno inverte a divisão correta (tempo = distância / velocidade)",
+          "mistakeLocation": "Na resposta final, o aluno divide velocidade por distância em vez do contrário",
+          "diagnosticQuestion": "Se ele dirige rápido (50 mph), o tempo deve ser pequeno ou grande? 0.125 horas é quanto?",
+          "feedback": "Você está dividindo — ótimo sinal! Mas quem está em cima? Se ele anda 50 milhas em 1 hora, quantas horas para 400?",
+          "howToFix": "Usar frase: 'Horas = Milhas ÷ (Milhas por Hora)'",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar grandezas",
+        "thinking": "Bill dirige 400 milhas a 50 milhas por hora... preciso achar quantas horas. Então, tenho distância e velocidade, quero tempo.",
+        "result": "Identifiquei que preciso usar a relação entre distância, velocidade e tempo.",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela",
+        "thinking": "Na linha 'Miles', a razão dada é 50 (milhas por hora). Na linha 'Hours', a razão dada deve ser 1, porque é 'por hora'. Mas fico em dúvida: onde vai o 400?",
+        "result": "Preenchi OV1 = 50 (miles), OV2 = 1 (hour), mas não sei se o 400 vai na coluna 'fator' ou 'convertida'.",
+        "kcUsed": "enter-given-to",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! A velocidade é uma taxa: 'milhas por hora'. Quando queremos converter uma distância total em tempo, estamos usando essa taxa como base. O que representa o 400 milhas nesse contexto?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, coloque a taxa dada: 50 milhas na linha das milhas e 1 hora na linha das horas. Depois, pense: para obter 400 milhas, por quanto precisamos multiplicar ou dividir a taxa original?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O 400 milhas é a distância total da viagem — ele corresponde à coluna 'Trip' (razão convertida) na linha das milhas. Agora, qual operação liga 50 a 400?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se 50 milhas correspondem a 1 hora, então 400 milhas correspondem a quantas vezes mais? Pense: 50 × ___ = 400. Esse número será o mesmo que você usa na linha das horas!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Determinar a operação e o fator",
+        "thinking": "Se tenho 50 milhas → 1 hora, e quero 400 milhas, preciso multiplicar 50 por 8 para chegar a 400. Então, devo multiplicar também a hora por 8? Mas isso daria 8 horas... mas a resposta correta é 8, não 50! Espere... o enunciado diz que a resposta correta é 50? Isso não faz sentido...",
+        "result": "Percebo que interpretei mal a 'correctAnswer'. Na verdade, a resposta correta é 8 horas, não 50. Provavelmente houve um erro no campo 'correctAnswer' do problema. Vou resolver corretamente com base na física.",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Parece que há uma confusão! Lembre-se: tempo = distância ÷ velocidade. Se Bill dirige 400 milhas a 50 mph, ele leva mais ou menos de 10 horas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Use a fórmula: tempo = distância / velocidade. Divida 400 por 50. Na tabela, isso significa: na linha das milhas, você tem 50 (dado) e quer 400 (convertido). Para ir de 50 a 400, você multiplica por 8. Então, na linha das horas, 1 × 8 = 8."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Atenção: a resposta correta é 8 horas, não 50. O valor 50 é a velocidade, não o tempo. Verifique se o campo 'correctAnswer' foi preenchido incorretamente. Sua conta deve dar 8."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Vamos lá! 50 milhas → 1 hora. Quantos grupos de 50 cabem em 400? Conte: 50, 100, 150... até 400. São 8 grupos. Então, 8 horas!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Preencher a tabela corretamente",
+        "thinking": "Então: linha Miles: dado = 50, operação = ×, fator = 8, convertido = 400. Linha Hours: dado = 1, operação = ×, fator = 8, convertido = 8.",
+        "result": "Tabela preenchida corretamente com fator 8 e resultado 8 horas.",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Digitar a resposta final",
+        "thinking": "A resposta é 8 horas. Vou colocar 8 no campo final.",
+        "result": "Resposta final: 8",
+        "kcUsed": "complete-sentence",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "8",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Usar divisão direta: 400 ÷ 50 = 8, sem usar a tabela de proporção",
+        "steps": [
+         "Identificar fórmula tempo = distância / velocidade",
+         "Calcular 400 ÷ 50"
+        ],
+        "efficiency": "high"
+       },
+       {
+        "description": "Resolver por tentativa: '50 mph → 1h, 100 → 2h, ..., 400 → ?'",
+        "steps": [
+         "Contar de 50 em 50 até 400",
+         "Associar cada 50 a 1 hora"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Miles\" e \"Hours\"). As colunas são: (1) a razão DADA, rotulada \"Speed\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Trip\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"hours.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

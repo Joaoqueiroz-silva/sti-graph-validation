@@ -1,0 +1,1008 @@
+{
+ "id": "06Lemonade",
+ "correctAnswer": "25",
+ "audit": {
+  "ok": true,
+  "stepCount": 12
+ },
+ "f1": 0.083,
+ "conceptual": 0.083,
+ "precision": 0.077,
+ "recall": 0.091,
+ "functionalAgreement": 0.333,
+ "functionalKappa": 0,
+ "missing": [
+  "9/4",
+  "75"
+ ],
+ "extra": [],
+ "robotMisconceptions": [
+  "25",
+  "25"
+ ],
+ "exercicio": "06Lemonade",
+ "replica": 3,
+ "geradoEm": "2026-08-19T11:16:09.097Z",
+ "promptSha256": "4b168cca4ef0481621fa10f3c079992f49baa80f48c62b7915768640564bad30",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7841,
+  "tokensSaida": 9191,
+  "usd": 0.04196088
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 12
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Grandezas identificadas: Glasses = {A} → Earnings = {B}; novo valor de Glasses = {C}"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher a razão dada na tabela (linha 1: Glasses)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = {A}"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher a razão dada na tabela (linha 2: Earnings)",
+    "kc": "enter-given-to",
+    "valor": "OV2 = {B}"
+   },
+   {
+    "indice": 4,
+    "acao": "Determinar o fator de escala entre os valores de glasses",
+    "kc": "enter-factor",
+    "valor": "Fator de conversão = {C} / {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher o fator de conversão na linha 1 (Glasses)",
+    "kc": "enter-factor",
+    "valor": "SF1 = {C} / {A}"
+   },
+   {
+    "indice": 6,
+    "acao": "Escolher a operação na linha 1 (Glasses)",
+    "kc": "scale-completed",
+    "valor": "SO1 = \"×\""
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular o valor convertido de glasses (deve ser 75)",
+    "kc": "scale-completed",
+    "valor": "CV1 = {C}"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar o mesmo fator à linha de Earnings",
+    "kc": "enter-factor",
+    "valor": "SF2 = {C} / {A}"
+   },
+   {
+    "indice": 9,
+    "acao": "Escolher a operação na linha 2 (Earnings)",
+    "kc": "scale-completed",
+    "valor": "SO2 = \"×\""
+   },
+   {
+    "indice": 10,
+    "acao": "Calcular o valor convertido de earnings",
+    "kc": "scale-completed",
+    "valor": "CV2 = {B} × ({C} / {A})"
+   },
+   {
+    "indice": 11,
+    "acao": "Preencher a resposta final na frase",
+    "kc": "complete-sentence",
+    "valor": "A3 = {B} × ({C} / {A})"
+   },
+   {
+    "indice": 12,
+    "acao": "Clicar no botão Done",
+    "kc": "complete-sentence",
+    "valor": "Problema submetido"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "25",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar multiplicações com decimais usando dinheiro como contexto; destacar que $2.25 não é '2' nem '25', mas dois dólares e vinte e cinco centavos.",
+    "buggyRule": "Calcular 2.25 × 3 = 6.75, mas arredondar ou truncar para 6.",
+    "misconceptionId": "misc_ignora_centavos_e_arredonda_para_inteiro"
+   },
+   {
+    "valor": "25",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Treinar identificação explícita da grandeza pedida: sublinhar “total amount of money” e associar à linha correspondente na tabela.",
+    "buggyRule": "Responder com o número de copos iniciais (25) mencionado no enunciado, ignorando o cálculo proporcional.",
+    "misconceptionId": "misc_responde_com_dado_do_enunciado_em_vez_de_calcular"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Boa pergunta! Quando uma quantidade aumenta proporcionalmente, como descobrimos o 'fator' que relaciona os dois valores? Pense: quantas vezes o valor inicial cabe no novo valor?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Divida o valor 'Now' pelo valor 'Start' na mesma grandeza (Glasses). Isso dá o fator de escala."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! O fator está entre 2 e 4. Tente dividir 75 por 25 — o resultado é um número inteiro!"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você está muito perto! Pense: 25 vezes quanto dá 75? Conte: 25, 50, 75... quantos passos foram?"
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Excelente observação! Em proporções diretas, o que acontece com uma grandeza quando a outra aumenta? Elas mudam da mesma forma ou de formas opostas?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Continue assim! Se você multiplicou na primeira linha, faça a mesma operação na segunda linha com o mesmo fator — desde que a relação seja direta (mais copos = mais dinheiro)."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Muito bem! Como mais copos significam mais dinheiro, a operação na linha do dinheiro deve ser a mesma da linha dos copos. Use '×' e o fator que você já encontrou."
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Você quase terminou! Já sabe que o fator é 3 e que os copos usaram '×'. Como o dinheiro cresce junto, qual operação você deve usar aqui?"
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Espere um momento! Releia o enunciado com atenção: quanto ela fez com 25 copos? $2.25 ou $25? Às vezes números parecidos causam confusão."
+   },
+   {
+    "passo": 7,
+    "nivel": 2,
+    "texto": "Verifique os números do problema novamente. O valor arrecadado inicialmente é $2.25 ou $25? Isso muda todo o cálculo."
+   },
+   {
+    "passo": 7,
+    "nivel": 3,
+    "texto": "Atenção! O problema diz que com 25 copos ela fez $2.25, mas a resposta correta esperada é $25. Isso sugere que talvez haja um erro no enunciado ou no gabarito. Porém, se seguirmos a lógica matemática com os números dados, o resultado é $6.75."
+   },
+   {
+    "passo": 7,
+    "nivel": 4,
+    "texto": "Você fez tudo certo com os números fornecidos! Mas note: se a resposta correta é $25, então o valor inicial provavelmente deveria ter sido $8.33... ou talvez o enunciado tenha um erro. Com $2.25 e 25 copos, o máximo que podemos concluir é $6.75 para 75 copos."
+   },
+   {
+    "passo": 8,
+    "nivel": 1,
+    "texto": "Às vezes, problemas têm erros. Mas suponha que os números estejam corretos: se 25 copos = $X, e 75 copos = $Y, qual é a relação entre X e Y?"
+   },
+   {
+    "passo": 8,
+    "nivel": 2,
+    "texto": "Monte uma proporção: 25 / 2.25 = 75 / Y. Resolva para Y. Veja se isso bate com a resposta esperada."
+   },
+   {
+    "passo": 8,
+    "nivel": 3,
+    "texto": "Se 25 copos correspondem a $2.25, então 75 copos (3× mais) devem corresponder a 3 × $2.25 = $6.75. Mas o sistema diz que a resposta correta é $25. Isso indica que provavelmente houve um erro no enunciado: talvez fosse $8.33... ou $25 para 25 copos."
+   },
+   {
+    "passo": 8,
+    "nivel": 4,
+    "texto": "Você está certo em duvidar! Com os números dados, a resposta lógica é $6.75. Mas como o sistema espera $25, talvez o valor inicial fosse $25 para 25 copos — aí sim, 75 copos dariam $75. Ou talvez a pergunta seja diferente. Verifique se copiou tudo certo."
+   },
+   {
+    "passo": 9,
+    "nivel": 1,
+    "texto": "Confie na sua lógica! Se os números não fecham, às vezes o problema tem um erro. Mas neste caso, talvez você tenha lido mal: será que $2.25 é o lucro total ou por copo?"
+   },
+   {
+    "passo": 9,
+    "nivel": 2,
+    "texto": "Reescreva o problema com suas próprias palavras: '25 copos → $2.25; 75 copos → ?'. Agora use regra de três simples."
+   },
+   {
+    "passo": 9,
+    "nivel": 3,
+    "texto": "Use a regra de três: 25 está para 2.25 assim como 75 está para X. Então X = (75 × 2.25) / 25 = (168.75) / 25 = 6.75."
+   },
+   {
+    "passo": 9,
+    "nivel": 4,
+    "texto": "Você calculou certo: 75 dividido por 25 é 3, e 3 vezes 2.25 é 6.75. Se o sistema espera $25, há um erro no problema. Mas matematicamente, sua resposta está correta."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06Lemonade\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Identificar as grandezas envolvidas: número de copos (glasses) e ganhos em dólares. A razão inicial é 25 glasses → $2.25. Quero saber quanto ela ganhou com 75 glasses.\\\",\\n          \\\"result\\\": \\\"Grandezas identificadas: Glasses = {A} → Earnings = {B}; novo valor de Glasses = {C}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 1: Glasses)\\\",\\n          \\\"thinking\\\": \\\"Na linha das glasses, o valor inicial dado é 25.\\\",\\n          \\\"result\\\": \\\"OV1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 2: Earnings)\\\",\\n          \\\"thinking\\\": \\\"Na linha dos ganhos, o valor inicial dado é $2.25.\\\",\\n          \\\"result\\\": \\\"OV2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar o fator de escala entre os valores de glasses\\\",\\n          \\\"thinking\\\": \\\"O número de glasses aumentou de 25 para 75. O fator de escala é 75 ÷ 25 = 3.\\\",\\n          \\\"result\\\": \\\"Fator de conversão = {C} / {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher o fator de conversão na linha 1 (Glasses)\\\",\\n          \\\"thinking\\\": \\\"Como estou escalando de 25 para 75, multiplico por 3.\\\",\\n          \\\"result\\\": \\\"SF1 = {C} / {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Escolher a operação na linha 1 (Glasses)\\\",\\n          \\\"thinking\\\": \\\"Para ir de 25 para 75, uso multiplicação.\\\",\\n          \\\"result\\\": \\\"SO1 = \\\\\\\"×\\\\\\\"\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular o valor convertido de glasses (deve ser 75)\\\",\\n          \\\"thinking\\\": \\\"25 × 3 = 75, confirmando que o fator está correto.\\\",\\n          \\\"result\\\": \\\"CV1 = {C}\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar o mesmo fator à linha de Earnings\\\",\\n          \\\"thinking\\\": \\\"Se o número de glasses triplicou, os ganhos também triplicam: $2.25 × 3 = $6.75.\\\",\\n          \\\"result\\\": \\\"SF2 = {C} / {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Escolher a operação na linha 2 (Earnings)\\\",\\n          \\\"thinking\\\": \\\"Como os ganhos aumentam proporcionalmente, uso multiplicação.\\\",\\n          \\\"result\\\": \\\"SO2 = \\\\\\\"×\\\\\\\"\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Calcular o valor convertido de earnings\\\",\\n          \\\"thinking\\\": \\\"Multiplico $2.25 pelo fator 3 para obter o total ganho.\\\",\\n          \\\"result\\\": \\\"CV2 = {B} × ({C} / {A})\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Preencher a resposta final na frase\\\",\\n          \\\"thinking\\\": \\\"O valor total ganho é $6.75, então completo a frase com esse número.\\\",\\n          \\\"result\\\": \\\"A3 = {B} × ({C} / {A})\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 12,\\n          \\\"action\\\": \\\"Clicar no botão Done\\\",\\n          \\\"thinking\\\": \\\"Todas as entradas estão corretas; posso concluir.\\\",\\n          \\\"result\\\": \\\"Problema submetido\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 1,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B} × ({C} / {A})\\\",\\n      \\\"totalTime\\\": 36\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06Lemonade\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): glasses sold initially\\\",\\n              \\\"thinking\\\": \\\"Ela vendeu 25 copos no começo, então coloco 25 aqui.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): earnings initially\\\",\\n              \\\"thinking\\\": \\\"Ela ganhou $2.25 no começo, então coloco 2.25 aqui.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation for line 1 (glasses)\\\",\\n              \\\"thinking\\\": \\\"Agora ela vendeu mais copos — de 25 pra 75 — então é multiplicação.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Enter factor for line 1\\\",\\n              \\\"thinking\\\": \\\"75 dividido por 25 é 3, então o fator é 3.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Compute converted value for line 1 (glasses now)\\\",\\n              \\\"thinking\\\": \\\"25 × 3 = 75, certo.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Choose operation for line 2 (earnings)\\\",\\n              \\\"thinking\\\": \\\"Se os copos aumentaram, o dinheiro também aumenta, então ×.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Enter factor for line 2\\\",\\n              \\\"thinking\\\": \\\"O fator deve ser o mesmo, 3.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Compute converted earnings\\\",\\n              \\\"thinking\\\": \\\"2.25 × 3... hum, 2×3=6, 0.25×3=0.75, então 6.75. Mas acho que é só 25 porque o enunciado pede total e talvez ignore os centavos?\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_ignora_centavos_e_arredonda_para_inteiro\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"25\\\",\\n                \\\"description\\\": \\\"Aluno ignora os centavos do valor inicial ou do cálculo e responde com um número inteiro arbitrário, muitas vezes confundindo com quantidade de copos.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular o total em dólares, o aluno descarta os centavos e/ou confunde o valor monetário com a contagem de copos.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quanto é 2.25 vezes 3? Vamos fazer essa conta juntos passo a passo.\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você entendeu que o dinheiro aumenta junto com os copos. Agora, vamos conferir a conta: quanto é 2.25 multiplicado por 3? Não esqueça dos centavos!\\\",\\n                \\\"howToFix\\\": \\\"Praticar multiplicações com decimais usando dinheiro como contexto; destacar que $2.25 não é '2' nem '25', mas dois dólares e vinte e cinco centavos.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"25\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): glasses sold initially\\\",\\n              \\\"thinking\\\": \\\"25 copos no início.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): earnings initially\\\",\\n              \\\"thinking\\\": \\\"Ganhou $2.25.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation for line 1\\\",\\n              \\\"thinking\\\": \\\"De 25 pra 75, aumentou, então ×.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Enter factor for line 1\\\",\\n              \\\"thinking\\\": \\\"75 ÷ 25 = 3, fator é 3.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Compute converted glasses\\\",\\n              \\\"thinking\\\": \\\"25 × 3 = 75.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Choose operation for line 2\\\",\\n              \\\"thinking\\\": \\\"Dinheiro também aumenta, então ×.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Enter factor for line 2\\\",\\n              \\\"thinking\\\": \\\"Mesmo fator, 3.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Compute converted earnings\\\",\\n              \\\"thinking\\\": \\\"2.25 × 3... ah, 2×3=6, 0.25×3=0.75, total 6.75. Mas espere — o enunciado diz 'made $2.25' com 25 copos, então talvez seja $0.09 por copo? 75 × 0.09 = 6.75. Mas eu vi '25' no começo e achei que fosse a resposta.\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_com_dado_do_enunciado_em_vez_de_calcular\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"25\\\",\\n                \\\"description\\\": \\\"Aluno responde com um número mencionado no enunciado (25 copos) em vez de calcular o valor monetário proporcional.\\\",\\n                \\\"mistakeLocation\\\": \\\"Na etapa final, ao invés de usar o resultado da proporção, o aluno repete o número de copos vendidos inicialmente.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre quantos dólares ela ganhou, não quantos copos vendeu. Qual número representa o dinheiro?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você prestou atenção nos números do problema — ótimo! Mas a pergunta é sobre o dinheiro total, não sobre copos. Que número na tabela representa o que ela ganhou agora?\\\",\\n                \\\"howToFix\\\": \\\"Treinar identificação explícita da grandeza pedida: sublinhar “total amount of money” e associar à linha correspondente na tabela.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"25\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"06Lemonade\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_copos_totais_com_iniciais\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"75\\\",\\n              \\\"buggyRule\\\": \\\"Usar o valor final (75) em vez do valor inicial (25) na razão dada.\\\",\\n              \\\"description\\\": \\\"Aluno coloca o total atual de copos (75) na célula 'Start' em vez do valor inicial (25).\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a razão dada, o aluno usa o valor convertido (Now) em vez do valor inicial (Start).\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual foi a quantidade no dia que ela começou? Foi no início ou depois?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou que ela vendeu 75 copos — isso é importante! Mas a primeira linha da tabela é sobre o que aconteceu no primeiro dia. Qual número pertence ao primeiro dia?\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente as palavras “the day that she started” vs “has now sold” com cores diferentes.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_grandezas_na_linha_errada\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2.25\\\",\\n              \\\"buggyRule\\\": \\\"Colocar o valor monetário (2.25) na linha dos copos (linha 1) em vez do valor 25.\\\",\\n              \\\"description\\\": \\\"Aluno troca as grandezas: coloca dólares na linha de copos ou vice-versa.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao inserir os valores dados, o aluno atribui o valor monetário à linha de copos.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Esta linha é sobre copos ou sobre dólares? O que o número 2.25 representa?\\\",\\n              \\\"feedback\\\": \\\"Cuidado! Esta linha é só para a quantidade de copos. O valor em dólares vai na linha de baixo. Vamos verificar cada linha com calma.\\\",\\n              \\\"howToFix\\\": \\\"Rotular claramente as linhas com ícones (copo 🥤 e dólar 💵) e exigir que o aluno aponte antes de digitar.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06Lemonade\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_ponto_decimal_e_digitacao_como_inteiro\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"225\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o ponto decimal e digitar 2.25 como 225.\\\",\\n              \\\"description\\\": \\\"Aluno trata $2.25 como 225 (centavos sem conversão), digitando o número inteiro 225.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao digitar o valor inicial em dólares, o aluno omite o ponto decimal e insere 225.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quanto é dois dólares e vinte e cinco centavos? É mais que 100 dólares?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando nos centavos — legal! Mas $2.25 não é 225 dólares. Como escrevemos dois e um quarto em forma decimal?\\\",\\n              \\\"howToFix\\\": \\\"Praticar leitura de valores monetários com moedas reais ou imagens; enfatizar que o ponto separa dólares de centavos.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_apenas_parte_inteira_do_valor_monetario\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"2\\\",\\n              \\\"buggyRule\\\": \\\"Usar apenas a parte inteira do valor monetário ($2.25 → 2).\\\",\\n              \\\"description\\\": \\\"Aluno despreza os centavos e registra apenas 2 na célula de ganhos iniciais.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do valor monetário inicial, o aluno ignora os centavos e digita só o 2.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Ela ganhou exatamente dois dólares ou um pouco mais?\\\",\\n              \\\"feedback\\\": \\\"Quase lá! Ela ganhou um pouco mais que dois dólares. Veja o valor completo: $2.25. O que vem depois do ponto?\\\",\\n              \\\"howToFix\\\": \\\"Usar representação visual com notas e moedas para mostrar que $2.25 = 2 + 0.25.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06Lemonade\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_diferenca_em_vez_de_divisao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como a diferença (75 - 25 = 50) em vez da razão (75 ÷ 25 = 3).\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o fator de escala.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao determinar o fator de conversão, o aluno faz 75 – 25 em vez de 75 ÷ 25.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ela triplicou as vendas, o fator é 3 ou 50? O que significa 'triplicar'?\\\",\\n              \\\"feedback\\\": \\\"Boa ideia olhar a mudança! Mas o fator mostra quantas vezes maior, não quanto aumentou. Se 25 vira 75, quantas vezes 25 cabe em 75?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar que fator de escala = novo / original, não novo – original. Usar linguagem como “quantas vezes”.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_divisao_para_fator\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0.333\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como 25 ÷ 75 ≈ 0.333 em vez de 75 ÷ 25 = 3.\\\",\\n              \\\"description\\\": \\\"Aluno inverte os termos na divisão ao calcular o fator de escala.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da ordem da divisão para o fator, o aluno divide o original pelo novo.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Estamos indo do início (25) para agora (75), ou de agora para o início?\\\",\\n              \\\"feedback\\\": \\\"Você fez uma divisão — ótimo! Mas estamos escalando do valor inicial para o novo. Qual número deve ficar em cima na divisão?\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: fator = valor final ÷ valor inicial. Usar setas na tabela: Start → Now.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"06Lemonade\\\",\\n          \\\"step\\\": 8,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_errado_com_decimal\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"6.25\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar 2.25 × 3 como (2 × 3) + 0.25 = 6.25, ignorando que 0.25 também deve ser multiplicado por 3.\\\",\\n              \\\"description\\\": \\\"Aluno multiplica só a parte inteira e adiciona os centavos sem escalar.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular 2.25 × 3, o aluno faz 2×3=6 e soma 0.25 sem multiplicar, obtendo 6.25.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se cada grupo tem 2.25, quanto têm três grupos? Vamos somar 2.25 + 2.25 + 2.25?\\\",\\n              \\\"feedback\\\": \\\"Você já sabe que o total é maior que 6 — muito bem! Vamos somar 2.25 três vezes para ver quanto dá.\\\",\\n              \\\"howToFix\\\": \\\"Substituir multiplicação por adição repetida com decimais: 2.25 + 2.25 + 2.25.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_preco_por_copo_em_vez_do_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0.09\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o preço por copo (2.25 ÷ 25 = 0.09) e responder isso como o total.\\\",\\n              \\\"description\\\": \\\"Aluno resolve o problema inverso: encontra o preço unitário e o reporta como o total arrecadado.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno confunde 'quanto por copo' com 'quanto no total'.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre o total com 75 copos ou sobre o preço de um copo?\\\",\\n              \\\"feedback\\\": \\\"Você calculou o preço de um copo corretamente! Mas a pergunta é sobre 75 copos. O que devemos fazer com esse valor agora?\\\",\\n              \\\"howToFix\\\": \\\"Explicitar: primeiro encontre o preço por copo, depois multiplique pelo total de copos vendidos.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_dado_do_enunciado_em_vez_de_calcular\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"25\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o número de copos iniciais (25) mencionado no enunciado, ignorando o cálculo proporcional.\\\",\\n              \\\"description\\\": \\\"Aluno repete um número do enunciado como resposta, sem realizar a proporção.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa de resposta final, o aluno digita 25 porque viu esse número destacado no texto.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"25 é o número de copos ou de dólares? A resposta deve estar em qual unidade?\\\",\\n              \\\"feedback\\\": \\\"Você notou o número 25 — importante! Mas ele representa copos, não dólares. A resposta precisa ser em dólares. Onde na tabela aparece o valor em dólares agora?\\\",\\n              \\\"howToFix\\\": \\\"Exigir que o aluno identifique a unidade da resposta antes de digitar; circular “$_____” no enunciado.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ignora_centavos_e_arredonda_para_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"6\\\",\\n              \\\"buggyRule\\\": \\\"Calcular 2.25 × 3 = 6.75, mas arredondar ou truncar para 6.\\\",\\n              \\\"description\\\": \\\"Aluno descarta os centavos após o cálculo e responde com um inteiro.\\\",\\n              \\\"mistakeLocation\\\": \\\"Após obter 6.75, o aluno escreve apenas 6 na resposta final.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"6.75 está mais perto de 6 ou de 7? Mas será que podemos ignorar os 75 centavos?\\\",\\n              \\\"feedback\\\": \\\"Você chegou perto! Mas em dinheiro, os centavos contam. $6.75 não é o mesmo que $6. Vamos manter os centavos na resposta?\\\",\\n              \\\"howToFix\\\": \\\"Refletir: se você comprar algo por $6.75 e der $6, falta troco? Sim! Então não podemos ignorar.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"06Lemonade\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar grandezas\\\",\\n          \\\"thinking\\\": \\\"Ela vendeu 25 copos e ganhou $2.25. Agora vendeu 75 copos... preciso descobrir quanto ganhou. Parece uma proporção, mas como preencher essa tabela?\\\",\\n          \\\"result\\\": \\\"Identifiquei as duas grandezas: 'Glasses' e 'Earnings ($)'\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na coluna 'razão dada'\\\",\\n          \\\"thinking\\\": \\\"Na linha dos copos (Glasses), o valor inicial é 25. Na linha do dinheiro (Earnings), é $2.25. Vou colocar isso em OV1 e OV2.\\\",\\n          \\\"result\\\": \\\"OV1 = 25, OV2 = 2.25\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar o valor convertido para 'Glasses'\\\",\\n          \\\"thinking\\\": \\\"Agora ela vendeu 75 copos, então na linha de Glasses, a coluna 'Now' deve ser 75. Isso vai em CV1.\\\",\\n          \\\"result\\\": \\\"CV1 = 75\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular o fator de conversão entre 25 e 75\\\",\\n          \\\"thinking\\\": \\\"Preciso descobrir por quanto multiplicar 25 para chegar a 75... Será que é ×3? Sim, porque 25×3=75. Mas será que sempre multiplico? E se fosse menos copos?\\\",\\n          \\\"result\\\": \\\"Fator = 3\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Quando uma quantidade aumenta proporcionalmente, como descobrimos o 'fator' que relaciona os dois valores? Pense: quantas vezes o valor inicial cabe no novo valor?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Divida o valor 'Now' pelo valor 'Start' na mesma grandeza (Glasses). Isso dá o fator de escala.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O fator está entre 2 e 4. Tente dividir 75 por 25 — o resultado é um número inteiro!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Pense: 25 vezes quanto dá 75? Conte: 25, 50, 75... quantos passos foram?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Escolher a operação na linha de Glasses\\\",\\n          \\\"thinking\\\": \\\"Como 25 virou 75, usei multiplicação. Então em SO1 coloco '×'.\\\",\\n          \\\"result\\\": \\\"SO1 = '×'\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar o mesmo fator à linha de Earnings\\\",\\n          \\\"thinking\\\": \\\"Se os copos triplicaram, o dinheiro também deve triplicar. Então na linha do dinheiro, também uso '×' e o mesmo fator 3. Mas será que posso usar divisão em algum caso?\\\",\\n          \\\"result\\\": \\\"SO2 = '×', SF2 = 3\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Excelente observação! Em proporções diretas, o que acontece com uma grandeza quando a outra aumenta? Elas mudam da mesma forma ou de formas opostas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Se você multiplicou na primeira linha, faça a mesma operação na segunda linha com o mesmo fator — desde que a relação seja direta (mais copos = mais dinheiro).\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Muito bem! Como mais copos significam mais dinheiro, a operação na linha do dinheiro deve ser a mesma da linha dos copos. Use '×' e o fator que você já encontrou.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você quase terminou! Já sabe que o fator é 3 e que os copos usaram '×'. Como o dinheiro cresce junto, qual operação você deve usar aqui?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular o valor convertido para Earnings\\\",\\n          \\\"thinking\\\": \\\"Agora preciso calcular 2.25 × 3... Vamos ver: 2×3=6, e 0.25×3=0.75, então 6+0.75=6.75. Mas a resposta correta é $25? Espera, isso não bate!\\\",\\n          \\\"result\\\": \\\"Percebo que cometi um erro de interpretação: $2.25 foi o total por 25 copos, então cada copo custa $0.09. Mas 75×0.09=6.75... mas o gabarito diz $25? Isso não faz sentido.\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": false,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Espere um momento! Releia o enunciado com atenção: quanto ela fez com 25 copos? $2.25 ou $25? Às vezes números parecidos causam confusão.\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Verifique os números do problema novamente. O valor arrecadado inicialmente é $2.25 ou $25? Isso muda todo o cálculo.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Atenção! O problema diz que com 25 copos ela fez $2.25, mas a resposta correta esperada é $25. Isso sugere que talvez haja um erro no enunciado ou no gabarito. Porém, se seguirmos a lógica matemática com os números dados, o resultado é $6.75.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você fez tudo certo com os números fornecidos! Mas note: se a resposta correta é $25, então o valor inicial provavelmente deveria ter sido $8.33... ou talvez o enunciado tenha um erro. Com $2.25 e 25 copos, o máximo que podemos concluir é $6.75 para 75 copos.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Reavaliar com base na resposta esperada\\\",\\n          \\\"thinking\\\": \\\"Ah! Talvez o enunciado tenha um erro de digitação. Se a resposta é $25 para 75 copos, então para 25 copos seria $25 ÷ 3 ≈ $8.33. Mas o enunciado diz $2.25. Isso não fecha. A menos que... será que $2.25 é por copo? Não, isso seria absurdo. Ou será que 25 copos renderam $25? Aí sim: 25 → $25, então 75 → $75? Mas a resposta é $25... Estou confuso.\\\",\\n          \\\"result\\\": \\\"Concluo que há inconsistência nos dados. Mas como o sistema espera $25, talvez o enunciado original fosse: 'vendeu 75 copos e fez $25, quanto fez com 25?' — mas está invertido.\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": false,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Às vezes, problemas têm erros. Mas suponha que os números estejam corretos: se 25 copos = $X, e 75 copos = $Y, qual é a relação entre X e Y?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Monte uma proporção: 25 / 2.25 = 75 / Y. Resolva para Y. Veja se isso bate com a resposta esperada.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Se 25 copos correspondem a $2.25, então 75 copos (3× mais) devem corresponder a 3 × $2.25 = $6.75. Mas o sistema diz que a resposta correta é $25. Isso indica que provavelmente houve um erro no enunciado: talvez fosse $8.33... ou $25 para 25 copos.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está certo em duvidar! Com os números dados, a resposta lógica é $6.75. Mas como o sistema espera $25, talvez o valor inicial fosse $25 para 25 copos — aí sim, 75 copos dariam $75. Ou talvez a pergunta seja diferente. Verifique se copiou tudo certo.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Decidir seguir a lógica matemática ou o gabarito\\\",\\n          \\\"thinking\\\": \\\"Como sou um aluno mediano, vou assumir que o enunciado tem um erro de digitação e que, na verdade, com 25 copos ela fez $25/3 ≈ $8.33... mas isso é estranho. Alternativamente, talvez $2.25 seja um valor errado e deveria ser $8.33. Mas como a resposta esperada é $25, e 75 é 3×25, então o valor por 25 copos deve ser $25/3? Não faz sentido. A única forma de 75 copos darem $25 é se 25 copos dessem $8.33... Mas o enunciado diz $2.25. Estou travado.\\\",\\n          \\\"result\\\": \\\"Decido que, apesar da inconsistência, vou seguir a proporção correta com os números dados e responder $6.75. Mas o sistema marcará errado.\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": false,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Confie na sua lógica! Se os números não fecham, às vezes o problema tem um erro. Mas neste caso, talvez você tenha lido mal: será que $2.25 é o lucro total ou por copo?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Reescreva o problema com suas próprias palavras: '25 copos → $2.25; 75 copos → ?'. Agora use regra de três simples.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Use a regra de três: 25 está para 2.25 assim como 75 está para X. Então X = (75 × 2.25) / 25 = (168.75) / 25 = 6.75.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você calculou certo: 75 dividido por 25 é 3, e 3 vezes 2.25 é 6.75. Se o sistema espera $25, há um erro no problema. Mas matematicamente, sua resposta está correta.\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"6.75\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar regra de três em vez da tabela de conversão\\\",\\n          \\\"steps\\\": [\\\"Montar proporção 25/2.25 = 75/x\\\", \\\"Multiplicar cruzado\\\", \\\"Resolver equação\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Calcular preço por copo e multiplicar por 75\\\",\\n          \\\"steps\\\": [\\\"2.25 ÷ 25 = 0.09\\\", \\\"0.09 × 75 = 6.75\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "06Lemonade",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Identificar as grandezas envolvidas: número de copos (glasses) e ganhos em dólares. A razão inicial é 25 glasses → $2.25. Quero saber quanto ela ganhou com 75 glasses.",
+        "result": "Grandezas identificadas: Glasses = {A} → Earnings = {B}; novo valor de Glasses = {C}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher a razão dada na tabela (linha 1: Glasses)",
+        "thinking": "Na linha das glasses, o valor inicial dado é 25.",
+        "result": "OV1 = {A}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher a razão dada na tabela (linha 2: Earnings)",
+        "thinking": "Na linha dos ganhos, o valor inicial dado é $2.25.",
+        "result": "OV2 = {B}",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Determinar o fator de escala entre os valores de glasses",
+        "thinking": "O número de glasses aumentou de 25 para 75. O fator de escala é 75 ÷ 25 = 3.",
+        "result": "Fator de conversão = {C} / {A}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher o fator de conversão na linha 1 (Glasses)",
+        "thinking": "Como estou escalando de 25 para 75, multiplico por 3.",
+        "result": "SF1 = {C} / {A}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Escolher a operação na linha 1 (Glasses)",
+        "thinking": "Para ir de 25 para 75, uso multiplicação.",
+        "result": "SO1 = \"×\"",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular o valor convertido de glasses (deve ser 75)",
+        "thinking": "25 × 3 = 75, confirmando que o fator está correto.",
+        "result": "CV1 = {C}",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar o mesmo fator à linha de Earnings",
+        "thinking": "Se o número de glasses triplicou, os ganhos também triplicam: $2.25 × 3 = $6.75.",
+        "result": "SF2 = {C} / {A}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Escolher a operação na linha 2 (Earnings)",
+        "thinking": "Como os ganhos aumentam proporcionalmente, uso multiplicação.",
+        "result": "SO2 = \"×\"",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Calcular o valor convertido de earnings",
+        "thinking": "Multiplico $2.25 pelo fator 3 para obter o total ganho.",
+        "result": "CV2 = {B} × ({C} / {A})",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Preencher a resposta final na frase",
+        "thinking": "O valor total ganho é $6.75, então completo a frase com esse número.",
+        "result": "A3 = {B} × ({C} / {A})",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 12,
+        "action": "Clicar no botão Done",
+        "thinking": "Todas as entradas estão corretas; posso concluir.",
+        "result": "Problema submetido",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 1,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B} × ({C} / {A})",
+      "totalTime": 36
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "06Lemonade",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): glasses sold initially",
+          "thinking": "Ela vendeu 25 copos no começo, então coloco 25 aqui.",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): earnings initially",
+          "thinking": "Ela ganhou $2.25 no começo, então coloco 2.25 aqui.",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true
+         },
+         {
+          "step": 3,
+          "action": "Choose operation for line 1 (glasses)",
+          "thinking": "Agora ela vendeu mais copos — de 25 pra 75 — então é multiplicação.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 4,
+          "action": "Enter factor for line 1",
+          "thinking": "75 dividido por 25 é 3, então o fator é 3.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true
+         },
+         {
+          "step": 5,
+          "action": "Compute converted value for line 1 (glasses now)",
+          "thinking": "25 × 3 = 75, certo.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 6,
+          "action": "Choose operation for line 2 (earnings)",
+          "thinking": "Se os copos aumentaram, o dinheiro também aumenta, então ×.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 7,
+          "action": "Enter factor for line 2",
+          "thinking": "O fator deve ser o mesmo, 3.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true
+         },
+         {
+          "step": 8,
+          "action": "Compute converted earnings",
+          "thinking": "2.25 × 3... hum, 2×3=6, 0.25×3=0.75, então 6.75. Mas acho que é só 25 porque o enunciado pede total e talvez ignore os centavos?",
+          "result": "Incorrect",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_ignora_centavos_e_arredonda_para_inteiro",
+           "type": "conceptual_error",
+           "wrongAnswer": "25",
+           "description": "Aluno ignora os centavos do valor inicial ou do cálculo e responde com um número inteiro arbitrário, muitas vezes confundindo com quantidade de copos.",
+           "mistakeLocation": "Ao calcular o total em dólares, o aluno descarta os centavos e/ou confunde o valor monetário com a contagem de copos.",
+           "diagnosticQuestion": "Quanto é 2.25 vezes 3? Vamos fazer essa conta juntos passo a passo.",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você entendeu que o dinheiro aumenta junto com os copos. Agora, vamos conferir a conta: quanto é 2.25 multiplicado por 3? Não esqueça dos centavos!",
+           "howToFix": "Praticar multiplicações com decimais usando dinheiro como contexto; destacar que $2.25 não é '2' nem '25', mas dois dólares e vinte e cinco centavos."
+          }
+         }
+        ],
+        "finalAnswer": "25",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): glasses sold initially",
+          "thinking": "25 copos no início.",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): earnings initially",
+          "thinking": "Ganhou $2.25.",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true
+         },
+         {
+          "step": 3,
+          "action": "Choose operation for line 1",
+          "thinking": "De 25 pra 75, aumentou, então ×.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 4,
+          "action": "Enter factor for line 1",
+          "thinking": "75 ÷ 25 = 3, fator é 3.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true
+         },
+         {
+          "step": 5,
+          "action": "Compute converted glasses",
+          "thinking": "25 × 3 = 75.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 6,
+          "action": "Choose operation for line 2",
+          "thinking": "Dinheiro também aumenta, então ×.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true
+         },
+         {
+          "step": 7,
+          "action": "Enter factor for line 2",
+          "thinking": "Mesmo fator, 3.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true
+         },
+         {
+          "step": 8,
+          "action": "Compute converted earnings",
+          "thinking": "2.25 × 3... ah, 2×3=6, 0.25×3=0.75, total 6.75. Mas espere — o enunciado diz 'made $2.25' com 25 copos, então talvez seja $0.09 por copo? 75 × 0.09 = 6.75. Mas eu vi '25' no começo e achei que fosse a resposta.",
+          "result": "Incorrect",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_com_dado_do_enunciado_em_vez_de_calcular",
+           "type": "conceptual_error",
+           "wrongAnswer": "25",
+           "description": "Aluno responde com um número mencionado no enunciado (25 copos) em vez de calcular o valor monetário proporcional.",
+           "mistakeLocation": "Na etapa final, ao invés de usar o resultado da proporção, o aluno repete o número de copos vendidos inicialmente.",
+           "diagnosticQuestion": "A pergunta é sobre quantos dólares ela ganhou, não quantos copos vendeu. Qual número representa o dinheiro?",
+           "severity": "moderate",
+           "feedback": "Você prestou atenção nos números do problema — ótimo! Mas a pergunta é sobre o dinheiro total, não sobre copos. Que número na tabela representa o que ela ganhou agora?",
+           "howToFix": "Treinar identificação explícita da grandeza pedida: sublinhar “total amount of money” e associar à linha correspondente na tabela."
+          }
+         }
+        ],
+        "finalAnswer": "25",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "06Lemonade",
+        "step": 1,
+        "kcUsed": "enter-given-from",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_copos_totais_com_iniciais",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "75",
+          "buggyRule": "Usar o valor final (75) em vez do valor inicial (25) na razão dada.",
+          "description": "Aluno coloca o total atual de copos (75) na célula 'Start' em vez do valor inicial (25).",
+          "mistakeLocation": "Ao preencher a razão dada, o aluno usa o valor convertido (Now) em vez do valor inicial (Start).",
+          "diagnosticQuestion": "Qual foi a quantidade no dia que ela começou? Foi no início ou depois?",
+          "feedback": "Você lembrou que ela vendeu 75 copos — isso é importante! Mas a primeira linha da tabela é sobre o que aconteceu no primeiro dia. Qual número pertence ao primeiro dia?",
+          "howToFix": "Destacar visualmente as palavras “the day that she started” vs “has now sold” com cores diferentes.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_inverte_grandezas_na_linha_errada",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "2.25",
+          "buggyRule": "Colocar o valor monetário (2.25) na linha dos copos (linha 1) em vez do valor 25.",
+          "description": "Aluno troca as grandezas: coloca dólares na linha de copos ou vice-versa.",
+          "mistakeLocation": "Ao inserir os valores dados, o aluno atribui o valor monetário à linha de copos.",
+          "diagnosticQuestion": "Esta linha é sobre copos ou sobre dólares? O que o número 2.25 representa?",
+          "feedback": "Cuidado! Esta linha é só para a quantidade de copos. O valor em dólares vai na linha de baixo. Vamos verificar cada linha com calma.",
+          "howToFix": "Rotular claramente as linhas com ícones (copo 🥤 e dólar 💵) e exigir que o aluno aponte antes de digitar.",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "06Lemonade",
+        "step": 2,
+        "kcUsed": "enter-given-to",
+        "errors": [
+         {
+          "misconceptionId": "misc_esquece_ponto_decimal_e_digitacao_como_inteiro",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "225",
+          "buggyRule": "Ignorar o ponto decimal e digitar 2.25 como 225.",
+          "description": "Aluno trata $2.25 como 225 (centavos sem conversão), digitando o número inteiro 225.",
+          "mistakeLocation": "Ao digitar o valor inicial em dólares, o aluno omite o ponto decimal e insere 225.",
+          "diagnosticQuestion": "Quanto é dois dólares e vinte e cinco centavos? É mais que 100 dólares?",
+          "feedback": "Você está pensando nos centavos — legal! Mas $2.25 não é 225 dólares. Como escrevemos dois e um quarto em forma decimal?",
+          "howToFix": "Praticar leitura de valores monetários com moedas reais ou imagens; enfatizar que o ponto separa dólares de centavos.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_apenas_parte_inteira_do_valor_monetario",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "2",
+          "buggyRule": "Usar apenas a parte inteira do valor monetário ($2.25 → 2).",
+          "description": "Aluno despreza os centavos e registra apenas 2 na célula de ganhos iniciais.",
+          "mistakeLocation": "Na entrada do valor monetário inicial, o aluno ignora os centavos e digita só o 2.",
+          "diagnosticQuestion": "Ela ganhou exatamente dois dólares ou um pouco mais?",
+          "feedback": "Quase lá! Ela ganhou um pouco mais que dois dólares. Veja o valor completo: $2.25. O que vem depois do ponto?",
+          "howToFix": "Usar representação visual com notas e moedas para mostrar que $2.25 = 2 + 0.25.",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "06Lemonade",
+        "step": 4,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_diferenca_em_vez_de_divisao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "50",
+          "buggyRule": "Calcular o fator como a diferença (75 - 25 = 50) em vez da razão (75 ÷ 25 = 3).",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o fator de escala.",
+          "mistakeLocation": "Ao determinar o fator de conversão, o aluno faz 75 – 25 em vez de 75 ÷ 25.",
+          "diagnosticQuestion": "Se ela triplicou as vendas, o fator é 3 ou 50? O que significa 'triplicar'?",
+          "feedback": "Boa ideia olhar a mudança! Mas o fator mostra quantas vezes maior, não quanto aumentou. Se 25 vira 75, quantas vezes 25 cabe em 75?",
+          "howToFix": "Ensinar que fator de escala = novo / original, não novo – original. Usar linguagem como “quantas vezes”.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_divisao_para_fator",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "0.333",
+          "buggyRule": "Calcular o fator como 25 ÷ 75 ≈ 0.333 em vez de 75 ÷ 25 = 3.",
+          "description": "Aluno inverte os termos na divisão ao calcular o fator de escala.",
+          "mistakeLocation": "Na escolha da ordem da divisão para o fator, o aluno divide o original pelo novo.",
+          "diagnosticQuestion": "Estamos indo do início (25) para agora (75), ou de agora para o início?",
+          "feedback": "Você fez uma divisão — ótimo! Mas estamos escalando do valor inicial para o novo. Qual número deve ficar em cima na divisão?",
+          "howToFix": "Reforçar: fator = valor final ÷ valor inicial. Usar setas na tabela: Start → Now.",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "06Lemonade",
+        "step": 8,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_errado_com_decimal",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "6.25",
+          "buggyRule": "Multiplicar 2.25 × 3 como (2 × 3) + 0.25 = 6.25, ignorando que 0.25 também deve ser multiplicado por 3.",
+          "description": "Aluno multiplica só a parte inteira e adiciona os centavos sem escalar.",
+          "mistakeLocation": "Ao calcular 2.25 × 3, o aluno faz 2×3=6 e soma 0.25 sem multiplicar, obtendo 6.25.",
+          "diagnosticQuestion": "Se cada grupo tem 2.25, quanto têm três grupos? Vamos somar 2.25 + 2.25 + 2.25?",
+          "feedback": "Você já sabe que o total é maior que 6 — muito bem! Vamos somar 2.25 três vezes para ver quanto dá.",
+          "howToFix": "Substituir multiplicação por adição repetida com decimais: 2.25 + 2.25 + 2.25.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_preco_por_copo_em_vez_do_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0.09",
+          "buggyRule": "Calcular o preço por copo (2.25 ÷ 25 = 0.09) e responder isso como o total.",
+          "description": "Aluno resolve o problema inverso: encontra o preço unitário e o reporta como o total arrecadado.",
+          "mistakeLocation": "Na resposta final, o aluno confunde 'quanto por copo' com 'quanto no total'.",
+          "diagnosticQuestion": "A pergunta é sobre o total com 75 copos ou sobre o preço de um copo?",
+          "feedback": "Você calculou o preço de um copo corretamente! Mas a pergunta é sobre 75 copos. O que devemos fazer com esse valor agora?",
+          "howToFix": "Explicitar: primeiro encontre o preço por copo, depois multiplique pelo total de copos vendidos.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_dado_do_enunciado_em_vez_de_calcular",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "25",
+          "buggyRule": "Responder com o número de copos iniciais (25) mencionado no enunciado, ignorando o cálculo proporcional.",
+          "description": "Aluno repete um número do enunciado como resposta, sem realizar a proporção.",
+          "mistakeLocation": "Na caixa de resposta final, o aluno digita 25 porque viu esse número destacado no texto.",
+          "diagnosticQuestion": "25 é o número de copos ou de dólares? A resposta deve estar em qual unidade?",
+          "feedback": "Você notou o número 25 — importante! Mas ele representa copos, não dólares. A resposta precisa ser em dólares. Onde na tabela aparece o valor em dólares agora?",
+          "howToFix": "Exigir que o aluno identifique a unidade da resposta antes de digitar; circular “$_____” no enunciado.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ignora_centavos_e_arredonda_para_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "6",
+          "buggyRule": "Calcular 2.25 × 3 = 6.75, mas arredondar ou truncar para 6.",
+          "description": "Aluno descarta os centavos após o cálculo e responde com um inteiro.",
+          "mistakeLocation": "Após obter 6.75, o aluno escreve apenas 6 na resposta final.",
+          "diagnosticQuestion": "6.75 está mais perto de 6 ou de 7? Mas será que podemos ignorar os 75 centavos?",
+          "feedback": "Você chegou perto! Mas em dinheiro, os centavos contam. $6.75 não é o mesmo que $6. Vamos manter os centavos na resposta?",
+          "howToFix": "Refletir: se você comprar algo por $6.75 e der $6, falta troco? Sim! Então não podemos ignorar.",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "06Lemonade",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar grandezas",
+        "thinking": "Ela vendeu 25 copos e ganhou $2.25. Agora vendeu 75 copos... preciso descobrir quanto ganhou. Parece uma proporção, mas como preencher essa tabela?",
+        "result": "Identifiquei as duas grandezas: 'Glasses' e 'Earnings ($)'",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na coluna 'razão dada'",
+        "thinking": "Na linha dos copos (Glasses), o valor inicial é 25. Na linha do dinheiro (Earnings), é $2.25. Vou colocar isso em OV1 e OV2.",
+        "result": "OV1 = 25, OV2 = 2.25",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Determinar o valor convertido para 'Glasses'",
+        "thinking": "Agora ela vendeu 75 copos, então na linha de Glasses, a coluna 'Now' deve ser 75. Isso vai em CV1.",
+        "result": "CV1 = 75",
+        "kcUsed": "enter-given-to",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Calcular o fator de conversão entre 25 e 75",
+        "thinking": "Preciso descobrir por quanto multiplicar 25 para chegar a 75... Será que é ×3? Sim, porque 25×3=75. Mas será que sempre multiplico? E se fosse menos copos?",
+        "result": "Fator = 3",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Quando uma quantidade aumenta proporcionalmente, como descobrimos o 'fator' que relaciona os dois valores? Pense: quantas vezes o valor inicial cabe no novo valor?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Divida o valor 'Now' pelo valor 'Start' na mesma grandeza (Glasses). Isso dá o fator de escala."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O fator está entre 2 e 4. Tente dividir 75 por 25 — o resultado é um número inteiro!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Pense: 25 vezes quanto dá 75? Conte: 25, 50, 75... quantos passos foram?"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Escolher a operação na linha de Glasses",
+        "thinking": "Como 25 virou 75, usei multiplicação. Então em SO1 coloco '×'.",
+        "result": "SO1 = '×'",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Aplicar o mesmo fator à linha de Earnings",
+        "thinking": "Se os copos triplicaram, o dinheiro também deve triplicar. Então na linha do dinheiro, também uso '×' e o mesmo fator 3. Mas será que posso usar divisão em algum caso?",
+        "result": "SO2 = '×', SF2 = 3",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Excelente observação! Em proporções diretas, o que acontece com uma grandeza quando a outra aumenta? Elas mudam da mesma forma ou de formas opostas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Se você multiplicou na primeira linha, faça a mesma operação na segunda linha com o mesmo fator — desde que a relação seja direta (mais copos = mais dinheiro)."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Muito bem! Como mais copos significam mais dinheiro, a operação na linha do dinheiro deve ser a mesma da linha dos copos. Use '×' e o fator que você já encontrou."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você quase terminou! Já sabe que o fator é 3 e que os copos usaram '×'. Como o dinheiro cresce junto, qual operação você deve usar aqui?"
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Calcular o valor convertido para Earnings",
+        "thinking": "Agora preciso calcular 2.25 × 3... Vamos ver: 2×3=6, e 0.25×3=0.75, então 6+0.75=6.75. Mas a resposta correta é $25? Espera, isso não bate!",
+        "result": "Percebo que cometi um erro de interpretação: $2.25 foi o total por 25 copos, então cada copo custa $0.09. Mas 75×0.09=6.75... mas o gabarito diz $25? Isso não faz sentido.",
+        "kcUsed": "complete-sentence",
+        "isCorrect": false,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Espere um momento! Releia o enunciado com atenção: quanto ela fez com 25 copos? $2.25 ou $25? Às vezes números parecidos causam confusão."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Verifique os números do problema novamente. O valor arrecadado inicialmente é $2.25 ou $25? Isso muda todo o cálculo."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Atenção! O problema diz que com 25 copos ela fez $2.25, mas a resposta correta esperada é $25. Isso sugere que talvez haja um erro no enunciado ou no gabarito. Porém, se seguirmos a lógica matemática com os números dados, o resultado é $6.75."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você fez tudo certo com os números fornecidos! Mas note: se a resposta correta é $25, então o valor inicial provavelmente deveria ter sido $8.33... ou talvez o enunciado tenha um erro. Com $2.25 e 25 copos, o máximo que podemos concluir é $6.75 para 75 copos."
+         }
+        ]
+       },
+       {
+        "step": 8,
+        "action": "Reavaliar com base na resposta esperada",
+        "thinking": "Ah! Talvez o enunciado tenha um erro de digitação. Se a resposta é $25 para 75 copos, então para 25 copos seria $25 ÷ 3 ≈ $8.33. Mas o enunciado diz $2.25. Isso não fecha. A menos que... será que $2.25 é por copo? Não, isso seria absurdo. Ou será que 25 copos renderam $25? Aí sim: 25 → $25, então 75 → $75? Mas a resposta é $25... Estou confuso.",
+        "result": "Concluo que há inconsistência nos dados. Mas como o sistema espera $25, talvez o enunciado original fosse: 'vendeu 75 copos e fez $25, quanto fez com 25?' — mas está invertido.",
+        "kcUsed": "complete-sentence",
+        "isCorrect": false,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Às vezes, problemas têm erros. Mas suponha que os números estejam corretos: se 25 copos = $X, e 75 copos = $Y, qual é a relação entre X e Y?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Monte uma proporção: 25 / 2.25 = 75 / Y. Resolva para Y. Veja se isso bate com a resposta esperada."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Se 25 copos correspondem a $2.25, então 75 copos (3× mais) devem corresponder a 3 × $2.25 = $6.75. Mas o sistema diz que a resposta correta é $25. Isso indica que provavelmente houve um erro no enunciado: talvez fosse $8.33... ou $25 para 25 copos."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está certo em duvidar! Com os números dados, a resposta lógica é $6.75. Mas como o sistema espera $25, talvez o valor inicial fosse $25 para 25 copos — aí sim, 75 copos dariam $75. Ou talvez a pergunta seja diferente. Verifique se copiou tudo certo."
+         }
+        ]
+       },
+       {
+        "step": 9,
+        "action": "Decidir seguir a lógica matemática ou o gabarito",
+        "thinking": "Como sou um aluno mediano, vou assumir que o enunciado tem um erro de digitação e que, na verdade, com 25 copos ela fez $25/3 ≈ $8.33... mas isso é estranho. Alternativamente, talvez $2.25 seja um valor errado e deveria ser $8.33. Mas como a resposta esperada é $25, e 75 é 3×25, então o valor por 25 copos deve ser $25/3? Não faz sentido. A única forma de 75 copos darem $25 é se 25 copos dessem $8.33... Mas o enunciado diz $2.25. Estou travado.",
+        "result": "Decido que, apesar da inconsistência, vou seguir a proporção correta com os números dados e responder $6.75. Mas o sistema marcará errado.",
+        "kcUsed": "complete-sentence",
+        "isCorrect": false,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Confie na sua lógica! Se os números não fecham, às vezes o problema tem um erro. Mas neste caso, talvez você tenha lido mal: será que $2.25 é o lucro total ou por copo?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Reescreva o problema com suas próprias palavras: '25 copos → $2.25; 75 copos → ?'. Agora use regra de três simples."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Use a regra de três: 25 está para 2.25 assim como 75 está para X. Então X = (75 × 2.25) / 25 = (168.75) / 25 = 6.75."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você calculou certo: 75 dividido por 25 é 3, e 3 vezes 2.25 é 6.75. Se o sistema espera $25, há um erro no problema. Mas matematicamente, sua resposta está correta."
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "6.75",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Usar regra de três em vez da tabela de conversão",
+        "steps": [
+         "Montar proporção 25/2.25 = 75/x",
+         "Multiplicar cruzado",
+         "Resolver equação"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Calcular preço por copo e multiplicar por 75",
+        "steps": [
+         "2.25 ÷ 25 = 0.09",
+         "0.09 × 75 = 6.75"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 12,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Glasses\" e \"Earnings ($)\"). As colunas são: (1) a razão DADA, rotulada \"Start\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Now\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"dollars.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

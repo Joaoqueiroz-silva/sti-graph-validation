@@ -1,0 +1,490 @@
+{
+ "id": "07Driving",
+ "correctAnswer": "50",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.111,
+ "conceptual": 0.111,
+ "precision": 0.125,
+ "recall": 0.1,
+ "functionalAgreement": 0.25,
+ "functionalKappa": -0.333,
+ "missing": [
+  "1",
+  "50"
+ ],
+ "extra": [
+  "20000"
+ ],
+ "robotMisconceptions": [
+  "20000",
+  "400"
+ ],
+ "exercicio": "07Driving",
+ "replica": 3,
+ "geradoEm": "2026-08-19T10:18:56.993Z",
+ "promptSha256": "e122f7b0938a238abe59d6c2bd479e2979efe4af3bb13e3006ec6d544ebdf0f0",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "google/gemini-3.1-flash-lite",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:13:55.334Z"
+ },
+ "custo": {
+  "tokensEntrada": 7614,
+  "tokensSaida": 2787,
+  "usd": 0.006084000000000001
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Identificar a razão dada (distância total)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = {A}"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar a taxa unitária (velocidade)",
+    "kc": "enter-per1",
+    "valor": "OV2 = {B}"
+   },
+   {
+    "indice": 3,
+    "acao": "Definir a operação de conversão",
+    "kc": "enter-factor",
+    "valor": "SO1 = ÷, SO2 = ÷"
+   },
+   {
+    "indice": 4,
+    "acao": "Definir o fator de conversão",
+    "kc": "enter-factor",
+    "valor": "SF1 = {B}, SF2 = {B}"
+   },
+   {
+    "indice": 5,
+    "acao": "Calcular os valores convertidos",
+    "kc": "scale-completed",
+    "valor": "CV1 = {A}/{B}, CV2 = 1"
+   },
+   {
+    "indice": 6,
+    "acao": "Preencher a resposta final",
+    "kc": "complete-sentence",
+    "valor": "A3 = {A}/{B}"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "20000",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar a verificar a magnitude do resultado: se o tempo deve ser menor que a distância, a divisão é o caminho mais provável.",
+    "buggyRule": "",
+    "misconceptionId": "misc_multiplicar_sempre_aumenta"
+   },
+   {
+    "valor": "400",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Treinar a identificação de variáveis (o que é distância, o que é velocidade, o que é tempo) antes de realizar qualquer cálculo.",
+    "buggyRule": "",
+    "misconceptionId": "misc_palavra_chave_superficial"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Você está indo bem! Pense: se você tem uma distância total e uma velocidade (taxa), qual dessas grandezas você precisa 'quebrar' ou dividir para encontrar o tempo?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Tente colocar o valor total da viagem (400) na linha de 'Miles' e a velocidade (50) como o fator que vai ajudar a encontrar as 'Hours'."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "O valor 400 é o total de milhas. O valor 50 é quantas milhas ele percorre em 1 hora. Para achar o tempo, você deve dividir a distância total pela velocidade."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Coloque 400 na linha de milhas e 50 na linha de fator. Como queremos saber quantas vezes 50 cabe em 400, a operação deve ser a divisão."
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Você já tem os números. Quando queremos saber 'quantas vezes' um número cabe em outro, qual operação usamos?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Tente dividir o número maior pelo menor. Se você tem 400 e quer saber quantos grupos de 50 existem ali, a operação é a divisão."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Tente simplificar: 400 dividido por 50 é o mesmo que 40 dividido por 5. Quanto dá essa conta?"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Você está quase lá! Pense na tabuada do 5: 5 vezes quanto resulta em 40? Esse será o seu resultado final."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Identificar a razão dada (distância total)\\\",\\n          \\\"thinking\\\": \\\"O problema informa que a distância total é {A} milhas. Vou inserir este valor na linha de milhas.\\\",\\n          \\\"result\\\": \\\"OV1 = {A}\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar a taxa unitária (velocidade)\\\",\\n          \\\"thinking\\\": \\\"A velocidade é de {B} milhas por hora. Isso significa que para cada {B} milhas, temos 1 hora.\\\",\\n          \\\"result\\\": \\\"OV2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-per1\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Definir a operação de conversão\\\",\\n          \\\"thinking\\\": \\\"Para converter milhas em horas usando a velocidade, devo dividir a distância total pela velocidade.\\\",\\n          \\\"result\\\": \\\"SO1 = ÷, SO2 = ÷\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Definir o fator de conversão\\\",\\n          \\\"thinking\\\": \\\"O fator de conversão é a própria velocidade {B} para normalizar a unidade.\\\",\\n          \\\"result\\\": \\\"SF1 = {B}, SF2 = {B}\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Calcular os valores convertidos\\\",\\n          \\\"thinking\\\": \\\"Calculando {A} ÷ {B} para milhas e {B} ÷ {B} para horas.\\\",\\n          \\\"result\\\": \\\"CV1 = {A}/{B}, CV2 = 1\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 10,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher a resposta final\\\",\\n          \\\"thinking\\\": \\\"O resultado da divisão {A} / {B} é o tempo total em horas.\\\",\\n          \\\"result\\\": \\\"A3 = {A}/{B}\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 38\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher dados da tabela\\\",\\n              \\\"thinking\\\": \\\"Vou colocar 400 milhas e 50 mph. Acho que multiplico por 50 para achar as horas.\\\",\\n              \\\"result\\\": \\\"Tabela preenchida incorretamente\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplicar_sempre_aumenta\\\",\\n                \\\"type\\\": \\\"operation_confusion\\\",\\n                \\\"wrongAnswer\\\": \\\"20000\\\",\\n                \\\"description\\\": \\\"Aluno assume que precisa multiplicar para encontrar o resultado, ignorando que o tempo deve ser menor que a distância total\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao selecionar a operação na coluna 2\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você viajar 400 milhas a 50 milhas por hora, o tempo de viagem será maior ou menor que 400?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você escolheu a multiplicação! Lembre-se que, ao dividir uma distância por uma velocidade, estamos procurando quantas vezes a velocidade cabe na distância.\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a verificar a magnitude do resultado: se o tempo deve ser menor que a distância, a divisão é o caminho mais provável.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"20000\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher resposta final\\\",\\n              \\\"thinking\\\": \\\"O número que aparece no texto é 400 e 50. Vou colocar 400.\\\",\\n              \\\"result\\\": \\\"Resposta final incorreta\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_palavra_chave_superficial\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"400\\\",\\n                \\\"description\\\": \\\"Aluno usa o número maior presente no enunciado como resposta automática\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher o campo de resposta final\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O número 400 representa as milhas totais ou o tempo em horas? Como podemos encontrar as horas?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Cuidado! 400 é a distância total em milhas. Precisamos calcular quantas horas são necessárias com base na velocidade.\\\",\\n                \\\"howToFix\\\": \\\"Treinar a identificação de variáveis (o que é distância, o que é velocidade, o que é tempo) antes de realizar qualquer cálculo.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"400\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"07Driving\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_operandos\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50/400\\\",\\n              \\\"buggyRule\\\": \\\"Dividir a velocidade pela distância: {speed}/{distance}\\\",\\n              \\\"description\\\": \\\"Aluno inverte a ordem da divisão, calculando a razão de horas por milha em vez de milhas por hora\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao configurar a operação de divisão na tabela\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você dividir 50 por 400, que unidade você obtém? É isso que o problema pede?\\\",\\n              \\\"feedback\\\": \\\"Você inverteu a ordem da divisão! Verifique se você está dividindo a distância total pela velocidade.\\\",\\n              \\\"howToFix\\\": \\\"Explicar que a unidade da resposta deve ser 'horas', então devemos dividir milhas por (milhas/hora).\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usar_numerador_como_resposta\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"400\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar o cálculo e repetir o valor da distância: {distance}\\\",\\n              \\\"description\\\": \\\"Aluno seleciona o maior número do enunciado por acreditar que ele é a resposta final\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a coluna de valor convertido\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O valor de 400 faz sentido como tempo de viagem se você viaja a 50 milhas por hora?\\\",\\n              \\\"feedback\\\": \\\"Você apenas copiou o valor da distância. Lembre-se que precisamos usar a velocidade para encontrar o tempo.\\\",\\n              \\\"howToFix\\\": \\\"Fazer uma estimativa simples: 'Se eu ando 50 milhas em 1 hora, em 100 milhas ando 2 horas...'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"google/gemini-3.1-flash-lite\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"07Driving\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Preencher a tabela com os dados fornecidos (400 milhas e 50 milhas/hora)\\\",\\n          \\\"thinking\\\": \\\"Eu sei que a distância total é 400 e a velocidade é 50. Devo colocar 400 em 'razão dada' e 50 em 'fator'? Ou o contrário?\\\",\\n          \\\"result\\\": \\\"Entendi que 400 é a distância total e 50 é a taxa de velocidade\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\\"level\\\": 1, \\\"type\\\": \\\"conceptual\\\", \\\"message\\\": \\\"Você está indo bem! Pense: se você tem uma distância total e uma velocidade (taxa), qual dessas grandezas você precisa 'quebrar' ou dividir para encontrar o tempo?\\\"},\\n            {\\\"level\\\": 2, \\\"type\\\": \\\"procedural\\\", \\\"message\\\": \\\"Tente colocar o valor total da viagem (400) na linha de 'Miles' e a velocidade (50) como o fator que vai ajudar a encontrar as 'Hours'.\\\"},\\n            {\\\"level\\\": 3, \\\"type\\\": \\\"specific\\\", \\\"message\\\": \\\"O valor 400 é o total de milhas. O valor 50 é quantas milhas ele percorre em 1 hora. Para achar o tempo, você deve dividir a distância total pela velocidade.\\\"},\\n            {\\\"level\\\": 4, \\\"type\\\": \\\"bottom_out\\\", \\\"message\\\": \\\"Coloque 400 na linha de milhas e 50 na linha de fator. Como queremos saber quantas vezes 50 cabe em 400, a operação deve ser a divisão.\\\"}\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Selecionar a operação de divisão (÷) e calcular o resultado\\\",\\n          \\\"thinking\\\": \\\"Se eu dividir 400 por 50... corta os zeros, 40 dividido por 5... dá 8? Espera, o cálculo está correto?\\\",\\n          \\\"result\\\": \\\"8 horas\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\\"level\\\": 1, \\\"type\\\": \\\"conceptual\\\", \\\"message\\\": \\\"Você já tem os números. Quando queremos saber 'quantas vezes' um número cabe em outro, qual operação usamos?\\\"},\\n            {\\\"level\\\": 2, \\\"type\\\": \\\"procedural\\\", \\\"message\\\": \\\"Tente dividir o número maior pelo menor. Se você tem 400 e quer saber quantos grupos de 50 existem ali, a operação é a divisão.\\\"},\\n            {\\\"level\\\": 3, \\\"type\\\": \\\"specific\\\", \\\"message\\\": \\\"Tente simplificar: 400 dividido por 50 é o mesmo que 40 dividido por 5. Quanto dá essa conta?\\\"},\\n            {\\\"level\\\": 4, \\\"type\\\": \\\"bottom_out\\\", \\\"message\\\": \\\"Você está quase lá! Pense na tabuada do 5: 5 vezes quanto resulta em 40? Esse será o seu resultado final.\\\"}\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"8\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Somar sucessivamente a velocidade até chegar na distância total\\\",\\n          \\\"steps\\\": [\\\"50 + 50 = 100 (2h)\\\", \\\"100 + 100 = 200 (4h)\\\", \\\"200 + 200 = 400 (8h)\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Identificar a razão dada (distância total)",
+        "thinking": "O problema informa que a distância total é {A} milhas. Vou inserir este valor na linha de milhas.",
+        "result": "OV1 = {A}",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar a taxa unitária (velocidade)",
+        "thinking": "A velocidade é de {B} milhas por hora. Isso significa que para cada {B} milhas, temos 1 hora.",
+        "result": "OV2 = {B}",
+        "kcUsed": "enter-per1",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Definir a operação de conversão",
+        "thinking": "Para converter milhas em horas usando a velocidade, devo dividir a distância total pela velocidade.",
+        "result": "SO1 = ÷, SO2 = ÷",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Definir o fator de conversão",
+        "thinking": "O fator de conversão é a própria velocidade {B} para normalizar a unidade.",
+        "result": "SF1 = {B}, SF2 = {B}",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Calcular os valores convertidos",
+        "thinking": "Calculando {A} ÷ {B} para milhas e {B} ÷ {B} para horas.",
+        "result": "CV1 = {A}/{B}, CV2 = 1",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 10,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Preencher a resposta final",
+        "thinking": "O resultado da divisão {A} / {B} é o tempo total em horas.",
+        "result": "A3 = {A}/{B}",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 5,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 38
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher dados da tabela",
+          "thinking": "Vou colocar 400 milhas e 50 mph. Acho que multiplico por 50 para achar as horas.",
+          "result": "Tabela preenchida incorretamente",
+          "kcUsed": "enter-given-from",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplicar_sempre_aumenta",
+           "type": "operation_confusion",
+           "wrongAnswer": "20000",
+           "description": "Aluno assume que precisa multiplicar para encontrar o resultado, ignorando que o tempo deve ser menor que a distância total",
+           "mistakeLocation": "Ao selecionar a operação na coluna 2",
+           "diagnosticQuestion": "Se você viajar 400 milhas a 50 milhas por hora, o tempo de viagem será maior ou menor que 400?",
+           "severity": "high",
+           "feedback": "Você escolheu a multiplicação! Lembre-se que, ao dividir uma distância por uma velocidade, estamos procurando quantas vezes a velocidade cabe na distância.",
+           "howToFix": "Ensinar a verificar a magnitude do resultado: se o tempo deve ser menor que a distância, a divisão é o caminho mais provável."
+          }
+         }
+        ],
+        "finalAnswer": "20000",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher resposta final",
+          "thinking": "O número que aparece no texto é 400 e 50. Vou colocar 400.",
+          "result": "Resposta final incorreta",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_palavra_chave_superficial",
+           "type": "conceptual_error",
+           "wrongAnswer": "400",
+           "description": "Aluno usa o número maior presente no enunciado como resposta automática",
+           "mistakeLocation": "Ao preencher o campo de resposta final",
+           "diagnosticQuestion": "O número 400 representa as milhas totais ou o tempo em horas? Como podemos encontrar as horas?",
+           "severity": "high",
+           "feedback": "Cuidado! 400 é a distância total em milhas. Precisamos calcular quantas horas são necessárias com base na velocidade.",
+           "howToFix": "Treinar a identificação de variáveis (o que é distância, o que é velocidade, o que é tempo) antes de realizar qualquer cálculo."
+          }
+         }
+        ],
+        "finalAnswer": "400",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "07Driving",
+        "step": 1,
+        "kcUsed": "enter-given-from",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_operandos",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "50/400",
+          "buggyRule": "Dividir a velocidade pela distância: {speed}/{distance}",
+          "description": "Aluno inverte a ordem da divisão, calculando a razão de horas por milha em vez de milhas por hora",
+          "mistakeLocation": "Ao configurar a operação de divisão na tabela",
+          "diagnosticQuestion": "Se você dividir 50 por 400, que unidade você obtém? É isso que o problema pede?",
+          "feedback": "Você inverteu a ordem da divisão! Verifique se você está dividindo a distância total pela velocidade.",
+          "howToFix": "Explicar que a unidade da resposta deve ser 'horas', então devemos dividir milhas por (milhas/hora).",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usar_numerador_como_resposta",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "400",
+          "buggyRule": "Ignorar o cálculo e repetir o valor da distância: {distance}",
+          "description": "Aluno seleciona o maior número do enunciado por acreditar que ele é a resposta final",
+          "mistakeLocation": "Ao preencher a coluna de valor convertido",
+          "diagnosticQuestion": "O valor de 400 faz sentido como tempo de viagem se você viaja a 50 milhas por hora?",
+          "feedback": "Você apenas copiou o valor da distância. Lembre-se que precisamos usar a velocidade para encontrar o tempo.",
+          "howToFix": "Fazer uma estimativa simples: 'Se eu ando 50 milhas em 1 hora, em 100 milhas ando 2 horas...'",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "07Driving",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Preencher a tabela com os dados fornecidos (400 milhas e 50 milhas/hora)",
+        "thinking": "Eu sei que a distância total é 400 e a velocidade é 50. Devo colocar 400 em 'razão dada' e 50 em 'fator'? Ou o contrário?",
+        "result": "Entendi que 400 é a distância total e 50 é a taxa de velocidade",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Você está indo bem! Pense: se você tem uma distância total e uma velocidade (taxa), qual dessas grandezas você precisa 'quebrar' ou dividir para encontrar o tempo?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Tente colocar o valor total da viagem (400) na linha de 'Miles' e a velocidade (50) como o fator que vai ajudar a encontrar as 'Hours'."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "O valor 400 é o total de milhas. O valor 50 é quantas milhas ele percorre em 1 hora. Para achar o tempo, você deve dividir a distância total pela velocidade."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Coloque 400 na linha de milhas e 50 na linha de fator. Como queremos saber quantas vezes 50 cabe em 400, a operação deve ser a divisão."
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Selecionar a operação de divisão (÷) e calcular o resultado",
+        "thinking": "Se eu dividir 400 por 50... corta os zeros, 40 dividido por 5... dá 8? Espera, o cálculo está correto?",
+        "result": "8 horas",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Você já tem os números. Quando queremos saber 'quantas vezes' um número cabe em outro, qual operação usamos?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Tente dividir o número maior pelo menor. Se você tem 400 e quer saber quantos grupos de 50 existem ali, a operação é a divisão."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Tente simplificar: 400 dividido por 50 é o mesmo que 40 dividido por 5. Quanto dá essa conta?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase lá! Pense na tabuada do 5: 5 vezes quanto resulta em 40? Esse será o seu resultado final."
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "8",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Somar sucessivamente a velocidade até chegar na distância total",
+        "steps": [
+         "50 + 50 = 100 (2h)",
+         "100 + 100 = 200 (4h)",
+         "200 + 200 = 400 (8h)"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 6,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Miles\" e \"Hours\"). As colunas são: (1) a razão DADA, rotulada \"Speed\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Trip\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"hours.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

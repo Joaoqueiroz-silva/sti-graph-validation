@@ -1,0 +1,1162 @@
+{
+ "id": "01Garden",
+ "correctAnswer": "3",
+ "audit": {
+  "ok": true,
+  "stepCount": 10
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0,
+ "functionalKappa": -0.641,
+ "missing": [
+  "20",
+  "3",
+  "27"
+ ],
+ "extra": [
+  "24",
+  "72",
+  "÷",
+  "2",
+  "480"
+ ],
+ "robotMisconceptions": [
+  "24",
+  "72",
+  "÷",
+  "24",
+  "2",
+  "480"
+ ],
+ "exercicio": "01Garden",
+ "replica": 2,
+ "geradoEm": "2026-08-19T10:37:53.178Z",
+ "promptSha256": "3c3b41077f243c4a563d818e76a21dc94dba9129a22757423b52570936650788",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7796,
+  "tokensSaida": 11733,
+  "usd": 0.05183958
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 10
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Valores identificados: {A} = 3 plantas, {B} = 20 tomates, {C} = 27 plantas"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher a razão dada na tabela (linha 1: Plants)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = 3"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher a razão dada na tabela (linha 2: Tomatoes)",
+    "kc": "enter-given-to",
+    "valor": "OV2 = 20"
+   },
+   {
+    "indice": 4,
+    "acao": "Calcular o fator de conversão",
+    "kc": "enter-factor",
+    "valor": "Fator de conversão = 9"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher operação e fator na linha 1 (Plants)",
+    "kc": "enter-factor",
+    "valor": "SO1 = '×', SF1 = 9"
+   },
+   {
+    "indice": 6,
+    "acao": "Preencher operação e fator na linha 2 (Tomatoes)",
+    "kc": "scale-completed",
+    "valor": "SO2 = '×', SF2 = 9"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular valor convertido para Tomatoes",
+    "kc": "scale-completed",
+    "valor": "CV2 = 180"
+   },
+   {
+    "indice": 8,
+    "acao": "Preencher valor convertido para Plants (opcional, mas coerente)",
+    "kc": "scale-completed",
+    "valor": "CV1 = 27"
+   },
+   {
+    "indice": 9,
+    "acao": "Inserir resposta final na caixa de texto",
+    "kc": "complete-sentence",
+    "valor": "A3 = 180"
+   },
+   {
+    "indice": 10,
+    "acao": "Clicar no botão Done",
+    "kc": "complete-sentence",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "24",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar com exemplos simples: 'Se tinha 2 e agora tem 8, quantas vezes aumentou? 8 ÷ 2 = 4, não 8 - 2 = 6'",
+    "buggyRule": "Calcular o fator como a diferença absoluta: plants_this_year - plants_last_year",
+    "misconceptionId": "misc_fator_como_diferenca_em_vez_de_quociente"
+   },
+   {
+    "valor": "72",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar a usar o valor-alvo (27) como verificação: 'o valor convertido deve ser exatamente o que o problema diz para este ano'",
+    "buggyRule": "",
+    "misconceptionId": "misc_executa_operacao_mesmo_com_fator_errado"
+   },
+   {
+    "valor": "÷",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar que, em problemas de proporção direta, ambas as grandezas crescem juntas. Usar linguagem: 'se triplicar as plantas, triplica os tomates'",
+    "buggyRule": "Assumir relação inversa entre número de plantas e produção total, escolhendo divisão para tomates",
+    "misconceptionId": "misc_inverse_relationship_assumption"
+   },
+   {
+    "valor": "24",
+    "passo": 7,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar que o fator deve ser calculado como (valor este ano) ÷ (valor ano passado), sempre",
+    "buggyRule": "Copiar o fator da linha Plants (mesmo que errado) para a linha Tomatoes",
+    "misconceptionId": "misc_propaga_fator_errado_para_outra_grandeza"
+   },
+   {
+    "valor": "2",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Guiar o aluno a calcular tomates por planta primeiro (20/3), depois multiplicar por 27, para contrastar com a abordagem proporcional",
+    "buggyRule": "Dividir o número de tomates do ano passado pelo fator (mesmo que incorreto) e arredondar para baixo",
+    "misconceptionId": "misc_resposta_como_divisao_invertida"
+   },
+   {
+    "valor": "480",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar estimativa para checar plausibilidade: 'antes, ~7 tomates por planta; então 27 × 7 ≈ 190, não 480'",
+    "buggyRule": "Multiplicar tomates do ano passado pela diferença de plantas: 20 × (27 - 3) = 480",
+    "misconceptionId": "misc_resposta_com_fator_aditivo_em_problema_multiplicativo"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Boa observação! Quando o número de plantas muda, mas a produção por planta continua igual, como encontramos o 'fator' que liga os dois cenários?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Divida o número de plantas deste ano (27) pelo número do ano passado (3). Isso te dá o fator de escala."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Quase lá! O fator é um número inteiro maior que 5 e menor que 10. Tente dividir 27 por 3."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está muito perto! Pense: quantas vezes 3 cabe em 27? Conte: 3, 6, 9, 12... até chegar em 27. Quantos passos foram?"
+   },
+   {
+    "passo": 7,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Se a quantidade de plantas aumentou, e cada planta produz o mesmo tanto, o que acontece com o total de tomates? Aumenta ou diminui?"
+   },
+   {
+    "passo": 7,
+    "nivel": 2,
+    "texto": "Você está indo bem! Use a mesma operação e o mesmo fator da linha das plantas na linha dos tomates. Primeiro escolha a operação, depois multiplique 20 pelo fator."
+   },
+   {
+    "passo": 7,
+    "nivel": 3,
+    "texto": "Quase lá! Você já sabe que o fator é 9. Agora, 20 vezes 9 dá um número entre 170 e 190. Quanto é exatamente?"
+   },
+   {
+    "passo": 7,
+    "nivel": 4,
+    "texto": "Você está quase concluindo! Faça 20 × 9: pense em 2 × 9 = 18, então 20 × 9 = 180. Confira se isso faz sentido."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"01Garden\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Identifico que há uma proporção entre número de plantas e número de tomates. No ano passado: 3 plantas → 20 tomates. Este ano: 27 plantas → ? tomates.\\\",\\n          \\\"result\\\": \\\"Valores identificados: {A} = 3 plantas, {B} = 20 tomates, {C} = 27 plantas\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 1: Plants)\\\",\\n          \\\"thinking\\\": \\\"Na linha 'Plants', coluna 'razão dada', insiro o valor do ano passado: 3.\\\",\\n          \\\"result\\\": \\\"OV1 = 3\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 2: Tomatoes)\\\",\\n          \\\"thinking\\\": \\\"Na linha 'Tomatoes', coluna 'razão dada', insiro o valor correspondente do ano passado: 20.\\\",\\n          \\\"result\\\": \\\"OV2 = 20\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular o fator de conversão\\\",\\n          \\\"thinking\\\": \\\"O número de plantas aumentou de 3 para 27. O fator é 27 ÷ 3 = 9. Como estamos escalando as plantas, aplicamos o mesmo fator aos tomates.\\\",\\n          \\\"result\\\": \\\"Fator de conversão = 9\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher operação e fator na linha 1 (Plants)\\\",\\n          \\\"thinking\\\": \\\"Para ir de 3 plantas para 27, multiplicamos por 9. Então operação é × e fator é 9.\\\",\\n          \\\"result\\\": \\\"SO1 = '×', SF1 = 9\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher operação e fator na linha 2 (Tomatoes)\\\",\\n          \\\"thinking\\\": \\\"A mesma operação deve ser aplicada à outra grandeza para manter a proporção: ×9.\\\",\\n          \\\"result\\\": \\\"SO2 = '×', SF2 = 9\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular valor convertido para Tomatoes\\\",\\n          \\\"thinking\\\": \\\"20 tomates × 9 = 180 tomates.\\\",\\n          \\\"result\\\": \\\"CV2 = 180\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher valor convertido para Plants (opcional, mas coerente)\\\",\\n          \\\"thinking\\\": \\\"3 × 9 = 27, confirmando a escala.\\\",\\n          \\\"result\\\": \\\"CV1 = 27\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Inserir resposta final na caixa de texto\\\",\\n          \\\"thinking\\\": \\\"A resposta esperada é o número de tomates este ano: 180.\\\",\\n          \\\"result\\\": \\\"A3 = 180\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Clicar no botão Done\\\",\\n          \\\"thinking\\\": \\\"Todas as entradas estão corretas e completas. Finalizo o problema.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"180\\\",\\n      \\\"totalTime\\\": 37\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"01Garden\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): number of plants last year\\\",\\n              \\\"thinking\\\": \\\"Last year had 3 tomato plants, so I put 3 in the first row, 'razão dada'\\\",\\n              \\\"result\\\": \\\"Correctly entered 3\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): number of tomatoes last year\\\",\\n              \\\"thinking\\\": \\\"They got 20 tomatoes, so I put 20 in the second row, 'razão dada'\\\",\\n              \\\"result\\\": \\\"Correctly entered 20\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation for plants row\\\",\\n              \\\"thinking\\\": \\\"I have more plants this year (27 vs 3), so I need to multiply to get from 3 to 27\\\",\\n              \\\"result\\\": \\\"Correctly chose ×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Enter conversion factor for plants\\\",\\n              \\\"thinking\\\": \\\"27 divided by 3 is 9, so the factor is 9\\\",\\n              \\\"result\\\": \\\"Correctly entered 9\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Compute converted value for plants (this year)\\\",\\n              \\\"thinking\\\": \\\"3 × 9 = 27, that’s right\\\",\\n              \\\"result\\\": \\\"Correctly entered 27\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Choose operation for tomatoes row\\\",\\n              \\\"thinking\\\": \\\"Since I multiplied plants, I should also multiply tomatoes by the same factor\\\",\\n              \\\"result\\\": \\\"Correctly chose ×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Enter conversion factor for tomatoes\\\",\\n              \\\"thinking\\\": \\\"Same factor as plants: 9\\\",\\n              \\\"result\\\": \\\"Correctly entered 9\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Compute converted tomatoes (this year)\\\",\\n              \\\"thinking\\\": \\\"20 × 9 = 180, so I put 180\\\",\\n              \\\"result\\\": \\\"Correct final answer\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"180\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): number of plants last year\\\",\\n              \\\"thinking\\\": \\\"Last year had 3 plants, so I type 3\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): number of tomatoes last year\\\",\\n              \\\"thinking\\\": \\\"They got 20 tomatoes, so I put 20\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation for plants row\\\",\\n              \\\"thinking\\\": \\\"I’m going from 3 to 27, so I multiply\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Enter conversion factor for plants\\\",\\n              \\\"thinking\\\": \\\"27 ÷ 3 = 9, so factor is 9\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Compute converted plants\\\",\\n              \\\"thinking\\\": \\\"3 × 9 = 27\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Choose operation for tomatoes row\\\",\\n              \\\"thinking\\\": \\\"Wait—maybe I should divide because more plants might mean fewer tomatoes per plant?\\\",\\n              \\\"result\\\": \\\"Incorrectly chose ÷\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverse_relationship_assumption\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"÷\\\",\\n                \\\"description\\\": \\\"Aluno assume que mais plantas implicam menos tomates por planta e inverte a operação\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao escolher a operação para a linha de tomates, o aluno aplicou uma lógica inversa incorreta baseada em suposição realista, não na proporção direta dada\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A relação entre número de plantas e número total de tomates é direta ou inversa? Se você dobra as plantas, o total de tomates dobra ou cai pela metade?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa observação sobre plantas e produção! Mas neste problema, a suposição é que cada planta produz a mesma quantidade. Então, se você tem mais plantas, o total de tomates aumenta na mesma proporção.\\\",\\n                \\\"howToFix\\\": \\\"Reforçar que, em problemas de proporção direta, ambas as grandezas crescem juntas. Usar linguagem: 'se triplicar as plantas, triplica os tomates'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Enter conversion factor for tomatoes\\\",\\n              \\\"thinking\\\": \\\"I’ll use the same factor, 9, but divide\\\",\\n              \\\"result\\\": \\\"Entered 9 (correct factor, wrong operation)\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Compute converted tomatoes\\\",\\n              \\\"thinking\\\": \\\"20 ÷ 9... hmm, maybe I just put 20 ÷ 9 ≈ 2.22, but since tomatoes are whole, maybe 2?\\\",\\n              \\\"result\\\": \\\"Entered 2\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_resposta_como_divisao_invertida\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"2\\\",\\n                \\\"description\\\": \\\"Aluno dividiu 20 pelo fator de escala (9) e arredondou para baixo, assumindo que a operação era divisão\\\",\\n                \\\"mistakeLocation\\\": \\\"No cálculo final dos tomates, após escolher a operação errada (÷), o aluno realizou 20 ÷ 9 e arredondou para o inteiro mais próximo inferior\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 3 plantas dão 20 tomates, então 1 planta dá quantos? E 27 plantas dariam quantos?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando cuidadosamente na relação! Mas vamos verificar: se 3 plantas dão 20 tomates, então cada planta dá cerca de 6,66 tomates. Com 27 plantas, isso seria bem mais que 2 tomates!\\\",\\n                \\\"howToFix\\\": \\\"Guiar o aluno a calcular tomates por planta primeiro (20/3), depois multiplicar por 27, para contrastar com a abordagem proporcional\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"2\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): number of plants last year\\\",\\n              \\\"thinking\\\": \\\"3 plants last year\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): number of tomatoes last year\\\",\\n              \\\"thinking\\\": \\\"20 tomatoes\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation for plants row\\\",\\n              \\\"thinking\\\": \\\"From 3 to 27, so ×\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Enter conversion factor for plants\\\",\\n              \\\"thinking\\\": \\\"27 minus 3 is 24, so maybe the factor is 24?\\\",\\n              \\\"result\\\": \\\"Entered 24 instead of 9\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fator_como_diferenca_em_vez_de_quociente\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"24\\\",\\n                \\\"description\\\": \\\"Aluno calcula o fator de conversão como a diferença (27 - 3) em vez do quociente (27 ÷ 3)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao determinar o fator de escala para ir de 3 para 27, o aluno usou subtração em vez de divisão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O fator de escala mostra quantas vezes maior algo ficou. É obtido por divisão ou subtração?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você percebeu que há uma mudança de 3 para 27 — ótimo! Mas o fator de escala responde à pergunta: '27 é quantas vezes 3?' Isso exige divisão, não subtração.\\\",\\n                \\\"howToFix\\\": \\\"Praticar com exemplos simples: 'Se tinha 2 e agora tem 8, quantas vezes aumentou? 8 ÷ 2 = 4, não 8 - 2 = 6'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Compute converted plants\\\",\\n              \\\"thinking\\\": \\\"3 × 24 = 72... wait, that’s not 27! But the table forces me to fill it.\\\",\\n              \\\"result\\\": \\\"Entered 72\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_executa_operacao_mesmo_com_fator_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"72\\\",\\n                \\\"description\\\": \\\"Aluno aplica a operação correta (×) com um fator incorreto (24), resultando em valor inconsistente com o alvo (27)\\\",\\n                \\\"mistakeLocation\\\": \\\"No cálculo do valor convertido para plantas, após inserir fator errado, o aluno segue cegamente a operação sem verificar coerência com o dado alvo (27)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você multiplica 3 por 24, obtém 27? Vamos conferir essa conta.\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você seguiu os passos da tabela, mas vamos olhar se o resultado faz sentido. O enunciado diz que este ano são 27 plantas. Seu cálculo deu 72 — isso bate?\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a usar o valor-alvo (27) como verificação: 'o valor convertido deve ser exatamente o que o problema diz para este ano'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Choose operation for tomatoes row\\\",\\n              \\\"thinking\\\": \\\"I used × for plants, so I’ll use × for tomatoes too\\\",\\n              \\\"result\\\": \\\"Chose ×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Enter conversion factor for tomatoes\\\",\\n              \\\"thinking\\\": \\\"Same factor as plants: 24\\\",\\n              \\\"result\\\": \\\"Entered 24\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_propaga_fator_errado_para_outra_grandeza\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"24\\\",\\n                \\\"description\\\": \\\"Aluno replica o fator incorreto (baseado em diferença) para a outra grandeza, mantendo consistência interna errada\\\",\\n                \\\"mistakeLocation\\\": \\\"Na entrada do fator para tomates, o aluno copiou o fator errado da linha das plantas, sem questionar sua origem\\\",\\n                \\\"diagnosticQuestion\\\": \\\"De onde veio o número 24? Ele representa quantas vezes mais plantas você tem este ano?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você manteve a mesma regra para ambas as grandezas — isso mostra atenção! Mas precisamos revisar de onde vem o fator. Ele deve vir da comparação entre os valores deste ano e do ano passado, por divisão.\\\",\\n                \\\"howToFix\\\": \\\"Destacar que o fator deve ser calculado como (valor este ano) ÷ (valor ano passado), sempre\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Compute converted tomatoes\\\",\\n              \\\"thinking\\\": \\\"20 × 24 = 480\\\",\\n              \\\"result\\\": \\\"Entered 480\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_resposta_com_fator_aditivo_em_problema_multiplicativo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"480\\\",\\n                \\\"description\\\": \\\"Aluno resolve problema proporcional usando lógica aditiva (diferença como fator), levando a superestimativa extrema\\\",\\n                \\\"mistakeLocation\\\": \\\"Na resposta final, após propagar erro de fator baseado em subtração, o aluno obtém valor irrealista (480) sem perceber a magnitude absurda\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 3 plantas dão 20 tomates, 27 plantas dariam 480? Isso parece razoável? Quantos tomates por planta isso daria?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você fez todas as contas com cuidado! Mas vamos pensar: 480 tomates com 27 plantas significa quase 18 tomates por planta — enquanto antes eram cerca de 6-7. Isso é possível, mas o problema assume que a produção por planta é constante. Vamos recalcular o fator certo.\\\",\\n                \\\"howToFix\\\": \\\"Usar estimativa para checar plausibilidade: 'antes, ~7 tomates por planta; então 27 × 7 ≈ 190, não 480'\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"480\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_troca_plantas_por_tomates_no_campo_errado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{tomatoes_last_year}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir o número de tomates (20) no campo de plantas do ano passado, confundindo as linhas da tabela\\\",\\n              \\\"description\\\": \\\"Aluno troca as grandezas ao preencher a razão dada, colocando tomates na linha de plantas\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a primeira célula ('razão dada' da linha Plants), o aluno digitou o valor da outra grandeza (tomates)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Esta linha é sobre 'Plants' ou 'Tomatoes'? Qual número pertence a cada linha?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou os números certos! Agora vamos garantir que cada um vá na linha correta. Esta linha é sobre o número de PLANTAS — qual foi esse número?\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente as linhas com cores ou ícones (planta 🌱 vs tomate 🍅) para associar corretamente\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_plantas_este_ano_no_lugar_do_ano_passado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{plants_this_year}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir o número de plantas deste ano (27) no campo de plantas do ano passado\\\",\\n              \\\"description\\\": \\\"Aluno confunde 'last year' e 'this year' e coloca o valor atual na coluna dada\\\",\\n              \\\"mistakeLocation\\\": \\\"Na coluna 'Last Year', linha Plants, o aluno inseriu o valor de 'This Year' (27)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado diz que ano teve 3 plantas? E qual teve 27?\\\",\\n              \\\"feedback\\\": \\\"Você está atento aos números! Só precisamos separar: qual foi o ano passado e qual é este ano. A coluna 'Last Year' pede o número do ano passado.\\\",\\n              \\\"howToFix\\\": \\\"Pedir ao aluno sublinhar no enunciado: 'last year: 3 plants' e 'this year: 27 plants'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_insere_total_previsto_em_vez_do_passado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{answer_correct}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir a resposta final esperada (180) no campo de tomates do ano passado, tentando 'forçar' a tabela\\\",\\n              \\\"description\\\": \\\"Aluno antecipa a resposta e coloca o valor previsto no lugar do dado histórico\\\",\\n              \\\"mistakeLocation\\\": \\\"Na coluna 'Last Year', linha Tomatoes, o aluno digitou o valor que deveria aparecer em 'This Year'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quantos tomates foram colhidos REALMENTE no ano passado, segundo o enunciado?\\\",\\n              \\\"feedback\\\": \\\"Você já está pensando na resposta final — isso é bom! Mas primeiro precisamos registrar o que aconteceu de verdade no ano passado. O enunciado diz quantos tomates foram colhidos?\\\",\\n              \\\"howToFix\\\": \\\"Separar claramente: 'dados conhecidos' vs 'pergunta'. Usar marca-texto amarelo nos dados.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_numero_de_plantas_com_tomates\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{plants_last_year}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir o número de plantas do ano passado (3) no campo de tomates do ano passado\\\",\\n              \\\"description\\\": \\\"Aluno repete o mesmo número da linha acima, sem mudar de grandeza\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha Tomatoes, coluna 'Last Year', o aluno copiou o valor da linha Plants (3)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Esta linha é sobre o número de TOMATES. O enunciado diz quantos tomates foram colhidos?\\\",\\n              \\\"feedback\\\": \\\"Você colocou o número certo na linha de cima! Agora, nesta linha, estamos falando de TOMATES. Quantos foram colhidos?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a ler rótulos de linha antes de digitar: 'Plants: 3', 'Tomatoes: ?'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_divisao_para_aumento\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Escolher divisão na linha Plants quando o valor deste ano é maior que o do ano passado, por confusão entre operação e direção\\\",\\n              \\\"description\\\": \\\"Aluno associa 'ir de ano passado para este ano' com divisão, independentemente do aumento ou redução\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para Plants, o aluno selecionou ÷ mesmo com 27 > 3\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem MAIS plantas este ano, precisa multiplicar ou dividir o número do ano passado para chegar a este ano?\\\",\\n              \\\"feedback\\\": \\\"Vamos pensar: se ano passado foram 3 e este ano são 27, você precisa fazer 3 ficar MAIOR. Qual operação faz um número ficar maior: multiplicar ou dividir?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas visuais: '3 → ? → 27'. Perguntar: 'o que faz 3 virar 27?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_operacao_pela_palavra_chave_aumentar\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação quando vê que a quantidade 'aumentou', mesmo sem calcular o fator\\\",\\n              \\\"description\\\": \\\"Aluno usa heurística de palavra-chave ('mais plantas') para escolher ×, mas pode estar correto por acaso — aqui listamos como erro potencial em outros contextos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão da operação, baseada apenas na ideia de 'aumento', sem considerar proporcionalidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você decidiu que era multiplicação? Funcionaria se tivéssemos MENOS plantas este ano?\\\",\\n              \\\"feedback\\\": \\\"Você notou que o número aumentou — excelente observação! A multiplicação faz sentido aqui, mas vamos entender por quê: porque queremos escalar na mesma proporção.\\\",\\n              \\\"howToFix\\\": \\\"Conectar operação ao conceito de escala: 'multiplicar = repetir a mesma razão várias vezes'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_como_diferenca_em_vez_de_quociente\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{plants_this_year} - {plants_last_year}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como a diferença absoluta: plants_this_year - plants_last_year\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de conversão, o aluno fez 27 - 3 = 24 em vez de 27 ÷ 3 = 9\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator responde: 'quantas vezes maior?' ou 'quantos a mais?'\\\",\\n              \\\"feedback\\\": \\\"Você calculou quanto a mais — isso é útil em outros problemas! Mas aqui queremos saber 'quantas VEZES mais', o que exige divisão.\\\",\\n              \\\"howToFix\\\": \\\"Praticar linguagem: 'vezes mais' → divisão; 'a mais' → subtração\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_quociente_para_fator\\\",\\n              \\\"type\\\": \\\"magnitude_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{plants_last_year} / {plants_this_year}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como plants_last_year ÷ plants_this_year (3 ÷ 27 = 1/9 ou 0.111...)\\\",\\n              \\\"description\\\": \\\"Aluno inverte a ordem da divisão ao calcular o fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao dividir para obter o fator, o aluno fez 3 ÷ 27 em vez de 27 ÷ 3\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Estamos indo do ano passado (3) para este ano (27). Qual número deve estar em cima na divisão?\\\",\\n              \\\"feedback\\\": \\\"Você usou divisão — ótimo! Mas lembre-se: o valor de destino vai no numerador. Estamos partindo de 3 para chegar a 27, então é 27 ÷ 3.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar fórmula: fator = (valor novo) ÷ (valor antigo)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_razao_inversa_como_fator\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{tomatoes_last_year} / {plants_last_year}\\\",\\n              \\\"buggyRule\\\": \\\"Usar a razão tomates/plantas (20/3) como fator de conversão nas linhas individuais\\\",\\n              \\\"description\\\": \\\"Aluno confunde fator de escala com taxa unitária e insere 20/3 ≈ 6.67 como fator\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula de fator da linha Plants, o aluno inseriu a produtividade por planta (20÷3)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Este fator deve transformar 3 plantas em 27 plantas. 3 × (20/3) dá 27?\\\",\\n              \\\"feedback\\\": \\\"Você calculou quantos tomates por planta — isso é muito útil! Mas o fator aqui serve para escalar o número de plantas, não para converter entre grandezas.\\\",\\n              \\\"howToFix\\\": \\\"Distinguir: fator de escala (mesma grandeza) vs taxa de conversão (entre grandezas)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_valor_convertido_sem_verificar_alvo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} * {SF1}\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar cegamente a operação e o fator inseridos, mesmo que o resultado não seja igual ao valor conhecido deste ano (27)\\\",\\n              \\\"description\\\": \\\"Aluno computa valor convertido sem comparar com o dado do problema (27), aceitando inconsistência\\\",\\n              \\\"mistakeLocation\\\": \\\"Após inserir fator errado, o aluno calcula 3×24=72 e aceita, mesmo sabendo que este ano são 27 plantas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado diz que este ano são 27 plantas. Seu cálculo deu 72. Isso bate?\\\",\\n              \\\"feedback\\\": \\\"Você seguiu os passos da tabela — muito bem! Mas a tabela deve refletir a realidade do problema. Este ano são 27 plantas, então o valor convertido deve ser exatamente 27.\\\",\\n              \\\"howToFix\\\": \\\"Treinar autoverificação: 'meu valor convertido = valor dado para este ano?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_deixa_em_branco_por_incerteza\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"\\\",\\n              \\\"buggyRule\\\": \\\"Não preencher a célula por medo de errar, mesmo tendo dados suficientes\\\",\\n              \\\"description\\\": \\\"Aluno hesita em calcular o valor convertido, achando que deve ser dado, não calculado\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula 'razão convertida' da linha Plants, o aluno deixa em branco\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem 3 plantas e multiplica pelo fator 9, quantas plantas terá?\\\",\\n              \\\"feedback\\\": \\\"Você já tem todos os ingredientes! É só aplicar a operação que você escolheu com o fator que você achou.\\\",\\n              \\\"howToFix\\\": \\\"Modelar verbalização: '3 vezes 9 é...'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 6,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverse_relationship_assumption\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Assumir relação inversa entre número de plantas e produção total, escolhendo divisão para tomates\\\",\\n              \\\"description\\\": \\\"Aluno acredita que mais plantas levam a menos tomates por competição, invertendo a operação\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para Tomatoes, o aluno seleciona ÷ com base em intuição agrícola, não na proporção direta do problema\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O problema diz que a produção por planta muda? Ou assume que é a mesma?\\\",\\n              \\\"feedback\\\": \\\"Sua preocupação com as plantas é realista! Mas neste problema, assumimos que cada planta produz o mesmo tanto. Então, mais plantas = mais tomates, na mesma proporção.\\\",\\n              \\\"howToFix\\\": \\\"Explicitar a hipótese do problema: 'produção por planta constante'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_copia_operacao_da_linha_acima_sem_pensar\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{SO1}\\\",\\n              \\\"buggyRule\\\": \\\"Copiar automaticamente a operação da linha Plants para a linha Tomatoes, sem avaliar\\\",\\n              \\\"description\\\": \\\"Aluno replica a operação por hábito, o que pode estar certo ou errado dependendo do contexto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da operação para Tomatoes, o aluno clica no mesmo botão da linha acima\\\",\\n              \\\"diagnosticQuestion\\\": \\\"As duas grandezas estão aumentando ou uma aumenta e a outra diminui?\\\",\\n              \\\"feedback\\\": \\\"Você manteve a mesma operação — e nesse caso está certo! Mas vamos garantir que você entende por quê: ambas as grandezas aumentam juntas.\\\",\\n              \\\"howToFix\\\": \\\"Perguntar sempre: 'esta grandeza aumenta ou diminui em relação à outra?'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 7,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_propaga_fator_errado_para_outra_grandeza\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{SF1}\\\",\\n              \\\"buggyRule\\\": \\\"Copiar o fator da linha Plants (mesmo que errado) para a linha Tomatoes\\\",\\n              \\\"description\\\": \\\"Aluno assume que o fator deve ser o mesmo, o que é correto em proporção direta, mas propaga erros\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do fator para Tomatoes, o aluno replica o valor da linha Plants sem recalcular\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator deve ser o mesmo para ambas as grandezas? De onde ele vem?\\\",\\n              \\\"feedback\\\": \\\"Sim, o fator é o mesmo — excelente! Mas precisamos garantir que ele foi calculado certo. De onde ele vem? Do número de plantas!\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: 'o fator vem da grandeza conhecida (plants); depois é aplicado à outra (tomatoes)'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_pela_razao_tomates_plantas\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{tomatoes_last_year} / {plants_last_year}\\\",\\n              \\\"buggyRule\\\": \\\"Inserir a taxa unitária (20/3) como fator na linha Tomatoes\\\",\\n              \\\"description\\\": \\\"Aluno usa produtividade por planta como fator de escala, em vez do fator de aumento\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula de fator da linha Tomatoes, o aluno coloca 20 ÷ 3 ≈ 6.67\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Este fator deve transformar 20 tomates em quantos? Se você multiplica 20 por 6.67, dá o esperado?\\\",\\n              \\\"feedback\\\": \\\"Você encontrou quantos tomates por planta — isso é útil para outro método! Mas aqui, o fator deve ser o mesmo das plantas: quantas vezes mais plantas temos?\\\",\\n              \\\"howToFix\\\": \\\"Comparar dois métodos: (1) escalar a razão; (2) calcular por unidade\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"01Garden\\\",\\n          \\\"step\\\": 8,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_resposta_como_divisao_invertida\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"floor({OV2} / {SF2})\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o número de tomates do ano passado pelo fator (mesmo que incorreto) e arredondar para baixo\\\",\\n              \\\"description\\\": \\\"Aluno aplica operação errada (÷) e arredonda resultado para inteiro\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo final, após escolher ÷, o aluno faz 20 ÷ 9 ≈ 2.22 e digita 2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 3 plantas dão 20 tomates, 1 planta dá quantos? E 27 plantas dariam quantos?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando ser realista com números inteiros — ótimo! Mas vamos verificar a lógica: se 3 plantas dão 20, então 27 (que é 9× mais) devem dar 9× mais tomates.\\\",\\n              \\\"howToFix\\\": \\\"Fazer cálculo intermediário: tomates por planta = 20/3; total = (20/3)×27 = 180\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_resposta_com_fator_aditivo_em_problema_multiplicativo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV2} * ({plants_this_year} - {plants_last_year})\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar tomates do ano passado pela diferença de plantas: 20 × (27 - 3) = 480\\\",\\n              \\\"description\\\": \\\"Aluno combina lógica aditiva (diferença) com multiplicação, gerando superestimativa\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno usa 20 × 24 = 480, misturando conceitos\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Por que você multiplicou por 24? O que 24 representa?\\\",\\n              \\\"feedback\\\": \\\"Você usou números do problema de forma criativa! Mas 24 é 'quantos a mais', não 'quantas vezes mais'. Precisamos do fator de vezes.\\\",\\n              \\\"howToFix\\\": \\\"Contrastar: '24 a mais' vs '9 vezes mais'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_numero_de_plantas_este_ano\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{plants_this_year}\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o número de plantas deste ano (27) em vez do número de tomates\\\",\\n              \\\"description\\\": \\\"Aluno confunde o que está sendo perguntado e responde com a outra grandeza\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa de resposta final, o aluno digita 27, o número de plantas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre quantos TOMATES ou quantas PLANTAS?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou o número certo deste ano! Mas a pergunta é sobre TOMATES. Vamos voltar ao enunciado.\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar a pergunta no enunciado: 'how many tomatoes?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_producao_por_planta\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV2} / {OV1}\\\",\\n              \\\"buggyRule\\\": \\\"Responder com a produção média por planta: 20 ÷ 3 ≈ 6.67, arredondado para 7 ou deixado como fração\\\",\\n              \\\"description\\\": \\\"Aluno responde com a taxa unitária em vez do total\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno coloca 7 (ou 6.67)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre o TOTAL de tomates ou por planta?\\\",\\n              \\\"feedback\\\": \\\"Você calculou quantos tomates por planta — isso é um passo importante! Mas a pergunta é sobre o total com 27 plantas.\\\",\\n              \\\"howToFix\\\": \\\"Guiar: 'primeiro por planta, depois total: (20/3) × 27'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"01Garden\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar grandezas\\\",\\n          \\\"thinking\\\": \\\"Tinha 3 plantas e deu 20 tomates. Agora tenho 27 plantas... então preciso achar quantos tomates vou ter. É proporção, certo?\\\",\\n          \\\"result\\\": \\\"Identificou que há duas grandezas: Plants e Tomatoes, e que a relação é proporcional.\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela (OV1 = 3, OV2 = 20)\\\",\\n          \\\"thinking\\\": \\\"Na linha 1 (Plants), coloco 3 em 'Last Year'. Na linha 2 (Tomatoes), coloco 20.\\\",\\n          \\\"result\\\": \\\"Valores iniciais corretamente inseridos.\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar o fator de escala entre 3 e 27\\\",\\n          \\\"thinking\\\": \\\"De 3 plantas para 27... quanto vezes aumentou? 27 dividido por 3 é... 9? Sim, 3×9=27. Então o fator é 9.\\\",\\n          \\\"result\\\": \\\"Fator de conversão identificado como 9.\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando o número de plantas muda, mas a produção por planta continua igual, como encontramos o 'fator' que liga os dois cenários?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Divida o número de plantas deste ano (27) pelo número do ano passado (3). Isso te dá o fator de escala.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! O fator é um número inteiro maior que 5 e menor que 10. Tente dividir 27 por 3.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Pense: quantas vezes 3 cabe em 27? Conte: 3, 6, 9, 12... até chegar em 27. Quantos passos foram?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Escolher a operação na linha das plantas (SO1 = ×)\\\",\\n          \\\"thinking\\\": \\\"Como estou indo de 3 para 27, e 27 é maior, devo multiplicar. Então escolho × na linha das plantas.\\\",\\n          \\\"result\\\": \\\"Operação correta selecionada.\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher o fator na linha das plantas (SF1 = 9)\\\",\\n          \\\"thinking\\\": \\\"Já descobri que o fator é 9, então coloco 9 aqui.\\\",\\n          \\\"result\\\": \\\"Fator inserido corretamente.\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher valor convertido das plantas (CV1 = 27)\\\",\\n          \\\"thinking\\\": \\\"3 × 9 = 27, então coloco 27. Isso confere com o enunciado.\\\",\\n          \\\"result\\\": \\\"Valor convertido correto.\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Aplicar a mesma operação e fator à linha dos tomates\\\",\\n          \\\"thinking\\\": \\\"Se as plantas foram multiplicadas por 9, os tomates também devem ser multiplicados por 9... então operação é ×, fator é 9, e 20 × 9 = 180.\\\",\\n          \\\"result\\\": \\\"Decide usar × na linha dos tomates (SO2 = ×), SF2 = 9, CV2 = 180.\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Se a quantidade de plantas aumentou, e cada planta produz o mesmo tanto, o que acontece com o total de tomates? Aumenta ou diminui?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está indo bem! Use a mesma operação e o mesmo fator da linha das plantas na linha dos tomates. Primeiro escolha a operação, depois multiplique 20 pelo fator.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Você já sabe que o fator é 9. Agora, 20 vezes 9 dá um número entre 170 e 190. Quanto é exatamente?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase concluindo! Faça 20 × 9: pense em 2 × 9 = 18, então 20 × 9 = 180. Confira se isso faz sentido.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher resposta final (A3 = 180)\\\",\\n          \\\"thinking\\\": \\\"Então devo esperar 180 tomates este ano.\\\",\\n          \\\"result\\\": \\\"Resposta final correta inserida.\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"180\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Resolver usando regra de três em vez da tabela de conversão\\\",\\n          \\\"steps\\\": [\\\"Montar proporção: 3/20 = 27/x\\\", \\\"Multiplicar cruzado: 3x = 540\\\", \\\"Dividir: x = 180\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Calcular produção por planta (20 ÷ 3 ≈ 6.67) e multiplicar por 27\\\",\\n          \\\"steps\\\": [\\\"20 ÷ 3 = 6.666...\\\", \\\"6.666... × 27 = 180\\\"],\\n          \\\"efficiency\\\": \\\"low\\\",\\n          \\\"note\\\": \\\"Introduz números decimais desnecessariamente; mais propenso a erro\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "01Garden",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Identifico que há uma proporção entre número de plantas e número de tomates. No ano passado: 3 plantas → 20 tomates. Este ano: 27 plantas → ? tomates.",
+        "result": "Valores identificados: {A} = 3 plantas, {B} = 20 tomates, {C} = 27 plantas",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher a razão dada na tabela (linha 1: Plants)",
+        "thinking": "Na linha 'Plants', coluna 'razão dada', insiro o valor do ano passado: 3.",
+        "result": "OV1 = 3",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher a razão dada na tabela (linha 2: Tomatoes)",
+        "thinking": "Na linha 'Tomatoes', coluna 'razão dada', insiro o valor correspondente do ano passado: 20.",
+        "result": "OV2 = 20",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Calcular o fator de conversão",
+        "thinking": "O número de plantas aumentou de 3 para 27. O fator é 27 ÷ 3 = 9. Como estamos escalando as plantas, aplicamos o mesmo fator aos tomates.",
+        "result": "Fator de conversão = 9",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher operação e fator na linha 1 (Plants)",
+        "thinking": "Para ir de 3 plantas para 27, multiplicamos por 9. Então operação é × e fator é 9.",
+        "result": "SO1 = '×', SF1 = 9",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Preencher operação e fator na linha 2 (Tomatoes)",
+        "thinking": "A mesma operação deve ser aplicada à outra grandeza para manter a proporção: ×9.",
+        "result": "SO2 = '×', SF2 = 9",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular valor convertido para Tomatoes",
+        "thinking": "20 tomates × 9 = 180 tomates.",
+        "result": "CV2 = 180",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Preencher valor convertido para Plants (opcional, mas coerente)",
+        "thinking": "3 × 9 = 27, confirmando a escala.",
+        "result": "CV1 = 27",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Inserir resposta final na caixa de texto",
+        "thinking": "A resposta esperada é o número de tomates este ano: 180.",
+        "result": "A3 = 180",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Clicar no botão Done",
+        "thinking": "Todas as entradas estão corretas e completas. Finalizo o problema.",
+        "result": "Problema concluído",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "180",
+      "totalTime": 37
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "01Garden",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): number of plants last year",
+          "thinking": "Last year had 3 tomato plants, so I put 3 in the first row, 'razão dada'",
+          "result": "Correctly entered 3",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): number of tomatoes last year",
+          "thinking": "They got 20 tomatoes, so I put 20 in the second row, 'razão dada'",
+          "result": "Correctly entered 20",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation for plants row",
+          "thinking": "I have more plants this year (27 vs 3), so I need to multiply to get from 3 to 27",
+          "result": "Correctly chose ×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Enter conversion factor for plants",
+          "thinking": "27 divided by 3 is 9, so the factor is 9",
+          "result": "Correctly entered 9",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Compute converted value for plants (this year)",
+          "thinking": "3 × 9 = 27, that’s right",
+          "result": "Correctly entered 27",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Choose operation for tomatoes row",
+          "thinking": "Since I multiplied plants, I should also multiply tomatoes by the same factor",
+          "result": "Correctly chose ×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Enter conversion factor for tomatoes",
+          "thinking": "Same factor as plants: 9",
+          "result": "Correctly entered 9",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Compute converted tomatoes (this year)",
+          "thinking": "20 × 9 = 180, so I put 180",
+          "result": "Correct final answer",
+          "kcUsed": "complete-sentence",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "180",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): number of plants last year",
+          "thinking": "Last year had 3 plants, so I type 3",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): number of tomatoes last year",
+          "thinking": "They got 20 tomatoes, so I put 20",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation for plants row",
+          "thinking": "I’m going from 3 to 27, so I multiply",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Enter conversion factor for plants",
+          "thinking": "27 ÷ 3 = 9, so factor is 9",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Compute converted plants",
+          "thinking": "3 × 9 = 27",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Choose operation for tomatoes row",
+          "thinking": "Wait—maybe I should divide because more plants might mean fewer tomatoes per plant?",
+          "result": "Incorrectly chose ÷",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverse_relationship_assumption",
+           "type": "conceptual_error",
+           "wrongAnswer": "÷",
+           "description": "Aluno assume que mais plantas implicam menos tomates por planta e inverte a operação",
+           "mistakeLocation": "Ao escolher a operação para a linha de tomates, o aluno aplicou uma lógica inversa incorreta baseada em suposição realista, não na proporção direta dada",
+           "diagnosticQuestion": "A relação entre número de plantas e número total de tomates é direta ou inversa? Se você dobra as plantas, o total de tomates dobra ou cai pela metade?",
+           "severity": "high",
+           "feedback": "Boa observação sobre plantas e produção! Mas neste problema, a suposição é que cada planta produz a mesma quantidade. Então, se você tem mais plantas, o total de tomates aumenta na mesma proporção.",
+           "howToFix": "Reforçar que, em problemas de proporção direta, ambas as grandezas crescem juntas. Usar linguagem: 'se triplicar as plantas, triplica os tomates'"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Enter conversion factor for tomatoes",
+          "thinking": "I’ll use the same factor, 9, but divide",
+          "result": "Entered 9 (correct factor, wrong operation)",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Compute converted tomatoes",
+          "thinking": "20 ÷ 9... hmm, maybe I just put 20 ÷ 9 ≈ 2.22, but since tomatoes are whole, maybe 2?",
+          "result": "Entered 2",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_resposta_como_divisao_invertida",
+           "type": "procedural_error",
+           "wrongAnswer": "2",
+           "description": "Aluno dividiu 20 pelo fator de escala (9) e arredondou para baixo, assumindo que a operação era divisão",
+           "mistakeLocation": "No cálculo final dos tomates, após escolher a operação errada (÷), o aluno realizou 20 ÷ 9 e arredondou para o inteiro mais próximo inferior",
+           "diagnosticQuestion": "Se 3 plantas dão 20 tomates, então 1 planta dá quantos? E 27 plantas dariam quantos?",
+           "severity": "high",
+           "feedback": "Você está pensando cuidadosamente na relação! Mas vamos verificar: se 3 plantas dão 20 tomates, então cada planta dá cerca de 6,66 tomates. Com 27 plantas, isso seria bem mais que 2 tomates!",
+           "howToFix": "Guiar o aluno a calcular tomates por planta primeiro (20/3), depois multiplicar por 27, para contrastar com a abordagem proporcional"
+          }
+         }
+        ],
+        "finalAnswer": "2",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): number of plants last year",
+          "thinking": "3 plants last year",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): number of tomatoes last year",
+          "thinking": "20 tomatoes",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation for plants row",
+          "thinking": "From 3 to 27, so ×",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Enter conversion factor for plants",
+          "thinking": "27 minus 3 is 24, so maybe the factor is 24?",
+          "result": "Entered 24 instead of 9",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fator_como_diferenca_em_vez_de_quociente",
+           "type": "conceptual_error",
+           "wrongAnswer": "24",
+           "description": "Aluno calcula o fator de conversão como a diferença (27 - 3) em vez do quociente (27 ÷ 3)",
+           "mistakeLocation": "Ao determinar o fator de escala para ir de 3 para 27, o aluno usou subtração em vez de divisão",
+           "diagnosticQuestion": "O fator de escala mostra quantas vezes maior algo ficou. É obtido por divisão ou subtração?",
+           "severity": "high",
+           "feedback": "Você percebeu que há uma mudança de 3 para 27 — ótimo! Mas o fator de escala responde à pergunta: '27 é quantas vezes 3?' Isso exige divisão, não subtração.",
+           "howToFix": "Praticar com exemplos simples: 'Se tinha 2 e agora tem 8, quantas vezes aumentou? 8 ÷ 2 = 4, não 8 - 2 = 6'"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Compute converted plants",
+          "thinking": "3 × 24 = 72... wait, that’s not 27! But the table forces me to fill it.",
+          "result": "Entered 72",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_executa_operacao_mesmo_com_fator_errado",
+           "type": "procedural_error",
+           "wrongAnswer": "72",
+           "description": "Aluno aplica a operação correta (×) com um fator incorreto (24), resultando em valor inconsistente com o alvo (27)",
+           "mistakeLocation": "No cálculo do valor convertido para plantas, após inserir fator errado, o aluno segue cegamente a operação sem verificar coerência com o dado alvo (27)",
+           "diagnosticQuestion": "Se você multiplica 3 por 24, obtém 27? Vamos conferir essa conta.",
+           "severity": "moderate",
+           "feedback": "Você seguiu os passos da tabela, mas vamos olhar se o resultado faz sentido. O enunciado diz que este ano são 27 plantas. Seu cálculo deu 72 — isso bate?",
+           "howToFix": "Ensinar a usar o valor-alvo (27) como verificação: 'o valor convertido deve ser exatamente o que o problema diz para este ano'"
+          }
+         },
+         {
+          "step": 6,
+          "action": "Choose operation for tomatoes row",
+          "thinking": "I used × for plants, so I’ll use × for tomatoes too",
+          "result": "Chose ×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Enter conversion factor for tomatoes",
+          "thinking": "Same factor as plants: 24",
+          "result": "Entered 24",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_propaga_fator_errado_para_outra_grandeza",
+           "type": "procedural_error",
+           "wrongAnswer": "24",
+           "description": "Aluno replica o fator incorreto (baseado em diferença) para a outra grandeza, mantendo consistência interna errada",
+           "mistakeLocation": "Na entrada do fator para tomates, o aluno copiou o fator errado da linha das plantas, sem questionar sua origem",
+           "diagnosticQuestion": "De onde veio o número 24? Ele representa quantas vezes mais plantas você tem este ano?",
+           "severity": "high",
+           "feedback": "Você manteve a mesma regra para ambas as grandezas — isso mostra atenção! Mas precisamos revisar de onde vem o fator. Ele deve vir da comparação entre os valores deste ano e do ano passado, por divisão.",
+           "howToFix": "Destacar que o fator deve ser calculado como (valor este ano) ÷ (valor ano passado), sempre"
+          }
+         },
+         {
+          "step": 8,
+          "action": "Compute converted tomatoes",
+          "thinking": "20 × 24 = 480",
+          "result": "Entered 480",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_resposta_com_fator_aditivo_em_problema_multiplicativo",
+           "type": "conceptual_error",
+           "wrongAnswer": "480",
+           "description": "Aluno resolve problema proporcional usando lógica aditiva (diferença como fator), levando a superestimativa extrema",
+           "mistakeLocation": "Na resposta final, após propagar erro de fator baseado em subtração, o aluno obtém valor irrealista (480) sem perceber a magnitude absurda",
+           "diagnosticQuestion": "Se 3 plantas dão 20 tomates, 27 plantas dariam 480? Isso parece razoável? Quantos tomates por planta isso daria?",
+           "severity": "high",
+           "feedback": "Você fez todas as contas com cuidado! Mas vamos pensar: 480 tomates com 27 plantas significa quase 18 tomates por planta — enquanto antes eram cerca de 6-7. Isso é possível, mas o problema assume que a produção por planta é constante. Vamos recalcular o fator certo.",
+           "howToFix": "Usar estimativa para checar plausibilidade: 'antes, ~7 tomates por planta; então 27 × 7 ≈ 190, não 480'"
+          }
+         }
+        ],
+        "finalAnswer": "480",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "01Garden",
+        "step": 1,
+        "kcUsed": "enter-given-from",
+        "errors": [
+         {
+          "misconceptionId": "misc_troca_plantas_por_tomates_no_campo_errado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{tomatoes_last_year}",
+          "buggyRule": "Inserir o número de tomates (20) no campo de plantas do ano passado, confundindo as linhas da tabela",
+          "description": "Aluno troca as grandezas ao preencher a razão dada, colocando tomates na linha de plantas",
+          "mistakeLocation": "Ao preencher a primeira célula ('razão dada' da linha Plants), o aluno digitou o valor da outra grandeza (tomates)",
+          "diagnosticQuestion": "Esta linha é sobre 'Plants' ou 'Tomatoes'? Qual número pertence a cada linha?",
+          "feedback": "Você lembrou os números certos! Agora vamos garantir que cada um vá na linha correta. Esta linha é sobre o número de PLANTAS — qual foi esse número?",
+          "howToFix": "Destacar visualmente as linhas com cores ou ícones (planta 🌱 vs tomate 🍅) para associar corretamente",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_plantas_este_ano_no_lugar_do_ano_passado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{plants_this_year}",
+          "buggyRule": "Inserir o número de plantas deste ano (27) no campo de plantas do ano passado",
+          "description": "Aluno confunde 'last year' e 'this year' e coloca o valor atual na coluna dada",
+          "mistakeLocation": "Na coluna 'Last Year', linha Plants, o aluno inseriu o valor de 'This Year' (27)",
+          "diagnosticQuestion": "O enunciado diz que ano teve 3 plantas? E qual teve 27?",
+          "feedback": "Você está atento aos números! Só precisamos separar: qual foi o ano passado e qual é este ano. A coluna 'Last Year' pede o número do ano passado.",
+          "howToFix": "Pedir ao aluno sublinhar no enunciado: 'last year: 3 plants' e 'this year: 27 plants'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 2,
+        "kcUsed": "enter-given-to",
+        "errors": [
+         {
+          "misconceptionId": "misc_insere_total_previsto_em_vez_do_passado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{answer_correct}",
+          "buggyRule": "Inserir a resposta final esperada (180) no campo de tomates do ano passado, tentando 'forçar' a tabela",
+          "description": "Aluno antecipa a resposta e coloca o valor previsto no lugar do dado histórico",
+          "mistakeLocation": "Na coluna 'Last Year', linha Tomatoes, o aluno digitou o valor que deveria aparecer em 'This Year'",
+          "diagnosticQuestion": "Quantos tomates foram colhidos REALMENTE no ano passado, segundo o enunciado?",
+          "feedback": "Você já está pensando na resposta final — isso é bom! Mas primeiro precisamos registrar o que aconteceu de verdade no ano passado. O enunciado diz quantos tomates foram colhidos?",
+          "howToFix": "Separar claramente: 'dados conhecidos' vs 'pergunta'. Usar marca-texto amarelo nos dados.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_numero_de_plantas_com_tomates",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{plants_last_year}",
+          "buggyRule": "Inserir o número de plantas do ano passado (3) no campo de tomates do ano passado",
+          "description": "Aluno repete o mesmo número da linha acima, sem mudar de grandeza",
+          "mistakeLocation": "Na linha Tomatoes, coluna 'Last Year', o aluno copiou o valor da linha Plants (3)",
+          "diagnosticQuestion": "Esta linha é sobre o número de TOMATES. O enunciado diz quantos tomates foram colhidos?",
+          "feedback": "Você colocou o número certo na linha de cima! Agora, nesta linha, estamos falando de TOMATES. Quantos foram colhidos?",
+          "howToFix": "Ensinar a ler rótulos de linha antes de digitar: 'Plants: 3', 'Tomatoes: ?'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 3,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_escolhe_divisao_para_aumento",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Escolher divisão na linha Plants quando o valor deste ano é maior que o do ano passado, por confusão entre operação e direção",
+          "description": "Aluno associa 'ir de ano passado para este ano' com divisão, independentemente do aumento ou redução",
+          "mistakeLocation": "Na escolha da operação para Plants, o aluno selecionou ÷ mesmo com 27 > 3",
+          "diagnosticQuestion": "Se você tem MAIS plantas este ano, precisa multiplicar ou dividir o número do ano passado para chegar a este ano?",
+          "feedback": "Vamos pensar: se ano passado foram 3 e este ano são 27, você precisa fazer 3 ficar MAIOR. Qual operação faz um número ficar maior: multiplicar ou dividir?",
+          "howToFix": "Usar setas visuais: '3 → ? → 27'. Perguntar: 'o que faz 3 virar 27?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_operacao_pela_palavra_chave_aumentar",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação quando vê que a quantidade 'aumentou', mesmo sem calcular o fator",
+          "description": "Aluno usa heurística de palavra-chave ('mais plantas') para escolher ×, mas pode estar correto por acaso — aqui listamos como erro potencial em outros contextos",
+          "mistakeLocation": "Na decisão da operação, baseada apenas na ideia de 'aumento', sem considerar proporcionalidade",
+          "diagnosticQuestion": "Como você decidiu que era multiplicação? Funcionaria se tivéssemos MENOS plantas este ano?",
+          "feedback": "Você notou que o número aumentou — excelente observação! A multiplicação faz sentido aqui, mas vamos entender por quê: porque queremos escalar na mesma proporção.",
+          "howToFix": "Conectar operação ao conceito de escala: 'multiplicar = repetir a mesma razão várias vezes'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 4,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_fator_como_diferenca_em_vez_de_quociente",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{plants_this_year} - {plants_last_year}",
+          "buggyRule": "Calcular o fator como a diferença absoluta: plants_this_year - plants_last_year",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o fator de escala",
+          "mistakeLocation": "No cálculo do fator de conversão, o aluno fez 27 - 3 = 24 em vez de 27 ÷ 3 = 9",
+          "diagnosticQuestion": "O fator responde: 'quantas vezes maior?' ou 'quantos a mais?'",
+          "feedback": "Você calculou quanto a mais — isso é útil em outros problemas! Mas aqui queremos saber 'quantas VEZES mais', o que exige divisão.",
+          "howToFix": "Praticar linguagem: 'vezes mais' → divisão; 'a mais' → subtração",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_quociente_para_fator",
+          "type": "magnitude_error",
+          "wrongAnswerPattern": "{plants_last_year} / {plants_this_year}",
+          "buggyRule": "Calcular o fator como plants_last_year ÷ plants_this_year (3 ÷ 27 = 1/9 ou 0.111...)",
+          "description": "Aluno inverte a ordem da divisão ao calcular o fator de escala",
+          "mistakeLocation": "Ao dividir para obter o fator, o aluno fez 3 ÷ 27 em vez de 27 ÷ 3",
+          "diagnosticQuestion": "Estamos indo do ano passado (3) para este ano (27). Qual número deve estar em cima na divisão?",
+          "feedback": "Você usou divisão — ótimo! Mas lembre-se: o valor de destino vai no numerador. Estamos partindo de 3 para chegar a 27, então é 27 ÷ 3.",
+          "howToFix": "Ensinar fórmula: fator = (valor novo) ÷ (valor antigo)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_razao_inversa_como_fator",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{tomatoes_last_year} / {plants_last_year}",
+          "buggyRule": "Usar a razão tomates/plantas (20/3) como fator de conversão nas linhas individuais",
+          "description": "Aluno confunde fator de escala com taxa unitária e insere 20/3 ≈ 6.67 como fator",
+          "mistakeLocation": "Na célula de fator da linha Plants, o aluno inseriu a produtividade por planta (20÷3)",
+          "diagnosticQuestion": "Este fator deve transformar 3 plantas em 27 plantas. 3 × (20/3) dá 27?",
+          "feedback": "Você calculou quantos tomates por planta — isso é muito útil! Mas o fator aqui serve para escalar o número de plantas, não para converter entre grandezas.",
+          "howToFix": "Distinguir: fator de escala (mesma grandeza) vs taxa de conversão (entre grandezas)",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 5,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_valor_convertido_sem_verificar_alvo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV1} * {SF1}",
+          "buggyRule": "Aplicar cegamente a operação e o fator inseridos, mesmo que o resultado não seja igual ao valor conhecido deste ano (27)",
+          "description": "Aluno computa valor convertido sem comparar com o dado do problema (27), aceitando inconsistência",
+          "mistakeLocation": "Após inserir fator errado, o aluno calcula 3×24=72 e aceita, mesmo sabendo que este ano são 27 plantas",
+          "diagnosticQuestion": "O enunciado diz que este ano são 27 plantas. Seu cálculo deu 72. Isso bate?",
+          "feedback": "Você seguiu os passos da tabela — muito bem! Mas a tabela deve refletir a realidade do problema. Este ano são 27 plantas, então o valor convertido deve ser exatamente 27.",
+          "howToFix": "Treinar autoverificação: 'meu valor convertido = valor dado para este ano?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_deixa_em_branco_por_incerteza",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "",
+          "buggyRule": "Não preencher a célula por medo de errar, mesmo tendo dados suficientes",
+          "description": "Aluno hesita em calcular o valor convertido, achando que deve ser dado, não calculado",
+          "mistakeLocation": "Na célula 'razão convertida' da linha Plants, o aluno deixa em branco",
+          "diagnosticQuestion": "Se você tem 3 plantas e multiplica pelo fator 9, quantas plantas terá?",
+          "feedback": "Você já tem todos os ingredientes! É só aplicar a operação que você escolheu com o fator que você achou.",
+          "howToFix": "Modelar verbalização: '3 vezes 9 é...'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 6,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverse_relationship_assumption",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Assumir relação inversa entre número de plantas e produção total, escolhendo divisão para tomates",
+          "description": "Aluno acredita que mais plantas levam a menos tomates por competição, invertendo a operação",
+          "mistakeLocation": "Na escolha da operação para Tomatoes, o aluno seleciona ÷ com base em intuição agrícola, não na proporção direta do problema",
+          "diagnosticQuestion": "O problema diz que a produção por planta muda? Ou assume que é a mesma?",
+          "feedback": "Sua preocupação com as plantas é realista! Mas neste problema, assumimos que cada planta produz o mesmo tanto. Então, mais plantas = mais tomates, na mesma proporção.",
+          "howToFix": "Explicitar a hipótese do problema: 'produção por planta constante'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_copia_operacao_da_linha_acima_sem_pensar",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{SO1}",
+          "buggyRule": "Copiar automaticamente a operação da linha Plants para a linha Tomatoes, sem avaliar",
+          "description": "Aluno replica a operação por hábito, o que pode estar certo ou errado dependendo do contexto",
+          "mistakeLocation": "Na seleção da operação para Tomatoes, o aluno clica no mesmo botão da linha acima",
+          "diagnosticQuestion": "As duas grandezas estão aumentando ou uma aumenta e a outra diminui?",
+          "feedback": "Você manteve a mesma operação — e nesse caso está certo! Mas vamos garantir que você entende por quê: ambas as grandezas aumentam juntas.",
+          "howToFix": "Perguntar sempre: 'esta grandeza aumenta ou diminui em relação à outra?'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 7,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_propaga_fator_errado_para_outra_grandeza",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{SF1}",
+          "buggyRule": "Copiar o fator da linha Plants (mesmo que errado) para a linha Tomatoes",
+          "description": "Aluno assume que o fator deve ser o mesmo, o que é correto em proporção direta, mas propaga erros",
+          "mistakeLocation": "Na entrada do fator para Tomatoes, o aluno replica o valor da linha Plants sem recalcular",
+          "diagnosticQuestion": "O fator deve ser o mesmo para ambas as grandezas? De onde ele vem?",
+          "feedback": "Sim, o fator é o mesmo — excelente! Mas precisamos garantir que ele foi calculado certo. De onde ele vem? Do número de plantas!",
+          "howToFix": "Reforçar: 'o fator vem da grandeza conhecida (plants); depois é aplicado à outra (tomatoes)'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_calcula_fator_pela_razao_tomates_plantas",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{tomatoes_last_year} / {plants_last_year}",
+          "buggyRule": "Inserir a taxa unitária (20/3) como fator na linha Tomatoes",
+          "description": "Aluno usa produtividade por planta como fator de escala, em vez do fator de aumento",
+          "mistakeLocation": "Na célula de fator da linha Tomatoes, o aluno coloca 20 ÷ 3 ≈ 6.67",
+          "diagnosticQuestion": "Este fator deve transformar 20 tomates em quantos? Se você multiplica 20 por 6.67, dá o esperado?",
+          "feedback": "Você encontrou quantos tomates por planta — isso é útil para outro método! Mas aqui, o fator deve ser o mesmo das plantas: quantas vezes mais plantas temos?",
+          "howToFix": "Comparar dois métodos: (1) escalar a razão; (2) calcular por unidade",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "01Garden",
+        "step": 8,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_resposta_como_divisao_invertida",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "floor({OV2} / {SF2})",
+          "buggyRule": "Dividir o número de tomates do ano passado pelo fator (mesmo que incorreto) e arredondar para baixo",
+          "description": "Aluno aplica operação errada (÷) e arredonda resultado para inteiro",
+          "mistakeLocation": "No cálculo final, após escolher ÷, o aluno faz 20 ÷ 9 ≈ 2.22 e digita 2",
+          "diagnosticQuestion": "Se 3 plantas dão 20 tomates, 1 planta dá quantos? E 27 plantas dariam quantos?",
+          "feedback": "Você está tentando ser realista com números inteiros — ótimo! Mas vamos verificar a lógica: se 3 plantas dão 20, então 27 (que é 9× mais) devem dar 9× mais tomates.",
+          "howToFix": "Fazer cálculo intermediário: tomates por planta = 20/3; total = (20/3)×27 = 180",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_resposta_com_fator_aditivo_em_problema_multiplicativo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{OV2} * ({plants_this_year} - {plants_last_year})",
+          "buggyRule": "Multiplicar tomates do ano passado pela diferença de plantas: 20 × (27 - 3) = 480",
+          "description": "Aluno combina lógica aditiva (diferença) com multiplicação, gerando superestimativa",
+          "mistakeLocation": "Na resposta final, o aluno usa 20 × 24 = 480, misturando conceitos",
+          "diagnosticQuestion": "Por que você multiplicou por 24? O que 24 representa?",
+          "feedback": "Você usou números do problema de forma criativa! Mas 24 é 'quantos a mais', não 'quantas vezes mais'. Precisamos do fator de vezes.",
+          "howToFix": "Contrastar: '24 a mais' vs '9 vezes mais'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_com_numero_de_plantas_este_ano",
+          "type": "count_error",
+          "wrongAnswerPattern": "{plants_this_year}",
+          "buggyRule": "Responder com o número de plantas deste ano (27) em vez do número de tomates",
+          "description": "Aluno confunde o que está sendo perguntado e responde com a outra grandeza",
+          "mistakeLocation": "Na caixa de resposta final, o aluno digita 27, o número de plantas",
+          "diagnosticQuestion": "A pergunta é sobre quantos TOMATES ou quantas PLANTAS?",
+          "feedback": "Você lembrou o número certo deste ano! Mas a pergunta é sobre TOMATES. Vamos voltar ao enunciado.",
+          "howToFix": "Sublinhar a pergunta no enunciado: 'how many tomatoes?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_producao_por_planta",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{OV2} / {OV1}",
+          "buggyRule": "Responder com a produção média por planta: 20 ÷ 3 ≈ 6.67, arredondado para 7 ou deixado como fração",
+          "description": "Aluno responde com a taxa unitária em vez do total",
+          "mistakeLocation": "Na resposta final, o aluno coloca 7 (ou 6.67)",
+          "diagnosticQuestion": "A pergunta é sobre o TOTAL de tomates ou por planta?",
+          "feedback": "Você calculou quantos tomates por planta — isso é um passo importante! Mas a pergunta é sobre o total com 27 plantas.",
+          "howToFix": "Guiar: 'primeiro por planta, depois total: (20/3) × 27'",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "01Garden",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar grandezas",
+        "thinking": "Tinha 3 plantas e deu 20 tomates. Agora tenho 27 plantas... então preciso achar quantos tomates vou ter. É proporção, certo?",
+        "result": "Identificou que há duas grandezas: Plants e Tomatoes, e que a relação é proporcional.",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela (OV1 = 3, OV2 = 20)",
+        "thinking": "Na linha 1 (Plants), coloco 3 em 'Last Year'. Na linha 2 (Tomatoes), coloco 20.",
+        "result": "Valores iniciais corretamente inseridos.",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Determinar o fator de escala entre 3 e 27",
+        "thinking": "De 3 plantas para 27... quanto vezes aumentou? 27 dividido por 3 é... 9? Sim, 3×9=27. Então o fator é 9.",
+        "result": "Fator de conversão identificado como 9.",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando o número de plantas muda, mas a produção por planta continua igual, como encontramos o 'fator' que liga os dois cenários?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Divida o número de plantas deste ano (27) pelo número do ano passado (3). Isso te dá o fator de escala."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! O fator é um número inteiro maior que 5 e menor que 10. Tente dividir 27 por 3."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Pense: quantas vezes 3 cabe em 27? Conte: 3, 6, 9, 12... até chegar em 27. Quantos passos foram?"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Escolher a operação na linha das plantas (SO1 = ×)",
+        "thinking": "Como estou indo de 3 para 27, e 27 é maior, devo multiplicar. Então escolho × na linha das plantas.",
+        "result": "Operação correta selecionada.",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Preencher o fator na linha das plantas (SF1 = 9)",
+        "thinking": "Já descobri que o fator é 9, então coloco 9 aqui.",
+        "result": "Fator inserido corretamente.",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Preencher valor convertido das plantas (CV1 = 27)",
+        "thinking": "3 × 9 = 27, então coloco 27. Isso confere com o enunciado.",
+        "result": "Valor convertido correto.",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 7,
+        "action": "Aplicar a mesma operação e fator à linha dos tomates",
+        "thinking": "Se as plantas foram multiplicadas por 9, os tomates também devem ser multiplicados por 9... então operação é ×, fator é 9, e 20 × 9 = 180.",
+        "result": "Decide usar × na linha dos tomates (SO2 = ×), SF2 = 9, CV2 = 180.",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Se a quantidade de plantas aumentou, e cada planta produz o mesmo tanto, o que acontece com o total de tomates? Aumenta ou diminui?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está indo bem! Use a mesma operação e o mesmo fator da linha das plantas na linha dos tomates. Primeiro escolha a operação, depois multiplique 20 pelo fator."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Você já sabe que o fator é 9. Agora, 20 vezes 9 dá um número entre 170 e 190. Quanto é exatamente?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase concluindo! Faça 20 × 9: pense em 2 × 9 = 18, então 20 × 9 = 180. Confira se isso faz sentido."
+         }
+        ]
+       },
+       {
+        "step": 8,
+        "action": "Preencher resposta final (A3 = 180)",
+        "thinking": "Então devo esperar 180 tomates este ano.",
+        "result": "Resposta final correta inserida.",
+        "kcUsed": "complete-sentence",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "180",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Resolver usando regra de três em vez da tabela de conversão",
+        "steps": [
+         "Montar proporção: 3/20 = 27/x",
+         "Multiplicar cruzado: 3x = 540",
+         "Dividir: x = 180"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Calcular produção por planta (20 ÷ 3 ≈ 6.67) e multiplicar por 27",
+        "steps": [
+         "20 ÷ 3 = 6.666...",
+         "6.666... × 27 = 180"
+        ],
+        "efficiency": "low",
+        "note": "Introduz números decimais desnecessariamente; mais propenso a erro"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 6,
+  "errosEspecificos": 6,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 6
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 10,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Plants\" e \"Tomatoes\"). As colunas são: (1) a razão DADA, rotulada \"Last Year\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"This Year\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"tomatoes.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

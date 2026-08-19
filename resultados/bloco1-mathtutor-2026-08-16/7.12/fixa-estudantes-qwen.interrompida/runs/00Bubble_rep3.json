@@ -1,0 +1,847 @@
+{
+ "id": "00Bubble",
+ "correctAnswer": "39",
+ "audit": {
+  "ok": true,
+  "stepCount": 9
+ },
+ "f1": 0.087,
+ "conceptual": 0.087,
+ "precision": 0.083,
+ "recall": 0.091,
+ "functionalAgreement": 0.2,
+ "functionalKappa": -0.429,
+ "missing": [
+  "21/2",
+  "39"
+ ],
+ "extra": [
+  "273/2",
+  "79/25"
+ ],
+ "robotMisconceptions": [
+  "13",
+  "136.50",
+  "3.16"
+ ],
+ "exercicio": "00Bubble",
+ "replica": 3,
+ "geradoEm": "2026-08-19T10:32:24.710Z",
+ "promptSha256": "f5e5d5846cc1e4340959800408f87bd70759685cef73da405b91fe7f63a7603c",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7715,
+  "tokensSaida": 8513,
+  "usd": 0.0392184
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 9
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Valores identificados: {A} = 39 marbles, {B} = $10.50, quero custo de {C} = 13 marbles"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher a razão dada na tabela (linha 1: marbles)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = 39"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher a razão dada na tabela (linha 2: cost)",
+    "kc": "enter-given-to",
+    "valor": "OV2 = 10.50"
+   },
+   {
+    "indice": 4,
+    "acao": "Determinar a operação e fator para converter marbles",
+    "kc": "enter-factor",
+    "valor": "SO1 = '÷', SF1 = 3"
+   },
+   {
+    "indice": 5,
+    "acao": "Aplicar a mesma operação ao custo",
+    "kc": "enter-factor",
+    "valor": "SO2 = '÷', SF2 = 3"
+   },
+   {
+    "indice": 6,
+    "acao": "Calcular o valor convertido de marbles (linha 1)",
+    "kc": "scale-completed",
+    "valor": "CV1 = 13"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular o valor convertido de custo (linha 2)",
+    "kc": "scale-completed",
+    "valor": "CV2 = 3.50"
+   },
+   {
+    "indice": 8,
+    "acao": "Preencher a resposta final na frase",
+    "kc": "complete-sentence",
+    "valor": "A3 = 3.50"
+   },
+   {
+    "indice": 9,
+    "acao": "Concluir o problema",
+    "kc": "complete-sentence",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "13",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar fita numérica ou desenho: mostrar 39 bolinhas agrupadas em 3 grupos de 13, destacando que 13 = 39 ÷ 3",
+    "buggyRule": "Usar o número alvo (13) como fator de multiplicação diretamente, sem calcular a razão: fator = 13, operação = ×",
+    "misconceptionId": "misc_multiplica_pelo_alvo_em_vez_de_dividir"
+   },
+   {
+    "valor": "136.50",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Comparar com situação real: 'Se 40 bolinhas custam cerca de 10 reais, 10 bolinhas custariam mais ou menos? Quanto aproximadamente?'",
+    "buggyRule": "Aplicar o fator incorreto (13) ao custo via multiplicação: 10.50 × 13",
+    "misconceptionId": "misc_escala_com_fator_errado_propaga"
+   },
+   {
+    "valor": "3.16",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Converter dólares em centavos (10.50 → 1050 cents), dividir por 3 (350 cents), depois voltar para dólares (3.50)",
+    "buggyRule": "Dividir mal o decimal: tratar 10.50 como 10 + 0.50, dividir separadamente e somar truncando: (10÷3≈3) + (0.50÷3≈0.16) = 3.16",
+    "misconceptionId": "misc_divisao_decimal_incompleta"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Boa observação! Quando duas grandezas são proporcionais, o que você faz com uma, deve fazer com a outra. Se reduziu a quantidade de bolinhas, o que acontece com o custo?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 39 para chegar a 13. Depois, aplique a mesma operação ao valor em dólares."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! 39 dividido por 3 dá 13. Então, divida $10.50 pelo mesmo número. O resultado será um número com duas casas decimais."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se 39 ÷ 3 = 13, então faça $10.50 ÷ 3. Pense: quanto é metade de $10.50? E depois metade disso? Não, espere — é divisão por 3, não por 4. Tente: 10 ÷ 3 = 3.33..., e 0.50 ÷ 3 ≈ 0.16... Some esses!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"00Bubble\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O problema fornece que 39 bolinhas custam $10.50 e pergunta quanto custam 13 bolinhas. Preciso usar proporção ou fator de conversão para encontrar o custo proporcional.\\\",\\n          \\\"result\\\": \\\"Valores identificados: {A} = 39 marbles, {B} = $10.50, quero custo de {C} = 13 marbles\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 1: marbles)\\\",\\n          \\\"thinking\\\": \\\"Na linha das bolinhas, a razão dada é 39.\\\",\\n          \\\"result\\\": \\\"OV1 = 39\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 2: cost)\\\",\\n          \\\"thinking\\\": \\\"Na linha do custo, a razão dada é 10.50.\\\",\\n          \\\"result\\\": \\\"OV2 = 10.50\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar a operação e fator para converter marbles\\\",\\n          \\\"thinking\\\": \\\"Quero ir de 39 marbles para 13 marbles. Como 13 = 39 ÷ 3, devo dividir por 3.\\\",\\n          \\\"result\\\": \\\"SO1 = '÷', SF1 = 3\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Aplicar a mesma operação ao custo\\\",\\n          \\\"thinking\\\": \\\"Se dividi o número de bolinhas por 3, devo dividir o custo por 3 também para manter a proporção.\\\",\\n          \\\"result\\\": \\\"SO2 = '÷', SF2 = 3\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Calcular o valor convertido de marbles (linha 1)\\\",\\n          \\\"thinking\\\": \\\"39 ÷ 3 = 13, que confere com o que quero.\\\",\\n          \\\"result\\\": \\\"CV1 = 13\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular o valor convertido de custo (linha 2)\\\",\\n          \\\"thinking\\\": \\\"10.50 ÷ 3 = 3.50\\\",\\n          \\\"result\\\": \\\"CV2 = 3.50\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher a resposta final na frase\\\",\\n          \\\"thinking\\\": \\\"O custo de 13 bolinhas é $3.50, então preencho esse valor no campo da resposta.\\\",\\n          \\\"result\\\": \\\"A3 = 3.50\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Concluir o problema\\\",\\n          \\\"thinking\\\": \\\"Todos os campos estão corretos; clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"3.50\\\",\\n      \\\"totalTime\\\": 33\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"00Bubble\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): marbles\\\",\\n              \\\"thinking\\\": \\\"Eles vendem 39 bolinhas, então coloco 39 na primeira linha, razão dada.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): cost\\\",\\n              \\\"thinking\\\": \\\"Custa 10.50 dólares, então coloco 10.50 na segunda linha, razão dada.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation and factor to scale marbles from 39 to 13\\\",\\n              \\\"thinking\\\": \\\"Quero 13 em vez de 39. 39 é maior que 13, então devo dividir. Divido por 3, porque 39 ÷ 3 = 13.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Apply same operation to cost: divide by 3\\\",\\n              \\\"thinking\\\": \\\"Se dividi as bolinhas por 3, devo dividir o preço por 3 também. 10.50 ÷ 3 = 3.50.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Enter final answer\\\",\\n              \\\"thinking\\\": \\\"Então 13 bolinhas custam 3.50 dólares. Vou escrever 3.50.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"3.50\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): marbles\\\",\\n              \\\"thinking\\\": \\\"Eles vendem 39 bolinhas, então coloco 39.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): cost\\\",\\n              \\\"thinking\\\": \\\"Custa 10.50, então coloco 10.50.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation and factor to scale marbles from 39 to 13\\\",\\n              \\\"thinking\\\": \\\"Quero 13, que é menos que 39. Mas acho que tenho que multiplicar para 'achar' quanto é 13... não sei. Talvez eu multiplique por 13?\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplica_pelo_alvo_em_vez_de_dividir\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"13\\\",\\n                \\\"description\\\": \\\"Aluno multiplica a quantidade dada pelo valor desejado (39 × 13) ou usa 13 como fator direto, sem entender que deve ESCALAR pela razão entre os valores\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao escolher o fator de conversão, o aluno usou o número alvo (13) como fator em vez de calcular a razão 13/39\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você tem 39 bolinhas e quer 13, quantas vezes MENOR é 13 do que 39? Isso sugere multiplicar ou dividir?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você identificou que quer 13 bolinhas. Agora pense: 13 é uma parte de 39 — exatamente qual parte? Vamos ver se precisamos multiplicar ou dividir para chegar lá.\\\",\\n                \\\"howToFix\\\": \\\"Usar fita numérica ou desenho: mostrar 39 bolinhas agrupadas em 3 grupos de 13, destacando que 13 = 39 ÷ 3\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Apply same (wrong) operation to cost\\\",\\n              \\\"thinking\\\": \\\"Se multipliquei as bolinhas por 13, então multiplico o preço por 13 também. 10.50 × 13 = 136.50.\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_com_fator_errado_propaga\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"136.50\\\",\\n                \\\"description\\\": \\\"Aluno aplica consistentemente um fator incorreto às duas grandezas, mantendo proporcionalidade interna, mas com base errada\\\",\\n                \\\"mistakeLocation\\\": \\\"Na aplicação da operação ao custo, usando o mesmo fator incorreto escolhido para as bolinhas\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 39 bolinhas custam 10.50, faz sentido que 13 bolinhas custem mais de 100 dólares? Por que não?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você manteve a mesma operação nas duas linhas — isso mostra que entendeu que as grandezas variam juntas! Mas vamos revisar o fator: será que 13 é maior ou menor que 39? E o preço deve aumentar ou diminuir?\\\",\\n                \\\"howToFix\\\": \\\"Comparar com situação real: 'Se 40 bolinhas custam cerca de 10 reais, 10 bolinhas custariam mais ou menos? Quanto aproximadamente?'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Enter final answer\\\",\\n              \\\"thinking\\\": \\\"Então a resposta é 136.50.\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"136.50\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Enter given (from): marbles\\\",\\n              \\\"thinking\\\": \\\"Coloco 39.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Enter given (to): cost\\\",\\n              \\\"thinking\\\": \\\"Coloco 10.50.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Choose operation and factor to scale marbles from 39 to 13\\\",\\n              \\\"thinking\\\": \\\"13 é um terço de 39, então divido por 3. Coloco ÷ e fator 3.\\\",\\n              \\\"result\\\": \\\"Correct\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Apply operation to cost\\\",\\n              \\\"thinking\\\": \\\"Agora, para o custo... 10.50 dividido por 3. 10 ÷ 3 é 3, e 0.50 ÷ 3 é... 0.16? Então 3.16?\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divisao_decimal_incompleta\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3.16\\\",\\n                \\\"description\\\": \\\"Aluno divide mal o valor decimal, truncando ou arredondando incorretamente (10.50 ÷ 3 ≠ 3.16)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na divisão de 10.50 por 3, o aluno calculou 10 ÷ 3 = 3 e 0.50 ÷ 3 ≈ 0.16, somando 3.16, ignorando que 10.50 deve ser tratado como um todo\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quanto é 3.50 × 3? Dá 10.50? E 3.16 × 3 dá quanto?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você acertou a ideia de dividir por 3 — ótimo! Agora vamos conferir a conta: quanto é 10.50 dividido por 3? Que tal transformar em centavos (1050 ÷ 3)?\\\",\\n                \\\"howToFix\\\": \\\"Converter dólares em centavos (10.50 → 1050 cents), dividir por 3 (350 cents), depois voltar para dólares (3.50)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Enter final answer\\\",\\n              \\\"thinking\\\": \\\"Então escrevo 3.16.\\\",\\n              \\\"result\\\": \\\"Incorrect\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"3.16\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"00Bubble\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_grandezas_na_linha_errada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{cost_given}\\\",\\n              \\\"buggyRule\\\": \\\"Colocar o valor do custo (10.50) na linha das bolinhas (grandeza errada)\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual grandeza vai em qual linha da tabela e coloca o preço onde deveria ir a quantidade de bolinhas\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a razão dada na primeira linha (marbles), o aluno inseriu o valor de custo por engano\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Esta linha representa o número de bolinhas ou o preço? O que o enunciado diz sobre '39'?\\\",\\n              \\\"feedback\\\": \\\"Você está prestando atenção nos números — muito bom! Só vamos verificar: esta linha é para 'Marbles'. O número 39 refere-se a bolinhas ou dólares?\\\",\\n              \\\"howToFix\\\": \\\"Destacar rótulos das linhas com cores; pedir ao aluno para ler em voz alta: 'Eles vendem [quantas] bolinhas por [quanto] dólares?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_apenas_parte_do_numero_dado\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"10\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar os centavos e usar só a parte inteira do preço como quantidade de bolinhas: 10 (de 10.50)\\\",\\n              \\\"description\\\": \\\"Aluno vê '10.50' e associa erroneamente o '10' ao número de bolinhas, colocando 10 na linha das bolinhas\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura do enunciado, o aluno confunde os números e atribui a parte inteira do preço à quantidade de bolinhas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O enunciado diz '39 for $10.50'. Qual número está ligado às bolinhas? E qual ao dinheiro?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando usar os números corretos! Vamos reler juntos: quantas bolinhas eles vendem? E por quanto?\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar no enunciado: '39 [bolinhas] for $10.50' — associar palavras-chave aos números\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"00Bubble\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_grandezas_preco_quantidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{marbles_given}\\\",\\n              \\\"buggyRule\\\": \\\"Colocar a quantidade de bolinhas (39) na linha do custo\\\",\\n              \\\"description\\\": \\\"Aluno inverte as grandezas e coloca 39 na linha do preço\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a segunda linha (Cost), o aluno inseriu 39 em vez de 10.50\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Esta linha é para o custo em dólares. O que o enunciado diz que custa $10.50?\\\",\\n              \\\"feedback\\\": \\\"Você já identificou os dois números — agora vamos garantir que cada um está no lugar certo. Esta linha é para o preço. Qual número representa o preço?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas coloridas: ligar '39' ao rótulo 'Marbles' e '$10.50' ao rótulo 'Cost'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_omite_centavos_no_preco\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"10\\\",\\n              \\\"buggyRule\\\": \\\"Escrever apenas a parte inteira do preço, ignorando os centavos: 10 em vez de 10.50\\\",\\n              \\\"description\\\": \\\"Aluno registra o custo como 10, omitindo os 50 centavos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na transcrição do valor monetário, o aluno ignora a parte decimal\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O preço é exatamente $10 ou $10 e meio? Como escrevemos 'dez e cinquenta centavos' com número decimal?\\\",\\n              \\\"feedback\\\": \\\"Você quase acertou! Só falta incluir os centavos. Lembre-se: $10.50 significa dez dólares e meio — não só dez.\\\",\\n              \\\"howToFix\\\": \\\"Praticar leitura de valores monetários: '10.50 = 10 dólares + 50 centavos'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"00Bubble\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_pelo_alvo_em_vez_de_dividir\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{target_marbles}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o número alvo (13) como fator de multiplicação diretamente, sem calcular a razão: fator = 13, operação = ×\\\",\\n              \\\"description\\\": \\\"Aluno pensa que para 'achar' 13, deve multiplicar por 13, ignorando a relação proporcional\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha do fator, o aluno assume que o valor desejado é o multiplicador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você multiplica 39 por 13, quantas bolinhas teria? É isso que queremos?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando no número 13 — ótimo! Mas vamos refletir: estamos partindo de 39 e queremos chegar a 13. Isso é aumentar ou reduzir?\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem de 'escala': 'Vamos reduzir 39 para 13. Por quanto dividimos?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pelo_alvo_em_vez_da_razao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{target_marbles}\\\",\\n              \\\"buggyRule\\\": \\\"Dividir pela quantidade alvo (13) em vez de pelo fator correto (3): operação = ÷, fator = 13\\\",\\n              \\\"description\\\": \\\"Aluno sabe que deve dividir, mas divide por 13 em vez de por 3 (pois 39 ÷ 13 = 3, não 13)\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator, o aluno inverte a divisão: usa 13 como divisor em vez de resultado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quanto é 39 dividido por 13? E quanto é 39 dividido por 3? Qual nos dá 13?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que precisamos dividir — excelente! Agora vamos testar: se dividirmos 39 por 13, quantas bolinhas ficamos? E por 3?\\\",\\n              \\\"howToFix\\\": \\\"Fazer teste reverso: 'Se eu tiver 39 e dividir por X, quero obter 13. Qual é X?'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_soma_ou_subtrai_instead_of_scale\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{given_marbles} - {target_marbles}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular a diferença (39 - 13 = 26) e usar como fator, com operação incorreta (ex: ÷ 26)\\\",\\n              \\\"description\\\": \\\"Aluno usa 'gap thinking' e opera com a diferença entre os valores, não com a razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na determinação do fator, o aluno calcula a diferença absoluta em vez da razão relativa\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Estamos comparando 'quantas vezes cabem' ou 'quanto falta'? Proporção usa qual ideia?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando encontrar a relação entre os números — isso é importante! Em proporções, usamos 'quantas vezes' um valor cabe no outro, não 'quanto falta'.\\\",\\n              \\\"howToFix\\\": \\\"Contrastar problemas aditivos vs multiplicativos: 'Faltam 26' vs '13 é 1/3 de 39'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"00Bubble\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escala_com_fator_errado_propaga\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{cost_given} * {target_marbles}\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar o fator incorreto (13) ao custo via multiplicação: 10.50 × 13\\\",\\n              \\\"description\\\": \\\"Aluno mantém consistência proporcional com um fator incorreto, levando a um valor absurdamente alto\\\",\\n              \\\"mistakeLocation\\\": \\\"Na aplicação da operação ao custo, usando o mesmo fator errado escolhido para as bolinhas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 39 bolinhas custam $10.50, faz sentido que 13 bolinhas custem mais de $100?\\\",\\n              \\\"feedback\\\": \\\"Você aplicou a mesma operação nas duas grandezas — isso mostra compreensão de proporcionalidade! Agora vamos revisar o fator: será que 13 é maior ou menor que 39?\\\",\\n              \\\"howToFix\\\": \\\"Estimar primeiro: 'Metade de 39 é ~20, custaria ~$5. Então 13 deve custar menos que $5.'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divisao_decimal_incompleta\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"floor({cost_given} / 3 * 100) / 100\\\",\\n              \\\"buggyRule\\\": \\\"Dividir mal o decimal: tratar 10.50 como 10 + 0.50, dividir separadamente e somar truncando: (10÷3≈3) + (0.50÷3≈0.16) = 3.16\\\",\\n              \\\"description\\\": \\\"Erro na divisão de decimais com arredondamento prematuro ou truncamento\\\",\\n              \\\"mistakeLocation\\\": \\\"Na execução do cálculo 10.50 ÷ 3, o aluno fragmenta o número e comete erro aritmético\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quanto é 3.50 × 3? E 3.16 × 3? Qual dá exatamente 10.50?\\\",\\n              \\\"feedback\\\": \\\"Você dividiu por 3 corretamente na ideia! Vamos verificar a conta com uma multiplicação inversa — isso ajuda a conferir.\\\",\\n              \\\"howToFix\\\": \\\"Converter para centavos: 1050 ÷ 3 = 350 → $3.50\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_troca_operacao_na_segunda_linha\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{cost_given} * 3\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operação oposta na segunda linha: se dividiu as bolinhas por 3, multiplica o custo por 3\\\",\\n              \\\"description\\\": \\\"Aluno inverte a operação entre as grandezas, achando que uma aumenta enquanto a outra diminui\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para o custo, o aluno seleciona × em vez de ÷, mesmo tendo usado ÷ para as bolinhas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você compra MENOS bolinhas, paga mais ou menos dinheiro?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na relação entre as grandezas — ótimo! Quando uma diminui, a outra também diminui. Então a operação deve ser a mesma.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Metade das bolinhas = metade do preço' → mesma operação\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"00Bubble\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_o_fator_em_vez_do_valor\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"3\\\",\\n              \\\"buggyRule\\\": \\\"Escrever o fator de conversão (3) como resposta final, em vez do custo\\\",\\n              \\\"description\\\": \\\"Aluno confunde o fator com o resultado e responde '3' dólares\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa da resposta final, o aluno digita o número usado na escala (3) em vez do valor calculado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é 'quanto custa?', não 'por quanto dividimos'. Qual é a unidade da resposta esperada?\\\",\\n              \\\"feedback\\\": \\\"Você calculou o fator corretamente! Agora, lembre-se: a pergunta é sobre o preço. Qual número representa o preço de 13 bolinhas?\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar a pergunta: 'How much would 13 marbles cost?' → resposta em dólares\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_quantidade_em_vez_de_preco\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{target_marbles}\\\",\\n              \\\"buggyRule\\\": \\\"Responder com a quantidade de bolinhas desejada (13) em vez do custo\\\",\\n              \\\"description\\\": \\\"Aluno lê a frase '13 marbles would cost ____' e preenche com 13, ignorando que pede o preço\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação da frase a completar, o aluno foca no sujeito (13 marbles) e repete o número\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A lacuna vem antes de 'dollars'. Isso indica que devemos preencher com um número de bolinhas ou de dólares?\\\",\\n              \\\"feedback\\\": \\\"Você viu o número 13 — muito bem! Agora observe: a frase termina com 'dollars'. Então a lacuna deve ser preenchida com um valor em...?\\\",\\n              \\\"howToFix\\\": \\\"Destacar unidades: '____ dollars' → resposta deve ser um número que, com 'dollars', faça sentido\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_casas_decimais_na_resposta\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"350\\\",\\n              \\\"buggyRule\\\": \\\"Escrever o valor em centavos (350) em vez de dólares (3.50)\\\",\\n              \\\"description\\\": \\\"Aluno converte corretamente para 350 centavos, mas esquece de converter de volta para dólares\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escrita da resposta final, o aluno omite o ponto decimal\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você escrever 350, isso significa 350 dólares ou 3.50 dólares? Como representamos três e meio dólares?\\\",\\n              \\\"feedback\\\": \\\"Você fez a conta certa em centavos! Agora, lembre-se: a resposta deve estar em dólares, como no enunciado ($10.50).\\\",\\n              \\\"howToFix\\\": \\\"Sempre verificar a unidade pedida e comparar com a do dado original\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"00Bubble\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar grandezas\\\",\\n          \\\"thinking\\\": \\\"Tá, então 39 bolinhas custam $10.50... e eu quero saber quanto custam 13. Parece uma proporção, mas como preencher essa tabela?\\\",\\n          \\\"result\\\": \\\"Identifiquei as duas grandezas: 'Marbles' e 'Cost ($)'\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela\\\",\\n          \\\"thinking\\\": \\\"Na linha das bolinhas, a razão dada é 39. Na linha do custo, é $10.50. Isso parece certo.\\\",\\n          \\\"result\\\": \\\"OV1 = 39, OV2 = 10.50\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher os valores desejados\\\",\\n          \\\"thinking\\\": \\\"Quero 13 bolinhas, então CV1 = 13. Mas o que vai em CV2? É justamente o que preciso descobrir... então devo deixar em branco por enquanto?\\\",\\n          \\\"result\\\": \\\"CV1 = 13, CV2 será calculado\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar a operação e o fator de conversão\\\",\\n          \\\"thinking\\\": \\\"Preciso ir de 39 bolinhas para 13... isso é dividir por 3, né? Porque 39 ÷ 3 = 13. Então, na linha das bolinhas, a operação é ÷ e o fator é 3. Mas e na linha do custo? Se divido as bolinhas por 3, devo fazer o mesmo com o preço?\\\",\\n          \\\"result\\\": \\\"SO1 = '÷', SF1 = 3\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando duas grandezas são proporcionais, o que você faz com uma, deve fazer com a outra. Se reduziu a quantidade de bolinhas, o que acontece com o custo?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 39 para chegar a 13. Depois, aplique a mesma operação ao valor em dólares.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 39 dividido por 3 dá 13. Então, divida $10.50 pelo mesmo número. O resultado será um número com duas casas decimais.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se 39 ÷ 3 = 13, então faça $10.50 ÷ 3. Pense: quanto é metade de $10.50? E depois metade disso? Não, espere — é divisão por 3, não por 4. Tente: 10 ÷ 3 = 3.33..., e 0.50 ÷ 3 ≈ 0.16... Some esses!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Aplicar a mesma operação ao custo\\\",\\n          \\\"thinking\\\": \\\"Se usei ÷3 nas bolinhas, então no custo também uso ÷3. Então SO2 = '÷', SF2 = 3. Agora posso calcular CV2 = 10.50 ÷ 3 = 3.50.\\\",\\n          \\\"result\\\": \\\"SO2 = '÷', SF2 = 3, CV2 = 3.50\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher a resposta final\\\",\\n          \\\"thinking\\\": \\\"Então 13 bolinhas custam $3.50. Vou colocar isso na caixa da resposta.\\\",\\n          \\\"result\\\": \\\"A3 = 3.50\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": 3.5,\\n      \\\"totalTime\\\": 78,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar regra de três em vez da tabela de conversão\\\",\\n          \\\"steps\\\": [\\\"Escrever 39/10.50 = 13/x\\\", \\\"Multiplicar cruzado: 39x = 13 × 10.50\\\", \\\"Calcular x = (137.5)/39 = 3.5\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Calcular o preço por bolinha primeiro\\\",\\n          \\\"steps\\\": [\\\"10.50 ÷ 39 ≈ 0.269\\\", \\\"Multiplicar por 13 → ≈ 3.50\\\"],\\n          \\\"efficiency\\\": \\\"low\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "00Bubble",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O problema fornece que 39 bolinhas custam $10.50 e pergunta quanto custam 13 bolinhas. Preciso usar proporção ou fator de conversão para encontrar o custo proporcional.",
+        "result": "Valores identificados: {A} = 39 marbles, {B} = $10.50, quero custo de {C} = 13 marbles",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher a razão dada na tabela (linha 1: marbles)",
+        "thinking": "Na linha das bolinhas, a razão dada é 39.",
+        "result": "OV1 = 39",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher a razão dada na tabela (linha 2: cost)",
+        "thinking": "Na linha do custo, a razão dada é 10.50.",
+        "result": "OV2 = 10.50",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Determinar a operação e fator para converter marbles",
+        "thinking": "Quero ir de 39 marbles para 13 marbles. Como 13 = 39 ÷ 3, devo dividir por 3.",
+        "result": "SO1 = '÷', SF1 = 3",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Aplicar a mesma operação ao custo",
+        "thinking": "Se dividi o número de bolinhas por 3, devo dividir o custo por 3 também para manter a proporção.",
+        "result": "SO2 = '÷', SF2 = 3",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Calcular o valor convertido de marbles (linha 1)",
+        "thinking": "39 ÷ 3 = 13, que confere com o que quero.",
+        "result": "CV1 = 13",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular o valor convertido de custo (linha 2)",
+        "thinking": "10.50 ÷ 3 = 3.50",
+        "result": "CV2 = 3.50",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Preencher a resposta final na frase",
+        "thinking": "O custo de 13 bolinhas é $3.50, então preencho esse valor no campo da resposta.",
+        "result": "A3 = 3.50",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Concluir o problema",
+        "thinking": "Todos os campos estão corretos; clico em Done.",
+        "result": "Problema concluído",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "3.50",
+      "totalTime": 33
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "00Bubble",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): marbles",
+          "thinking": "Eles vendem 39 bolinhas, então coloco 39 na primeira linha, razão dada.",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): cost",
+          "thinking": "Custa 10.50 dólares, então coloco 10.50 na segunda linha, razão dada.",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation and factor to scale marbles from 39 to 13",
+          "thinking": "Quero 13 em vez de 39. 39 é maior que 13, então devo dividir. Divido por 3, porque 39 ÷ 3 = 13.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Apply same operation to cost: divide by 3",
+          "thinking": "Se dividi as bolinhas por 3, devo dividir o preço por 3 também. 10.50 ÷ 3 = 3.50.",
+          "result": "Correct",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Enter final answer",
+          "thinking": "Então 13 bolinhas custam 3.50 dólares. Vou escrever 3.50.",
+          "result": "Correct",
+          "kcUsed": "complete-sentence",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "3.50",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): marbles",
+          "thinking": "Eles vendem 39 bolinhas, então coloco 39.",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): cost",
+          "thinking": "Custa 10.50, então coloco 10.50.",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation and factor to scale marbles from 39 to 13",
+          "thinking": "Quero 13, que é menos que 39. Mas acho que tenho que multiplicar para 'achar' quanto é 13... não sei. Talvez eu multiplique por 13?",
+          "result": "Incorrect",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplica_pelo_alvo_em_vez_de_dividir",
+           "type": "conceptual_error",
+           "wrongAnswer": "13",
+           "description": "Aluno multiplica a quantidade dada pelo valor desejado (39 × 13) ou usa 13 como fator direto, sem entender que deve ESCALAR pela razão entre os valores",
+           "mistakeLocation": "Ao escolher o fator de conversão, o aluno usou o número alvo (13) como fator em vez de calcular a razão 13/39",
+           "diagnosticQuestion": "Se você tem 39 bolinhas e quer 13, quantas vezes MENOR é 13 do que 39? Isso sugere multiplicar ou dividir?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você identificou que quer 13 bolinhas. Agora pense: 13 é uma parte de 39 — exatamente qual parte? Vamos ver se precisamos multiplicar ou dividir para chegar lá.",
+           "howToFix": "Usar fita numérica ou desenho: mostrar 39 bolinhas agrupadas em 3 grupos de 13, destacando que 13 = 39 ÷ 3"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Apply same (wrong) operation to cost",
+          "thinking": "Se multipliquei as bolinhas por 13, então multiplico o preço por 13 também. 10.50 × 13 = 136.50.",
+          "result": "Incorrect",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_com_fator_errado_propaga",
+           "type": "procedural_error",
+           "wrongAnswer": "136.50",
+           "description": "Aluno aplica consistentemente um fator incorreto às duas grandezas, mantendo proporcionalidade interna, mas com base errada",
+           "mistakeLocation": "Na aplicação da operação ao custo, usando o mesmo fator incorreto escolhido para as bolinhas",
+           "diagnosticQuestion": "Se 39 bolinhas custam 10.50, faz sentido que 13 bolinhas custem mais de 100 dólares? Por que não?",
+           "severity": "high",
+           "feedback": "Você manteve a mesma operação nas duas linhas — isso mostra que entendeu que as grandezas variam juntas! Mas vamos revisar o fator: será que 13 é maior ou menor que 39? E o preço deve aumentar ou diminuir?",
+           "howToFix": "Comparar com situação real: 'Se 40 bolinhas custam cerca de 10 reais, 10 bolinhas custariam mais ou menos? Quanto aproximadamente?'"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Enter final answer",
+          "thinking": "Então a resposta é 136.50.",
+          "result": "Incorrect",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "136.50",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Enter given (from): marbles",
+          "thinking": "Coloco 39.",
+          "result": "Correct",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Enter given (to): cost",
+          "thinking": "Coloco 10.50.",
+          "result": "Correct",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Choose operation and factor to scale marbles from 39 to 13",
+          "thinking": "13 é um terço de 39, então divido por 3. Coloco ÷ e fator 3.",
+          "result": "Correct",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Apply operation to cost",
+          "thinking": "Agora, para o custo... 10.50 dividido por 3. 10 ÷ 3 é 3, e 0.50 ÷ 3 é... 0.16? Então 3.16?",
+          "result": "Incorrect",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divisao_decimal_incompleta",
+           "type": "procedural_error",
+           "wrongAnswer": "3.16",
+           "description": "Aluno divide mal o valor decimal, truncando ou arredondando incorretamente (10.50 ÷ 3 ≠ 3.16)",
+           "mistakeLocation": "Na divisão de 10.50 por 3, o aluno calculou 10 ÷ 3 = 3 e 0.50 ÷ 3 ≈ 0.16, somando 3.16, ignorando que 10.50 deve ser tratado como um todo",
+           "diagnosticQuestion": "Quanto é 3.50 × 3? Dá 10.50? E 3.16 × 3 dá quanto?",
+           "severity": "moderate",
+           "feedback": "Você acertou a ideia de dividir por 3 — ótimo! Agora vamos conferir a conta: quanto é 10.50 dividido por 3? Que tal transformar em centavos (1050 ÷ 3)?",
+           "howToFix": "Converter dólares em centavos (10.50 → 1050 cents), dividir por 3 (350 cents), depois voltar para dólares (3.50)"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Enter final answer",
+          "thinking": "Então escrevo 3.16.",
+          "result": "Incorrect",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "3.16",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "00Bubble",
+        "step": 1,
+        "kcUsed": "enter-given-from",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_grandezas_na_linha_errada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{cost_given}",
+          "buggyRule": "Colocar o valor do custo (10.50) na linha das bolinhas (grandeza errada)",
+          "description": "Aluno confunde qual grandeza vai em qual linha da tabela e coloca o preço onde deveria ir a quantidade de bolinhas",
+          "mistakeLocation": "Ao preencher a razão dada na primeira linha (marbles), o aluno inseriu o valor de custo por engano",
+          "diagnosticQuestion": "Esta linha representa o número de bolinhas ou o preço? O que o enunciado diz sobre '39'?",
+          "feedback": "Você está prestando atenção nos números — muito bom! Só vamos verificar: esta linha é para 'Marbles'. O número 39 refere-se a bolinhas ou dólares?",
+          "howToFix": "Destacar rótulos das linhas com cores; pedir ao aluno para ler em voz alta: 'Eles vendem [quantas] bolinhas por [quanto] dólares?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_apenas_parte_do_numero_dado",
+          "type": "count_error",
+          "wrongAnswerPattern": "10",
+          "buggyRule": "Ignorar os centavos e usar só a parte inteira do preço como quantidade de bolinhas: 10 (de 10.50)",
+          "description": "Aluno vê '10.50' e associa erroneamente o '10' ao número de bolinhas, colocando 10 na linha das bolinhas",
+          "mistakeLocation": "Na leitura do enunciado, o aluno confunde os números e atribui a parte inteira do preço à quantidade de bolinhas",
+          "diagnosticQuestion": "O enunciado diz '39 for $10.50'. Qual número está ligado às bolinhas? E qual ao dinheiro?",
+          "feedback": "Você está tentando usar os números corretos! Vamos reler juntos: quantas bolinhas eles vendem? E por quanto?",
+          "howToFix": "Sublinhar no enunciado: '39 [bolinhas] for $10.50' — associar palavras-chave aos números",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "00Bubble",
+        "step": 2,
+        "kcUsed": "enter-given-to",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_grandezas_preco_quantidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{marbles_given}",
+          "buggyRule": "Colocar a quantidade de bolinhas (39) na linha do custo",
+          "description": "Aluno inverte as grandezas e coloca 39 na linha do preço",
+          "mistakeLocation": "Ao preencher a segunda linha (Cost), o aluno inseriu 39 em vez de 10.50",
+          "diagnosticQuestion": "Esta linha é para o custo em dólares. O que o enunciado diz que custa $10.50?",
+          "feedback": "Você já identificou os dois números — agora vamos garantir que cada um está no lugar certo. Esta linha é para o preço. Qual número representa o preço?",
+          "howToFix": "Usar setas coloridas: ligar '39' ao rótulo 'Marbles' e '$10.50' ao rótulo 'Cost'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_omite_centavos_no_preco",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "10",
+          "buggyRule": "Escrever apenas a parte inteira do preço, ignorando os centavos: 10 em vez de 10.50",
+          "description": "Aluno registra o custo como 10, omitindo os 50 centavos",
+          "mistakeLocation": "Na transcrição do valor monetário, o aluno ignora a parte decimal",
+          "diagnosticQuestion": "O preço é exatamente $10 ou $10 e meio? Como escrevemos 'dez e cinquenta centavos' com número decimal?",
+          "feedback": "Você quase acertou! Só falta incluir os centavos. Lembre-se: $10.50 significa dez dólares e meio — não só dez.",
+          "howToFix": "Praticar leitura de valores monetários: '10.50 = 10 dólares + 50 centavos'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "00Bubble",
+        "step": 3,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_pelo_alvo_em_vez_de_dividir",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{target_marbles}",
+          "buggyRule": "Usar o número alvo (13) como fator de multiplicação diretamente, sem calcular a razão: fator = 13, operação = ×",
+          "description": "Aluno pensa que para 'achar' 13, deve multiplicar por 13, ignorando a relação proporcional",
+          "mistakeLocation": "Na escolha do fator, o aluno assume que o valor desejado é o multiplicador",
+          "diagnosticQuestion": "Se você multiplica 39 por 13, quantas bolinhas teria? É isso que queremos?",
+          "feedback": "Você está pensando no número 13 — ótimo! Mas vamos refletir: estamos partindo de 39 e queremos chegar a 13. Isso é aumentar ou reduzir?",
+          "howToFix": "Usar linguagem de 'escala': 'Vamos reduzir 39 para 13. Por quanto dividimos?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_pelo_alvo_em_vez_da_razao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{target_marbles}",
+          "buggyRule": "Dividir pela quantidade alvo (13) em vez de pelo fator correto (3): operação = ÷, fator = 13",
+          "description": "Aluno sabe que deve dividir, mas divide por 13 em vez de por 3 (pois 39 ÷ 13 = 3, não 13)",
+          "mistakeLocation": "No cálculo do fator, o aluno inverte a divisão: usa 13 como divisor em vez de resultado",
+          "diagnosticQuestion": "Quanto é 39 dividido por 13? E quanto é 39 dividido por 3? Qual nos dá 13?",
+          "feedback": "Você percebeu que precisamos dividir — excelente! Agora vamos testar: se dividirmos 39 por 13, quantas bolinhas ficamos? E por 3?",
+          "howToFix": "Fazer teste reverso: 'Se eu tiver 39 e dividir por X, quero obter 13. Qual é X?'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_soma_ou_subtrai_instead_of_scale",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "{given_marbles} - {target_marbles}",
+          "buggyRule": "Calcular a diferença (39 - 13 = 26) e usar como fator, com operação incorreta (ex: ÷ 26)",
+          "description": "Aluno usa 'gap thinking' e opera com a diferença entre os valores, não com a razão",
+          "mistakeLocation": "Na determinação do fator, o aluno calcula a diferença absoluta em vez da razão relativa",
+          "diagnosticQuestion": "Estamos comparando 'quantas vezes cabem' ou 'quanto falta'? Proporção usa qual ideia?",
+          "feedback": "Você está tentando encontrar a relação entre os números — isso é importante! Em proporções, usamos 'quantas vezes' um valor cabe no outro, não 'quanto falta'.",
+          "howToFix": "Contrastar problemas aditivos vs multiplicativos: 'Faltam 26' vs '13 é 1/3 de 39'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "00Bubble",
+        "step": 4,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_escala_com_fator_errado_propaga",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{cost_given} * {target_marbles}",
+          "buggyRule": "Aplicar o fator incorreto (13) ao custo via multiplicação: 10.50 × 13",
+          "description": "Aluno mantém consistência proporcional com um fator incorreto, levando a um valor absurdamente alto",
+          "mistakeLocation": "Na aplicação da operação ao custo, usando o mesmo fator errado escolhido para as bolinhas",
+          "diagnosticQuestion": "Se 39 bolinhas custam $10.50, faz sentido que 13 bolinhas custem mais de $100?",
+          "feedback": "Você aplicou a mesma operação nas duas grandezas — isso mostra compreensão de proporcionalidade! Agora vamos revisar o fator: será que 13 é maior ou menor que 39?",
+          "howToFix": "Estimar primeiro: 'Metade de 39 é ~20, custaria ~$5. Então 13 deve custar menos que $5.'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divisao_decimal_incompleta",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "floor({cost_given} / 3 * 100) / 100",
+          "buggyRule": "Dividir mal o decimal: tratar 10.50 como 10 + 0.50, dividir separadamente e somar truncando: (10÷3≈3) + (0.50÷3≈0.16) = 3.16",
+          "description": "Erro na divisão de decimais com arredondamento prematuro ou truncamento",
+          "mistakeLocation": "Na execução do cálculo 10.50 ÷ 3, o aluno fragmenta o número e comete erro aritmético",
+          "diagnosticQuestion": "Quanto é 3.50 × 3? E 3.16 × 3? Qual dá exatamente 10.50?",
+          "feedback": "Você dividiu por 3 corretamente na ideia! Vamos verificar a conta com uma multiplicação inversa — isso ajuda a conferir.",
+          "howToFix": "Converter para centavos: 1050 ÷ 3 = 350 → $3.50",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_troca_operacao_na_segunda_linha",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{cost_given} * 3",
+          "buggyRule": "Aplicar operação oposta na segunda linha: se dividiu as bolinhas por 3, multiplica o custo por 3",
+          "description": "Aluno inverte a operação entre as grandezas, achando que uma aumenta enquanto a outra diminui",
+          "mistakeLocation": "Na escolha da operação para o custo, o aluno seleciona × em vez de ÷, mesmo tendo usado ÷ para as bolinhas",
+          "diagnosticQuestion": "Se você compra MENOS bolinhas, paga mais ou menos dinheiro?",
+          "feedback": "Você está pensando na relação entre as grandezas — ótimo! Quando uma diminui, a outra também diminui. Então a operação deve ser a mesma.",
+          "howToFix": "Usar analogia: 'Metade das bolinhas = metade do preço' → mesma operação",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "00Bubble",
+        "step": 5,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_responde_com_o_fator_em_vez_do_valor",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "3",
+          "buggyRule": "Escrever o fator de conversão (3) como resposta final, em vez do custo",
+          "description": "Aluno confunde o fator com o resultado e responde '3' dólares",
+          "mistakeLocation": "Na caixa da resposta final, o aluno digita o número usado na escala (3) em vez do valor calculado",
+          "diagnosticQuestion": "A pergunta é 'quanto custa?', não 'por quanto dividimos'. Qual é a unidade da resposta esperada?",
+          "feedback": "Você calculou o fator corretamente! Agora, lembre-se: a pergunta é sobre o preço. Qual número representa o preço de 13 bolinhas?",
+          "howToFix": "Sublinhar a pergunta: 'How much would 13 marbles cost?' → resposta em dólares",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_quantidade_em_vez_de_preco",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{target_marbles}",
+          "buggyRule": "Responder com a quantidade de bolinhas desejada (13) em vez do custo",
+          "description": "Aluno lê a frase '13 marbles would cost ____' e preenche com 13, ignorando que pede o preço",
+          "mistakeLocation": "Na interpretação da frase a completar, o aluno foca no sujeito (13 marbles) e repete o número",
+          "diagnosticQuestion": "A lacuna vem antes de 'dollars'. Isso indica que devemos preencher com um número de bolinhas ou de dólares?",
+          "feedback": "Você viu o número 13 — muito bem! Agora observe: a frase termina com 'dollars'. Então a lacuna deve ser preenchida com um valor em...?",
+          "howToFix": "Destacar unidades: '____ dollars' → resposta deve ser um número que, com 'dollars', faça sentido",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_esquece_casas_decimais_na_resposta",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "350",
+          "buggyRule": "Escrever o valor em centavos (350) em vez de dólares (3.50)",
+          "description": "Aluno converte corretamente para 350 centavos, mas esquece de converter de volta para dólares",
+          "mistakeLocation": "Na escrita da resposta final, o aluno omite o ponto decimal",
+          "diagnosticQuestion": "Se você escrever 350, isso significa 350 dólares ou 3.50 dólares? Como representamos três e meio dólares?",
+          "feedback": "Você fez a conta certa em centavos! Agora, lembre-se: a resposta deve estar em dólares, como no enunciado ($10.50).",
+          "howToFix": "Sempre verificar a unidade pedida e comparar com a do dado original",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "00Bubble",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar grandezas",
+        "thinking": "Tá, então 39 bolinhas custam $10.50... e eu quero saber quanto custam 13. Parece uma proporção, mas como preencher essa tabela?",
+        "result": "Identifiquei as duas grandezas: 'Marbles' e 'Cost ($)'",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela",
+        "thinking": "Na linha das bolinhas, a razão dada é 39. Na linha do custo, é $10.50. Isso parece certo.",
+        "result": "OV1 = 39, OV2 = 10.50",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Preencher os valores desejados",
+        "thinking": "Quero 13 bolinhas, então CV1 = 13. Mas o que vai em CV2? É justamente o que preciso descobrir... então devo deixar em branco por enquanto?",
+        "result": "CV1 = 13, CV2 será calculado",
+        "kcUsed": "enter-given-to",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Determinar a operação e o fator de conversão",
+        "thinking": "Preciso ir de 39 bolinhas para 13... isso é dividir por 3, né? Porque 39 ÷ 3 = 13. Então, na linha das bolinhas, a operação é ÷ e o fator é 3. Mas e na linha do custo? Se divido as bolinhas por 3, devo fazer o mesmo com o preço?",
+        "result": "SO1 = '÷', SF1 = 3",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando duas grandezas são proporcionais, o que você faz com uma, deve fazer com a outra. Se reduziu a quantidade de bolinhas, o que acontece com o custo?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, descubra por quanto você precisa dividir 39 para chegar a 13. Depois, aplique a mesma operação ao valor em dólares."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 39 dividido por 3 dá 13. Então, divida $10.50 pelo mesmo número. O resultado será um número com duas casas decimais."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se 39 ÷ 3 = 13, então faça $10.50 ÷ 3. Pense: quanto é metade de $10.50? E depois metade disso? Não, espere — é divisão por 3, não por 4. Tente: 10 ÷ 3 = 3.33..., e 0.50 ÷ 3 ≈ 0.16... Some esses!"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Aplicar a mesma operação ao custo",
+        "thinking": "Se usei ÷3 nas bolinhas, então no custo também uso ÷3. Então SO2 = '÷', SF2 = 3. Agora posso calcular CV2 = 10.50 ÷ 3 = 3.50.",
+        "result": "SO2 = '÷', SF2 = 3, CV2 = 3.50",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Preencher a resposta final",
+        "thinking": "Então 13 bolinhas custam $3.50. Vou colocar isso na caixa da resposta.",
+        "result": "A3 = 3.50",
+        "kcUsed": "complete-sentence",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": 3.5,
+      "totalTime": 78,
+      "alternativeRoutes": [
+       {
+        "description": "Usar regra de três em vez da tabela de conversão",
+        "steps": [
+         "Escrever 39/10.50 = 13/x",
+         "Multiplicar cruzado: 39x = 13 × 10.50",
+         "Calcular x = (137.5)/39 = 3.5"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Calcular o preço por bolinha primeiro",
+        "steps": [
+         "10.50 ÷ 39 ≈ 0.269",
+         "Multiplicar por 13 → ≈ 3.50"
+        ],
+        "efficiency": "low"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 9,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Marbles\" e \"Cost ($)\"). As colunas são: (1) a razão DADA, rotulada \"They sell\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"You want\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"dollars.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

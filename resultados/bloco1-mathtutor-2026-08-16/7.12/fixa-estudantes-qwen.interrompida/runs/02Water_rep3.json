@@ -1,0 +1,960 @@
+{
+ "id": "02Water",
+ "correctAnswer": "12",
+ "audit": {
+  "ok": true,
+  "stepCount": 11
+ },
+ "f1": 0.08,
+ "conceptual": 0.08,
+ "precision": 0.067,
+ "recall": 0.1,
+ "functionalAgreement": 0.167,
+ "functionalKappa": -0.667,
+ "missing": [
+  "6",
+  "24"
+ ],
+ "extra": [
+  "÷",
+  "3",
+  "72"
+ ],
+ "robotMisconceptions": [
+  "12",
+  "÷",
+  "12",
+  "3",
+  "72"
+ ],
+ "exercicio": "02Water",
+ "replica": 3,
+ "geradoEm": "2026-08-19T10:47:24.306Z",
+ "promptSha256": "944f5869104391955c19752f48f4af46371d9b54ba21dae5cd493f46426fe666",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7784,
+  "tokensSaida": 8163,
+  "usd": 0.03790722
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 11
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Valores identificados: 12 bottles → $6.00; 24 bottles → ?"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher a razão dada na tabela (linha 1: Bottles)",
+    "kc": "enter-given-from",
+    "valor": "OV1 = 12"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher a razão dada na tabela (linha 2: Cost)",
+    "kc": "enter-given-to",
+    "valor": "OV2 = 6"
+   },
+   {
+    "indice": 4,
+    "acao": "Determinar o fator de conversão entre as quantidades",
+    "kc": "enter-factor",
+    "valor": "Fator de conversão = 2"
+   },
+   {
+    "indice": 5,
+    "acao": "Escolher a operação na linha 1 (Bottles)",
+    "kc": "enter-factor",
+    "valor": "SO1 = '×'"
+   },
+   {
+    "indice": 6,
+    "acao": "Inserir o fator na linha 1",
+    "kc": "enter-factor",
+    "valor": "SF1 = 2"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular o valor convertido na linha 1",
+    "kc": "scale-completed",
+    "valor": "CV1 = 24"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar a mesma operação e fator à linha 2 (Cost)",
+    "kc": "enter-factor",
+    "valor": "SO2 = '×', SF2 = 2"
+   },
+   {
+    "indice": 9,
+    "acao": "Calcular o custo convertido",
+    "kc": "scale-completed",
+    "valor": "CV2 = 12"
+   },
+   {
+    "indice": 10,
+    "acao": "Preencher a resposta final",
+    "kc": "complete-sentence",
+    "valor": "A3 = 12"
+   },
+   {
+    "indice": 11,
+    "acao": "Clicar em Done",
+    "kc": "complete-sentence",
+    "valor": "Problema concluído"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "12",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar linguagem de proporção: 'quantas vezes cabem?', 'quantas vezes maior?', sempre associada à divisão",
+    "buggyRule": "Calcular o fator como a diferença entre a quantidade de hoje e a de semana passada: fator = {today_bottles} - {last_bottles}",
+    "misconceptionId": "misc_fator_como_diferenca_em_vez_de_razao"
+   },
+   {
+    "valor": "÷",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar claramente a diferença entre 'preço por unidade' e 'custo total'; usar exemplo concreto: 'Se 1 pizza custa $10, 2 pizzas custam quanto no total?'",
+    "buggyRule": "Escolher divisão para a grandeza 'cost' porque acredita que mais quantidade implica menor custo total (confusão com preço unitário)",
+    "misconceptionId": "misc_multiplicar_aumenta_dividir_diminui_inverso"
+   },
+   {
+    "valor": "12",
+    "passo": 7,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar que o fator de escala é único e vem da razão entre os valores da mesma grandeza",
+    "buggyRule": "",
+    "misconceptionId": "misc_repete_fator_errado_nas_duas_grandezas"
+   },
+   {
+    "valor": "3",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Ensinar a distinguir claramente entre 'preço unitário' e 'custo total' com perguntas diretas; usar esquema: 'quantidade × preço unitário = custo total'",
+    "buggyRule": "",
+    "misconceptionId": "misc_custo_total_confundido_com_unitario"
+   },
+   {
+    "valor": "72",
+    "passo": 8,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar estimativa para checar plausibilidade: 'Se dobrei a quantidade, devo dobrar o custo — então deve dar cerca de $12, não $72'",
+    "buggyRule": "Multiplicar o custo anterior pela diferença nas garrafas: resultado = {last_cost} × ({today_bottles} - {last_bottles})",
+    "misconceptionId": "misc_aplica_fator_aditivo_como_multiplicativo"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Boa observação! Se a quantidade de garrafas dobrou, o que acontece com o custo, se o preço por garrafa não mudou? Pense: o custo total depende diretamente do número de garrafas?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Primeiro, descubra quantas vezes mais garrafas você comprou hoje em relação à semana passada. Depois, aplique essa mesma operação ao custo."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Quase lá! Você comprou 24 garrafas hoje, e antes eram 12. Isso é exatamente 2 vezes mais. Então, o custo também deve ser 2 vezes maior que $6."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se 12 garrafas custam $6, então 24 garrafas (que é 12 × 2) devem custar $6 × 2. Quanto é 6 vezes 2?"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"02Water\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Identifico que na semana passada foram compradas 12 garrafas por $6,00. Hoje foram compradas 24 garrafas ao mesmo preço unitário. Preciso encontrar o custo de hoje.\\\",\\n          \\\"result\\\": \\\"Valores identificados: 12 bottles → $6.00; 24 bottles → ?\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 1: Bottles)\\\",\\n          \\\"thinking\\\": \\\"Na linha das garrafas, o valor dado é 12.\\\",\\n          \\\"result\\\": \\\"OV1 = 12\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher a razão dada na tabela (linha 2: Cost)\\\",\\n          \\\"thinking\\\": \\\"Na linha do custo, o valor dado é 6.\\\",\\n          \\\"result\\\": \\\"OV2 = 6\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Determinar o fator de conversão entre as quantidades\\\",\\n          \\\"thinking\\\": \\\"De 12 garrafas para 24 garrafas, o fator é 24 ÷ 12 = 2.\\\",\\n          \\\"result\\\": \\\"Fator de conversão = 2\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Escolher a operação na linha 1 (Bottles)\\\",\\n          \\\"thinking\\\": \\\"Como estou convertendo de 12 para 24, devo multiplicar por 2.\\\",\\n          \\\"result\\\": \\\"SO1 = '×'\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Inserir o fator na linha 1\\\",\\n          \\\"thinking\\\": \\\"O fator aplicado às garrafas é 2.\\\",\\n          \\\"result\\\": \\\"SF1 = 2\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular o valor convertido na linha 1\\\",\\n          \\\"thinking\\\": \\\"12 × 2 = 24, que confere com a quantidade de hoje.\\\",\\n          \\\"result\\\": \\\"CV1 = 24\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar a mesma operação e fator à linha 2 (Cost)\\\",\\n          \\\"thinking\\\": \\\"Se a quantidade dobrou, o custo também dobra. Logo, operação é × e fator é 2.\\\",\\n          \\\"result\\\": \\\"SO2 = '×', SF2 = 2\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Calcular o custo convertido\\\",\\n          \\\"thinking\\\": \\\"6 × 2 = 12, então o custo de hoje é $12.\\\",\\n          \\\"result\\\": \\\"CV2 = 12\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Preencher a resposta final\\\",\\n          \\\"thinking\\\": \\\"A frase pede o valor gasto hoje, que é $12.\\\",\\n          \\\"result\\\": \\\"A3 = 12\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Todas as entradas estão corretas e completas.\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 1,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A} * {B}\\\",\\n      \\\"totalTime\\\": 33\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"02Water\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1 (bottles last week)\\\",\\n              \\\"thinking\\\": \\\"Eram 12 garrafas, entao coloco 12 aqui.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2 (cost last week)\\\",\\n              \\\"thinking\\\": \\\"Gastei 6 dolares, entao coloco 6.\\\",\\n              \\\"result\\\": \\\"6\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação SO1 para bottles\\\",\\n              \\\"thinking\\\": \\\"Hoje comprei mais garrafas, entao devo multiplicar.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular fator SF1\\\",\\n              \\\"thinking\\\": \\\"De 12 para 24, dobrou... entao o fator é 2.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular CV1 (bottles today)\\\",\\n              \\\"thinking\\\": \\\"12 × 2 = 24, certo.\\\",\\n              \\\"result\\\": \\\"24\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Escolher operação SO2 para cost\\\",\\n              \\\"thinking\\\": \\\"Se gastei mais, tambem multiplico.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher SF2 (fator para cost)\\\",\\n              \\\"thinking\\\": \\\"O mesmo fator, 2.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular CV2 (cost today)\\\",\\n              \\\"thinking\\\": \\\"6 × 2 = 12... mas espere, talvez seja divisao? Nao, aumentou... entao 12.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher resposta final A3\\\",\\n              \\\"thinking\\\": \\\"A resposta e 12.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"12\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1\\\",\\n              \\\"thinking\\\": \\\"12 garrafas semana passada.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2\\\",\\n              \\\"thinking\\\": \\\"6 dolares gastos.\\\",\\n              \\\"result\\\": \\\"6\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher SO1\\\",\\n              \\\"thinking\\\": \\\"Comprei mais hoje, entao ×.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular SF1\\\",\\n              \\\"thinking\\\": \\\"24 ÷ 12 = 2, entao fator 2.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular CV1\\\",\\n              \\\"thinking\\\": \\\"12 × 2 = 24.\\\",\\n              \\\"result\\\": \\\"24\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Escolher SO2\\\",\\n              \\\"thinking\\\": \\\"Como o numero de garrafas DOBROU, o preco deve ser a METADE! Porque agora cada garrafa sai mais barata.\\\",\\n              \\\"result\\\": \\\"÷\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplicar_aumenta_dividir_diminui_inverso\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"÷\\\",\\n                \\\"description\\\": \\\"Aluno inverte a relação proporcional: acredita que se a quantidade dobra, o preço por unidade cai, então divide o total\\\",\\n                \\\"mistakeLocation\\\": \\\"Na escolha da operação para a grandeza 'custo', o aluno aplicou um raciocínio incorreto sobre preço unitário em vez de custo total\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O enunciado pergunta quanto você gastou no TOTAL hoje, ou quanto custou CADA garrafa?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa observação sobre o preço por garrafa! Mas a pergunta é sobre o GASTO TOTAL. Se você compra o dobro de garrafas ao mesmo preço unitário, o total gasto dobra — não cai pela metade.\\\",\\n                \\\"howToFix\\\": \\\"Destacar claramente a diferença entre 'preço por unidade' e 'custo total'; usar exemplo concreto: 'Se 1 pizza custa $10, 2 pizzas custam quanto no total?'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher SF2\\\",\\n              \\\"thinking\\\": \\\"Mesmo fator, 2.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular CV2\\\",\\n              \\\"thinking\\\": \\\"6 ÷ 2 = 3.\\\",\\n              \\\"result\\\": \\\"3\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_custo_total_confundido_com_unitario\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3\\\",\\n                \\\"description\\\": \\\"Aluno calcula o preço unitário atual em vez do custo total\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular o valor convertido para 'cost', o aluno dividiu o custo anterior pelo fator, obtendo o preço unitário (erroneamente) como resposta final\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Você comprou 24 garrafas hoje. Cada uma custa $0.50. Quanto você gastou no total?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você calculou corretamente o preço de CADA garrafa ($0.50), mas a pergunta é: quanto você gastou no TOTAL por 24 garrafas? Vamos multiplicar isso!\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a distinguir claramente entre 'preço unitário' e 'custo total' com perguntas diretas; usar esquema: 'quantidade × preço unitário = custo total'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher resposta final\\\",\\n              \\\"thinking\\\": \\\"Então gastei $3.\\\",\\n              \\\"result\\\": \\\"3\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"3\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1\\\",\\n              \\\"thinking\\\": \\\"12 bottles.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2\\\",\\n              \\\"thinking\\\": \\\"$6.\\\",\\n              \\\"result\\\": \\\"6\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher SO1\\\",\\n              \\\"thinking\\\": \\\"Mais bottles, então ×.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular SF1\\\",\\n              \\\"thinking\\\": \\\"24 – 12 = 12, então o fator é 12.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fator_como_diferenca_em_vez_de_razao\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"12\\\",\\n                \\\"description\\\": \\\"Aluno usa a diferença (24 - 12) em vez da razão (24 / 12) para calcular o fator de conversão\\\",\\n                \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala, o aluno subtraiu os valores em vez de dividir\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você tinha 12 e agora tem 24, quantas vezes MAIOR é 24 do que 12? É a diferença ou a divisão que responde isso?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você notou que aumentou em 12 garrafas — ótimo! Mas o fator de escala responde: 'quantas vezes maior?'. Para isso, usamos divisão, não subtração.\\\",\\n                \\\"howToFix\\\": \\\"Praticar linguagem de proporção: 'quantas vezes cabem?', 'quantas vezes maior?', sempre associada à divisão\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular CV1\\\",\\n              \\\"thinking\\\": \\\"12 × 12 = 144... mas espera, isso tá errado. Não, é 24! Ah, mas já sei que é 24, então vou colocar 24.\\\",\\n              \\\"result\\\": \\\"24\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Escolher SO2\\\",\\n              \\\"thinking\\\": \\\"Também aumento, então ×.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher SF2\\\",\\n              \\\"thinking\\\": \\\"Mesmo fator que usei antes: 12.\\\",\\n              \\\"result\\\": \\\"12\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_repete_fator_errado_nas_duas_grandezas\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"12\\\",\\n                \\\"description\\\": \\\"Aluno repete o mesmo fator incorreto (calculado como diferença) na segunda grandeza\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher o fator para 'cost', o aluno copiou o valor errado usado na linha de 'bottles'\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Qual é o fator correto que transforma 12 em 24? Ele deve ser o mesmo para ambas as grandezas?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está certo de que o fator deve ser o mesmo para ambas as grandezas! Só falta calcular esse fator corretamente — ele vem da divisão, não da subtração.\\\",\\n                \\\"howToFix\\\": \\\"Reforçar que o fator de escala é único e vem da razão entre os valores da mesma grandeza\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular CV2\\\",\\n              \\\"thinking\\\": \\\"6 × 12 = 72.\\\",\\n              \\\"result\\\": \\\"72\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_aplica_fator_aditivo_como_multiplicativo\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"72\\\",\\n                \\\"description\\\": \\\"Aluno aplica um fator aditivo (diferença) como se fosse multiplicativo, levando a um resultado exagerado\\\",\\n                \\\"mistakeLocation\\\": \\\"Na multiplicação do custo pelo fator incorreto (12), derivado de uma diferença em vez de razão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 12 garrafas custam $6, faz sentido que 24 garrafas custem $72? Isso seria $3 por garrafa — mais caro que antes?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Esse valor parece muito alto, né? Vamos revisar: o fator deve nos dizer 'quantas vezes mais', não 'quanto a mais'. Tente dividir 24 por 12 para encontrar o fator certo.\\\",\\n                \\\"howToFix\\\": \\\"Usar estimativa para checar plausibilidade: 'Se dobrei a quantidade, devo dobrar o custo — então deve dar cerca de $12, não $72'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher resposta final\\\",\\n              \\\"thinking\\\": \\\"Gastei $72.\\\",\\n              \\\"result\\\": \\\"72\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"72\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"02Water\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_como_diferenca_em_vez_de_razao\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{today_bottles} - {last_bottles}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como a diferença entre a quantidade de hoje e a de semana passada: fator = {today_bottles} - {last_bottles}\\\",\\n              \\\"description\\\": \\\"Aluno confunde fator de escala (multiplicativo) com variação absoluta (aditiva)\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao determinar o fator de conversão, o aluno subtrai os valores em vez de dividir\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator responde 'quantas vezes maior' ou 'quantas unidades a mais'?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que a quantidade aumentou — ótimo! Mas o fator de escala responde: 'quantas vezes maior?'. Para isso, dividimos o novo valor pelo antigo.\\\",\\n              \\\"howToFix\\\": \\\"Treinar linguagem proporcional: 'quantas vezes cabe?', sempre ligada à divisão; usar exemplos visuais com blocos\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_razao_do_fator\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{last_bottles} / {today_bottles}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator como last_bottles ÷ today_bottles em vez de today_bottles ÷ last_bottles\\\",\\n              \\\"description\\\": \\\"Aluno inverte a ordem da divisão ao calcular o fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Na divisão para obter o fator, o aluno colocou o valor antigo no numerador e o novo no denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem mais garrafas hoje, o fator deve ser maior ou menor que 1?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Lembre-se: o fator mostra como o valor mudou HOJE em relação à SEMANA PASSADA. Então dividimos HOJE por SEMANA PASSADA.\\\",\\n              \\\"howToFix\\\": \\\"Usar setas na tabela: 'de semana passada → para hoje', e associar isso à divisão 'hoje / passado'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"02Water\\\",\\n          \\\"step\\\": 6,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplicar_aumenta_dividir_diminui_inverso\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Escolher divisão para a grandeza 'cost' porque acredita que mais quantidade implica menor custo total (confusão com preço unitário)\\\",\\n              \\\"description\\\": \\\"Aluno aplica intuição incorreta baseada em 'mais quantidade = mais barato', invertendo a operação proporcional\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para 'cost', o aluno assume que o custo total diminui quando a quantidade aumenta\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você compra mais itens ao mesmo preço unitário, seu gasto total aumenta ou diminui?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando no preço POR garrafa — e isso realmente não muda! Mas a pergunta é sobre o TOTAL gasto. Mais garrafas = mais dinheiro no total.\\\",\\n              \\\"howToFix\\\": \\\"Separar claramente as duas ideias: preço unitário (constante) vs. custo total (varia com quantidade)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escolhe_operacao_pela_palavra_chave_only\\\",\\n              \\\"type\\\": \\\"operation_confusion\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação porque o enunciado diz 'purchased 24 bottles' (mais que antes), sem considerar a relação proporcional\\\",\\n              \\\"description\\\": \\\"Aluno decide a operação apenas pela palavra-chave 'mais', sem analisar se a relação é direta ou inversa\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão da operação, o aluno ignora a estrutura proporcional e reage só ao aumento numérico\\\",\\n              \\\"diagnosticQuestion\\\": \\\"As duas grandezas (garrafas e custo) aumentam juntas ou uma aumenta enquanto a outra diminui?\\\",\\n              \\\"feedback\\\": \\\"Você notou que comprou mais garrafas — excelente! Agora, pense: o custo total acompanha esse aumento ou vai na direção oposta?\\\",\\n              \\\"howToFix\\\": \\\"Classificar relações como 'diretas' (aumentam juntas) ou 'inversas' (uma sobe, outra desce); neste caso, é direta\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"02Water\\\",\\n          \\\"step\\\": 8,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_fator_aditivo_como_multiplicativo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{last_cost} * ({today_bottles} - {last_bottles})\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar o custo anterior pela diferença nas garrafas: resultado = {last_cost} × ({today_bottles} - {last_bottles})\\\",\\n              \\\"description\\\": \\\"Aluno combina erro aditivo no fator com multiplicação, gerando resultado exagerado\\\",\\n              \\\"mistakeLocation\\\": \\\"Na aplicação do fator incorreto (baseado em diferença) ao custo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 12 garrafas custam $6, quanto custa 1 garrafa? E 24?\\\",\\n              \\\"feedback\\\": \\\"Vamos verificar com o preço unitário: se 12 custam $6, cada uma custa $0.50. Então 24 devem custar...?\\\",\\n              \\\"howToFix\\\": \\\"Usar o preço unitário como estratégia alternativa para validar o resultado proporcional\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_quando_deve_multiplicar_pelo_fator_correto\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{last_cost} / ({today_bottles} / {last_bottles})\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o custo anterior pelo fator correto (today/last) em vez de multiplicar\\\",\\n              \\\"description\\\": \\\"Aluno identifica o fator correto, mas aplica a operação inversa\\\",\\n              \\\"mistakeLocation\\\": \\\"Após calcular o fator como 2, o aluno divide $6 por 2 em vez de multiplicar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o número de garrafas dobrou, o custo total deve dobrar ou cair pela metade?\\\",\\n              \\\"feedback\\\": \\\"Você calculou o fator certo (dobrou)! Agora, se tudo custa o mesmo, dobrar a quantidade dobra o gasto — então devemos multiplicar, não dividir.\\\",\\n              \\\"howToFix\\\": \\\"Associar diretamente: 'fator > 1 → multiplicar'; 'fator < 1 → multiplicar por número menor que 1 (ou dividir pelo recíproco)'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_o_preco_unitario\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{last_cost} / {last_bottles}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a quantidade de hoje e responder apenas com o preço unitário: {last_cost} ÷ {last_bottles}\\\",\\n              \\\"description\\\": \\\"Aluno responde com o preço por garrafa em vez do custo total de hoje\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula CV2, o aluno insere o valor unitário constante, ignorando a nova quantidade\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta é sobre o custo de 24 garrafas ou de 1 garrafa?\\\",\\n              \\\"feedback\\\": \\\"Você encontrou o preço de CADA garrafa — isso está certo! Mas precisamos do custo das 24 garrafas juntas. Como calculamos isso?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a fórmula: custo total = quantidade × preço unitário; destacar unidades: 'dólares/garrafa × garrafas = dólares'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"02Water\\\",\\n          \\\"step\\\": 9,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_copia_valor_da_outra_grandeza\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{today_bottles}\\\",\\n              \\\"buggyRule\\\": \\\"Responder com a quantidade de garrafas de hoje (24) em vez do custo\\\",\\n              \\\"description\\\": \\\"Aluno confunde as grandezas e responde com o número de garrafas\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa de resposta final, o aluno digita o valor da primeira grandeza (bottles) em vez da segunda (cost)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A lacuna completa a frase 'You spent $_____', então a resposta deve ser em garrafas ou em dólares?\\\",\\n              \\\"feedback\\\": \\\"Você sabe que comprou 24 garrafas — ótimo! Mas a pergunta termina com 'dollars', então precisamos de um valor em dinheiro, não em garrafas.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a sempre verificar a unidade da resposta pedida; sublinhar '$' no enunciado\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_o_gasto_da_semana_passada\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{last_cost}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a mudança na quantidade e repetir o valor da semana passada: {last_cost}\\\",\\n              \\\"description\\\": \\\"Aluno assume que o gasto é o mesmo independentemente da quantidade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno repete $6 sem fazer qualquer cálculo proporcional\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Você gastou o mesmo valor comprando o dobro de garrafas? Isso faria o preço por garrafa cair pela metade?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Mas se o preço por garrafa não mudou, comprar mais significa gastar mais. Vamos revisar a relação entre quantidade e custo total.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Se 1 sorvete custa R$5, 2 sorvetes custam quanto?' — reforçar intuição natural\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"02Water\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar grandezas\\\",\\n          \\\"thinking\\\": \\\"Comprei 12 garrafas por $6. Hoje comprei 24 garrafas. Quero saber quanto gastei hoje. As grandezas são 'garrafas' e 'custo em dólares'.\\\",\\n          \\\"result\\\": \\\"Identificou corretamente as duas grandezas e os valores dados.\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela (razão da semana passada)\\\",\\n          \\\"thinking\\\": \\\"Na linha das garrafas, coloco 12. Na linha do custo, coloco 6.\\\",\\n          \\\"result\\\": \\\"OV1 = 12, OV2 = 6\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar a relação entre 12 e 24 garrafas\\\",\\n          \\\"thinking\\\": \\\"Hoje comprei 24 garrafas... isso é o dobro de 12. Então devo multiplicar por 2?\\\",\\n          \\\"result\\\": \\\"Reconhece que 24 ÷ 12 = 2, mas hesita se deve aplicar ×2 nas garrafas, no custo, ou em ambos.\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Se a quantidade de garrafas dobrou, o que acontece com o custo, se o preço por garrafa não mudou? Pense: o custo total depende diretamente do número de garrafas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Primeiro, descubra quantas vezes mais garrafas você comprou hoje em relação à semana passada. Depois, aplique essa mesma operação ao custo.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Você comprou 24 garrafas hoje, e antes eram 12. Isso é exatamente 2 vezes mais. Então, o custo também deve ser 2 vezes maior que $6.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se 12 garrafas custam $6, então 24 garrafas (que é 12 × 2) devem custar $6 × 2. Quanto é 6 vezes 2?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Escolher a operação e o fator para cada linha\\\",\\n          \\\"thinking\\\": \\\"Nas garrafas: 12 → 24, então ×2. No custo: 6 → ?, também ×2.\\\",\\n          \\\"result\\\": \\\"SO1 = '×', SF1 = 2, CV1 = 24; SO2 = '×', SF2 = 2, CV2 = 12\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher a resposta final\\\",\\n          \\\"thinking\\\": \\\"O valor convertido do custo é 12, então gastei $12 hoje.\\\",\\n          \\\"result\\\": \\\"A3 = 12\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"12\\\",\\n      \\\"totalTime\\\": 78,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular o preço por garrafa primeiro ($6 ÷ 12 = $0.50), depois multiplicar por 24\\\",\\n          \\\"steps\\\": [\\\"6 ÷ 12 = 0.5\\\", \\\"0.5 × 24 = 12\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar regra de três simples: 12/6 = 24/x → resolver cruzado\\\",\\n          \\\"steps\\\": [\\\"12x = 144\\\", \\\"x = 12\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "02Water",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Identifico que na semana passada foram compradas 12 garrafas por $6,00. Hoje foram compradas 24 garrafas ao mesmo preço unitário. Preciso encontrar o custo de hoje.",
+        "result": "Valores identificados: 12 bottles → $6.00; 24 bottles → ?",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher a razão dada na tabela (linha 1: Bottles)",
+        "thinking": "Na linha das garrafas, o valor dado é 12.",
+        "result": "OV1 = 12",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher a razão dada na tabela (linha 2: Cost)",
+        "thinking": "Na linha do custo, o valor dado é 6.",
+        "result": "OV2 = 6",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Determinar o fator de conversão entre as quantidades",
+        "thinking": "De 12 garrafas para 24 garrafas, o fator é 24 ÷ 12 = 2.",
+        "result": "Fator de conversão = 2",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Escolher a operação na linha 1 (Bottles)",
+        "thinking": "Como estou convertendo de 12 para 24, devo multiplicar por 2.",
+        "result": "SO1 = '×'",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Inserir o fator na linha 1",
+        "thinking": "O fator aplicado às garrafas é 2.",
+        "result": "SF1 = 2",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular o valor convertido na linha 1",
+        "thinking": "12 × 2 = 24, que confere com a quantidade de hoje.",
+        "result": "CV1 = 24",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar a mesma operação e fator à linha 2 (Cost)",
+        "thinking": "Se a quantidade dobrou, o custo também dobra. Logo, operação é × e fator é 2.",
+        "result": "SO2 = '×', SF2 = 2",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Calcular o custo convertido",
+        "thinking": "6 × 2 = 12, então o custo de hoje é $12.",
+        "result": "CV2 = 12",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Preencher a resposta final",
+        "thinking": "A frase pede o valor gasto hoje, que é $12.",
+        "result": "A3 = 12",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Clicar em Done",
+        "thinking": "Todas as entradas estão corretas e completas.",
+        "result": "Problema concluído",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 1,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A} * {B}",
+      "totalTime": 33
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "02Water",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1 (bottles last week)",
+          "thinking": "Eram 12 garrafas, entao coloco 12 aqui.",
+          "result": "12",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2 (cost last week)",
+          "thinking": "Gastei 6 dolares, entao coloco 6.",
+          "result": "6",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação SO1 para bottles",
+          "thinking": "Hoje comprei mais garrafas, entao devo multiplicar.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Calcular fator SF1",
+          "thinking": "De 12 para 24, dobrou... entao o fator é 2.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular CV1 (bottles today)",
+          "thinking": "12 × 2 = 24, certo.",
+          "result": "24",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Escolher operação SO2 para cost",
+          "thinking": "Se gastei mais, tambem multiplico.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher SF2 (fator para cost)",
+          "thinking": "O mesmo fator, 2.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Calcular CV2 (cost today)",
+          "thinking": "6 × 2 = 12... mas espere, talvez seja divisao? Nao, aumentou... entao 12.",
+          "result": "12",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Preencher resposta final A3",
+          "thinking": "A resposta e 12.",
+          "result": "12",
+          "kcUsed": "complete-sentence",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "12",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1",
+          "thinking": "12 garrafas semana passada.",
+          "result": "12",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2",
+          "thinking": "6 dolares gastos.",
+          "result": "6",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher SO1",
+          "thinking": "Comprei mais hoje, entao ×.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Calcular SF1",
+          "thinking": "24 ÷ 12 = 2, entao fator 2.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular CV1",
+          "thinking": "12 × 2 = 24.",
+          "result": "24",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Escolher SO2",
+          "thinking": "Como o numero de garrafas DOBROU, o preco deve ser a METADE! Porque agora cada garrafa sai mais barata.",
+          "result": "÷",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplicar_aumenta_dividir_diminui_inverso",
+           "type": "conceptual_error",
+           "wrongAnswer": "÷",
+           "description": "Aluno inverte a relação proporcional: acredita que se a quantidade dobra, o preço por unidade cai, então divide o total",
+           "mistakeLocation": "Na escolha da operação para a grandeza 'custo', o aluno aplicou um raciocínio incorreto sobre preço unitário em vez de custo total",
+           "diagnosticQuestion": "O enunciado pergunta quanto você gastou no TOTAL hoje, ou quanto custou CADA garrafa?",
+           "severity": "high",
+           "feedback": "Boa observação sobre o preço por garrafa! Mas a pergunta é sobre o GASTO TOTAL. Se você compra o dobro de garrafas ao mesmo preço unitário, o total gasto dobra — não cai pela metade.",
+           "howToFix": "Destacar claramente a diferença entre 'preço por unidade' e 'custo total'; usar exemplo concreto: 'Se 1 pizza custa $10, 2 pizzas custam quanto no total?'"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Preencher SF2",
+          "thinking": "Mesmo fator, 2.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Calcular CV2",
+          "thinking": "6 ÷ 2 = 3.",
+          "result": "3",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_custo_total_confundido_com_unitario",
+           "type": "conceptual_error",
+           "wrongAnswer": "3",
+           "description": "Aluno calcula o preço unitário atual em vez do custo total",
+           "mistakeLocation": "Ao calcular o valor convertido para 'cost', o aluno dividiu o custo anterior pelo fator, obtendo o preço unitário (erroneamente) como resposta final",
+           "diagnosticQuestion": "Você comprou 24 garrafas hoje. Cada uma custa $0.50. Quanto você gastou no total?",
+           "severity": "high",
+           "feedback": "Você calculou corretamente o preço de CADA garrafa ($0.50), mas a pergunta é: quanto você gastou no TOTAL por 24 garrafas? Vamos multiplicar isso!",
+           "howToFix": "Ensinar a distinguir claramente entre 'preço unitário' e 'custo total' com perguntas diretas; usar esquema: 'quantidade × preço unitário = custo total'"
+          }
+         },
+         {
+          "step": 9,
+          "action": "Preencher resposta final",
+          "thinking": "Então gastei $3.",
+          "result": "3",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "3",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1",
+          "thinking": "12 bottles.",
+          "result": "12",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2",
+          "thinking": "$6.",
+          "result": "6",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher SO1",
+          "thinking": "Mais bottles, então ×.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Calcular SF1",
+          "thinking": "24 – 12 = 12, então o fator é 12.",
+          "result": "12",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fator_como_diferenca_em_vez_de_razao",
+           "type": "conceptual_error",
+           "wrongAnswer": "12",
+           "description": "Aluno usa a diferença (24 - 12) em vez da razão (24 / 12) para calcular o fator de conversão",
+           "mistakeLocation": "No cálculo do fator de escala, o aluno subtraiu os valores em vez de dividir",
+           "diagnosticQuestion": "Se você tinha 12 e agora tem 24, quantas vezes MAIOR é 24 do que 12? É a diferença ou a divisão que responde isso?",
+           "severity": "high",
+           "feedback": "Você notou que aumentou em 12 garrafas — ótimo! Mas o fator de escala responde: 'quantas vezes maior?'. Para isso, usamos divisão, não subtração.",
+           "howToFix": "Praticar linguagem de proporção: 'quantas vezes cabem?', 'quantas vezes maior?', sempre associada à divisão"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Calcular CV1",
+          "thinking": "12 × 12 = 144... mas espera, isso tá errado. Não, é 24! Ah, mas já sei que é 24, então vou colocar 24.",
+          "result": "24",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Escolher SO2",
+          "thinking": "Também aumento, então ×.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher SF2",
+          "thinking": "Mesmo fator que usei antes: 12.",
+          "result": "12",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_repete_fator_errado_nas_duas_grandezas",
+           "type": "procedural_error",
+           "wrongAnswer": "12",
+           "description": "Aluno repete o mesmo fator incorreto (calculado como diferença) na segunda grandeza",
+           "mistakeLocation": "Ao preencher o fator para 'cost', o aluno copiou o valor errado usado na linha de 'bottles'",
+           "diagnosticQuestion": "Qual é o fator correto que transforma 12 em 24? Ele deve ser o mesmo para ambas as grandezas?",
+           "severity": "moderate",
+           "feedback": "Você está certo de que o fator deve ser o mesmo para ambas as grandezas! Só falta calcular esse fator corretamente — ele vem da divisão, não da subtração.",
+           "howToFix": "Reforçar que o fator de escala é único e vem da razão entre os valores da mesma grandeza"
+          }
+         },
+         {
+          "step": 8,
+          "action": "Calcular CV2",
+          "thinking": "6 × 12 = 72.",
+          "result": "72",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_aplica_fator_aditivo_como_multiplicativo",
+           "type": "procedural_error",
+           "wrongAnswer": "72",
+           "description": "Aluno aplica um fator aditivo (diferença) como se fosse multiplicativo, levando a um resultado exagerado",
+           "mistakeLocation": "Na multiplicação do custo pelo fator incorreto (12), derivado de uma diferença em vez de razão",
+           "diagnosticQuestion": "Se 12 garrafas custam $6, faz sentido que 24 garrafas custem $72? Isso seria $3 por garrafa — mais caro que antes?",
+           "severity": "high",
+           "feedback": "Esse valor parece muito alto, né? Vamos revisar: o fator deve nos dizer 'quantas vezes mais', não 'quanto a mais'. Tente dividir 24 por 12 para encontrar o fator certo.",
+           "howToFix": "Usar estimativa para checar plausibilidade: 'Se dobrei a quantidade, devo dobrar o custo — então deve dar cerca de $12, não $72'"
+          }
+         },
+         {
+          "step": 9,
+          "action": "Preencher resposta final",
+          "thinking": "Gastei $72.",
+          "result": "72",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "72",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "02Water",
+        "step": 4,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_fator_como_diferenca_em_vez_de_razao",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{today_bottles} - {last_bottles}",
+          "buggyRule": "Calcular o fator como a diferença entre a quantidade de hoje e a de semana passada: fator = {today_bottles} - {last_bottles}",
+          "description": "Aluno confunde fator de escala (multiplicativo) com variação absoluta (aditiva)",
+          "mistakeLocation": "Ao determinar o fator de conversão, o aluno subtrai os valores em vez de dividir",
+          "diagnosticQuestion": "O fator responde 'quantas vezes maior' ou 'quantas unidades a mais'?",
+          "feedback": "Você percebeu que a quantidade aumentou — ótimo! Mas o fator de escala responde: 'quantas vezes maior?'. Para isso, dividimos o novo valor pelo antigo.",
+          "howToFix": "Treinar linguagem proporcional: 'quantas vezes cabe?', sempre ligada à divisão; usar exemplos visuais com blocos",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_inverte_razao_do_fator",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{last_bottles} / {today_bottles}",
+          "buggyRule": "Calcular o fator como last_bottles ÷ today_bottles em vez de today_bottles ÷ last_bottles",
+          "description": "Aluno inverte a ordem da divisão ao calcular o fator de escala",
+          "mistakeLocation": "Na divisão para obter o fator, o aluno colocou o valor antigo no numerador e o novo no denominador",
+          "diagnosticQuestion": "Se você tem mais garrafas hoje, o fator deve ser maior ou menor que 1?",
+          "feedback": "Boa tentativa! Lembre-se: o fator mostra como o valor mudou HOJE em relação à SEMANA PASSADA. Então dividimos HOJE por SEMANA PASSADA.",
+          "howToFix": "Usar setas na tabela: 'de semana passada → para hoje', e associar isso à divisão 'hoje / passado'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "02Water",
+        "step": 6,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplicar_aumenta_dividir_diminui_inverso",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Escolher divisão para a grandeza 'cost' porque acredita que mais quantidade implica menor custo total (confusão com preço unitário)",
+          "description": "Aluno aplica intuição incorreta baseada em 'mais quantidade = mais barato', invertendo a operação proporcional",
+          "mistakeLocation": "Na escolha da operação para 'cost', o aluno assume que o custo total diminui quando a quantidade aumenta",
+          "diagnosticQuestion": "Se você compra mais itens ao mesmo preço unitário, seu gasto total aumenta ou diminui?",
+          "feedback": "Você está pensando no preço POR garrafa — e isso realmente não muda! Mas a pergunta é sobre o TOTAL gasto. Mais garrafas = mais dinheiro no total.",
+          "howToFix": "Separar claramente as duas ideias: preço unitário (constante) vs. custo total (varia com quantidade)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_escolhe_operacao_pela_palavra_chave_only",
+          "type": "operation_confusion",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação porque o enunciado diz 'purchased 24 bottles' (mais que antes), sem considerar a relação proporcional",
+          "description": "Aluno decide a operação apenas pela palavra-chave 'mais', sem analisar se a relação é direta ou inversa",
+          "mistakeLocation": "Na decisão da operação, o aluno ignora a estrutura proporcional e reage só ao aumento numérico",
+          "diagnosticQuestion": "As duas grandezas (garrafas e custo) aumentam juntas ou uma aumenta enquanto a outra diminui?",
+          "feedback": "Você notou que comprou mais garrafas — excelente! Agora, pense: o custo total acompanha esse aumento ou vai na direção oposta?",
+          "howToFix": "Classificar relações como 'diretas' (aumentam juntas) ou 'inversas' (uma sobe, outra desce); neste caso, é direta",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "02Water",
+        "step": 8,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_aplica_fator_aditivo_como_multiplicativo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{last_cost} * ({today_bottles} - {last_bottles})",
+          "buggyRule": "Multiplicar o custo anterior pela diferença nas garrafas: resultado = {last_cost} × ({today_bottles} - {last_bottles})",
+          "description": "Aluno combina erro aditivo no fator com multiplicação, gerando resultado exagerado",
+          "mistakeLocation": "Na aplicação do fator incorreto (baseado em diferença) ao custo",
+          "diagnosticQuestion": "Se 12 garrafas custam $6, quanto custa 1 garrafa? E 24?",
+          "feedback": "Vamos verificar com o preço unitário: se 12 custam $6, cada uma custa $0.50. Então 24 devem custar...?",
+          "howToFix": "Usar o preço unitário como estratégia alternativa para validar o resultado proporcional",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_quando_deve_multiplicar_pelo_fator_correto",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{last_cost} / ({today_bottles} / {last_bottles})",
+          "buggyRule": "Dividir o custo anterior pelo fator correto (today/last) em vez de multiplicar",
+          "description": "Aluno identifica o fator correto, mas aplica a operação inversa",
+          "mistakeLocation": "Após calcular o fator como 2, o aluno divide $6 por 2 em vez de multiplicar",
+          "diagnosticQuestion": "Se o número de garrafas dobrou, o custo total deve dobrar ou cair pela metade?",
+          "feedback": "Você calculou o fator certo (dobrou)! Agora, se tudo custa o mesmo, dobrar a quantidade dobra o gasto — então devemos multiplicar, não dividir.",
+          "howToFix": "Associar diretamente: 'fator > 1 → multiplicar'; 'fator < 1 → multiplicar por número menor que 1 (ou dividir pelo recíproco)'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_o_preco_unitario",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{last_cost} / {last_bottles}",
+          "buggyRule": "Ignorar a quantidade de hoje e responder apenas com o preço unitário: {last_cost} ÷ {last_bottles}",
+          "description": "Aluno responde com o preço por garrafa em vez do custo total de hoje",
+          "mistakeLocation": "Na célula CV2, o aluno insere o valor unitário constante, ignorando a nova quantidade",
+          "diagnosticQuestion": "A pergunta é sobre o custo de 24 garrafas ou de 1 garrafa?",
+          "feedback": "Você encontrou o preço de CADA garrafa — isso está certo! Mas precisamos do custo das 24 garrafas juntas. Como calculamos isso?",
+          "howToFix": "Ensinar a fórmula: custo total = quantidade × preço unitário; destacar unidades: 'dólares/garrafa × garrafas = dólares'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "02Water",
+        "step": 9,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_copia_valor_da_outra_grandeza",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{today_bottles}",
+          "buggyRule": "Responder com a quantidade de garrafas de hoje (24) em vez do custo",
+          "description": "Aluno confunde as grandezas e responde com o número de garrafas",
+          "mistakeLocation": "Na caixa de resposta final, o aluno digita o valor da primeira grandeza (bottles) em vez da segunda (cost)",
+          "diagnosticQuestion": "A lacuna completa a frase 'You spent $_____', então a resposta deve ser em garrafas ou em dólares?",
+          "feedback": "Você sabe que comprou 24 garrafas — ótimo! Mas a pergunta termina com 'dollars', então precisamos de um valor em dinheiro, não em garrafas.",
+          "howToFix": "Ensinar a sempre verificar a unidade da resposta pedida; sublinhar '$' no enunciado",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_o_gasto_da_semana_passada",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "{last_cost}",
+          "buggyRule": "Ignorar a mudança na quantidade e repetir o valor da semana passada: {last_cost}",
+          "description": "Aluno assume que o gasto é o mesmo independentemente da quantidade",
+          "mistakeLocation": "Na resposta final, o aluno repete $6 sem fazer qualquer cálculo proporcional",
+          "diagnosticQuestion": "Você gastou o mesmo valor comprando o dobro de garrafas? Isso faria o preço por garrafa cair pela metade?",
+          "feedback": "Interessante! Mas se o preço por garrafa não mudou, comprar mais significa gastar mais. Vamos revisar a relação entre quantidade e custo total.",
+          "howToFix": "Usar analogia: 'Se 1 sorvete custa R$5, 2 sorvetes custam quanto?' — reforçar intuição natural",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "02Water",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar grandezas",
+        "thinking": "Comprei 12 garrafas por $6. Hoje comprei 24 garrafas. Quero saber quanto gastei hoje. As grandezas são 'garrafas' e 'custo em dólares'.",
+        "result": "Identificou corretamente as duas grandezas e os valores dados.",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela (razão da semana passada)",
+        "thinking": "Na linha das garrafas, coloco 12. Na linha do custo, coloco 6.",
+        "result": "OV1 = 12, OV2 = 6",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Determinar a relação entre 12 e 24 garrafas",
+        "thinking": "Hoje comprei 24 garrafas... isso é o dobro de 12. Então devo multiplicar por 2?",
+        "result": "Reconhece que 24 ÷ 12 = 2, mas hesita se deve aplicar ×2 nas garrafas, no custo, ou em ambos.",
+        "kcUsed": "scale-completed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Se a quantidade de garrafas dobrou, o que acontece com o custo, se o preço por garrafa não mudou? Pense: o custo total depende diretamente do número de garrafas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Primeiro, descubra quantas vezes mais garrafas você comprou hoje em relação à semana passada. Depois, aplique essa mesma operação ao custo."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Você comprou 24 garrafas hoje, e antes eram 12. Isso é exatamente 2 vezes mais. Então, o custo também deve ser 2 vezes maior que $6."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se 12 garrafas custam $6, então 24 garrafas (que é 12 × 2) devem custar $6 × 2. Quanto é 6 vezes 2?"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Escolher a operação e o fator para cada linha",
+        "thinking": "Nas garrafas: 12 → 24, então ×2. No custo: 6 → ?, também ×2.",
+        "result": "SO1 = '×', SF1 = 2, CV1 = 24; SO2 = '×', SF2 = 2, CV2 = 12",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Preencher a resposta final",
+        "thinking": "O valor convertido do custo é 12, então gastei $12 hoje.",
+        "result": "A3 = 12",
+        "kcUsed": "complete-sentence",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "12",
+      "totalTime": 78,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular o preço por garrafa primeiro ($6 ÷ 12 = $0.50), depois multiplicar por 24",
+        "steps": [
+         "6 ÷ 12 = 0.5",
+         "0.5 × 24 = 12"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar regra de três simples: 12/6 = 24/x → resolver cruzado",
+        "steps": [
+         "12x = 144",
+         "x = 12"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 5,
+  "errosEspecificos": 5,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 5
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 11,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Bottles\" e \"Cost ($)\"). As colunas são: (1) a razão DADA, rotulada \"Last Week\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Today\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"dollars.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}

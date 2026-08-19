@@ -1,6 +1,6 @@
 # Experimento consolidado — validação de grafos de comportamento contra especialistas do CTAT/Mathtutor
 
-Gerado em 2026-08-19T07:15 por `analysis/bancada-v2/consolidar-corpora.mjs`. Um único desenho
+Gerado em 2026-08-19T11:41 por `analysis/bancada-v2/consolidar-corpora.mjs`. Um único desenho
 (problema + interface do especialista → agents 3 → GraphForge passos-livres → agent 6/7 espelhados da PRODUÇÃO
 atual, commit 5263488 com registro de componentes completo; régua de estados por Actor/LCS) aplicado a **5 corpus/corpora**: 6.17 Fraction Identification (frac-numberline-6.17); 6.19 Fractions and Estimates (frac-estimates-6.19); 6.18 Equivalent Fractions (equiv-fractions-6.18); 6.20 Fraction Ordering (fraction-ordering-6.20); 8.12 Factors, Scaling, and Percents (8.12).
 

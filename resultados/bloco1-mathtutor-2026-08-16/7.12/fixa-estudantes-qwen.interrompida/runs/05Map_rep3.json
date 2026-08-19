@@ -1,0 +1,870 @@
+{
+ "id": "05Map",
+ "correctAnswer": "50.5",
+ "audit": {
+  "ok": true,
+  "stepCount": 6
+ },
+ "f1": 0.095,
+ "conceptual": 0.095,
+ "precision": 0.1,
+ "recall": 0.091,
+ "functionalAgreement": 0.167,
+ "functionalKappa": -0.429,
+ "missing": [
+  "2",
+  "101/2"
+ ],
+ "extra": [
+  "×",
+  "16",
+  "÷"
+ ],
+ "robotMisconceptions": [
+  "×",
+  "8",
+  "16",
+  "÷"
+ ],
+ "exercicio": "05Map",
+ "replica": 3,
+ "geradoEm": "2026-08-19T11:09:23.806Z",
+ "promptSha256": "71a6ec8e8de048b3d4648f5f46ab916a946f5bd99d70f7b9e9f73385d03d7f30",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-19T10:25:21.155Z"
+ },
+ "custo": {
+  "tokensEntrada": 7811,
+  "tokensSaida": 8205,
+  "usd": 0.03809208
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 6
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "enter-given-from",
+    "valor": "Valores identificados: escala = 2 in → 50.5 mi; distância no mapa = 8 in"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher os valores dados na tabela (linha da escala)",
+    "kc": "enter-given-to",
+    "valor": "OV1 = 50.5, OV2 = 2"
+   },
+   {
+    "indice": 3,
+    "acao": "Determinar a operação e o fator de conversão",
+    "kc": "enter-factor",
+    "valor": "SO1 = '×', SF1 = 4, SO2 = '×', SF2 = 4"
+   },
+   {
+    "indice": 4,
+    "acao": "Calcular os valores convertidos",
+    "kc": "scale-completed",
+    "valor": "CV1 = 202, CV2 = 8"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher a resposta final",
+    "kc": "complete-sentence",
+    "valor": "A3 = 202"
+   },
+   {
+    "indice": 6,
+    "acao": "Concluir o problema",
+    "kc": "scale-completed",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "×",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Modelar a escala como uma razão (50.5 mi / 2 in) e destacar que o fator de conversão é obtido dividindo",
+    "buggyRule": "Escolher multiplicação na linha da unidade de origem (polegadas) em vez de divisão para normalizar a escala",
+    "misconceptionId": "misc_operacao_invertida_escala"
+   },
+   {
+    "valor": "8",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Isolar a escala e calcular quantas milhas por polegada antes de aplicar à viagem",
+    "buggyRule": "Usar a distância da viagem (8 polegadas) como fator de conversão na linha da escala",
+    "misconceptionId": "misc_fator_confunde_distancia_com_fator"
+   },
+   {
+    "valor": "16",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Destacar que a linha 'Trip' para polegadas já é conhecida (8); o cálculo ocorre na outra linha",
+    "buggyRule": "",
+    "misconceptionId": "misc_calculo_linha_origem_errado"
+   },
+   {
+    "valor": "÷",
+    "passo": 6,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem de 'por 1 unidade': se 2 in → 50.5 mi, então 1 in → ? mi. Isso exige divisão nas milhas também, mas depois, ao ir de 1 in para 8 in, será multiplicação",
+    "buggyRule": "",
+    "misconceptionId": "misc_proporcao_mesma_operacao_ambas_linhas"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando duas grandezas aumentam juntas na mesma proporção, que tipo de relação elas têm? Pense: se o mapa dobra de tamanho, a distância real também dobra?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Monte uma tabela com as duas razões: (1) a escala dada (2 in → 50.5 mi) e (2) a viagem medida (8 in → ? mi). Depois, use multiplicação ou divisão para encontrar o valor faltante."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! Veja: 8 polegadas é 4 vezes mais que 2 polegadas. Então, a distância real também deve ser 4 vezes 50.5. Que operação você usa para 'vezes mais'?"
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Se 2 polegadas valem 50.5 milhas, então 8 polegadas valem quantas vezes 50.5? Pense: 8 ÷ 2 = 4, então multiplique 50.5 por 4. Faça esse cálculo!"
+   },
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótima pergunta! Se você está passando de uma unidade menor (polegadas no mapa) para uma maior (milhas reais), você precisa aumentar ou diminuir o número? Isso sugere multiplicar ou dividir?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Continue assim! Primeiro, encontre o fator de conversão: quantas milhas há por polegada? Divida 50.5 por 2. Depois, multiplique esse fator por 8 polegadas."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Veja bem: o fator de conversão é 50.5 ÷ 2 = 25.25 milhas por polegada. Agora, para 8 polegadas, você multiplica esse fator por 8. Qual operação vai na linha das milhas?"
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Muito bem! Na linha das milhas, você já tem 50.5 na escala. Para ir de 2 polegadas para 8, você multiplicou por 4. Então, na linha das milhas, você também deve multiplicar 50.5 por 4. A operação é ×, e o fator é 4!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Pense: o fator de conversão deve ser o mesmo para ambas as grandezas? Ou ele depende de como você muda de uma para outra?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Você está quase! O fator que leva de 2 para 8 é 4. Esse mesmo fator deve ser aplicado à outra grandeza (milhas). Então, na linha das milhas, use × e o fator 4."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Correto! O fator é 4, e ele aplica-se à grandeza que você quer converter (milhas). Então, SO1 = ×, SF1 = 4, e CV1 = 50.5 × 4."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Exatamente! Você já sabe que 50.5 × 4 = 202. Então, preencha CV1 com 202, e depois coloque esse número na resposta final."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05Map\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"O mapa tem uma escala de 2 polegadas representando 50.5 milhas. A distância medida no mapa é 8 polegadas. Preciso encontrar a distância real em milhas.\\\",\\n          \\\"result\\\": \\\"Valores identificados: escala = 2 in → 50.5 mi; distância no mapa = 8 in\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela (linha da escala)\\\",\\n          \\\"thinking\\\": \\\"Na linha 1 (Miles), o valor dado é 50.5. Na linha 2 (Inches), o valor dado é 2.\\\",\\n          \\\"result\\\": \\\"OV1 = 50.5, OV2 = 2\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar a operação e o fator de conversão\\\",\\n          \\\"thinking\\\": \\\"Como 2 polegadas correspondem a 50.5 milhas, a razão é 50.5 mi / 2 in = 25.25 mi/in. Para converter 8 in em milhas, multiplico por essa razão. Assim, na linha Inches (linha 2), aplico × com fator 4 (pois 8 ÷ 2 = 4). Na linha Miles (linha 1), aplico × com mesmo fator 4.\\\",\\n          \\\"result\\\": \\\"SO1 = '×', SF1 = 4, SO2 = '×', SF2 = 4\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular os valores convertidos\\\",\\n          \\\"thinking\\\": \\\"Linha 1 (Miles): 50.5 × 4 = 202. Linha 2 (Inches): 2 × 4 = 8 (confirma a medida dada).\\\",\\n          \\\"result\\\": \\\"CV1 = 202, CV2 = 8\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher a resposta final\\\",\\n          \\\"thinking\\\": \\\"A distância real que Bill dirigirá é 202 milhas.\\\",\\n          \\\"result\\\": \\\"A3 = 202\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Concluir o problema\\\",\\n          \\\"thinking\\\": \\\"Todos os campos estão corretos. Clico em Done.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}\\\",\\n      \\\"totalTime\\\": 28\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05Map\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1 (valor dado em miles)\\\",\\n              \\\"thinking\\\": \\\"A escala diz que 2 polegadas representam 50.5 milhas, então vou colocar 50.5 aqui.\\\",\\n              \\\"result\\\": \\\"50.5\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2 (valor dado em inches)\\\",\\n              \\\"thinking\\\": \\\"A escala tem 2 polegadas, então coloco 2 aqui.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação na linha 2 (SO2)\\\",\\n              \\\"thinking\\\": \\\"Quero converter de polegadas para milhas, então devo multiplicar.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_operacao_invertida_escala\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"×\\\",\\n                \\\"description\\\": \\\"Aluno escolhe multiplicar na linha da unidade de origem (polegadas), quando deveria dividir para encontrar o fator por polegada\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao decidir a operação na linha 2 (Inches), o aluno assumiu que sempre se multiplica ao converter, sem considerar a direção da conversão\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 2 polegadas valem 50.5 milhas, quanto vale 1 polegada? Precisamos dividir ou multiplicar para descobrir?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está no caminho certo! Mas vamos pensar: para saber quantas milhas cabem em 1 polegada, devemos dividir as milhas pelas polegadas — não multiplicar.\\\",\\n                \\\"howToFix\\\": \\\"Modelar a escala como uma razão (50.5 mi / 2 in) e destacar que o fator de conversão é obtido dividindo\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Preencher SF2 (fator na linha 2)\\\",\\n              \\\"thinking\\\": \\\"Como escolhi multiplicar, vou usar 8, porque é a distância da viagem.\\\",\\n              \\\"result\\\": \\\"8\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fator_confunde_distancia_com_fator\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"8\\\",\\n                \\\"description\\\": \\\"Aluno usa a distância medida (8 polegadas) como fator de conversão, em vez de calcular a razão da escala\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher o fator na linha 2, o aluno usou o valor da viagem (8 in) em vez do fator derivado da escala\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O fator de conversão vem da escala dada (2 in = 50.5 mi) ou da distância da viagem (8 in)?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você notou que 8 polegadas aparecem no problema. Mas o fator de conversão vem da escala — vamos olhar só os números da escala primeiro.\\\",\\n                \\\"howToFix\\\": \\\"Isolar a escala e calcular quantas milhas por polegada antes de aplicar à viagem\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular CV2 (valor convertido em inches)\\\",\\n              \\\"thinking\\\": \\\"2 × 8 = 16\\\",\\n              \\\"result\\\": \\\"16\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_calculo_linha_origem_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"16\\\",\\n                \\\"description\\\": \\\"Aluno aplica operação incorreta na linha da unidade de origem, gerando valor convertido absurdo\\\",\\n                \\\"mistakeLocation\\\": \\\"Na linha 2 (Inches), após escolher × e fator 8, calcula 2 × 8 = 16, mas essa linha não deve ser recalculada — o 8 já é o valor da viagem\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Na linha das polegadas, o valor da viagem já é dado (8 in). Você precisa calcular algo nessa linha ou só usar esse valor?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Perceba que a distância da viagem já está dada como 8 polegadas. Essa linha não precisa de cálculo — ela é o ponto de partida!\\\",\\n                \\\"howToFix\\\": \\\"Destacar que a linha 'Trip' para polegadas já é conhecida (8); o cálculo ocorre na outra linha\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Preencher SO1 (operação na linha 1)\\\",\\n              \\\"thinking\\\": \\\"Se multipliquei embaixo, devo multiplicar em cima também.\\\",\\n              \\\"result\\\": \\\"×\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher SF1 (fator na linha 1)\\\",\\n              \\\"thinking\\\": \\\"Vou usar o mesmo fator, 8.\\\",\\n              \\\"result\\\": \\\"8\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular CV1 (milhas da viagem)\\\",\\n              \\\"thinking\\\": \\\"50.5 × 8 = 404\\\",\\n              \\\"result\\\": \\\"404\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_multiplica_sem_normalizar_escala\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"404\\\",\\n                \\\"description\\\": \\\"Aluno multiplica diretamente a escala total (50.5 mi) pela distância em polegadas (8 in), ignorando que a escala cobre 2 in, não 1 in\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular CV1, o aluno tratou 50.5 milhas como se correspondessem a 1 polegada, em vez de 2\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A escala diz que 2 polegadas = 50.5 milhas. Então, 1 polegada equivale a quantas milhas? E 8 polegadas?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você multiplicou corretamente, mas partiu de uma ideia errada: 50.5 milhas valem 2 polegadas, não 1. Vamos ajustar isso!\\\",\\n                \\\"howToFix\\\": \\\"Ensinar a encontrar milhas por polegada primeiro: 50.5 ÷ 2 = 25.25 mi/in, depois multiplicar por 8\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher resposta final (A3)\\\",\\n              \\\"thinking\\\": \\\"Então a resposta é 404.\\\",\\n              \\\"result\\\": \\\"404\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"404\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher OV1\\\",\\n              \\\"thinking\\\": \\\"Coloco 50.5 nas milhas.\\\",\\n              \\\"result\\\": \\\"50.5\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher OV2\\\",\\n              \\\"thinking\\\": \\\"E 2 nas polegadas.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher SO2\\\",\\n              \\\"thinking\\\": \\\"Para achar o fator, divido as polegadas.\\\",\\n              \\\"result\\\": \\\"÷\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Preencher SF2\\\",\\n              \\\"thinking\\\": \\\"Vou dividir por 2, porque são 2 polegadas.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular CV2\\\",\\n              \\\"thinking\\\": \\\"2 ÷ 2 = 1\\\",\\n              \\\"result\\\": \\\"1\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 6,\\n              \\\"action\\\": \\\"Escolher SO1\\\",\\n              \\\"thinking\\\": \\\"Na linha das milhas, também devo dividir.\\\",\\n              \\\"result\\\": \\\"÷\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_proporcao_mesma_operacao_ambas_linhas\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"÷\\\",\\n                \\\"description\\\": \\\"Aluno aplica a mesma operação (divisão) em ambas as linhas, sem entender que a proporção exige operações simétricas (se divide embaixo, multiplica em cima, ou vice-versa)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao escolher a operação na linha 1 (Miles), o aluno copiou a operação da linha 2, em vez de aplicar a lógica proporcional\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você dividiu as polegadas por 2 para chegar a 1 polegada, o que deve fazer com as milhas para manter a mesma proporção?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você fez um ótimo trabalho na linha das polegadas! Agora, para manter a proporção, se reduzimos as polegadas, devemos reduzir as milhas da mesma forma — mas como?\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem de 'por 1 unidade': se 2 in → 50.5 mi, então 1 in → ? mi. Isso exige divisão nas milhas também, mas depois, ao ir de 1 in para 8 in, será multiplicação\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 7,\\n              \\\"action\\\": \\\"Preencher SF1\\\",\\n              \\\"thinking\\\": \\\"Divido por 2 também.\\\",\\n              \\\"result\\\": \\\"2\\\",\\n              \\\"kcUsed\\\": \\\"enter-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 8,\\n              \\\"action\\\": \\\"Calcular CV1\\\",\\n              \\\"thinking\\\": \\\"50.5 ÷ 2 = 25.25\\\",\\n              \\\"result\\\": \\\"25.25\\\",\\n              \\\"kcUsed\\\": \\\"scale-completed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 9,\\n              \\\"action\\\": \\\"Preencher resposta final\\\",\\n              \\\"thinking\\\": \\\"Então ele dirige 25.25 milhas.\\\",\\n              \\\"result\\\": \\\"25.25\\\",\\n              \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_para_na_escala_unitaria\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"25.25\\\",\\n                \\\"description\\\": \\\"Aluno calcula corretamente milhas por polegada (25.25), mas esquece de multiplicar pela distância real (8 in), parando na escala unitária\\\",\\n                \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno fornece o valor para 1 polegada, não para 8 polegadas\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Você encontrou quantas milhas há em 1 polegada. Mas a viagem tem 8 polegadas. O que falta fazer?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Excelente! Você descobriu quantas milhas tem em 1 polegada. Agora, como a viagem tem 8 polegadas, o que devemos fazer com esse número?\\\",\\n                \\\"howToFix\\\": \\\"Adicionar um passo explícito: 'Agora multiplique por 8' após encontrar a escala unitária\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"25.25\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"05Map\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_operacao_invertida_escala\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Escolher multiplicação na linha da unidade de origem (polegadas) em vez de divisão para normalizar a escala\\\",\\n              \\\"description\\\": \\\"Aluno assume que sempre se multiplica ao converter, sem analisar a direção da conversão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação na linha 2 (Inches), o aluno ignora que para obter o fator por unidade, deve-se dividir\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 2 polegadas = 50.5 milhas, quanto vale 1 polegada? Precisamos dividir ou multiplicar para descobrir?\\\",\\n              \\\"feedback\\\": \\\"Você está no caminho certo! Mas vamos pensar: para saber quantas milhas cabem em 1 polegada, devemos dividir as milhas pelas polegadas — não multiplicar.\\\",\\n              \\\"howToFix\\\": \\\"Modelar a escala como uma razão (50.5 mi / 2 in) e destacar que o fator de conversão é obtido dividindo\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_copia_operacao_da_outra_linha\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{SO2}\\\",\\n              \\\"buggyRule\\\": \\\"Copiar a operação da linha 2 para a linha 1 (ou vice-versa), assumindo que ambas devem ter a mesma operação\\\",\\n              \\\"description\\\": \\\"Aluno trata as duas linhas como independentes e aplica a mesma operação em ambas, ignorando a relação proporcional\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao escolher a operação na linha 1, o aluno replica a escolha da linha 2 sem considerar a lógica da proporção\\\",\\n              \\\"diagnosticQuestion\\\": \\\"As operações nas duas linhas devem ser iguais ou opostas para manter a proporção constante?\\\",\\n              \\\"feedback\\\": \\\"Perceba que as duas grandezas estão ligadas: se uma muda de forma, a outra deve mudar da mesma forma. Mas isso significa a mesma operação ou operações que preservam a razão?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas ou cores para mostrar que a operação aplicada a uma linha deve ser aplicada à outra para manter a igualdade da razão\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05Map\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_confunde_distancia_com_fator\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"8\\\",\\n              \\\"buggyRule\\\": \\\"Usar a distância da viagem (8 polegadas) como fator de conversão na linha da escala\\\",\\n              \\\"description\\\": \\\"Aluno confunde o valor a ser convertido com o fator derivado da escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher o fator na linha 2, o aluno insere 8 (distância da viagem) em vez de um número da escala\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de conversão vem da escala dada (2 in = 50.5 mi) ou da distância da viagem (8 in)?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Você notou que 8 polegadas aparecem no problema. Mas o fator de conversão vem da escala — vamos olhar só os números da escala primeiro.\\\",\\n              \\\"howToFix\\\": \\\"Isolar a escala e calcular quantas milhas por polegada antes de aplicar à viagem\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_usa_soma_em_vez_razao\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"52.5\\\",\\n              \\\"buggyRule\\\": \\\"Somar os valores da escala (50.5 + 2) e usar como fator\\\",\\n              \\\"description\\\": \\\"Aluno combina os números da escala por adição em vez de formar uma razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na determinação do fator, o aluno adiciona milhas e polegadas, criando um número sem sentido dimensional\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Podemos somar milhas e polegadas? Que operação relaciona duas grandezas diferentes na escala?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando usar os dois números da escala — ótimo! Mas milhas e polegadas são unidades diferentes; não podemos somá-las. Precisamos de uma razão entre elas.\\\",\\n              \\\"howToFix\\\": \\\"Praticar identificação de razões em escalas: 'X unidades no mapa correspondem a Y unidades reais'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05Map\\\",\\n          \\\"step\\\": 8,\\n          \\\"kcUsed\\\": \\\"scale-completed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_sem_normalizar_escala\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} * 8\\\",\\n              \\\"buggyRule\\\": \\\"Multiplicar diretamente o valor em milhas da escala ({OV1}) pela distância da viagem (8), ignorando que a escala cobre 2 polegadas\\\",\\n              \\\"description\\\": \\\"Aluno trata a escala como se fosse para 1 polegada, levando a superestimação\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo de CV1, o aluno assume que 50.5 milhas = 1 polegada, em vez de 2\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A escala diz que 2 polegadas = 50.5 milhas. Então, 1 polegada equivale a quantas milhas? E 8 polegadas?\\\",\\n              \\\"feedback\\\": \\\"Você multiplicou corretamente, mas partiu de uma ideia errada: 50.5 milhas valem 2 polegadas, não 1. Vamos ajustar isso!\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a encontrar milhas por polegada primeiro: 50.5 ÷ 2 = 25.25 mi/in, depois multiplicar por 8\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_em_vez_multiplica_final\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} / 8\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o valor em milhas da escala ({OV1}) pela distância da viagem (8), invertendo a operação necessária\\\",\\n              \\\"description\\\": \\\"Aluno assume que aumentar a distância no mapa diminui a distância real\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha 1, ao aplicar o fator, o aluno divide em vez de multiplicar\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se 2 polegadas no mapa valem 50.5 milhas, então 8 polegadas (mais no mapa) devem valer mais ou menos milhas?\\\",\\n              \\\"feedback\\\": \\\"Pense assim: se o mapa mostra uma distância maior, a viagem real também é maior — então devemos aumentar o valor, não diminuir.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia com ampliação: dobrar o tamanho no mapa dobra a distância real\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_para_na_escala_unitaria\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{OV1} / {OV2}\\\",\\n              \\\"buggyRule\\\": \\\"Calcular milhas por polegada ({OV1}/{OV2}) e parar aí, sem multiplicar pela distância da viagem\\\",\\n              \\\"description\\\": \\\"Aluno encontra a taxa unitária correta, mas esquece de aplicá-la à distância real\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno fornece o valor para 1 polegada, não para 8 polegadas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Você encontrou quantas milhas há em 1 polegada. Mas a viagem tem 8 polegadas. O que falta fazer?\\\",\\n              \\\"feedback\\\": \\\"Excelente! Você descobriu quantas milhas tem em 1 polegada. Agora, como a viagem tem 8 polegadas, o que devemos fazer com esse número?\\\",\\n              \\\"howToFix\\\": \\\"Adicionar um passo explícito: 'Agora multiplique por 8' após encontrar a escala unitária\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"05Map\\\",\\n          \\\"step\\\": 9,\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_distancia_no_mapa\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"8\\\",\\n              \\\"buggyRule\\\": \\\"Responder com a distância medida no mapa (8) em vez da distância real\\\",\\n              \\\"description\\\": \\\"Aluno confunde o dado de entrada com a saída esperada\\\",\\n              \\\"mistakeLocation\\\": \\\"Na caixa de resposta final, o aluno digita o valor em polegadas em vez de converter para milhas\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta pede a distância que Bill dirigirá — isso está em polegadas ou milhas?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou do número 8, que é importante! Mas a pergunta quer a distância em milhas, não em polegadas do mapa.\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar a unidade pedida na pergunta ('miles') e comparar com a unidade do dado ('inches')\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_com_valor_da_escala\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"50.5\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o valor da escala em milhas (50.5), assumindo que é a resposta para qualquer distância\\\",\\n              \\\"description\\\": \\\"Aluno ignora a medição da viagem e repete o valor da escala\\\",\\n              \\\"mistakeLocation\\\": \\\"Na resposta final, o aluno assume que a escala já é a resposta, sem considerar os 8 inches\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A escala é para 2 polegadas. A viagem é de 8 polegadas. É a mesma distância?\\\",\\n              \\\"feedback\\\": \\\"Você se lembrou bem do número 50.5! Mas ele vale só para 2 polegadas no mapa. Como a viagem é maior, o que devemos fazer?\\\",\\n              \\\"howToFix\\\": \\\"Comparar visualmente: desenhar 2 in e 8 in no mapa e perguntar 'quantas vezes maior?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"05Map\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a escala dada\\\",\\n          \\\"thinking\\\": \\\"A escala é 2 polegadas = 50.5 milhas. A viagem mede 8 polegadas no mapa. Preciso descobrir quantas milhas isso representa... mas como montar a proporção corretamente?\\\",\\n          \\\"result\\\": \\\"Entendi que há uma relação proporcional entre polegadas no mapa e milhas reais\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-from\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando duas grandezas aumentam juntas na mesma proporção, que tipo de relação elas têm? Pense: se o mapa dobra de tamanho, a distância real também dobra?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Monte uma tabela com as duas razões: (1) a escala dada (2 in → 50.5 mi) e (2) a viagem medida (8 in → ? mi). Depois, use multiplicação ou divisão para encontrar o valor faltante.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Veja: 8 polegadas é 4 vezes mais que 2 polegadas. Então, a distância real também deve ser 4 vezes 50.5. Que operação você usa para 'vezes mais'?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Se 2 polegadas valem 50.5 milhas, então 8 polegadas valem quantas vezes 50.5? Pense: 8 ÷ 2 = 4, então multiplique 50.5 por 4. Faça esse cálculo!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os valores dados na tabela de conversão\\\",\\n          \\\"thinking\\\": \\\"Na linha das milhas, a escala dada é 50.5. Nas polegadas, é 2. A viagem tem 8 polegadas, então vou colocar isso na linha das polegadas, coluna 'razão convertida'. Mas qual operação usar? Multiplicar ou dividir?\\\",\\n          \\\"result\\\": \\\"Preenchi OV1 = 50.5 (milhas dadas), OV2 = 2 (polegadas dadas), CV2 = 8 (polegadas da viagem)\\\",\\n          \\\"kcUsed\\\": \\\"enter-given-to\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima pergunta! Se você está passando de uma unidade menor (polegadas no mapa) para uma maior (milhas reais), você precisa aumentar ou diminuir o número? Isso sugere multiplicar ou dividir?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Primeiro, encontre o fator de conversão: quantas milhas há por polegada? Divida 50.5 por 2. Depois, multiplique esse fator por 8 polegadas.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja bem: o fator de conversão é 50.5 ÷ 2 = 25.25 milhas por polegada. Agora, para 8 polegadas, você multiplica esse fator por 8. Qual operação vai na linha das milhas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! Na linha das milhas, você já tem 50.5 na escala. Para ir de 2 polegadas para 8, você multiplicou por 4. Então, na linha das milhas, você também deve multiplicar 50.5 por 4. A operação é ×, e o fator é 4!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar a operação e o fator de conversão\\\",\\n          \\\"thinking\\\": \\\"Se 2 polegadas viram 8, isso é ×4. Então, nas milhas, devo fazer 50.5 × 4. Vou colocar × na linha das milhas e 4 no fator. Mas será que o fator vai na linha certa?\\\",\\n          \\\"result\\\": \\\"SO1 = '×', SF1 = 4, CV1 = 202\\\",\\n          \\\"kcUsed\\\": \\\"enter-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: o fator de conversão deve ser o mesmo para ambas as grandezas? Ou ele depende de como você muda de uma para outra?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está quase! O fator que leva de 2 para 8 é 4. Esse mesmo fator deve ser aplicado à outra grandeza (milhas). Então, na linha das milhas, use × e o fator 4.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Correto! O fator é 4, e ele aplica-se à grandeza que você quer converter (milhas). Então, SO1 = ×, SF1 = 4, e CV1 = 50.5 × 4.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! Você já sabe que 50.5 × 4 = 202. Então, preencha CV1 com 202, e depois coloque esse número na resposta final.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular e inserir a resposta final\\\",\\n          \\\"thinking\\\": \\\"50.5 vezes 4... 50×4=200, 0.5×4=2, então 202. A resposta é 202 milhas.\\\",\\n          \\\"result\\\": \\\"A3 = 202\\\",\\n          \\\"kcUsed\\\": \\\"complete-sentence\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"202\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Usar regra de três simples em vez da tabela de conversão\\\",\\n          \\\"steps\\\": [\\\"Escrever 2 in / 50.5 mi = 8 in / x\\\", \\\"Multiplicar cruzado: 2x = 50.5 × 8\\\", \\\"Resolver x = (50.5 × 8)/2 = 202\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Calcular milhas por polegada primeiro (50.5 ÷ 2 = 25.25), depois multiplicar por 8\\\",\\n          \\\"steps\\\": [\\\"50.5 ÷ 2 = 25.25\\\", \\\"25.25 × 8 = 202\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "05Map",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "O mapa tem uma escala de 2 polegadas representando 50.5 milhas. A distância medida no mapa é 8 polegadas. Preciso encontrar a distância real em milhas.",
+        "result": "Valores identificados: escala = 2 in → 50.5 mi; distância no mapa = 8 in",
+        "kcUsed": "enter-given-from",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela (linha da escala)",
+        "thinking": "Na linha 1 (Miles), o valor dado é 50.5. Na linha 2 (Inches), o valor dado é 2.",
+        "result": "OV1 = 50.5, OV2 = 2",
+        "kcUsed": "enter-given-to",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Determinar a operação e o fator de conversão",
+        "thinking": "Como 2 polegadas correspondem a 50.5 milhas, a razão é 50.5 mi / 2 in = 25.25 mi/in. Para converter 8 in em milhas, multiplico por essa razão. Assim, na linha Inches (linha 2), aplico × com fator 4 (pois 8 ÷ 2 = 4). Na linha Miles (linha 1), aplico × com mesmo fator 4.",
+        "result": "SO1 = '×', SF1 = 4, SO2 = '×', SF2 = 4",
+        "kcUsed": "enter-factor",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Calcular os valores convertidos",
+        "thinking": "Linha 1 (Miles): 50.5 × 4 = 202. Linha 2 (Inches): 2 × 4 = 8 (confirma a medida dada).",
+        "result": "CV1 = 202, CV2 = 8",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher a resposta final",
+        "thinking": "A distância real que Bill dirigirá é 202 milhas.",
+        "result": "A3 = 202",
+        "kcUsed": "complete-sentence",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Concluir o problema",
+        "thinking": "Todos os campos estão corretos. Clico em Done.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "scale-completed",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}",
+      "totalTime": 28
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "05Map",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1 (valor dado em miles)",
+          "thinking": "A escala diz que 2 polegadas representam 50.5 milhas, então vou colocar 50.5 aqui.",
+          "result": "50.5",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2 (valor dado em inches)",
+          "thinking": "A escala tem 2 polegadas, então coloco 2 aqui.",
+          "result": "2",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação na linha 2 (SO2)",
+          "thinking": "Quero converter de polegadas para milhas, então devo multiplicar.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_operacao_invertida_escala",
+           "type": "conceptual_error",
+           "wrongAnswer": "×",
+           "description": "Aluno escolhe multiplicar na linha da unidade de origem (polegadas), quando deveria dividir para encontrar o fator por polegada",
+           "mistakeLocation": "Ao decidir a operação na linha 2 (Inches), o aluno assumiu que sempre se multiplica ao converter, sem considerar a direção da conversão",
+           "diagnosticQuestion": "Se 2 polegadas valem 50.5 milhas, quanto vale 1 polegada? Precisamos dividir ou multiplicar para descobrir?",
+           "severity": "high",
+           "feedback": "Você está no caminho certo! Mas vamos pensar: para saber quantas milhas cabem em 1 polegada, devemos dividir as milhas pelas polegadas — não multiplicar.",
+           "howToFix": "Modelar a escala como uma razão (50.5 mi / 2 in) e destacar que o fator de conversão é obtido dividindo"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Preencher SF2 (fator na linha 2)",
+          "thinking": "Como escolhi multiplicar, vou usar 8, porque é a distância da viagem.",
+          "result": "8",
+          "kcUsed": "enter-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fator_confunde_distancia_com_fator",
+           "type": "conceptual_error",
+           "wrongAnswer": "8",
+           "description": "Aluno usa a distância medida (8 polegadas) como fator de conversão, em vez de calcular a razão da escala",
+           "mistakeLocation": "Ao preencher o fator na linha 2, o aluno usou o valor da viagem (8 in) em vez do fator derivado da escala",
+           "diagnosticQuestion": "O fator de conversão vem da escala dada (2 in = 50.5 mi) ou da distância da viagem (8 in)?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você notou que 8 polegadas aparecem no problema. Mas o fator de conversão vem da escala — vamos olhar só os números da escala primeiro.",
+           "howToFix": "Isolar a escala e calcular quantas milhas por polegada antes de aplicar à viagem"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Calcular CV2 (valor convertido em inches)",
+          "thinking": "2 × 8 = 16",
+          "result": "16",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_calculo_linha_origem_errado",
+           "type": "procedural_error",
+           "wrongAnswer": "16",
+           "description": "Aluno aplica operação incorreta na linha da unidade de origem, gerando valor convertido absurdo",
+           "mistakeLocation": "Na linha 2 (Inches), após escolher × e fator 8, calcula 2 × 8 = 16, mas essa linha não deve ser recalculada — o 8 já é o valor da viagem",
+           "diagnosticQuestion": "Na linha das polegadas, o valor da viagem já é dado (8 in). Você precisa calcular algo nessa linha ou só usar esse valor?",
+           "severity": "moderate",
+           "feedback": "Perceba que a distância da viagem já está dada como 8 polegadas. Essa linha não precisa de cálculo — ela é o ponto de partida!",
+           "howToFix": "Destacar que a linha 'Trip' para polegadas já é conhecida (8); o cálculo ocorre na outra linha"
+          }
+         },
+         {
+          "step": 6,
+          "action": "Preencher SO1 (operação na linha 1)",
+          "thinking": "Se multipliquei embaixo, devo multiplicar em cima também.",
+          "result": "×",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 7,
+          "action": "Preencher SF1 (fator na linha 1)",
+          "thinking": "Vou usar o mesmo fator, 8.",
+          "result": "8",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Calcular CV1 (milhas da viagem)",
+          "thinking": "50.5 × 8 = 404",
+          "result": "404",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_multiplica_sem_normalizar_escala",
+           "type": "conceptual_error",
+           "wrongAnswer": "404",
+           "description": "Aluno multiplica diretamente a escala total (50.5 mi) pela distância em polegadas (8 in), ignorando que a escala cobre 2 in, não 1 in",
+           "mistakeLocation": "Ao calcular CV1, o aluno tratou 50.5 milhas como se correspondessem a 1 polegada, em vez de 2",
+           "diagnosticQuestion": "A escala diz que 2 polegadas = 50.5 milhas. Então, 1 polegada equivale a quantas milhas? E 8 polegadas?",
+           "severity": "high",
+           "feedback": "Você multiplicou corretamente, mas partiu de uma ideia errada: 50.5 milhas valem 2 polegadas, não 1. Vamos ajustar isso!",
+           "howToFix": "Ensinar a encontrar milhas por polegada primeiro: 50.5 ÷ 2 = 25.25 mi/in, depois multiplicar por 8"
+          }
+         },
+         {
+          "step": 9,
+          "action": "Preencher resposta final (A3)",
+          "thinking": "Então a resposta é 404.",
+          "result": "404",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": null
+         }
+        ],
+        "finalAnswer": "404",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher OV1",
+          "thinking": "Coloco 50.5 nas milhas.",
+          "result": "50.5",
+          "kcUsed": "enter-given-to",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Preencher OV2",
+          "thinking": "E 2 nas polegadas.",
+          "result": "2",
+          "kcUsed": "enter-given-from",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher SO2",
+          "thinking": "Para achar o fator, divido as polegadas.",
+          "result": "÷",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Preencher SF2",
+          "thinking": "Vou dividir por 2, porque são 2 polegadas.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular CV2",
+          "thinking": "2 ÷ 2 = 1",
+          "result": "1",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 6,
+          "action": "Escolher SO1",
+          "thinking": "Na linha das milhas, também devo dividir.",
+          "result": "÷",
+          "kcUsed": "scale-completed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_proporcao_mesma_operacao_ambas_linhas",
+           "type": "conceptual_error",
+           "wrongAnswer": "÷",
+           "description": "Aluno aplica a mesma operação (divisão) em ambas as linhas, sem entender que a proporção exige operações simétricas (se divide embaixo, multiplica em cima, ou vice-versa)",
+           "mistakeLocation": "Ao escolher a operação na linha 1 (Miles), o aluno copiou a operação da linha 2, em vez de aplicar a lógica proporcional",
+           "diagnosticQuestion": "Se você dividiu as polegadas por 2 para chegar a 1 polegada, o que deve fazer com as milhas para manter a mesma proporção?",
+           "severity": "high",
+           "feedback": "Você fez um ótimo trabalho na linha das polegadas! Agora, para manter a proporção, se reduzimos as polegadas, devemos reduzir as milhas da mesma forma — mas como?",
+           "howToFix": "Usar linguagem de 'por 1 unidade': se 2 in → 50.5 mi, então 1 in → ? mi. Isso exige divisão nas milhas também, mas depois, ao ir de 1 in para 8 in, será multiplicação"
+          }
+         },
+         {
+          "step": 7,
+          "action": "Preencher SF1",
+          "thinking": "Divido por 2 também.",
+          "result": "2",
+          "kcUsed": "enter-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 8,
+          "action": "Calcular CV1",
+          "thinking": "50.5 ÷ 2 = 25.25",
+          "result": "25.25",
+          "kcUsed": "scale-completed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 9,
+          "action": "Preencher resposta final",
+          "thinking": "Então ele dirige 25.25 milhas.",
+          "result": "25.25",
+          "kcUsed": "complete-sentence",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_para_na_escala_unitaria",
+           "type": "conceptual_error",
+           "wrongAnswer": "25.25",
+           "description": "Aluno calcula corretamente milhas por polegada (25.25), mas esquece de multiplicar pela distância real (8 in), parando na escala unitária",
+           "mistakeLocation": "Na resposta final, o aluno fornece o valor para 1 polegada, não para 8 polegadas",
+           "diagnosticQuestion": "Você encontrou quantas milhas há em 1 polegada. Mas a viagem tem 8 polegadas. O que falta fazer?",
+           "severity": "high",
+           "feedback": "Excelente! Você descobriu quantas milhas tem em 1 polegada. Agora, como a viagem tem 8 polegadas, o que devemos fazer com esse número?",
+           "howToFix": "Adicionar um passo explícito: 'Agora multiplique por 8' após encontrar a escala unitária"
+          }
+         }
+        ],
+        "finalAnswer": "25.25",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "05Map",
+        "step": 3,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_operacao_invertida_escala",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Escolher multiplicação na linha da unidade de origem (polegadas) em vez de divisão para normalizar a escala",
+          "description": "Aluno assume que sempre se multiplica ao converter, sem analisar a direção da conversão",
+          "mistakeLocation": "Na escolha da operação na linha 2 (Inches), o aluno ignora que para obter o fator por unidade, deve-se dividir",
+          "diagnosticQuestion": "Se 2 polegadas = 50.5 milhas, quanto vale 1 polegada? Precisamos dividir ou multiplicar para descobrir?",
+          "feedback": "Você está no caminho certo! Mas vamos pensar: para saber quantas milhas cabem em 1 polegada, devemos dividir as milhas pelas polegadas — não multiplicar.",
+          "howToFix": "Modelar a escala como uma razão (50.5 mi / 2 in) e destacar que o fator de conversão é obtido dividindo",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_copia_operacao_da_outra_linha",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{SO2}",
+          "buggyRule": "Copiar a operação da linha 2 para a linha 1 (ou vice-versa), assumindo que ambas devem ter a mesma operação",
+          "description": "Aluno trata as duas linhas como independentes e aplica a mesma operação em ambas, ignorando a relação proporcional",
+          "mistakeLocation": "Ao escolher a operação na linha 1, o aluno replica a escolha da linha 2 sem considerar a lógica da proporção",
+          "diagnosticQuestion": "As operações nas duas linhas devem ser iguais ou opostas para manter a proporção constante?",
+          "feedback": "Perceba que as duas grandezas estão ligadas: se uma muda de forma, a outra deve mudar da mesma forma. Mas isso significa a mesma operação ou operações que preservam a razão?",
+          "howToFix": "Usar setas ou cores para mostrar que a operação aplicada a uma linha deve ser aplicada à outra para manter a igualdade da razão",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "05Map",
+        "step": 4,
+        "kcUsed": "enter-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_fator_confunde_distancia_com_fator",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "8",
+          "buggyRule": "Usar a distância da viagem (8 polegadas) como fator de conversão na linha da escala",
+          "description": "Aluno confunde o valor a ser convertido com o fator derivado da escala",
+          "mistakeLocation": "Ao preencher o fator na linha 2, o aluno insere 8 (distância da viagem) em vez de um número da escala",
+          "diagnosticQuestion": "O fator de conversão vem da escala dada (2 in = 50.5 mi) ou da distância da viagem (8 in)?",
+          "feedback": "Boa tentativa! Você notou que 8 polegadas aparecem no problema. Mas o fator de conversão vem da escala — vamos olhar só os números da escala primeiro.",
+          "howToFix": "Isolar a escala e calcular quantas milhas por polegada antes de aplicar à viagem",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_fator_usa_soma_em_vez_razao",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "52.5",
+          "buggyRule": "Somar os valores da escala (50.5 + 2) e usar como fator",
+          "description": "Aluno combina os números da escala por adição em vez de formar uma razão",
+          "mistakeLocation": "Na determinação do fator, o aluno adiciona milhas e polegadas, criando um número sem sentido dimensional",
+          "diagnosticQuestion": "Podemos somar milhas e polegadas? Que operação relaciona duas grandezas diferentes na escala?",
+          "feedback": "Você está tentando usar os dois números da escala — ótimo! Mas milhas e polegadas são unidades diferentes; não podemos somá-las. Precisamos de uma razão entre elas.",
+          "howToFix": "Praticar identificação de razões em escalas: 'X unidades no mapa correspondem a Y unidades reais'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "05Map",
+        "step": 8,
+        "kcUsed": "scale-completed",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_sem_normalizar_escala",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{OV1} * 8",
+          "buggyRule": "Multiplicar diretamente o valor em milhas da escala ({OV1}) pela distância da viagem (8), ignorando que a escala cobre 2 polegadas",
+          "description": "Aluno trata a escala como se fosse para 1 polegada, levando a superestimação",
+          "mistakeLocation": "No cálculo de CV1, o aluno assume que 50.5 milhas = 1 polegada, em vez de 2",
+          "diagnosticQuestion": "A escala diz que 2 polegadas = 50.5 milhas. Então, 1 polegada equivale a quantas milhas? E 8 polegadas?",
+          "feedback": "Você multiplicou corretamente, mas partiu de uma ideia errada: 50.5 milhas valem 2 polegadas, não 1. Vamos ajustar isso!",
+          "howToFix": "Ensinar a encontrar milhas por polegada primeiro: 50.5 ÷ 2 = 25.25 mi/in, depois multiplicar por 8",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_divide_em_vez_multiplica_final",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{OV1} / 8",
+          "buggyRule": "Dividir o valor em milhas da escala ({OV1}) pela distância da viagem (8), invertendo a operação necessária",
+          "description": "Aluno assume que aumentar a distância no mapa diminui a distância real",
+          "mistakeLocation": "Na linha 1, ao aplicar o fator, o aluno divide em vez de multiplicar",
+          "diagnosticQuestion": "Se 2 polegadas no mapa valem 50.5 milhas, então 8 polegadas (mais no mapa) devem valer mais ou menos milhas?",
+          "feedback": "Pense assim: se o mapa mostra uma distância maior, a viagem real também é maior — então devemos aumentar o valor, não diminuir.",
+          "howToFix": "Usar analogia com ampliação: dobrar o tamanho no mapa dobra a distância real",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_para_na_escala_unitaria",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{OV1} / {OV2}",
+          "buggyRule": "Calcular milhas por polegada ({OV1}/{OV2}) e parar aí, sem multiplicar pela distância da viagem",
+          "description": "Aluno encontra a taxa unitária correta, mas esquece de aplicá-la à distância real",
+          "mistakeLocation": "Na resposta final, o aluno fornece o valor para 1 polegada, não para 8 polegadas",
+          "diagnosticQuestion": "Você encontrou quantas milhas há em 1 polegada. Mas a viagem tem 8 polegadas. O que falta fazer?",
+          "feedback": "Excelente! Você descobriu quantas milhas tem em 1 polegada. Agora, como a viagem tem 8 polegadas, o que devemos fazer com esse número?",
+          "howToFix": "Adicionar um passo explícito: 'Agora multiplique por 8' após encontrar a escala unitária",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "05Map",
+        "step": 9,
+        "kcUsed": "complete-sentence",
+        "errors": [
+         {
+          "misconceptionId": "misc_responde_com_distancia_no_mapa",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "8",
+          "buggyRule": "Responder com a distância medida no mapa (8) em vez da distância real",
+          "description": "Aluno confunde o dado de entrada com a saída esperada",
+          "mistakeLocation": "Na caixa de resposta final, o aluno digita o valor em polegadas em vez de converter para milhas",
+          "diagnosticQuestion": "A pergunta pede a distância que Bill dirigirá — isso está em polegadas ou milhas?",
+          "feedback": "Você lembrou do número 8, que é importante! Mas a pergunta quer a distância em milhas, não em polegadas do mapa.",
+          "howToFix": "Sublinhar a unidade pedida na pergunta ('miles') e comparar com a unidade do dado ('inches')",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_com_valor_da_escala",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "50.5",
+          "buggyRule": "Responder com o valor da escala em milhas (50.5), assumindo que é a resposta para qualquer distância",
+          "description": "Aluno ignora a medição da viagem e repete o valor da escala",
+          "mistakeLocation": "Na resposta final, o aluno assume que a escala já é a resposta, sem considerar os 8 inches",
+          "diagnosticQuestion": "A escala é para 2 polegadas. A viagem é de 8 polegadas. É a mesma distância?",
+          "feedback": "Você se lembrou bem do número 50.5! Mas ele vale só para 2 polegadas no mapa. Como a viagem é maior, o que devemos fazer?",
+          "howToFix": "Comparar visualmente: desenhar 2 in e 8 in no mapa e perguntar 'quantas vezes maior?'",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "05Map",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a escala dada",
+        "thinking": "A escala é 2 polegadas = 50.5 milhas. A viagem mede 8 polegadas no mapa. Preciso descobrir quantas milhas isso representa... mas como montar a proporção corretamente?",
+        "result": "Entendi que há uma relação proporcional entre polegadas no mapa e milhas reais",
+        "kcUsed": "enter-given-from",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando duas grandezas aumentam juntas na mesma proporção, que tipo de relação elas têm? Pense: se o mapa dobra de tamanho, a distância real também dobra?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Monte uma tabela com as duas razões: (1) a escala dada (2 in → 50.5 mi) e (2) a viagem medida (8 in → ? mi). Depois, use multiplicação ou divisão para encontrar o valor faltante."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Veja: 8 polegadas é 4 vezes mais que 2 polegadas. Então, a distância real também deve ser 4 vezes 50.5. Que operação você usa para 'vezes mais'?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Se 2 polegadas valem 50.5 milhas, então 8 polegadas valem quantas vezes 50.5? Pense: 8 ÷ 2 = 4, então multiplique 50.5 por 4. Faça esse cálculo!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher os valores dados na tabela de conversão",
+        "thinking": "Na linha das milhas, a escala dada é 50.5. Nas polegadas, é 2. A viagem tem 8 polegadas, então vou colocar isso na linha das polegadas, coluna 'razão convertida'. Mas qual operação usar? Multiplicar ou dividir?",
+        "result": "Preenchi OV1 = 50.5 (milhas dadas), OV2 = 2 (polegadas dadas), CV2 = 8 (polegadas da viagem)",
+        "kcUsed": "enter-given-to",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima pergunta! Se você está passando de uma unidade menor (polegadas no mapa) para uma maior (milhas reais), você precisa aumentar ou diminuir o número? Isso sugere multiplicar ou dividir?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Primeiro, encontre o fator de conversão: quantas milhas há por polegada? Divida 50.5 por 2. Depois, multiplique esse fator por 8 polegadas."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja bem: o fator de conversão é 50.5 ÷ 2 = 25.25 milhas por polegada. Agora, para 8 polegadas, você multiplica esse fator por 8. Qual operação vai na linha das milhas?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! Na linha das milhas, você já tem 50.5 na escala. Para ir de 2 polegadas para 8, você multiplicou por 4. Então, na linha das milhas, você também deve multiplicar 50.5 por 4. A operação é ×, e o fator é 4!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Determinar a operação e o fator de conversão",
+        "thinking": "Se 2 polegadas viram 8, isso é ×4. Então, nas milhas, devo fazer 50.5 × 4. Vou colocar × na linha das milhas e 4 no fator. Mas será que o fator vai na linha certa?",
+        "result": "SO1 = '×', SF1 = 4, CV1 = 202",
+        "kcUsed": "enter-factor",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: o fator de conversão deve ser o mesmo para ambas as grandezas? Ou ele depende de como você muda de uma para outra?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está quase! O fator que leva de 2 para 8 é 4. Esse mesmo fator deve ser aplicado à outra grandeza (milhas). Então, na linha das milhas, use × e o fator 4."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Correto! O fator é 4, e ele aplica-se à grandeza que você quer converter (milhas). Então, SO1 = ×, SF1 = 4, e CV1 = 50.5 × 4."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! Você já sabe que 50.5 × 4 = 202. Então, preencha CV1 com 202, e depois coloque esse número na resposta final."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Calcular e inserir a resposta final",
+        "thinking": "50.5 vezes 4... 50×4=200, 0.5×4=2, então 202. A resposta é 202 milhas.",
+        "result": "A3 = 202",
+        "kcUsed": "complete-sentence",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "202",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Usar regra de três simples em vez da tabela de conversão",
+        "steps": [
+         "Escrever 2 in / 50.5 mi = 8 in / x",
+         "Multiplicar cruzado: 2x = 50.5 × 8",
+         "Resolver x = (50.5 × 8)/2 = 202"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Calcular milhas por polegada primeiro (50.5 ÷ 2 = 25.25), depois multiplicar por 8",
+        "steps": [
+         "50.5 ÷ 2 = 25.25",
+         "25.25 × 8 = 202"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 6,
+  "errosEspecificos": 6,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 6,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "conversion-factors-7.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza (aqui \"Miles\" e \"Inches\"). As colunas são: (1) a razão DADA, rotulada \"Scale\" — um campo por linha; (2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; (3) o FATOR de conversão: um campo por linha; (4) a razão CONVERTIDA, rotulada \"Trip\" — um campo por linha. Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado (a unidade \"miles.\" já aparece impressa). Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+  "tabela": {
+   "linhas": 2,
+   "colunas": [
+    "razão dada",
+    "operação (× ou ÷)",
+    "fator",
+    "razão convertida"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "CV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor convertido"
+   },
+   {
+    "id": "A3",
+    "tipo": "numeric",
+    "papel": "campo da resposta final, que completa a frase do enunciado"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "OV2",
+    "tipo": "numeric",
+    "papel": "linha 2: valor da razão dada (a outra grandeza)"
+   },
+   {
+    "id": "CV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor convertido (o que se quer)"
+   },
+   {
+    "id": "SO1",
+    "tipo": "text",
+    "papel": "linha 1: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF1",
+    "tipo": "numeric",
+    "papel": "linha 1: fator de conversão"
+   },
+   {
+    "id": "SO2",
+    "tipo": "text",
+    "papel": "linha 2: operação a aplicar (× ou ÷)"
+   },
+   {
+    "id": "SF2",
+    "tipo": "numeric",
+    "papel": "linha 2: fator de conversão"
+   },
+   {
+    "id": "OV1",
+    "tipo": "numeric",
+    "papel": "linha 1: valor da razão dada (a que o problema informa)"
+   }
+  ]
+ }
+}
