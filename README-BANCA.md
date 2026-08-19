@@ -76,5 +76,23 @@ esses artefatos.
 **Permanecem na árvore, apesar de históricos:** `resultados/campanha3-2026-07-13/`
 e `analysis/derived/`, porque são **fixtures lidas pela suíte de testes**.
 
+Removido numa segunda passada, em 19/08/2026: **código morto** — 14 scripts que
+liam exclusivamente os dados acima e que, sem eles, quebravam na primeira linha
+de leitura (análises da campanha 4, verificadores dos manifestos v6/v7, e o
+redator de artefatos públicos da campanha 4). Nenhum era exercitado por teste ou
+citado por documento.
+
 Nada foi apagado do histórico: `git log --diff-filter=D --name-only` lista o que
 saiu, e qualquer commit anterior a este recupera o conteúdo íntegro.
+
+## Duas observações de proveniência
+
+`scripts/reproduce-collect.mjs` — o script que coletou os 630 grafos — cita em
+comentário e num campo de metadados o caminho `resultados/campanha5-2026-07-19/`,
+que saiu da árvore. A citação é cosmética (descreve o formato de saída herdado) e
+o arquivo foi **deliberadamente não alterado**: ele produziu os dados publicados,
+e mantê-lo byte-estável vale mais do que corrigir uma string.
+
+`runs/` guarda os manifestos de execução com custo por chamada, mas **não é
+versionado** — quem clonar não o recebe. Os manifestos citados no artigo estão
+reproduzidos dentro dos próprios arquivos de resultado.
