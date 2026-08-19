@@ -151,3 +151,112 @@ origem. Onde a evidência for fraca, diga que é fraca.
 
 Ao final, entregue: o manuscrito e uma **lista de conferência** número-a-número,
 com o arquivo de origem de cada valor citado.
+
+---
+---
+
+# ATUALIZAÇÃO DE 19/08 (noite) — LEIA ISTO ANTES DE USAR OS NÚMEROS ACIMA
+
+Tudo o que está acima continua válido para **cobertura, ordem e integridade de
+caminho**. Três coisas mudam, e uma seção nova entra.
+
+## A. CORREÇÃO OBRIGATÓRIA: precisão e F1 de estados
+
+Os valores de precisão/F1 do texto acima vêm de uma régua com um **defeito de
+simetria**, corrigido em 19/08 (commit `75e696a`).
+
+**O defeito:** o `.brd` grava o clique em Done como `"-1"`, que `ehMecanico` já
+excluía do lado do especialista; o agente escreve o mesmo clique como
+`"ok"`/`"done"`/`"convert"`, e isso entrava no denominador da precisão como
+falso positivo garantido — **439 de 4.469 estados, 9,8 %, nos 5 corpora**.
+
+| | régua congelada (não usar) | **régua simétrica (usar)** |
+|---|---|---|
+| precisão de estados | 0,7173 [0,6977; 0,7362] | **0,8205 [0,8038; 0,8363]** |
+| F1 de estados | 0,7081 [0,6932; 0,7228] | **0,7620 [0,7476; 0,7764]** |
+
+**Cobertura (0,7439), linha de base (0,3962), cobertura ajustada (0,5931),
+caminho íntegro, erros e dicas no estado certo são IDÊNTICOS nas duas leituras**
+— invariante garantido por teste. Nenhum número de cobertura precisa mudar.
+
+Reportar as duas leituras lado a lado, com a nota de que a correção é
+**simétrica por teste**: rodada contra o gabarito humano, atinge **0 de 807**
+estados. Fonte: `resultados/juizo-2026-08-19/consolidado-simetrico.json`.
+
+## B. SEÇÃO NOVA: dicas (o que o artigo ainda não tinha)
+
+Duas medições independentes, e elas convergem.
+
+**Determinística** (`comparar-dicas.mjs`, 5 corpora, pares de estados casados):
+
+| | especialista | flash-lite | qwen |
+|---|---|---|---|
+| a última dica entrega o valor do passo | **0,849 [0,842; 0,856]** | 0,019 [0,010; 0,032] | 0,026 [0,016; 0,037] |
+| escada completa (orientação → bottom-out) | 0,807 [0,788; 0,825] | 0,019 | 0,025 |
+| níveis por passo | 2,97 | 4,00 (sem variância) | 4,00 |
+
+**Juiz cego** (`glm-4.5`, gate APROVADO, 1.452 escadas):
+
+| | especialista | flash-lite | qwen |
+|---|---|---|---|
+| especificidade (0–3) | 1,96 | 1,97 | 1,97 |
+| escalonamento (0–3) | 1,88 | 1,89 | 1,88 |
+| acionabilidade (0–3) | **2,81** | 2,09 | 2,13 |
+| entrega a resposta | 79 % | 3 % | 10 % |
+
+**A tese da seção:** os agentes escrevem escadas tão específicas e tão bem
+escalonadas quanto o autor humano do CTAT — empate nas duas dimensões — e perdem
+0,7 ponto em acionabilidade por **uma razão documentada**: a plataforma proíbe
+por gate que a dica entregue a resposta (decisão de produto de 02/08/2026,
+`producao/agents/patterns/quality-gate.js:1353-1357`). Não é falha do agente; é
+divergência deliberada da convenção do CTAT, e o pipeline cumpre a própria
+política em 97–98 % dos passos.
+
+**NÃO reportar** a dimensão `correcao` do juiz (83 % vs 92 %): retirada por
+contaminação — o juiz penaliza o especialista por julgar passo fora do contexto
+da decomposição, e a taxa é 3× maior no corpus mais profundo (8.12: 32 %).
+
+## C. SEÇÃO NOVA: dois achados metodológicos sobre juiz LLM
+
+Publicáveis por si, e provavelmente o que o artigo tem de mais transferível.
+
+**1. Suprimir raciocínio degrada a calibração, e o controle usual não vê.**
+Comparação controlada, mesmos 42 itens, mesmo `glm-4.5`: aprovação do gabarito
+humano cai de 0,929 para 0,714, enquanto a **rejeição de distratores fica
+idêntica em 0,982**. A prática corrente de validar juiz LLM só por "ele rejeita
+distratores?" é cega a essa falha. Só o controle POSITIVO — gabarito humano
+misturado na pilha, cego — a detecta.
+
+**2. Controle negativo mal construído reprova juiz bom.** No juiz de estados,
+usei os `wrongAnswer` do `.brd` como controle negativo, assumindo "valor que o
+aluno erra" = "não é alvo de passo". Falso em problema multi-passo: o mesmo
+valor é erro num passo e intermediário legítimo noutro. O juiz aceitou 69 % —
+corretamente — e o gate o reprovaria por isso.
+
+Os dois juntos: **juiz LLM só é confiável se os dois lados forem medidos, e se
+ambos os controles forem válidos.**
+
+## D. LACUNA QUE PERMANECE, e tem de ser declarada sem atenuação
+
+**Os extras de erro (misconceptions) não têm veredito.** Dois juízes,
+duas reprovações no gate pré-declarado (`glm-4.5` sem raciocínio: 0,479;
+`deepseek-v4-flash`: 0,501; ambos precisavam de 0,80). Pela regra, não há número
+— e não houve terceira tentativa. O único juiz calibrado barato (`gpt-5.6-luna`)
+**escreve 43,8 % dos erros julgados** (é o agent 6), logo seria auto-avaliação.
+
+Consequência para o texto: a precisão de estados agora é julgada por régua
+determinística e auditável, mas a **validade pedagógica dos erros a mais**
+continua aberta. Citar a rodada de 14/08 (~50 % dos extras válidos, juiz Luna
+calibrado) apenas como **referência de outro objeto** — corpus 6.17, grafos
+crus do estágio 3, antes da interface fixa —, nunca como resultado deste
+experimento.
+
+## E. Honestidade de execução (vai numa nota, não escondido)
+
+Quatro incidentes, todos detectados antes de publicar, todos com barreira
+permanente e teste: juiz resolvendo para o modelo errado sem lançar erro (904
+julgamentos descartados, US$ 10,65); fallback silencioso para modelo reprovado;
+`ECONNRESET` derrubando lote inteiro; estimativa de custo errada por 4×.
+Detalhe em `resultados/juizo-2026-08-19/RESULTADOS.md` §5. O ponto a fazer no
+artigo: **eles foram encontrados porque o desenho tem controles**, não por
+sorte — e um experimento sem esses controles teria os mesmos erros, invisíveis.
