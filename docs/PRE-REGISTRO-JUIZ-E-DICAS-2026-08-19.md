@@ -277,3 +277,68 @@ congelada em 13/07) traz o `deepseek-v4-flash` a 0,14 · 0,28, acima do preço
 corrente de 0,083 · 0,165. A tabela **não é atualizada de propósito** — o custo
 reportado no artigo tem de ser reprodutível byte a byte a partir do manifesto.
 O custo registrado sai, portanto, conservador (para cima).
+
+---
+
+## Emenda 3 (19/08, após os gates, antes de qualquer novo veredito)
+
+### O que aconteceu
+
+Com a configuração da emenda 2 (raciocínio desligado), **dois dos três juízes
+REPROVARAM o gate pré-declarado**:
+
+| juiz | especialista (≥0,80) | rejeição de distratores (≥0,80) | veredito |
+|---|---|---|---|
+| dicas | — (gate é por controles) | estrangeiro e embaralhado OK | **APROVADO** |
+| extras | **0,479** (n=676) | 0,984 (n=820) | REPROVADO |
+| estados | **0,516** (n=1614) | 0,741 (n=788) | REPROVADO |
+
+### Diagnóstico (comparação controlada, não hipótese)
+
+As 14 células julgadas antes da emenda 2 foram refeitas na íntegra depois dela.
+Mesmos 42 itens de especialista, mesmo modelo `z-ai/glm-4.5`, única diferença =
+o raciocínio:
+
+| | com raciocínio | sem raciocínio |
+|---|---|---|
+| aprova erros do especialista | 0,929 | 0,714 |
+| aprova extras dos agentes | 0,565 | 0,419 |
+| **rejeita distratores** | **0,982** | **0,982** |
+
+Desligar o raciocínio **não degradou a rejeição de lixo — degradou o
+reconhecimento do que é legítimo**. No lote completo, 46 % dos erros catalogados
+por um especialista humano do CTAT foram marcados `implausivel`.
+
+**Isto é resultado metodológico, não só incidente:** a métrica de controle mais
+usada para "validar" juiz LLM (ele rejeita distratores?) **não detecta** essa
+falha. Só o controle POSITIVO — itens de gabarito humano misturados na pilha —
+detecta. Sem ele, teríamos publicado "os agentes só acertam 13 % dos estados
+extras" atribuindo ao agente um defeito do juiz.
+
+### O que muda, e o que NÃO muda
+
+- **Não muda:** objeto, rubricas, controles, e os gates (0,80 / 0,80).
+- **Muda:** o juiz de registro dos dois lotes reprovados passa a ser
+  `deepseek/deepseek-v4-flash`, **com raciocínio ligado**.
+
+### Desvio declarado da regra de prioridade da emenda 2
+
+A emenda 2 fixou: "se o primário reprovar, não há veredito, mesmo que o segundo
+passe" — regra escrita para impedir troca de juiz atrás de número melhor.
+**Este é um desvio dela, e fica registrado como desvio.** Razão: o primário
+`z-ai/glm-4.5` **com** raciocínio custaria ~US$ 52 nos dois lotes, acima do que
+o autor autorizou. Não é o caso de o primário ter reprovado por si: ele reprovou
+numa configuração barateada que nós introduzimos.
+
+Consequências que o artigo tem de declarar, sem atenuação:
+1. o veredito publicado vem do **segundo juiz do painel**, não do primário;
+2. o **irmão** desse modelo (`deepseek-v4-flash`, variante de 14/08) REPROVOU o
+   gate de calibração nesta mesma tarefa em 14/08 — o risco de nova reprovação é
+   alto e conhecido de antemão;
+3. o veredito do primário **não está disponível**, por restrição de custo. O
+   único dado dele com raciocínio é diagnóstico (n=42, 0,929), não veredito;
+4. o gate segue valendo: se o `deepseek-v4-flash` reprovar, **não há veredito**,
+   e a lacuna volta a ser declarada como limitação — sem terceira tentativa.
+
+Nenhum item de EXTRA entra em qualquer decisão de escolha de juiz: a calibração
+é medida só nos itens de resposta conhecida.
