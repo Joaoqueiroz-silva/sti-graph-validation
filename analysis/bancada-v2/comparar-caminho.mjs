@@ -98,6 +98,8 @@ export function caminhoDeReferencia(envelopeB, refEx = null) {
       estado: c.valor,
       comResposta: !c.mecanico && !c.sistema,
       dicas: c.dicas || 0,
+      dicasTexto: c.dicasTexto || [],
+      bruto: String(c.bruto ?? ""),
     }));
   }
   const steps = (envelopeB?.steps || []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -106,6 +108,8 @@ export function caminhoDeReferencia(envelopeB, refEx = null) {
     estado: canonizarValor(s.key ?? s.answer),
     comResposta: !ehMecanico(s.answer),
     dicas: (envelopeB?.hintsPerCorrectStep?.[i] || []).length,
+    dicasTexto: (envelopeB?.hintsPerCorrectStep?.[i] || []).map((h) => String(h ?? "")),
+    bruto: String(s.answer ?? ""),
   }));
 }
 

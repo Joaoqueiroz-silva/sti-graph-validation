@@ -79,6 +79,10 @@ export function carregarReferencia(raiz = ".") {
         sistema: ehAcaoDeSistema(acao, prox.sai?.selection) || /^tutor/i.test(String(prox.actor || "")) || variante,
         mecanico: ehMecanico(bruto),
         dicas: (prox.hints || []).length,
+        // TEXTO das dicas (2026-08-19): aditivo — nenhuma métrica da régua de
+        // estados usa este campo; existe para a comparação de DICAS
+        // (comparar-dicas.mjs), que precisa do conteúdo, não só da contagem.
+        dicasTexto: (prox.hints || []).map((h) => String(h ?? "")),
       });
       cur = prox.to;
     }
