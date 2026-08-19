@@ -15,11 +15,35 @@ limitação** e do que foi **refutado** — para ir junto ao artigo.
 | A3 | `comparar-rodadas.mjs` subtraía métricas N/A sem guarda (`null − 0,5 = −0,5` em JS) → efeito fabricado. | Guarda de N/A, igual à do irmão. | Nenhum número publicado estava corrompido; o 6.18 agora reporta N/A corretamente. |
 | A4 | `dpEntreReplicas` promediava DPs em vez de agrupar variâncias (subestima o ruído). | DP agrupado por graus de liberdade: √(Σ SSᵢ / Σ (nᵢ−1)). | DP sobe ~3 %; não muda nenhuma inferência. |
 | A5 | O consolidador chamava de "BCa" um bootstrap **percentílico**. | Rótulo corrigido no código e no cabeçalho da tabela. | Só nomenclatura. |
-| A6 | **Espelho defasado e incompleto**: produção avançou 15 commits; e o registro de componentes tinha **6 de 44** componentes, porque o fecho só seguia imports estáticos (o registro descobre por varredura de diretório). O catálogo no prompt do worker do agent 6 tinha 4702 chars contra 8936 em produção. | `espelhar-producao.mjs` passa a incluir diretórios varridos em runtime; espelho subiu para produção 5263488. | **Exige re-materialização** dos corpora (em andamento) e comparação pareada de versão. |
+| A6 | ✅ **RESOLVIDO** — **Espelho defasado e incompleto**: produção avançou 15 commits; e o registro de componentes tinha **6 de 44** componentes, porque o fecho só seguia imports estáticos (o registro descobre por varredura de diretório). O catálogo no prompt do worker do agent 6 tinha 4702 chars contra 8936 em produção. | `espelhar-producao.mjs` passa a incluir diretórios varridos em runtime; espelho subiu para produção 5263488. | Os 516 grafos foram **re-materializados** (v3, US$ 3,16, 0 falhas). Efeito pareado v3−v2: \|Δ\| ≤ 0,07 em cobertura e caminho íntegro, ICs cruzando zero — o catálogo maior muda o `renderAs`, não o valor do estado. Fontes: `comparacao-espelho-v3-vs-v2-*.json`. |
 | A7 | O Δ pareado **entre braços** (desfecho declarado em JUSTIFICATIVA-REPLICAS) nunca era calculado: a comparação era lida da sobreposição de ICs marginais. | `comparacao-bracos.json` por corpus. | Ver tabela C: "qwen melhor em tudo" **não se sustenta** no 6.19. |
 | A8 | Nenhuma tabela mostrava o efeito das redefinições do denominador. | `contrafactual-regua.mjs`: os mesmos grafos sob 4 definições encaixadas (R0 ingênua → R3 vigente). | Ver tabela D. |
 
-## B. Linha de base de acaso, precisão e F1 (grafo materializado, todos os grafos)
+## B. Linha de base de acaso, precisão e F1 — VERSÃO FINAL (v3, 5 corpora, 615 grafos)
+
+Números vigentes, com os agentes espelhados da produção **5263488** (registro de
+componentes completo) e recorte = gate por enunciado (100 %, sem exclusão):
+
+| corpus · braço | cobertura | base (papagaio) | **ajustada** | precisão | **F1** | íntegro obs/base |
+|---|---|---|---|---|---|---|
+| 6.17 · flash-lite | 0,778 | 0,524 | 0,424 | 0,866 | 0,813 | 0,125 / 0,056 |
+| 6.17 · qwen | 0,941 | 0,563 | **0,858** | 0,790 | 0,852 | 0,764 / 0,167 |
+| 6.19 · flash-lite | 0,725 | 0,380 | 0,480 | 0,779 | 0,738 | 0,145 / 0,000 |
+| 6.19 · qwen | 0,728 | 0,406 | 0,463 | 0,740 | 0,726 | 0,072 / 0,000 |
+| 6.18 · flash-lite | 0,961 | 0,417 | 0,933 | 0,619 | 0,748 | 0,883 / 0,000 |
+| 6.18 · qwen | 0,989 | 0,417 | **0,975** | 0,546 | 0,700 | 0,967 / 0,000 |
+| 6.20 · flash-lite | 0,919 | 0,421 | 0,860 | 0,803 | 0,855 | 0,596 / 0,000 |
+| 6.20 · qwen | 0,933 | 0,442 | 0,877 | 0,748 | 0,827 | 0,667 / 0,000 |
+| 8.12 · flash-lite | 0,087 | 0,123 | **−0,042** | 0,449 | 0,191 | 0,000 / 0,000 |
+| 8.12 · qwen | 0,300 | 0,192 | 0,134 | 0,772 | 0,427 | 0,000 / 0,000 |
+
+**O caso que justifica a métrica**: no 8.12, o flash-lite tem cobertura ajustada
+**negativa** — fica ABAIXO do grafo papagaio. Sem linha de base, "0,087 de
+cobertura" leria como resultado positivo pequeno; com ela, o veredito correto é
+*indistinguível do acaso* (na verdade, pior). Nenhuma conclusão do experimento
+pode ser lida sem esta coluna.
+
+### Tabela anterior (v2, 4 corpora) — preservada para rastreabilidade
 
 | corpus · braço | cobertura obs. | **base (papagaio)** | **ajustada** | **precisão** | **F1** | íntegro obs./base |
 |---|---|---|---|---|---|---|
@@ -118,3 +142,26 @@ corpora**. Arquivos: `contrafactual-*.json` por corpus e braço.
 - Exclusão de N/A enviesando por braço: a marcação é 100 % determinada pela
   referência, idêntica entre braços.
 - `media([])` devolvendo 0: nenhum caminho publicado passa por lista vazia.
+
+
+## G. Fechamento (19/08/2026) — o que mudou depois da auditoria
+
+1. **Espelho corrigido e uniformizado**: todos os 5 corpora (615 grafos) usam os
+   agentes da produção **5263488**, com o registro de componentes completo. O
+   efeito da correção foi medido e é desprezível (tabela A6).
+2. **Gate de obediência refeito**: o gate por valores reprovava a *resolução* em
+   corpora com cálculo intermediário (0/57 no 8.12/qwen, com 57/57 dos
+   enunciados limpos). O critério vigente é o **enunciado** escrito pelo agent 6
+   — evidência direta de "usou o problema do CTAT?" —, com **100 % de aprovação
+   nos 615 grafos dos 5 corpora**. Consequência: **o consolidado deixa de ter
+   recorte** e usa todos os grafos; some a objeção de "recorte escolhido depois
+   de olhar os dados". Os gates por valor viram análise de sensibilidade.
+3. **Métrica principal passa a ser reportada em quatro colunas**: cobertura
+   bruta, linha de base, **ajustada** e **F1** (com precisão). O caminho íntegro
+   permanece a métrica mais robusta (base ≈0 em 4 dos 5 corpora).
+4. **Correção de afirmação**: "o braço qwen é melhor em tudo" vale para o 6.17 e
+   o 8.12; no 6.19 os ICs cruzam zero e, pelo **F1**, o qwen fica ABAIXO do
+   flash-lite em 6.18 (0,700 vs 0,748) e 6.20 (0,827 vs 0,855) — porque paga a
+   cobertura com perda de precisão. A afirmação sustentável é: *o braço com
+   alunos mais fortes cobre mais estados e acerta mais erros no estado certo, ao
+   custo de precisão; o balanço (F1) depende do corpus.*

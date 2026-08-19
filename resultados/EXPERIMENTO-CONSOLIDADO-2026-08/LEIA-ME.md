@@ -14,7 +14,7 @@ todos sob o MESMO desenho vigente:
   mecânica), subsequência ordenada exata (LCS), cobertura sem ordem, caminho
   íntegro, erros e dicas no estado certo, extras; unidade = grafo; BCa em
   cluster de exercício; 3 réplicas justificadas por decomposição de variância;
-- agentes espelhados byte a byte da PRODUÇÃO em execução (commit 132c645,
+- agentes espelhados byte a byte da PRODUÇÃO em execução (commit 5263488,
   `producao/COMMIT-FONTE.txt` + `ESPELHO.sha256`; verificável com
   `node scripts/espelhar-producao.mjs --fonte <repo> --verify`);
 - dois braços de modelo nos alunos simulados (flash-lite; qwen), materialização
@@ -33,3 +33,17 @@ interface) ficam como história do instrumento e como comparação pareada
 
 Para o artigo: `docs/GUIA-DO-ARTIGO.md` (§8–§9) e
 `docs/PROMPT-ATUALIZAR-ARTIGO-2026-08-16.md` apontam para estes arquivos.
+
+
+## Atualização de 19/08/2026 (pós-auditoria)
+
+- Todos os 5 corpora re-materializados com o espelho **5263488** (registro de
+  componentes completo). Pastas `materializado-v3-*`; v2/v1 preservadas para a
+  comparação de versão (`comparacao-espelho-v3-vs-v2-*.json`).
+- Recorte: **gate por enunciado**, 100 % nos 615 grafos → a tabela usa TODOS os
+  grafos, sem exclusão.
+- Métricas complementares obrigatórias, por corpus e braço:
+  `linha-de-base-v3-*.json` (base de acaso, cobertura ajustada, precisão, F1) e
+  `contrafactual-*.json` (o efeito de cada redefinição da régua).
+- Comparação entre braços pareada: `comparacao-bracos.json` por corpus.
+- Achados, correções e limitações: `docs/AUDITORIA-CIENTIFICA-2026-08-18.md`.

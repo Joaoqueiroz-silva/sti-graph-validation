@@ -288,3 +288,43 @@ Heterogeneidade entre corpora (amplitude): cobertura 0,712–0,953 (flash-lite) 
 0,742–1,000 (qwen); caminho íntegro 0,108–0,860 e 0,098–1,000 — a variação é
 explicada pelo grau em que a interface impõe a sequência (6.18/6.20 alto,
 6.19 baixo por causa da conversão a número misto).
+
+## 14. Adendo 2026-08-19 — BLOCO 1 FECHADO (5 corpora) e auditoria incorporada
+
+**Estado do experimento.** 5 corpora públicos do Mathtutor (6.17, 6.19, 6.18,
+6.20, 8.12), **105 problemas de especialista**, **615 grafos de agente**
+coletados e materializados com os agentes espelhados da produção **5263488**,
+0 falhas. Custo total do bloco ≈ US$ 22.
+
+**Números para o artigo** (grafo materializado; todos os grafos — o gate por
+enunciado aprova 100 %; BCa 95 % em cluster de exercício):
+
+| braço | cobertura em ordem | sem ordem | caminho íntegro | erros no estado certo |
+|---|---|---|---|---|
+| flash-lite | 0,702 [0,684; 0,719] | 0,820 | 0,337 [0,286; 0,387] | 0,272 (4 corpora) |
+| qwen | 0,786 [0,771; 0,800] | 0,895 | 0,495 [0,444; 0,543] | 0,562 (4 corpora) |
+
+**Mas a leitura primária mudou** (auditoria de 18/08): a cobertura é recall puro
+e um grafo "papagaio" atinge 0,12–0,56 dela. As colunas obrigatórias passam a
+ser **cobertura ajustada** ((obs−base)/(1−base)) e **F1** (com precisão) — ver
+`docs/AUDITORIA-CIENTIFICA-2026-08-18.md` §B, que traz a tabela completa por
+corpus. Fatos que só aparecem com elas: (i) no 8.12 o flash-lite fica **abaixo
+do papagaio** (ajustada −0,042); (ii) pelo F1, o qwen fica **abaixo** do
+flash-lite em 6.18 e 6.20, porque paga cobertura com precisão.
+
+**Estrutura da tese empírica, em três níveis:**
+1. *Insumo* — dar ao agente o mesmo que o especialista teve (problema +
+   interface) é o que produz o salto: Δ pareado +0,10/+0,14 em cobertura,
+   +0,25/+0,38 em erros no estado certo (rodada 4 vs 3).
+2. *Granularidade da referência* — a concordância cai monotonicamente com o
+   número de estados do especialista: 3–5 estados (6.18, 6.20) → cobertura
+   0,92–0,99 e caminho íntegro 0,60–0,97; 24 estados (8.12) → 0,09–0,30 e
+   caminho íntegro 0. É a fronteira do método.
+3. *Modelo dos alunos simulados* — o braço mais forte cobre mais e acerta mais
+   erros no estado certo, ao custo de precisão; o balanço depende do corpus.
+
+**Seções obrigatórias de método/limitação** (todas com fonte no repositório):
+linha de base e F1; tabela contrafactual da régua (`contrafactual-*.json`);
+rótulo post hoc datado das quatro redefinições do denominador; gate por
+enunciado × por valores; envelope A derivado do `.brd`; ausência de banda
+humano–humano; multiplicidade descritiva; `maxTokens` do adaptador.

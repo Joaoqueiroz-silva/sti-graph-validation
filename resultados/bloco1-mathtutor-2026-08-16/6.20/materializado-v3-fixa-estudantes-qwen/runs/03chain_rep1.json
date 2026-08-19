@@ -1,0 +1,2465 @@
+{
+ "id": "03chain",
+ "correctAnswer": "5/6",
+ "audit": {
+  "ok": true,
+  "stepCount": 8
+ },
+ "f1": 0.091,
+ "conceptual": 0.095,
+ "precision": 0.091,
+ "recall": 0.091,
+ "functionalAgreement": 0.286,
+ "functionalKappa": -0.167,
+ "missing": [
+  "",
+  "2/3",
+  "4",
+  "3/5"
+ ],
+ "extra": [
+  "rashadbuiltthelongerpaperchain",
+  "bothbuiltthesamelengthofpaperchain"
+ ],
+ "robotMisconceptions": [
+  "5",
+  "5",
+  "Rashad built the longer paper chain.",
+  "Both built the same length of paper chain."
+ ],
+ "exercicio": "03chain",
+ "replica": 1,
+ "geradoEm": "2026-08-18T15:37:35.639Z",
+ "promptSha256": "9c5c2380590c28379c19c480a3c1d684f09feeff2fa7357f51018287b0dd14c0",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T15:22:41.028Z"
+ },
+ "custo": {
+  "tokensEntrada": 7397,
+  "tokensSaida": 8815,
+  "usd": 0.040148159999999995
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 8
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "FracLess1",
+    "valor": "Valores identificados: {A} = 5/6, {B} = 4/5"
+   },
+   {
+    "indice": 2,
+    "acao": "Dividir a primeira reta numérica (Daryl) em 6 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 1 dividida em {C} = 6 partes"
+   },
+   {
+    "indice": 3,
+    "acao": "Marcar o ponto correspondente a 5/6 na primeira reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto {A} = 5/6 marcado corretamente na reta 1"
+   },
+   {
+    "indice": 4,
+    "acao": "Dividir a segunda reta numérica (Rashad) em 5 partes iguais",
+    "kc": "DivNumLine",
+    "valor": "Reta 2 dividida em {D} = 5 partes"
+   },
+   {
+    "indice": 5,
+    "acao": "Marcar o ponto correspondente a 4/5 na segunda reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto {B} = 4/5 marcado corretamente na reta 2"
+   },
+   {
+    "indice": 6,
+    "acao": "Comparar visualmente os dois pontos nas retas numéricas",
+    "kc": "compFrac",
+    "valor": "{A} > {B}"
+   },
+   {
+    "indice": 7,
+    "acao": "Selecionar a alternativa correta no seletor de comparação",
+    "kc": "compFrac",
+    "valor": "Alternativa selecionada: \"Daryl built the longer paper chain.\""
+   },
+   {
+    "indice": 8,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "compFrac",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar o denominador diretamente ao número de divisões: 'o número de baixo diz em quantas partes o inteiro foi cortado'",
+    "buggyRule": "Usar o denominador da SEGUNDA fração ({B_den}) para dividir a PRIMEIRA reta, em vez do denominador correto ({A_den})",
+    "misconceptionId": "misc_usa_denominador_outro_aluno_para_unificar_visualmente"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar cada marca ao valor fracionário correspondente antes de marcar; usar rótulos temporários nas divisões",
+    "buggyRule": "Marcar a {A_num}-ésima marca da reta, independentemente do número de divisões feitas (tratando cada marca como 1 unidade)",
+    "misconceptionId": "misc_contagem_marca_sem_considerar_escala_correta"
+   },
+   {
+    "valor": "Rashad built the longer paper chain.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem de 'quanto já foi percorrido' em vez de 'quanto falta'; destacar que menor gap = maior valor",
+    "buggyRule": "Escolher a fração cujo denominador menos numerador (a 'falta' para 1) é MAIOR, achando que isso indica maior valor",
+    "misconceptionId": "misc_gap_thinking_menor_falta_maior_valor"
+   },
+   {
+    "valor": "Both built the same length of paper chain.",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Refazer a representação com o denominador correto e comparar novamente; usar cores para destacar os segmentos",
+    "buggyRule": "",
+    "misconceptionId": "misc_confusao_posicao_devido_escala_errada_levar_a_igualdade_falsa"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando duas frações têm numeradores e denominadores diferentes, como podemos compará-las de forma justa? Pense em representá-las no mesmo tipo de unidade..."
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Uma forma de comparar é usar retas numéricas. Primeiro, divida cada reta no número de partes igual ao denominador da fração correspondente. Depois, marque o ponto do numerador."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! Lembre-se: 5/6 está mais perto de 1 do que 4/5. Tente dividir a primeira reta em 6 partes e a segunda em 5 partes, depois veja qual ponto fica mais à direita."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! Na reta do Daryl, divida em 6 partes e marque a 5ª. Na do Rashad, divida em 5 partes e marque a 4ª. Agora olhe: qual marca está mais próxima do 1?"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Pense: se a reta vai de 0 a 1 e está dividida em 6 partes, o que representa cada marca?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Cada traço representa 1/6. Comece do zero e conte 1/6, 2/6, 3/6... até chegar em 5/6. Marque exatamente nesse ponto."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "A quinta marca da esquerda para a direita é o ponto correto. Confira: ela deve estar antes do 1, mas bem perto!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você já dividiu em 6. Agora toque no quinto traço — não no sexto! O sexto seria 6/6 = 1, então 5/6 vem logo antes."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Se a reta está dividida em 5 partes iguais, o que cada parte representa? E onde fica 4 delas juntas?"
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Comece do zero e conte: 1/5, 2/5, 3/5, 4/5. Pare na quarta marca e clique ali."
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Na reta dividida em 5, a quarta marca está um pouco mais longe do 1 do que 5/6 está na outra reta. Veja a posição relativa!"
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Na reta do Rashad, o último traço é 5/5 = 1. Então 4/5 é o traço imediatamente antes dele. Clique ali!"
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Na reta numérica, qual fração está mais à direita: a maior ou a menor?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Olhe as duas marcas. A que estiver mais próxima do 1 é a maior fração. Compare suas posições cuidadosamente."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Veja: 5/6 está a apenas 1/6 de distância do 1, enquanto 4/5 está a 1/5 de distância. Como 1/6 < 1/5, 5/6 está mais perto do 1 — logo, é maior!"
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Compare as distâncias até o 1: Daryl falta 1 pedacinho pequeno (1/6), Rashad falta um pedacinho maior (1/5). Quem está mais perto do 1 tem a fração maior!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03chain\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Preciso comparar os comprimentos das correntes de papel: Daryl fez 5/6 pés e Rashad fez 4/5 pés. Ambas as frações são menores que 1, então posso usar retas numéricas de 0 a 1 para representá-las.\\\",\\n          \\\"result\\\": \\\"Valores identificados: {A} = 5/6, {B} = 4/5\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a primeira reta numérica (Daryl) em 6 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 5/6 na reta numérica, preciso dividir o intervalo [0,1] em 6 partes iguais.\\\",\\n          \\\"result\\\": \\\"Reta 1 dividida em {C} = 6 partes\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 5/6 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Contando 5 das 6 partes iguais a partir do 0, marco o ponto que representa 5/6.\\\",\\n          \\\"result\\\": \\\"Ponto {A} = 5/6 marcado corretamente na reta 1\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta numérica (Rashad) em 5 partes iguais\\\",\\n          \\\"thinking\\\": \\\"Para representar 4/5 na reta numérica, divido o intervalo [0,1] em 5 partes iguais.\\\",\\n          \\\"result\\\": \\\"Reta 2 dividida em {D} = 5 partes\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 4/5 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Contando 4 das 5 partes iguais a partir do 0, marco o ponto que representa 4/5.\\\",\\n          \\\"result\\\": \\\"Ponto {B} = 4/5 marcado corretamente na reta 2\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas numéricas\\\",\\n          \\\"thinking\\\": \\\"Observo que 5/6 está mais próximo de 1 do que 4/5, logo 5/6 > 4/5.\\\",\\n          \\\"result\\\": \\\"{A} > {B}\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta no seletor de comparação\\\",\\n          \\\"thinking\\\": \\\"Como 5/6 é maior que 4/5, Daryl construiu a corrente mais longa.\\\",\\n          \\\"result\\\": \\\"Alternativa selecionada: \\\\\\\"Daryl built the longer paper chain.\\\\\\\"\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todas as etapas foram concluídas corretamente; posso finalizar.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"5/6\\\",\\n      \\\"totalTime\\\": 35\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03chain\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Divide a primeira reta (Daryl) em 6 partes\\\",\\n              \\\"thinking\\\": \\\"A fração é 5/6, então divido em 6 partes.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marca o ponto na quinta marca da primeira reta\\\",\\n              \\\"thinking\\\": \\\"Conto 1, 2, 3, 4, 5... paro na quinta marca.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Divide a segunda reta (Rashad) em 5 partes\\\",\\n              \\\"thinking\\\": \\\"A fração é 4/5, então divido em 5 partes.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marca o ponto na quarta marca da segunda reta\\\",\\n              \\\"thinking\\\": \\\"Conto 1, 2, 3, 4... paro na quarta marca.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolhe a alternativa: 'Rashad built the longer paper chain.'\\\",\\n              \\\"thinking\\\": \\\"4/5 tem numerador menor, mas está mais perto do 1 porque só falta 1/5. Já 5/6 falta 1/6, que é menor... espera, não — 1/5 é maior que 1/6, então 4/5 está mais longe do 1! Mas eu vi que 4/5 está mais à direita na minha cabeça...\\\",\\n              \\\"result\\\": \\\"Errado — escolheu Rashad\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_gap_thinking_menor_falta_maior_valor\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Rashad built the longer paper chain.\\\",\\n                \\\"description\\\": \\\"Aluno julga a fração pelo quanto falta para chegar a 1 (gap thinking), e erroneamente acha que quem tem MENOR 'falta' está mais longe ou mais perto de forma invertida\\\",\\n                \\\"mistakeLocation\\\": \\\"Na comparação final das posições, o aluno confundiu a relação entre 'quanto falta para 1' e o valor da fração\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se uma fração falta menos para chegar a 1, ela é maior ou menor que outra que falta mais?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você entendeu que estamos comparando posições na reta — ótimo! Mas vamos pensar: se falta pouco para chegar ao 1, isso quer dizer que já andamos muito, certo? Então, quem falta menos está mais perto do 1 — e, portanto, é maior.\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem de 'quanto já foi percorrido' em vez de 'quanto falta'; destacar que menor gap = maior valor\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Rashad built the longer paper chain.\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Divide a primeira reta (Daryl) em 5 partes\\\",\\n              \\\"thinking\\\": \\\"Vou dividir igual ao de Rashad pra ficar fácil comparar.\\\",\\n              \\\"result\\\": \\\"Errado — deveria ser 6\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_denominador_outro_aluno_para_unificar_visualmente\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno divide a reta com o denominador da OUTRA fração, tentando 'igualar' as divisões visualmente sem entender equivalência\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao decidir em quantas partes dividir a reta de Daryl, usou o denominador de Rashad (5) em vez do seu próprio (6)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A fração de Daryl é 5/6. Isso quer dizer que o todo foi dividido em quantas partes iguais?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa ideia querer comparar! Mas cada fração tem seu próprio número de partes. Para 5/6, o inteiro foi dividido em 6 partes — não 5. Vamos ajustar isso?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar o denominador diretamente ao número de divisões: 'o número de baixo diz em quantas partes o inteiro foi cortado'\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marca o ponto na quinta marca da primeira reta (dividida em 5)\\\",\\n              \\\"thinking\\\": \\\"É 5/6, então marco na quinta marca.\\\",\\n              \\\"result\\\": \\\"Errado — representa 5/5 = 1, não 5/6\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marca_sem_considerar_escala_correta\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno marca a quinta marca independentemente do número de divisões, tratando todas as marcas como tendo o mesmo valor\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao marcar o ponto, o aluno contou marcas sem considerar que cada intervalo representa 1/5 (não 1/6), resultando em posição incorreta\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em 5 partes, quanto vale cada pedaço? E quanto valem 5 desses pedaços?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você contou corretamente até 5, mas precisamos lembrar: o valor de cada pedaço depende de quantas partes o inteiro foi dividido. Aqui, cada pedaço vale 1/5, então 5 pedaços valem 1 inteiro!\\\",\\n                \\\"howToFix\\\": \\\"Associar cada marca ao valor fracionário correspondente antes de marcar; usar rótulos temporários nas divisões\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Divide a segunda reta em 5 partes\\\",\\n              \\\"thinking\\\": \\\"4/5, então divido em 5.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Marca o ponto na quarta marca da segunda reta\\\",\\n              \\\"thinking\\\": \\\"4/5 — quarta marca.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Escolhe: 'Both built the same length of paper chain.'\\\",\\n              \\\"thinking\\\": \\\"Na minha reta, Daryl está no fim (na quinta marca de 5) e Rashad na quarta de 5, mas achei que eram parecidos... ou talvez iguais?\\\",\\n              \\\"result\\\": \\\"Errado\\\",\\n              \\\"kcUsed\\\": \\\"compFrac\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confusao_posicao_devido_escala_errada_levar_a_igualdade_falsa\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"Both built the same length of paper chain.\\\",\\n                \\\"description\\\": \\\"Devido à representação incorreta de 5/6 como 1 inteiro, o aluno acha que os valores são próximos ou iguais\\\",\\n                \\\"mistakeLocation\\\": \\\"Na inferência final, comparando uma fração mal representada (como 1) com outra correta (4/5)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Você representou 5/6 como se fosse o inteiro completo. Mas 5/6 é exatamente o inteiro, ou um pouco menos?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Interessante! Você percebeu que os dois estão perto do 1. Mas vamos voltar: 5/6 é *menos* que 1, certo? Já sua marcação mostrou como se fosse exatamente 1. Que tal redesenhar com 6 divisões?\\\",\\n                \\\"howToFix\\\": \\\"Refazer a representação com o denominador correto e comparar novamente; usar cores para destacar os segmentos\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"Both built the same length of paper chain.\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"03chain\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_outro_aluno_para_unificar_visualmente\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_den}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o denominador da SEGUNDA fração ({B_den}) para dividir a PRIMEIRA reta, em vez do denominador correto ({A_den})\\\",\\n              \\\"description\\\": \\\"Aluno tenta facilitar a comparação usando o mesmo número de divisões para ambas as retas, ignorando o denominador real da primeira fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao inserir o número de divisões para a reta de Daryl, o aluno digita o denominador de Rashad em vez do seu próprio\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração de Daryl é 5/6. O número de baixo indica em quantas partes o inteiro foi dividido. Qual é esse número?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando em comparar — isso é ótimo! Mas cada fração tem seu próprio número de partes. Para 5/6, o inteiro foi dividido em 6 partes. Vamos usar esse número?\\\",\\n              \\\"howToFix\\\": \\\"Praticar identificação do denominador como divisor do inteiro; associar 'número de baixo = número de fatias'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_digitacao_denominador_numerador_invertido\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Digitar o NUMERADOR ({A_num}) no campo do denominador da primeira reta, em vez do denominador ({A_den})\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador e denominador ao preencher o campo de divisão da reta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do número de partes para a reta de Daryl, o aluno insere 5 (numerador) em vez de 6 (denominador)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Quando você vê 5/6, qual número diz em quantas partes o inteiro foi dividido?\\\",\\n              \\\"feedback\\\": \\\"Você lembrou os dois números — legal! Agora, qual deles mostra o número total de partes? É o de baixo!\\\",\\n              \\\"howToFix\\\": \\\"Usar mnemônico: 'Denominador = Divisor do inteiro'; destacar com cores numerador (quantos temos) vs denominador (quantos no total)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03chain\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marca_sem_considerar_escala_correta\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num}\\\",\\n              \\\"buggyRule\\\": \\\"Marcar a {A_num}-ésima marca da reta, independentemente do número de divisões feitas (tratando cada marca como 1 unidade)\\\",\\n              \\\"description\\\": \\\"Aluno conta marcas como se cada uma valesse 1, ignorando que o valor de cada intervalo depende do número de divisões\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar o ponto, o aluno simplesmente conta até o numerador sem considerar o valor de cada segmento\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em N partes, quanto vale cada espaço entre 0 e a primeira marca?\\\",\\n              \\\"feedback\\\": \\\"Você contou direitinho até 5! Mas cada 'passo' na reta não vale 1 — vale uma fração. Quantas partes temos no total? Cada uma vale quanto?\\\",\\n              \\\"howToFix\\\": \\\"Rotular temporariamente cada divisão com seu valor fracionário antes de marcar o ponto\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_off_by_one_contagem_inicio_em_zero\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_num} - 1\\\",\\n              \\\"buggyRule\\\": \\\"Contar a partir do zero como primeira marca, marcando a ({A_num} - 1)-ésima posição em vez da {A_num}-ésima\\\",\\n              \\\"description\\\": \\\"Aluno começa a contar a partir do 0 como 'primeira marca', terminando uma posição antes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das marcas, o aluno inclui o ponto 0 como marca 1, deslocando toda a contagem\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O ponto 0 já é uma marca, ou é o início antes da primeira parte?\\\",\\n              \\\"feedback\\\": \\\"Cuidado! O 0 é o ponto de partida — não conta como uma 'parte'. A primeira parte termina na primeira marca depois do 0.\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a contar os INTERVALOS, não as marcas; usar setas entre as marcas para indicar partes\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03chain\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_digitacao_denominador_numerador_invertido_rashad\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_num}\\\",\\n              \\\"buggyRule\\\": \\\"Digitar o NUMERADOR ({B_num}) no campo do denominador da segunda reta, em vez do denominador ({B_den})\\\",\\n              \\\"description\\\": \\\"Aluno confunde numerador e denominador ao preencher o campo de divisão para Rashad\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do número de partes para a reta de Rashad, o aluno insere 4 em vez de 5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração de Rashad é 4/5. Qual número nos diz em quantas partes o inteiro foi dividido?\\\",\\n              \\\"feedback\\\": \\\"Você pegou o 4 — agora, onde ele aparece na fração? Acima ou abaixo? O de baixo é o que divide o inteiro!\\\",\\n              \\\"howToFix\\\": \\\"Refazer exercícios de identificação de numerador/denominador com destaque visual\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_daryl_para_rashad\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{A_den}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o denominador da PRIMEIRA fração ({A_den}) para dividir a SEGUNDA reta, em vez do denominador correto ({B_den})\\\",\\n              \\\"description\\\": \\\"Aluno aplica o mesmo número de divisões às duas retas, usando o denominador de Daryl para Rashad\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao dividir a reta de Rashad, o aluno repete o número usado para Daryl (6) em vez de usar 5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração de Rashad é 4/5. Isso significa que o inteiro foi dividido em quantas partes?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando manter tudo igual — boa intenção! Mas cada pessoa tem sua própria fração. Rashad usou quintos, não sextos.\\\",\\n              \\\"howToFix\\\": \\\"Associar cada reta diretamente à fração escrita acima dela; cobrir a outra reta durante a configuração\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03chain\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_marca_rashad_como_unidade\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_num}\\\",\\n              \\\"buggyRule\\\": \\\"Marcar a {B_num}-ésima marca da segunda reta, independentemente do número de divisões feitas\\\",\\n              \\\"description\\\": \\\"Mesmo erro da primeira reta: tratar marcas como unidades\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao posicionar o ponto de Rashad, o aluno conta 4 marcas sem considerar que cada intervalo vale 1/5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a reta está dividida em 5 partes, onde fica 4/5? Na quarta marca ou depois da quarta?\\\",\\n              \\\"feedback\\\": \\\"Contar até 4 está certo! Mas lembre-se: a quarta marca *depois do zero* representa exatamente 4/5 quando há 5 divisões.\\\",\\n              \\\"howToFix\\\": \\\"Verificar com exemplos conhecidos: 'onde fica 1/2 em uma reta dividida em 2?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_off_by_one_rashad_contagem_errada\\\",\\n              \\\"type\\\": \\\"off_by_one\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{B_num} - 1\\\",\\n              \\\"buggyRule\\\": \\\"Marcar a ({B_num} - 1)-ésima posição na segunda reta por começar a contar no zero\\\",\\n              \\\"description\\\": \\\"Erro de deslocamento por incluir o zero na contagem\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das marcas da segunda reta, o aluno inicia no 0 como posição 1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Entre 0 e 1, com 5 divisões, quantos espaços há? E quantas marcas intermediárias?\\\",\\n              \\\"feedback\\\": \\\"Os espaços são 5, mas as marcas intermediárias são 4. O valor 4/5 está no final do quarto espaço — na quarta marca após o 0.\\\",\\n              \\\"howToFix\\\": \\\"Contar os espaços coloridos, não as linhas verticais\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"03chain\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_gap_thinking_menor_falta_maior_valor\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Rashad built the longer paper chain.\\\",\\n              \\\"buggyRule\\\": \\\"Escolher a fração cujo denominador menos numerador (a 'falta' para 1) é MAIOR, achando que isso indica maior valor\\\",\\n              \\\"description\\\": \\\"Aluno compara 1 - 5/6 = 1/6 e 1 - 4/5 = 1/5, vê que 1/5 > 1/6, e erroneamente conclui que 4/5 > 5/6\\\",\\n              \\\"mistakeLocation\\\": \\\"Na inferência final, o aluno interpreta incorretamente a relação entre 'falta' e valor da fração\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se falta menos para chegar ao 1, a fração já percorreu mais ou menos do caminho?\\\",\\n              \\\"feedback\\\": \\\"Você notou a diferença até o 1 — muito bom! Mas pense assim: se falta pouco, é porque já andamos quase tudo. Então, menor falta = maior fração.\\\",\\n              \\\"howToFix\\\": \\\"Reescrever as frações como 'já completei X do caminho' em vez de 'ainda falta Y'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_comparacao_pelo_numerador_maior\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Daryl built the longer paper chain.\\\",\\n              \\\"buggyRule\\\": \\\"Escolher a fração com o MAIOR NUMERADOR, ignorando os denominadores\\\",\\n              \\\"description\\\": \\\"Aluno vê 5 > 4 e conclui que 5/6 > 4/5 sem considerar os tamanhos das partes\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão final, o aluno foca apenas no numerador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"As partes de Daryl (sextos) são maiores ou menores que as de Rashad (quintos)?\\\",\\n              \\\"feedback\\\": \\\"Você viu que 5 é maior que 4 — ótimo olho para números! Mas as partes não têm o mesmo tamanho. Sextos são menores que quintos. Será que 5 partes pequenas valem mais que 4 partes maiores?\\\",\\n              \\\"howToFix\\\": \\\"Usar modelo de área ou tiras de papel para comparar visualmente 5/6 e 4/5\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_comparacao_pelo_denominador_menor\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Daryl built the longer paper chain.\\\",\\n              \\\"buggyRule\\\": \\\"Escolher a fração com o MENOR DENOMINADOR, assumindo que isso sempre indica maior valor\\\",\\n              \\\"description\\\": \\\"Aluno vê que 5 < 6 e assume que 4/5 > 5/6 (ou inversamente, que menor denominador = maior fração, mesmo com numeradores diferentes)\\\",\\n              \\\"mistakeLocation\\\": \\\"Na lógica de comparação, o aluno aplica uma regra válida apenas para frações unitárias (1/n) a frações gerais\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Menor denominador sempre significa maior fração? O que acontece se os numeradores forem diferentes?\\\",\\n              \\\"feedback\\\": \\\"Você lembra que, com o mesmo numerador, menor denominador dá fração maior — isso é verdade! Mas aqui os numeradores são diferentes. Precisamos comparar os valores totais.\\\",\\n              \\\"howToFix\\\": \\\"Contrastar casos: 1/5 vs 1/6 (aqui menor den = maior); mas 4/5 vs 5/6 (não tão óbvio)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_conclusao_igualdade_por_proximidade_visual_aproximada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"Both built the same length of paper chain.\\\",\\n              \\\"buggyRule\\\": \\\"Concluir igualdade porque as frações estão 'perto' do 1 e parecem similares na reta (especialmente se mal representadas)\\\",\\n              \\\"description\\\": \\\"Aluno não distingue diferenças sutis e assume igualdade por proximidade\\\",\\n              \\\"mistakeLocation\\\": \\\"Na avaliação final das posições, o aluno ignora pequenas diferenças e arredonda mentalmente para 'iguais'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Duas coisas podem estar perto e ainda assim ser diferentes? Como podemos ter certeza?\\\",\\n              \\\"feedback\\\": \\\"É verdade que os dois estão bem perto do 1! Mas em matemática, 'perto' não é 'igual'. Vamos ver exatamente onde cada um está?\\\",\\n              \\\"howToFix\\\": \\\"Ampliar a escala da reta numérica entre 4/5 e 5/6; usar equivalência (25/30 vs 24/30)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"03chain\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar as frações\\\",\\n          \\\"thinking\\\": \\\"Daryl fez 5/6 de pé e Rashad fez 4/5... preciso ver qual é maior. Mas 5/6 e 4/5 parecem próximos. Como comparar?\\\",\\n          \\\"result\\\": \\\"Identificou que precisa comparar 5/6 e 4/5\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando duas frações têm numeradores e denominadores diferentes, como podemos compará-las de forma justa? Pense em representá-las no mesmo tipo de unidade...\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Uma forma de comparar é usar retas numéricas. Primeiro, divida cada reta no número de partes igual ao denominador da fração correspondente. Depois, marque o ponto do numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Lembre-se: 5/6 está mais perto de 1 do que 4/5. Tente dividir a primeira reta em 6 partes e a segunda em 5 partes, depois veja qual ponto fica mais à direita.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! Na reta do Daryl, divida em 6 partes e marque a 5ª. Na do Rashad, divida em 5 partes e marque a 4ª. Agora olhe: qual marca está mais próxima do 1?\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Dividir a primeira reta numérica (Daryl) em 6 partes\\\",\\n          \\\"thinking\\\": \\\"O denominador é 6, então preciso dividir em 6 partes iguais... mas como o sistema sabe que é igual?\\\",\\n          \\\"result\\\": \\\"Digitou '6' no campo denom1 e confirmou\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Marcar 5/6 na primeira reta\\\",\\n          \\\"thinking\\\": \\\"Conto até a quinta marca... será que é ali mesmo?\\\",\\n          \\\"result\\\": \\\"Marcou corretamente o ponto após 5 divisões\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: se a reta vai de 0 a 1 e está dividida em 6 partes, o que representa cada marca?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Cada traço representa 1/6. Comece do zero e conte 1/6, 2/6, 3/6... até chegar em 5/6. Marque exatamente nesse ponto.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"A quinta marca da esquerda para a direita é o ponto correto. Confira: ela deve estar antes do 1, mas bem perto!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você já dividiu em 6. Agora toque no quinto traço — não no sexto! O sexto seria 6/6 = 1, então 5/6 vem logo antes.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Dividir a segunda reta numérica (Rashad) em 5 partes\\\",\\n          \\\"thinking\\\": \\\"Agora é 4/5, então divido em 5... fácil.\\\",\\n          \\\"result\\\": \\\"Digitou '5' no campo denom2 e confirmou\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Marcar 4/5 na segunda reta\\\",\\n          \\\"thinking\\\": \\\"Quarta marca... mas será que está alinhada com a outra?\\\",\\n          \\\"result\\\": \\\"Marcou corretamente o ponto após 4 divisões\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se a reta está dividida em 5 partes iguais, o que cada parte representa? E onde fica 4 delas juntas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Comece do zero e conte: 1/5, 2/5, 3/5, 4/5. Pare na quarta marca e clique ali.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Na reta dividida em 5, a quarta marca está um pouco mais longe do 1 do que 5/6 está na outra reta. Veja a posição relativa!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Na reta do Rashad, o último traço é 5/5 = 1. Então 4/5 é o traço imediatamente antes dele. Clique ali!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Comparar visualmente os dois pontos nas retas\\\",\\n          \\\"thinking\\\": \\\"O ponto do Daryl parece mais perto do 1... então deve ser maior?\\\",\\n          \\\"result\\\": \\\"Concluiu que 5/6 > 4/5\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Na reta numérica, qual fração está mais à direita: a maior ou a menor?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Olhe as duas marcas. A que estiver mais próxima do 1 é a maior fração. Compare suas posições cuidadosamente.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja: 5/6 está a apenas 1/6 de distância do 1, enquanto 4/5 está a 1/5 de distância. Como 1/6 < 1/5, 5/6 está mais perto do 1 — logo, é maior!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Compare as distâncias até o 1: Daryl falta 1 pedacinho pequeno (1/6), Rashad falta um pedacinho maior (1/5). Quem está mais perto do 1 tem a fração maior!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Selecionar a alternativa correta\\\",\\n          \\\"thinking\\\": \\\"Então Daryl fez mais... vou escolher que ele construiu a mais longa.\\\",\\n          \\\"result\\\": \\\"Selecionou \\\\\\\"Daryl built the longer paper chain.\\\\\\\"\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Clicar em Done\\\",\\n          \\\"thinking\\\": \\\"Acho que terminei!\\\",\\n          \\\"result\\\": \\\"Problema concluído\\\",\\n          \\\"kcUsed\\\": \\\"compFrac\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"5/6\\\",\\n      \\\"totalTime\\\": 120,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Converter frações para decimais mentalmente (5/6 ≈ 0.833, 4/5 = 0.8)\\\",\\n          \\\"steps\\\": [\\\"Calcular 5 ÷ 6\\\", \\\"Calcular 4 ÷ 5\\\", \\\"Comparar decimais\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Encontrar denominador comum (30) e comparar 25/30 vs 24/30\\\",\\n          \\\"steps\\\": [\\\"Calcular mmc(5,6)=30\\\", \\\"Converter frações\\\", \\\"Comparar numeradores\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar tentativa visual sem dividir corretamente as retas (ex: dividir ambas em 10 partes)\\\",\\n          \\\"steps\\\": [\\\"Dividir ambas as retas em 10\\\", \\\"Estimar posições\\\", \\\"Comparar\\\"],\\n          \\\"efficiency\\\": \\\"low\\\",\\n          \\\"riskOfError\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "03chain",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Preciso comparar os comprimentos das correntes de papel: Daryl fez 5/6 pés e Rashad fez 4/5 pés. Ambas as frações são menores que 1, então posso usar retas numéricas de 0 a 1 para representá-las.",
+        "result": "Valores identificados: {A} = 5/6, {B} = 4/5",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Dividir a primeira reta numérica (Daryl) em 6 partes iguais",
+        "thinking": "Para representar 5/6 na reta numérica, preciso dividir o intervalo [0,1] em 6 partes iguais.",
+        "result": "Reta 1 dividida em {C} = 6 partes",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Marcar o ponto correspondente a 5/6 na primeira reta",
+        "thinking": "Contando 5 das 6 partes iguais a partir do 0, marco o ponto que representa 5/6.",
+        "result": "Ponto {A} = 5/6 marcado corretamente na reta 1",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta numérica (Rashad) em 5 partes iguais",
+        "thinking": "Para representar 4/5 na reta numérica, divido o intervalo [0,1] em 5 partes iguais.",
+        "result": "Reta 2 dividida em {D} = 5 partes",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Marcar o ponto correspondente a 4/5 na segunda reta",
+        "thinking": "Contando 4 das 5 partes iguais a partir do 0, marco o ponto que representa 4/5.",
+        "result": "Ponto {B} = 4/5 marcado corretamente na reta 2",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas numéricas",
+        "thinking": "Observo que 5/6 está mais próximo de 1 do que 4/5, logo 5/6 > 4/5.",
+        "result": "{A} > {B}",
+        "kcUsed": "compFrac",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta no seletor de comparação",
+        "thinking": "Como 5/6 é maior que 4/5, Daryl construiu a corrente mais longa.",
+        "result": "Alternativa selecionada: \"Daryl built the longer paper chain.\"",
+        "kcUsed": "compFrac",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todas as etapas foram concluídas corretamente; posso finalizar.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "compFrac",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "5/6",
+      "totalTime": 35
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "03chain",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Divide a primeira reta (Daryl) em 6 partes",
+          "thinking": "A fração é 5/6, então divido em 6 partes.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marca o ponto na quinta marca da primeira reta",
+          "thinking": "Conto 1, 2, 3, 4, 5... paro na quinta marca.",
+          "result": "Correto",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Divide a segunda reta (Rashad) em 5 partes",
+          "thinking": "A fração é 4/5, então divido em 5 partes.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Marca o ponto na quarta marca da segunda reta",
+          "thinking": "Conto 1, 2, 3, 4... paro na quarta marca.",
+          "result": "Correto",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Escolhe a alternativa: 'Rashad built the longer paper chain.'",
+          "thinking": "4/5 tem numerador menor, mas está mais perto do 1 porque só falta 1/5. Já 5/6 falta 1/6, que é menor... espera, não — 1/5 é maior que 1/6, então 4/5 está mais longe do 1! Mas eu vi que 4/5 está mais à direita na minha cabeça...",
+          "result": "Errado — escolheu Rashad",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_gap_thinking_menor_falta_maior_valor",
+           "type": "conceptual_error",
+           "wrongAnswer": "Rashad built the longer paper chain.",
+           "description": "Aluno julga a fração pelo quanto falta para chegar a 1 (gap thinking), e erroneamente acha que quem tem MENOR 'falta' está mais longe ou mais perto de forma invertida",
+           "mistakeLocation": "Na comparação final das posições, o aluno confundiu a relação entre 'quanto falta para 1' e o valor da fração",
+           "diagnosticQuestion": "Se uma fração falta menos para chegar a 1, ela é maior ou menor que outra que falta mais?",
+           "severity": "high",
+           "feedback": "Você entendeu que estamos comparando posições na reta — ótimo! Mas vamos pensar: se falta pouco para chegar ao 1, isso quer dizer que já andamos muito, certo? Então, quem falta menos está mais perto do 1 — e, portanto, é maior.",
+           "howToFix": "Usar linguagem de 'quanto já foi percorrido' em vez de 'quanto falta'; destacar que menor gap = maior valor"
+          }
+         }
+        ],
+        "finalAnswer": "Rashad built the longer paper chain.",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Divide a primeira reta (Daryl) em 5 partes",
+          "thinking": "Vou dividir igual ao de Rashad pra ficar fácil comparar.",
+          "result": "Errado — deveria ser 6",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+           "type": "procedural_error",
+           "wrongAnswer": "5",
+           "description": "Aluno divide a reta com o denominador da OUTRA fração, tentando 'igualar' as divisões visualmente sem entender equivalência",
+           "mistakeLocation": "Ao decidir em quantas partes dividir a reta de Daryl, usou o denominador de Rashad (5) em vez do seu próprio (6)",
+           "diagnosticQuestion": "A fração de Daryl é 5/6. Isso quer dizer que o todo foi dividido em quantas partes iguais?",
+           "severity": "moderate",
+           "feedback": "Boa ideia querer comparar! Mas cada fração tem seu próprio número de partes. Para 5/6, o inteiro foi dividido em 6 partes — não 5. Vamos ajustar isso?",
+           "howToFix": "Relacionar o denominador diretamente ao número de divisões: 'o número de baixo diz em quantas partes o inteiro foi cortado'"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Marca o ponto na quinta marca da primeira reta (dividida em 5)",
+          "thinking": "É 5/6, então marco na quinta marca.",
+          "result": "Errado — representa 5/5 = 1, não 5/6",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marca_sem_considerar_escala_correta",
+           "type": "count_error",
+           "wrongAnswer": "5",
+           "description": "Aluno marca a quinta marca independentemente do número de divisões, tratando todas as marcas como tendo o mesmo valor",
+           "mistakeLocation": "Ao marcar o ponto, o aluno contou marcas sem considerar que cada intervalo representa 1/5 (não 1/6), resultando em posição incorreta",
+           "diagnosticQuestion": "Se a reta está dividida em 5 partes, quanto vale cada pedaço? E quanto valem 5 desses pedaços?",
+           "severity": "high",
+           "feedback": "Você contou corretamente até 5, mas precisamos lembrar: o valor de cada pedaço depende de quantas partes o inteiro foi dividido. Aqui, cada pedaço vale 1/5, então 5 pedaços valem 1 inteiro!",
+           "howToFix": "Associar cada marca ao valor fracionário correspondente antes de marcar; usar rótulos temporários nas divisões"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Divide a segunda reta em 5 partes",
+          "thinking": "4/5, então divido em 5.",
+          "result": "Correto",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Marca o ponto na quarta marca da segunda reta",
+          "thinking": "4/5 — quarta marca.",
+          "result": "Correto",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Escolhe: 'Both built the same length of paper chain.'",
+          "thinking": "Na minha reta, Daryl está no fim (na quinta marca de 5) e Rashad na quarta de 5, mas achei que eram parecidos... ou talvez iguais?",
+          "result": "Errado",
+          "kcUsed": "compFrac",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confusao_posicao_devido_escala_errada_levar_a_igualdade_falsa",
+           "type": "conceptual_error",
+           "wrongAnswer": "Both built the same length of paper chain.",
+           "description": "Devido à representação incorreta de 5/6 como 1 inteiro, o aluno acha que os valores são próximos ou iguais",
+           "mistakeLocation": "Na inferência final, comparando uma fração mal representada (como 1) com outra correta (4/5)",
+           "diagnosticQuestion": "Você representou 5/6 como se fosse o inteiro completo. Mas 5/6 é exatamente o inteiro, ou um pouco menos?",
+           "severity": "high",
+           "feedback": "Interessante! Você percebeu que os dois estão perto do 1. Mas vamos voltar: 5/6 é *menos* que 1, certo? Já sua marcação mostrou como se fosse exatamente 1. Que tal redesenhar com 6 divisões?",
+           "howToFix": "Refazer a representação com o denominador correto e comparar novamente; usar cores para destacar os segmentos"
+          }
+         }
+        ],
+        "finalAnswer": "Both built the same length of paper chain.",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "03chain",
+        "step": 1,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{B_den}",
+          "buggyRule": "Usar o denominador da SEGUNDA fração ({B_den}) para dividir a PRIMEIRA reta, em vez do denominador correto ({A_den})",
+          "description": "Aluno tenta facilitar a comparação usando o mesmo número de divisões para ambas as retas, ignorando o denominador real da primeira fração",
+          "mistakeLocation": "Ao inserir o número de divisões para a reta de Daryl, o aluno digita o denominador de Rashad em vez do seu próprio",
+          "diagnosticQuestion": "A fração de Daryl é 5/6. O número de baixo indica em quantas partes o inteiro foi dividido. Qual é esse número?",
+          "feedback": "Você está pensando em comparar — isso é ótimo! Mas cada fração tem seu próprio número de partes. Para 5/6, o inteiro foi dividido em 6 partes. Vamos usar esse número?",
+          "howToFix": "Praticar identificação do denominador como divisor do inteiro; associar 'número de baixo = número de fatias'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_digitacao_denominador_numerador_invertido",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Digitar o NUMERADOR ({A_num}) no campo do denominador da primeira reta, em vez do denominador ({A_den})",
+          "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão da reta",
+          "mistakeLocation": "Na entrada do número de partes para a reta de Daryl, o aluno insere 5 (numerador) em vez de 6 (denominador)",
+          "diagnosticQuestion": "Quando você vê 5/6, qual número diz em quantas partes o inteiro foi dividido?",
+          "feedback": "Você lembrou os dois números — legal! Agora, qual deles mostra o número total de partes? É o de baixo!",
+          "howToFix": "Usar mnemônico: 'Denominador = Divisor do inteiro'; destacar com cores numerador (quantos temos) vs denominador (quantos no total)",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03chain",
+        "step": 2,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marca_sem_considerar_escala_correta",
+          "type": "count_error",
+          "wrongAnswerPattern": "{A_num}",
+          "buggyRule": "Marcar a {A_num}-ésima marca da reta, independentemente do número de divisões feitas (tratando cada marca como 1 unidade)",
+          "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor de cada intervalo depende do número de divisões",
+          "mistakeLocation": "Ao posicionar o ponto, o aluno simplesmente conta até o numerador sem considerar o valor de cada segmento",
+          "diagnosticQuestion": "Se a reta está dividida em N partes, quanto vale cada espaço entre 0 e a primeira marca?",
+          "feedback": "Você contou direitinho até 5! Mas cada 'passo' na reta não vale 1 — vale uma fração. Quantas partes temos no total? Cada uma vale quanto?",
+          "howToFix": "Rotular temporariamente cada divisão com seu valor fracionário antes de marcar o ponto",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_off_by_one_contagem_inicio_em_zero",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "{A_num} - 1",
+          "buggyRule": "Contar a partir do zero como primeira marca, marcando a ({A_num} - 1)-ésima posição em vez da {A_num}-ésima",
+          "description": "Aluno começa a contar a partir do 0 como 'primeira marca', terminando uma posição antes",
+          "mistakeLocation": "Na contagem das marcas, o aluno inclui o ponto 0 como marca 1, deslocando toda a contagem",
+          "diagnosticQuestion": "O ponto 0 já é uma marca, ou é o início antes da primeira parte?",
+          "feedback": "Cuidado! O 0 é o ponto de partida — não conta como uma 'parte'. A primeira parte termina na primeira marca depois do 0.",
+          "howToFix": "Ensinar a contar os INTERVALOS, não as marcas; usar setas entre as marcas para indicar partes",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03chain",
+        "step": 3,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_digitacao_denominador_numerador_invertido_rashad",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{B_num}",
+          "buggyRule": "Digitar o NUMERADOR ({B_num}) no campo do denominador da segunda reta, em vez do denominador ({B_den})",
+          "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão para Rashad",
+          "mistakeLocation": "Na entrada do número de partes para a reta de Rashad, o aluno insere 4 em vez de 5",
+          "diagnosticQuestion": "A fração de Rashad é 4/5. Qual número nos diz em quantas partes o inteiro foi dividido?",
+          "feedback": "Você pegou o 4 — agora, onde ele aparece na fração? Acima ou abaixo? O de baixo é o que divide o inteiro!",
+          "howToFix": "Refazer exercícios de identificação de numerador/denominador com destaque visual",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_denominador_daryl_para_rashad",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{A_den}",
+          "buggyRule": "Usar o denominador da PRIMEIRA fração ({A_den}) para dividir a SEGUNDA reta, em vez do denominador correto ({B_den})",
+          "description": "Aluno aplica o mesmo número de divisões às duas retas, usando o denominador de Daryl para Rashad",
+          "mistakeLocation": "Ao dividir a reta de Rashad, o aluno repete o número usado para Daryl (6) em vez de usar 5",
+          "diagnosticQuestion": "A fração de Rashad é 4/5. Isso significa que o inteiro foi dividido em quantas partes?",
+          "feedback": "Você está tentando manter tudo igual — boa intenção! Mas cada pessoa tem sua própria fração. Rashad usou quintos, não sextos.",
+          "howToFix": "Associar cada reta diretamente à fração escrita acima dela; cobrir a outra reta durante a configuração",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "03chain",
+        "step": 4,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_marca_rashad_como_unidade",
+          "type": "count_error",
+          "wrongAnswerPattern": "{B_num}",
+          "buggyRule": "Marcar a {B_num}-ésima marca da segunda reta, independentemente do número de divisões feitas",
+          "description": "Mesmo erro da primeira reta: tratar marcas como unidades",
+          "mistakeLocation": "Ao posicionar o ponto de Rashad, o aluno conta 4 marcas sem considerar que cada intervalo vale 1/5",
+          "diagnosticQuestion": "Se a reta está dividida em 5 partes, onde fica 4/5? Na quarta marca ou depois da quarta?",
+          "feedback": "Contar até 4 está certo! Mas lembre-se: a quarta marca *depois do zero* representa exatamente 4/5 quando há 5 divisões.",
+          "howToFix": "Verificar com exemplos conhecidos: 'onde fica 1/2 em uma reta dividida em 2?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_off_by_one_rashad_contagem_errada",
+          "type": "off_by_one",
+          "wrongAnswerPattern": "{B_num} - 1",
+          "buggyRule": "Marcar a ({B_num} - 1)-ésima posição na segunda reta por começar a contar no zero",
+          "description": "Erro de deslocamento por incluir o zero na contagem",
+          "mistakeLocation": "Na contagem das marcas da segunda reta, o aluno inicia no 0 como posição 1",
+          "diagnosticQuestion": "Entre 0 e 1, com 5 divisões, quantos espaços há? E quantas marcas intermediárias?",
+          "feedback": "Os espaços são 5, mas as marcas intermediárias são 4. O valor 4/5 está no final do quarto espaço — na quarta marca após o 0.",
+          "howToFix": "Contar os espaços coloridos, não as linhas verticais",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "03chain",
+        "step": 5,
+        "kcUsed": "compFrac",
+        "errors": [
+         {
+          "misconceptionId": "misc_gap_thinking_menor_falta_maior_valor",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Rashad built the longer paper chain.",
+          "buggyRule": "Escolher a fração cujo denominador menos numerador (a 'falta' para 1) é MAIOR, achando que isso indica maior valor",
+          "description": "Aluno compara 1 - 5/6 = 1/6 e 1 - 4/5 = 1/5, vê que 1/5 > 1/6, e erroneamente conclui que 4/5 > 5/6",
+          "mistakeLocation": "Na inferência final, o aluno interpreta incorretamente a relação entre 'falta' e valor da fração",
+          "diagnosticQuestion": "Se falta menos para chegar ao 1, a fração já percorreu mais ou menos do caminho?",
+          "feedback": "Você notou a diferença até o 1 — muito bom! Mas pense assim: se falta pouco, é porque já andamos quase tudo. Então, menor falta = maior fração.",
+          "howToFix": "Reescrever as frações como 'já completei X do caminho' em vez de 'ainda falta Y'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_comparacao_pelo_numerador_maior",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Daryl built the longer paper chain.",
+          "buggyRule": "Escolher a fração com o MAIOR NUMERADOR, ignorando os denominadores",
+          "description": "Aluno vê 5 > 4 e conclui que 5/6 > 4/5 sem considerar os tamanhos das partes",
+          "mistakeLocation": "Na decisão final, o aluno foca apenas no numerador",
+          "diagnosticQuestion": "As partes de Daryl (sextos) são maiores ou menores que as de Rashad (quintos)?",
+          "feedback": "Você viu que 5 é maior que 4 — ótimo olho para números! Mas as partes não têm o mesmo tamanho. Sextos são menores que quintos. Será que 5 partes pequenas valem mais que 4 partes maiores?",
+          "howToFix": "Usar modelo de área ou tiras de papel para comparar visualmente 5/6 e 4/5",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_comparacao_pelo_denominador_menor",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Daryl built the longer paper chain.",
+          "buggyRule": "Escolher a fração com o MENOR DENOMINADOR, assumindo que isso sempre indica maior valor",
+          "description": "Aluno vê que 5 < 6 e assume que 4/5 > 5/6 (ou inversamente, que menor denominador = maior fração, mesmo com numeradores diferentes)",
+          "mistakeLocation": "Na lógica de comparação, o aluno aplica uma regra válida apenas para frações unitárias (1/n) a frações gerais",
+          "diagnosticQuestion": "Menor denominador sempre significa maior fração? O que acontece se os numeradores forem diferentes?",
+          "feedback": "Você lembra que, com o mesmo numerador, menor denominador dá fração maior — isso é verdade! Mas aqui os numeradores são diferentes. Precisamos comparar os valores totais.",
+          "howToFix": "Contrastar casos: 1/5 vs 1/6 (aqui menor den = maior); mas 4/5 vs 5/6 (não tão óbvio)",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_conclusao_igualdade_por_proximidade_visual_aproximada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "Both built the same length of paper chain.",
+          "buggyRule": "Concluir igualdade porque as frações estão 'perto' do 1 e parecem similares na reta (especialmente se mal representadas)",
+          "description": "Aluno não distingue diferenças sutis e assume igualdade por proximidade",
+          "mistakeLocation": "Na avaliação final das posições, o aluno ignora pequenas diferenças e arredonda mentalmente para 'iguais'",
+          "diagnosticQuestion": "Duas coisas podem estar perto e ainda assim ser diferentes? Como podemos ter certeza?",
+          "feedback": "É verdade que os dois estão bem perto do 1! Mas em matemática, 'perto' não é 'igual'. Vamos ver exatamente onde cada um está?",
+          "howToFix": "Ampliar a escala da reta numérica entre 4/5 e 5/6; usar equivalência (25/30 vs 24/30)",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "03chain",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar as frações",
+        "thinking": "Daryl fez 5/6 de pé e Rashad fez 4/5... preciso ver qual é maior. Mas 5/6 e 4/5 parecem próximos. Como comparar?",
+        "result": "Identificou que precisa comparar 5/6 e 4/5",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando duas frações têm numeradores e denominadores diferentes, como podemos compará-las de forma justa? Pense em representá-las no mesmo tipo de unidade..."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Uma forma de comparar é usar retas numéricas. Primeiro, divida cada reta no número de partes igual ao denominador da fração correspondente. Depois, marque o ponto do numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Lembre-se: 5/6 está mais perto de 1 do que 4/5. Tente dividir a primeira reta em 6 partes e a segunda em 5 partes, depois veja qual ponto fica mais à direita."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! Na reta do Daryl, divida em 6 partes e marque a 5ª. Na do Rashad, divida em 5 partes e marque a 4ª. Agora olhe: qual marca está mais próxima do 1?"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Dividir a primeira reta numérica (Daryl) em 6 partes",
+        "thinking": "O denominador é 6, então preciso dividir em 6 partes iguais... mas como o sistema sabe que é igual?",
+        "result": "Digitou '6' no campo denom1 e confirmou",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Marcar 5/6 na primeira reta",
+        "thinking": "Conto até a quinta marca... será que é ali mesmo?",
+        "result": "Marcou corretamente o ponto após 5 divisões",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: se a reta vai de 0 a 1 e está dividida em 6 partes, o que representa cada marca?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Cada traço representa 1/6. Comece do zero e conte 1/6, 2/6, 3/6... até chegar em 5/6. Marque exatamente nesse ponto."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "A quinta marca da esquerda para a direita é o ponto correto. Confira: ela deve estar antes do 1, mas bem perto!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você já dividiu em 6. Agora toque no quinto traço — não no sexto! O sexto seria 6/6 = 1, então 5/6 vem logo antes."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Dividir a segunda reta numérica (Rashad) em 5 partes",
+        "thinking": "Agora é 4/5, então divido em 5... fácil.",
+        "result": "Digitou '5' no campo denom2 e confirmou",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Marcar 4/5 na segunda reta",
+        "thinking": "Quarta marca... mas será que está alinhada com a outra?",
+        "result": "Marcou corretamente o ponto após 4 divisões",
+        "kcUsed": "FindValueNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se a reta está dividida em 5 partes iguais, o que cada parte representa? E onde fica 4 delas juntas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Comece do zero e conte: 1/5, 2/5, 3/5, 4/5. Pare na quarta marca e clique ali."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Na reta dividida em 5, a quarta marca está um pouco mais longe do 1 do que 5/6 está na outra reta. Veja a posição relativa!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Na reta do Rashad, o último traço é 5/5 = 1. Então 4/5 é o traço imediatamente antes dele. Clique ali!"
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Comparar visualmente os dois pontos nas retas",
+        "thinking": "O ponto do Daryl parece mais perto do 1... então deve ser maior?",
+        "result": "Concluiu que 5/6 > 4/5",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Na reta numérica, qual fração está mais à direita: a maior ou a menor?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Olhe as duas marcas. A que estiver mais próxima do 1 é a maior fração. Compare suas posições cuidadosamente."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja: 5/6 está a apenas 1/6 de distância do 1, enquanto 4/5 está a 1/5 de distância. Como 1/6 < 1/5, 5/6 está mais perto do 1 — logo, é maior!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Compare as distâncias até o 1: Daryl falta 1 pedacinho pequeno (1/6), Rashad falta um pedacinho maior (1/5). Quem está mais perto do 1 tem a fração maior!"
+         }
+        ]
+       },
+       {
+        "step": 7,
+        "action": "Selecionar a alternativa correta",
+        "thinking": "Então Daryl fez mais... vou escolher que ele construiu a mais longa.",
+        "result": "Selecionou \"Daryl built the longer paper chain.\"",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 8,
+        "action": "Clicar em Done",
+        "thinking": "Acho que terminei!",
+        "result": "Problema concluído",
+        "kcUsed": "compFrac",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "5/6",
+      "totalTime": 120,
+      "alternativeRoutes": [
+       {
+        "description": "Converter frações para decimais mentalmente (5/6 ≈ 0.833, 4/5 = 0.8)",
+        "steps": [
+         "Calcular 5 ÷ 6",
+         "Calcular 4 ÷ 5",
+         "Comparar decimais"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Encontrar denominador comum (30) e comparar 25/30 vs 24/30",
+        "steps": [
+         "Calcular mmc(5,6)=30",
+         "Converter frações",
+         "Comparar numeradores"
+        ],
+        "efficiency": "high"
+       },
+       {
+        "description": "Usar tentativa visual sem dividir corretamente as retas (ex: dividir ambas em 10 partes)",
+        "steps": [
+         "Dividir ambas as retas em 10",
+         "Estimar posições",
+         "Comparar"
+        ],
+        "efficiency": "low",
+        "riskOfError": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 4,
+  "errosEspecificos": 4,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 8,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "fraction-ordering-6.20",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; DUAS retas numéricas de 0 a 1, uma para cada quantidade (rotuladas \"Daryl's paper chain\" e \"Rashad's paper chain\"); para cada reta há um campo onde o aluno digita em quantas partes iguais dividi-la (com confirmação) e, depois, marca o ponto da fração correspondente; abaixo, um seletor em que o aluno escolhe UMA destas alternativas: \"Daryl built the longer paper chain.\"; \"Rashad built the longer paper chain.\"; \"Both built the same length of paper chain.\"; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (dividir cada reta, marcar cada ponto, escolher a alternativa, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "linhas": 2
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "denom1",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da primeira reta (em quantas partes dividir) + confirmar"
+   },
+   {
+    "id": "numline1",
+    "tipo": "numberline",
+    "papel": "primeira reta numérica; o aluno marca o ponto da primeira fração"
+   },
+   {
+    "id": "denom2",
+    "tipo": "numeric",
+    "papel": "campo numérico do denominador da segunda reta + confirmar"
+   },
+   {
+    "id": "numline2",
+    "tipo": "numberline",
+    "papel": "segunda reta numérica; o aluno marca o ponto da segunda fração"
+   },
+   {
+    "id": "compBox",
+    "tipo": "text",
+    "papel": "seletor com as alternativas de comparação; o aluno escolhe uma delas"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Observe 5/6. Digite no campo de Daryl quantas partes iguais formam 1 pé.",
+     "kc": "FracLess1",
+     "valor": "6"
+    },
+    {
+     "indice": 2,
+     "acao": "Confirme a divisão da reta de Daryl em 6 partes iguais.",
+     "kc": "DivNumLine",
+     "valor": "6"
+    },
+    {
+     "indice": 3,
+     "acao": "Marque na reta de Daryl o ponto correspondente a 5/6.",
+     "kc": "FindValueNumLine",
+     "valor": "5/6"
+    },
+    {
+     "indice": 4,
+     "acao": "Digite e confirme 5 para dividir a reta de Rashad em partes iguais.",
+     "kc": "DivNumLine",
+     "valor": "5"
+    },
+    {
+     "indice": 5,
+     "acao": "Marque na reta de Rashad o ponto correspondente a 4/5.",
+     "kc": "FindValueNumLine",
+     "valor": "4/5"
+    },
+    {
+     "indice": 6,
+     "acao": "Compare os dois pontos e escolha qual corrente está mais à direita.",
+     "kc": "compFrac",
+     "valor": "Daryl built the longer paper chain."
+    },
+    {
+     "indice": 7,
+     "acao": "Selecione a alternativa correta sobre a corrente mais longa.",
+     "kc": "compFrac",
+     "valor": "Daryl built the longer paper chain."
+    },
+    {
+     "indice": 8,
+     "acao": "Clique em Done para concluir a comparação.",
+     "kc": "compFrac",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "5",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the numerator instead of the denominator. In 5/6, the denominator is the bottom number and tells how many equal parts make the whole.",
+     "buggyRule": "Digitar o NUMERADOR ({A_num}) no campo do denominador da primeira reta, em vez do denominador ({A_den})",
+     "misconceptionId": "misc_digitacao_denominador_numerador_invertido"
+    },
+    {
+     "valor": "5",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Each fraction has its own denominator. Daryl's 5/6 must be represented with six equal parts, not five.",
+     "buggyRule": "Usar o denominador da SEGUNDA fração ({B_den}) para dividir a PRIMEIRA reta, em vez do denominador correto ({A_den})",
+     "misconceptionId": "misc_usa_denominador_outro_aluno_para_unificar_visualmente"
+    },
+    {
+     "valor": "5",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number 5 tells how many intervals to move, but the marked value is measured in sixths. Count five intervals on a line divided into six equal parts.",
+     "buggyRule": "Marcar a {A_num}-ésima marca da reta, independentemente do número de divisões feitas (tratando cada marca como 1 unidade)",
+     "misconceptionId": "misc_contagem_marca_sem_considerar_escala_correta"
+    },
+    {
+     "valor": "4",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Zero is the starting point, not the first interval. Count five intervals after zero to locate the requested fraction.",
+     "buggyRule": "Contar a partir do zero como primeira marca, marcando a ({A_num} - 1)-ésima posição em vez da {A_num}-ésima",
+     "misconceptionId": "misc_off_by_one_contagem_inicio_em_zero"
+    },
+    {
+     "valor": "4",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the numerator instead of the denominator. In 4/5, the bottom number tells how many equal parts make the whole.",
+     "buggyRule": "Digitar o NUMERADOR ({B_num}) no campo do denominador da segunda reta, em vez do denominador ({B_den})",
+     "misconceptionId": "misc_digitacao_denominador_numerador_invertido_rashad"
+    },
+    {
+     "valor": "6",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Do not copy Daryl's six parts. Rashad's fraction is 4/5, so his number line needs five equal parts.",
+     "buggyRule": "Usar o denominador da PRIMEIRA fração ({A_den}) para dividir a SEGUNDA reta, em vez do denominador correto ({B_den})",
+     "misconceptionId": "misc_usa_denominador_daryl_para_rashad"
+    },
+    {
+     "valor": "4",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator tells how many intervals to count, but the value is measured in fifths. Use the scale with five equal parts.",
+     "buggyRule": "Marcar a {B_num}-ésima marca da segunda reta, independentemente do número de divisões feitas",
+     "misconceptionId": "misc_contagem_marca_rashad_como_unidade"
+    },
+    {
+     "valor": "3",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Zero is the starting point and is not counted as the first interval. Move through four intervals after zero.",
+     "buggyRule": "Marcar a ({B_num} - 1)-ésima posição na segunda reta por começar a contar no zero",
+     "misconceptionId": "misc_off_by_one_rashad_contagem_errada"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Observe o número de baixo na fração; ele informa como o pé inteiro foi dividido."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Leia a fração de baixo para cima e use o denominador como o número de partes iguais."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Na fração 5/6, procure o número que aparece abaixo do 5."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Digite no campo o número de partes indicado pelo denominador de 5/6."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "O denominador determina o tamanho e a quantidade dos intervalos da reta."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Use o número de baixo da fração para escolher a quantidade de divisões antes de confirmar."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "A primeira reta representa 5/6, não 4/5; use o denominador da fração de Daryl."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Mantenha a reta de 0 a 1 e confirme exatamente seis intervalos iguais."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "O numerador informa quantas partes você percorre a partir do zero."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Conte os intervalos desde 0 usando o denominador como o valor de cada intervalo."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Na reta com seis partes, avance cinco intervalos a partir do ponto 0."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Clique na marca que fica imediatamente antes do ponto 1, depois de contar cinco intervalos desde 0."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "A reta de cada corrente deve seguir o denominador da própria fração."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Leia o denominador de 4/5 e use esse número no campo da segunda reta."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "Na fração de Rashad, o número de baixo é diferente do número de baixo da fração de Daryl."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Digite o denominador de 4/5 no campo de Rashad e confirme a divisão."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "O numerador indica quantos intervalos devem ser percorridos desde o zero."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Comece em 0 e conte intervalos cujo tamanho é determinado pelas cinco divisões da reta."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Na reta dividida em cinco partes, avance quatro intervalos."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Clique na quarta marca depois do zero, que fica um intervalo antes do ponto 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "Na mesma escala de 0 a 1, o ponto mais à direita representa o comprimento maior."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Compare a distância que cada ponto percorreu desde 0 até 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Observe qual ponto está mais próximo de 1 sem confundir proximidade com igualdade."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Escolha a alternativa que nomeia a pessoa cujo ponto aparece mais à direita nas retas."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Uma fração maior corresponde a um ponto mais à direita na reta de 0 a 1."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Use as posições marcadas para decidir qual comprimento ocupa a maior parte de 1 pé."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Compare o ponto de cinco sextos com o ponto de quatro quintos."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Escolha a frase que diz que a pessoa do ponto mais à direita construiu a corrente mais longa."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Antes de concluir, confirme que os dois pontos foram marcados e que a comparação foi feita."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Revise as divisões, os pontos e a alternativa selecionada na tela."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Verifique se a alternativa selecionada corresponde ao ponto que está mais à direita."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Quando todas as ações estiverem corretas, use o botão Done para registrar a conclusão."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "6",
+    "6",
+    "5/6",
+    "5",
+    "4/5",
+    "Darylbuiltthelongerpaperchain.",
+    "Darylbuiltthelongerpaperchain.",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Daryl and Rashad are making paper chains. After 5 minutes, Daryl and Rashad compared the lengths of their chains to see who was working faster. Who built a longer piece of paper chain in 5 minutes?\nDaryl's paper chain is 5/6 feet long.\nRashad's  paper chain is 4/5 feet long.\nWho built a longer piece of paper chain?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Observe 5/6. Digite no campo de Daryl quantas partes iguais formam 1 pé.",
+     "expectedAnswer": "6",
+     "renderAs": "dynamic_spec",
+     "kc": "FracLess1",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Confirme a divisão da reta de Daryl em 6 partes iguais.",
+     "expectedAnswer": "6",
+     "renderAs": "dynamic_spec",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Marque na reta de Daryl o ponto correspondente a 5/6.",
+     "expectedAnswer": "5/6",
+     "renderAs": "dynamic_spec",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Digite e confirme 5 para dividir a reta de Rashad em partes iguais.",
+     "expectedAnswer": "5",
+     "renderAs": "dynamic_spec",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Marque na reta de Rashad o ponto correspondente a 4/5.",
+     "expectedAnswer": "4/5",
+     "renderAs": "dynamic_spec",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Compare os dois pontos e escolha qual corrente está mais à direita.",
+     "expectedAnswer": "Daryl built the longer paper chain.",
+     "renderAs": "dynamic_spec",
+     "kc": "compFrac",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Selecione a alternativa correta sobre a corrente mais longa.",
+     "expectedAnswer": "Daryl built the longer paper chain.",
+     "renderAs": "dynamic_spec",
+     "kc": "compFrac",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Clique em Done para concluir a comparação.",
+     "expectedAnswer": "ok",
+     "renderAs": "dynamic_spec",
+     "kc": "compFrac",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 55079,
+   "exerciciosGerados": 1,
+   "passosGenericos": 8,
+   "passosMaterializados": 8,
+   "dicasMaterializadas": 32,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Observe 5/6. Digite no campo de Daryl quantas partes iguais formam 1 pé.",
+     "instruction": "Observe 5/6. Digite no campo de Daryl quantas partes iguais formam 1 pé.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "6"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "denom1",
+       "inputType": "numeric",
+       "fraction": "5/6",
+       "confirmRequired": true
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "denom1",
+        "inputType": "numeric",
+        "fraction": "5/6",
+        "confirmRequired": true
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Observe o número de baixo na fração; ele informa como o pé inteiro foi dividido."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Leia a fração de baixo para cima e use o denominador como o número de partes iguais."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Na fração 5/6, procure o número que aparece abaixo do 5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo o número de partes indicado pelo denominador de 5/6."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_digitacao_denominador_numerador_invertido",
+       "wrongAnswer": "5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão da reta",
+       "feedback": "You entered the numerator instead of the denominator. In 5/6, the denominator is the bottom number and tells how many equal parts make the whole.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_digitacao_denominador_numerador_invertido",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Confirme a divisão da reta de Daryl em 6 partes iguais.",
+     "instruction": "Confirme a divisão da reta de Daryl em 6 partes iguais.",
+     "expectedInput": {
+      "value": "6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "6"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "denom1",
+       "inputType": "numeric",
+       "fraction": "5/6",
+       "confirmRequired": true,
+       "stepAction": "confirm_partition"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "denom1",
+        "inputType": "numeric",
+        "fraction": "5/6",
+        "confirmRequired": true,
+        "stepAction": "confirm_partition"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O denominador determina o tamanho e a quantidade dos intervalos da reta."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use o número de baixo da fração para escolher a quantidade de divisões antes de confirmar."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A primeira reta representa 5/6, não 4/5; use o denominador da fração de Daryl."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Mantenha a reta de 0 a 1 e confirme exatamente seis intervalos iguais."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+       "wrongAnswer": "5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno tenta facilitar a comparação usando o mesmo número de divisões para ambas as retas, ignorando o denominador real da primeira fração",
+       "feedback": "Each fraction has its own denominator. Daryl's 5/6 must be represented with six equal parts, not five.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Marque na reta de Daryl o ponto correspondente a 5/6.",
+     "instruction": "Marque na reta de Daryl o ponto correspondente a 5/6.",
+     "expectedInput": {
+      "value": "5/6",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5/6"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "numline1",
+       "min": 0,
+       "max": 1,
+       "divisions": 6,
+       "targetFraction": "5/6"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "numline1",
+        "min": 0,
+        "max": 1,
+        "divisions": 6,
+        "targetFraction": "5/6"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O numerador informa quantas partes você percorre a partir do zero."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Conte os intervalos desde 0 usando o denominador como o valor de cada intervalo."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Na reta com seis partes, avance cinco intervalos a partir do ponto 0."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Clique na marca que fica imediatamente antes do ponto 1, depois de contar cinco intervalos desde 0."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marca_sem_considerar_escala_correta",
+       "wrongAnswer": "5",
+       "misconceptionType": "count_error",
+       "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor de cada intervalo depende do número de divisões",
+       "feedback": "The number 5 tells how many intervals to move, but the marked value is measured in sixths. Count five intervals on a line divided into six equal parts.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_off_by_one_contagem_inicio_em_zero",
+       "wrongAnswer": "4",
+       "misconceptionType": "off_by_one",
+       "description": "Aluno começa a contar a partir do 0 como 'primeira marca', terminando uma posição antes",
+       "feedback": "Zero is the starting point, not the first interval. Count five intervals after zero to locate the requested fraction.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marca_sem_considerar_escala_correta",
+      "scaffold_misc_off_by_one_contagem_inicio_em_zero",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Digite e confirme 5 para dividir a reta de Rashad em partes iguais.",
+     "instruction": "Digite e confirme 5 para dividir a reta de Rashad em partes iguais.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "denom2",
+       "inputType": "numeric",
+       "fraction": "4/5",
+       "confirmRequired": true
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "denom2",
+        "inputType": "numeric",
+        "fraction": "4/5",
+        "confirmRequired": true
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A reta de cada corrente deve seguir o denominador da própria fração."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Leia o denominador de 4/5 e use esse número no campo da segunda reta."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Na fração de Rashad, o número de baixo é diferente do número de baixo da fração de Daryl."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite o denominador de 4/5 no campo de Rashad e confirme a divisão."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_digitacao_denominador_numerador_invertido_rashad",
+       "wrongAnswer": "4",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão para Rashad",
+       "feedback": "You entered the numerator instead of the denominator. In 4/5, the bottom number tells how many equal parts make the whole.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_denominador_daryl_para_rashad",
+       "wrongAnswer": "6",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno aplica o mesmo número de divisões às duas retas, usando o denominador de Daryl para Rashad",
+       "feedback": "Do not copy Daryl's six parts. Rashad's fraction is 4/5, so his number line needs five equal parts.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_digitacao_denominador_numerador_invertido_rashad",
+      "scaffold_misc_usa_denominador_daryl_para_rashad",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Marque na reta de Rashad o ponto correspondente a 4/5.",
+     "instruction": "Marque na reta de Rashad o ponto correspondente a 4/5.",
+     "expectedInput": {
+      "value": "4/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4/5"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "numline2",
+       "min": 0,
+       "max": 1,
+       "divisions": 5,
+       "targetFraction": "4/5"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "numline2",
+        "min": 0,
+        "max": 1,
+        "divisions": 5,
+        "targetFraction": "4/5"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O numerador indica quantos intervalos devem ser percorridos desde o zero."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Comece em 0 e conte intervalos cujo tamanho é determinado pelas cinco divisões da reta."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Na reta dividida em cinco partes, avance quatro intervalos."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Clique na quarta marca depois do zero, que fica um intervalo antes do ponto 1."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marca_rashad_como_unidade",
+       "wrongAnswer": "4",
+       "misconceptionType": "count_error",
+       "description": "Mesmo erro da primeira reta: tratar marcas como unidades",
+       "feedback": "The numerator tells how many intervals to count, but the value is measured in fifths. Use the scale with five equal parts.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_off_by_one_rashad_contagem_errada",
+       "wrongAnswer": "3",
+       "misconceptionType": "off_by_one",
+       "description": "Erro de deslocamento por incluir o zero na contagem",
+       "feedback": "Zero is the starting point and is not counted as the first interval. Move through four intervals after zero.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marca_rashad_como_unidade",
+      "scaffold_misc_off_by_one_rashad_contagem_errada",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Compare os dois pontos e escolha qual corrente está mais à direita.",
+     "instruction": "Compare os dois pontos e escolha qual corrente está mais à direita.",
+     "expectedInput": {
+      "value": "Daryl built the longer paper chain.",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "Daryl built the longer paper chain."
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "compBox",
+       "choices": [
+        "Daryl built the longer paper chain.",
+        "Rashad built the longer paper chain.",
+        "Both built the same length of paper chain."
+       ],
+       "comparison": [
+        "5/6",
+        "4/5"
+       ]
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "compBox",
+        "choices": [
+         "Daryl built the longer paper chain.",
+         "Rashad built the longer paper chain.",
+         "Both built the same length of paper chain."
+        ],
+        "comparison": [
+         "5/6",
+         "4/5"
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Na mesma escala de 0 a 1, o ponto mais à direita representa o comprimento maior."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Compare a distância que cada ponto percorreu desde 0 até 1."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Observe qual ponto está mais próximo de 1 sem confundir proximidade com igualdade."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Escolha a alternativa que nomeia a pessoa cujo ponto aparece mais à direita nas retas."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Selecione a alternativa correta sobre a corrente mais longa.",
+     "instruction": "Selecione a alternativa correta sobre a corrente mais longa.",
+     "expectedInput": {
+      "value": "Daryl built the longer paper chain.",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "Daryl built the longer paper chain."
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "compBox",
+       "choices": [
+        "Daryl built the longer paper chain.",
+        "Rashad built the longer paper chain.",
+        "Both built the same length of paper chain."
+       ],
+       "comparison": [
+        "5/6",
+        "4/5"
+       ]
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "compBox",
+        "choices": [
+         "Daryl built the longer paper chain.",
+         "Rashad built the longer paper chain.",
+         "Both built the same length of paper chain."
+        ],
+        "comparison": [
+         "5/6",
+         "4/5"
+        ]
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Uma fração maior corresponde a um ponto mais à direita na reta de 0 a 1."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use as posições marcadas para decidir qual comprimento ocupa a maior parte de 1 pé."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Compare o ponto de cinco sextos com o ponto de quatro quintos."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Escolha a frase que diz que a pessoa do ponto mais à direita construiu a corrente mais longa."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Clique em Done para concluir a comparação.",
+     "instruction": "Clique em Done para concluir a comparação.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "fixedComponent": "done",
+       "buttonLabel": "Done",
+       "completionToken": "ok"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "fixedComponent": "done",
+        "buttonLabel": "Done",
+        "completionToken": "ok"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Antes de concluir, confirme que os dois pontos foram marcados e que a comparação foi feita."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Revise as divisões, os pontos e a alternativa selecionada na tela."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Verifique se a alternativa selecionada corresponde ao ponto que está mais à direita."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Quando todas as ações estiverem corretas, use o botão Done para registrar a conclusão."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "compFrac"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_digitacao_denominador_numerador_invertido",
+     "type": "scaffold",
+     "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão da reta",
+     "instruction": "You entered the numerator instead of the denominator. In 5/6, the denominator is the bottom number and tells how many equal parts make the whole.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_digitacao_denominador_numerador_invertido"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+     "type": "scaffold",
+     "description": "Aluno tenta facilitar a comparação usando o mesmo número de divisões para ambas as retas, ignorando o denominador real da primeira fração",
+     "instruction": "Each fraction has its own denominator. Daryl's 5/6 must be represented with six equal parts, not five.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_outro_aluno_para_unificar_visualmente"
+    },
+    {
+     "id": "scaffold_misc_contagem_marca_sem_considerar_escala_correta",
+     "type": "scaffold",
+     "description": "Aluno conta marcas como se cada uma valesse 1, ignorando que o valor de cada intervalo depende do número de divisões",
+     "instruction": "The number 5 tells how many intervals to move, but the marked value is measured in sixths. Count five intervals on a line divided into six equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marca_sem_considerar_escala_correta"
+    },
+    {
+     "id": "scaffold_misc_off_by_one_contagem_inicio_em_zero",
+     "type": "scaffold",
+     "description": "Aluno começa a contar a partir do 0 como 'primeira marca', terminando uma posição antes",
+     "instruction": "Zero is the starting point, not the first interval. Count five intervals after zero to locate the requested fraction.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_off_by_one_contagem_inicio_em_zero"
+    },
+    {
+     "id": "scaffold_misc_digitacao_denominador_numerador_invertido_rashad",
+     "type": "scaffold",
+     "description": "Aluno confunde numerador e denominador ao preencher o campo de divisão para Rashad",
+     "instruction": "You entered the numerator instead of the denominator. In 4/5, the bottom number tells how many equal parts make the whole.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_digitacao_denominador_numerador_invertido_rashad"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_daryl_para_rashad",
+     "type": "scaffold",
+     "description": "Aluno aplica o mesmo número de divisões às duas retas, usando o denominador de Daryl para Rashad",
+     "instruction": "Do not copy Daryl's six parts. Rashad's fraction is 4/5, so his number line needs five equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_daryl_para_rashad"
+    },
+    {
+     "id": "scaffold_misc_contagem_marca_rashad_como_unidade",
+     "type": "scaffold",
+     "description": "Mesmo erro da primeira reta: tratar marcas como unidades",
+     "instruction": "The numerator tells how many intervals to count, but the value is measured in fifths. Use the scale with five equal parts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marca_rashad_como_unidade"
+    },
+    {
+     "id": "scaffold_misc_off_by_one_rashad_contagem_errada",
+     "type": "scaffold",
+     "description": "Erro de deslocamento por incluir o zero na contagem",
+     "instruction": "Zero is the starting point and is not counted as the first interval. Move through four intervals after zero.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_off_by_one_rashad_contagem_errada"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(compFrac, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_digitacao_denominador_numerador_invertido",
+     "condition": "misconception(misc_digitacao_denominador_numerador_invertido)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_digitacao_denominador_numerador_invertido",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+     "condition": "misconception(misc_usa_denominador_outro_aluno_para_unificar_visualmente)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_outro_aluno_para_unificar_visualmente",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_contagem_marca_sem_considerar_escala_correta",
+     "condition": "misconception(misc_contagem_marca_sem_considerar_escala_correta)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marca_sem_considerar_escala_correta",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_off_by_one_contagem_inicio_em_zero",
+     "condition": "misconception(misc_off_by_one_contagem_inicio_em_zero)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_off_by_one_contagem_inicio_em_zero",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_digitacao_denominador_numerador_invertido_rashad",
+     "condition": "misconception(misc_digitacao_denominador_numerador_invertido_rashad)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_digitacao_denominador_numerador_invertido_rashad",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_usa_denominador_daryl_para_rashad",
+     "condition": "misconception(misc_usa_denominador_daryl_para_rashad)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_daryl_para_rashad",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_contagem_marca_rashad_como_unidade",
+     "condition": "misconception(misc_contagem_marca_rashad_como_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marca_rashad_como_unidade",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_off_by_one_rashad_contagem_errada",
+     "condition": "misconception(misc_off_by_one_rashad_contagem_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_off_by_one_rashad_contagem_errada",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}

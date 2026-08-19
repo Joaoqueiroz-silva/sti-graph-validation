@@ -1,0 +1,2869 @@
+{
+ "id": "08dentists",
+ "correctAnswer": "4/5",
+ "audit": {
+  "ok": true,
+  "stepCount": 9
+ },
+ "f1": 0.087,
+ "conceptual": 0.095,
+ "precision": 0.083,
+ "recall": 0.091,
+ "functionalAgreement": 0.333,
+ "functionalKappa": -0.091,
+ "missing": [
+  "-1",
+  "3/5",
+  "4",
+  "-"
+ ],
+ "extra": [
+  "5/4",
+  "1"
+ ],
+ "robotMisconceptions": [
+  "5/4",
+  "5",
+  "5/5",
+  "5/4"
+ ],
+ "exercicio": "08dentists",
+ "replica": 1,
+ "geradoEm": "2026-08-15T21:37:10.659Z",
+ "promptSha256": "4fd0ed1e95028ded19aaa38d00004ebf12c2e1f85c55dadf94540a444eee9651",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-15T20:56:30.519Z"
+ },
+ "custo": {
+  "tokensEntrada": 7442,
+  "tokensSaida": 6993,
+  "usd": 0.03307746
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 9
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado do problema",
+    "kc": "IdenNumerator",
+    "valor": "Identificada a fração implícita: {A}/{B} = 4/5"
+   },
+   {
+    "indice": 2,
+    "acao": "Identificar o numerador da fração",
+    "kc": "IdenNumerator",
+    "valor": "Numerador identificado como {A}"
+   },
+   {
+    "indice": 3,
+    "acao": "Identificar o denominador da fração",
+    "kc": "IdenDenominator",
+    "valor": "Denominador identificado como {B}"
+   },
+   {
+    "indice": 4,
+    "acao": "Inserir o numerador no campo F1",
+    "kc": "IdenNumerator",
+    "valor": "Campo F1 preenchido com {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Inserir o denominador no campo F2",
+    "kc": "IdenDenominator",
+    "valor": "Campo F2 preenchido com {B}"
+   },
+   {
+    "indice": 6,
+    "acao": "Definir o número de partes na reta numérica",
+    "kc": "DivNumLine",
+    "valor": "Campo 'Number of parts' definido como {B}"
+   },
+   {
+    "indice": 7,
+    "acao": "Clicar em OK para dividir a reta em {B} partes",
+    "kc": "DivNumLine",
+    "valor": "Reta numérica dividida em {B} partes iguais"
+   },
+   {
+    "indice": 8,
+    "acao": "Marcar o ponto correspondente à fração na reta",
+    "kc": "FindValueNumLine",
+    "valor": "Ponto marcado na posição {A}/{B} na reta numérica"
+   },
+   {
+    "indice": 9,
+    "acao": "Clicar no botão Done para concluir",
+    "kc": "FracLess1",
+    "valor": "Problema concluído com sucesso"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "5/4",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar frases modelo: \"A de B\" → A/B; reforçar que o todo (denominador) vem depois de \"de\" ou \"em cada\"",
+    "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+    "misconceptionId": "misc_inversao_numerador_denominador"
+   },
+   {
+    "valor": "5",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Treinar com réguas ou fitas: marcar divisões e destacar que o número de partes = número de intervalos, não de linhas",
+    "buggyRule": "",
+    "misconceptionId": "misc_contagem_marcas_em_vez_intervalos"
+   },
+   {
+    "valor": "5/5",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar linguagem verbal com posição: 'quatro de cinco' → falta um para completar o inteiro → deve estar antes do 1",
+    "buggyRule": "",
+    "misconceptionId": "misc_responde_fracao_inteira_por_posicao_errada"
+   },
+   {
+    "valor": "5/4",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar que em problemas de 'parte de um todo', o numerador nunca pode ser maior que o denominador",
+    "buggyRule": "",
+    "misconceptionId": "misc_frac_maior_que_um_em_problema_de_parte_do_todo"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Boa observação! Quando dizemos 'quatro em cada cinco', qual número representa o total de partes? E qual representa as partes escolhidas?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Excelente! Primeiro, digite o numerador (quantos preferiram) no campo de cima e o denominador (total de dentistas considerados) no campo de baixo. Depois, use o campo 'Number of parts' para dividir a reta em 5 partes iguais."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A fração tem denominador 5, então divida a reta em 5 partes. O ponto deve ficar na quarta marcação a partir do zero."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está quase pronto! Digite 4 em cima e 5 embaixo. Depois, no campo 'Number of parts', coloque 5 e clique em OK. Agora, marque o ponto exatamente na quarta linha da divisão — não na quinta, nem na terceira!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Pense: o denominador nos diz em quantas partes iguais devemos dividir o intervalo entre 0 e 1. Qual é o denominador aqui?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Muito bem! O denominador é 5, então digite 5 no campo 'Number of parts' e clique em OK para ver a reta dividida."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Certo! A reta precisa ter 5 segmentos iguais. Verifique se apareceram 4 marcas entre 0 e 1 — isso significa 5 partes!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você já sabe! Digite exatamente o número que está embaixo da sua fração (o denominador) no campo 'Number of parts' e clique em OK. Pronto — agora a reta mostra 5 partes iguais!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Na reta numérica, cada marca representa uma fração. Se dividimos em 5 partes, a primeira marca é 1/5, a segunda é 2/5... então a quarta marca é qual fração?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Comece do zero e conte: 1ª marca = 1/5, 2ª = 2/5, 3ª = 3/5, 4ª = 4/5. Clique exatamente nessa quarta marca!"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Atenção! Não clique no final da reta (que é 1). A fração 4/5 está logo antes do 1. Conte as marcas: 1, 2, 3, 4 — pare na quarta!"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você consegue! Veja as linhas finas na reta: a primeira depois do 0 é 1/5, a segunda é 2/5, a terceira é 3/5, e a quarta... sim, é 4/5! Clique nela."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado do problema\\\",\\n          \\\"thinking\\\": \\\"O enunciado diz que 'quatro em cada cinco dentistas preferiam a Marca X'. Isso indica uma fração onde 4 é a parte e 5 é o todo.\\\",\\n          \\\"result\\\": \\\"Identificada a fração implícita: {A}/{B} = 4/5\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Identificar o numerador da fração\\\",\\n          \\\"thinking\\\": \\\"O numerador representa quantos dentistas escolheram a Marca X. O enunciado menciona 'quatro em cada cinco', então o numerador é 4.\\\",\\n          \\\"result\\\": \\\"Numerador identificado como {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Identificar o denominador da fração\\\",\\n          \\\"thinking\\\": \\\"O denominador representa o total de dentistas considerados. O enunciado menciona 'cada cinco', então o denominador é 5.\\\",\\n          \\\"result\\\": \\\"Denominador identificado como {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Inserir o numerador no campo F1\\\",\\n          \\\"thinking\\\": \\\"Vou digitar o valor do numerador ({A}) no campo superior da fração.\\\",\\n          \\\"result\\\": \\\"Campo F1 preenchido com {A}\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Inserir o denominador no campo F2\\\",\\n          \\\"thinking\\\": \\\"Vou digitar o valor do denominador ({B}) no campo inferior da fração.\\\",\\n          \\\"result\\\": \\\"Campo F2 preenchido com {B}\\\",\\n          \\\"kcUsed\\\": \\\"IdenDenominator\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Definir o número de partes na reta numérica\\\",\\n          \\\"thinking\\\": \\\"Para representar a fração {A}/{B} na reta numérica, preciso dividir o intervalo [0,1] em {B} partes iguais.\\\",\\n          \\\"result\\\": \\\"Campo 'Number of parts' definido como {B}\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Clicar em OK para dividir a reta em {B} partes\\\",\\n          \\\"thinking\\\": \\\"Ao confirmar a divisão, a reta será particionada corretamente para localizar a fração.\\\",\\n          \\\"result\\\": \\\"Reta numérica dividida em {B} partes iguais\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente à fração na reta\\\",\\n          \\\"thinking\\\": \\\"A fração {A}/{B} está localizada na {A}-ésima marcação a partir do zero.\\\",\\n          \\\"result\\\": \\\"Ponto marcado na posição {A}/{B} na reta numérica\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Clicar no botão Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Todos os passos foram executados corretamente; posso finalizar o problema.\\\",\\n          \\\"result\\\": \\\"Problema concluído com sucesso\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"timeEstimate\\\": 2,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{A}/{B}\\\",\\n      \\\"totalTime\\\": 33\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Digitar numerador e denominador diretamente nos campos F1 e F2\\\",\\n              \\\"thinking\\\": \\\"O problema diz 'quatro em cada cinco', então o numerador é 4 e o denominador é 5.\\\",\\n              \\\"result\\\": \\\"Campos preenchidos corretamente, mas o aluno não usa a reta numérica para validar\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Clicar em Done sem interagir com a reta numérica\\\",\\n              \\\"thinking\\\": \\\"Já coloquei a fração, está certo.\\\",\\n              \\\"result\\\": \\\"Sistema aceita resposta correta, mas o aluno ignora a representação visual\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"4/5\\\",\\n          \\\"wasCorrect\\\": true\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Tentar dividir a reta numérica primeiro\\\",\\n              \\\"thinking\\\": \\\"Preciso dividir a reta em partes. O problema fala de 'cinco', então ponho 5 no campo 'Number of parts'.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 5 partes iguais (correto)\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Marcar o ponto correspondente à fração na reta\\\",\\n              \\\"thinking\\\": \\\"Quatro em cinco... então conto até a quarta marca. Mas começo do zero como primeira marca.\\\",\\n              \\\"result\\\": \\\"Marca o ponto na **quinta** divisão (posição 1), não na quarta\\\",\\n              \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_contagem_marcas_em_vez_intervalos\\\",\\n                \\\"type\\\": \\\"count_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5\\\",\\n                \\\"description\\\": \\\"Aluno conta as marcas da reta (incluindo o 0 ou o 1) como se fossem as partes, em vez de contar os intervalos entre elas\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao posicionar a fração na reta, o aluno conta 5 marcas (0,1,2,3,4,5?) ou inclui o ponto final como parte da contagem\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Quantos espaços há entre 0 e 1 quando a reta está dividida em 5 partes? Vamos apontar cada espaço, não cada marca.\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa ideia dividir em 5 partes! Agora, vamos contar os **espaços** entre 0 e 1 — não as marquinhas. Quantos espaços você vê?\\\",\\n                \\\"howToFix\\\": \\\"Treinar com réguas ou fitas: marcar divisões e destacar que o número de partes = número de intervalos, não de linhas\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Preencher F1 e F2 com base na posição marcada\\\",\\n              \\\"thinking\\\": \\\"Como marquei na última marca antes do 1, deve ser 5/5.\\\",\\n              \\\"result\\\": \\\"Digita 5 em F1 e 5 em F2\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_responde_fracao_inteira_por_posicao_errada\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/5\\\",\\n                \\\"description\\\": \\\"Aluno posiciona incorretamente o ponto (na extremidade) e conclui que a fração é 5/5 em vez de 4/5\\\",\\n                \\\"mistakeLocation\\\": \\\"Na leitura da posição na reta, o aluno associa a quinta marca ao valor 5/5 por estar 'no final'\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se todos os dentistas preferissem a Marca X, qual seria a fração? E aqui, foi todos ou quase todos?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você percebeu que a fração está perto do 1 — isso faz sentido! Mas será que é exatamente 1? Vamos reler: 'quatro em cada cinco'... isso é todos ou quase todos?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar linguagem verbal com posição: 'quatro de cinco' → falta um para completar o inteiro → deve estar antes do 1\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/5\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 3,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Ler o enunciado e identificar números\\\",\\n              \\\"thinking\\\": \\\"Tem 'quatro' e 'cinco'. Talvez seja 5/4?\\\",\\n              \\\"result\\\": \\\"Confusão entre ordem dos termos\\\",\\n              \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/4\\\",\\n                \\\"description\\\": \\\"Aluno inverte numerador e denominador, respondendo o recíproco da fração correta\\\",\\n                \\\"mistakeLocation\\\": \\\"Na interpretação da expressão 'quatro em cada cinco', o aluno associa 'cada cinco' ao numerador e 'quatro' ao denominador\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se dissermos '2 em cada 3 crianças gostam de sorvete', quantas gostam? É mais da metade ou menos? E 3/2 seria maior que 1?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você pegou os números certos! Agora, pense: a fração pode ser maior que 1? Se são quatro **de** cinco, isso é mais ou menos que o todo?\\\",\\n                \\\"howToFix\\\": \\\"Usar frases modelo: \\\\\\\"A de B\\\\\\\" → A/B; reforçar que o todo (denominador) vem depois de \\\\\\\"de\\\\\\\" ou \\\\\\\"em cada\\\\\\\"\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Tentar dividir a reta em 4 partes (porque digitou 5/4)\\\",\\n              \\\"thinking\\\": \\\"Vou dividir em 4 partes porque o denominador é 4.\\\",\\n              \\\"result\\\": \\\"Reta dividida em 4 partes\\\",\\n              \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Tentar marcar 5/4 na reta de 0 a 1\\\",\\n              \\\"thinking\\\": \\\"Mas 5/4 passa do 1... não consigo marcar.\\\",\\n              \\\"result\\\": \\\"Aluno desiste ou força marcação além do 1 (fora do intervalo visível)\\\",\\n              \\\"kcUsed\\\": \\\"FracLess1, FindValueNumLine\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_frac_maior_que_um_em_problema_de_parte_do_todo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/4\\\",\\n                \\\"description\\\": \\\"Aluno produz fração imprópria em contexto de parte-do-todo (onde fração deve ser <1)\\\",\\n                \\\"mistakeLocation\\\": \\\"Na modelagem da situação: não reconhece que 'parte de um grupo' implica fração própria\\\",\\n                \\\"diagnosticQuestion\\\": \\\"É possível que mais dentistas tenham escolhido a Marca X do que o total de dentistas entrevistados?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Ótima observação: 5/4 passa do 1! Isso nos dá uma dica: se temos 'quatro **de** cinco', podemos ter mais do que o total? Vamos pensar no que significa 'de'.\\\",\\n                \\\"howToFix\\\": \\\"Reforçar que em problemas de 'parte de um todo', o numerador nunca pode ser maior que o denominador\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"5/4\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"08dentists\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inversao_numerador_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5/4\\\",\\n              \\\"buggyRule\\\": \\\"Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5\\\",\\n              \\\"description\\\": \\\"Aluno troca numerador e denominador ao interpretar a linguagem natural\\\",\\n              \\\"mistakeLocation\\\": \\\"Na extração da fração do enunciado verbal, confunde qual número representa a parte e qual representa o todo\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Na frase 'três de cada dez alunos usam óculos', quem é a parte e quem é o todo? Qual vai em cima?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os dois números corretamente! Agora, lembre-se: a parte (quantos escolheram) fica em cima, e o todo (total de dentistas) embaixo.\\\",\\n              \\\"howToFix\\\": \\\"Praticar com cartões: 'A de B' → escrever A/B; usar cores para destacar parte (vermelho) e todo (azul)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_apenas_numerador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"4\\\",\\n              \\\"buggyRule\\\": \\\"Extrair apenas o primeiro número mencionado ('quatro') e ignorar o denominador, respondendo um inteiro nu\\\",\\n              \\\"description\\\": \\\"Viés do número inteiro: aluno foca só na contagem da parte e esquece o todo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na identificação da fração, o aluno para no 'quatro' e não considera 'em cada cinco'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você responde '4', isso quer dizer 4 dentistas? Mas o problema pergunta pela **fração** — ou seja, em relação ao total.\\\",\\n              \\\"feedback\\\": \\\"Você acertou a parte dos dentistas que escolheram a Marca X! Mas a pergunta é: que **fração** do total isso representa? Precisamos saber também quantos eram no total.\\\",\\n              \\\"howToFix\\\": \\\"Sempre sublinhar 'fração de...' e perguntar: 'fração de quê?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_responde_apenas_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5\\\",\\n              \\\"buggyRule\\\": \\\"Extrair apenas o número após 'cada' ('cinco') e responder esse inteiro como resposta\\\",\\n              \\\"description\\\": \\\"Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte\\\",\\n              \\\"mistakeLocation\\\": \\\"Na leitura do enunciado, o aluno associa a resposta ao 'cinco' porque soa como o número principal\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O 'cinco' representa o total de dentistas. Mas a pergunta é: quantos **preferiram** a Marca X? É o total ou uma parte dele?\\\",\\n              \\\"feedback\\\": \\\"Você notou que o grupo tem cinco dentistas — muito bem! Agora, quantos **desses cinco** escolheram a Marca X? É isso que a fração mostra.\\\",\\n              \\\"howToFix\\\": \\\"Usar dramatização: 5 alunos levantam a mão; 4 levantam outra mão para mostrar preferência. Perguntar: 'quantos de quantos?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"08dentists\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_pela_parte_em_vez_do_todo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"4\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador (4) como valor no campo 'Number of parts', em vez do denominador\\\",\\n              \\\"description\\\": \\\"Aluno divide a reta em 4 partes porque pensa que 'quatro' determina a divisão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na ação de dividir a reta, o aluno usa o número da parte (numerador) como divisor, não o todo (denominador)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a fração for 2/3, em quantas partes devemos dividir a reta? Pelo numerador ou pelo denominador?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando dividir a reta — ótimo! Lembre-se: o número **embaixo** da fração (denominador) diz em quantas partes iguais dividimos o todo.\\\",\\n              \\\"howToFix\\\": \\\"Associar 'denominador' com 'dividir': mesmo som inicial; usar gesto de cortar em pedaços iguais\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_nao_divide_reta_assume_partes_corretas\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1\\\",\\n              \\\"buggyRule\\\": \\\"Deixar o campo 'Number of parts' no valor inicial (1) e marcar diretamente sem dividir\\\",\\n              \\\"description\\\": \\\"Aluno ignora a necessidade de dividir a reta e tenta marcar a fração em uma reta não subdividida\\\",\\n              \\\"mistakeLocation\\\": \\\"Na etapa de preparação da reta, o aluno pula a divisão e vai direto marcar o ponto\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Como você sabe onde fica 4/5 se a reta ainda está toda inteira, sem divisões?\\\",\\n              \\\"feedback\\\": \\\"Você quer marcar 4/5 — ótimo objetivo! Mas primeiro precisamos dividir o segmento de 0 a 1 em 5 partes iguais. Veja o campo 'Number of parts'.\\\",\\n              \\\"howToFix\\\": \\\"Obrigar (via interface ou instrução) a dividir antes de marcar; usar feedback automático: 'Divida primeiro!'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"08dentists\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"FindValueNumLine\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_contagem_um_a_mais_na_posicao\\\",\\n              \\\"type\\\": \\\"count_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5/5\\\",\\n              \\\"buggyRule\\\": \\\"Contar os intervalos começando do 0 como 'primeira parte', resultando em posição = numerador + 1; marcar na (A+1)-ésima marca, onde A=4\\\",\\n              \\\"description\\\": \\\"Erro de off-by-one: aluno conta 5 marcas (0,1,2,3,4) e para na quinta, achando que é 4/5\\\",\\n              \\\"mistakeLocation\\\": \\\"Na contagem das divisões na reta, o aluno inclui o ponto 0 como primeira posição válida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Da marca 0 até a primeira linha, quantos quintos temos? E até a segunda?\\\",\\n              \\\"feedback\\\": \\\"Você dividiu certinho em 5 partes! Agora, do 0 até a **primeira** linha, já temos 1/5. Até a segunda, 2/5... então até a quarta linha, quanto temos?\\\",\\n              \\\"howToFix\\\": \\\"Numerar os intervalos (não as linhas): colar adesivos '1/5', '2/5' etc. nos espaços\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_ancora_na_metade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/2\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar os números do problema e marcar sempre no meio da reta (0.5), assumindo que 'muitos' = metade\\\",\\n              \\\"description\\\": \\\"Âncora em fração de referência: aluno assume que qualquer preferência majoritária é 'metade' ou 'meio'\\\",\\n              \\\"mistakeLocation\\\": \\\"Na decisão de onde marcar, o aluno substitui o raciocínio específico por uma referência familiar (1/2)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Metade de cinco é quanto? Mas o problema diz quatro... isso é mais ou menos que a metade?\\\",\\n              \\\"feedback\\\": \\\"Você sabe que mais da metade preferiu a Marca X — ótimo! Mas será que é só um pouco mais, ou quase todos? Quatro de cinco é quase tudo!\\\",\\n              \\\"howToFix\\\": \\\"Comparar visualmente: desenhar 5 quadrados, pintar 4; comparar com 2 ou 3 pintados\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_posiciona_pela_diferenca_para_o_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"1/5\\\",\\n              \\\"buggyRule\\\": \\\"Interpretar 'quatro em cinco' como 'falta um para cinco', e marcar a fração que falta (1/5) em vez da que está presente\\\",\\n              \\\"description\\\": \\\"Gap thinking: aluno foca no que falta para completar o todo, não no que está presente\\\",\\n              \\\"mistakeLocation\\\": \\\"Na interpretação do valor a ser marcado, o aluno usa a diferença (5-4=1) como numerador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A fração mostra quantos **escolheram** ou quantos **não escolheram**? Quem é o foco da pergunta?\\\",\\n              \\\"feedback\\\": \\\"Atenção: a pergunta é sobre quem **preferiu** a Marca X, não quem não preferiu. Dos cinco, quantos escolheram? É isso que vamos marcar.\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar a pergunta; usar duas cores: verde para 'preferiram', vermelho para 'não preferiram'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"08dentists\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar a fração descrita\\\",\\n          \\\"thinking\\\": \\\"Quatro em cada cinco dentistas... isso quer dizer 4 de 5, então deve ser 4/5. Mas como represento isso na reta?\\\",\\n          \\\"result\\\": \\\"Identificou corretamente que a fração é 4/5, mas hesita em como usar a interface para representá-la\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando dizemos 'quatro em cada cinco', qual número representa o total de partes? E qual representa as partes escolhidas?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Excelente! Primeiro, digite o numerador (quantos preferiram) no campo de cima e o denominador (total de dentistas considerados) no campo de baixo. Depois, use o campo 'Number of parts' para dividir a reta em 5 partes iguais.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A fração tem denominador 5, então divida a reta em 5 partes. O ponto deve ficar na quarta marcação a partir do zero.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase pronto! Digite 4 em cima e 5 embaixo. Depois, no campo 'Number of parts', coloque 5 e clique em OK. Agora, marque o ponto exatamente na quarta linha da divisão — não na quinta, nem na terceira!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher os campos F1 e F2 com 4 e 5\\\",\\n          \\\"thinking\\\": \\\"Numerador é 4, denominador é 5... certo?\\\",\\n          \\\"result\\\": \\\"Campos preenchidos corretamente\\\",\\n          \\\"kcUsed\\\": \\\"IdenNumerator, IdenDenominator\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Usar o campo 'denom' para dividir a reta em 5 partes\\\",\\n          \\\"thinking\\\": \\\"Preciso dividir a reta em quantas partes? Ah, igual ao denominador!\\\",\\n          \\\"result\\\": \\\"Reta dividida corretamente em 5 partes\\\",\\n          \\\"kcUsed\\\": \\\"DivNumLine\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: o denominador nos diz em quantas partes iguais devemos dividir o intervalo entre 0 e 1. Qual é o denominador aqui?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Muito bem! O denominador é 5, então digite 5 no campo 'Number of parts' e clique em OK para ver a reta dividida.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Certo! A reta precisa ter 5 segmentos iguais. Verifique se apareceram 4 marcas entre 0 e 1 — isso significa 5 partes!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você já sabe! Digite exatamente o número que está embaixo da sua fração (o denominador) no campo 'Number of parts' e clique em OK. Pronto — agora a reta mostra 5 partes iguais!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Marcar o ponto correspondente a 4/5 na reta\\\",\\n          \\\"thinking\\\": \\\"Se tem 5 partes, a quarta marca é 4/5... mas será que é a quarta linha ou o quarto espaço?\\\",\\n          \\\"result\\\": \\\"Ponto marcado corretamente na posição 4/5\\\",\\n          \\\"kcUsed\\\": \\\"FindValueNumLine, FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Na reta numérica, cada marca representa uma fração. Se dividimos em 5 partes, a primeira marca é 1/5, a segunda é 2/5... então a quarta marca é qual fração?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Comece do zero e conte: 1ª marca = 1/5, 2ª = 2/5, 3ª = 3/5, 4ª = 4/5. Clique exatamente nessa quarta marca!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Atenção! Não clique no final da reta (que é 1). A fração 4/5 está logo antes do 1. Conte as marcas: 1, 2, 3, 4 — pare na quarta!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você consegue! Veja as linhas finas na reta: a primeira depois do 0 é 1/5, a segunda é 2/5, a terceira é 3/5, e a quarta... sim, é 4/5! Clique nela.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Clicar em Done para concluir\\\",\\n          \\\"thinking\\\": \\\"Acho que está tudo certo.\\\",\\n          \\\"result\\\": \\\"Problema concluído com resposta correta\\\",\\n          \\\"kcUsed\\\": \\\"FracLess1\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"4/5\\\",\\n      \\\"totalTime\\\": 78,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Aluno primeiro marca o ponto na reta por estimativa visual, depois ajusta o denominador\\\",\\n          \\\"steps\\\": [\\\"Estimar posição de 4/5\\\", \\\"Tentar diferentes valores em 'Number of parts'\\\", \\\"Ajustar até o rótulo mostrar 4/5\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Aluno usa contagem verbal ('1/5, 2/5...') enquanto move o cursor sobre a reta\\\",\\n          \\\"steps\\\": [\\\"Dividir reta em 5\\\", \\\"Contar em voz baixa\\\", \\\"Clicar na quarta marca\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado do problema",
+        "thinking": "O enunciado diz que 'quatro em cada cinco dentistas preferiam a Marca X'. Isso indica uma fração onde 4 é a parte e 5 é o todo.",
+        "result": "Identificada a fração implícita: {A}/{B} = 4/5",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Identificar o numerador da fração",
+        "thinking": "O numerador representa quantos dentistas escolheram a Marca X. O enunciado menciona 'quatro em cada cinco', então o numerador é 4.",
+        "result": "Numerador identificado como {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Identificar o denominador da fração",
+        "thinking": "O denominador representa o total de dentistas considerados. O enunciado menciona 'cada cinco', então o denominador é 5.",
+        "result": "Denominador identificado como {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Inserir o numerador no campo F1",
+        "thinking": "Vou digitar o valor do numerador ({A}) no campo superior da fração.",
+        "result": "Campo F1 preenchido com {A}",
+        "kcUsed": "IdenNumerator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Inserir o denominador no campo F2",
+        "thinking": "Vou digitar o valor do denominador ({B}) no campo inferior da fração.",
+        "result": "Campo F2 preenchido com {B}",
+        "kcUsed": "IdenDenominator",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Definir o número de partes na reta numérica",
+        "thinking": "Para representar a fração {A}/{B} na reta numérica, preciso dividir o intervalo [0,1] em {B} partes iguais.",
+        "result": "Campo 'Number of parts' definido como {B}",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Clicar em OK para dividir a reta em {B} partes",
+        "thinking": "Ao confirmar a divisão, a reta será particionada corretamente para localizar a fração.",
+        "result": "Reta numérica dividida em {B} partes iguais",
+        "kcUsed": "DivNumLine",
+        "timeEstimate": 2,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Marcar o ponto correspondente à fração na reta",
+        "thinking": "A fração {A}/{B} está localizada na {A}-ésima marcação a partir do zero.",
+        "result": "Ponto marcado na posição {A}/{B} na reta numérica",
+        "kcUsed": "FindValueNumLine",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Clicar no botão Done para concluir",
+        "thinking": "Todos os passos foram executados corretamente; posso finalizar o problema.",
+        "result": "Problema concluído com sucesso",
+        "kcUsed": "FracLess1",
+        "timeEstimate": 2,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{A}/{B}",
+      "totalTime": 33
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Digitar numerador e denominador diretamente nos campos F1 e F2",
+          "thinking": "O problema diz 'quatro em cada cinco', então o numerador é 4 e o denominador é 5.",
+          "result": "Campos preenchidos corretamente, mas o aluno não usa a reta numérica para validar",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Clicar em Done sem interagir com a reta numérica",
+          "thinking": "Já coloquei a fração, está certo.",
+          "result": "Sistema aceita resposta correta, mas o aluno ignora a representação visual",
+          "kcUsed": "FracLess1",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "4/5",
+        "wasCorrect": true
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Tentar dividir a reta numérica primeiro",
+          "thinking": "Preciso dividir a reta em partes. O problema fala de 'cinco', então ponho 5 no campo 'Number of parts'.",
+          "result": "Reta dividida em 5 partes iguais (correto)",
+          "kcUsed": "DivNumLine",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Marcar o ponto correspondente à fração na reta",
+          "thinking": "Quatro em cinco... então conto até a quarta marca. Mas começo do zero como primeira marca.",
+          "result": "Marca o ponto na **quinta** divisão (posição 1), não na quarta",
+          "kcUsed": "FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_contagem_marcas_em_vez_intervalos",
+           "type": "count_error",
+           "wrongAnswer": "5",
+           "description": "Aluno conta as marcas da reta (incluindo o 0 ou o 1) como se fossem as partes, em vez de contar os intervalos entre elas",
+           "mistakeLocation": "Ao posicionar a fração na reta, o aluno conta 5 marcas (0,1,2,3,4,5?) ou inclui o ponto final como parte da contagem",
+           "diagnosticQuestion": "Quantos espaços há entre 0 e 1 quando a reta está dividida em 5 partes? Vamos apontar cada espaço, não cada marca.",
+           "severity": "moderate",
+           "feedback": "Boa ideia dividir em 5 partes! Agora, vamos contar os **espaços** entre 0 e 1 — não as marquinhas. Quantos espaços você vê?",
+           "howToFix": "Treinar com réguas ou fitas: marcar divisões e destacar que o número de partes = número de intervalos, não de linhas"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Preencher F1 e F2 com base na posição marcada",
+          "thinking": "Como marquei na última marca antes do 1, deve ser 5/5.",
+          "result": "Digita 5 em F1 e 5 em F2",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_responde_fracao_inteira_por_posicao_errada",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/5",
+           "description": "Aluno posiciona incorretamente o ponto (na extremidade) e conclui que a fração é 5/5 em vez de 4/5",
+           "mistakeLocation": "Na leitura da posição na reta, o aluno associa a quinta marca ao valor 5/5 por estar 'no final'",
+           "diagnosticQuestion": "Se todos os dentistas preferissem a Marca X, qual seria a fração? E aqui, foi todos ou quase todos?",
+           "severity": "moderate",
+           "feedback": "Você percebeu que a fração está perto do 1 — isso faz sentido! Mas será que é exatamente 1? Vamos reler: 'quatro em cada cinco'... isso é todos ou quase todos?",
+           "howToFix": "Relacionar linguagem verbal com posição: 'quatro de cinco' → falta um para completar o inteiro → deve estar antes do 1"
+          }
+         }
+        ],
+        "finalAnswer": "5/5",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 3,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Ler o enunciado e identificar números",
+          "thinking": "Tem 'quatro' e 'cinco'. Talvez seja 5/4?",
+          "result": "Confusão entre ordem dos termos",
+          "kcUsed": "IdenNumerator, IdenDenominator",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inversao_numerador_denominador",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/4",
+           "description": "Aluno inverte numerador e denominador, respondendo o recíproco da fração correta",
+           "mistakeLocation": "Na interpretação da expressão 'quatro em cada cinco', o aluno associa 'cada cinco' ao numerador e 'quatro' ao denominador",
+           "diagnosticQuestion": "Se dissermos '2 em cada 3 crianças gostam de sorvete', quantas gostam? É mais da metade ou menos? E 3/2 seria maior que 1?",
+           "severity": "high",
+           "feedback": "Você pegou os números certos! Agora, pense: a fração pode ser maior que 1? Se são quatro **de** cinco, isso é mais ou menos que o todo?",
+           "howToFix": "Usar frases modelo: \"A de B\" → A/B; reforçar que o todo (denominador) vem depois de \"de\" ou \"em cada\""
+          }
+         },
+         {
+          "step": 2,
+          "action": "Tentar dividir a reta em 4 partes (porque digitou 5/4)",
+          "thinking": "Vou dividir em 4 partes porque o denominador é 4.",
+          "result": "Reta dividida em 4 partes",
+          "kcUsed": "DivNumLine",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Tentar marcar 5/4 na reta de 0 a 1",
+          "thinking": "Mas 5/4 passa do 1... não consigo marcar.",
+          "result": "Aluno desiste ou força marcação além do 1 (fora do intervalo visível)",
+          "kcUsed": "FracLess1, FindValueNumLine",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_frac_maior_que_um_em_problema_de_parte_do_todo",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/4",
+           "description": "Aluno produz fração imprópria em contexto de parte-do-todo (onde fração deve ser <1)",
+           "mistakeLocation": "Na modelagem da situação: não reconhece que 'parte de um grupo' implica fração própria",
+           "diagnosticQuestion": "É possível que mais dentistas tenham escolhido a Marca X do que o total de dentistas entrevistados?",
+           "severity": "high",
+           "feedback": "Ótima observação: 5/4 passa do 1! Isso nos dá uma dica: se temos 'quatro **de** cinco', podemos ter mais do que o total? Vamos pensar no que significa 'de'.",
+           "howToFix": "Reforçar que em problemas de 'parte de um todo', o numerador nunca pode ser maior que o denominador"
+          }
+         }
+        ],
+        "finalAnswer": "5/4",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "08dentists",
+        "step": 1,
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "errors": [
+         {
+          "misconceptionId": "misc_inversao_numerador_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "5/4",
+          "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+          "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+          "mistakeLocation": "Na extração da fração do enunciado verbal, confunde qual número representa a parte e qual representa o todo",
+          "diagnosticQuestion": "Na frase 'três de cada dez alunos usam óculos', quem é a parte e quem é o todo? Qual vai em cima?",
+          "feedback": "Você identificou os dois números corretamente! Agora, lembre-se: a parte (quantos escolheram) fica em cima, e o todo (total de dentistas) embaixo.",
+          "howToFix": "Praticar com cartões: 'A de B' → escrever A/B; usar cores para destacar parte (vermelho) e todo (azul)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_responde_apenas_numerador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "4",
+          "buggyRule": "Extrair apenas o primeiro número mencionado ('quatro') e ignorar o denominador, respondendo um inteiro nu",
+          "description": "Viés do número inteiro: aluno foca só na contagem da parte e esquece o todo",
+          "mistakeLocation": "Na identificação da fração, o aluno para no 'quatro' e não considera 'em cada cinco'",
+          "diagnosticQuestion": "Se você responde '4', isso quer dizer 4 dentistas? Mas o problema pergunta pela **fração** — ou seja, em relação ao total.",
+          "feedback": "Você acertou a parte dos dentistas que escolheram a Marca X! Mas a pergunta é: que **fração** do total isso representa? Precisamos saber também quantos eram no total.",
+          "howToFix": "Sempre sublinhar 'fração de...' e perguntar: 'fração de quê?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_responde_apenas_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "5",
+          "buggyRule": "Extrair apenas o número após 'cada' ('cinco') e responder esse inteiro como resposta",
+          "description": "Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte",
+          "mistakeLocation": "Na leitura do enunciado, o aluno associa a resposta ao 'cinco' porque soa como o número principal",
+          "diagnosticQuestion": "O 'cinco' representa o total de dentistas. Mas a pergunta é: quantos **preferiram** a Marca X? É o total ou uma parte dele?",
+          "feedback": "Você notou que o grupo tem cinco dentistas — muito bem! Agora, quantos **desses cinco** escolheram a Marca X? É isso que a fração mostra.",
+          "howToFix": "Usar dramatização: 5 alunos levantam a mão; 4 levantam outra mão para mostrar preferência. Perguntar: 'quantos de quantos?'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "08dentists",
+        "step": 2,
+        "kcUsed": "DivNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_pela_parte_em_vez_do_todo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "4",
+          "buggyRule": "Usar o numerador (4) como valor no campo 'Number of parts', em vez do denominador",
+          "description": "Aluno divide a reta em 4 partes porque pensa que 'quatro' determina a divisão",
+          "mistakeLocation": "Na ação de dividir a reta, o aluno usa o número da parte (numerador) como divisor, não o todo (denominador)",
+          "diagnosticQuestion": "Se a fração for 2/3, em quantas partes devemos dividir a reta? Pelo numerador ou pelo denominador?",
+          "feedback": "Você está tentando dividir a reta — ótimo! Lembre-se: o número **embaixo** da fração (denominador) diz em quantas partes iguais dividimos o todo.",
+          "howToFix": "Associar 'denominador' com 'dividir': mesmo som inicial; usar gesto de cortar em pedaços iguais",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_nao_divide_reta_assume_partes_corretas",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "1",
+          "buggyRule": "Deixar o campo 'Number of parts' no valor inicial (1) e marcar diretamente sem dividir",
+          "description": "Aluno ignora a necessidade de dividir a reta e tenta marcar a fração em uma reta não subdividida",
+          "mistakeLocation": "Na etapa de preparação da reta, o aluno pula a divisão e vai direto marcar o ponto",
+          "diagnosticQuestion": "Como você sabe onde fica 4/5 se a reta ainda está toda inteira, sem divisões?",
+          "feedback": "Você quer marcar 4/5 — ótimo objetivo! Mas primeiro precisamos dividir o segmento de 0 a 1 em 5 partes iguais. Veja o campo 'Number of parts'.",
+          "howToFix": "Obrigar (via interface ou instrução) a dividir antes de marcar; usar feedback automático: 'Divida primeiro!'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "08dentists",
+        "step": 3,
+        "kcUsed": "FindValueNumLine",
+        "errors": [
+         {
+          "misconceptionId": "misc_contagem_um_a_mais_na_posicao",
+          "type": "count_error",
+          "wrongAnswerPattern": "5/5",
+          "buggyRule": "Contar os intervalos começando do 0 como 'primeira parte', resultando em posição = numerador + 1; marcar na (A+1)-ésima marca, onde A=4",
+          "description": "Erro de off-by-one: aluno conta 5 marcas (0,1,2,3,4) e para na quinta, achando que é 4/5",
+          "mistakeLocation": "Na contagem das divisões na reta, o aluno inclui o ponto 0 como primeira posição válida",
+          "diagnosticQuestion": "Da marca 0 até a primeira linha, quantos quintos temos? E até a segunda?",
+          "feedback": "Você dividiu certinho em 5 partes! Agora, do 0 até a **primeira** linha, já temos 1/5. Até a segunda, 2/5... então até a quarta linha, quanto temos?",
+          "howToFix": "Numerar os intervalos (não as linhas): colar adesivos '1/5', '2/5' etc. nos espaços",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_ancora_na_metade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/2",
+          "buggyRule": "Ignorar os números do problema e marcar sempre no meio da reta (0.5), assumindo que 'muitos' = metade",
+          "description": "Âncora em fração de referência: aluno assume que qualquer preferência majoritária é 'metade' ou 'meio'",
+          "mistakeLocation": "Na decisão de onde marcar, o aluno substitui o raciocínio específico por uma referência familiar (1/2)",
+          "diagnosticQuestion": "Metade de cinco é quanto? Mas o problema diz quatro... isso é mais ou menos que a metade?",
+          "feedback": "Você sabe que mais da metade preferiu a Marca X — ótimo! Mas será que é só um pouco mais, ou quase todos? Quatro de cinco é quase tudo!",
+          "howToFix": "Comparar visualmente: desenhar 5 quadrados, pintar 4; comparar com 2 ou 3 pintados",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_posiciona_pela_diferenca_para_o_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "1/5",
+          "buggyRule": "Interpretar 'quatro em cinco' como 'falta um para cinco', e marcar a fração que falta (1/5) em vez da que está presente",
+          "description": "Gap thinking: aluno foca no que falta para completar o todo, não no que está presente",
+          "mistakeLocation": "Na interpretação do valor a ser marcado, o aluno usa a diferença (5-4=1) como numerador",
+          "diagnosticQuestion": "A fração mostra quantos **escolheram** ou quantos **não escolheram**? Quem é o foco da pergunta?",
+          "feedback": "Atenção: a pergunta é sobre quem **preferiu** a Marca X, não quem não preferiu. Dos cinco, quantos escolheram? É isso que vamos marcar.",
+          "howToFix": "Sublinhar a pergunta; usar duas cores: verde para 'preferiram', vermelho para 'não preferiram'",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "08dentists",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar a fração descrita",
+        "thinking": "Quatro em cada cinco dentistas... isso quer dizer 4 de 5, então deve ser 4/5. Mas como represento isso na reta?",
+        "result": "Identificou corretamente que a fração é 4/5, mas hesita em como usar a interface para representá-la",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando dizemos 'quatro em cada cinco', qual número representa o total de partes? E qual representa as partes escolhidas?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Excelente! Primeiro, digite o numerador (quantos preferiram) no campo de cima e o denominador (total de dentistas considerados) no campo de baixo. Depois, use o campo 'Number of parts' para dividir a reta em 5 partes iguais."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A fração tem denominador 5, então divida a reta em 5 partes. O ponto deve ficar na quarta marcação a partir do zero."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase pronto! Digite 4 em cima e 5 embaixo. Depois, no campo 'Number of parts', coloque 5 e clique em OK. Agora, marque o ponto exatamente na quarta linha da divisão — não na quinta, nem na terceira!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher os campos F1 e F2 com 4 e 5",
+        "thinking": "Numerador é 4, denominador é 5... certo?",
+        "result": "Campos preenchidos corretamente",
+        "kcUsed": "IdenNumerator, IdenDenominator",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Usar o campo 'denom' para dividir a reta em 5 partes",
+        "thinking": "Preciso dividir a reta em quantas partes? Ah, igual ao denominador!",
+        "result": "Reta dividida corretamente em 5 partes",
+        "kcUsed": "DivNumLine",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: o denominador nos diz em quantas partes iguais devemos dividir o intervalo entre 0 e 1. Qual é o denominador aqui?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Muito bem! O denominador é 5, então digite 5 no campo 'Number of parts' e clique em OK para ver a reta dividida."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Certo! A reta precisa ter 5 segmentos iguais. Verifique se apareceram 4 marcas entre 0 e 1 — isso significa 5 partes!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você já sabe! Digite exatamente o número que está embaixo da sua fração (o denominador) no campo 'Number of parts' e clique em OK. Pronto — agora a reta mostra 5 partes iguais!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Marcar o ponto correspondente a 4/5 na reta",
+        "thinking": "Se tem 5 partes, a quarta marca é 4/5... mas será que é a quarta linha ou o quarto espaço?",
+        "result": "Ponto marcado corretamente na posição 4/5",
+        "kcUsed": "FindValueNumLine, FracLess1",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Na reta numérica, cada marca representa uma fração. Se dividimos em 5 partes, a primeira marca é 1/5, a segunda é 2/5... então a quarta marca é qual fração?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Comece do zero e conte: 1ª marca = 1/5, 2ª = 2/5, 3ª = 3/5, 4ª = 4/5. Clique exatamente nessa quarta marca!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Atenção! Não clique no final da reta (que é 1). A fração 4/5 está logo antes do 1. Conte as marcas: 1, 2, 3, 4 — pare na quarta!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você consegue! Veja as linhas finas na reta: a primeira depois do 0 é 1/5, a segunda é 2/5, a terceira é 3/5, e a quarta... sim, é 4/5! Clique nela."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Clicar em Done para concluir",
+        "thinking": "Acho que está tudo certo.",
+        "result": "Problema concluído com resposta correta",
+        "kcUsed": "FracLess1",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "4/5",
+      "totalTime": 78,
+      "alternativeRoutes": [
+       {
+        "description": "Aluno primeiro marca o ponto na reta por estimativa visual, depois ajusta o denominador",
+        "steps": [
+         "Estimar posição de 4/5",
+         "Tentar diferentes valores em 'Number of parts'",
+         "Ajustar até o rótulo mostrar 4/5"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Aluno usa contagem verbal ('1/5, 2/5...') enquanto move o cursor sobre a reta",
+        "steps": [
+         "Dividir reta em 5",
+         "Contar em voz baixa",
+         "Clicar na quarta marca"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 4,
+  "errosEspecificos": 4,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 4
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 9,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado; pergunta \"Qual é a fração presente no problema?\" com duas caixas numéricas (F1 em cima = numerador, F2 embaixo = denominador); reta numérica de 0 a 1 (numline) onde o aluno marca um ponto; campo \"Number of parts\" (denom) + OK que divide a reta em partes iguais (começa em 1); o rótulo da fração aparece como apoio na reta; botão Hint; botão Done. Os passos do aluno são ações NESSES componentes (digitar nos campos, dividir a reta, marcar o ponto, concluir).",
+  "retaNumerica": {
+   "de": 0,
+   "ate": 1,
+   "partesIniciais": 1
+  },
+  "caixaFracaoExibida": true,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "numline",
+    "tipo": "numberline",
+    "papel": "reta numérica; o aluno adiciona um ponto (marca a posição da fração)"
+   },
+   {
+    "id": "F1",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de cima da fração (numerador)"
+   },
+   {
+    "id": "F2",
+    "tipo": "numeric",
+    "papel": "campo numérico da caixa de baixo da fração (denominador)"
+   },
+   {
+    "id": "denom",
+    "tipo": "numeric",
+    "papel": "campo numérico \"Number of parts\" + botão OK: divide a reta em partes iguais"
+   },
+   {
+    "id": "showAnswer",
+    "tipo": "button",
+    "papel": "botão que registra a fração informada"
+   },
+   {
+    "id": "writeFractionStep",
+    "tipo": "control",
+    "papel": "controle que exibe a etapa de escrever a fração"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Represente na caixa de fração a relação descrita entre os dentistas que preferiram a Marca X e o total.",
+     "kc": "IdenNumerator",
+     "valor": "4/5"
+    },
+    {
+     "indice": 2,
+     "acao": "Manipule o modelo e indique quantas partes representam os dentistas que preferiram a Marca X.",
+     "kc": "IdenNumerator",
+     "valor": "4"
+    },
+    {
+     "indice": 3,
+     "acao": "Manipule o modelo e indique em quantas partes iguais o grupo total foi considerado.",
+     "kc": "IdenDenominator",
+     "valor": "5"
+    },
+    {
+     "indice": 4,
+     "acao": "Digite no campo F1, a caixa superior, o numerador da fração.",
+     "kc": "IdenNumerator",
+     "valor": "4"
+    },
+    {
+     "indice": 5,
+     "acao": "Digite no campo F2, a caixa inferior, o denominador da fração.",
+     "kc": "IdenDenominator",
+     "valor": "5"
+    },
+    {
+     "indice": 6,
+     "acao": "Digite 5 no campo denom para dividir a reta numérica em partes iguais.",
+     "kc": "DivNumLine",
+     "valor": "5"
+    },
+    {
+     "indice": 7,
+     "acao": "Clique em OK no controle denom para aplicar as cinco divisões iguais na reta.",
+     "kc": "DivNumLine",
+     "valor": "ok"
+    },
+    {
+     "indice": 8,
+     "acao": "Marque na reta o ponto correspondente à fração dos dentistas que preferiram a Marca X.",
+     "kc": "FindValueNumLine",
+     "valor": "4/5"
+    },
+    {
+     "indice": 9,
+     "acao": "Clique em Done para concluir a representação da fração na reta numérica.",
+     "kc": "FracLess1",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "5/4",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você trocou a ordem dos números. A quantidade que preferiu a Marca X fica em cima, e o total de dentistas fica embaixo.",
+     "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "4",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você identificou a quantidade favorável, mas uma fração também precisa indicar o total ao qual essa quantidade se refere.",
+     "buggyRule": "Extrair apenas o primeiro número mencionado ('quatro') e ignorar o denominador, respondendo um inteiro nu",
+     "misconceptionId": "misc_responde_apenas_numerador"
+    },
+    {
+     "valor": "5",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você identificou o total, mas ainda precisa registrar quantos dentistas preferiram a Marca X em relação a esse total.",
+     "buggyRule": "Extrair apenas o número após 'cada' ('cinco') e responder esse inteiro como resposta",
+     "misconceptionId": "misc_responde_apenas_denominador"
+    },
+    {
+     "valor": "5",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você respondeu com o total de partes. O numerador deve contar somente as partes favoráveis, isto é, as escolhas pela Marca X.",
+     "buggyRule": "Extrair apenas o número após 'cada' ('cinco') e responder esse inteiro como resposta",
+     "misconceptionId": "misc_responde_apenas_denominador"
+    },
+    {
+     "valor": "4",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você colocou a parte favorável no lugar do total. O denominador deve representar todas as partes do grupo.",
+     "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "5",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o total no campo superior. O campo F1 é o numerador e deve registrar apenas a parte favorável.",
+     "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "4",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você colocou a parte favorável no campo inferior. O denominador deve indicar o total de partes do grupo.",
+     "buggyRule": "Inverter os números da expressão 'quatro em cada cinco': usar o segundo número como numerador e o primeiro como denominador → {B}/{A}, onde A=4, B=5",
+     "misconceptionId": "misc_inversao_numerador_denominador"
+    },
+    {
+     "valor": "4",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você usou o numerador para dividir a reta. O número de partes iguais vem do denominador, que representa o todo.",
+     "buggyRule": "Usar o numerador (4) como valor no campo 'Number of parts', em vez do denominador",
+     "misconceptionId": "misc_divide_pela_parte_em_vez_do_todo"
+    },
+    {
+     "valor": "1",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "A reta ainda está inteira. Para localizar a fração, primeiro divida o intervalo de 0 a 1 em partes iguais.",
+     "buggyRule": "Deixar o campo 'Number of parts' no valor inicial (1) e marcar diretamente sem dividir",
+     "misconceptionId": "misc_nao_divide_reta_assume_partes_corretas"
+    },
+    {
+     "valor": "5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você contou marcas em vez de intervalos. As partes são os espaços entre as marcas da reta.",
+     "buggyRule": "",
+     "misconceptionId": "misc_contagem_marcas_em_vez_intervalos"
+    },
+    {
+     "valor": "5/5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você marcou a extremidade 1, que representa o todo completo. A preferência pela Marca X fica um intervalo antes do 1.",
+     "buggyRule": "",
+     "misconceptionId": "misc_responde_fracao_inteira_por_posicao_errada"
+    },
+    {
+     "valor": "1/2",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você marcou o meio da reta, mas a situação indica uma quantidade maior que a metade e próxima do inteiro.",
+     "buggyRule": "Ignorar os números do problema e marcar sempre no meio da reta (0.5), assumindo que 'muitos' = metade",
+     "misconceptionId": "misc_ancora_na_metade"
+    },
+    {
+     "valor": "1/5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Você marcou a parte que falta para completar o grupo. A pergunta pede a parte dos dentistas que preferiram a Marca X.",
+     "buggyRule": "Interpretar 'quatro em cinco' como 'falta um para cinco', e marcar a fração que falta (1/5) em vez da que está presente",
+     "misconceptionId": "misc_posiciona_pela_diferenca_para_o_inteiro"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Uma fração de parte do todo mostra primeiro quantas partes são consideradas e depois em quantas partes iguais o todo foi dividido."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Transforme a expressão “quatro em cada cinco” em uma fração, colocando a parte favorável sobre o total."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "A parte favorável corresponde aos dentistas que escolheram a Marca X; o total aparece depois da expressão “em cada”."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Preencha a caixa de cima com a quantidade que preferiu a Marca X e a caixa de baixo com o total mencionado no enunciado."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "O numerador representa a parte do grupo que atende à pergunta."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Localize no modelo a quantidade de dentistas que escolheram a Marca X e registre essa quantidade na parte superior."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "Use o primeiro número da expressão “quatro em cada cinco” para preencher o numerador."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Conte as escolhas pela Marca X e coloque essa contagem na caixa superior da fração."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "O denominador informa em quantas partes iguais o todo foi dividido."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Observe a expressão “em cada” e use o número que indica o tamanho total do grupo."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "O denominador fica na parte inferior da fração e representa todos os dentistas do grupo considerado."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Registre na caixa inferior o número que completa a expressão “quatro em cada ___”."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "A caixa superior da fração representa a parte favorável."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Leia quantos dentistas preferiram a Marca X e transfira essa quantidade para o campo F1."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "F1 não recebe o total do grupo; ele recebe somente a quantidade de preferências pela Marca X."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Digite no campo superior o primeiro número da expressão “quatro em cada cinco”."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "A caixa inferior mostra o total usado como referência para a parte."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Encontre o número que indica o total na expressão do enunciado e coloque-o no campo F2."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "F2 representa todos os dentistas do grupo, não apenas os que escolheram a Marca X."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Complete a expressão “quatro em cada ___” digitando o número no campo inferior."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "O denominador também informa quantas partes iguais devem aparecer na reta de 0 a 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Use o denominador como o número de divisões do intervalo inteiro."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Não use a quantidade favorável para dividir a reta; use o total de partes da fração."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Digite no campo denom o número que aparece na parte inferior da fração e que define os intervalos iguais."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "A confirmação aplica à reta a divisão que você definiu no campo denom."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Depois de informar o número de partes, use o botão ... para atualizar a reta."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Verifique se o campo denom está preenchido antes de confirmar a divisão."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Com o número de partes preenchido, pressione o botão ... para aplicar a configuração."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Na reta de 0 a 1, o denominador indica o tamanho dos intervalos e o numerador indica quantos intervalos avançar."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Comece no 0 e conte os intervalos iguais até alcançar a quantidade indicada pelo numerador."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "A posição correta fica antes do 1, pois falta apenas um intervalo para completar o todo."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "A partir do 0, avance quatro intervalos de um quinto e coloque o ponto na quarta marca interna."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "Uma fração de parte de um todo fica entre 0 e 1 quando a parte é menor que o total."
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Confira se a fração escrita e o ponto marcado na reta representam a mesma situação."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "O ponto deve estar antes do 1 e a reta deve mostrar cinco partes iguais."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Depois de confirmar a fração e a posição do ponto, pressione o botão Done para finalizar."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": true,
+   "contemResposta": true,
+   "valoresEstranhos": [],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "4/5",
+    "4",
+    "5",
+    "4",
+    "5",
+    "5",
+    "ok",
+    "4/5",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Vários dentistas foram solicitados a escolher entre duas pastas de dente: Marca X e Marca Y. Quatro em cada cinco dentistas disseram que preferiam a Marca X à Marca Y. Use a reta numérica para mostrar qual fração dos dentistas preferiu a Marca X.\nQual é a fração presente no problema?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Represente na caixa de fração a relação descrita entre os dentistas que preferiram a Marca X e o total.",
+     "expectedAnswer": "4/5",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Manipule o modelo e indique quantas partes representam os dentistas que preferiram a Marca X.",
+     "expectedAnswer": "4",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Manipule o modelo e indique em quantas partes iguais o grupo total foi considerado.",
+     "expectedAnswer": "5",
+     "renderAs": "composition",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Digite no campo F1, a caixa superior, o numerador da fração.",
+     "expectedAnswer": "4",
+     "renderAs": "composition",
+     "kc": "IdenNumerator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Digite no campo F2, a caixa inferior, o denominador da fração.",
+     "expectedAnswer": "5",
+     "renderAs": "composition",
+     "kc": "IdenDenominator",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Digite 5 no campo denom para dividir a reta numérica em partes iguais.",
+     "expectedAnswer": "5",
+     "renderAs": "composition",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Clique em OK no controle denom para aplicar as cinco divisões iguais na reta.",
+     "expectedAnswer": "ok",
+     "renderAs": "composition",
+     "kc": "DivNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Marque na reta o ponto correspondente à fração dos dentistas que preferiram a Marca X.",
+     "expectedAnswer": "4/5",
+     "renderAs": "composition",
+     "kc": "FindValueNumLine",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Clique em Done para concluir a representação da fração na reta numérica.",
+     "expectedAnswer": "ok",
+     "renderAs": "composition",
+     "kc": "FracLess1",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 61879,
+   "exerciciosGerados": 1,
+   "passosGenericos": 9,
+   "passosMaterializados": 9,
+   "dicasMaterializadas": 36,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Represente na caixa de fração a relação descrita entre os dentistas que preferiram a Marca X e o total.",
+     "instruction": "Represente na caixa de fração a relação descrita entre os dentistas que preferiram a Marca X e o total.",
+     "expectedInput": {
+      "value": "4/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4/5"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "fraction_input",
+        "elements": [
+         {
+          "component": "fraction_input",
+          "label": "Fração da preferência pela Marca X",
+          "target": "writeFractionStep",
+          "fields": [
+           {
+            "id": "F1",
+            "role": "numerator"
+           },
+           {
+            "id": "F2",
+            "role": "denominator"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "fraction_input",
+         "elements": [
+          {
+           "component": "fraction_input",
+           "label": "Fração da preferência pela Marca X",
+           "target": "writeFractionStep",
+           "fields": [
+            {
+             "id": "F1",
+             "role": "numerator"
+            },
+            {
+             "id": "F2",
+             "role": "denominator"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Uma fração de parte do todo mostra primeiro quantas partes são consideradas e depois em quantas partes iguais o todo foi dividido."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Transforme a expressão “quatro em cada cinco” em uma fração, colocando a parte favorável sobre o total."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A parte favorável corresponde aos dentistas que escolheram a Marca X; o total aparece depois da expressão “em cada”."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Preencha a caixa de cima com a quantidade que preferiu a Marca X e a caixa de baixo com o total mencionado no enunciado."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "5/4",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+       "feedback": "Você trocou a ordem dos números. A quantidade que preferiu a Marca X fica em cima, e o total de dentistas fica embaixo.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_apenas_numerador",
+       "wrongAnswer": "4",
+       "misconceptionType": "conceptual_error",
+       "description": "Viés do número inteiro: aluno foca só na contagem da parte e esquece o todo",
+       "feedback": "Você identificou a quantidade favorável, mas uma fração também precisa indicar o total ao qual essa quantidade se refere.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_apenas_denominador",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte",
+       "feedback": "Você identificou o total, mas ainda precisa registrar quantos dentistas preferiram a Marca X em relação a esse total.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_1",
+      "scaffold_misc_responde_apenas_numerador",
+      "scaffold_misc_responde_apenas_denominador__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Manipule o modelo e indique quantas partes representam os dentistas que preferiram a Marca X.",
+     "instruction": "Manipule o modelo e indique quantas partes representam os dentistas que preferiram a Marca X.",
+     "expectedInput": {
+      "value": "4",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "transform",
+        "elements": [
+         {
+          "component": "fraction_bar",
+          "label": "Partes que preferiram a Marca X",
+          "denominator": 5,
+          "numerator": 4,
+          "mode": "identify",
+          "visualModel": "bar"
+         },
+         {
+          "component": "numeric_keypad",
+          "label": "Numerador",
+          "target": "F1"
+         }
+        ],
+        "separator": "→"
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "transform",
+         "elements": [
+          {
+           "component": "fraction_bar",
+           "label": "Partes que preferiram a Marca X",
+           "denominator": 5,
+           "numerator": 4,
+           "mode": "identify",
+           "visualModel": "bar"
+          },
+          {
+           "component": "numeric_keypad",
+           "label": "Numerador",
+           "target": "F1"
+          }
+         ],
+         "separator": "→"
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O numerador representa a parte do grupo que atende à pergunta."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Localize no modelo a quantidade de dentistas que escolheram a Marca X e registre essa quantidade na parte superior."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use o primeiro número da expressão “quatro em cada cinco” para preencher o numerador."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Conte as escolhas pela Marca X e coloque essa contagem na caixa superior da fração."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_responde_apenas_denominador",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte",
+       "feedback": "Você respondeu com o total de partes. O numerador deve contar somente as partes favoráveis, isto é, as escolhas pela Marca X.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_responde_apenas_denominador__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Manipule o modelo e indique em quantas partes iguais o grupo total foi considerado.",
+     "instruction": "Manipule o modelo e indique em quantas partes iguais o grupo total foi considerado.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "transform",
+        "elements": [
+         {
+          "component": "fraction_bar",
+          "label": "Total de partes",
+          "denominator": 5,
+          "numerator": 4,
+          "mode": "identify",
+          "visualModel": "bar"
+         },
+         {
+          "component": "numeric_keypad",
+          "label": "Denominador",
+          "target": "F2"
+         }
+        ],
+        "separator": "→"
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "transform",
+         "elements": [
+          {
+           "component": "fraction_bar",
+           "label": "Total de partes",
+           "denominator": 5,
+           "numerator": 4,
+           "mode": "identify",
+           "visualModel": "bar"
+          },
+          {
+           "component": "numeric_keypad",
+           "label": "Denominador",
+           "target": "F2"
+          }
+         ],
+         "separator": "→"
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O denominador informa em quantas partes iguais o todo foi dividido."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Observe a expressão “em cada” e use o número que indica o tamanho total do grupo."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O denominador fica na parte inferior da fração e representa todos os dentistas do grupo considerado."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Registre na caixa inferior o número que completa a expressão “quatro em cada ___”."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "4",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+       "feedback": "Você colocou a parte favorável no lugar do total. O denominador deve representar todas as partes do grupo.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Digite no campo F1, a caixa superior, o numerador da fração.",
+     "instruction": "Digite no campo F1, a caixa superior, o numerador da fração.",
+     "expectedInput": {
+      "value": "4",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "single",
+        "elements": [
+         {
+          "component": "numeric_keypad",
+          "label": "F1 — numerador",
+          "target": "F1",
+          "value": 4
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "single",
+         "elements": [
+          {
+           "component": "numeric_keypad",
+           "label": "F1 — numerador",
+           "target": "F1",
+           "value": 4
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A caixa superior da fração representa a parte favorável."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Leia quantos dentistas preferiram a Marca X e transfira essa quantidade para o campo F1."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "F1 não recebe o total do grupo; ele recebe somente a quantidade de preferências pela Marca X."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo superior o primeiro número da expressão “quatro em cada cinco”."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+       "feedback": "Você usou o total no campo superior. O campo F1 é o numerador e deve registrar apenas a parte favorável.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Digite no campo F2, a caixa inferior, o denominador da fração.",
+     "instruction": "Digite no campo F2, a caixa inferior, o denominador da fração.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "single",
+        "elements": [
+         {
+          "component": "numeric_keypad",
+          "label": "F2 — denominador",
+          "target": "F2",
+          "value": 5
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "single",
+         "elements": [
+          {
+           "component": "numeric_keypad",
+           "label": "F2 — denominador",
+           "target": "F2",
+           "value": 5
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A caixa inferior mostra o total usado como referência para a parte."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Encontre o número que indica o total na expressão do enunciado e coloque-o no campo F2."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "F2 representa todos os dentistas do grupo, não apenas os que escolheram a Marca X."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Complete a expressão “quatro em cada ___” digitando o número no campo inferior."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inversao_numerador_denominador",
+       "wrongAnswer": "4",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+       "feedback": "Você colocou a parte favorável no campo inferior. O denominador deve indicar o total de partes do grupo.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inversao_numerador_denominador__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Digite 5 no campo denom para dividir a reta numérica em partes iguais.",
+     "instruction": "Digite 5 no campo denom para dividir a reta numérica em partes iguais.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "single",
+        "elements": [
+         {
+          "component": "numeric_keypad",
+          "label": "Number of parts",
+          "target": "denom",
+          "value": 5
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "single",
+         "elements": [
+          {
+           "component": "numeric_keypad",
+           "label": "Number of parts",
+           "target": "denom",
+           "value": 5
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O denominador também informa quantas partes iguais devem aparecer na reta de 0 a 1."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use o denominador como o número de divisões do intervalo inteiro."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Não use a quantidade favorável para dividir a reta; use o total de partes da fração."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no campo denom o número que aparece na parte inferior da fração e que define os intervalos iguais."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_pela_parte_em_vez_do_todo",
+       "wrongAnswer": "4",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide a reta em 4 partes porque pensa que 'quatro' determina a divisão",
+       "feedback": "Você usou o numerador para dividir a reta. O número de partes iguais vem do denominador, que representa o todo.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_nao_divide_reta_assume_partes_corretas",
+       "wrongAnswer": "1",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno ignora a necessidade de dividir a reta e tenta marcar a fração em uma reta não subdividida",
+       "feedback": "A reta ainda está inteira. Para localizar a fração, primeiro divida o intervalo de 0 a 1 em partes iguais.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_pela_parte_em_vez_do_todo",
+      "scaffold_misc_nao_divide_reta_assume_partes_corretas",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Clique em OK no controle denom para aplicar as cinco divisões iguais na reta.",
+     "instruction": "Clique em OK no controle denom para aplicar as cinco divisões iguais na reta.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "single",
+        "elements": [
+         {
+          "component": "numeric_keypad",
+          "label": "OK do controle denom",
+          "target": "denom",
+          "controlAction": "confirm"
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "single",
+         "elements": [
+          {
+           "component": "numeric_keypad",
+           "label": "OK do controle denom",
+           "target": "denom",
+           "controlAction": "confirm"
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A confirmação aplica à reta a divisão que você definiu no campo denom."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Depois de informar o número de partes, use o botão ... para atualizar a reta."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Verifique se o campo denom está preenchido antes de confirmar a divisão."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Com o número de partes preenchido, pressione o botão ... para aplicar a configuração."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Marque na reta o ponto correspondente à fração dos dentistas que preferiram a Marca X.",
+     "instruction": "Marque na reta o ponto correspondente à fração dos dentistas que preferiram a Marca X.",
+     "expectedInput": {
+      "value": "4/5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4/5"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "compare",
+        "separator": "=",
+        "elements": [
+         {
+          "component": "number_line",
+          "label": "Reta numérica de 0 a 1",
+          "min": 0,
+          "max": 1,
+          "parts": 5,
+          "target": "numline",
+          "marker": "4/5"
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "compare",
+         "separator": "=",
+         "elements": [
+          {
+           "component": "number_line",
+           "label": "Reta numérica de 0 a 1",
+           "min": 0,
+           "max": 1,
+           "parts": 5,
+           "target": "numline",
+           "marker": "4/5"
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Na reta de 0 a 1, o denominador indica o tamanho dos intervalos e o numerador indica quantos intervalos avançar."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Comece no 0 e conte os intervalos iguais até alcançar a quantidade indicada pelo numerador."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A posição correta fica antes do 1, pois falta apenas um intervalo para completar o todo."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "A partir do 0, avance quatro intervalos de um quinto e coloque o ponto na quarta marca interna."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_contagem_marcas_em_vez_intervalos",
+       "wrongAnswer": "5",
+       "misconceptionType": "count_error",
+       "description": "Aluno conta as marcas da reta (incluindo o 0 ou o 1) como se fossem as partes, em vez de contar os intervalos entre elas",
+       "feedback": "Você contou marcas em vez de intervalos. As partes são os espaços entre as marcas da reta.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_responde_fracao_inteira_por_posicao_errada",
+       "wrongAnswer": "5/5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno posiciona incorretamente o ponto (na extremidade) e conclui que a fração é 5/5 em vez de 4/5",
+       "feedback": "Você marcou a extremidade 1, que representa o todo completo. A preferência pela Marca X fica um intervalo antes do 1.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_ancora_na_metade",
+       "wrongAnswer": "1/2",
+       "misconceptionType": "conceptual_error",
+       "description": "Âncora em fração de referência: aluno assume que qualquer preferência majoritária é 'metade' ou 'meio'",
+       "feedback": "Você marcou o meio da reta, mas a situação indica uma quantidade maior que a metade e próxima do inteiro.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_posiciona_pela_diferenca_para_o_inteiro",
+       "wrongAnswer": "1/5",
+       "misconceptionType": "conceptual_error",
+       "description": "Gap thinking: aluno foca no que falta para completar o todo, não no que está presente",
+       "feedback": "Você marcou a parte que falta para completar o grupo. A pergunta pede a parte dos dentistas que preferiram a Marca X.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_contagem_marcas_em_vez_intervalos",
+      "scaffold_misc_responde_fracao_inteira_por_posicao_errada",
+      "scaffold_misc_ancora_na_metade",
+      "scaffold_misc_posiciona_pela_diferenca_para_o_inteiro",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Clique em Done para concluir a representação da fração na reta numérica.",
+     "instruction": "Clique em Done para concluir a representação da fração na reta numérica.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "composition",
+      "componentId": "composition",
+      "componentProps": {
+       "composition": {
+        "layout": "single",
+        "elements": [
+         {
+          "component": "fraction_bar",
+          "label": "Representação final de 4/5 entre 0 e 1",
+          "denominator": 5,
+          "numerator": 4,
+          "mode": "identify",
+          "visualModel": "bar"
+         },
+         {
+          "component": "numeric_keypad",
+          "label": "Done",
+          "target": "done",
+          "controlAction": "complete"
+         }
+        ]
+       }
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "composition": {
+         "layout": "single",
+         "elements": [
+          {
+           "component": "fraction_bar",
+           "label": "Representação final de 4/5 entre 0 e 1",
+           "denominator": 5,
+           "numerator": 4,
+           "mode": "identify",
+           "visualModel": "bar"
+          },
+          {
+           "component": "numeric_keypad",
+           "label": "Done",
+           "target": "done",
+           "controlAction": "complete"
+          }
+         ]
+        }
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Uma fração de parte de um todo fica entre 0 e 1 quando a parte é menor que o total."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Confira se a fração escrita e o ponto marcado na reta representam a mesma situação."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O ponto deve estar antes do 1 e a reta deve mostrar cinco partes iguais."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Depois de confirmar a fração e a posição do ponto, pressione o botão Done para finalizar."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FracLess1"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+     "instruction": "Você trocou a ordem dos números. A quantidade que preferiu a Marca X fica em cima, e o total de dentistas fica embaixo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_responde_apenas_numerador",
+     "type": "scaffold",
+     "description": "Viés do número inteiro: aluno foca só na contagem da parte e esquece o todo",
+     "instruction": "Você identificou a quantidade favorável, mas uma fração também precisa indicar o total ao qual essa quantidade se refere.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_apenas_numerador"
+    },
+    {
+     "id": "scaffold_misc_responde_apenas_denominador__step_1",
+     "type": "scaffold",
+     "description": "Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte",
+     "instruction": "Você identificou o total, mas ainda precisa registrar quantos dentistas preferiram a Marca X em relação a esse total.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_apenas_denominador"
+    },
+    {
+     "id": "scaffold_misc_responde_apenas_denominador__step_2",
+     "type": "scaffold",
+     "description": "Viés do número inteiro: aluno foca no tamanho do grupo (todo) e ignora a parte",
+     "instruction": "Você respondeu com o total de partes. O numerador deve contar somente as partes favoráveis, isto é, as escolhas pela Marca X.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_apenas_denominador"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_3",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+     "instruction": "Você colocou a parte favorável no lugar do total. O denominador deve representar todas as partes do grupo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_4",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+     "instruction": "Você usou o total no campo superior. O campo F1 é o numerador e deve registrar apenas a parte favorável.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenNumerator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_inversao_numerador_denominador__step_5",
+     "type": "scaffold",
+     "description": "Aluno troca numerador e denominador ao interpretar a linguagem natural",
+     "instruction": "Você colocou a parte favorável no campo inferior. O denominador deve indicar o total de partes do grupo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "IdenDenominator"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inversao_numerador_denominador"
+    },
+    {
+     "id": "scaffold_misc_divide_pela_parte_em_vez_do_todo",
+     "type": "scaffold",
+     "description": "Aluno divide a reta em 4 partes porque pensa que 'quatro' determina a divisão",
+     "instruction": "Você usou o numerador para dividir a reta. O número de partes iguais vem do denominador, que representa o todo.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_pela_parte_em_vez_do_todo"
+    },
+    {
+     "id": "scaffold_misc_nao_divide_reta_assume_partes_corretas",
+     "type": "scaffold",
+     "description": "Aluno ignora a necessidade de dividir a reta e tenta marcar a fração em uma reta não subdividida",
+     "instruction": "A reta ainda está inteira. Para localizar a fração, primeiro divida o intervalo de 0 a 1 em partes iguais.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "DivNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_nao_divide_reta_assume_partes_corretas"
+    },
+    {
+     "id": "scaffold_misc_contagem_marcas_em_vez_intervalos",
+     "type": "scaffold",
+     "description": "Aluno conta as marcas da reta (incluindo o 0 ou o 1) como se fossem as partes, em vez de contar os intervalos entre elas",
+     "instruction": "Você contou marcas em vez de intervalos. As partes são os espaços entre as marcas da reta.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_contagem_marcas_em_vez_intervalos"
+    },
+    {
+     "id": "scaffold_misc_responde_fracao_inteira_por_posicao_errada",
+     "type": "scaffold",
+     "description": "Aluno posiciona incorretamente o ponto (na extremidade) e conclui que a fração é 5/5 em vez de 4/5",
+     "instruction": "Você marcou a extremidade 1, que representa o todo completo. A preferência pela Marca X fica um intervalo antes do 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_responde_fracao_inteira_por_posicao_errada"
+    },
+    {
+     "id": "scaffold_misc_ancora_na_metade",
+     "type": "scaffold",
+     "description": "Âncora em fração de referência: aluno assume que qualquer preferência majoritária é 'metade' ou 'meio'",
+     "instruction": "Você marcou o meio da reta, mas a situação indica uma quantidade maior que a metade e próxima do inteiro.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_ancora_na_metade"
+    },
+    {
+     "id": "scaffold_misc_posiciona_pela_diferenca_para_o_inteiro",
+     "type": "scaffold",
+     "description": "Gap thinking: aluno foca no que falta para completar o todo, não no que está presente",
+     "instruction": "Você marcou a parte que falta para completar o grupo. A pergunta pede a parte dos dentistas que preferiram a Marca X.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "FindValueNumLine"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_posiciona_pela_diferenca_para_o_inteiro"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(IdenNumerator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(IdenDenominator, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(DivNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(FindValueNumLine, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(FracLess1, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_responde_apenas_numerador",
+     "condition": "misconception(misc_responde_apenas_numerador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_apenas_numerador",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_responde_apenas_denominador__step_1",
+     "condition": "misconception(misc_responde_apenas_denominador)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_responde_apenas_denominador__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_responde_apenas_denominador__step_2",
+     "condition": "misconception(misc_responde_apenas_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_responde_apenas_denominador__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_3",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_4",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_inversao_numerador_denominador__step_5",
+     "condition": "misconception(misc_inversao_numerador_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inversao_numerador_denominador__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_divide_pela_parte_em_vez_do_todo",
+     "condition": "misconception(misc_divide_pela_parte_em_vez_do_todo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_pela_parte_em_vez_do_todo",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_nao_divide_reta_assume_partes_corretas",
+     "condition": "misconception(misc_nao_divide_reta_assume_partes_corretas)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_nao_divide_reta_assume_partes_corretas",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_contagem_marcas_em_vez_intervalos",
+     "condition": "misconception(misc_contagem_marcas_em_vez_intervalos)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_contagem_marcas_em_vez_intervalos",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_responde_fracao_inteira_por_posicao_errada",
+     "condition": "misconception(misc_responde_fracao_inteira_por_posicao_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_responde_fracao_inteira_por_posicao_errada",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_ancora_na_metade",
+     "condition": "misconception(misc_ancora_na_metade)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_ancora_na_metade",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_posiciona_pela_diferenca_para_o_inteiro",
+     "condition": "misconception(misc_posiciona_pela_diferenca_para_o_inteiro)",
+     "priority": 5
+    },
+    {
+     "from": "scaffold_misc_posiciona_pela_diferenca_para_o_inteiro",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}

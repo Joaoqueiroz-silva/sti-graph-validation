@@ -25,12 +25,12 @@ const BRACOS = { "custo-beneficio": "flash-lite (alunos)", "estudantes-qwen": "q
 
 /** Corpora do experimento consolidado — acrescentar conforme concluídos. */
 export const CORPORA = [
-  { corpus: "6.17 Fraction Identification (frac-numberline-6.17)", pasta: "resultados/rodada4-interface-fixa-2026-08-15", prefixo: "materializado-v2-fixa-" },
-  { corpus: "6.19 Fractions and Estimates (frac-estimates-6.19)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.19", prefixo: "materializado-v2-fixa-" },
-  { corpus: "6.18 Equivalent Fractions (equiv-fractions-6.18)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.18", prefixo: "materializado-v2-fixa-" },
-  { corpus: "6.20 Fraction Ordering (fraction-ordering-6.20)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.20", prefixo: "materializado-v2-fixa-" },
-  { corpus: "8.12 Factors, Scaling, and Percents (8.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/8.12", prefixo: "materializado-v2-fixa-" },
-  { corpus: "7.12 Conversion Factors (7.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/7.12", prefixo: "materializado-v2-fixa-" },
+  { corpus: "6.17 Fraction Identification (frac-numberline-6.17)", pasta: "resultados/rodada4-interface-fixa-2026-08-15", prefixo: "materializado-v3-fixa-" },
+  { corpus: "6.19 Fractions and Estimates (frac-estimates-6.19)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.19", prefixo: "materializado-v3-fixa-" },
+  { corpus: "6.18 Equivalent Fractions (equiv-fractions-6.18)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.18", prefixo: "materializado-v3-fixa-" },
+  { corpus: "6.20 Fraction Ordering (fraction-ordering-6.20)", pasta: "resultados/bloco1-mathtutor-2026-08-16/6.20", prefixo: "materializado-v3-fixa-" },
+  { corpus: "8.12 Factors, Scaling, and Percents (8.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/8.12", prefixo: "materializado-v3-fixa-" },
+  { corpus: "7.12 Conversion Factors (7.12)", pasta: "resultados/bloco1-mathtutor-2026-08-16/7.12", prefixo: "materializado-v3-fixa-" },
 ];
 
 const media = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);
@@ -64,12 +64,17 @@ export function consolidar(raiz = ".") {
   const tabela = [];
   for (const c of CORPORA) {
     for (const braco of Object.keys(BRACOS)) {
-      // v2 = agentes espelhados da PRODUÇÃO atual (132c645); cai para a v1
-      // (b7ae8780) só se o corpus ainda não foi rematerializado.
+      // v3 = agentes espelhados da PRODUÇÃO 5263488, com o registro de
+      // componentes COMPLETO (44; o fecho de imports estáticos via só 6, e o
+      // catálogo no prompt do worker do agent 6 saía com 4702 chars em vez de
+      // 8936). v2 (132c645) e v1 (b7ae8780) ficam preservadas para a
+      // comparação de versão; o consolidado usa a v3.
       let f = path.join(raiz, c.pasta, `${c.prefixo}${braco}.analise.json`);
-      if (!fs.existsSync(f)) f = path.join(raiz, c.pasta, `materializado-fixa-${braco}.analise.json`);
+      for (const alt of [`materializado-v2-fixa-${braco}.analise.json`, `materializado-fixa-${braco}.analise.json`]) {
+        if (!fs.existsSync(f)) f = path.join(raiz, c.pasta, alt);
+      }
       if (!fs.existsSync(f)) continue;
-      const versaoAgentes = f.includes("materializado-v2-") ? "producao-132c645" : "b7ae8780";
+      const versaoAgentes = f.includes("-v3-") ? "producao-5263488" : f.includes("-v2-") ? "producao-132c645" : "b7ae8780";
       const A = JSON.parse(fs.readFileSync(f, "utf8"));
       // RECORTE do consolidado (revisto em 2026-08-18, após o 8.12): o gate de
       // obediência passa a ser lido pelo ENUNCIADO que o agent 6 escreveu — a
@@ -139,7 +144,7 @@ if (ehMain) {
       ? "N/A (não avaliável)"
       : `${f3(m.estimativa)} [${f3(m.bca?.[0] ?? m.percentil?.[0])}; ${f3(m.bca?.[1] ?? m.percentil?.[1])}]`;
   let md = `# Experimento consolidado — validação de grafos de comportamento contra especialistas do CTAT/Mathtutor\n\n`;
-  md += `Gerado em ${R.gerado.slice(0, 16)} por \`analysis/bancada-v2/consolidar-corpora.mjs\`. Um único desenho\n(problema + interface do especialista → agents 3 → GraphForge passos-livres → agent 6/7 espelhados da PRODUÇÃO\natual, commit 132c645; régua de estados por Actor/LCS) aplicado a **${R.corporaIncluidos.length} corpus/corpora**: ${R.corporaIncluidos.join("; ")}.\n\n`;
+  md += `Gerado em ${R.gerado.slice(0, 16)} por \`analysis/bancada-v2/consolidar-corpora.mjs\`. Um único desenho\n(problema + interface do especialista → agents 3 → GraphForge passos-livres → agent 6/7 espelhados da PRODUÇÃO\natual, commit 5263488 com registro de componentes completo; régua de estados por Actor/LCS) aplicado a **${R.corporaIncluidos.length} corpus/corpora**: ${R.corporaIncluidos.join("; ")}.\n\n`;
   md += `## Por corpus × braço (grafo materializado; recorte = aprovados no gate por ENUNCIADO; BCa 95 % em cluster de exercício; entre parênteses, o valor em TODOS os grafos)\n\n| corpus | braço | n grafos (ex.) / todos | gate enunciado · estrito (valores) | cobertura em ordem (LCS) | sem ordem | caminho íntegro | erros no estado certo | estados/grafo |\n|---|---|---|---|---|---|---|---|---|\n`;
   const t3 = (t, m) => (Number.isFinite(t.todos?.[m]) ? ` (${f3(t.todos[m])})` : "");
   for (const t of R.tabela) md += `| ${t.corpus} | ${BRACOS[t.braco]} | ${t.n} (${t.exercicios}) / ${t.nTodos ?? "—"} | ${t.gateEnunciado != null ? (t.gateEnunciado * 100).toFixed(0) + " %" : "—"} · ${(t.gateEstrito * 100).toFixed(0)} % | ${ic(t.coberturaEstados)}${t3(t, "coberturaEstados")} | ${ic(t.coberturaSemOrdem)}${t3(t, "coberturaSemOrdem")} | ${ic(t.caminhoIntegro)}${t3(t, "caminhoIntegro")} | ${ic(t.errosNoEstadoCerto)}${t3(t, "errosNoEstadoCerto")} | ${t.estadosPorGrafo.toFixed(2)} |\n`;
