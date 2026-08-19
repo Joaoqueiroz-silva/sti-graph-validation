@@ -31,7 +31,8 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { createLLM, callLLM, extractJson } from "../../llm.js";
+import { callLLM, extractJson } from "../../llm.js";
+import { llmDoJuiz, comRetentativa } from "./juiz-infra.mjs";
 import { carregarReferencia, media } from "../validacao-v2/lib.mjs";
 import { canonizarValor, caminhoDeReferencia } from "./comparar-caminho.mjs";
 import { wilsonCI } from "../../stats.js";
@@ -58,7 +59,7 @@ Esse valor é alvo legítimo de algum passo do tutor para este problema?`;
 
 export async function julgarEstado(problema, resposta, candidato, opts = {}) {
   if (opts.judge) return opts.judge(problema, resposta, candidato, opts);
-  const llm = createLLM("agent9_review");
+  const llm = llmDoJuiz();
   const raw = await callLLM(llm, SYSTEM, buildUser(problema, resposta, candidato));
   const j = extractJson(raw) || {};
   return { candidate: String(candidato), valid: j.valid === true, category: String(j.category ?? "") };
@@ -161,13 +162,22 @@ if (ehMain) {
   if (!argv.includes("--yes")) { console.error("Execução PAGA: confirme com --yes."); process.exit(1); }
   fs.mkdirSync(saidaDir, { recursive: true });
   const linhas = [];
+  const falhas = [];
   let julgados = [];
   let feitos = 0;
   let proxima = 0;
   const trabalhador = async () => {
     while (proxima < plano.length) {
       const p = plano[proxima++];
-      const r = await Promise.all(p.itens.map(async (it) => ({ ...it, ...(await julgarEstado(p.enunciado, p.resposta, it.candidate)) })));
+      const cru = await Promise.all(p.itens.map(async (it) => {
+        try {
+          return { ...it, ...(await comRetentativa(() => julgarEstado(p.enunciado, p.resposta, it.candidate))) };
+        } catch (err) {
+          falhas.push({ ...it, ex: p.ex, corpus: p.corpus, braco: p.braco, erro: String(err?.message ?? err).slice(0, 160) });
+          return null;
+        }
+      }));
+      const r = cru.filter(Boolean);
       julgados = julgados.concat(r.map((j) => ({ ...j, corpus: p.corpus, braco: p.braco, ex: p.ex })));
       const validos = new Set(r.filter((j) => j.source === "robo-extra" && j.valid).map((j) => j.candidate));
       const casados = p.cands.filter((c) => p.estadosRef.has(c.valor)).length;
@@ -194,7 +204,7 @@ if (ehMain) {
   fs.writeFileSync(path.join(saidaDir, "juiz-estados.json"), JSON.stringify({
     gerado: new Date().toISOString(), juiz: process.env.JUDGE_MODEL || "z-ai/glm-4.5",
     preRegistro: "docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md",
-    geral, porCelula, porExercicio: linhas,
+    geral, porCelula, porExercicio: linhas, falhas: { n: falhas.length, itens: falhas.slice(0, 50) },
     julgamentos: julgados.map(({ corpus, braco, ex, candidate, source, valid, category }) => ({ corpus, braco, ex, candidate, source, valid, category })),
   }, null, 1));
   console.log("─".repeat(74));

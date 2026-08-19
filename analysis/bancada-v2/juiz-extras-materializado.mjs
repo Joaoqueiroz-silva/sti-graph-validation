@@ -29,7 +29,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { carregarReferencia, media } from "../validacao-v2/lib.mjs";
 import { canonizarValor } from "./comparar-caminho.mjs";
-import { buildJudgeItems, judgeItems, summarizeBySource, makeDistractors } from "../../judge-misconceptions.js";
+import { buildJudgeItems, judgeItems, summarizeBySource, makeDistractors, judgeMisconception } from "../../judge-misconceptions.js";
+import { comRetentativa, juizAtivo } from "./juiz-infra.mjs";
 import { wilsonCI } from "../../stats.js";
 import { problemsDirRelativo } from "../../dataset-config.js";
 
@@ -147,9 +148,11 @@ if (ehMain) {
   console.log(`JUIZ DOS EXTRAS (materializado) — ${plano.length} exercício×braço, ${nExtras} extras, ${nItens} itens a julgar`);
   console.log(`  juiz: ${process.env.JUDGE_MODEL || "z-ai/glm-4.5 (default)"} | custo estimado ~US$ ${custoEstimado(nItens).toFixed(2)}`);
   if (!yes) { console.error("Execução PAGA: confirme com --yes."); process.exit(1); }
+  juizAtivo(); // guarda: aborta se o modelo resolvido nao for o juiz declarado
   fs.mkdirSync(saidaDir, { recursive: true });
 
   const linhas = [];
+  const falhas = [];
   let julgadosTodos = [];
   let feitos = 0;
   // CONCORRÊNCIA entre células (2026-08-19): dentro de uma célula o judgeItems
@@ -162,7 +165,18 @@ if (ehMain) {
   const trabalhador = async () => {
     while (proxima < plano.length) {
       const p = plano[proxima++];
-      const judged = await judgeItems(p.enunciado, p.resposta, p.itens, {});
+      // juiz por ITEM com retentativa: um ECONNRESET nao derruba mais o lote
+      // (incidente de 19/08, celula 14 de 210). Item que esgota as tentativas
+      // fica SEM veredito e e contado em `falhas`, nunca somado como invalido.
+      const juizResiliente = async (prob, resp, cand, o) => {
+        try {
+          return await comRetentativa(() => judgeMisconception(prob, resp, cand, o));
+        } catch (err) {
+          falhas.push({ corpus: p.corpus, braco: p.braco, ex: p.ex, candidate: String(cand), erro: String(err?.message ?? err).slice(0, 160) });
+          return { candidate: String(cand), __falhou: true };
+        }
+      };
+      const judged = (await judgeItems(p.enunciado, p.resposta, p.itens, { judge: juizResiliente })).filter((j) => !j.__falhou);
       julgadosTodos = julgadosTodos.concat(judged.map((j) => ({ ...j, corpus: p.corpus, braco: p.braco, ex: p.ex })));
       const validos = new Set(judged.filter((j) => j.source === "robo-extra" && j.valid).map((j) => j.candidate));
       const casados = p.cands.filter((c) => p.refValues.has(c.valor)).length;
@@ -196,7 +210,7 @@ if (ehMain) {
     juiz: process.env.JUDGE_MODEL || "z-ai/glm-4.5",
     preRegistro: "docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md",
     regras: { GATE_CALIBRACAO, MARGEM_RIQUEZA },
-    geral, porCelula, porExercicio: linhas,
+    geral, porCelula, porExercicio: linhas, falhas: { n: falhas.length, itens: falhas.slice(0, 50) },
     julgamentos: julgadosTodos.map(({ corpus, braco, ex, candidate, source, valid, category }) => ({ corpus, braco, ex, candidate, source, valid, category })),
   };
   const nome = `juiz-extras-${(process.env.JUDGE_MODEL || "glm-4.5").replace(/[/.]/g, "-")}.json`;

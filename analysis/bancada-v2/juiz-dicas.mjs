@@ -28,7 +28,8 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { createLLM, callLLM, extractJson } from "../../llm.js";
+import { callLLM, extractJson } from "../../llm.js";
+import { llmDoJuiz, mapaResiliente, separarFalhas } from "./juiz-infra.mjs";
 import { carregarReferencia, media, prng } from "../validacao-v2/lib.mjs";
 import { pontuarDicas } from "./comparar-dicas.mjs";
 import { problemsDirRelativo } from "../../dataset-config.js";
@@ -67,7 +68,7 @@ Avalie esta escada.`;
 /** Julga UMA escada. `opts.judge` injeta um juiz fake (testes offline). */
 export async function julgarEscada(problema, valorEsperado, escada, opts = {}) {
   if (opts.judge) return opts.judge(problema, valorEsperado, escada, opts);
-  const llm = createLLM("agent9_review");
+  const llm = llmDoJuiz();
   const raw = await callLLM(llm, SYSTEM, buildUser(problema, valorEsperado, escada));
   const j = extractJson(raw) || {};
   const nota = (x) => (Number.isFinite(Number(x)) ? Math.max(0, Math.min(3, Number(x))) : null);
@@ -202,16 +203,21 @@ if (ehMain) {
   console.log(`  juiz: ${process.env.JUDGE_MODEL || "z-ai/glm-4.5 (default)"} | custo estimado ~US$ ${custoEstimadoDicas(lote.length).toFixed(2)}`);
   if (!argv.includes("--yes")) { console.error("Execução PAGA: confirme com --yes."); process.exit(1); }
   fs.mkdirSync(saidaDir, { recursive: true });
-  const CONC = 8;
-  const julgados = [];
-  for (let i = 0; i < lote.length; i += CONC) {
-    const bloco = lote.slice(i, i + CONC);
-    const r = await Promise.all(bloco.map(async (it) => ({ ...it, ...(await julgarEscada(it.problema, it.valor, it.escada)) })));
-    julgados.push(...r.map(({ problema, ...resto }) => resto));
-    console.log(`  [${Math.min(i + CONC, lote.length)}/${lote.length}]`);
-    fs.writeFileSync(path.join(saidaDir, "juiz-dicas-parcial.json"), JSON.stringify(julgados, null, 1));
-  }
-  const R = consolidarDicas(julgados);
+  const brutosAteAqui = [];
+  let feitos = 0;
+  const brutos = await mapaResiliente(lote, async (it) => {
+    const r = { ...it, ...(await julgarEscada(it.problema, it.valor, it.escada)) };
+    delete r.problema;
+    if (++feitos % 25 === 0) {
+      console.log(`  [${feitos}/${lote.length}]`);
+      fs.writeFileSync(path.join(saidaDir, "juiz-dicas-parcial.json"), JSON.stringify(brutosAteAqui, null, 1));
+    }
+    brutosAteAqui.push(r);
+    return r;
+  }, { concorrencia: 8 });
+  const { ok: julgados, falhas, taxaFalha } = separarFalhas(brutos);
+  console.log(`  itens sem veredito (falha de rede esgotada): ${falhas.length} (${(taxaFalha * 100).toFixed(2)}%)`);
+  const R = { ...consolidarDicas(julgados), falhas: { n: falhas.length, taxa: taxaFalha } };
   fs.writeFileSync(path.join(saidaDir, "juiz-dicas.json"), JSON.stringify({
     gerado: new Date().toISOString(), juiz: process.env.JUDGE_MODEL || "z-ai/glm-4.5",
     preRegistro: "docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md", ...R, julgamentos: julgados,
