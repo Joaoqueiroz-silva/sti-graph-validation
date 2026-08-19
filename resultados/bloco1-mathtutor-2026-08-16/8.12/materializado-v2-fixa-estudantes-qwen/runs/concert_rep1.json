@@ -1,0 +1,3007 @@
+{
+ "id": "concert",
+ "correctAnswer": "60",
+ "audit": {
+  "ok": true,
+  "stepCount": 10
+ },
+ "f1": 0.167,
+ "conceptual": 0.167,
+ "precision": 0.167,
+ "recall": 0.167,
+ "functionalAgreement": 0.5,
+ "functionalKappa": 0.143,
+ "missing": [
+  "30",
+  "*"
+ ],
+ "extra": [
+  "200"
+ ],
+ "robotMisconceptions": [
+  "6000/30",
+  "0.5",
+  "100"
+ ],
+ "exercicio": "concert",
+ "replica": 1,
+ "geradoEm": "2026-08-18T20:47:20.743Z",
+ "promptSha256": "553c3a2177555daca848164f6d4e192fca9adc8c000c1ae37f444ffbea744bd6",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10195,
+  "tokensSaida": 8701,
+  "usd": 0.041886
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 10
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado completo",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: total = 6000, parte1 = 30, parte2 = 1800"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher linha Total da tabela: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Total: numerador = 6000, denominador = 6000"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher linha Part 1: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 1: numerador = 30, denominador = 6000"
+   },
+   {
+    "indice": 4,
+    "acao": "Preencher linha Part 2: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 2: numerador = 1800, denominador = 6000"
+   },
+   {
+    "indice": 5,
+    "acao": "Determinar operação e fator de escala para Part 1",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: ÷ para numerador e denominador; fator = 60"
+   },
+   {
+    "indice": 6,
+    "acao": "Aplicar fator de escala à Parte 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 1: resultado = 0.5/100, porcentagem = 0.5"
+   },
+   {
+    "indice": 7,
+    "acao": "Determinar operação e fator de escala para Part 2",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação: ÷ para numerador e denominador; fator = 60"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar fator de escala à Parte 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 2: resultado = 30/100, porcentagem = 30"
+   },
+   {
+    "indice": 9,
+    "acao": "Preencher linha Total: operação e fator de escala",
+    "kc": "Identify-scale-factor",
+    "valor": "Total: operação = ÷, fator = 60, resultado = 100/100, porcentagem = 100"
+   },
+   {
+    "indice": 10,
+    "acao": "Verificar coerência das porcentagens",
+    "kc": "identify-percent",
+    "valor": "Consistência confirmada"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "6000/30",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem frasal: '30 em cada 6000' → 30/6000. Reforçar estrutura 'parte sobre total'.",
+    "buggyRule": "Inverter a razão: usar o total como numerador e a parte como denominador: numerador = {total}; denominador = {part}",
+    "misconceptionId": "misc_inverte_razao_parte_total"
+   },
+   {
+    "valor": "0.5",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reescrever a fração como decimal primeiro (30/6000 = 0.005), depois multiplicar por 100 para obter a porcentagem (0.5%).",
+    "buggyRule": "Dividir o numerador original pelo fator de escala (correto), mas não entender que o resultado é a porcentagem direta (aceitando decimais ou inteiros errados): resultado = {num_original} / {scale_factor}",
+    "misconceptionId": "misc_escala_divide_numerador_errado"
+   },
+   {
+    "valor": "100",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Relacionar com exemplos conhecidos: metade é 50/100 → 50%. Aqui, 30 é uma fração pequena de 6000.",
+    "buggyRule": "Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.",
+    "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! A porcentagem sempre compara uma parte com o total. Qual é a razão que representa 'tudo'?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Para a linha 'Total', pense: qual fração representa 100% do grupo? Use o mesmo total no numerador e denominador."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! A linha 'Total' deve mostrar 100%. Que fração dá exatamente 100%? Tente usar 6000 no numerador também."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Muito bem! Se o total de fãs é 6000, então a razão que representa 'todo mundo' é 6000 sobre... quanto? Isso mesmo, 6000!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Para encontrar porcentagem, queremos um denominador igual a 100. O que podemos fazer com o denominador atual para chegar a 100?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Excelente! Primeiro descubra quanto você precisa dividir (ou multiplicar) o denominador para virar 100. Depois aplique a mesma operação ao numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Você está quase lá! 6000 dividido por quanto dá 100? Pense: 60 × 100 = 6000. Então o fator é 60!"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Muito perto! Se 6000 ÷ ? = 100, então ? = 6000 ÷ 100. Quanto é isso? Use essa resposta como seu fator de escala!"
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Lembre-se: quando você divide numerador e denominador pelo mesmo número, a razão não muda. O que isso significa para a porcentagem?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Continue assim! Divida o numerador original pelo mesmo fator que usou no denominador. O resultado será o novo numerador — que já é a porcentagem!"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Quase lá! Você já sabe que o fator é 60. Agora calcule: 30 ÷ 60 e 1800 ÷ 60. Esses serão seus percentuais."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Você está quase concluindo! 30 dividido por 60 é meio. Então a porcentagem é 0 ponto... quanto? E 1800 ÷ 60? Pense: 60 × 30 = 1800!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"concert\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado completo\\\",\\n          \\\"thinking\\\": \\\"O total de fãs é 6000. Parte 1: 30 receberam backstage pass. Parte 2: 1800 receberam camiseta. Preciso calcular a porcentagem de cada parte em relação ao total.\\\",\\n          \\\"result\\\": \\\"Valores identificados: total = 6000, parte1 = 30, parte2 = 1800\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha Total da tabela: razão original\\\",\\n          \\\"thinking\\\": \\\"A razão total é 6000/6000, pois representa 100% do total.\\\",\\n          \\\"result\\\": \\\"Total: numerador = 6000, denominador = 6000\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher linha Part 1: razão original\\\",\\n          \\\"thinking\\\": \\\"A razão para Parte 1 é 30 (backstage) sobre 6000 (total).\\\",\\n          \\\"result\\\": \\\"Part 1: numerador = 30, denominador = 6000\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher linha Part 2: razão original\\\",\\n          \\\"thinking\\\": \\\"A razão para Parte 2 é 1800 (camisetas) sobre 6000 (total).\\\",\\n          \\\"result\\\": \\\"Part 2: numerador = 1800, denominador = 6000\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para Part 1\\\",\\n          \\\"thinking\\\": \\\"Para converter 30/6000 em x/100, preciso dividir o denominador por 60 (6000 ÷ 60 = 100), então divido o numerador também por 60.\\\",\\n          \\\"result\\\": \\\"Operação: ÷ para numerador e denominador; fator = 60\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar fator de escala à Parte 1\\\",\\n          \\\"thinking\\\": \\\"30 ÷ 60 = 0.5 → porcentagem = 0.5%\\\",\\n          \\\"result\\\": \\\"Part 1: resultado = 0.5/100, porcentagem = 0.5\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para Part 2\\\",\\n          \\\"thinking\\\": \\\"Para converter 1800/6000 em x/100, divido denominador por 60 (6000 ÷ 60 = 100), então divido numerador por 60.\\\",\\n          \\\"result\\\": \\\"Operação: ÷ para numerador e denominador; fator = 60\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar fator de escala à Parte 2\\\",\\n          \\\"thinking\\\": \\\"1800 ÷ 60 = 30 → porcentagem = 30%\\\",\\n          \\\"result\\\": \\\"Part 2: resultado = 30/100, porcentagem = 30\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Preencher linha Total: operação e fator de escala\\\",\\n          \\\"thinking\\\": \\\"6000/6000 = 1. Para obter 100/100, multiplico ambos por (100/6000)? Não — melhor: já é 1, então multiplicar por 100 dá 100/100. Mas na interface, como denominador deve virar 100, divido por 60? Alternativa: 6000 ÷ 60 = 100, então operação é ÷, fator = 60. Numerador: 6000 ÷ 60 = 100.\\\",\\n          \\\"result\\\": \\\"Total: operação = ÷, fator = 60, resultado = 100/100, porcentagem = 100\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 7,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Verificar coerência das porcentagens\\\",\\n          \\\"thinking\\\": \\\"Parte 1: 0.5%, Parte 2: 30%, Total: 100%. Tudo consistente com os dados.\\\",\\n          \\\"result\\\": \\\"Consistência confirmada\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"0.5 and 30\\\",\\n      \\\"totalTime\\\": 54\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"concert\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"São 30 com backstage e 6000 no total, então a razão é 30/6000.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para transformar denominador em 100\\\",\\n              \\\"thinking\\\": \\\"Preciso chegar a 100 no denominador. 6000 ÷ 60 = 100, então vou dividir o denominador por 60. Mas o numerador... ah, vou dividir também!\\\",\\n              \\\"result\\\": \\\"Operação escolhida: ÷ para numerador e ÷ para denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala\\\",\\n              \\\"thinking\\\": \\\"6000 ÷ 100 = 60, então o fator é 60. Vou colocar 60 nos dois.\\\",\\n              \\\"result\\\": \\\"Fator de escala = 60 para numerador e denominador\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular numerador equivalente (porcentagem)\\\",\\n              \\\"thinking\\\": \\\"30 ÷ 60 = 0.5... mas porcentagem não pode ser decimal? Ah, talvez seja 50? Não, vou botar 0.5 mesmo.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_divide_numerador_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"0.5\\\",\\n                \\\"description\\\": \\\"Aluno divide corretamente o numerador pelo fator, mas não entende que o resultado deve ser um número inteiro representando porcentagem; aceita decimal como resposta final.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular 30 ÷ 60, o aluno obtém 0.5 e o insere diretamente como porcentagem, sem perceber que isso equivale a 0.5%, não 50%.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 30 dividido por 60 dá 0.5, isso quer dizer que 0.5 pessoas foram? Ou será que falta algo na conta?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você identificou bem o fator de escala. Mas lembre-se: quando transformamos a razão para ter denominador 100, o numerador **é** a porcentagem. Será que 30/6000 equivale a 0.5/100 ou a outro valor?\\\",\\n                \\\"howToFix\\\": \\\"Reescrever a fração como decimal primeiro (30/6000 = 0.005), depois multiplicar por 100 para obter a porcentagem (0.5%).\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Preencher Parte 2\\\",\\n              \\\"thinking\\\": \\\"1800 de 6000. 1800/6000. Pra chegar a 100 no denominador, divido por 60 de novo. 1800 ÷ 60 = 30. Então 30%.\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"0.5\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"30 com backstage, total 6000. Vou colocar 6000 em cima e 30 embaixo — afinal, o total é maior!\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_total\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"6000/30\\\",\\n                \\\"description\\\": \\\"Aluno inverte a razão, colocando o total como numerador e a parte como denominador.\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao interpretar 'parte de um total', o aluno escreveu total/parte em vez de parte/total.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta é: 'que porcentagem dos fãs foi backstage?' Isso significa quantos de cada 100 fãs? A parte está em cima ou embaixo?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você pegou os números certos! Mas na razão de porcentagem, sempre colocamos a **parte** em cima e o **total** embaixo. Pense assim: 'quantos de cada total?'\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem frasal: '30 em cada 6000' → 30/6000. Reforçar estrutura 'parte sobre total'.\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação\\\",\\n              \\\"thinking\\\": \\\"Quero chegar a 100 no denominador. Meu denominador agora é 30. 30 × (10/3) = 100? Complicado... vou dividir 6000 por 60 pra dar 100. Então divido tudo por 60.\\\",\\n              \\\"result\\\": \\\"Operação: ÷ para ambos\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Fator de escala\\\",\\n              \\\"thinking\\\": \\\"6000 ÷ 60 = 100, então fator = 60.\\\",\\n              \\\"result\\\": \\\"Fator = 60\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular porcentagem\\\",\\n              \\\"thinking\\\": \\\"6000 ÷ 60 = 100, e 30 ÷ 60 = 0.5. Então a porcentagem é 100/0.5? Não... a célula pede só o numerador. Vou botar 100.\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_denominador_resultante_como_porcentagem\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"100\\\",\\n                \\\"description\\\": \\\"Aluno confunde o denominador fixo (100) com o valor da porcentagem e responde 100.\\\",\\n                \\\"mistakeLocation\\\": \\\"Na célula do resultado (numerador sobre 100), o aluno insere 100, pensando que 'porcentagem sempre tem 100'.\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se todo mundo tivesse ido backstage, qual seria a porcentagem? E se só 30 de 6000 foram, será que ainda é 100%?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você sabe que porcentagem usa 100 como referência — ótimo! Mas o número que vai **em cima** do 100 é que mostra a porcentagem real. Será que é mesmo 100?\\\",\\n                \\\"howToFix\\\": \\\"Relacionar com exemplos conhecidos: metade é 50/100 → 50%. Aqui, 30 é uma fração pequena de 6000.\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"100\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"concert\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total}/{part}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão: usar o total como numerador e a parte como denominador: numerador = {total}; denominador = {part}\\\",\\n              \\\"description\\\": \\\"Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher os campos da razão original, o aluno coloca o número maior (total) no numerador.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A razão representa 'quantos de cada total'? Nesse caso, quem é a parte e quem é o total?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os dois números corretamente! Na porcentagem, sempre usamos 'parte sobre total'. Pergunte-se: '30 é parte de qual total?'\\\",\\n              \\\"howToFix\\\": \\\"Praticar com frases completas: '30 em cada 6000' → traduzir diretamente para 30/6000.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_repete_total_em_todas_as_linhas\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{total}\\\",\\n              \\\"buggyRule\\\": \\\"Preencher o numerador da razão original com o valor do total (6000) em todas as linhas, ignorando a parte específica de cada linha.\\\",\\n              \\\"description\\\": \\\"Aluno copia o total como numerador em Part 1 e Part 2, esquecendo que cada linha tem sua própria parte.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao digitar os numeradores das razões originais nas linhas Part 1 e Part 2, o aluno repete 6000 em vez de 30 e 1800.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Cada linha fala de um grupo diferente: backstage, camiseta... os números devem ser os mesmos em todas?\\\",\\n              \\\"feedback\\\": \\\"Boa iniciativa em preencher os dados! Mas cada linha tem seu próprio 'pedaço': 30 para backstage, 1800 para camisetas. Confira quem é a parte em cada caso.\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente cada parte no enunciado com cores diferentes antes de preencher.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"concert\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_sempre_multiplica_para_aumentar\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Escolher multiplicação (×) para ambas as operações, independentemente do tamanho do denominador, por acreditar que 'multiplicar aumenta e é necessário para chegar a 100'.\\\",\\n              \\\"description\\\": \\\"Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da operação, o aluno escolhe × para numerador e denominador, mesmo com denominador = 6000 > 100.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o denominador é 6000 e queremos 100, devemos aumentar ou diminuir esse número?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na ideia de ajustar a fração — ótimo! Mas se o número é muito grande e queremos deixá-lo menor (6000 → 100), qual operação faz isso?\\\",\\n              \\\"howToFix\\\": \\\"Usar reta numérica ou escala: mostrar que 6000 → 100 requer divisão, não multiplicação.\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_operacoes_diferentes_numerator_denominator\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷ / ×\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar divisão no denominador (para reduzir a 100) mas multiplicação no numerador, achando que o numerador deve 'compensar' ou 'aumentar'.\\\",\\n              \\\"description\\\": \\\"Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha Part 1, seleciona ÷ para o denominador, mas × para o numerador.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide o de baixo por 60, o que deve fazer com o de cima para manter a fração igual?\\\",\\n              \\\"feedback\\\": \\\"Você percebeu que o denominador precisa mudar — excelente! Para a fração continuar valendo a mesma coisa, o numerador e o denominador devem sofrer a **mesma operação**.\\\",\\n              \\\"howToFix\\\": \\\"Demonstrar com pizza: cortar em mais pedaços (multiplicar ambos) ou juntar pedaços (dividir ambos).\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"concert\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_escala_como_diferenca\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{denom_original} - 100\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator de escala como a diferença entre o denominador original e 100: fator = {denom_original} - 100\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o fator de escala.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular quanto 'ajustar' o denominador, o aluno faz 6000 - 100 = 5900 e usa isso como fator.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se eu tenho 6000 e quero chegar a 100, devo tirar 5900 ou dividir por algo?\\\",\\n              \\\"feedback\\\": \\\"Você está tentando descobrir o 'passo' certo para ajustar a fração. Mas em frações equivalentes, usamos multiplicação ou divisão, não soma ou subtração.\\\",\\n              \\\"howToFix\\\": \\\"Refazer com exemplo simples: 2/4 → ?/100. Perguntar: '4 vezes o quê dá 100?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_escala_reciproco\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100 / {denom_original}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o recíproco do fator correto: fator = 100 / {denom_original}\\\",\\n              \\\"description\\\": \\\"Aluno calcula 100/6000 ≈ 0.0167 e usa isso como fator, aplicando multiplicação incorreta.\\\",\\n              \\\"mistakeLocation\\\": \\\"No campo do fator de escala, o aluno insere 100/6000 em vez de 6000/100.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você multiplica 6000 por 0.0167, o que acontece? Chega a 100?\\\",\\n              \\\"feedback\\\": \\\"Você está perto! O fator deve transformar 6000 em 100. Que número, multiplicado por 6000, dá 100?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar a regra: fator = novo denominador / antigo denominador → 100 / 6000 só se estiver multiplicando, mas aqui estamos dividindo.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_escala_do_numerador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{num_original}\\\",\\n              \\\"buggyRule\\\": \\\"Preencher o fator de escala com o valor do numerador original (ex: 30 ou 1800), confundindo dado com fator.\\\",\\n              \\\"description\\\": \\\"Aluno copia o numerador para o campo do fator de escala.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na linha Part 1, insere 30 no campo 'fator de escala do numerador'.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de escala é um número que muda a fração. Ele vem do numerador ou da relação entre denominadores?\\\",\\n              \\\"feedback\\\": \\\"Você já tem o numerador certo! O fator de escala vem de como o **denominador** muda — de 6000 para 100.\\\",\\n              \\\"howToFix\\\": \\\"Cobrir o numerador e focar só no denominador: 'como transformar 6000 em 100?'\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"concert\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_escala_divide_numerador_errado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{num_original} / {scale_factor}\\\",\\n              \\\"buggyRule\\\": \\\"Dividir o numerador original pelo fator de escala (correto), mas não entender que o resultado é a porcentagem direta (aceitando decimais ou inteiros errados): resultado = {num_original} / {scale_factor}\\\",\\n              \\\"description\\\": \\\"Aluno calcula 30/60 = 0.5 e insere 0.5 como porcentagem, sem converter para 0.5% ou reconhecer que deveria ser 0.5/100.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula do numerador sobre 100, o aluno insere o decimal resultante da divisão, não o valor percentual.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se a fração equivalente é 0.5/100, qual é a porcentagem? E se fosse 50/100, quanto seria?\\\",\\n              \\\"feedback\\\": \\\"Você fez a conta certa! Mas lembre-se: o número que vai em cima do 100 **é** a porcentagem. Então 0.5/100 = 0.5%, não 0.5 como número solto.\\\",\\n              \\\"howToFix\\\": \\\"Treinar com equivalência: 1/2 = 50/100 → 50%. Aqui, 30/6000 = ?/100 → calcule ?.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_porcentagem_como_fracao_simplificada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"({num_original} / {denom_original}) * 100 arredondado ou mal calculado\\\",\\n              \\\"buggyRule\\\": \\\"Tentar calcular porcentagem como (parte/total)*100, mas com erro de cálculo: ex: 30/6000 = 0.005 → ×100 = 0.5, mas aluno responde 5 ou 50 por erro decimal.\\\",\\n              \\\"description\\\": \\\"Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao computar mentalmente (30 ÷ 6000) × 100, o aluno desloca a vírgula errado e obtém 5 ou 50.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"30 dividido por 6000 é menor ou maior que 1? E ao multiplicar por 100, ainda é pequeno?\\\",\\n              \\\"feedback\\\": \\\"Você está usando uma estratégia válida! Mas cuidado com os zeros: 30 é muito menor que 6000, então a porcentagem deve ser pequena.\\\",\\n              \\\"howToFix\\\": \\\"Contar zeros: 30/6000 = 3/600 = 1/200 = 0.005 → ×100 = 0.5%.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_denominador_resultante_como_porcentagem\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100\\\",\\n              \\\"buggyRule\\\": \\\"Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.\\\",\\n              \\\"description\\\": \\\"Aluno insere 100 como valor da porcentagem, ignorando o cálculo.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula 'valor da porcentagem', o aluno digita 100 independentemente dos números.\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se ninguém tivesse ganhado nada, a porcentagem seria 100%? E se todos ganhassem?\\\",\\n              \\\"feedback\\\": \\\"Você sabe que porcentagem envolve 100 — isso é ótimo! Mas o número que varia é o de cima. 100% só acontece se **todos** forem incluídos.\\\",\\n              \\\"howToFix\\\": \\\"Comparar com casos extremos: 0/6000 = 0%; 6000/6000 = 100%.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_parte1_com_parte2\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"30\\\",\\n              \\\"buggyRule\\\": \\\"Responder com o valor da Parte 2 (1800 → 30%) na linha da Parte 1, por confusão entre as linhas.\\\",\\n              \\\"description\\\": \\\"Aluno calcula corretamente 30% para Parte 2, mas cola esse valor na Parte 1.\\\",\\n              \\\"mistakeLocation\\\": \\\"Na célula de porcentagem da Parte 1, o aluno digita 30 (resultado da Parte 2).\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Essa linha fala de backstage ou de camisetas? Qual número você usou no numerador?\\\",\\n              \\\"feedback\\\": \\\"Você calculou uma porcentagem corretamente! Mas verifique se ela está na linha certa. Cada linha tem sua própria parte.\\\",\\n              \\\"howToFix\\\": \\\"Preencher uma linha de cada vez, cobrindo as outras com papel.\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"concert\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar os valores dados\\\",\\n          \\\"thinking\\\": \\\"Temos 6000 fãs no total. Parte 1: 30 ganharam backstage. Parte 2: 1800 ganharam camiseta. Preciso achar porcentagens.\\\",\\n          \\\"result\\\": \\\"Valores extraídos corretamente: total = 6000, parte1 = 30, parte2 = 1800\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher razões originais na tabela\\\",\\n          \\\"thinking\\\": \\\"A razão original é parte/total. Então Parte 1: 30/6000, Parte 2: 1800/6000. E linha Total? Talvez 6000/6000?\\\",\\n          \\\"result\\\": \\\"Razões originais preenchidas: Part1 = 30/6000, Part2 = 1800/6000, Total = 6000/6000\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! A porcentagem sempre compara uma parte com o total. Qual é a razão que representa 'tudo'?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Para a linha 'Total', pense: qual fração representa 100% do grupo? Use o mesmo total no numerador e denominador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A linha 'Total' deve mostrar 100%. Que fração dá exatamente 100%? Tente usar 6000 no numerador também.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! Se o total de fãs é 6000, então a razão que representa 'todo mundo' é 6000 sobre... quanto? Isso mesmo, 6000!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Decidir operação e fator de escala para transformar denominador em 100\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar 6000 em 100. Como faço isso? Divido por 60? Sim, porque 6000 ÷ 60 = 100. Então devo dividir numerador e denominador por 60.\\\",\\n          \\\"result\\\": \\\"Operação escolhida: ÷ para numerador e denominador. Fator de escala: 60 para ambas as partes.\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Para encontrar porcentagem, queremos um denominador igual a 100. O que podemos fazer com o denominador atual para chegar a 100?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Excelente! Primeiro descubra quanto você precisa dividir (ou multiplicar) o denominador para virar 100. Depois aplique a mesma operação ao numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Você está quase lá! 6000 dividido por quanto dá 100? Pense: 60 × 100 = 6000. Então o fator é 60!\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito perto! Se 6000 ÷ ? = 100, então ? = 6000 ÷ 100. Quanto é isso? Use essa resposta como seu fator de escala!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Aplicar fator de escala às partes\\\",\\n          \\\"thinking\\\": \\\"Parte 1: 30 ÷ 60 = 0.5. Parte 2: 1800 ÷ 60 = 30. Total: 6000 ÷ 60 = 100. Então as porcentagens são 0.5% e 30%.\\\",\\n          \\\"result\\\": \\\"Porcentagens calculadas: Part1 = 0.5%, Part2 = 30%, Total = 100%\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Lembre-se: quando você divide numerador e denominador pelo mesmo número, a razão não muda. O que isso significa para a porcentagem?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Divida o numerador original pelo mesmo fator que usou no denominador. O resultado será o novo numerador — que já é a porcentagem!\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Você já sabe que o fator é 60. Agora calcule: 30 ÷ 60 e 1800 ÷ 60. Esses serão seus percentuais.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase concluindo! 30 dividido por 60 é meio. Então a porcentagem é 0 ponto... quanto? E 1800 ÷ 60? Pense: 60 × 30 = 1800!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher campos de resultado e confirmar\\\",\\n          \\\"thinking\\\": \\\"Então Parte 1: 0.5%, Parte 2: 30%. A linha Total deve ser 100%. Vou colocar esses números nos campos certos.\\\",\\n          \\\"result\\\": \\\"Campos preenchidos corretamente; botão Done pressionado.\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"0.5 and 30\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagem usando regra de três em vez de escala de razão\\\",\\n          \\\"steps\\\": [\\\"Montar 30/x = 6000/100\\\", \\\"Resolver x = (30×100)/6000\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter fração para decimal primeiro, depois para porcentagem\\\",\\n          \\\"steps\\\": [\\\"30 ÷ 6000 = 0.005\\\", \\\"0.005 × 100 = 0.5%\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "concert",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado completo",
+        "thinking": "O total de fãs é 6000. Parte 1: 30 receberam backstage pass. Parte 2: 1800 receberam camiseta. Preciso calcular a porcentagem de cada parte em relação ao total.",
+        "result": "Valores identificados: total = 6000, parte1 = 30, parte2 = 1800",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha Total da tabela: razão original",
+        "thinking": "A razão total é 6000/6000, pois representa 100% do total.",
+        "result": "Total: numerador = 6000, denominador = 6000",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher linha Part 1: razão original",
+        "thinking": "A razão para Parte 1 é 30 (backstage) sobre 6000 (total).",
+        "result": "Part 1: numerador = 30, denominador = 6000",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Preencher linha Part 2: razão original",
+        "thinking": "A razão para Parte 2 é 1800 (camisetas) sobre 6000 (total).",
+        "result": "Part 2: numerador = 1800, denominador = 6000",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Determinar operação e fator de escala para Part 1",
+        "thinking": "Para converter 30/6000 em x/100, preciso dividir o denominador por 60 (6000 ÷ 60 = 100), então divido o numerador também por 60.",
+        "result": "Operação: ÷ para numerador e denominador; fator = 60",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Aplicar fator de escala à Parte 1",
+        "thinking": "30 ÷ 60 = 0.5 → porcentagem = 0.5%",
+        "result": "Part 1: resultado = 0.5/100, porcentagem = 0.5",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Determinar operação e fator de escala para Part 2",
+        "thinking": "Para converter 1800/6000 em x/100, divido denominador por 60 (6000 ÷ 60 = 100), então divido numerador por 60.",
+        "result": "Operação: ÷ para numerador e denominador; fator = 60",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar fator de escala à Parte 2",
+        "thinking": "1800 ÷ 60 = 30 → porcentagem = 30%",
+        "result": "Part 2: resultado = 30/100, porcentagem = 30",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Preencher linha Total: operação e fator de escala",
+        "thinking": "6000/6000 = 1. Para obter 100/100, multiplico ambos por (100/6000)? Não — melhor: já é 1, então multiplicar por 100 dá 100/100. Mas na interface, como denominador deve virar 100, divido por 60? Alternativa: 6000 ÷ 60 = 100, então operação é ÷, fator = 60. Numerador: 6000 ÷ 60 = 100.",
+        "result": "Total: operação = ÷, fator = 60, resultado = 100/100, porcentagem = 100",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 7,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Verificar coerência das porcentagens",
+        "thinking": "Parte 1: 0.5%, Parte 2: 30%, Total: 100%. Tudo consistente com os dados.",
+        "result": "Consistência confirmada",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 5,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "0.5 and 30",
+      "totalTime": 54
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "concert",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "São 30 com backstage e 6000 no total, então a razão é 30/6000.",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para transformar denominador em 100",
+          "thinking": "Preciso chegar a 100 no denominador. 6000 ÷ 60 = 100, então vou dividir o denominador por 60. Mas o numerador... ah, vou dividir também!",
+          "result": "Operação escolhida: ÷ para numerador e ÷ para denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala",
+          "thinking": "6000 ÷ 100 = 60, então o fator é 60. Vou colocar 60 nos dois.",
+          "result": "Fator de escala = 60 para numerador e denominador",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Calcular numerador equivalente (porcentagem)",
+          "thinking": "30 ÷ 60 = 0.5... mas porcentagem não pode ser decimal? Ah, talvez seja 50? Não, vou botar 0.5 mesmo.",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_divide_numerador_errado",
+           "type": "procedural_error",
+           "wrongAnswer": "0.5",
+           "description": "Aluno divide corretamente o numerador pelo fator, mas não entende que o resultado deve ser um número inteiro representando porcentagem; aceita decimal como resposta final.",
+           "mistakeLocation": "Ao calcular 30 ÷ 60, o aluno obtém 0.5 e o insere diretamente como porcentagem, sem perceber que isso equivale a 0.5%, não 50%.",
+           "diagnosticQuestion": "Se 30 dividido por 60 dá 0.5, isso quer dizer que 0.5 pessoas foram? Ou será que falta algo na conta?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você identificou bem o fator de escala. Mas lembre-se: quando transformamos a razão para ter denominador 100, o numerador **é** a porcentagem. Será que 30/6000 equivale a 0.5/100 ou a outro valor?",
+           "howToFix": "Reescrever a fração como decimal primeiro (30/6000 = 0.005), depois multiplicar por 100 para obter a porcentagem (0.5%)."
+          }
+         },
+         {
+          "step": 5,
+          "action": "Preencher Parte 2",
+          "thinking": "1800 de 6000. 1800/6000. Pra chegar a 100 no denominador, divido por 60 de novo. 1800 ÷ 60 = 30. Então 30%.",
+          "result": "Correto",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "0.5",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "30 com backstage, total 6000. Vou colocar 6000 em cima e 30 embaixo — afinal, o total é maior!",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_razao_parte_total",
+           "type": "conceptual_error",
+           "wrongAnswer": "6000/30",
+           "description": "Aluno inverte a razão, colocando o total como numerador e a parte como denominador.",
+           "mistakeLocation": "Ao interpretar 'parte de um total', o aluno escreveu total/parte em vez de parte/total.",
+           "diagnosticQuestion": "A pergunta é: 'que porcentagem dos fãs foi backstage?' Isso significa quantos de cada 100 fãs? A parte está em cima ou embaixo?",
+           "severity": "high",
+           "feedback": "Você pegou os números certos! Mas na razão de porcentagem, sempre colocamos a **parte** em cima e o **total** embaixo. Pense assim: 'quantos de cada total?'",
+           "howToFix": "Usar linguagem frasal: '30 em cada 6000' → 30/6000. Reforçar estrutura 'parte sobre total'."
+          }
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação",
+          "thinking": "Quero chegar a 100 no denominador. Meu denominador agora é 30. 30 × (10/3) = 100? Complicado... vou dividir 6000 por 60 pra dar 100. Então divido tudo por 60.",
+          "result": "Operação: ÷ para ambos",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Fator de escala",
+          "thinking": "6000 ÷ 60 = 100, então fator = 60.",
+          "result": "Fator = 60",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Calcular porcentagem",
+          "thinking": "6000 ÷ 60 = 100, e 30 ÷ 60 = 0.5. Então a porcentagem é 100/0.5? Não... a célula pede só o numerador. Vou botar 100.",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem",
+           "type": "conceptual_error",
+           "wrongAnswer": "100",
+           "description": "Aluno confunde o denominador fixo (100) com o valor da porcentagem e responde 100.",
+           "mistakeLocation": "Na célula do resultado (numerador sobre 100), o aluno insere 100, pensando que 'porcentagem sempre tem 100'.",
+           "diagnosticQuestion": "Se todo mundo tivesse ido backstage, qual seria a porcentagem? E se só 30 de 6000 foram, será que ainda é 100%?",
+           "severity": "moderate",
+           "feedback": "Você sabe que porcentagem usa 100 como referência — ótimo! Mas o número que vai **em cima** do 100 é que mostra a porcentagem real. Será que é mesmo 100?",
+           "howToFix": "Relacionar com exemplos conhecidos: metade é 50/100 → 50%. Aqui, 30 é uma fração pequena de 6000."
+          }
+         }
+        ],
+        "finalAnswer": "100",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "concert",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_razao_parte_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{total}/{part}",
+          "buggyRule": "Inverter a razão: usar o total como numerador e a parte como denominador: numerador = {total}; denominador = {part}",
+          "description": "Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.",
+          "mistakeLocation": "Ao preencher os campos da razão original, o aluno coloca o número maior (total) no numerador.",
+          "diagnosticQuestion": "A razão representa 'quantos de cada total'? Nesse caso, quem é a parte e quem é o total?",
+          "feedback": "Você identificou os dois números corretamente! Na porcentagem, sempre usamos 'parte sobre total'. Pergunte-se: '30 é parte de qual total?'",
+          "howToFix": "Praticar com frases completas: '30 em cada 6000' → traduzir diretamente para 30/6000.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_repete_total_em_todas_as_linhas",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{total}",
+          "buggyRule": "Preencher o numerador da razão original com o valor do total (6000) em todas as linhas, ignorando a parte específica de cada linha.",
+          "description": "Aluno copia o total como numerador em Part 1 e Part 2, esquecendo que cada linha tem sua própria parte.",
+          "mistakeLocation": "Ao digitar os numeradores das razões originais nas linhas Part 1 e Part 2, o aluno repete 6000 em vez de 30 e 1800.",
+          "diagnosticQuestion": "Cada linha fala de um grupo diferente: backstage, camiseta... os números devem ser os mesmos em todas?",
+          "feedback": "Boa iniciativa em preencher os dados! Mas cada linha tem seu próprio 'pedaço': 30 para backstage, 1800 para camisetas. Confira quem é a parte em cada caso.",
+          "howToFix": "Destacar visualmente cada parte no enunciado com cores diferentes antes de preencher.",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "concert",
+        "step": 2,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_sempre_multiplica_para_aumentar",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Escolher multiplicação (×) para ambas as operações, independentemente do tamanho do denominador, por acreditar que 'multiplicar aumenta e é necessário para chegar a 100'.",
+          "description": "Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.",
+          "mistakeLocation": "Na seleção da operação, o aluno escolhe × para numerador e denominador, mesmo com denominador = 6000 > 100.",
+          "diagnosticQuestion": "Se o denominador é 6000 e queremos 100, devemos aumentar ou diminuir esse número?",
+          "feedback": "Você está pensando na ideia de ajustar a fração — ótimo! Mas se o número é muito grande e queremos deixá-lo menor (6000 → 100), qual operação faz isso?",
+          "howToFix": "Usar reta numérica ou escala: mostrar que 6000 → 100 requer divisão, não multiplicação.",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_operacoes_diferentes_numerator_denominator",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷ / ×",
+          "buggyRule": "Aplicar divisão no denominador (para reduzir a 100) mas multiplicação no numerador, achando que o numerador deve 'compensar' ou 'aumentar'.",
+          "description": "Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.",
+          "mistakeLocation": "Na linha Part 1, seleciona ÷ para o denominador, mas × para o numerador.",
+          "diagnosticQuestion": "Se você divide o de baixo por 60, o que deve fazer com o de cima para manter a fração igual?",
+          "feedback": "Você percebeu que o denominador precisa mudar — excelente! Para a fração continuar valendo a mesma coisa, o numerador e o denominador devem sofrer a **mesma operação**.",
+          "howToFix": "Demonstrar com pizza: cortar em mais pedaços (multiplicar ambos) ou juntar pedaços (dividir ambos).",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "concert",
+        "step": 3,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_fator_escala_como_diferenca",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{denom_original} - 100",
+          "buggyRule": "Calcular o fator de escala como a diferença entre o denominador original e 100: fator = {denom_original} - 100",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o fator de escala.",
+          "mistakeLocation": "Ao calcular quanto 'ajustar' o denominador, o aluno faz 6000 - 100 = 5900 e usa isso como fator.",
+          "diagnosticQuestion": "Se eu tenho 6000 e quero chegar a 100, devo tirar 5900 ou dividir por algo?",
+          "feedback": "Você está tentando descobrir o 'passo' certo para ajustar a fração. Mas em frações equivalentes, usamos multiplicação ou divisão, não soma ou subtração.",
+          "howToFix": "Refazer com exemplo simples: 2/4 → ?/100. Perguntar: '4 vezes o quê dá 100?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_fator_escala_reciproco",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100 / {denom_original}",
+          "buggyRule": "Usar o recíproco do fator correto: fator = 100 / {denom_original}",
+          "description": "Aluno calcula 100/6000 ≈ 0.0167 e usa isso como fator, aplicando multiplicação incorreta.",
+          "mistakeLocation": "No campo do fator de escala, o aluno insere 100/6000 em vez de 6000/100.",
+          "diagnosticQuestion": "Se você multiplica 6000 por 0.0167, o que acontece? Chega a 100?",
+          "feedback": "Você está perto! O fator deve transformar 6000 em 100. Que número, multiplicado por 6000, dá 100?",
+          "howToFix": "Ensinar a regra: fator = novo denominador / antigo denominador → 100 / 6000 só se estiver multiplicando, mas aqui estamos dividindo.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_fator_escala_do_numerador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{num_original}",
+          "buggyRule": "Preencher o fator de escala com o valor do numerador original (ex: 30 ou 1800), confundindo dado com fator.",
+          "description": "Aluno copia o numerador para o campo do fator de escala.",
+          "mistakeLocation": "Na linha Part 1, insere 30 no campo 'fator de escala do numerador'.",
+          "diagnosticQuestion": "O fator de escala é um número que muda a fração. Ele vem do numerador ou da relação entre denominadores?",
+          "feedback": "Você já tem o numerador certo! O fator de escala vem de como o **denominador** muda — de 6000 para 100.",
+          "howToFix": "Cobrir o numerador e focar só no denominador: 'como transformar 6000 em 100?'",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "concert",
+        "step": 4,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_escala_divide_numerador_errado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{num_original} / {scale_factor}",
+          "buggyRule": "Dividir o numerador original pelo fator de escala (correto), mas não entender que o resultado é a porcentagem direta (aceitando decimais ou inteiros errados): resultado = {num_original} / {scale_factor}",
+          "description": "Aluno calcula 30/60 = 0.5 e insere 0.5 como porcentagem, sem converter para 0.5% ou reconhecer que deveria ser 0.5/100.",
+          "mistakeLocation": "Na célula do numerador sobre 100, o aluno insere o decimal resultante da divisão, não o valor percentual.",
+          "diagnosticQuestion": "Se a fração equivalente é 0.5/100, qual é a porcentagem? E se fosse 50/100, quanto seria?",
+          "feedback": "Você fez a conta certa! Mas lembre-se: o número que vai em cima do 100 **é** a porcentagem. Então 0.5/100 = 0.5%, não 0.5 como número solto.",
+          "howToFix": "Treinar com equivalência: 1/2 = 50/100 → 50%. Aqui, 30/6000 = ?/100 → calcule ?.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_porcentagem_como_fracao_simplificada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "({num_original} / {denom_original}) * 100 arredondado ou mal calculado",
+          "buggyRule": "Tentar calcular porcentagem como (parte/total)*100, mas com erro de cálculo: ex: 30/6000 = 0.005 → ×100 = 0.5, mas aluno responde 5 ou 50 por erro decimal.",
+          "description": "Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.",
+          "mistakeLocation": "Ao computar mentalmente (30 ÷ 6000) × 100, o aluno desloca a vírgula errado e obtém 5 ou 50.",
+          "diagnosticQuestion": "30 dividido por 6000 é menor ou maior que 1? E ao multiplicar por 100, ainda é pequeno?",
+          "feedback": "Você está usando uma estratégia válida! Mas cuidado com os zeros: 30 é muito menor que 6000, então a porcentagem deve ser pequena.",
+          "howToFix": "Contar zeros: 30/6000 = 3/600 = 1/200 = 0.005 → ×100 = 0.5%.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100",
+          "buggyRule": "Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.",
+          "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+          "mistakeLocation": "Na célula 'valor da porcentagem', o aluno digita 100 independentemente dos números.",
+          "diagnosticQuestion": "Se ninguém tivesse ganhado nada, a porcentagem seria 100%? E se todos ganhassem?",
+          "feedback": "Você sabe que porcentagem envolve 100 — isso é ótimo! Mas o número que varia é o de cima. 100% só acontece se **todos** forem incluídos.",
+          "howToFix": "Comparar com casos extremos: 0/6000 = 0%; 6000/6000 = 100%.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_confunde_parte1_com_parte2",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "30",
+          "buggyRule": "Responder com o valor da Parte 2 (1800 → 30%) na linha da Parte 1, por confusão entre as linhas.",
+          "description": "Aluno calcula corretamente 30% para Parte 2, mas cola esse valor na Parte 1.",
+          "mistakeLocation": "Na célula de porcentagem da Parte 1, o aluno digita 30 (resultado da Parte 2).",
+          "diagnosticQuestion": "Essa linha fala de backstage ou de camisetas? Qual número você usou no numerador?",
+          "feedback": "Você calculou uma porcentagem corretamente! Mas verifique se ela está na linha certa. Cada linha tem sua própria parte.",
+          "howToFix": "Preencher uma linha de cada vez, cobrindo as outras com papel.",
+          "severity": "low"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "concert",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar os valores dados",
+        "thinking": "Temos 6000 fãs no total. Parte 1: 30 ganharam backstage. Parte 2: 1800 ganharam camiseta. Preciso achar porcentagens.",
+        "result": "Valores extraídos corretamente: total = 6000, parte1 = 30, parte2 = 1800",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher razões originais na tabela",
+        "thinking": "A razão original é parte/total. Então Parte 1: 30/6000, Parte 2: 1800/6000. E linha Total? Talvez 6000/6000?",
+        "result": "Razões originais preenchidas: Part1 = 30/6000, Part2 = 1800/6000, Total = 6000/6000",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! A porcentagem sempre compara uma parte com o total. Qual é a razão que representa 'tudo'?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Para a linha 'Total', pense: qual fração representa 100% do grupo? Use o mesmo total no numerador e denominador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A linha 'Total' deve mostrar 100%. Que fração dá exatamente 100%? Tente usar 6000 no numerador também."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! Se o total de fãs é 6000, então a razão que representa 'todo mundo' é 6000 sobre... quanto? Isso mesmo, 6000!"
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Decidir operação e fator de escala para transformar denominador em 100",
+        "thinking": "Preciso transformar 6000 em 100. Como faço isso? Divido por 60? Sim, porque 6000 ÷ 60 = 100. Então devo dividir numerador e denominador por 60.",
+        "result": "Operação escolhida: ÷ para numerador e denominador. Fator de escala: 60 para ambas as partes.",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Para encontrar porcentagem, queremos um denominador igual a 100. O que podemos fazer com o denominador atual para chegar a 100?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Excelente! Primeiro descubra quanto você precisa dividir (ou multiplicar) o denominador para virar 100. Depois aplique a mesma operação ao numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Você está quase lá! 6000 dividido por quanto dá 100? Pense: 60 × 100 = 6000. Então o fator é 60!"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito perto! Se 6000 ÷ ? = 100, então ? = 6000 ÷ 100. Quanto é isso? Use essa resposta como seu fator de escala!"
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Aplicar fator de escala às partes",
+        "thinking": "Parte 1: 30 ÷ 60 = 0.5. Parte 2: 1800 ÷ 60 = 30. Total: 6000 ÷ 60 = 100. Então as porcentagens são 0.5% e 30%.",
+        "result": "Porcentagens calculadas: Part1 = 0.5%, Part2 = 30%, Total = 100%",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Lembre-se: quando você divide numerador e denominador pelo mesmo número, a razão não muda. O que isso significa para a porcentagem?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Divida o numerador original pelo mesmo fator que usou no denominador. O resultado será o novo numerador — que já é a porcentagem!"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Você já sabe que o fator é 60. Agora calcule: 30 ÷ 60 e 1800 ÷ 60. Esses serão seus percentuais."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase concluindo! 30 dividido por 60 é meio. Então a porcentagem é 0 ponto... quanto? E 1800 ÷ 60? Pense: 60 × 30 = 1800!"
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Preencher campos de resultado e confirmar",
+        "thinking": "Então Parte 1: 0.5%, Parte 2: 30%. A linha Total deve ser 100%. Vou colocar esses números nos campos certos.",
+        "result": "Campos preenchidos corretamente; botão Done pressionado.",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "0.5 and 30",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagem usando regra de três em vez de escala de razão",
+        "steps": [
+         "Montar 30/x = 6000/100",
+         "Resolver x = (30×100)/6000"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Converter fração para decimal primeiro, depois para porcentagem",
+        "steps": [
+         "30 ÷ 6000 = 0.005",
+         "0.005 × 100 = 0.5%"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 10,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Na linha Total, interprete o enunciado e registre o total de fãs no numerador da razão original.",
+     "kc": "Enter-given-quantities",
+     "valor": "6000"
+    },
+    {
+     "indice": 2,
+     "acao": "Na linha Total, registre novamente o total de fãs no denominador da razão original.",
+     "kc": "Enter-given-quantities",
+     "valor": "6000"
+    },
+    {
+     "indice": 3,
+     "acao": "Na linha Part 1, registre no numerador a quantidade de fãs que recebeu passes para os bastidores.",
+     "kc": "Enter-given-quantities",
+     "valor": "30"
+    },
+    {
+     "indice": 4,
+     "acao": "Na linha Part 1, registre o total de fãs no denominador da razão original.",
+     "kc": "Enter-given-quantities",
+     "valor": "6000"
+    },
+    {
+     "indice": 5,
+     "acao": "Para transformar a razão da Part 1 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "kc": "Indentify-operation-needed",
+     "valor": "÷,÷"
+    },
+    {
+     "indice": 6,
+     "acao": "Aplique a divisão por 60 à Part 1 e registre o numerador da razão equivalente sobre 100.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "0,5"
+    },
+    {
+     "indice": 7,
+     "acao": "Para transformar a razão da Part 2 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "kc": "Indentify-operation-needed",
+     "valor": "÷,÷"
+    },
+    {
+     "indice": 8,
+     "acao": "Aplique a divisão por 60 à Part 2 e registre o numerador da razão equivalente sobre 100.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "30"
+    },
+    {
+     "indice": 9,
+     "acao": "Na linha Total, use divisão nos dois seletores e registre o fator de escala 60 nos dois campos.",
+     "kc": "Identify-scale-factor",
+     "valor": "÷,÷;60,60"
+    },
+    {
+     "indice": 10,
+     "acao": "Complete a linha Total registrando o numerador 100 sobre 100 e o valor da porcentagem.",
+     "kc": "identify-percent",
+     "valor": "100"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "6000",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator represents the selected part, not the whole audience. The 30 fans with backstage passes belong in the numerator.",
+     "buggyRule": "Inverter a razão: usar o total como numerador e a parte como denominador: numerador = {total}; denominador = {part}",
+     "misconceptionId": "misc_inverte_razao_parte_total"
+    },
+    {
+     "valor": "30",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator is the total group used for comparison. The 30 fans are the part, while the full audience is the denominator.",
+     "buggyRule": "Inverter a razão: usar o total como numerador e a parte como denominador: numerador = {total}; denominador = {part}",
+     "misconceptionId": "misc_inverte_razao_parte_total"
+    },
+    {
+     "valor": "×,×",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator must change from 6000 to 100, so it must decrease. Choose division for both terms.",
+     "buggyRule": "Escolher multiplicação (×) para ambas as operações, independentemente do tamanho do denominador, por acreditar que 'multiplicar aumenta e é necessário para chegar a 100'.",
+     "misconceptionId": "misc_sempre_multiplica_para_aumentar"
+    },
+    {
+     "valor": "÷,×",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Equivalent ratios require the same operation on the numerator and denominator. Do not divide one term and multiply the other.",
+     "buggyRule": "Aplicar divisão no denominador (para reduzir a 100) mas multiplicação no numerador, achando que o numerador deve 'compensar' ou 'aumentar'.",
+     "misconceptionId": "misc_operacoes_diferentes_numerator_denominator"
+    },
+    {
+     "valor": "0.5",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The calculation gives one half. Enter it in the numerator over 100, using the decimal format accepted by the table.",
+     "buggyRule": "Dividir o numerador original pelo fator de escala (correto), mas não entender que o resultado é a porcentagem direta (aceitando decimais ou inteiros errados): resultado = {num_original} / {scale_factor}",
+     "misconceptionId": "misc_escala_divide_numerador_errado"
+    },
+    {
+     "valor": "100",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator is fixed at 100, but the percentage is determined by the numerator after scaling.",
+     "buggyRule": "Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.",
+     "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "valor": "5",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Be careful with the decimal place. Thirty out of 6000 is a very small portion, so the numerator over 100 must remain less than 1.",
+     "buggyRule": "Tentar calcular porcentagem como (parte/total)*100, mas com erro de cálculo: ex: 30/6000 = 0.005 → ×100 = 0.5, mas aluno responde 5 ou 50 por erro decimal.",
+     "misconceptionId": "misc_porcentagem_como_fracao_simplificada"
+    },
+    {
+     "valor": "×,×",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator must decrease from 6000 to 100. Division, not multiplication, makes that change.",
+     "buggyRule": "Escolher multiplicação (×) para ambas as operações, independentemente do tamanho do denominador, por acreditar que 'multiplicar aumenta e é necessário para chegar a 100'.",
+     "misconceptionId": "misc_sempre_multiplica_para_aumentar"
+    },
+    {
+     "valor": "÷,×",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Both terms must receive the same operation so the ratio remains equivalent.",
+     "buggyRule": "Aplicar divisão no denominador (para reduzir a 100) mas multiplicação no numerador, achando que o numerador deve 'compensar' ou 'aumentar'.",
+     "misconceptionId": "misc_operacoes_diferentes_numerator_denominator"
+    },
+    {
+     "valor": "100",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator 100 shows the percentage scale, but the percentage value comes from the numerator after dividing 1800 by 60.",
+     "buggyRule": "Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.",
+     "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "valor": "5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Check the division and the zeros carefully. Dividing 1800 by 60 gives a whole-number numerator.",
+     "buggyRule": "Tentar calcular porcentagem como (parte/total)*100, mas com erro de cálculo: ex: 30/6000 = 0.005 → ×100 = 0.5, mas aluno responde 5 ou 50 por erro decimal.",
+     "misconceptionId": "misc_porcentagem_como_fracao_simplificada"
+    },
+    {
+     "valor": "0,5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "That value belongs to the backstage-pass row. Part 2 uses the 1800 fans who received T-shirts.",
+     "buggyRule": "Responder com o valor da Parte 2 (1800 → 30%) na linha da Parte 1, por confusão entre as linhas.",
+     "misconceptionId": "misc_confunde_parte1_com_parte2"
+    },
+    {
+     "valor": "5900",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The scale factor is found by division, not subtraction. Dividing 6000 by 60 produces the target denominator 100.",
+     "buggyRule": "Calcular o fator de escala como a diferença entre o denominador original e 100: fator = {denom_original} - 100",
+     "misconceptionId": "misc_fator_escala_como_diferenca"
+    },
+    {
+     "valor": "0.0167",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The factor must be used as a divisor that changes 6000 into 100. The reciprocal does not provide the table's required scale operation.",
+     "buggyRule": "Usar o recíproco do fator correto: fator = 100 / {denom_original}",
+     "misconceptionId": "misc_fator_escala_reciproco"
+    },
+    {
+     "valor": "6000",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The scale factor comes from the change in the denominator, not from copying the original numerator.",
+     "buggyRule": "Preencher o fator de escala com o valor do numerador original (ex: 30 ou 1800), confundindo dado com fator.",
+     "misconceptionId": "misc_fator_escala_do_numerador"
+    },
+    {
+     "valor": "60",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The scale factor is 60, but the Total percentage is determined by the completed ratio 100/100.",
+     "buggyRule": "Responder sempre 100 na porcentagem, por associar 'porcentagem = 100'.",
+     "misconceptionId": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "valor": "6000",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The original total is 6000, but after dividing both terms by 60, the numerator over 100 is 100.",
+     "buggyRule": "Preencher o fator de escala com o valor do numerador original (ex: 30 ou 1800), confundindo dado com fator.",
+     "misconceptionId": "misc_fator_escala_do_numerador"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Qual número representa todos os fãs presentes no anfiteatro?"
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Procure no enunciado a quantidade total de pessoas, não a quantidade que recebeu um benefício."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "O total aparece antes das duas partes e descreve todos os fãs do RockFest."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Digite no numerador da linha Total o número que representa o conjunto inteiro de fãs."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "Uma razão do total compara o grupo inteiro com qual quantidade?"
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Para a linha Total, use a mesma quantidade de fãs nos dois campos da razão original."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "O denominador representa o total usado como referência para calcular qualquer porcentagem."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Digite no denominador o mesmo número que representa todos os fãs presentes."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "Qual quantidade representa apenas o grupo que recebeu passes para os bastidores?"
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Em uma razão parte-total, coloque a quantidade da parte no numerador."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "A Part 1 menciona fãs sortudos que receberam backstage passes."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Digite a quantidade de fãs que receberam os passes, sem usar o total de espectadores."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "A quantidade de fãs com passes é uma parte de qual grupo?"
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Coloque no denominador a quantidade total usada como referência."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "A referência para a Part 1 é o número de todos os fãs no anfiteatro."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Digite no denominador o total de fãs que aparece no início do enunciado."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "O denominador precisa ficar menor ou maior para chegar a 100?"
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use a mesma operação nos dois termos para conservar uma razão equivalente."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Como 6000 é maior que 100, escolha a operação que reduz o número."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Selecione o símbolo de divisão no seletor do numerador e também no seletor do denominador."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "O numerador deve ser transformado pela mesma divisão usada no denominador."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Calcule 30 dividido por 60 antes de preencher o numerador equivalente."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Como 60 cabe duas vezes em 30, o resultado será menor que 1."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Faça a divisão de 30 por 60 e digite o quociente no numerador que aparece sobre 100."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Qual operação reduz 6000 até chegar ao denominador 100?"
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Uma razão equivalente exige a mesma operação no numerador e no denominador."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Observe que o número de fãs não mudou; somente a parte da Part 2 é diferente."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Escolha divisão no seletor do numerador e divisão no seletor do denominador da Part 2."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "A quantidade de camisetas deve passar pela mesma transformação que o total."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Divida o numerador original da Part 2 pelo fator 60."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Calcule 1800 dividido por 60 usando a relação entre 6000 e 100."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Efetue 1800 ÷ 60 e digite o resultado no numerador que fica sobre 100."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "Que relação transforma o denominador 6000 no denominador 100?"
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Encontre o número que, usado como divisor, leva 6000 até 100."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "Como 60 vezes 100 é igual a 6000, o divisor necessário é 60."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Selecione divisão nos dois campos de operação e digite 60 em cada campo de fator de escala."
+    },
+    {
+     "passo": 10,
+     "nivel": 1,
+     "texto": "Que porcentagem representa o grupo inteiro comparado com ele mesmo?"
+    },
+    {
+     "passo": 10,
+     "nivel": 2,
+     "texto": "Depois da transformação, observe o numerador da razão que tem ... no denominador."
+    },
+    {
+     "passo": 10,
+     "nivel": 3,
+     "texto": "A linha Total representa todos os fãs, não apenas os que receberam passes ou camisetas."
+    },
+    {
+     "passo": 10,
+     "nivel": 4,
+     "texto": "Preencha o valor correspondente a uma razão total de ... sobre ... e então conclua a tabela."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": false,
+   "valoresEstranhos": [
+    "0,5→0.5",
+    "÷,÷;60,60→60.60",
+    "100→100"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "6000",
+    "6000",
+    "30",
+    "6000",
+    "÷,÷",
+    "0,5",
+    "÷,÷",
+    "30",
+    "÷,÷;60,60",
+    "100"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "At the RockFest concert, there were 6000 screaming fans in the amphitheater.<br><br>Part 1) If 30 lucky fans were given backstage passes, what percentage of the concert goers went backstage?<br><br>Part 2) If 1800 were given a free T-shirt, what percentage of the concert goers received a free T-shirt?\nPart 1) If 30 lucky fans were given backstage passes, what percentage of the concert goers went backstage?<br>Part 2) If 1800 were given a free T-shirt, what percentage of the concert goers received a free T-shirt?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Na linha Total, interprete o enunciado e registre o total de fãs no numerador da razão original.",
+     "expectedAnswer": "6000",
+     "renderAs": "totalorignumareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Na linha Total, registre novamente o total de fãs no denominador da razão original.",
+     "expectedAnswer": "6000",
+     "renderAs": "totalorigdenomareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Na linha Part 1, registre no numerador a quantidade de fãs que recebeu passes para os bastidores.",
+     "expectedAnswer": "30",
+     "renderAs": "part1orignumareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Na linha Part 1, registre o total de fãs no denominador da razão original.",
+     "expectedAnswer": "6000",
+     "renderAs": "part1origdenomareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Para transformar a razão da Part 1 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "expectedAnswer": "÷,÷",
+     "renderAs": "part1operatorpairpulldownmenu",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Aplique a divisão por 60 à Part 1 e registre o numerador da razão equivalente sobre 100.",
+     "expectedAnswer": "0,5",
+     "renderAs": "part1percentnumareainput",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "Para transformar a razão da Part 2 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "expectedAnswer": "÷,÷",
+     "renderAs": "part2operatorpairpulldownmenu",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Aplique a divisão por 60 à Part 2 e registre o numerador da razão equivalente sobre 100.",
+     "expectedAnswer": "30",
+     "renderAs": "part2percentnumareainput",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Na linha Total, use divisão nos dois seletores e registre o fator de escala 60 nos dois campos.",
+     "expectedAnswer": "÷,÷;60,60",
+     "renderAs": "totaloperationandscalefactor",
+     "kc": "Identify-scale-factor",
+     "nOptions": 0
+    },
+    {
+     "id": "step_10",
+     "instruction": "Complete a linha Total registrando o numerador 100 sobre 100 e o valor da porcentagem.",
+     "expectedAnswer": "100",
+     "renderAs": "totalpercentnumareainput",
+     "kc": "identify-percent",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 65621,
+   "exerciciosGerados": 1,
+   "passosGenericos": 10,
+   "passosMaterializados": 10,
+   "dicasMaterializadas": 40,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Na linha Total, interprete o enunciado e registre o total de fãs no numerador da razão original.",
+     "instruction": "Na linha Total, interprete o enunciado e registre o total de fãs no numerador da razão original.",
+     "expectedInput": {
+      "value": "6000",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "6000"
+      ],
+      "renderAs": "totalorignumareainput",
+      "componentId": "totalorignumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Qual número representa todos os fãs presentes no anfiteatro?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Procure no enunciado a quantidade total de pessoas, não a quantidade que recebeu um benefício."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O total aparece antes das duas partes e descreve todos os fãs do RockFest."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no numerador da linha Total o número que representa o conjunto inteiro de fãs."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Na linha Total, registre novamente o total de fãs no denominador da razão original.",
+     "instruction": "Na linha Total, registre novamente o total de fãs no denominador da razão original.",
+     "expectedInput": {
+      "value": "6000",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "6000"
+      ],
+      "renderAs": "totalorigdenomareainput",
+      "componentId": "totalorigdenomareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Uma razão do total compara o grupo inteiro com qual quantidade?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Para a linha Total, use a mesma quantidade de fãs nos dois campos da razão original."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "O denominador representa o total usado como referência para calcular qualquer porcentagem."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no denominador o mesmo número que representa todos os fãs presentes."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Na linha Part 1, registre no numerador a quantidade de fãs que recebeu passes para os bastidores.",
+     "instruction": "Na linha Part 1, registre no numerador a quantidade de fãs que recebeu passes para os bastidores.",
+     "expectedInput": {
+      "value": "30",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "30"
+      ],
+      "renderAs": "part1orignumareainput",
+      "componentId": "part1orignumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Qual quantidade representa apenas o grupo que recebeu passes para os bastidores?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Em uma razão parte-total, coloque a quantidade da parte no numerador."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A Part 1 menciona fãs sortudos que receberam backstage passes."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite a quantidade de fãs que receberam os passes, sem usar o total de espectadores."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_total",
+       "wrongAnswer": "6000",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.",
+       "feedback": "The numerator represents the selected part, not the whole audience. The 30 fans with backstage passes belong in the numerator.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_total__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Na linha Part 1, registre o total de fãs no denominador da razão original.",
+     "instruction": "Na linha Part 1, registre o total de fãs no denominador da razão original.",
+     "expectedInput": {
+      "value": "6000",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "6000"
+      ],
+      "renderAs": "part1origdenomareainput",
+      "componentId": "part1origdenomareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A quantidade de fãs com passes é uma parte de qual grupo?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Coloque no denominador a quantidade total usada como referência."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A referência para a Part 1 é o número de todos os fãs no anfiteatro."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Digite no denominador o total de fãs que aparece no início do enunciado."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_total",
+       "wrongAnswer": "30",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.",
+       "feedback": "The denominator is the total group used for comparison. The 30 fans are the part, while the full audience is the denominator.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_total__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Para transformar a razão da Part 1 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "instruction": "Para transformar a razão da Part 1 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "expectedInput": {
+      "value": "÷,÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷,÷"
+      ],
+      "renderAs": "part1operatorpairpulldownmenu",
+      "componentId": "part1operatorpairpulldownmenu",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O denominador precisa ficar menor ou maior para chegar a 100?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use a mesma operação nos dois termos para conservar uma razão equivalente."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Como 6000 é maior que 100, escolha a operação que reduz o número."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Selecione o símbolo de divisão no seletor do numerador e também no seletor do denominador."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_sempre_multiplica_para_aumentar",
+       "wrongAnswer": "×,×",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.",
+       "feedback": "The denominator must change from 6000 to 100, so it must decrease. Choose division for both terms.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_operacoes_diferentes_numerator_denominator",
+       "wrongAnswer": "÷,×",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.",
+       "feedback": "Equivalent ratios require the same operation on the numerator and denominator. Do not divide one term and multiply the other.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_sempre_multiplica_para_aumentar__step_5",
+      "scaffold_misc_operacoes_diferentes_numerator_denominator__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Aplique a divisão por 60 à Part 1 e registre o numerador da razão equivalente sobre 100.",
+     "instruction": "Aplique a divisão por 60 à Part 1 e registre o numerador da razão equivalente sobre 100.",
+     "expectedInput": {
+      "value": "0,5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "0,5"
+      ],
+      "renderAs": "part1percentnumareainput",
+      "componentId": "part1percentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "O numerador deve ser transformado pela mesma divisão usada no denominador."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Calcule 30 dividido por 60 antes de preencher o numerador equivalente."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Como 60 cabe duas vezes em 30, o resultado será menor que 1."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Faça a divisão de 30 por 60 e digite o quociente no numerador que aparece sobre 100."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_escala_divide_numerador_errado",
+       "wrongAnswer": "0.5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula 30/60 = 0.5 e insere 0.5 como porcentagem, sem converter para 0.5% ou reconhecer que deveria ser 0.5/100.",
+       "feedback": "The calculation gives one half. Enter it in the numerator over 100, using the decimal format accepted by the table.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_denominador_resultante_como_porcentagem",
+       "wrongAnswer": "100",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+       "feedback": "The denominator is fixed at 100, but the percentage is determined by the numerator after scaling.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_porcentagem_como_fracao_simplificada",
+       "wrongAnswer": "5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.",
+       "feedback": "Be careful with the decimal place. Thirty out of 6000 is a very small portion, so the numerator over 100 must remain less than 1.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_escala_divide_numerador_errado",
+      "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_6",
+      "scaffold_misc_porcentagem_como_fracao_simplificada__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Para transformar a razão da Part 2 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "instruction": "Para transformar a razão da Part 2 em uma razão sobre 100, selecione divisão nos dois seletores de operação.",
+     "expectedInput": {
+      "value": "÷,÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷,÷"
+      ],
+      "renderAs": "part2operatorpairpulldownmenu",
+      "componentId": "part2operatorpairpulldownmenu",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Qual operação reduz 6000 até chegar ao denominador 100?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Uma razão equivalente exige a mesma operação no numerador e no denominador."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Observe que o número de fãs não mudou; somente a parte da Part 2 é diferente."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Escolha divisão no seletor do numerador e divisão no seletor do denominador da Part 2."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_sempre_multiplica_para_aumentar",
+       "wrongAnswer": "×,×",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.",
+       "feedback": "The denominator must decrease from 6000 to 100. Division, not multiplication, makes that change.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_operacoes_diferentes_numerator_denominator",
+       "wrongAnswer": "÷,×",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.",
+       "feedback": "Both terms must receive the same operation so the ratio remains equivalent.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_sempre_multiplica_para_aumentar__step_7",
+      "scaffold_misc_operacoes_diferentes_numerator_denominator__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Aplique a divisão por 60 à Part 2 e registre o numerador da razão equivalente sobre 100.",
+     "instruction": "Aplique a divisão por 60 à Part 2 e registre o numerador da razão equivalente sobre 100.",
+     "expectedInput": {
+      "value": "30",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "30"
+      ],
+      "renderAs": "part2percentnumareainput",
+      "componentId": "part2percentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "A quantidade de camisetas deve passar pela mesma transformação que o total."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divida o numerador original da Part 2 pelo fator 60."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Calcule 1800 dividido por 60 usando a relação entre 6000 e 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Efetue 1800 ÷ 60 e digite o resultado no numerador que fica sobre 100."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_denominador_resultante_como_porcentagem",
+       "wrongAnswer": "100",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+       "feedback": "The denominator 100 shows the percentage scale, but the percentage value comes from the numerator after dividing 1800 by 60.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_porcentagem_como_fracao_simplificada",
+       "wrongAnswer": "5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.",
+       "feedback": "Check the division and the zeros carefully. Dividing 1800 by 60 gives a whole-number numerator.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_parte1_com_parte2",
+       "wrongAnswer": "0,5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula corretamente 30% para Parte 2, mas cola esse valor na Parte 1.",
+       "feedback": "That value belongs to the backstage-pass row. Part 2 uses the 1800 fans who received T-shirts.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_8",
+      "scaffold_misc_porcentagem_como_fracao_simplificada__step_8",
+      "scaffold_misc_confunde_parte1_com_parte2",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Na linha Total, use divisão nos dois seletores e registre o fator de escala 60 nos dois campos.",
+     "instruction": "Na linha Total, use divisão nos dois seletores e registre o fator de escala 60 nos dois campos.",
+     "expectedInput": {
+      "value": "÷,÷;60,60",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷,÷;60,60"
+      ],
+      "renderAs": "totaloperationandscalefactor",
+      "componentId": "totaloperationandscalefactor",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Que relação transforma o denominador 6000 no denominador 100?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Encontre o número que, usado como divisor, leva 6000 até 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Como 60 vezes 100 é igual a 6000, o divisor necessário é 60."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Selecione divisão nos dois campos de operação e digite 60 em cada campo de fator de escala."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_fator_escala_como_diferenca",
+       "wrongAnswer": "5900",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa subtração em vez de divisão para encontrar o fator de escala.",
+       "feedback": "The scale factor is found by division, not subtraction. Dividing 6000 by 60 produces the target denominator 100.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_fator_escala_reciproco",
+       "wrongAnswer": "0.0167",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno calcula 100/6000 ≈ 0.0167 e usa isso como fator, aplicando multiplicação incorreta.",
+       "feedback": "The factor must be used as a divisor that changes 6000 into 100. The reciprocal does not provide the table's required scale operation.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_fator_escala_do_numerador",
+       "wrongAnswer": "6000",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno copia o numerador para o campo do fator de escala.",
+       "feedback": "The scale factor comes from the change in the denominator, not from copying the original numerator.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_fator_escala_como_diferenca",
+      "scaffold_misc_fator_escala_reciproco",
+      "scaffold_misc_fator_escala_do_numerador__step_9",
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "step_10",
+     "type": "step",
+     "description": "Complete a linha Total registrando o numerador 100 sobre 100 e o valor da porcentagem.",
+     "instruction": "Complete a linha Total registrando o numerador 100 sobre 100 e o valor da porcentagem.",
+     "expectedInput": {
+      "value": "100",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "100"
+      ],
+      "renderAs": "totalpercentnumareainput",
+      "componentId": "totalpercentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Que porcentagem representa o grupo inteiro comparado com ele mesmo?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Depois da transformação, observe o numerador da razão que tem ... no denominador."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A linha Total representa todos os fãs, não apenas os que receberam passes ou camisetas."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Preencha o valor correspondente a uma razão total de ... sobre ... e então conclua a tabela."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_denominador_resultante_como_porcentagem",
+       "wrongAnswer": "60",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+       "feedback": "The scale factor is 60, but the Total percentage is determined by the completed ratio 100/100.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_fator_escala_do_numerador",
+       "wrongAnswer": "6000",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno copia o numerador para o campo do fator de escala.",
+       "feedback": "The original total is 6000, but after dividing both terms by 60, the numerator over 100 is 100.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_10",
+      "scaffold_misc_fator_escala_do_numerador__step_10",
+      "scaffold_generic_step_10"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_10",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_total__step_3",
+     "type": "scaffold",
+     "description": "Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.",
+     "instruction": "The numerator represents the selected part, not the whole audience. The 30 fans with backstage passes belong in the numerator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_total"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_total__step_4",
+     "type": "scaffold",
+     "description": "Aluno escreve total/parte em vez de parte/total ao montar a razão para porcentagem.",
+     "instruction": "The denominator is the total group used for comparison. The 30 fans are the part, while the full audience is the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_total"
+    },
+    {
+     "id": "scaffold_misc_sempre_multiplica_para_aumentar__step_5",
+     "type": "scaffold",
+     "description": "Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.",
+     "instruction": "The denominator must change from 6000 to 100, so it must decrease. Choose division for both terms.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_sempre_multiplica_para_aumentar"
+    },
+    {
+     "id": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_5",
+     "type": "scaffold",
+     "description": "Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.",
+     "instruction": "Equivalent ratios require the same operation on the numerator and denominator. Do not divide one term and multiply the other.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_operacoes_diferentes_numerator_denominator"
+    },
+    {
+     "id": "scaffold_misc_escala_divide_numerador_errado",
+     "type": "scaffold",
+     "description": "Aluno calcula 30/60 = 0.5 e insere 0.5 como porcentagem, sem converter para 0.5% ou reconhecer que deveria ser 0.5/100.",
+     "instruction": "The calculation gives one half. Enter it in the numerator over 100, using the decimal format accepted by the table.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_escala_divide_numerador_errado"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_6",
+     "type": "scaffold",
+     "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+     "instruction": "The denominator is fixed at 100, but the percentage is determined by the numerator after scaling.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "id": "scaffold_misc_porcentagem_como_fracao_simplificada__step_6",
+     "type": "scaffold",
+     "description": "Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.",
+     "instruction": "Be careful with the decimal place. Thirty out of 6000 is a very small portion, so the numerator over 100 must remain less than 1.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_porcentagem_como_fracao_simplificada"
+    },
+    {
+     "id": "scaffold_misc_sempre_multiplica_para_aumentar__step_7",
+     "type": "scaffold",
+     "description": "Aluno assume que sempre deve multiplicar para transformar a razão em porcentagem, mesmo quando o denominador é maior que 100.",
+     "instruction": "The denominator must decrease from 6000 to 100. Division, not multiplication, makes that change.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_sempre_multiplica_para_aumentar"
+    },
+    {
+     "id": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_7",
+     "type": "scaffold",
+     "description": "Aluno usa operações diferentes nos dois termos da razão, quebrando a equivalência.",
+     "instruction": "Both terms must receive the same operation so the ratio remains equivalent.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_operacoes_diferentes_numerator_denominator"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_8",
+     "type": "scaffold",
+     "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+     "instruction": "The denominator 100 shows the percentage scale, but the percentage value comes from the numerator after dividing 1800 by 60.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "id": "scaffold_misc_porcentagem_como_fracao_simplificada__step_8",
+     "type": "scaffold",
+     "description": "Aluno usa método alternativo (decimal ×100) mas erra a vírgula, respondendo 5 ou 50 em vez de 0.5.",
+     "instruction": "Check the division and the zeros carefully. Dividing 1800 by 60 gives a whole-number numerator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_porcentagem_como_fracao_simplificada"
+    },
+    {
+     "id": "scaffold_misc_confunde_parte1_com_parte2",
+     "type": "scaffold",
+     "description": "Aluno calcula corretamente 30% para Parte 2, mas cola esse valor na Parte 1.",
+     "instruction": "That value belongs to the backstage-pass row. Part 2 uses the 1800 fans who received T-shirts.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_parte1_com_parte2"
+    },
+    {
+     "id": "scaffold_misc_fator_escala_como_diferenca",
+     "type": "scaffold",
+     "description": "Aluno usa subtração em vez de divisão para encontrar o fator de escala.",
+     "instruction": "The scale factor is found by division, not subtraction. Dividing 6000 by 60 produces the target denominator 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_escala_como_diferenca"
+    },
+    {
+     "id": "scaffold_misc_fator_escala_reciproco",
+     "type": "scaffold",
+     "description": "Aluno calcula 100/6000 ≈ 0.0167 e usa isso como fator, aplicando multiplicação incorreta.",
+     "instruction": "The factor must be used as a divisor that changes 6000 into 100. The reciprocal does not provide the table's required scale operation.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_escala_reciproco"
+    },
+    {
+     "id": "scaffold_misc_fator_escala_do_numerador__step_9",
+     "type": "scaffold",
+     "description": "Aluno copia o numerador para o campo do fator de escala.",
+     "instruction": "The scale factor comes from the change in the denominator, not from copying the original numerator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_escala_do_numerador"
+    },
+    {
+     "id": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_10",
+     "type": "scaffold",
+     "description": "Aluno insere 100 como valor da porcentagem, ignorando o cálculo.",
+     "instruction": "The scale factor is 60, but the Total percentage is determined by the completed ratio 100/100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_denominador_resultante_como_porcentagem"
+    },
+    {
+     "id": "scaffold_misc_fator_escala_do_numerador__step_10",
+     "type": "scaffold",
+     "description": "Aluno copia o numerador para o campo do fator de escala.",
+     "instruction": "The original total is 6000, but after dividing both terms by 60, the numerator over 100 is 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_escala_do_numerador"
+    }
+   ],
+   "edges": [
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "skip_if_mastered(identify-percent, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "correct"
+    },
+    {
+     "from": "step_10",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_inverte_razao_parte_total__step_3",
+     "condition": "misconception(misc_inverte_razao_parte_total)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_total__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_inverte_razao_parte_total__step_4",
+     "condition": "misconception(misc_inverte_razao_parte_total)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_total__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_sempre_multiplica_para_aumentar__step_5",
+     "condition": "misconception(misc_sempre_multiplica_para_aumentar)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_sempre_multiplica_para_aumentar__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_5",
+     "condition": "misconception(misc_operacoes_diferentes_numerator_denominator)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_escala_divide_numerador_errado",
+     "condition": "misconception(misc_escala_divide_numerador_errado)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_escala_divide_numerador_errado",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_6",
+     "condition": "misconception(misc_usa_denominador_resultante_como_porcentagem)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_porcentagem_como_fracao_simplificada__step_6",
+     "condition": "misconception(misc_porcentagem_como_fracao_simplificada)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_porcentagem_como_fracao_simplificada__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_sempre_multiplica_para_aumentar__step_7",
+     "condition": "misconception(misc_sempre_multiplica_para_aumentar)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_sempre_multiplica_para_aumentar__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_7",
+     "condition": "misconception(misc_operacoes_diferentes_numerator_denominator)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_operacoes_diferentes_numerator_denominator__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_8",
+     "condition": "misconception(misc_usa_denominador_resultante_como_porcentagem)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_porcentagem_como_fracao_simplificada__step_8",
+     "condition": "misconception(misc_porcentagem_como_fracao_simplificada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_porcentagem_como_fracao_simplificada__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_confunde_parte1_com_parte2",
+     "condition": "misconception(misc_confunde_parte1_com_parte2)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_confunde_parte1_com_parte2",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_fator_escala_como_diferenca",
+     "condition": "misconception(misc_fator_escala_como_diferenca)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_fator_escala_como_diferenca",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_fator_escala_reciproco",
+     "condition": "misconception(misc_fator_escala_reciproco)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_fator_escala_reciproco",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_fator_escala_do_numerador__step_9",
+     "condition": "misconception(misc_fator_escala_do_numerador)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_fator_escala_do_numerador__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_10",
+     "condition": "misconception(misc_usa_denominador_resultante_como_porcentagem)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_denominador_resultante_como_porcentagem__step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_fator_escala_do_numerador__step_10",
+     "condition": "misconception(misc_fator_escala_do_numerador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_fator_escala_do_numerador__step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_generic_step_10",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}

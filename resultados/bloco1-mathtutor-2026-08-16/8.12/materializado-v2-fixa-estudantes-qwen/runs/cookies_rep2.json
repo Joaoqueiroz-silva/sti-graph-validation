@@ -1,0 +1,3358 @@
+{
+ "id": "cookies",
+ "correctAnswer": "2",
+ "audit": {
+  "ok": true,
+  "stepCount": 12
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.143,
+ "functionalKappa": -0.312,
+ "missing": [
+  "100",
+  "155",
+  "283/2",
+  "*"
+ ],
+ "extra": [
+  "20/31",
+  "283"
+ ],
+ "robotMisconceptions": [
+  "200/310",
+  "283"
+ ],
+ "exercicio": "cookies",
+ "replica": 2,
+ "geradoEm": "2026-08-18T20:56:12.767Z",
+ "promptSha256": "7c12c59318961007787fbe6dcf0b4d4ceafefe28ded4b75b747fef41c02df58b",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10183,
+  "tokensSaida": 9551,
+  "usd": 0.045191640000000005
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 12
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado completo",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: oferta = 200, demanda total desejada = 310, pessoas que saíram = 283 → demanda efetiva = 27 → não demandado = 173"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher linha Total da tabela: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Numerador = 200, denominador = 200"
+   },
+   {
+    "indice": 3,
+    "acao": "Determinar operação e fator de escala para linha Total",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2"
+   },
+   {
+    "indice": 4,
+    "acao": "Calcular resultado da linha Total",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado numerador = 100, porcentagem = 100"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher linha Part 1: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Numerador = 310, denominador = 200"
+   },
+   {
+    "indice": 6,
+    "acao": "Identificar operação e fator de escala para Part 1",
+    "kc": "Identify-scale-factor",
+    "valor": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular resultado da linha Part 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado numerador = 155, porcentagem = 155"
+   },
+   {
+    "indice": 8,
+    "acao": "Interpretar Part 2 corretamente",
+    "kc": "Enter-given-quantities",
+    "valor": "Não demandado = 173, base = 200"
+   },
+   {
+    "indice": 9,
+    "acao": "Preencher linha Part 2: razão original",
+    "kc": "Enter-given-quantities",
+    "valor": "Numerador = 173, denominador = 200"
+   },
+   {
+    "indice": 10,
+    "acao": "Identificar operação e fator de escala para Part 2",
+    "kc": "Identify-scale-factor",
+    "valor": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2"
+   },
+   {
+    "indice": 11,
+    "acao": "Calcular resultado da linha Part 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado numerador = 86.5, porcentagem = 86.5"
+   },
+   {
+    "indice": 12,
+    "acao": "Validar coerência das respostas",
+    "kc": "identify-percent",
+    "valor": "Respostas consistentes e corretas"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "200/310",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Treinar linguagem de porcentagem: 'X% de Y' → Y é o denominador",
+    "buggyRule": "Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}",
+    "misconceptionId": "misc_inverte_razao_parte_total"
+   },
+   {
+    "valor": "283",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reescrever a pergunta com foco no suprimento: 'Dos 200 cookies, quantos não tiveram comprador?'",
+    "buggyRule": "Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados",
+    "misconceptionId": "misc_usa_valor_absoluto_sem_contexto"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 1,
+    "nivel": 1,
+    "texto": "Ótima observação! Porcentagens podem sim ser maiores que 100%. Quando comparamos uma quantidade com outra que é menor, o que acontece com a porcentagem? Pense: se você tem 200 e alguém quer 310, quantos por cento de 200 é 310?"
+   },
+   {
+    "passo": 1,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Para encontrar a porcentagem, escreva a razão: (demanda) / (oferta) = 310 / 200. Depois, transforme essa razão em uma fração equivalente com denominador 100."
+   },
+   {
+    "passo": 1,
+    "nivel": 3,
+    "texto": "Quase lá! A razão original é 310/200. Para chegar a 100 no denominador, você precisa dividir 200 por quanto? Use isso para ajustar o numerador também."
+   },
+   {
+    "passo": 1,
+    "nivel": 4,
+    "texto": "Você está muito perto! 200 ÷ 2 = 100, então divida o numerador 310 por 2 também. Quanto dá 310 ÷ 2? Esse será o valor da porcentagem!"
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Boa pergunta! Quando dizemos 'porcentagem da oferta NÃO em demanda', estamos falando dos cookies que sobram sem comprador. Quantos cookies NÃO serão vendidos, se apenas (310 - 283) pessoas ainda querem comprar?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Primeiro, calcule quantas pessoas ainda querem comprar: 310 - 283. Depois, veja quantos cookies ficam sem demanda: 200 menos esse número. Finalmente, compare esse valor com a oferta total (200) usando uma razão."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Quase lá! 310 - 283 = 27 pessoas ainda querem. Então 200 - 27 = 173 cookies não têm demanda. Agora, qual porcentagem de 200 é 173?"
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase resolvendo! A razão é 173/200. Para transformar em porcentagem, divida numerador e denominador por 2. Quanto é 173 ÷ 2? Lembre-se: 170 ÷ 2 = 85, então..."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"cookies\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado completo\\\",\\n          \\\"thinking\\\": \\\"Adisa fez 200 cookies. Parte 1: 310 pessoas querem comprar → demanda = 310, mas oferta = 200. Preciso calcular que porcentagem da oferta (200) está sendo demandada (310). Parte 2: 283 pessoas vão embora → não estão demandando; então a demanda real é 310 - 283 = 27. Mas a pergunta é: que porcentagem da oferta original NÃO está em demanda? Ou seja, (200 - 27)/200 ou diretamente (pessoas que não compram)/200. No entanto, a pergunta diz '283 people go elsewhere' — isso significa que dessas 310 que queriam, 283 não compraram de Adisa. Então a demanda efetiva é 310 - 283 = 27. Assim, o número de cookies NÃO demandados é 200 - 27 = 173. Mas a pergunta é: 'what percentage of her original supply is NOT in demand?' → então é 173/200 convertido em porcentagem.\\\",\\n          \\\"result\\\": \\\"Valores identificados: oferta = 200, demanda total desejada = 310, pessoas que saíram = 283 → demanda efetiva = 27 → não demandado = 173\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 12,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha Total da tabela: razão original\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' representa o todo: 200 cookies. A razão original do total é 200/200 = 1. Isso será usado como referência para escalar.\\\",\\n          \\\"result\\\": \\\"Numerador = 200, denominador = 200\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Determinar operação e fator de escala para linha Total\\\",\\n          \\\"thinking\\\": \\\"Para converter 200/200 em x/100, preciso dividir numerador e denominador por 2 (pois 200 ÷ 2 = 100). Operação: ÷, fator = 2.\\\",\\n          \\\"result\\\": \\\"Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular resultado da linha Total\\\",\\n          \\\"thinking\\\": \\\"200 ÷ 2 = 100 → razão equivalente = 100/100 → porcentagem = 100%\\\",\\n          \\\"result\\\": \\\"Resultado numerador = 100, porcentagem = 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher linha Part 1: razão original\\\",\\n          \\\"thinking\\\": \\\"Parte 1: demanda = 310, oferta = 200. A razão é demanda / oferta = 310 / 200.\\\",\\n          \\\"result\\\": \\\"Numerador = 310, denominador = 200\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 1\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar 310/200 em x/100. Como 200 → 100, divido por 2. Então operação: ÷, fator = 2 para ambos.\\\",\\n          \\\"result\\\": \\\"Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular resultado da linha Part 1\\\",\\n          \\\"thinking\\\": \\\"310 ÷ 2 = 155 → razão = 155/100 → porcentagem = 155%\\\",\\n          \\\"result\\\": \\\"Resultado numerador = 155, porcentagem = 155\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Interpretar Part 2 corretamente\\\",\\n          \\\"thinking\\\": \\\"'283 people go elsewhere' — dessas 310 que queriam, 283 não compraram. Então a demanda efetiva é 310 - 283 = 27. O número de cookies NÃO demandados é 200 - 27 = 173. Alternativamente, posso pensar: os cookies não demandados são aqueles além dos 27 vendidos → 173. A porcentagem não demandada é 173/200.\\\",\\n          \\\"result\\\": \\\"Não demandado = 173, base = 200\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Preencher linha Part 2: razão original\\\",\\n          \\\"thinking\\\": \\\"Razão original = 173 / 200\\\",\\n          \\\"result\\\": \\\"Numerador = 173, denominador = 200\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 2\\\",\\n          \\\"thinking\\\": \\\"Converter 173/200 para x/100 → dividir numerador e denominador por 2.\\\",\\n          \\\"result\\\": \\\"Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Calcular resultado da linha Part 2\\\",\\n          \\\"thinking\\\": \\\"173 ÷ 2 = 86.5 → razão = 86.5/100 → porcentagem = 86.5%\\\",\\n          \\\"result\\\": \\\"Resultado numerador = 86.5, porcentagem = 86.5\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 12,\\n          \\\"action\\\": \\\"Validar coerência das respostas\\\",\\n          \\\"thinking\\\": \\\"Parte 1: 155% da oferta está em demanda (faz sentido, pois demanda > oferta). Parte 2: 86.5% da oferta NÃO está em demanda. Verifico: demanda efetiva = 27 → 27/200 = 13.5%, então não demandado = 100% - 13.5% = 86.5%. Correto.\\\",\\n          \\\"result\\\": \\\"Respostas consistentes e corretas\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 155%, Part 2: 86.5%\\\",\\n      \\\"totalTime\\\": 63\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"cookies\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"A demanda é 310 pessoas, e o total de cookies é 200. Então a razão é 310 sobre 200.\\\",\\n              \\\"result\\\": \\\"Razão original correta: 310/200\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para converter razão em porcentagem (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"Quero transformar 200 em 100, então divido por 2. Vou colocar ÷ no denominador.\\\",\\n              \\\"result\\\": \\\"Operação correta: ÷ no denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Preencher fator de escala do denominador (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"200 ÷ 2 = 100, então o fator é 2.\\\",\\n              \\\"result\\\": \\\"Fator correto: 2\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar mesma operação ao numerador (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"Se dividi o denominador por 2, devo dividir o numerador também. Mas... 310 ÷ 2 = 155? Acho que sim.\\\",\\n              \\\"result\\\": \\\"Numerador do resultado: 155 → porcentagem 155%\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 2\\\",\\n              \\\"thinking\\\": \\\"283 pessoas vão embora, então não querem cookies. O total ainda é 200. Vou colocar 283/200.\\\",\\n              \\\"result\\\": \\\"Razão errada: usou 283 como parte, mas deveria ser (310 - 283) ou entender que 'não em demanda' se refere à diferença entre demanda e suprimento\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_valor_absoluto_sem_contexto\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"283\\\",\\n                \\\"description\\\": \\\"Aluno interpreta '283 pessoas vão embora' como a quantidade que NÃO está em demanda, ignorando que a demanda inicial era 310 e o suprimento é 200\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao definir o numerador da razão original na Parte 2, o aluno usou diretamente o número 283 sem relacioná-lo com a demanda ou o suprimento\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que significa 'não estar em demanda'? É o número de pessoas que foram embora, ou a diferença entre o que foi pedido e o que existe?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você leu o número correto, mas vamos pensar: a pergunta é sobre o SUPRIMENTO — dos 200 cookies, quantos NÃO foram pedidos? Quantos cookies sobraram sem serem pedidos?\\\",\\n                \\\"howToFix\\\": \\\"Reescrever a pergunta com foco no suprimento: 'Dos 200 cookies, quantos não tiveram comprador?'\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"155% (Parte 1), 141.5% (Parte 2, pois 283/200 → ×0.5 → 141.5)\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da Parte 1\\\",\\n              \\\"thinking\\\": \\\"Ela fez 200 cookies, e 310 querem comprar. Então a razão é 200/310 — o que ela tem sobre o que querem.\\\",\\n              \\\"result\\\": \\\"Razão invertida: 200/310 em vez de 310/200\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_total\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"200/310\\\",\\n                \\\"description\\\": \\\"Aluno inverte a razão, colocando suprimento sobre demanda em vez de demanda sobre suprimento\\\",\\n                \\\"mistakeLocation\\\": \\\"Na definição da razão original da Parte 1, o aluno trocou numerador e denominador\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta é: 'que porcentagem DO SUPRIMENTO está em demanda?' O 'do suprimento' indica o todo — onde ele deve ficar na fração?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você identificou os dois números certos! Agora, preste atenção na frase: 'porcentagem DO SUPRIMENTO'. Isso quer dizer que o suprimento (200) é o TODO — e o todo fica no DENOMINADOR.\\\",\\n                \\\"howToFix\\\": \\\"Treinar linguagem de porcentagem: 'X% de Y' → Y é o denominador\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Converter para porcentagem (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"Vou transformar 310 em 100, então divido por 3.1. Coloco ÷ no denominador e fator 3.1.\\\",\\n              \\\"result\\\": \\\"Operação aplicada ao denominador errado (310), mas consistente com a razão invertida\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular porcentagem (Parte 1)\\\",\\n              \\\"thinking\\\": \\\"200 ÷ 3.1 ≈ 64.5, então 64.5%.\\\",\\n              \\\"result\\\": \\\"Resposta numérica plausível, mas baseada em razão invertida\\\",\\n              \\\"kcUsed\\\": \\\"identify-percent\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Parte 2: razão original\\\",\\n              \\\"thinking\\\": \\\"Se 283 vão embora, então a demanda real é 310 - 283 = 27. Então, o que NÃO está em demanda é 200 - 27 = 173. Vou usar 173/200.\\\",\\n              \\\"result\\\": \\\"Razão correta para Parte 2: 173/200\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Converter Parte 2 para porcentagem\\\",\\n              \\\"thinking\\\": \\\"200 ÷ 2 = 100, então 173 ÷ 2 = 86.5 → 86.5%.\\\",\\n              \\\"result\\\": \\\"Cálculo correto para Parte 2\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"64.5% (Parte 1), 86.5% (Parte 2)\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"cookies\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_total\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{supply}/{demand}\\\",\\n              \\\"buggyRule\\\": \\\"Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}\\\",\\n              \\\"description\\\": \\\"Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição da razão original da Parte 1, o aluno coloca o suprimento (200) no numerador e a demanda (310) no denominador, invertendo a relação pedida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A expressão 'porcentagem DO SUPRIMENTO' indica que o suprimento é o todo. Onde o todo deve ficar em uma fração?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os dois números importantes! Lembre-se: quando dizemos 'X% de Y', Y é o TODO e vai no DENOMINADOR. Aqui, 'do suprimento' → suprimento = denominador.\\\",\\n              \\\"howToFix\\\": \\\"Praticar frases do tipo 'A% de B' com exemplos concretos, destacando que B é sempre o denominador\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_valor_absoluto_sem_contexto\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{people_elsewhere}\\\",\\n              \\\"buggyRule\\\": \\\"Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados\\\",\\n              \\\"description\\\": \\\"Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição do numerador da razão original da Parte 2, o aluno copia 283 sem relacioná-lo com o suprimento\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Dos 200 cookies, quantos NÃO tiveram comprador? As 283 pessoas que foram embora estavam entre as 310 que queriam comprar — isso muda a demanda efetiva?\\\",\\n              \\\"feedback\\\": \\\"Boa atenção ao número 283! Mas vamos refinar: a pergunta é sobre os COOKIES, não as pessoas. Dos 200 cookies, quantos sobraram sem ser pedidos?\\\",\\n              \\\"howToFix\\\": \\\"Guiar o aluno a calcular: demanda efetiva = 310 - 283 = 27; então cookies não demandados = 200 - 27 = 173\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_demand_com_excesso\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{demand} - {supply}\\\",\\n              \\\"buggyRule\\\": \\\"Usar o excesso de demanda (310 - 200 = 110) como numerador da Parte 2, interpretando 'não em demanda' como o oposto do excesso\\\",\\n              \\\"description\\\": \\\"Aluno confunde 'não em demanda' com 'excesso de demanda', usando 110 como parte não demandada\\\",\\n              \\\"mistakeLocation\\\": \\\"Na Parte 2, o aluno calcula o excesso de demanda (110) e o usa como se fosse o suprimento não demandado\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se há mais gente querendo do que cookies disponíveis, pode haver cookies 'não em demanda'? Ou todos os cookies foram pedidos?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Você percebeu que há mais gente do que cookies. Mas se todos os 200 cookies foram pedidos (e ainda faltou), então quantos cookies NÃO foram pedidos?\\\",\\n              \\\"howToFix\\\": \\\"Discutir cenários: quando demanda > suprimento → suprimento não demandado = 0; quando demanda < suprimento → suprimento não demandado = suprimento - demanda\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"cookies\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_para_diminuir_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Escolher multiplicação (×) para transformar o denominador em 100, mesmo quando o denominador original é maior que 100\\\",\\n              \\\"description\\\": \\\"Aluno acredita que sempre se multiplica para encontrar porcentagem, ignorando se o denominador precisa ser reduzido ou aumentado\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação para o denominador, o aluno seleciona × mesmo quando precisa dividir (ex: 200 → 100)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se seu denominador é 200 e você quer 100, você deve multiplicar ou dividir por algum número?\\\",\\n              \\\"feedback\\\": \\\"Você está no caminho certo! Para transformar 200 em 100, precisamos encolher o número — e isso acontece com divisão, não multiplicação.\\\",\\n              \\\"howToFix\\\": \\\"Praticar equivalência: 'Como transformo 200 em 100? Por quanto divido?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_operacao_diferente_numerador_denominador_sem_motivo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"numerador: ×, denominador: ÷ (ou vice-versa)\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operações diferentes ao numerador e denominador sem justificativa matemática (ex: × no numerador, ÷ no denominador)\\\",\\n              \\\"description\\\": \\\"Aluno aplica operações inconsistentes, quebrando a equivalência da razão\\\",\\n              \\\"mistakeLocation\\\": \\\"Na definição das operações, o aluno escolhe × para um e ÷ para o outro, distorcendo a razão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você multiplica o numerador e divide o denominador, a fração fica maior ou menor? Ela ainda representa a mesma porcentagem?\\\",\\n              \\\"feedback\\\": \\\"Cuidado! Para manter a mesma razão, você deve fazer a MESMA operação nos dois lados — ou os dois ×, ou os dois ÷, pelo mesmo fator.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'Se corto o bolo em mais pedaços (÷), cada pedaço é menor, então preciso ajustar a quantidade proporcionalmente'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"cookies\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_denom_div_100_errado\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{original_denominator} / 100\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator de escala como denominador_original / 100, em vez de 100 / denominador_original quando necessário multiplicar\\\",\\n              \\\"description\\\": \\\"Aluno inverte o cálculo do fator de escala\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala, o aluno faz 200/100 = 2 e usa esse fator com multiplicação, quando deveria usar divisão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você tem 200 e quer chegar a 100, você multiplica ou divide por 2? Qual operação corresponde ao fator 2?\\\",\\n              \\\"feedback\\\": \\\"Você calculou 200 ÷ 100 = 2 — ótimo! Mas agora, para ir de 200 a 100, você aplica esse fator com multiplicação ou divisão?\\\",\\n              \\\"howToFix\\\": \\\"Ensinar: fator = alvo / original; operação segue o sinal do fator (>1 → ×, <1 → ÷)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_fator_do_numerador_no_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} / 100\\\",\\n              \\\"buggyRule\\\": \\\"Usar o numerador para calcular o fator de escala do denominador\\\",\\n              \\\"description\\\": \\\"Aluno confunde qual valor usar para calcular o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"No campo de fator de escala do denominador, o aluno digita 310/100 = 3.1\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual número você quer transformar em 100? É o numerador ou o denominador?\\\",\\n              \\\"feedback\\\": \\\"Atenção! O objetivo é transformar o DENOMINADOR em 100. Então o fator deve vir do denominador, não do numerador.\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente o denominador e perguntar: 'Como transformo ESSE número em 100?'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"cookies\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_fator_so_a_um_termo\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator}\\\",\\n              \\\"buggyRule\\\": \\\"Não aplicar o fator de escala ao numerador; apenas copiar o numerador original como porcentagem\\\",\\n              \\\"description\\\": \\\"Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte\\\",\\n              \\\"mistakeLocation\\\": \\\"No campo do numerador do resultado (porcentagem), o aluno digita 310 em vez de 310 ÷ 2 = 155\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você mudou o denominador de 200 para 100, o que acontece com o numerador para manter a mesma proporção?\\\",\\n              \\\"feedback\\\": \\\"Você já tem o denominador certo (100)! Agora, o numerador precisa ser ajustado na mesma proporção. Como você ajustou o denominador?\\\",\\n              \\\"howToFix\\\": \\\"Usar setas na tabela: 'Se aqui eu dividi por 2, aqui também devo dividir por 2'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_arredonda_prematuramente\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"round({numerator} * (100 / {denominator}))\\\",\\n              \\\"buggyRule\\\": \\\"Arredondar o fator de escala antes de aplicar, gerando erro de cálculo (ex: 100/200=0.5, mas usa 0.5 corretamente; porém em outros casos arredonda 100/310≈0.32 e multiplica)\\\",\\n              \\\"description\\\": \\\"Em problemas com divisão não exata, aluno arredonda o fator e propaga erro\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular 173/200, o aluno poderia arredondar 100/200=0.5 (correto), mas em outros contextos usaria aproximação errada\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de escala é exato ou aproximado? Podemos usar frações exatas para evitar erros?\\\",\\n              \\\"feedback\\\": \\\"Ótimo que você está calculando! Quando possível, use divisão exata (como 200 ÷ 2 = 100) para evitar aproximações desnecessárias.\\\",\\n              \\\"howToFix\\\": \\\"Preferir divisão quando denominador é múltiplo de 100; senão, usar calculadora com casas decimais suficientes\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"cookies\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_interpreta_porcentagem_acima_de_100_como_errada\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100\\\",\\n              \\\"buggyRule\\\": \\\"Limitar porcentagem a 100%, mesmo quando a parte excede o todo\\\",\\n              \\\"description\\\": \\\"Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento\\\",\\n              \\\"mistakeLocation\\\": \\\"Após calcular 155%, o aluno corrige para 100% por achar que 'não pode passar disso'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se mais pessoas querem cookies do que existem, isso significa que a demanda é maior ou menor que 100% do suprimento?\\\",\\n              \\\"feedback\\\": \\\"Excelente reflexão! Porcentagens podem SIM ser maiores que 100% — isso só quer dizer que a parte é maior que o todo. Aqui, a demanda é maior que o suprimento, então >100% faz sentido!\\\",\\n              \\\"howToFix\\\": \\\"Dar exemplos reais: 'Se você vendeu 120 ingressos para um teatro de 100 lugares, isso é 120% da capacidade'\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_que_parte2_depende_da_demanda_efetiva\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0\\\",\\n              \\\"buggyRule\\\": \\\"Assumir que, como demanda (310) > suprimento (200), NENHUM cookie ficou sem demanda, então Parte 2 = 0%\\\",\\n              \\\"description\\\": \\\"Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial\\\",\\n              \\\"mistakeLocation\\\": \\\"Na Parte 2, o aluno responde 0% porque 'todos os cookies foram pedidos', sem considerar que 283 saíram\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Depois que 283 pessoas saíram, quantas ainda querem comprar? Esse número é maior ou menor que 200?\\\",\\n              \\\"feedback\\\": \\\"Boa lógica parcial! Sim, inicialmente todos os cookies foram pedidos. Mas depois que 283 pessoas saíram, talvez nem todos os cookies tenham comprador. Vamos recalcular a demanda EFETIVA.\\\",\\n              \\\"howToFix\\\": \\\"Guiar passo a passo: 1) demanda inicial = 310; 2) saíram 283 → demanda restante = 27; 3) suprimento = 200; 4) não demandado = 200 - 27 = 173\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"cookies\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar dados\\\",\\n          \\\"thinking\\\": \\\"Ela fez 200 cookies. Na Parte 1, 310 pessoas querem um cookie cada — mas ela só tem 200! Então a demanda é maior que a oferta. Preciso achar que porcentagem da oferta (200) representa a demanda (310)? Isso parece estranho... Porcentagem pode ser mais que 100%?\\\",\\n          \\\"result\\\": \\\"Identifiquei: oferta = 200 (base), demanda = 310 (parte). Para Parte 2, 283 vão embora, então não querem os cookies dela. Mas isso se refere à demanda ou à oferta?\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima observação! Porcentagens podem sim ser maiores que 100%. Quando comparamos uma quantidade com outra que é menor, o que acontece com a porcentagem? Pense: se você tem 200 e alguém quer 310, quantos por cento de 200 é 310?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Para encontrar a porcentagem, escreva a razão: (demanda) / (oferta) = 310 / 200. Depois, transforme essa razão em uma fração equivalente com denominador 100.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A razão original é 310/200. Para chegar a 100 no denominador, você precisa dividir 200 por quanto? Use isso para ajustar o numerador também.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está muito perto! 200 ÷ 2 = 100, então divida o numerador 310 por 2 também. Quanto dá 310 ÷ 2? Esse será o valor da porcentagem!\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher linha 'Part 1' da tabela\\\",\\n          \\\"thinking\\\": \\\"Razão original: 310/200. Quero transformar em algo sobre 100. Como 200 → 100, divido por 2. Então operação é ÷, fator = 2. Numerador: 310 ÷ 2 = 155. Então porcentagem é 155%.\\\",\\n          \\\"result\\\": \\\"Preenchido: numerador=310, denominador=200; operações=÷,÷; fatores=2,2; resultado=155; porcentagem=155\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Interpretar Parte 2\\\",\\n          \\\"thinking\\\": \\\"Parte 2 diz: '283 pessoas vão embora'. Mas embora de onde? Do total de 310 que queriam comprar? Se sim, então as que NÃO querem mais são 283. Mas a pergunta é: que porcentagem da oferta ORIGINAL (200) NÃO está em demanda? Isso é confuso... A demanda real agora é 310 - 283 = 27? Então o que NÃO está em demanda seria 200 - 27 = 173? Ou será que 'não em demanda' significa simplesmente que ninguém quer esses cookies, então é o total menos a demanda restante?\\\",\\n          \\\"result\\\": \\\"Percebo que 'não em demanda' se refere aos cookies que sobram porque ninguém os quer. Mas como só 27 pessoas ainda querem, e ela tem 200, então 200 - 27 = 173 cookies não estão em demanda. Mas será que é isso mesmo?\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Quando dizemos 'porcentagem da oferta NÃO em demanda', estamos falando dos cookies que sobram sem comprador. Quantos cookies NÃO serão vendidos, se apenas (310 - 283) pessoas ainda querem comprar?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Primeiro, calcule quantas pessoas ainda querem comprar: 310 - 283. Depois, veja quantos cookies ficam sem demanda: 200 menos esse número. Finalmente, compare esse valor com a oferta total (200) usando uma razão.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! 310 - 283 = 27 pessoas ainda querem. Então 200 - 27 = 173 cookies não têm demanda. Agora, qual porcentagem de 200 é 173?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase resolvendo! A razão é 173/200. Para transformar em porcentagem, divida numerador e denominador por 2. Quanto é 173 ÷ 2? Lembre-se: 170 ÷ 2 = 85, então...\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Preencher linha 'Part 2' da tabela\\\",\\n          \\\"thinking\\\": \\\"Cookies não em demanda = 200 - (310 - 283) = 200 - 27 = 173. Razão = 173/200. Para chegar a 100 no denominador, divido por 2. Então 173 ÷ 2 = 86.5. Porcentagem = 86.5%.\\\",\\n          \\\"result\\\": \\\"Preenchido: numerador=173, denominador=200; operações=÷,÷; fatores=2,2; resultado=86.5; porcentagem=86.5\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher linha 'Total'\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' provavelmente representa a oferta total como 100%. Então razão = 200/200 = 1. Transformar em 100/100. Operação: ÷2, fator=2. Resultado=100, porcentagem=100.\\\",\\n          \\\"result\\\": \\\"Preenchido corretamente: 200/200 → ÷2 → 100/100 → 100%\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 155%, Part 2: 86.5%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagem usando regra de três em vez de escala de razão\\\",\\n          \\\"steps\\\": [\\\"Escrever 200 → 100%, 310 → x%\\\", \\\"Resolver 200x = 310×100\\\", \\\"x = 155\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Usar calculadora para divisão decimal (310 ÷ 200 = 1.55 → 155%)\\\",\\n          \\\"steps\\\": [\\\"Dividir demanda por oferta\\\", \\\"Multiplicar por 100\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "cookies",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado completo",
+        "thinking": "Adisa fez 200 cookies. Parte 1: 310 pessoas querem comprar → demanda = 310, mas oferta = 200. Preciso calcular que porcentagem da oferta (200) está sendo demandada (310). Parte 2: 283 pessoas vão embora → não estão demandando; então a demanda real é 310 - 283 = 27. Mas a pergunta é: que porcentagem da oferta original NÃO está em demanda? Ou seja, (200 - 27)/200 ou diretamente (pessoas que não compram)/200. No entanto, a pergunta diz '283 people go elsewhere' — isso significa que dessas 310 que queriam, 283 não compraram de Adisa. Então a demanda efetiva é 310 - 283 = 27. Assim, o número de cookies NÃO demandados é 200 - 27 = 173. Mas a pergunta é: 'what percentage of her original supply is NOT in demand?' → então é 173/200 convertido em porcentagem.",
+        "result": "Valores identificados: oferta = 200, demanda total desejada = 310, pessoas que saíram = 283 → demanda efetiva = 27 → não demandado = 173",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 12,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha Total da tabela: razão original",
+        "thinking": "A linha 'Total' representa o todo: 200 cookies. A razão original do total é 200/200 = 1. Isso será usado como referência para escalar.",
+        "result": "Numerador = 200, denominador = 200",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Determinar operação e fator de escala para linha Total",
+        "thinking": "Para converter 200/200 em x/100, preciso dividir numerador e denominador por 2 (pois 200 ÷ 2 = 100). Operação: ÷, fator = 2.",
+        "result": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Calcular resultado da linha Total",
+        "thinking": "200 ÷ 2 = 100 → razão equivalente = 100/100 → porcentagem = 100%",
+        "result": "Resultado numerador = 100, porcentagem = 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher linha Part 1: razão original",
+        "thinking": "Parte 1: demanda = 310, oferta = 200. A razão é demanda / oferta = 310 / 200.",
+        "result": "Numerador = 310, denominador = 200",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Identificar operação e fator de escala para Part 1",
+        "thinking": "Preciso transformar 310/200 em x/100. Como 200 → 100, divido por 2. Então operação: ÷, fator = 2 para ambos.",
+        "result": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular resultado da linha Part 1",
+        "thinking": "310 ÷ 2 = 155 → razão = 155/100 → porcentagem = 155%",
+        "result": "Resultado numerador = 155, porcentagem = 155",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Interpretar Part 2 corretamente",
+        "thinking": "'283 people go elsewhere' — dessas 310 que queriam, 283 não compraram. Então a demanda efetiva é 310 - 283 = 27. O número de cookies NÃO demandados é 200 - 27 = 173. Alternativamente, posso pensar: os cookies não demandados são aqueles além dos 27 vendidos → 173. A porcentagem não demandada é 173/200.",
+        "result": "Não demandado = 173, base = 200",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Preencher linha Part 2: razão original",
+        "thinking": "Razão original = 173 / 200",
+        "result": "Numerador = 173, denominador = 200",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Identificar operação e fator de escala para Part 2",
+        "thinking": "Converter 173/200 para x/100 → dividir numerador e denominador por 2.",
+        "result": "Operação numerador: ÷, operação denominador: ÷, fator numerador = 2, fator denominador = 2",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Calcular resultado da linha Part 2",
+        "thinking": "173 ÷ 2 = 86.5 → razão = 86.5/100 → porcentagem = 86.5%",
+        "result": "Resultado numerador = 86.5, porcentagem = 86.5",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 12,
+        "action": "Validar coerência das respostas",
+        "thinking": "Parte 1: 155% da oferta está em demanda (faz sentido, pois demanda > oferta). Parte 2: 86.5% da oferta NÃO está em demanda. Verifico: demanda efetiva = 27 → 27/200 = 13.5%, então não demandado = 100% - 13.5% = 86.5%. Correto.",
+        "result": "Respostas consistentes e corretas",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 6,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "Part 1: 155%, Part 2: 86.5%",
+      "totalTime": 63
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "cookies",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "A demanda é 310 pessoas, e o total de cookies é 200. Então a razão é 310 sobre 200.",
+          "result": "Razão original correta: 310/200",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para converter razão em porcentagem (Parte 1)",
+          "thinking": "Quero transformar 200 em 100, então divido por 2. Vou colocar ÷ no denominador.",
+          "result": "Operação correta: ÷ no denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Preencher fator de escala do denominador (Parte 1)",
+          "thinking": "200 ÷ 2 = 100, então o fator é 2.",
+          "result": "Fator correto: 2",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar mesma operação ao numerador (Parte 1)",
+          "thinking": "Se dividi o denominador por 2, devo dividir o numerador também. Mas... 310 ÷ 2 = 155? Acho que sim.",
+          "result": "Numerador do resultado: 155 → porcentagem 155%",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Preencher razão original da Parte 2",
+          "thinking": "283 pessoas vão embora, então não querem cookies. O total ainda é 200. Vou colocar 283/200.",
+          "result": "Razão errada: usou 283 como parte, mas deveria ser (310 - 283) ou entender que 'não em demanda' se refere à diferença entre demanda e suprimento",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_valor_absoluto_sem_contexto",
+           "type": "conceptual_error",
+           "wrongAnswer": "283",
+           "description": "Aluno interpreta '283 pessoas vão embora' como a quantidade que NÃO está em demanda, ignorando que a demanda inicial era 310 e o suprimento é 200",
+           "mistakeLocation": "Ao definir o numerador da razão original na Parte 2, o aluno usou diretamente o número 283 sem relacioná-lo com a demanda ou o suprimento",
+           "diagnosticQuestion": "O que significa 'não estar em demanda'? É o número de pessoas que foram embora, ou a diferença entre o que foi pedido e o que existe?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você leu o número correto, mas vamos pensar: a pergunta é sobre o SUPRIMENTO — dos 200 cookies, quantos NÃO foram pedidos? Quantos cookies sobraram sem serem pedidos?",
+           "howToFix": "Reescrever a pergunta com foco no suprimento: 'Dos 200 cookies, quantos não tiveram comprador?'"
+          }
+         }
+        ],
+        "finalAnswer": "155% (Parte 1), 141.5% (Parte 2, pois 283/200 → ×0.5 → 141.5)",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da Parte 1",
+          "thinking": "Ela fez 200 cookies, e 310 querem comprar. Então a razão é 200/310 — o que ela tem sobre o que querem.",
+          "result": "Razão invertida: 200/310 em vez de 310/200",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_razao_parte_total",
+           "type": "conceptual_error",
+           "wrongAnswer": "200/310",
+           "description": "Aluno inverte a razão, colocando suprimento sobre demanda em vez de demanda sobre suprimento",
+           "mistakeLocation": "Na definição da razão original da Parte 1, o aluno trocou numerador e denominador",
+           "diagnosticQuestion": "A pergunta é: 'que porcentagem DO SUPRIMENTO está em demanda?' O 'do suprimento' indica o todo — onde ele deve ficar na fração?",
+           "severity": "high",
+           "feedback": "Você identificou os dois números certos! Agora, preste atenção na frase: 'porcentagem DO SUPRIMENTO'. Isso quer dizer que o suprimento (200) é o TODO — e o todo fica no DENOMINADOR.",
+           "howToFix": "Treinar linguagem de porcentagem: 'X% de Y' → Y é o denominador"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Converter para porcentagem (Parte 1)",
+          "thinking": "Vou transformar 310 em 100, então divido por 3.1. Coloco ÷ no denominador e fator 3.1.",
+          "result": "Operação aplicada ao denominador errado (310), mas consistente com a razão invertida",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular porcentagem (Parte 1)",
+          "thinking": "200 ÷ 3.1 ≈ 64.5, então 64.5%.",
+          "result": "Resposta numérica plausível, mas baseada em razão invertida",
+          "kcUsed": "identify-percent",
+          "isCorrect": false,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Parte 2: razão original",
+          "thinking": "Se 283 vão embora, então a demanda real é 310 - 283 = 27. Então, o que NÃO está em demanda é 200 - 27 = 173. Vou usar 173/200.",
+          "result": "Razão correta para Parte 2: 173/200",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Converter Parte 2 para porcentagem",
+          "thinking": "200 ÷ 2 = 100, então 173 ÷ 2 = 86.5 → 86.5%.",
+          "result": "Cálculo correto para Parte 2",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         }
+        ],
+        "finalAnswer": "64.5% (Parte 1), 86.5% (Parte 2)",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "cookies",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_razao_parte_total",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{supply}/{demand}",
+          "buggyRule": "Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}",
+          "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+          "mistakeLocation": "Na definição da razão original da Parte 1, o aluno coloca o suprimento (200) no numerador e a demanda (310) no denominador, invertendo a relação pedida",
+          "diagnosticQuestion": "A expressão 'porcentagem DO SUPRIMENTO' indica que o suprimento é o todo. Onde o todo deve ficar em uma fração?",
+          "feedback": "Você identificou os dois números importantes! Lembre-se: quando dizemos 'X% de Y', Y é o TODO e vai no DENOMINADOR. Aqui, 'do suprimento' → suprimento = denominador.",
+          "howToFix": "Praticar frases do tipo 'A% de B' com exemplos concretos, destacando que B é sempre o denominador",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_valor_absoluto_sem_contexto",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{people_elsewhere}",
+          "buggyRule": "Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados",
+          "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+          "mistakeLocation": "Na definição do numerador da razão original da Parte 2, o aluno copia 283 sem relacioná-lo com o suprimento",
+          "diagnosticQuestion": "Dos 200 cookies, quantos NÃO tiveram comprador? As 283 pessoas que foram embora estavam entre as 310 que queriam comprar — isso muda a demanda efetiva?",
+          "feedback": "Boa atenção ao número 283! Mas vamos refinar: a pergunta é sobre os COOKIES, não as pessoas. Dos 200 cookies, quantos sobraram sem ser pedidos?",
+          "howToFix": "Guiar o aluno a calcular: demanda efetiva = 310 - 283 = 27; então cookies não demandados = 200 - 27 = 173",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_confunde_demand_com_excesso",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{demand} - {supply}",
+          "buggyRule": "Usar o excesso de demanda (310 - 200 = 110) como numerador da Parte 2, interpretando 'não em demanda' como o oposto do excesso",
+          "description": "Aluno confunde 'não em demanda' com 'excesso de demanda', usando 110 como parte não demandada",
+          "mistakeLocation": "Na Parte 2, o aluno calcula o excesso de demanda (110) e o usa como se fosse o suprimento não demandado",
+          "diagnosticQuestion": "Se há mais gente querendo do que cookies disponíveis, pode haver cookies 'não em demanda'? Ou todos os cookies foram pedidos?",
+          "feedback": "Interessante! Você percebeu que há mais gente do que cookies. Mas se todos os 200 cookies foram pedidos (e ainda faltou), então quantos cookies NÃO foram pedidos?",
+          "howToFix": "Discutir cenários: quando demanda > suprimento → suprimento não demandado = 0; quando demanda < suprimento → suprimento não demandado = suprimento - demanda",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "cookies",
+        "step": 2,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_multiplica_para_diminuir_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Escolher multiplicação (×) para transformar o denominador em 100, mesmo quando o denominador original é maior que 100",
+          "description": "Aluno acredita que sempre se multiplica para encontrar porcentagem, ignorando se o denominador precisa ser reduzido ou aumentado",
+          "mistakeLocation": "Na escolha da operação para o denominador, o aluno seleciona × mesmo quando precisa dividir (ex: 200 → 100)",
+          "diagnosticQuestion": "Se seu denominador é 200 e você quer 100, você deve multiplicar ou dividir por algum número?",
+          "feedback": "Você está no caminho certo! Para transformar 200 em 100, precisamos encolher o número — e isso acontece com divisão, não multiplicação.",
+          "howToFix": "Praticar equivalência: 'Como transformo 200 em 100? Por quanto divido?'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_aplica_operacao_diferente_numerador_denominador_sem_motivo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "numerador: ×, denominador: ÷ (ou vice-versa)",
+          "buggyRule": "Aplicar operações diferentes ao numerador e denominador sem justificativa matemática (ex: × no numerador, ÷ no denominador)",
+          "description": "Aluno aplica operações inconsistentes, quebrando a equivalência da razão",
+          "mistakeLocation": "Na definição das operações, o aluno escolhe × para um e ÷ para o outro, distorcendo a razão",
+          "diagnosticQuestion": "Se você multiplica o numerador e divide o denominador, a fração fica maior ou menor? Ela ainda representa a mesma porcentagem?",
+          "feedback": "Cuidado! Para manter a mesma razão, você deve fazer a MESMA operação nos dois lados — ou os dois ×, ou os dois ÷, pelo mesmo fator.",
+          "howToFix": "Usar analogia: 'Se corto o bolo em mais pedaços (÷), cada pedaço é menor, então preciso ajustar a quantidade proporcionalmente'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "cookies",
+        "step": 3,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_denom_div_100_errado",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{original_denominator} / 100",
+          "buggyRule": "Calcular fator de escala como denominador_original / 100, em vez de 100 / denominador_original quando necessário multiplicar",
+          "description": "Aluno inverte o cálculo do fator de escala",
+          "mistakeLocation": "No cálculo do fator de escala, o aluno faz 200/100 = 2 e usa esse fator com multiplicação, quando deveria usar divisão",
+          "diagnosticQuestion": "Se você tem 200 e quer chegar a 100, você multiplica ou divide por 2? Qual operação corresponde ao fator 2?",
+          "feedback": "Você calculou 200 ÷ 100 = 2 — ótimo! Mas agora, para ir de 200 a 100, você aplica esse fator com multiplicação ou divisão?",
+          "howToFix": "Ensinar: fator = alvo / original; operação segue o sinal do fator (>1 → ×, <1 → ÷)",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_fator_do_numerador_no_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} / 100",
+          "buggyRule": "Usar o numerador para calcular o fator de escala do denominador",
+          "description": "Aluno confunde qual valor usar para calcular o fator",
+          "mistakeLocation": "No campo de fator de escala do denominador, o aluno digita 310/100 = 3.1",
+          "diagnosticQuestion": "Qual número você quer transformar em 100? É o numerador ou o denominador?",
+          "feedback": "Atenção! O objetivo é transformar o DENOMINADOR em 100. Então o fator deve vir do denominador, não do numerador.",
+          "howToFix": "Destacar visualmente o denominador e perguntar: 'Como transformo ESSE número em 100?'",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "cookies",
+        "step": 4,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_aplica_fator_so_a_um_termo",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator}",
+          "buggyRule": "Não aplicar o fator de escala ao numerador; apenas copiar o numerador original como porcentagem",
+          "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+          "mistakeLocation": "No campo do numerador do resultado (porcentagem), o aluno digita 310 em vez de 310 ÷ 2 = 155",
+          "diagnosticQuestion": "Se você mudou o denominador de 200 para 100, o que acontece com o numerador para manter a mesma proporção?",
+          "feedback": "Você já tem o denominador certo (100)! Agora, o numerador precisa ser ajustado na mesma proporção. Como você ajustou o denominador?",
+          "howToFix": "Usar setas na tabela: 'Se aqui eu dividi por 2, aqui também devo dividir por 2'",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_arredonda_prematuramente",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "round({numerator} * (100 / {denominator}))",
+          "buggyRule": "Arredondar o fator de escala antes de aplicar, gerando erro de cálculo (ex: 100/200=0.5, mas usa 0.5 corretamente; porém em outros casos arredonda 100/310≈0.32 e multiplica)",
+          "description": "Em problemas com divisão não exata, aluno arredonda o fator e propaga erro",
+          "mistakeLocation": "Ao calcular 173/200, o aluno poderia arredondar 100/200=0.5 (correto), mas em outros contextos usaria aproximação errada",
+          "diagnosticQuestion": "O fator de escala é exato ou aproximado? Podemos usar frações exatas para evitar erros?",
+          "feedback": "Ótimo que você está calculando! Quando possível, use divisão exata (como 200 ÷ 2 = 100) para evitar aproximações desnecessárias.",
+          "howToFix": "Preferir divisão quando denominador é múltiplo de 100; senão, usar calculadora com casas decimais suficientes",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "cookies",
+        "step": 5,
+        "kcUsed": "identify-percent",
+        "errors": [
+         {
+          "misconceptionId": "misc_interpreta_porcentagem_acima_de_100_como_errada",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100",
+          "buggyRule": "Limitar porcentagem a 100%, mesmo quando a parte excede o todo",
+          "description": "Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento",
+          "mistakeLocation": "Após calcular 155%, o aluno corrige para 100% por achar que 'não pode passar disso'",
+          "diagnosticQuestion": "Se mais pessoas querem cookies do que existem, isso significa que a demanda é maior ou menor que 100% do suprimento?",
+          "feedback": "Excelente reflexão! Porcentagens podem SIM ser maiores que 100% — isso só quer dizer que a parte é maior que o todo. Aqui, a demanda é maior que o suprimento, então >100% faz sentido!",
+          "howToFix": "Dar exemplos reais: 'Se você vendeu 120 ingressos para um teatro de 100 lugares, isso é 120% da capacidade'",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_esquece_que_parte2_depende_da_demanda_efetiva",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0",
+          "buggyRule": "Assumir que, como demanda (310) > suprimento (200), NENHUM cookie ficou sem demanda, então Parte 2 = 0%",
+          "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+          "mistakeLocation": "Na Parte 2, o aluno responde 0% porque 'todos os cookies foram pedidos', sem considerar que 283 saíram",
+          "diagnosticQuestion": "Depois que 283 pessoas saíram, quantas ainda querem comprar? Esse número é maior ou menor que 200?",
+          "feedback": "Boa lógica parcial! Sim, inicialmente todos os cookies foram pedidos. Mas depois que 283 pessoas saíram, talvez nem todos os cookies tenham comprador. Vamos recalcular a demanda EFETIVA.",
+          "howToFix": "Guiar passo a passo: 1) demanda inicial = 310; 2) saíram 283 → demanda restante = 27; 3) suprimento = 200; 4) não demandado = 200 - 27 = 173",
+          "severity": "high"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "cookies",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar dados",
+        "thinking": "Ela fez 200 cookies. Na Parte 1, 310 pessoas querem um cookie cada — mas ela só tem 200! Então a demanda é maior que a oferta. Preciso achar que porcentagem da oferta (200) representa a demanda (310)? Isso parece estranho... Porcentagem pode ser mais que 100%?",
+        "result": "Identifiquei: oferta = 200 (base), demanda = 310 (parte). Para Parte 2, 283 vão embora, então não querem os cookies dela. Mas isso se refere à demanda ou à oferta?",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima observação! Porcentagens podem sim ser maiores que 100%. Quando comparamos uma quantidade com outra que é menor, o que acontece com a porcentagem? Pense: se você tem 200 e alguém quer 310, quantos por cento de 200 é 310?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Para encontrar a porcentagem, escreva a razão: (demanda) / (oferta) = 310 / 200. Depois, transforme essa razão em uma fração equivalente com denominador 100."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A razão original é 310/200. Para chegar a 100 no denominador, você precisa dividir 200 por quanto? Use isso para ajustar o numerador também."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está muito perto! 200 ÷ 2 = 100, então divida o numerador 310 por 2 também. Quanto dá 310 ÷ 2? Esse será o valor da porcentagem!"
+         }
+        ]
+       },
+       {
+        "step": 2,
+        "action": "Preencher linha 'Part 1' da tabela",
+        "thinking": "Razão original: 310/200. Quero transformar em algo sobre 100. Como 200 → 100, divido por 2. Então operação é ÷, fator = 2. Numerador: 310 ÷ 2 = 155. Então porcentagem é 155%.",
+        "result": "Preenchido: numerador=310, denominador=200; operações=÷,÷; fatores=2,2; resultado=155; porcentagem=155",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 3,
+        "action": "Interpretar Parte 2",
+        "thinking": "Parte 2 diz: '283 pessoas vão embora'. Mas embora de onde? Do total de 310 que queriam comprar? Se sim, então as que NÃO querem mais são 283. Mas a pergunta é: que porcentagem da oferta ORIGINAL (200) NÃO está em demanda? Isso é confuso... A demanda real agora é 310 - 283 = 27? Então o que NÃO está em demanda seria 200 - 27 = 173? Ou será que 'não em demanda' significa simplesmente que ninguém quer esses cookies, então é o total menos a demanda restante?",
+        "result": "Percebo que 'não em demanda' se refere aos cookies que sobram porque ninguém os quer. Mas como só 27 pessoas ainda querem, e ela tem 200, então 200 - 27 = 173 cookies não estão em demanda. Mas será que é isso mesmo?",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Quando dizemos 'porcentagem da oferta NÃO em demanda', estamos falando dos cookies que sobram sem comprador. Quantos cookies NÃO serão vendidos, se apenas (310 - 283) pessoas ainda querem comprar?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Primeiro, calcule quantas pessoas ainda querem comprar: 310 - 283. Depois, veja quantos cookies ficam sem demanda: 200 menos esse número. Finalmente, compare esse valor com a oferta total (200) usando uma razão."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! 310 - 283 = 27 pessoas ainda querem. Então 200 - 27 = 173 cookies não têm demanda. Agora, qual porcentagem de 200 é 173?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase resolvendo! A razão é 173/200. Para transformar em porcentagem, divida numerador e denominador por 2. Quanto é 173 ÷ 2? Lembre-se: 170 ÷ 2 = 85, então..."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Preencher linha 'Part 2' da tabela",
+        "thinking": "Cookies não em demanda = 200 - (310 - 283) = 200 - 27 = 173. Razão = 173/200. Para chegar a 100 no denominador, divido por 2. Então 173 ÷ 2 = 86.5. Porcentagem = 86.5%.",
+        "result": "Preenchido: numerador=173, denominador=200; operações=÷,÷; fatores=2,2; resultado=86.5; porcentagem=86.5",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 5,
+        "action": "Preencher linha 'Total'",
+        "thinking": "A linha 'Total' provavelmente representa a oferta total como 100%. Então razão = 200/200 = 1. Transformar em 100/100. Operação: ÷2, fator=2. Resultado=100, porcentagem=100.",
+        "result": "Preenchido corretamente: 200/200 → ÷2 → 100/100 → 100%",
+        "kcUsed": "Identify-scale-factor",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       }
+      ],
+      "finalAnswer": "Part 1: 155%, Part 2: 86.5%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagem usando regra de três em vez de escala de razão",
+        "steps": [
+         "Escrever 200 → 100%, 310 → x%",
+         "Resolver 200x = 310×100",
+         "x = 155"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Usar calculadora para divisão decimal (310 ÷ 200 = 1.55 → 155%)",
+        "steps": [
+         "Dividir demanda por oferta",
+         "Multiplicar por 100"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 2,
+  "errosEspecificos": 2,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 2
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 12,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Enter the original number of cookies in the Total row.",
+     "kc": "Enter-given-quantities",
+     "valor": "200"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter the original supply as the Total row denominator.",
+     "kc": "Enter-given-quantities",
+     "valor": "200"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter the Total row scale factor for the denominator.",
+     "kc": "Indentify-operation-needed",
+     "valor": "2"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter the Total row percentage.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "100"
+    },
+    {
+     "indice": 5,
+     "acao": "Enter the Part 1 demand in the original ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "310"
+    },
+    {
+     "indice": 6,
+     "acao": "Choose the operation that changes the Part 1 denominator to 100.",
+     "kc": "Identify-scale-factor",
+     "valor": "÷"
+    },
+    {
+     "indice": 7,
+     "acao": "Enter the Part 1 percentage numerator.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "155"
+    },
+    {
+     "indice": 8,
+     "acao": "Enter the number of people still wanting cookies after 283 leave.",
+     "kc": "Enter-given-quantities",
+     "valor": "27"
+    },
+    {
+     "indice": 9,
+     "acao": "Enter the Part 2 cookies not in demand.",
+     "kc": "Enter-given-quantities",
+     "valor": "173"
+    },
+    {
+     "indice": 10,
+     "acao": "Choose the operation that changes the Part 2 denominator to 100.",
+     "kc": "Identify-scale-factor",
+     "valor": "÷"
+    },
+    {
+     "indice": 11,
+     "acao": "Enter the Part 2 percentage.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "86.5"
+    },
+    {
+     "indice": 12,
+     "acao": "Submit the completed table after checking all three percentages.",
+     "kc": "identify-percent",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "310",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the demand instead of the original supply. The original supply is the whole amount of cookies Adisa baked: 200.",
+     "buggyRule": "Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}",
+     "misconceptionId": "misc_inverte_razao_parte_total"
+    },
+    {
+     "valor": "310",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator is the whole supply, not the number of people who want cookies. The original supply is 200.",
+     "buggyRule": "Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}",
+     "misconceptionId": "misc_inverte_razao_parte_total"
+    },
+    {
+     "valor": "200",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You copied the original numerator instead of scaling the ratio. The whole supply corresponds to 100 percent.",
+     "buggyRule": "Não aplicar o fator de escala ao numerador; apenas copiar o numerador original como porcentagem",
+     "misconceptionId": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "valor": "200",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the supply as the numerator. In Part 1, the demand of 310 is the part being compared with the supply.",
+     "buggyRule": "Usar suprimento como numerador e demanda como denominador: numerador = {supply}, denominador = {demand}",
+     "misconceptionId": "misc_inverte_razao_parte_total"
+    },
+    {
+     "valor": "100",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Demand can exceed 100 percent of the supply. Since 310 people want cookies and only 200 cookies exist, the demand numerator is 310.",
+     "buggyRule": "Limitar porcentagem a 100%, mesmo quando a parte excede o todo",
+     "misconceptionId": "misc_interpreta_porcentagem_acima_de_100_como_errada"
+    },
+    {
+     "valor": "×",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Multiplication would increase 200. To reach the smaller denominator 100, use division.",
+     "buggyRule": "Escolher multiplicação (×) para transformar o denominador em 100, mesmo quando o denominador original é maior que 100",
+     "misconceptionId": "misc_multiplica_para_diminuir_denominador"
+    },
+    {
+     "valor": "310",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You left the numerator unchanged. Because the denominator was divided by 2, divide the numerator 310 by 2 as well.",
+     "buggyRule": "Não aplicar o fator de escala ao numerador; apenas copiar o numerador original como porcentagem",
+     "misconceptionId": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "valor": "100",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The demand is greater than the available supply, so the percentage can be greater than 100.",
+     "buggyRule": "Limitar porcentagem a 100%, mesmo quando a parte excede o todo",
+     "misconceptionId": "misc_interpreta_porcentagem_acima_de_100_como_errada"
+    },
+    {
+     "valor": "283",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You used the number of people who left as the remaining demand. Subtract 283 from the original demand of 310.",
+     "buggyRule": "Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados",
+     "misconceptionId": "misc_usa_valor_absoluto_sem_contexto"
+    },
+    {
+     "valor": "0",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The remaining demand is not zero. Subtracting 283 from 310 leaves 27 people still wanting cookies.",
+     "buggyRule": "Assumir que, como demanda (310) > suprimento (200), NENHUM cookie ficou sem demanda, então Parte 2 = 0%",
+     "misconceptionId": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "valor": "283",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number 283 describes people who left, not cookies without demand. Subtract the remaining demand from 200 cookies.",
+     "buggyRule": "Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados",
+     "misconceptionId": "misc_usa_valor_absoluto_sem_contexto"
+    },
+    {
+     "valor": "110",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The excess demand is 310 − 200 = 110, but Part 2 asks for cookies without demand after people leave.",
+     "buggyRule": "Usar o excesso de demanda (310 - 200 = 110) como numerador da Parte 2, interpretando 'não em demanda' como o oposto do excesso",
+     "misconceptionId": "misc_confunde_demand_com_excesso"
+    },
+    {
+     "valor": "0",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "After 283 people leave, only 27 still want cookies, so some cookies are not in demand.",
+     "buggyRule": "Assumir que, como demanda (310) > suprimento (200), NENHUM cookie ficou sem demanda, então Parte 2 = 0%",
+     "misconceptionId": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "valor": "×",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100.",
+     "buggyRule": "Escolher multiplicação (×) para transformar o denominador em 100, mesmo quando o denominador original é maior que 100",
+     "misconceptionId": "misc_multiplica_para_diminuir_denominador"
+    },
+    {
+     "valor": "173",
+     "passo": 11,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You copied the Part 2 numerator without scaling it. Divide 173 by 2 just as the denominator was divided by 2.",
+     "buggyRule": "Não aplicar o fator de escala ao numerador; apenas copiar o numerador original como porcentagem",
+     "misconceptionId": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "valor": "0",
+     "passo": 11,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The remaining demand is 27, so 173 cookies are not in demand. Their percentage is found from 173 out of 200.",
+     "buggyRule": "Assumir que, como demanda (310) > suprimento (200), NENHUM cookie ficou sem demanda, então Parte 2 = 0%",
+     "misconceptionId": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "valor": "283",
+     "passo": 11,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The percentage must be based on the 173 cookies not in demand, not directly on the 283 people who left.",
+     "buggyRule": "Usar diretamente o número de pessoas que vão embora (283) como numerador da Parte 2, sem calcular quantos cookies não foram demandados",
+     "misconceptionId": "misc_usa_valor_absoluto_sem_contexto"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Look for the number that describes how many cookies Adisa baked."
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Use the original supply as the whole amount in the ratio."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "The statement says that Adisa baked ... cookies."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Enter the number of cookies baked in the Total row."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "The denominator represents the whole amount being considered."
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "For a percentage of the supply, place the original supply in the denominator."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "The original supply is the number of cookies Adisa baked."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the original supply number in the Total denominator cell."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "The percentage denominator must become 100."
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Find the number that changes 200 into 100 using division."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "Ask how many times 100 fits into 200."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Use the factor that makes 200 ÷ factor equal to 100."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The Total row compares the whole supply with itself."
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Apply the same scale change to the numerator and denominator."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "A ratio in which the part equals the whole represents the entire supply."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "After the equivalent ratio has denominator ..., enter its percentage value."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "The numerator identifies the part being compared with the supply."
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Use the number of people demanding cookies as the Part 1 numerator."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Part 1 states that ... people each want one cookie."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Enter the demand count in the Part 1 numerator cell."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "Focus on whether the denominator needs to grow or shrink."
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Choose the operation that changes 200 into 100."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "The target denominator is smaller than the original denominator."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Select the division symbol for the denominator operation."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "Equivalent ratios require the same scale change in both terms."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Apply the denominator's division operation and factor to the Part 1 numerator."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Divide the demand numerator by the factor that changes 200 to 100."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Calculate 310 divided by 2, then enter that result as the numerator over 100."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Part 2 describes the demand that remains after some people leave."
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Subtract the people who go elsewhere from the original demand."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Use the subtraction 310 − 283."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Subtract 283 from 310 and enter the remaining demand."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "Part 2 asks about the portion of the original supply without current demand."
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Subtract the remaining demand from the original supply."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "Use the original supply of 200 and the remaining demand of 27."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Calculate 200 minus 27 and enter the number of cookies not in demand."
+    },
+    {
+     "passo": 10,
+     "nivel": 1,
+     "texto": "The denominator must represent a percentage out of 100."
+    },
+    {
+     "passo": 10,
+     "nivel": 2,
+     "texto": "Compare the original denominator with the target denominator."
+    },
+    {
+     "passo": 10,
+     "nivel": 3,
+     "texto": "The denominator changes from 200 to the smaller number 100."
+    },
+    {
+     "passo": 10,
+     "nivel": 4,
+     "texto": "Select the division symbol for changing 200 into 100."
+    },
+    {
+     "passo": 11,
+     "nivel": 1,
+     "texto": "Use the cookies not in demand as the part and the original supply as the whole."
+    },
+    {
+     "passo": 11,
+     "nivel": 2,
+     "texto": "Apply the same division factor to the numerator that changes 200 to 100."
+    },
+    {
+     "passo": 11,
+     "nivel": 3,
+     "texto": "Divide the Part 2 numerator by 2 before reading the result over 100."
+    },
+    {
+     "passo": 11,
+     "nivel": 4,
+     "texto": "Calculate 173 ÷ 2 and enter the resulting percentage value."
+    },
+    {
+     "passo": 12,
+     "nivel": 1,
+     "texto": "Check that every percentage compares the correct part with the original supply."
+    },
+    {
+     "passo": 12,
+     "nivel": 2,
+     "texto": "Verify that each ratio was scaled consistently until its denominator became 100."
+    },
+    {
+     "passo": 12,
+     "nivel": 3,
+     "texto": "Check the Total, Part 1, and Part 2 rows for matching operations and factors."
+    },
+    {
+     "passo": 12,
+     "nivel": 4,
+     "texto": "When every row is complete and the three percentages agree with their situations, press Done."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": true,
+   "valoresEstranhos": [
+    "100→100",
+    "155→155",
+    "27→27",
+    "173→173",
+    "86.5→86.5"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "200",
+    "200",
+    "2",
+    "100",
+    "310",
+    "÷",
+    "155",
+    "27",
+    "173",
+    "÷",
+    "86.5",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Adisa has a booth at the county fair. She baked 200 cookies, but supply does not meet demand.<br><br>Part 1) If 310 people each want to buy one of her cookies, what percentage of her supply is in demand?<br><br>Part 2) If 283 people go elsewhere, what percentage of her original supply is NOT in demand?\nPart 1) If 310 people each want to buy one of her cookies, what percentage of her supply is in demand?<br>Part 2) If 283 people go elsewhere, what percentage of her original supply is NOT in demand?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Enter the original number of cookies in the Total row.",
+     "expectedAnswer": "200",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter the original supply as the Total row denominator.",
+     "expectedAnswer": "200",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter the Total row scale factor for the denominator.",
+     "expectedAnswer": "2",
+     "renderAs": "dynamic_spec",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter the Total row percentage.",
+     "expectedAnswer": "100",
+     "renderAs": "dynamic_spec",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Enter the Part 1 demand in the original ratio.",
+     "expectedAnswer": "310",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Choose the operation that changes the Part 1 denominator to 100.",
+     "expectedAnswer": "÷",
+     "renderAs": "multiple_choice",
+     "kc": "Identify-scale-factor",
+     "nOptions": 2
+    },
+    {
+     "id": "step_7",
+     "instruction": "Enter the Part 1 percentage numerator.",
+     "expectedAnswer": "155",
+     "renderAs": "dynamic_spec",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Enter the number of people still wanting cookies after 283 leave.",
+     "expectedAnswer": "27",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Enter the Part 2 cookies not in demand.",
+     "expectedAnswer": "173",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_10",
+     "instruction": "Choose the operation that changes the Part 2 denominator to 100.",
+     "expectedAnswer": "÷",
+     "renderAs": "multiple_choice",
+     "kc": "Identify-scale-factor",
+     "nOptions": 2
+    },
+    {
+     "id": "step_11",
+     "instruction": "Enter the Part 2 percentage.",
+     "expectedAnswer": "86.5",
+     "renderAs": "dynamic_spec",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_12",
+     "instruction": "Submit the completed table after checking all three percentages.",
+     "expectedAnswer": "ok",
+     "renderAs": "dynamic_spec",
+     "kc": "identify-percent",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 60826,
+   "exerciciosGerados": 1,
+   "passosGenericos": 12,
+   "passosMaterializados": 12,
+   "dicasMaterializadas": 48,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Enter the original number of cookies in the Total row.",
+     "instruction": "Enter the original number of cookies in the Total row.",
+     "expectedInput": {
+      "value": "200",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "200"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "totalorignumareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "totalorignumareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Look for the number that describes how many cookies Adisa baked."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the original supply as the whole amount in the ratio."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The statement says that Adisa baked ... cookies."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the number of cookies baked in the Total row."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_total",
+       "wrongAnswer": "310",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+       "feedback": "You entered the demand instead of the original supply. The original supply is the whole amount of cookies Adisa baked: 200.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_total__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter the original supply as the Total row denominator.",
+     "instruction": "Enter the original supply as the Total row denominator.",
+     "expectedInput": {
+      "value": "200",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "200"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "totalorigdenomareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "totalorigdenomareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator represents the whole amount being considered."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "For a percentage of the supply, place the original supply in the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The original supply is the number of cookies Adisa baked."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the original supply number in the Total denominator cell."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_total",
+       "wrongAnswer": "310",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+       "feedback": "The denominator is the whole supply, not the number of people who want cookies. The original supply is 200.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_total__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter the Total row scale factor for the denominator.",
+     "instruction": "Enter the Total row scale factor for the denominator.",
+     "expectedInput": {
+      "value": "2",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "2"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "totaldenomscalefactorareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "totaldenomscalefactorareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The percentage denominator must become 100."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number that changes 200 into 100 using division."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Ask how many times 100 fits into 200."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Use the factor that makes 200 ÷ factor equal to 100."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter the Total row percentage.",
+     "instruction": "Enter the Total row percentage.",
+     "expectedInput": {
+      "value": "100",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "100"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "totalpercentareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "totalpercentareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The Total row compares the whole supply with itself."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Apply the same scale change to the numerator and denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "A ratio in which the part equals the whole represents the entire supply."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "After the equivalent ratio has denominator ..., enter its percentage value."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_aplica_fator_so_a_um_termo",
+       "wrongAnswer": "200",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+       "feedback": "You copied the original numerator instead of scaling the ratio. The whole supply corresponds to 100 percent.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_aplica_fator_so_a_um_termo__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Enter the Part 1 demand in the original ratio.",
+     "instruction": "Enter the Part 1 demand in the original ratio.",
+     "expectedInput": {
+      "value": "310",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "310"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "part1orignumareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "part1orignumareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The numerator identifies the part being compared with the supply."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the number of people demanding cookies as the Part 1 numerator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Part 1 states that ... people each want one cookie."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the demand count in the Part 1 numerator cell."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_total",
+       "wrongAnswer": "200",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+       "feedback": "You used the supply as the numerator. In Part 1, the demand of 310 is the part being compared with the supply.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_interpreta_porcentagem_acima_de_100_como_errada",
+       "wrongAnswer": "100",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento",
+       "feedback": "Demand can exceed 100 percent of the supply. Since 310 people want cookies and only 200 cookies exist, the demand numerator is 310.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_total__step_5",
+      "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Choose the operation that changes the Part 1 denominator to 100.",
+     "instruction": "Choose the operation that changes the Part 1 denominator to 100.",
+     "expectedInput": {
+      "value": "÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷"
+      ],
+      "renderAs": "multiple_choice",
+      "componentId": "multiple_choice",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": true,
+         "feedback": "Muito bem! Resposta correta."
+        },
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": false,
+         "misconceptionId": "misc_multiplica_para_diminuir_denominador",
+         "misconceptionType": "procedural_error",
+         "feedback": "Multiplication would increase 200. To reach the smaller denominator 100, use division."
+        }
+       ]
+      }
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Focus on whether the denominator needs to grow or shrink."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Choose the operation that changes 200 into 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The target denominator is smaller than the original denominator."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select the division symbol for the denominator operation."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_multiplica_para_diminuir_denominador",
+       "wrongAnswer": "×",
+       "misconceptionType": "procedural_error",
+       "description": "Multiplication would increase 200. To reach the smaller denominator 100, use division.",
+       "feedback": "Multiplication would increase 200. To reach the smaller denominator 100, use division.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_multiplica_para_diminuir_denominador__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Enter the Part 1 percentage numerator.",
+     "instruction": "Enter the Part 1 percentage numerator.",
+     "expectedInput": {
+      "value": "155",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "155"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "part1percentnumareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "part1percentnumareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Equivalent ratios require the same scale change in both terms."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Apply the denominator's division operation and factor to the Part 1 numerator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Divide the demand numerator by the factor that changes 200 to 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Calculate 310 divided by 2, then enter that result as the numerator over 100."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_aplica_fator_so_a_um_termo",
+       "wrongAnswer": "310",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+       "feedback": "You left the numerator unchanged. Because the denominator was divided by 2, divide the numerator 310 by 2 as well.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_interpreta_porcentagem_acima_de_100_como_errada",
+       "wrongAnswer": "100",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento",
+       "feedback": "The demand is greater than the available supply, so the percentage can be greater than 100.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_aplica_fator_so_a_um_termo__step_7",
+      "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Enter the number of people still wanting cookies after 283 leave.",
+     "instruction": "Enter the number of people still wanting cookies after 283 leave.",
+     "expectedInput": {
+      "value": "27",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "27"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "part2orignumareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "part2orignumareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Part 2 describes the demand that remains after some people leave."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Subtract the people who go elsewhere from the original demand."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use the subtraction 310 − 283."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Subtract 283 from 310 and enter the remaining demand."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_valor_absoluto_sem_contexto",
+       "wrongAnswer": "283",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+       "feedback": "You used the number of people who left as the remaining demand. Subtract 283 from the original demand of 310.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_esquece_que_parte2_depende_da_demanda_efetiva",
+       "wrongAnswer": "0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+       "feedback": "The remaining demand is not zero. Subtracting 283 from 310 leaves 27 people still wanting cookies.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_valor_absoluto_sem_contexto__step_8",
+      "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_8",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Enter the Part 2 cookies not in demand.",
+     "instruction": "Enter the Part 2 cookies not in demand.",
+     "expectedInput": {
+      "value": "173",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "173"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "part2orignumareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "part2orignumareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Part 2 asks about the portion of the original supply without current demand."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Subtract the remaining demand from the original supply."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Use the original supply of 200 and the remaining demand of 27."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Calculate 200 minus 27 and enter the number of cookies not in demand."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_valor_absoluto_sem_contexto",
+       "wrongAnswer": "283",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+       "feedback": "The number 283 describes people who left, not cookies without demand. Subtract the remaining demand from 200 cookies.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_confunde_demand_com_excesso",
+       "wrongAnswer": "110",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde 'não em demanda' com 'excesso de demanda', usando 110 como parte não demandada",
+       "feedback": "The excess demand is 310 − 200 = 110, but Part 2 asks for cookies without demand after people leave.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_esquece_que_parte2_depende_da_demanda_efetiva",
+       "wrongAnswer": "0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+       "feedback": "After 283 people leave, only 27 still want cookies, so some cookies are not in demand.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_valor_absoluto_sem_contexto__step_9",
+      "scaffold_misc_confunde_demand_com_excesso",
+      "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_9",
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "step_10",
+     "type": "step",
+     "description": "Choose the operation that changes the Part 2 denominator to 100.",
+     "instruction": "Choose the operation that changes the Part 2 denominator to 100.",
+     "expectedInput": {
+      "value": "÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷"
+      ],
+      "renderAs": "multiple_choice",
+      "componentId": "multiple_choice",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": true,
+         "feedback": "Muito bem! Resposta correta."
+        },
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": false,
+         "misconceptionId": "misc_multiplica_para_diminuir_denominador",
+         "misconceptionType": "procedural_error",
+         "feedback": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100."
+        }
+       ]
+      }
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The denominator must represent a percentage out of 100."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Compare the original denominator with the target denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator changes from 200 to the smaller number 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select the division symbol for changing 200 into 100."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_multiplica_para_diminuir_denominador",
+       "wrongAnswer": "×",
+       "misconceptionType": "procedural_error",
+       "description": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100.",
+       "feedback": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_multiplica_para_diminuir_denominador__step_10",
+      "scaffold_generic_step_10"
+     ]
+    },
+    {
+     "id": "step_11",
+     "type": "step",
+     "description": "Enter the Part 2 percentage.",
+     "instruction": "Enter the Part 2 percentage.",
+     "expectedInput": {
+      "value": "86.5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "86.5"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "part2percentareainput",
+       "inputType": "numeric"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "part2percentareainput",
+        "inputType": "numeric"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Use the cookies not in demand as the part and the original supply as the whole."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Apply the same division factor to the numerator that changes 200 to 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Divide the Part 2 numerator by 2 before reading the result over 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Calculate 173 ÷ 2 and enter the resulting percentage value."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_aplica_fator_so_a_um_termo",
+       "wrongAnswer": "173",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+       "feedback": "You copied the Part 2 numerator without scaling it. Divide 173 by 2 just as the denominator was divided by 2.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_esquece_que_parte2_depende_da_demanda_efetiva",
+       "wrongAnswer": "0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+       "feedback": "The remaining demand is 27, so 173 cookies are not in demand. Their percentage is found from 173 out of 200.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_valor_absoluto_sem_contexto",
+       "wrongAnswer": "283",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+       "feedback": "The percentage must be based on the 173 cookies not in demand, not directly on the 283 people who left.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_aplica_fator_so_a_um_termo__step_11",
+      "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_11",
+      "scaffold_misc_usa_valor_absoluto_sem_contexto__step_11",
+      "scaffold_generic_step_11"
+     ]
+    },
+    {
+     "id": "step_12",
+     "type": "step",
+     "description": "Submit the completed table after checking all three percentages.",
+     "instruction": "Submit the completed table after checking all three percentages.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": {
+       "componentId": "done",
+       "inputType": "button"
+      },
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "componentProps": {
+        "componentId": "done",
+        "inputType": "button"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Check that every percentage compares the correct part with the original supply."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Verify that each ratio was scaled consistently until its denominator became 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Check the Total, Part 1, and Part 2 rows for matching operations and factors."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "When every row is complete and the three percentages agree with their situations, press Done."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_12"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_10",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_11",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_12",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_total__step_1",
+     "type": "scaffold",
+     "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+     "instruction": "You entered the demand instead of the original supply. The original supply is the whole amount of cookies Adisa baked: 200.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_total"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_total__step_2",
+     "type": "scaffold",
+     "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+     "instruction": "The denominator is the whole supply, not the number of people who want cookies. The original supply is 200.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_total"
+    },
+    {
+     "id": "scaffold_misc_aplica_fator_so_a_um_termo__step_4",
+     "type": "scaffold",
+     "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+     "instruction": "You copied the original numerator instead of scaling the ratio. The whole supply corresponds to 100 percent.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_total__step_5",
+     "type": "scaffold",
+     "description": "Aluno inverte a razão, interpretando incorretamente qual valor é a parte e qual é o todo",
+     "instruction": "You used the supply as the numerator. In Part 1, the demand of 310 is the part being compared with the supply.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_total"
+    },
+    {
+     "id": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_5",
+     "type": "scaffold",
+     "description": "Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento",
+     "instruction": "Demand can exceed 100 percent of the supply. Since 310 people want cookies and only 200 cookies exist, the demand numerator is 310.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_interpreta_porcentagem_acima_de_100_como_errada"
+    },
+    {
+     "id": "scaffold_misc_multiplica_para_diminuir_denominador__step_6",
+     "type": "scaffold",
+     "description": "Multiplication would increase 200. To reach the smaller denominator 100, use division.",
+     "instruction": "Multiplication would increase 200. To reach the smaller denominator 100, use division.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_multiplica_para_diminuir_denominador"
+    },
+    {
+     "id": "scaffold_misc_aplica_fator_so_a_um_termo__step_7",
+     "type": "scaffold",
+     "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+     "instruction": "You left the numerator unchanged. Because the denominator was divided by 2, divide the numerator 310 by 2 as well.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "id": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_7",
+     "type": "scaffold",
+     "description": "Aluno acredita que porcentagem não pode ultrapassar 100%, então responde 100% mesmo com demanda > suprimento",
+     "instruction": "The demand is greater than the available supply, so the percentage can be greater than 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_interpreta_porcentagem_acima_de_100_como_errada"
+    },
+    {
+     "id": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_8",
+     "type": "scaffold",
+     "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+     "instruction": "You used the number of people who left as the remaining demand. Subtract 283 from the original demand of 310.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_valor_absoluto_sem_contexto"
+    },
+    {
+     "id": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_8",
+     "type": "scaffold",
+     "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+     "instruction": "The remaining demand is not zero. Subtracting 283 from 310 leaves 27 people still wanting cookies.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "id": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_9",
+     "type": "scaffold",
+     "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+     "instruction": "The number 283 describes people who left, not cookies without demand. Subtract the remaining demand from 200 cookies.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_valor_absoluto_sem_contexto"
+    },
+    {
+     "id": "scaffold_misc_confunde_demand_com_excesso",
+     "type": "scaffold",
+     "description": "Aluno confunde 'não em demanda' com 'excesso de demanda', usando 110 como parte não demandada",
+     "instruction": "The excess demand is 310 − 200 = 110, but Part 2 asks for cookies without demand after people leave.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_demand_com_excesso"
+    },
+    {
+     "id": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_9",
+     "type": "scaffold",
+     "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+     "instruction": "After 283 people leave, only 27 still want cookies, so some cookies are not in demand.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "id": "scaffold_misc_multiplica_para_diminuir_denominador__step_10",
+     "type": "scaffold",
+     "description": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100.",
+     "instruction": "Multiplication would make 200 larger. Division is needed to reduce 200 to 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_multiplica_para_diminuir_denominador"
+    },
+    {
+     "id": "scaffold_misc_aplica_fator_so_a_um_termo__step_11",
+     "type": "scaffold",
+     "description": "Aluno esquece de transformar o numerador, respondendo com o valor bruto da parte",
+     "instruction": "You copied the Part 2 numerator without scaling it. Divide 173 by 2 just as the denominator was divided by 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_aplica_fator_so_a_um_termo"
+    },
+    {
+     "id": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_11",
+     "type": "scaffold",
+     "description": "Aluno ignora que a Parte 2 depende de quantas pessoas efetivamente permaneceram (310 - 283 = 27), não da demanda inicial",
+     "instruction": "The remaining demand is 27, so 173 cookies are not in demand. Their percentage is found from 173 out of 200.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_esquece_que_parte2_depende_da_demanda_efetiva"
+    },
+    {
+     "id": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_11",
+     "type": "scaffold",
+     "description": "Aluno assume que '283 pessoas vão embora' equivale diretamente à quantidade de suprimento não demandado, ignorando que o suprimento é fixo em 200 e a demanda excedente não se traduz 1:1 em cookies não vendidos",
+     "instruction": "The percentage must be based on the 173 cookies not in demand, not directly on the 283 people who left.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_valor_absoluto_sem_contexto"
+    }
+   ],
+   "edges": [
+    {
+     "from": "scaffold_misc_multiplica_para_diminuir_denominador__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "scaffold_misc_multiplica_para_diminuir_denominador__step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_11",
+     "to": "step_12",
+     "condition": "skip_if_mastered(identify-percent, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "correct"
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "correct"
+    },
+    {
+     "from": "step_11",
+     "to": "step_12",
+     "condition": "correct"
+    },
+    {
+     "from": "step_12",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_inverte_razao_parte_total__step_1",
+     "condition": "misconception(misc_inverte_razao_parte_total)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_total__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inverte_razao_parte_total__step_2",
+     "condition": "misconception(misc_inverte_razao_parte_total)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_total__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_aplica_fator_so_a_um_termo__step_4",
+     "condition": "misconception(misc_aplica_fator_so_a_um_termo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_aplica_fator_so_a_um_termo__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_inverte_razao_parte_total__step_5",
+     "condition": "misconception(misc_inverte_razao_parte_total)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_total__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_5",
+     "condition": "misconception(misc_interpreta_porcentagem_acima_de_100_como_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_multiplica_para_diminuir_denominador__step_6",
+     "condition": "misconception(misc_multiplica_para_diminuir_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_aplica_fator_so_a_um_termo__step_7",
+     "condition": "misconception(misc_aplica_fator_so_a_um_termo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_aplica_fator_so_a_um_termo__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_7",
+     "condition": "misconception(misc_interpreta_porcentagem_acima_de_100_como_errada)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_interpreta_porcentagem_acima_de_100_como_errada__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_8",
+     "condition": "misconception(misc_usa_valor_absoluto_sem_contexto)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_8",
+     "condition": "misconception(misc_esquece_que_parte2_depende_da_demanda_efetiva)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_9",
+     "condition": "misconception(misc_usa_valor_absoluto_sem_contexto)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_confunde_demand_com_excesso",
+     "condition": "misconception(misc_confunde_demand_com_excesso)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_confunde_demand_com_excesso",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_9",
+     "condition": "misconception(misc_esquece_que_parte2_depende_da_demanda_efetiva)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_multiplica_para_diminuir_denominador__step_10",
+     "condition": "misconception(misc_multiplica_para_diminuir_denominador)",
+     "priority": 2
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_misc_aplica_fator_so_a_um_termo__step_11",
+     "condition": "misconception(misc_aplica_fator_so_a_um_termo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_aplica_fator_so_a_um_termo__step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_11",
+     "condition": "misconception(misc_esquece_que_parte2_depende_da_demanda_efetiva)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_esquece_que_parte2_depende_da_demanda_efetiva__step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_11",
+     "condition": "misconception(misc_usa_valor_absoluto_sem_contexto)",
+     "priority": 4
+    },
+    {
+     "from": "scaffold_misc_usa_valor_absoluto_sem_contexto__step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_generic_step_10",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_generic_step_11",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_12",
+     "to": "scaffold_generic_step_12",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_12",
+     "to": "step_12",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}

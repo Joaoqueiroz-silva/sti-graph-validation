@@ -1,0 +1,3551 @@
+{
+ "id": "shed",
+ "correctAnswer": "4",
+ "audit": {
+  "ok": true,
+  "stepCount": 11
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0,
+ "functionalKappa": -0.798,
+ "missing": [
+  "100",
+  "120",
+  "20",
+  "/",
+  "*"
+ ],
+ "extra": [
+  "1",
+  "1/6",
+  "×",
+  "÷",
+  "333/100",
+  "4",
+  "333/20",
+  "15/2"
+ ],
+ "robotMisconceptions": [
+  "25/25",
+  "5/30",
+  "×",
+  "÷",
+  "3.33",
+  "4",
+  "16.65",
+  "7.5"
+ ],
+ "exercicio": "shed",
+ "replica": 3,
+ "geradoEm": "2026-08-18T21:45:56.775Z",
+ "promptSha256": "bdb4b71820f5e24438f14b9dc23fbce2d35f18269e720eddd6b54a07776032f8",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10117,
+  "tokensSaida": 9341,
+  "usd": 0.04432116
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 11
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: compra inicial = {A} = 25, necessidade total = {B} = 30, falta = {C} = 5"
+   },
+   {
+    "indice": 2,
+    "acao": "Definir razão original para Parte 1",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 1: numerador = {B}, denominador = {A}"
+   },
+   {
+    "indice": 3,
+    "acao": "Definir razão original para Parte 2",
+    "kc": "Enter-given-quantities",
+    "valor": "Part 2: numerador = {C}, denominador = {A}"
+   },
+   {
+    "indice": 4,
+    "acao": "Definir razão original para linha Total",
+    "kc": "Enter-given-quantities",
+    "valor": "Total: numerador = {A}, denominador = {A}"
+   },
+   {
+    "indice": 5,
+    "acao": "Identificar operação e fator de escala para Parte 1",
+    "kc": "Indentify-operation-needed",
+    "valor": "Part 1: operação = ×, fator = 4 para ambos"
+   },
+   {
+    "indice": 6,
+    "acao": "Aplicar fator de escala à razão da Parte 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 1: resultado = 120/100, porcentagem = 120"
+   },
+   {
+    "indice": 7,
+    "acao": "Identificar operação e fator de escala para Parte 2",
+    "kc": "Indentify-operation-needed",
+    "valor": "Part 2: operação = ×, fator = 4 para ambos"
+   },
+   {
+    "indice": 8,
+    "acao": "Aplicar fator de escala à razão da Parte 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Part 2: resultado = 20/100, porcentagem = 20"
+   },
+   {
+    "indice": 9,
+    "acao": "Identificar operação e fator de escala para linha Total",
+    "kc": "Indentify-operation-needed",
+    "valor": "Total: operação = ×, fator = 4 para ambos"
+   },
+   {
+    "indice": 10,
+    "acao": "Aplicar fator de escala à razão Total",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Total: resultado = 100/100, porcentagem = 100"
+   },
+   {
+    "indice": 11,
+    "acao": "Verificar coerência das respostas",
+    "kc": "identify-percent",
+    "valor": "Todas as porcentagens consistentes com o contexto"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "25/25",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem clara: 'parte sobre todo'. Reforçar com exemplos visuais: 25 planks = todo → denominador = 25",
+    "buggyRule": "Para a linha Total, preencher numerador e denominador com o valor do total (25)",
+    "misconceptionId": "misc_total_como_fracao_unidade"
+   },
+   {
+    "valor": "5/30",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Sublinhar palavras-chave no enunciado: 'of his purchase' → sempre voltar ao valor base (25)",
+    "buggyRule": "Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)",
+    "misconceptionId": "misc_usa_necessario_como_todo_em_part2"
+   },
+   {
+    "valor": "×",
+    "passo": 2,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Corrigir a razão antes de escalar. Revisar: parte/todo = ?/25",
+    "buggyRule": "",
+    "misconceptionId": "misc_escala_baseado_denominador_errado"
+   },
+   {
+    "valor": "÷",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar com calculadora mental: identificar se a meta (100) é maior ou menor que o valor atual (25) para decidir entre × ou ÷",
+    "buggyRule": "Escolher divisão em vez de multiplicação quando o denominador atual (25) precisa ser aumentado para 100",
+    "misconceptionId": "misc_confunde_x_com_div_ao_escalar"
+   },
+   {
+    "valor": "3.33",
+    "passo": 3,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Refazer a razão com 25 no denominador, depois recalcular o fator",
+    "buggyRule": "",
+    "misconceptionId": "misc_calcula_fator_sobre_base_errada"
+   },
+   {
+    "valor": "4",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Associar operação ao efeito: '× aumenta, ÷ diminui' — e comparar com a meta (100 > 25 → precisa aumentar)",
+    "buggyRule": "Usar 100 / denominador_original como fator, mesmo quando a operação escolhida foi divisão",
+    "misconceptionId": "misc_fator_escala_invertido"
+   },
+   {
+    "valor": "16.65",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Recalcular com razão correta: 5/25 → ×4 → 20/100 → 20%",
+    "buggyRule": "",
+    "misconceptionId": "misc_propaga_erro_de_base_para_resultado"
+   },
+   {
+    "valor": "7.5",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Reforçar: 'mesma operação, mesmo fator' nos dois termos da razão",
+    "buggyRule": "Aplicar a operação selecionada (÷) ao numerador com o fator inserido, mesmo que inconsistente com a meta de 100",
+    "misconceptionId": "misc_aplica_operacao_errada_no_numerador"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Ótima observação! Quando comparamos uma quantidade com outra, usamos uma razão. Se o que precisamos é MAIOR do que o que temos, a porcentagem pode ser maior que 100%. Pense: quanto é 30 em relação a 25?"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Escreva a razão como 30 (numerador) sobre 25 (denominador). Agora, pense: como transformar essa fração em uma com denominador 100?"
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! Você quer que o denominador vire 100. Qual número multiplicado por 25 dá 100? Use isso para escalar o numerador também."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Muito bem! 25 × 4 = 100. Então, se você multiplicar o numerador 30 por 4, quanto dá? Esse será o valor da porcentagem."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Boa pergunta! Quando queremos saber 'quanto de algo é em relação ao total', usamos uma razão. Aqui, o total é o que ele comprou (25). Quanto falta? (5). Então, qual é a razão?"
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Continue assim! Escreva 5 como numerador e 25 como denominador. Agora, como transformar isso em uma fração com denominador 100?"
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Você está quase! Lembre-se: 25 × 4 = 100. Se o denominador é multiplicado por 4, o que acontece com o numerador 5?"
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Exatamente! Multiplique 5 por 4. Quanto dá? Esse número será a porcentagem que falta."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "Pense: qualquer número dividido por ele mesmo é igual a 1. E 1 é o mesmo que 100%. Então, qual razão representa o total completo?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Escreva o total como numerador e denominador: 25/25. Agora, use o mesmo fator de escala das outras linhas para manter consistência. Como transformar 25 em 100?"
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Veja: nas outras linhas você usou ×4. Aqui, 25 × 4 = 100. Então, o numerador também deve ser multiplicado por 4. Quanto é 25 × 4?"
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Isso mesmo! 25 × 4 = 100. Então a porcentagem do total é 100. Confirme se isso faz sentido!"
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"shed\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"Abdul comprou 25 tábuas, mas precisa de 30. Parte 1: 30 é quantos por cento de 25? Parte 2: as 5 tábuas que faltam (30 - 25 = 5) são quantos por cento de 25?\\\",\\n          \\\"result\\\": \\\"Valores identificados: compra inicial = {A} = 25, necessidade total = {B} = 30, falta = {C} = 5\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 8,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Definir razão original para Parte 1\\\",\\n          \\\"thinking\\\": \\\"A razão original da Parte 1 é (necessário)/(comprado) = 30/25\\\",\\n          \\\"result\\\": \\\"Part 1: numerador = {B}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Definir razão original para Parte 2\\\",\\n          \\\"thinking\\\": \\\"A razão original da Parte 2 é (falta)/(comprado) = 5/25\\\",\\n          \\\"result\\\": \\\"Part 2: numerador = {C}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Definir razão original para linha Total\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' representa o todo, ou seja, 25/25 = 1, que equivale a 100%\\\",\\n          \\\"result\\\": \\\"Total: numerador = {A}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Parte 1\\\",\\n          \\\"thinking\\\": \\\"Para converter 30/25 em x/100, preciso multiplicar numerador e denominador por 4, pois 25 × 4 = 100\\\",\\n          \\\"result\\\": \\\"Part 1: operação = ×, fator = 4 para ambos\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Aplicar fator de escala à razão da Parte 1\\\",\\n          \\\"thinking\\\": \\\"30 × 4 = 120; 25 × 4 = 100 → 120/100 = 120%\\\",\\n          \\\"result\\\": \\\"Part 1: resultado = 120/100, porcentagem = 120\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Parte 2\\\",\\n          \\\"thinking\\\": \\\"Para converter 5/25 em x/100, multiplico numerador e denominador por 4, pois 25 × 4 = 100\\\",\\n          \\\"result\\\": \\\"Part 2: operação = ×, fator = 4 para ambos\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Aplicar fator de escala à razão da Parte 2\\\",\\n          \\\"thinking\\\": \\\"5 × 4 = 20; 25 × 4 = 100 → 20/100 = 20%\\\",\\n          \\\"result\\\": \\\"Part 2: resultado = 20/100, porcentagem = 20\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para linha Total\\\",\\n          \\\"thinking\\\": \\\"25/25 → quero 100 no denominador. 25 × 4 = 100, então multiplico ambos por 4\\\",\\n          \\\"result\\\": \\\"Total: operação = ×, fator = 4 para ambos\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Aplicar fator de escala à razão Total\\\",\\n          \\\"thinking\\\": \\\"25 × 4 = 100; 25 × 4 = 100 → 100/100 = 100%\\\",\\n          \\\"result\\\": \\\"Total: resultado = 100/100, porcentagem = 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Verificar coerência das respostas\\\",\\n          \\\"thinking\\\": \\\"Parte 1: 30 é 120% de 25 → correto. Parte 2: 5 é 20% de 25 → correto. Total: 25 é 100% de 25 → coerente.\\\",\\n          \\\"result\\\": \\\"Todas as porcentagens consistentes com o contexto\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B}/{A} = 120%, {C}/{A} = 20%\\\",\\n      \\\"totalTime\\\": 56\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"shed\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher a razão original da linha Total\\\",\\n              \\\"thinking\\\": \\\"O total de madeiras compradas é 25, então coloco 25 em cima e embaixo?\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_total_como_fracao_unidade\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"25/25\\\",\\n                \\\"description\\\": \\\"Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao preencher a razão original da linha 'Total', o aluno colocou 25 no numerador e 25 no denominador, confundindo o total com uma fração que representa o inteiro\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o total é 25, qual é a parte e qual é o todo na razão? O denominador deve representar o todo — então qual número vai embaixo?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você entendeu que o total é importante. Lembre-se: na razão, o denominador é sempre o TODO. Então, se estamos comparando partes com o total de 25, o denominador deve ser 25 — mas o numerador depende do que estamos medindo.\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem clara: 'parte sobre todo'. Reforçar com exemplos visuais: 25 planks = todo → denominador = 25\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Preencher a razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"Ele precisa de 30, então coloco 30 em cima e 25 embaixo\\\",\\n              \\\"result\\\": \\\"Correto\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Escolher operação para escalar Part 1\\\",\\n              \\\"thinking\\\": \\\"Quero transformar 25 em 100, então divido por 4?\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_confunde_x_com_div_ao_escalar\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"÷\\\",\\n                \\\"description\\\": \\\"Aluno escolhe divisão em vez de multiplicação para escalar o denominador de 25 para 100\\\",\\n                \\\"mistakeLocation\\\": \\\"Na seleção da operação para o denominador da linha Part 1, o aluno escolheu '÷' pensando que dividir 25 por 4 dá 100\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você divide 25 por 4, o resultado fica maior ou menor? E 100 é maior ou menor que 25?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando certo em usar o número 4! Mas vamos testar: 25 ÷ 4 = ? E 25 × 4 = ? Qual conta nos leva a 100?\\\",\\n                \\\"howToFix\\\": \\\"Praticar com calculadora mental: identificar se a meta (100) é maior ou menor que o valor atual (25) para decidir entre × ou ÷\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular fator de escala para Part 1\\\",\\n              \\\"thinking\\\": \\\"25 dividido por 4 é... 6.25? Não, melhor colocar 4 mesmo\\\",\\n              \\\"result\\\": \\\"Resultado parcialmente errado\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_fator_escala_invertido\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"4\\\",\\n                \\\"description\\\": \\\"Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica\\\",\\n                \\\"mistakeLocation\\\": \\\"Após escolher '÷' como operação, o aluno insere 4 como fator, revelando confusão entre direção da escala e operação\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se você está dividindo por 4, o que acontece com 25? E se está multiplicando por 4, o que acontece? Qual combinação transforma 25 em 100?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você identificou o número certo (4)! Agora, vamos alinhar a operação com o que queremos: aumentar 25 para 100 exige multiplicar, não dividir.\\\",\\n                \\\"howToFix\\\": \\\"Associar operação ao efeito: '× aumenta, ÷ diminui' — e comparar com a meta (100 > 25 → precisa aumentar)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular numerador resultante para Part 1\\\",\\n              \\\"thinking\\\": \\\"30 dividido por 4 é 7.5, então coloco 7.5\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_aplica_operacao_errada_no_numerador\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"7.5\\\",\\n                \\\"description\\\": \\\"Aluno aplica a mesma operação incorreta (÷) ao numerador, usando o fator 4, obtendo 30 ÷ 4 = 7.5\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular o novo numerador, o aluno divide 30 por 4 porque escolheu '÷' como operação, mesmo que isso não gere uma porcentagem válida\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o denominador virou 100 (porque 25 × 4 = 100), o que devemos fazer com o numerador para manter a mesma proporção?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está sendo consistente — mas a operação inicial estava invertida. Se multiplicamos o denominador por 4 para chegar a 100, devemos multiplicar o numerador pela mesma coisa!\\\",\\n                \\\"howToFix\\\": \\\"Reforçar: 'mesma operação, mesmo fator' nos dois termos da razão\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"7.5\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 2\\\",\\n              \\\"thinking\\\": \\\"Faltam 5, então coloco 5 em cima e 30 embaixo, porque ele precisa de 30 no total\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_usa_necessario_como_todo_em_part2\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"5/30\\\",\\n                \\\"description\\\": \\\"Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao definir a razão para Part 2, o aluno usa 30 (quantidade necessária) como referência do 'todo', em vez de 25 (quantidade comprada)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"A pergunta diz: '5 planks he is short is what percentage of his purchase?' — o que significa 'his purchase'? É o que ele comprou ou o que ele precisa?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Ótima leitura da diferença (5)! Agora, atenção à palavra-chave: 'of his purchase'. A compra foi de quantas madeiras? Esse é o seu todo.\\\",\\n                \\\"howToFix\\\": \\\"Sublinhar palavras-chave no enunciado: 'of his purchase' → sempre voltar ao valor base (25)\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para Part 2\\\",\\n              \\\"thinking\\\": \\\"Vou multiplicar 30 por algo para dar 100\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_escala_baseado_denominador_errado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"×\\\",\\n                \\\"description\\\": \\\"Aluno escolhe operação correta (×), mas baseado no denominador errado (30 em vez de 25)\\\",\\n                \\\"mistakeLocation\\\": \\\"Mesmo com a razão errada (5/30), o aluno decide multiplicar para escalar 30 até 100\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o denominador fosse 25, como você escalaria para 100? E se for 30, funciona igual?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você está aplicando bem a ideia de escalar para 100! Mas primeiro precisamos garantir que a razão inicial está certa. Qual é o 'todo' mesmo?\\\",\\n                \\\"howToFix\\\": \\\"Corrigir a razão antes de escalar. Revisar: parte/todo = ?/25\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala para Part 2\\\",\\n              \\\"thinking\\\": \\\"100 dividido por 30 é aproximadamente 3.33, então coloco 3.33\\\",\\n              \\\"result\\\": \\\"Resultado numérico plausível, mas baseado em erro anterior\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_calcula_fator_sobre_base_errada\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"3.33\\\",\\n                \\\"description\\\": \\\"Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado\\\",\\n                \\\"mistakeLocation\\\": \\\"Cálculo do fator de escala feito com base no denominador incorreto (30)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se o todo é 25, qual número multiplicado por 25 dá 100? Isso muda seu fator?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Seu cálculo de fator está coerente com a razão que você usou! Mas vamos revisar: o todo é o que ele COMPROU — 25. Isso muda o denominador?\\\",\\n                \\\"howToFix\\\": \\\"Refazer a razão com 25 no denominador, depois recalcular o fator\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Calcular numerador resultante para Part 2\\\",\\n              \\\"thinking\\\": \\\"5 vezes 3.33 é cerca de 16.65, então coloco 16.65 ou 17\\\",\\n              \\\"result\\\": \\\"Resultado errado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_propaga_erro_de_base_para_resultado\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"16.65\\\",\\n                \\\"description\\\": \\\"Aluno aplica corretamente o fator ao numerador, mas como a base está errada, o resultado final está errado\\\",\\n                \\\"mistakeLocation\\\": \\\"Aplicação consistente do fator 3.33 a 5, gerando ~16.65, mas baseado na razão 5/30 em vez de 5/25\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se ele comprou 25 e falta 5, isso é mais ou menos que metade? 16% parece razoável?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está fazendo todos os passos direitinho — exceto o primeiro! Vamos voltar: a pergunta é sobre o que ele comprou (25). Com isso, quanto por cento é 5 de 25?\\\",\\n                \\\"howToFix\\\": \\\"Recalcular com razão correta: 5/25 → ×4 → 20/100 → 20%\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"16.65\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"shed\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_total_como_fracao_unidade\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"25/25\\\",\\n              \\\"buggyRule\\\": \\\"Para a linha Total, preencher numerador e denominador com o valor do total (25)\\\",\\n              \\\"description\\\": \\\"Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a razão original da linha 'Total', o aluno colocou 25 no numerador e 25 no denominador, confundindo o total com uma fração que representa o inteiro\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o total é 25, qual é a parte e qual é o todo na razão? O denominador deve representar o todo — então qual número vai embaixo?\\\",\\n              \\\"feedback\\\": \\\"Boa tentativa! Você entendeu que o total é importante. Lembre-se: na razão, o denominador é sempre o TODO. Então, se estamos comparando partes com o total de 25, o denominador deve ser 25 — mas o numerador depende do que estamos medindo.\\\",\\n              \\\"howToFix\\\": \\\"Usar linguagem clara: 'parte sobre todo'. Reforçar com exemplos visuais: 25 planks = todo → denominador = 25\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_deixa_total_vazio_ou_zero\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"0/25\\\",\\n              \\\"buggyRule\\\": \\\"Para a linha Total, deixar o numerador como 0 (já que não há 'parte adicional')\\\",\\n              \\\"description\\\": \\\"Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao interpretar a linha 'Total', o aluno assume que não há numerador relevante e insere 0\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O que a linha 'Total' está representando? Será que ela precisa ter um valor no numerador?\\\",\\n              \\\"feedback\\\": \\\"Interessante! Mas a linha 'Total' normalmente serve como referência — talvez nem precise ser preenchida se o foco está nas partes. Vamos ver o que o problema pede...\\\",\\n              \\\"howToFix\\\": \\\"Explicar que a linha 'Total' pode ser opcional ou usada para verificar que 25/25 = 100%\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"shed\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_necessario_como_todo_em_part2\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"5/30\\\",\\n              \\\"buggyRule\\\": \\\"Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)\\\",\\n              \\\"description\\\": \\\"Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao definir a razão para Part 2, o aluno usa 30 (quantidade necessária) como referência do 'todo', em vez de 25 (quantidade comprada)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A pergunta diz: '5 planks he is short is what percentage of his purchase?' — o que significa 'his purchase'? É o que ele comprou ou o que ele precisa?\\\",\\n              \\\"feedback\\\": \\\"Ótima leitura da diferença (5)! Agora, atenção à palavra-chave: 'of his purchase'. A compra foi de quantas madeiras? Esse é o seu todo.\\\",\\n              \\\"howToFix\\\": \\\"Sublinhar palavras-chave no enunciado: 'of his purchase' → sempre voltar ao valor base (25)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_part1_com_part2_numeradores\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"30/25 para Part 2\\\",\\n              \\\"buggyRule\\\": \\\"Trocar os numeradores de Part 1 e Part 2: usar 30 em Part 2 e 5 em Part 1\\\",\\n              \\\"description\\\": \\\"Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao atribuir valores às linhas, o aluno confunde qual quantidade pertence a qual parte\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Part 1 pergunta sobre o total necessário; Part 2 pergunta sobre a diferença. Qual número corresponde a cada pergunta?\\\",\\n              \\\"feedback\\\": \\\"Você pegou os números certos! Agora é só garantir que cada um está na linha certa. Leia de novo: Part 1 fala do total necessário, Part 2 da falta.\\\",\\n              \\\"howToFix\\\": \\\"Associar cada parte do enunciado à linha correspondente antes de preencher\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"shed\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_confunde_x_com_div_ao_escalar\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Escolher divisão em vez de multiplicação quando o denominador atual (25) precisa ser aumentado para 100\\\",\\n              \\\"description\\\": \\\"Aluno escolhe divisão em vez de multiplicação para escalar o denominador de 25 para 100\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção da operação para o denominador da linha Part 1, o aluno escolheu '÷' pensando que dividir 25 por 4 dá 100\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide 25 por 4, o resultado fica maior ou menor? E 100 é maior ou menor que 25?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando certo em usar o número 4! Mas vamos testar: 25 ÷ 4 = ? E 25 × 4 = ? Qual conta nos leva a 100?\\\",\\n              \\\"howToFix\\\": \\\"Praticar com calculadora mental: identificar se a meta (100) é maior ou menor que o valor atual (25) para decidir entre × ou ÷\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_mesma_operacao_para_todas_linhas_sem_pensar\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷\\\",\\n              \\\"buggyRule\\\": \\\"Copiar a operação de uma linha para outra sem verificar se o denominador é o mesmo\\\",\\n              \\\"description\\\": \\\"Aluno aplica a mesma operação a todas as linhas, mesmo que os denominadores sejam diferentes\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao preencher a operação para Part 2, o aluno repete '÷' usado em outro contexto\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O denominador em Part 2 é o mesmo que em Part 1? A operação deve ser a mesma?\\\",\\n              \\\"feedback\\\": \\\"Você está sendo consistente — mas cada linha tem seu próprio denominador! Verifique se a operação faz sentido para aquele número específico.\\\",\\n              \\\"howToFix\\\": \\\"Tratar cada linha independentemente: olhar o denominador e decidir operação com base nele\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"shed\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_escala_invertido\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"4\\\",\\n              \\\"buggyRule\\\": \\\"Usar 100 / denominador_original como fator, mesmo quando a operação escolhida foi divisão\\\",\\n              \\\"description\\\": \\\"Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica\\\",\\n              \\\"mistakeLocation\\\": \\\"Após escolher '÷' como operação, o aluno insere 4 como fator, revelando confusão entre direção da escala e operação\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você está dividindo por 4, o que acontece com 25? E se está multiplicando por 4, o que acontece? Qual combinação transforma 25 em 100?\\\",\\n              \\\"feedback\\\": \\\"Você identificou o número certo (4)! Agora, vamos alinhar a operação com o que queremos: aumentar 25 para 100 exige multiplicar, não dividir.\\\",\\n              \\\"howToFix\\\": \\\"Associar operação ao efeito: '× aumenta, ÷ diminui' — e comparar com a meta (100 > 25 → precisa aumentar)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_fator_do_numerador_instead_denom\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100/30\\\",\\n              \\\"buggyRule\\\": \\\"Calcular fator como 100 / numerador_original em vez de 100 / denominador_original\\\",\\n              \\\"description\\\": \\\"Aluno divide 100 pelo numerador em vez do denominador para obter o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala, o aluno usa o numerador (ex: 30) em vez do denominador (25)\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O fator de escala deve transformar qual número em 100: o de cima ou o de baixo?\\\",\\n              \\\"feedback\\\": \\\"Lembre-se: queremos que o DENOMINADOR vire 100. Então o fator vem de 100 dividido pelo denominador original.\\\",\\n              \\\"howToFix\\\": \\\"Destacar visualmente o denominador e escrever: fator = 100 ÷ (denominador)\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"shed\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_aplica_operacao_errada_no_numerador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{num} ÷ {factor}\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar a operação selecionada (÷) ao numerador com o fator inserido, mesmo que inconsistente com a meta de 100\\\",\\n              \\\"description\\\": \\\"Aluno aplica a mesma operação incorreta (÷) ao numerador, usando o fator 4, obtendo 30 ÷ 4 = 7.5\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao calcular o novo numerador, o aluno divide 30 por 4 porque escolheu '÷' como operação, mesmo que isso não gere uma porcentagem válida\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o denominador virou 100 (porque 25 × 4 = 100), o que devemos fazer com o numerador para manter a mesma proporção?\\\",\\n              \\\"feedback\\\": \\\"Você está sendo consistente — mas a operação inicial estava invertida. Se multiplicamos o denominador por 4 para chegar a 100, devemos multiplicar o numerador pela mesma coisa!\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: 'mesma operação, mesmo fator' nos dois termos da razão\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_arredonda_prematuramente\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"round({num} * {factor})\\\",\\n              \\\"buggyRule\\\": \\\"Arredondar o resultado intermediário antes de concluir (ex: 5 × 3.33 = 16.65 → arredondar para 17)\\\",\\n              \\\"description\\\": \\\"Aluno arredonda o numerador resultante para número inteiro, perdendo precisão\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao inserir o numerador sobre 100, o aluno arredonda 16.65 para 17\\\",\\n              \\\"diagnosticQuestion\\\": \\\"A porcentagem precisa ser um número inteiro? O problema pede arredondamento?\\\",\\n              \\\"feedback\\\": \\\"Você fez a conta certa! Mas a menos que o problema peça, mantenha o valor exato. 16.65% é aceitável.\\\",\\n              \\\"howToFix\\\": \\\"Verificar instruções: se não disser 'arredonde', mantenha decimal\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"shed\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar quantidades\\\",\\n          \\\"thinking\\\": \\\"Ele comprou 25 tábuas. Depois viu que precisa de 30. Então faltam 5. Mas como transformar isso em porcentagem?\\\",\\n          \\\"result\\\": \\\"Identificou: compra = 25, necessário = 30, falta = 5\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Interpretar Parte 1: 'que porcentagem da compra ele precisa?'\\\",\\n          \\\"thinking\\\": \\\"Ele precisa de 30, mas só comprou 25... então a porcentagem é 30 em relação a 25? Isso faz sentido? Porcentagem pode ser mais que 100%?\\\",\\n          \\\"result\\\": \\\"Entendeu que Parte 1 é 30/25\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Ótima observação! Quando comparamos uma quantidade com outra, usamos uma razão. Se o que precisamos é MAIOR do que o que temos, a porcentagem pode ser maior que 100%. Pense: quanto é 30 em relação a 25?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Escreva a razão como 30 (numerador) sobre 25 (denominador). Agora, pense: como transformar essa fração em uma com denominador 100?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! Você quer que o denominador vire 100. Qual número multiplicado por 25 dá 100? Use isso para escalar o numerador também.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! 25 × 4 = 100. Então, se você multiplicar o numerador 30 por 4, quanto dá? Esse será o valor da porcentagem.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher linha Part 1 na tabela\\\",\\n          \\\"thinking\\\": \\\"Razão original: 30/25. Operação: ×. Fator: 4. Resultado: 120/100 → 120%.\\\",\\n          \\\"result\\\": \\\"Preencheu corretamente Part 1\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Interpretar Parte 2: 'os 5 que faltam são que porcentagem da compra?'\\\",\\n          \\\"thinking\\\": \\\"Ah, agora é 5 em relação a 25. Isso parece mais fácil... mas como fazer a escala pra 100?\\\",\\n          \\\"result\\\": \\\"Entendeu que Parte 2 é 5/25\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa pergunta! Quando queremos saber 'quanto de algo é em relação ao total', usamos uma razão. Aqui, o total é o que ele comprou (25). Quanto falta? (5). Então, qual é a razão?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Continue assim! Escreva 5 como numerador e 25 como denominador. Agora, como transformar isso em uma fração com denominador 100?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Você está quase! Lembre-se: 25 × 4 = 100. Se o denominador é multiplicado por 4, o que acontece com o numerador 5?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Exatamente! Multiplique 5 por 4. Quanto dá? Esse número será a porcentagem que falta.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher linha Part 2 na tabela\\\",\\n          \\\"thinking\\\": \\\"Razão: 5/25. Operação: ×. Fator: 4. Resultado: 20/100 → 20%.\\\",\\n          \\\"result\\\": \\\"Preencheu corretamente Part 2\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher linha Total\\\",\\n          \\\"thinking\\\": \\\"O total é 25. A porcentagem do total em relação a si mesmo é 100%. Então razão é 25/25.\\\",\\n          \\\"result\\\": \\\"Razão original: 25/25. Operação: ×. Fator: 4. Resultado: 100/100 → 100%.\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Pense: qualquer número dividido por ele mesmo é igual a 1. E 1 é o mesmo que 100%. Então, qual razão representa o total completo?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Escreva o total como numerador e denominador: 25/25. Agora, use o mesmo fator de escala das outras linhas para manter consistência. Como transformar 25 em 100?\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Veja: nas outras linhas você usou ×4. Aqui, 25 × 4 = 100. Então, o numerador também deve ser multiplicado por 4. Quanto é 25 × 4?\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Isso mesmo! 25 × 4 = 100. Então a porcentagem do total é 100. Confirme se isso faz sentido!\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 120%, Part 2: 20%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagens usando regra de três em vez de fator de escala\\\",\\n          \\\"steps\\\": [\\\"Montar 25 → 100%, 30 → x%\\\", \\\"Resolver equação cruzada\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter frações em decimais primeiro (30÷25=1.2 → 120%)\\\",\\n          \\\"steps\\\": [\\\"Dividir numerador por denominador\\\", \\\"Multiplicar por 100\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "shed",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "Abdul comprou 25 tábuas, mas precisa de 30. Parte 1: 30 é quantos por cento de 25? Parte 2: as 5 tábuas que faltam (30 - 25 = 5) são quantos por cento de 25?",
+        "result": "Valores identificados: compra inicial = {A} = 25, necessidade total = {B} = 30, falta = {C} = 5",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 8,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Definir razão original para Parte 1",
+        "thinking": "A razão original da Parte 1 é (necessário)/(comprado) = 30/25",
+        "result": "Part 1: numerador = {B}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Definir razão original para Parte 2",
+        "thinking": "A razão original da Parte 2 é (falta)/(comprado) = 5/25",
+        "result": "Part 2: numerador = {C}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Definir razão original para linha Total",
+        "thinking": "A linha 'Total' representa o todo, ou seja, 25/25 = 1, que equivale a 100%",
+        "result": "Total: numerador = {A}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Identificar operação e fator de escala para Parte 1",
+        "thinking": "Para converter 30/25 em x/100, preciso multiplicar numerador e denominador por 4, pois 25 × 4 = 100",
+        "result": "Part 1: operação = ×, fator = 4 para ambos",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Aplicar fator de escala à razão da Parte 1",
+        "thinking": "30 × 4 = 120; 25 × 4 = 100 → 120/100 = 120%",
+        "result": "Part 1: resultado = 120/100, porcentagem = 120",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Identificar operação e fator de escala para Parte 2",
+        "thinking": "Para converter 5/25 em x/100, multiplico numerador e denominador por 4, pois 25 × 4 = 100",
+        "result": "Part 2: operação = ×, fator = 4 para ambos",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Aplicar fator de escala à razão da Parte 2",
+        "thinking": "5 × 4 = 20; 25 × 4 = 100 → 20/100 = 20%",
+        "result": "Part 2: resultado = 20/100, porcentagem = 20",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Identificar operação e fator de escala para linha Total",
+        "thinking": "25/25 → quero 100 no denominador. 25 × 4 = 100, então multiplico ambos por 4",
+        "result": "Total: operação = ×, fator = 4 para ambos",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Aplicar fator de escala à razão Total",
+        "thinking": "25 × 4 = 100; 25 × 4 = 100 → 100/100 = 100%",
+        "result": "Total: resultado = 100/100, porcentagem = 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Verificar coerência das respostas",
+        "thinking": "Parte 1: 30 é 120% de 25 → correto. Parte 2: 5 é 20% de 25 → correto. Total: 25 é 100% de 25 → coerente.",
+        "result": "Todas as porcentagens consistentes com o contexto",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 6,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B}/{A} = 120%, {C}/{A} = 20%",
+      "totalTime": 56
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "shed",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher a razão original da linha Total",
+          "thinking": "O total de madeiras compradas é 25, então coloco 25 em cima e embaixo?",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_total_como_fracao_unidade",
+           "type": "conceptual_error",
+           "wrongAnswer": "25/25",
+           "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+           "mistakeLocation": "Ao preencher a razão original da linha 'Total', o aluno colocou 25 no numerador e 25 no denominador, confundindo o total com uma fração que representa o inteiro",
+           "diagnosticQuestion": "Se o total é 25, qual é a parte e qual é o todo na razão? O denominador deve representar o todo — então qual número vai embaixo?",
+           "severity": "moderate",
+           "feedback": "Boa tentativa! Você entendeu que o total é importante. Lembre-se: na razão, o denominador é sempre o TODO. Então, se estamos comparando partes com o total de 25, o denominador deve ser 25 — mas o numerador depende do que estamos medindo.",
+           "howToFix": "Usar linguagem clara: 'parte sobre todo'. Reforçar com exemplos visuais: 25 planks = todo → denominador = 25"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Preencher a razão original da linha Part 1",
+          "thinking": "Ele precisa de 30, então coloco 30 em cima e 25 embaixo",
+          "result": "Correto",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Escolher operação para escalar Part 1",
+          "thinking": "Quero transformar 25 em 100, então divido por 4?",
+          "result": "Resultado errado",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_confunde_x_com_div_ao_escalar",
+           "type": "procedural_error",
+           "wrongAnswer": "÷",
+           "description": "Aluno escolhe divisão em vez de multiplicação para escalar o denominador de 25 para 100",
+           "mistakeLocation": "Na seleção da operação para o denominador da linha Part 1, o aluno escolheu '÷' pensando que dividir 25 por 4 dá 100",
+           "diagnosticQuestion": "Se você divide 25 por 4, o resultado fica maior ou menor? E 100 é maior ou menor que 25?",
+           "severity": "high",
+           "feedback": "Você está pensando certo em usar o número 4! Mas vamos testar: 25 ÷ 4 = ? E 25 × 4 = ? Qual conta nos leva a 100?",
+           "howToFix": "Praticar com calculadora mental: identificar se a meta (100) é maior ou menor que o valor atual (25) para decidir entre × ou ÷"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Calcular fator de escala para Part 1",
+          "thinking": "25 dividido por 4 é... 6.25? Não, melhor colocar 4 mesmo",
+          "result": "Resultado parcialmente errado",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_fator_escala_invertido",
+           "type": "conceptual_error",
+           "wrongAnswer": "4",
+           "description": "Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica",
+           "mistakeLocation": "Após escolher '÷' como operação, o aluno insere 4 como fator, revelando confusão entre direção da escala e operação",
+           "diagnosticQuestion": "Se você está dividindo por 4, o que acontece com 25? E se está multiplicando por 4, o que acontece? Qual combinação transforma 25 em 100?",
+           "severity": "high",
+           "feedback": "Você identificou o número certo (4)! Agora, vamos alinhar a operação com o que queremos: aumentar 25 para 100 exige multiplicar, não dividir.",
+           "howToFix": "Associar operação ao efeito: '× aumenta, ÷ diminui' — e comparar com a meta (100 > 25 → precisa aumentar)"
+          }
+         },
+         {
+          "step": 5,
+          "action": "Calcular numerador resultante para Part 1",
+          "thinking": "30 dividido por 4 é 7.5, então coloco 7.5",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_aplica_operacao_errada_no_numerador",
+           "type": "procedural_error",
+           "wrongAnswer": "7.5",
+           "description": "Aluno aplica a mesma operação incorreta (÷) ao numerador, usando o fator 4, obtendo 30 ÷ 4 = 7.5",
+           "mistakeLocation": "Ao calcular o novo numerador, o aluno divide 30 por 4 porque escolheu '÷' como operação, mesmo que isso não gere uma porcentagem válida",
+           "diagnosticQuestion": "Se o denominador virou 100 (porque 25 × 4 = 100), o que devemos fazer com o numerador para manter a mesma proporção?",
+           "severity": "high",
+           "feedback": "Você está sendo consistente — mas a operação inicial estava invertida. Se multiplicamos o denominador por 4 para chegar a 100, devemos multiplicar o numerador pela mesma coisa!",
+           "howToFix": "Reforçar: 'mesma operação, mesmo fator' nos dois termos da razão"
+          }
+         }
+        ],
+        "finalAnswer": "7.5",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Part 2",
+          "thinking": "Faltam 5, então coloco 5 em cima e 30 embaixo, porque ele precisa de 30 no total",
+          "result": "Resultado errado",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_usa_necessario_como_todo_em_part2",
+           "type": "conceptual_error",
+           "wrongAnswer": "5/30",
+           "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+           "mistakeLocation": "Ao definir a razão para Part 2, o aluno usa 30 (quantidade necessária) como referência do 'todo', em vez de 25 (quantidade comprada)",
+           "diagnosticQuestion": "A pergunta diz: '5 planks he is short is what percentage of his purchase?' — o que significa 'his purchase'? É o que ele comprou ou o que ele precisa?",
+           "severity": "high",
+           "feedback": "Ótima leitura da diferença (5)! Agora, atenção à palavra-chave: 'of his purchase'. A compra foi de quantas madeiras? Esse é o seu todo.",
+           "howToFix": "Sublinhar palavras-chave no enunciado: 'of his purchase' → sempre voltar ao valor base (25)"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para Part 2",
+          "thinking": "Vou multiplicar 30 por algo para dar 100",
+          "result": "Resultado errado",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_escala_baseado_denominador_errado",
+           "type": "procedural_error",
+           "wrongAnswer": "×",
+           "description": "Aluno escolhe operação correta (×), mas baseado no denominador errado (30 em vez de 25)",
+           "mistakeLocation": "Mesmo com a razão errada (5/30), o aluno decide multiplicar para escalar 30 até 100",
+           "diagnosticQuestion": "Se o denominador fosse 25, como você escalaria para 100? E se for 30, funciona igual?",
+           "severity": "moderate",
+           "feedback": "Você está aplicando bem a ideia de escalar para 100! Mas primeiro precisamos garantir que a razão inicial está certa. Qual é o 'todo' mesmo?",
+           "howToFix": "Corrigir a razão antes de escalar. Revisar: parte/todo = ?/25"
+          }
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala para Part 2",
+          "thinking": "100 dividido por 30 é aproximadamente 3.33, então coloco 3.33",
+          "result": "Resultado numérico plausível, mas baseado em erro anterior",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_calcula_fator_sobre_base_errada",
+           "type": "procedural_error",
+           "wrongAnswer": "3.33",
+           "description": "Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado",
+           "mistakeLocation": "Cálculo do fator de escala feito com base no denominador incorreto (30)",
+           "diagnosticQuestion": "Se o todo é 25, qual número multiplicado por 25 dá 100? Isso muda seu fator?",
+           "severity": "moderate",
+           "feedback": "Seu cálculo de fator está coerente com a razão que você usou! Mas vamos revisar: o todo é o que ele COMPROU — 25. Isso muda o denominador?",
+           "howToFix": "Refazer a razão com 25 no denominador, depois recalcular o fator"
+          }
+         },
+         {
+          "step": 4,
+          "action": "Calcular numerador resultante para Part 2",
+          "thinking": "5 vezes 3.33 é cerca de 16.65, então coloco 16.65 ou 17",
+          "result": "Resultado errado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_propaga_erro_de_base_para_resultado",
+           "type": "procedural_error",
+           "wrongAnswer": "16.65",
+           "description": "Aluno aplica corretamente o fator ao numerador, mas como a base está errada, o resultado final está errado",
+           "mistakeLocation": "Aplicação consistente do fator 3.33 a 5, gerando ~16.65, mas baseado na razão 5/30 em vez de 5/25",
+           "diagnosticQuestion": "Se ele comprou 25 e falta 5, isso é mais ou menos que metade? 16% parece razoável?",
+           "severity": "high",
+           "feedback": "Você está fazendo todos os passos direitinho — exceto o primeiro! Vamos voltar: a pergunta é sobre o que ele comprou (25). Com isso, quanto por cento é 5 de 25?",
+           "howToFix": "Recalcular com razão correta: 5/25 → ×4 → 20/100 → 20%"
+          }
+         }
+        ],
+        "finalAnswer": "16.65",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "shed",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_total_como_fracao_unidade",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "25/25",
+          "buggyRule": "Para a linha Total, preencher numerador e denominador com o valor do total (25)",
+          "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+          "mistakeLocation": "Ao preencher a razão original da linha 'Total', o aluno colocou 25 no numerador e 25 no denominador, confundindo o total com uma fração que representa o inteiro",
+          "diagnosticQuestion": "Se o total é 25, qual é a parte e qual é o todo na razão? O denominador deve representar o todo — então qual número vai embaixo?",
+          "feedback": "Boa tentativa! Você entendeu que o total é importante. Lembre-se: na razão, o denominador é sempre o TODO. Então, se estamos comparando partes com o total de 25, o denominador deve ser 25 — mas o numerador depende do que estamos medindo.",
+          "howToFix": "Usar linguagem clara: 'parte sobre todo'. Reforçar com exemplos visuais: 25 planks = todo → denominador = 25",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_deixa_total_vazio_ou_zero",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "0/25",
+          "buggyRule": "Para a linha Total, deixar o numerador como 0 (já que não há 'parte adicional')",
+          "description": "Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador",
+          "mistakeLocation": "Ao interpretar a linha 'Total', o aluno assume que não há numerador relevante e insere 0",
+          "diagnosticQuestion": "O que a linha 'Total' está representando? Será que ela precisa ter um valor no numerador?",
+          "feedback": "Interessante! Mas a linha 'Total' normalmente serve como referência — talvez nem precise ser preenchida se o foco está nas partes. Vamos ver o que o problema pede...",
+          "howToFix": "Explicar que a linha 'Total' pode ser opcional ou usada para verificar que 25/25 = 100%",
+          "severity": "low"
+         }
+        ]
+       },
+       {
+        "problemId": "shed",
+        "step": 2,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_usa_necessario_como_todo_em_part2",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "5/30",
+          "buggyRule": "Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)",
+          "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+          "mistakeLocation": "Ao definir a razão para Part 2, o aluno usa 30 (quantidade necessária) como referência do 'todo', em vez de 25 (quantidade comprada)",
+          "diagnosticQuestion": "A pergunta diz: '5 planks he is short is what percentage of his purchase?' — o que significa 'his purchase'? É o que ele comprou ou o que ele precisa?",
+          "feedback": "Ótima leitura da diferença (5)! Agora, atenção à palavra-chave: 'of his purchase'. A compra foi de quantas madeiras? Esse é o seu todo.",
+          "howToFix": "Sublinhar palavras-chave no enunciado: 'of his purchase' → sempre voltar ao valor base (25)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_confunde_part1_com_part2_numeradores",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "30/25 para Part 2",
+          "buggyRule": "Trocar os numeradores de Part 1 e Part 2: usar 30 em Part 2 e 5 em Part 1",
+          "description": "Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1",
+          "mistakeLocation": "Ao atribuir valores às linhas, o aluno confunde qual quantidade pertence a qual parte",
+          "diagnosticQuestion": "Part 1 pergunta sobre o total necessário; Part 2 pergunta sobre a diferença. Qual número corresponde a cada pergunta?",
+          "feedback": "Você pegou os números certos! Agora é só garantir que cada um está na linha certa. Leia de novo: Part 1 fala do total necessário, Part 2 da falta.",
+          "howToFix": "Associar cada parte do enunciado à linha correspondente antes de preencher",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "shed",
+        "step": 3,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_confunde_x_com_div_ao_escalar",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Escolher divisão em vez de multiplicação quando o denominador atual (25) precisa ser aumentado para 100",
+          "description": "Aluno escolhe divisão em vez de multiplicação para escalar o denominador de 25 para 100",
+          "mistakeLocation": "Na seleção da operação para o denominador da linha Part 1, o aluno escolheu '÷' pensando que dividir 25 por 4 dá 100",
+          "diagnosticQuestion": "Se você divide 25 por 4, o resultado fica maior ou menor? E 100 é maior ou menor que 25?",
+          "feedback": "Você está pensando certo em usar o número 4! Mas vamos testar: 25 ÷ 4 = ? E 25 × 4 = ? Qual conta nos leva a 100?",
+          "howToFix": "Praticar com calculadora mental: identificar se a meta (100) é maior ou menor que o valor atual (25) para decidir entre × ou ÷",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷",
+          "buggyRule": "Copiar a operação de uma linha para outra sem verificar se o denominador é o mesmo",
+          "description": "Aluno aplica a mesma operação a todas as linhas, mesmo que os denominadores sejam diferentes",
+          "mistakeLocation": "Ao preencher a operação para Part 2, o aluno repete '÷' usado em outro contexto",
+          "diagnosticQuestion": "O denominador em Part 2 é o mesmo que em Part 1? A operação deve ser a mesma?",
+          "feedback": "Você está sendo consistente — mas cada linha tem seu próprio denominador! Verifique se a operação faz sentido para aquele número específico.",
+          "howToFix": "Tratar cada linha independentemente: olhar o denominador e decidir operação com base nele",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "shed",
+        "step": 4,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_fator_escala_invertido",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "4",
+          "buggyRule": "Usar 100 / denominador_original como fator, mesmo quando a operação escolhida foi divisão",
+          "description": "Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica",
+          "mistakeLocation": "Após escolher '÷' como operação, o aluno insere 4 como fator, revelando confusão entre direção da escala e operação",
+          "diagnosticQuestion": "Se você está dividindo por 4, o que acontece com 25? E se está multiplicando por 4, o que acontece? Qual combinação transforma 25 em 100?",
+          "feedback": "Você identificou o número certo (4)! Agora, vamos alinhar a operação com o que queremos: aumentar 25 para 100 exige multiplicar, não dividir.",
+          "howToFix": "Associar operação ao efeito: '× aumenta, ÷ diminui' — e comparar com a meta (100 > 25 → precisa aumentar)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_fator_do_numerador_instead_denom",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "100/30",
+          "buggyRule": "Calcular fator como 100 / numerador_original em vez de 100 / denominador_original",
+          "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+          "mistakeLocation": "No cálculo do fator de escala, o aluno usa o numerador (ex: 30) em vez do denominador (25)",
+          "diagnosticQuestion": "O fator de escala deve transformar qual número em 100: o de cima ou o de baixo?",
+          "feedback": "Lembre-se: queremos que o DENOMINADOR vire 100. Então o fator vem de 100 dividido pelo denominador original.",
+          "howToFix": "Destacar visualmente o denominador e escrever: fator = 100 ÷ (denominador)",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "shed",
+        "step": 5,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_aplica_operacao_errada_no_numerador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{num} ÷ {factor}",
+          "buggyRule": "Aplicar a operação selecionada (÷) ao numerador com o fator inserido, mesmo que inconsistente com a meta de 100",
+          "description": "Aluno aplica a mesma operação incorreta (÷) ao numerador, usando o fator 4, obtendo 30 ÷ 4 = 7.5",
+          "mistakeLocation": "Ao calcular o novo numerador, o aluno divide 30 por 4 porque escolheu '÷' como operação, mesmo que isso não gere uma porcentagem válida",
+          "diagnosticQuestion": "Se o denominador virou 100 (porque 25 × 4 = 100), o que devemos fazer com o numerador para manter a mesma proporção?",
+          "feedback": "Você está sendo consistente — mas a operação inicial estava invertida. Se multiplicamos o denominador por 4 para chegar a 100, devemos multiplicar o numerador pela mesma coisa!",
+          "howToFix": "Reforçar: 'mesma operação, mesmo fator' nos dois termos da razão",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_arredonda_prematuramente",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "round({num} * {factor})",
+          "buggyRule": "Arredondar o resultado intermediário antes de concluir (ex: 5 × 3.33 = 16.65 → arredondar para 17)",
+          "description": "Aluno arredonda o numerador resultante para número inteiro, perdendo precisão",
+          "mistakeLocation": "Ao inserir o numerador sobre 100, o aluno arredonda 16.65 para 17",
+          "diagnosticQuestion": "A porcentagem precisa ser um número inteiro? O problema pede arredondamento?",
+          "feedback": "Você fez a conta certa! Mas a menos que o problema peça, mantenha o valor exato. 16.65% é aceitável.",
+          "howToFix": "Verificar instruções: se não disser 'arredonde', mantenha decimal",
+          "severity": "low"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "shed",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar quantidades",
+        "thinking": "Ele comprou 25 tábuas. Depois viu que precisa de 30. Então faltam 5. Mas como transformar isso em porcentagem?",
+        "result": "Identificou: compra = 25, necessário = 30, falta = 5",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Interpretar Parte 1: 'que porcentagem da compra ele precisa?'",
+        "thinking": "Ele precisa de 30, mas só comprou 25... então a porcentagem é 30 em relação a 25? Isso faz sentido? Porcentagem pode ser mais que 100%?",
+        "result": "Entendeu que Parte 1 é 30/25",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Ótima observação! Quando comparamos uma quantidade com outra, usamos uma razão. Se o que precisamos é MAIOR do que o que temos, a porcentagem pode ser maior que 100%. Pense: quanto é 30 em relação a 25?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Escreva a razão como 30 (numerador) sobre 25 (denominador). Agora, pense: como transformar essa fração em uma com denominador 100?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! Você quer que o denominador vire 100. Qual número multiplicado por 25 dá 100? Use isso para escalar o numerador também."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! 25 × 4 = 100. Então, se você multiplicar o numerador 30 por 4, quanto dá? Esse será o valor da porcentagem."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Preencher linha Part 1 na tabela",
+        "thinking": "Razão original: 30/25. Operação: ×. Fator: 4. Resultado: 120/100 → 120%.",
+        "result": "Preencheu corretamente Part 1",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 4,
+        "action": "Interpretar Parte 2: 'os 5 que faltam são que porcentagem da compra?'",
+        "thinking": "Ah, agora é 5 em relação a 25. Isso parece mais fácil... mas como fazer a escala pra 100?",
+        "result": "Entendeu que Parte 2 é 5/25",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa pergunta! Quando queremos saber 'quanto de algo é em relação ao total', usamos uma razão. Aqui, o total é o que ele comprou (25). Quanto falta? (5). Então, qual é a razão?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Continue assim! Escreva 5 como numerador e 25 como denominador. Agora, como transformar isso em uma fração com denominador 100?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Você está quase! Lembre-se: 25 × 4 = 100. Se o denominador é multiplicado por 4, o que acontece com o numerador 5?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Exatamente! Multiplique 5 por 4. Quanto dá? Esse número será a porcentagem que falta."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Preencher linha Part 2 na tabela",
+        "thinking": "Razão: 5/25. Operação: ×. Fator: 4. Resultado: 20/100 → 20%.",
+        "result": "Preencheu corretamente Part 2",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 6,
+        "action": "Preencher linha Total",
+        "thinking": "O total é 25. A porcentagem do total em relação a si mesmo é 100%. Então razão é 25/25.",
+        "result": "Razão original: 25/25. Operação: ×. Fator: 4. Resultado: 100/100 → 100%.",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Pense: qualquer número dividido por ele mesmo é igual a 1. E 1 é o mesmo que 100%. Então, qual razão representa o total completo?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Escreva o total como numerador e denominador: 25/25. Agora, use o mesmo fator de escala das outras linhas para manter consistência. Como transformar 25 em 100?"
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Veja: nas outras linhas você usou ×4. Aqui, 25 × 4 = 100. Então, o numerador também deve ser multiplicado por 4. Quanto é 25 × 4?"
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Isso mesmo! 25 × 4 = 100. Então a porcentagem do total é 100. Confirme se isso faz sentido!"
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "Part 1: 120%, Part 2: 20%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagens usando regra de três em vez de fator de escala",
+        "steps": [
+         "Montar 25 → 100%, 30 → x%",
+         "Resolver equação cruzada"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Converter frações em decimais primeiro (30÷25=1.2 → 120%)",
+        "steps": [
+         "Dividir numerador por denominador",
+         "Multiplicar por 100"
+        ],
+        "efficiency": "medium"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 8,
+  "errosEspecificos": 8,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 8
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 11,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Enter 25 as the denominator of the Total original ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "25"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter 30 as the numerator of the Part 1 original ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "30"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter 5 as the numerator of the Part 2 original ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "5"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter 25 as the numerator of the Total original ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "25"
+    },
+    {
+     "indice": 5,
+     "acao": "For Part 1, choose the operation that changes 25 into 100.",
+     "kc": "Indentify-operation-needed",
+     "valor": "×"
+    },
+    {
+     "indice": 6,
+     "acao": "Enter the scale factor for the Part 1 numerator.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "4"
+    },
+    {
+     "indice": 7,
+     "acao": "For Part 2, choose the operation that changes 25 into 100.",
+     "kc": "Indentify-operation-needed",
+     "valor": "×"
+    },
+    {
+     "indice": 8,
+     "acao": "Enter the scale factor for the Part 2 numerator.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "4"
+    },
+    {
+     "indice": 9,
+     "acao": "For the Total row, choose the operation that changes 25 into 100.",
+     "kc": "Indentify-operation-needed",
+     "valor": "×"
+    },
+    {
+     "indice": 10,
+     "acao": "Enter the Total scale factor that changes 25 into 100.",
+     "kc": "Identify-scale-factor",
+     "valor": "4"
+    },
+    {
+     "indice": 11,
+     "acao": "Enter 100 as the percentage for the Total row.",
+     "kc": "identify-percent",
+     "valor": "100"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "30",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator represents the original purchase, not the number of planks needed. Abdul originally bought 25 planks.",
+     "buggyRule": "Para a linha Total, preencher numerador e denominador com o valor do total (25)",
+     "misconceptionId": "misc_total_como_fracao_unidade"
+    },
+    {
+     "valor": "5",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator must be the whole purchase. The purchase was 25 planks, while 5 is only the shortage.",
+     "buggyRule": "Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)",
+     "misconceptionId": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "valor": "5",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Part 1 asks about the total needed, which is 30 planks. The number 5 belongs to the shortage in Part 2.",
+     "buggyRule": "Trocar os numeradores de Part 1 e Part 2: usar 30 em Part 2 e 5 em Part 1",
+     "misconceptionId": "misc_confunde_part1_com_part2_numeradores"
+    },
+    {
+     "valor": "25",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator for Part 1 is the amount needed, 30. The original purchase of 25 belongs in the denominator.",
+     "buggyRule": "Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)",
+     "misconceptionId": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "valor": "30",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The 30 planks belong to Part 1. Part 2 measures the shortage, which is 5 planks.",
+     "buggyRule": "Trocar os numeradores de Part 1 e Part 2: usar 30 em Part 2 e 5 em Part 1",
+     "misconceptionId": "misc_confunde_part1_com_part2_numeradores"
+    },
+    {
+     "valor": "25",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The numerator is the missing amount, 5. The original purchase of 25 will be the denominator.",
+     "buggyRule": "Para Part 2, usar a quantidade necessária (30) como denominador em vez da quantidade comprada (25)",
+     "misconceptionId": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "valor": "0",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The Total row represents the entire purchase, so its numerator is not zero. It is 25.",
+     "buggyRule": "Para a linha Total, deixar o numerador como 0 (já que não há 'parte adicional')",
+     "misconceptionId": "misc_deixa_total_vazio_ou_zero"
+    },
+    {
+     "valor": "5",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The Total row is not the shortage row. The whole purchase contains 25 planks, so the Total numerator is 25.",
+     "buggyRule": "Para a linha Total, preencher numerador e denominador com o valor do total (25)",
+     "misconceptionId": "misc_total_como_fracao_unidade"
+    },
+    {
+     "valor": "÷",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied.",
+     "buggyRule": "Escolher divisão em vez de multiplicação quando o denominador atual (25) precisa ser aumentado para 100",
+     "misconceptionId": "misc_confunde_x_com_div_ao_escalar"
+    },
+    {
+     "valor": "3.33",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The factor must be based on the denominator 25, not the numerator 30. Since 25 × 4 = 100, the factor is 4.",
+     "buggyRule": "",
+     "misconceptionId": "misc_calcula_fator_sobre_base_errada"
+    },
+    {
+     "valor": "100/30",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The scale factor is determined by the denominator changing to 100. Use 100 ÷ 25, which gives 4.",
+     "buggyRule": "Calcular fator como 100 / numerador_original em vez de 100 / denominador_original",
+     "misconceptionId": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "valor": "÷",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase.",
+     "buggyRule": "Copiar a operação de uma linha para outra sem verificar se o denominador é o mesmo",
+     "misconceptionId": "misc_usa_mesma_operacao_para_todas_linhas_sem_pensar"
+    },
+    {
+     "valor": "3.33",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Part 2 also uses the original denominator 25. The factor that changes 25 to 100 is 4.",
+     "buggyRule": "",
+     "misconceptionId": "misc_calcula_fator_sobre_base_errada"
+    },
+    {
+     "valor": "100/5",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The scale factor comes from the denominator, not the numerator. Calculate 100 ÷ 25 to get 4.",
+     "buggyRule": "Calcular fator como 100 / numerador_original em vez de 100 / denominador_original",
+     "misconceptionId": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "valor": "÷",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication.",
+     "buggyRule": "Escolher divisão em vez de multiplicação quando o denominador atual (25) precisa ser aumentado para 100",
+     "misconceptionId": "misc_confunde_x_com_div_ao_escalar"
+    },
+    {
+     "valor": "0.25",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The factor must increase 25 to 100. Multiplying by 0.25 would make the number smaller, while multiplying by 4 gives 100.",
+     "buggyRule": "Usar 100 / denominador_original como fator, mesmo quando a operação escolhida foi divisão",
+     "misconceptionId": "misc_fator_escala_invertido"
+    },
+    {
+     "valor": "100/25",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Write the calculation as 100 ÷ 25. Its numerical result, the scale factor, is 4.",
+     "buggyRule": "Calcular fator como 100 / numerador_original em vez de 100 / denominador_original",
+     "misconceptionId": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "valor": "25",
+     "passo": 11,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The number 25 is the original count, not the percentage of the whole. The entire purchase represents 100%.",
+     "buggyRule": "Para a linha Total, preencher numerador e denominador com o valor do total (25)",
+     "misconceptionId": "misc_total_como_fracao_unidade"
+    },
+    {
+     "valor": "0",
+     "passo": 11,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The Total row represents the complete purchase, so it cannot be 0%. The whole is 100%.",
+     "buggyRule": "Para a linha Total, deixar o numerador como 0 (já que não há 'parte adicional')",
+     "misconceptionId": "misc_deixa_total_vazio_ou_zero"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Which quantity represents the entire original purchase?"
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Find the number of planks Abdul bought before discovering the shortage."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "The purchase mentioned in the first sentence contains ... planks."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Type the purchased total into the denominator cell of the Total row: ...."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "What quantity is Part 1 measuring against the original purchase?"
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "Use the number of planks needed as the numerator of the Part 1 ratio."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "The statement says Abdul realizes he needs ... planks."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the needed quantity in the Part 1 numerator cell: ...."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "Which quantity describes the missing part of the purchase?"
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Place the shortage in the numerator because it is the part being compared."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "The problem explicitly states that Abdul is short 5 planks."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Type the shortage quantity in the Part 2 numerator cell: 5."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "What number represents the entire purchase in the Total row?"
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "For a whole compared with itself, use the same purchase quantity in both positions."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "The original purchase contains ... planks, and the Total row represents all ...."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Enter the complete purchase amount in the Total numerator cell: ...."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "Does the denominator need to become larger or smaller?"
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Choose the operation that can increase 25 until it reaches 100."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Multiplication increases 25, while division would make it smaller."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Select the multiplication symbol, ×, for the Part 1 denominator operation."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "What must happen to both parts of an equivalent ratio?"
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Find the number that transforms the original denominator 25 into 100."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Since 25 multiplied by 4 equals 100, use the same factor for the numerator."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Enter the common scale factor applied to the Part 1 numerator: 4."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "What is the denominator in Part 2, and what must it become?"
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Choose the operation that changes the original denominator 25 into 100."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "The denominator increases from 25 to 100, so division cannot be the operation."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Select × for the Part 2 denominator operation."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Why must the numerator and denominator use the same scale factor?"
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Calculate the factor that changes 25 into 100, then apply that factor to both parts."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "The denominator calculation is 25 × 4 = 100."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Enter the same factor in the Part 2 numerator factor cell: 4."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "Does the Total denominator need to increase or decrease to reach 100?"
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Select the operation that turns the original total of 25 into 100."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "The target is larger than 25, so multiplication is appropriate."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Choose × in the Total denominator operation selector."
+    },
+    {
+     "passo": 10,
+     "nivel": 1,
+     "texto": "What number makes the original denominator become the percentage denominator?"
+    },
+    {
+     "passo": 10,
+     "nivel": 2,
+     "texto": "Use target denominator divided by original denominator: 100 ÷ 25."
+    },
+    {
+     "passo": 10,
+     "nivel": 3,
+     "texto": "Four groups of 25 make 100."
+    },
+    {
+     "passo": 10,
+     "nivel": 4,
+     "texto": "Enter the factor that makes 25 equal 100: 4."
+    },
+    {
+     "passo": 11,
+     "nivel": 1,
+     "texto": "What percentage represents the entire original purchase?"
+    },
+    {
+     "passo": 11,
+     "nivel": 2,
+     "texto": "Use the equivalent ratio with denominator ... to identify the whole percentage."
+    },
+    {
+     "passo": 11,
+     "nivel": 3,
+     "texto": "The Total ratio is 25 out of 25, which represents the complete purchase."
+    },
+    {
+     "passo": 11,
+     "nivel": 4,
+     "texto": "Enter the whole-purchase percentage in the Total percentage cell: ...."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": true,
+   "valoresEstranhos": [
+    "100→100"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "25",
+    "30",
+    "5",
+    "25",
+    "×",
+    "4",
+    "×",
+    "4",
+    "×",
+    "4",
+    "100"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "Abdul is building a shed. He buys 25 planks for the project.<br><br>Part 1) If he later realizes he needs 30 planks, what percentage of his purchase does he need?<br><br>Part 2) The 5 planks he is short is what percentage of his purchase?<br>Part 1) If he later realizes he needs 30 planks, what percentage of his purchase does he need?<br>Part 2) The 5 planks he is short is what percentage of his purchase?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Enter 25 as the denominator of the Total original ratio.",
+     "expectedAnswer": "25",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter 30 as the numerator of the Part 1 original ratio.",
+     "expectedAnswer": "30",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter 5 as the numerator of the Part 2 original ratio.",
+     "expectedAnswer": "5",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter 25 as the numerator of the Total original ratio.",
+     "expectedAnswer": "25",
+     "renderAs": "dynamic_spec",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "For Part 1, choose the operation that changes 25 into 100.",
+     "expectedAnswer": "×",
+     "renderAs": "dropdown",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 2
+    },
+    {
+     "id": "step_6",
+     "instruction": "Enter the scale factor for the Part 1 numerator.",
+     "expectedAnswer": "4",
+     "renderAs": "dynamic_spec",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_7",
+     "instruction": "For Part 2, choose the operation that changes 25 into 100.",
+     "expectedAnswer": "×",
+     "renderAs": "dropdown",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 2
+    },
+    {
+     "id": "step_8",
+     "instruction": "Enter the scale factor for the Part 2 numerator.",
+     "expectedAnswer": "4",
+     "renderAs": "dynamic_spec",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "For the Total row, choose the operation that changes 25 into 100.",
+     "expectedAnswer": "×",
+     "renderAs": "dropdown",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 2
+    },
+    {
+     "id": "step_10",
+     "instruction": "Enter the Total scale factor that changes 25 into 100.",
+     "expectedAnswer": "4",
+     "renderAs": "dynamic_spec",
+     "kc": "Identify-scale-factor",
+     "nOptions": 0
+    },
+    {
+     "id": "step_11",
+     "instruction": "Enter 100 as the percentage for the Total row.",
+     "expectedAnswer": "100",
+     "renderAs": "dynamic_spec",
+     "kc": "identify-percent",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 50693,
+   "exerciciosGerados": 1,
+   "passosGenericos": 11,
+   "passosMaterializados": 11,
+   "dicasMaterializadas": 44,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Enter 25 as the denominator of the Total original ratio.",
+     "instruction": "Enter 25 as the denominator of the Total original ratio.",
+     "expectedInput": {
+      "value": "25",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "25"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "totalorigdenomareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Total.original.denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "totalorigdenomareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Total.original.denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Which quantity represents the entire original purchase?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number of planks Abdul bought before discovering the shortage."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The purchase mentioned in the first sentence contains ... planks."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the purchased total into the denominator cell of the Total row: ...."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_total_como_fracao_unidade",
+       "wrongAnswer": "30",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+       "feedback": "The denominator represents the original purchase, not the number of planks needed. Abdul originally bought 25 planks.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_necessario_como_todo_em_part2",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+       "feedback": "The denominator must be the whole purchase. The purchase was 25 planks, while 5 is only the shortage.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_total_como_fracao_unidade__step_1",
+      "scaffold_misc_usa_necessario_como_todo_em_part2__step_1",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter 30 as the numerator of the Part 1 original ratio.",
+     "instruction": "Enter 30 as the numerator of the Part 1 original ratio.",
+     "expectedInput": {
+      "value": "30",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "30"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "part1orignumareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Part1.original.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "part1orignumareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Part1.original.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What quantity is Part 1 measuring against the original purchase?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the number of planks needed as the numerator of the Part 1 ratio."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The statement says Abdul realizes he needs ... planks."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the needed quantity in the Part 1 numerator cell: ...."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_confunde_part1_com_part2_numeradores",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1",
+       "feedback": "Part 1 asks about the total needed, which is 30 planks. The number 5 belongs to the shortage in Part 2.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_necessario_como_todo_em_part2",
+       "wrongAnswer": "25",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+       "feedback": "The numerator for Part 1 is the amount needed, 30. The original purchase of 25 belongs in the denominator.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_confunde_part1_com_part2_numeradores__step_2",
+      "scaffold_misc_usa_necessario_como_todo_em_part2__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter 5 as the numerator of the Part 2 original ratio.",
+     "instruction": "Enter 5 as the numerator of the Part 2 original ratio.",
+     "expectedInput": {
+      "value": "5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "5"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "part2orignumareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Part2.original.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "part2orignumareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Part2.original.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Which quantity describes the missing part of the purchase?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Place the shortage in the numerator because it is the part being compared."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The problem explicitly states that Abdul is short 5 planks."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the shortage quantity in the Part 2 numerator cell: 5."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_confunde_part1_com_part2_numeradores",
+       "wrongAnswer": "30",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1",
+       "feedback": "The 30 planks belong to Part 1. Part 2 measures the shortage, which is 5 planks.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_necessario_como_todo_em_part2",
+       "wrongAnswer": "25",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+       "feedback": "The numerator is the missing amount, 5. The original purchase of 25 will be the denominator.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_confunde_part1_com_part2_numeradores__step_3",
+      "scaffold_misc_usa_necessario_como_todo_em_part2__step_3",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter 25 as the numerator of the Total original ratio.",
+     "instruction": "Enter 25 as the numerator of the Total original ratio.",
+     "expectedInput": {
+      "value": "25",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "25"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "totalorignumareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Total.original.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "totalorignumareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Total.original.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What number represents the entire purchase in the Total row?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "For a whole compared with itself, use the same purchase quantity in both positions."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The original purchase contains ... planks, and the Total row represents all ...."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the complete purchase amount in the Total numerator cell: ...."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_deixa_total_vazio_ou_zero",
+       "wrongAnswer": "0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador",
+       "feedback": "The Total row represents the entire purchase, so its numerator is not zero. It is 25.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_total_como_fracao_unidade",
+       "wrongAnswer": "5",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+       "feedback": "The Total row is not the shortage row. The whole purchase contains 25 planks, so the Total numerator is 25.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_deixa_total_vazio_ou_zero__step_4",
+      "scaffold_misc_total_como_fracao_unidade__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "For Part 1, choose the operation that changes 25 into 100.",
+     "instruction": "For Part 1, choose the operation that changes 25 into 100.",
+     "expectedInput": {
+      "value": "×",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "×"
+      ],
+      "renderAs": "dropdown",
+      "componentId": "dropdown",
+      "componentProps": null,
+      "config": {
+       "componentId": "part1operatordenompulldownmenu",
+       "inputType": "text",
+       "choices": [
+        "×",
+        "÷"
+       ],
+       "surface": "shed_ratio_table",
+       "cell": "Part1.operation.denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": true
+        },
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": false,
+         "misconceptionId": "misc_confunde_x_com_div_ao_escalar",
+         "misconceptionType": "procedural_error",
+         "feedback": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied."
+        }
+       ],
+       "config": {
+        "componentId": "part1operatordenompulldownmenu",
+        "inputType": "text",
+        "choices": [
+         "×",
+         "÷"
+        ],
+        "surface": "shed_ratio_table",
+        "cell": "Part1.operation.denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Does the denominator need to become larger or smaller?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Choose the operation that can increase 25 until it reaches 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Multiplication increases 25, while division would make it smaller."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select the multiplication symbol, ×, for the Part 1 denominator operation."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_confunde_x_com_div_ao_escalar",
+       "wrongAnswer": "÷",
+       "misconceptionType": "procedural_error",
+       "description": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied.",
+       "feedback": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_confunde_x_com_div_ao_escalar__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Enter the scale factor for the Part 1 numerator.",
+     "instruction": "Enter the scale factor for the Part 1 numerator.",
+     "expectedInput": {
+      "value": "4",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "part1numscalefactorareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Part1.scaleFactor.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "part1numscalefactorareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Part1.scaleFactor.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What must happen to both parts of an equivalent ratio?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the number that transforms the original denominator 25 into 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Since 25 multiplied by 4 equals 100, use the same factor for the numerator."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the common scale factor applied to the Part 1 numerator: 4."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_calcula_fator_sobre_base_errada",
+       "wrongAnswer": "3.33",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado",
+       "feedback": "The factor must be based on the denominator 25, not the numerator 30. Since 25 × 4 = 100, the factor is 4.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_fator_do_numerador_instead_denom",
+       "wrongAnswer": "100/30",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+       "feedback": "The scale factor is determined by the denominator changing to 100. Use 100 ÷ 25, which gives 4.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_calcula_fator_sobre_base_errada__step_6",
+      "scaffold_misc_usa_fator_do_numerador_instead_denom__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "For Part 2, choose the operation that changes 25 into 100.",
+     "instruction": "For Part 2, choose the operation that changes 25 into 100.",
+     "expectedInput": {
+      "value": "×",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "×"
+      ],
+      "renderAs": "dropdown",
+      "componentId": "dropdown",
+      "componentProps": null,
+      "config": {
+       "componentId": "part2operatordenompulldownmenu",
+       "inputType": "text",
+       "choices": [
+        "×",
+        "÷"
+       ],
+       "surface": "shed_ratio_table",
+       "cell": "Part2.operation.denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": true
+        },
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": false,
+         "misconceptionId": "misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+         "misconceptionType": "procedural_error",
+         "feedback": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase."
+        }
+       ],
+       "config": {
+        "componentId": "part2operatordenompulldownmenu",
+        "inputType": "text",
+        "choices": [
+         "×",
+         "÷"
+        ],
+        "surface": "shed_ratio_table",
+        "cell": "Part2.operation.denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What is the denominator in Part 2, and what must it become?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Choose the operation that changes the original denominator 25 into 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator increases from 25 to 100, so division cannot be the operation."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select × for the Part 2 denominator operation."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+       "wrongAnswer": "÷",
+       "misconceptionType": "procedural_error",
+       "description": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase.",
+       "feedback": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Enter the scale factor for the Part 2 numerator.",
+     "instruction": "Enter the scale factor for the Part 2 numerator.",
+     "expectedInput": {
+      "value": "4",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "part2numscalefactorareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Part2.scaleFactor.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "part2numscalefactorareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Part2.scaleFactor.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Why must the numerator and denominator use the same scale factor?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Calculate the factor that changes 25 into 100, then apply that factor to both parts."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The denominator calculation is 25 × 4 = 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the same factor in the Part 2 numerator factor cell: 4."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_calcula_fator_sobre_base_errada",
+       "wrongAnswer": "3.33",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado",
+       "feedback": "Part 2 also uses the original denominator 25. The factor that changes 25 to 100 is 4.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_fator_do_numerador_instead_denom",
+       "wrongAnswer": "100/5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+       "feedback": "The scale factor comes from the denominator, not the numerator. Calculate 100 ÷ 25 to get 4.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_calcula_fator_sobre_base_errada__step_8",
+      "scaffold_misc_usa_fator_do_numerador_instead_denom__step_8",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "For the Total row, choose the operation that changes 25 into 100.",
+     "instruction": "For the Total row, choose the operation that changes 25 into 100.",
+     "expectedInput": {
+      "value": "×",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "×"
+      ],
+      "renderAs": "dropdown",
+      "componentId": "dropdown",
+      "componentProps": null,
+      "config": {
+       "componentId": "totaloperatordenompulldownmenu",
+       "inputType": "text",
+       "choices": [
+        "×",
+        "÷"
+       ],
+       "surface": "shed_ratio_table",
+       "cell": "Total.operation.denominator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": true
+        },
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": false,
+         "misconceptionId": "misc_confunde_x_com_div_ao_escalar",
+         "misconceptionType": "procedural_error",
+         "feedback": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication."
+        }
+       ],
+       "config": {
+        "componentId": "totaloperatordenompulldownmenu",
+        "inputType": "text",
+        "choices": [
+         "×",
+         "÷"
+        ],
+        "surface": "shed_ratio_table",
+        "cell": "Total.operation.denominator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Does the Total denominator need to increase or decrease to reach 100?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Select the operation that turns the original total of 25 into 100."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The target is larger than 25, so multiplication is appropriate."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Choose × in the Total denominator operation selector."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_confunde_x_com_div_ao_escalar",
+       "wrongAnswer": "÷",
+       "misconceptionType": "procedural_error",
+       "description": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication.",
+       "feedback": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_confunde_x_com_div_ao_escalar__step_9",
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "step_10",
+     "type": "step",
+     "description": "Enter the Total scale factor that changes 25 into 100.",
+     "instruction": "Enter the Total scale factor that changes 25 into 100.",
+     "expectedInput": {
+      "value": "4",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "4"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "totalnumscalefactorareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Total.scaleFactor.numerator"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "totalnumscalefactorareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Total.scaleFactor.numerator"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What number makes the original denominator become the percentage denominator?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use target denominator divided by original denominator: 100 ÷ 25."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Four groups of 25 make 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the factor that makes 25 equal 100: 4."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_fator_escala_invertido",
+       "wrongAnswer": "0.25",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica",
+       "feedback": "The factor must increase 25 to 100. Multiplying by 0.25 would make the number smaller, while multiplying by 4 gives 100.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_usa_fator_do_numerador_instead_denom",
+       "wrongAnswer": "100/25",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+       "feedback": "Write the calculation as 100 ÷ 25. Its numerical result, the scale factor, is 4.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_fator_escala_invertido",
+      "scaffold_misc_usa_fator_do_numerador_instead_denom__step_10",
+      "scaffold_generic_step_10"
+     ]
+    },
+    {
+     "id": "step_11",
+     "type": "step",
+     "description": "Enter 100 as the percentage for the Total row.",
+     "instruction": "Enter 100 as the percentage for the Total row.",
+     "expectedInput": {
+      "value": "100",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "100"
+      ],
+      "renderAs": "dynamic_spec",
+      "componentId": "dynamic_spec",
+      "componentProps": null,
+      "config": {
+       "componentId": "totalpercentareainput",
+       "inputType": "numeric",
+       "surface": "shed_ratio_table",
+       "cell": "Total.result.percentage"
+      },
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "config": {
+        "componentId": "totalpercentareainput",
+        "inputType": "numeric",
+        "surface": "shed_ratio_table",
+        "cell": "Total.result.percentage"
+       }
+      }
+     },
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What percentage represents the entire original purchase?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the equivalent ratio with denominator ... to identify the whole percentage."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The Total ratio is 25 out of 25, which represents the complete purchase."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the whole-purchase percentage in the Total percentage cell: ...."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_total_como_fracao_unidade",
+       "wrongAnswer": "25",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+       "feedback": "The number 25 is the original count, not the percentage of the whole. The entire purchase represents 100%.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_deixa_total_vazio_ou_zero",
+       "wrongAnswer": "0",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador",
+       "feedback": "The Total row represents the complete purchase, so it cannot be 0%. The whole is 100%.",
+       "severity": "low",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_total_como_fracao_unidade__step_11",
+      "scaffold_misc_deixa_total_vazio_ou_zero__step_11",
+      "scaffold_generic_step_11"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_10",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_11",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_total_como_fracao_unidade__step_1",
+     "type": "scaffold",
+     "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+     "instruction": "The denominator represents the original purchase, not the number of planks needed. Abdul originally bought 25 planks.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_total_como_fracao_unidade"
+    },
+    {
+     "id": "scaffold_misc_usa_necessario_como_todo_em_part2__step_1",
+     "type": "scaffold",
+     "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+     "instruction": "The denominator must be the whole purchase. The purchase was 25 planks, while 5 is only the shortage.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "id": "scaffold_misc_confunde_part1_com_part2_numeradores__step_2",
+     "type": "scaffold",
+     "description": "Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1",
+     "instruction": "Part 1 asks about the total needed, which is 30 planks. The number 5 belongs to the shortage in Part 2.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_part1_com_part2_numeradores"
+    },
+    {
+     "id": "scaffold_misc_usa_necessario_como_todo_em_part2__step_2",
+     "type": "scaffold",
+     "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+     "instruction": "The numerator for Part 1 is the amount needed, 30. The original purchase of 25 belongs in the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "id": "scaffold_misc_confunde_part1_com_part2_numeradores__step_3",
+     "type": "scaffold",
+     "description": "Aluno inverte as partes: coloca 30 como numerador de Part 2 e 5 como numerador de Part 1",
+     "instruction": "The 30 planks belong to Part 1. Part 2 measures the shortage, which is 5 planks.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_part1_com_part2_numeradores"
+    },
+    {
+     "id": "scaffold_misc_usa_necessario_como_todo_em_part2__step_3",
+     "type": "scaffold",
+     "description": "Aluno usa o valor necessário (30) como denominador em vez do valor comprado (25)",
+     "instruction": "The numerator is the missing amount, 5. The original purchase of 25 will be the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_necessario_como_todo_em_part2"
+    },
+    {
+     "id": "scaffold_misc_deixa_total_vazio_ou_zero__step_4",
+     "type": "scaffold",
+     "description": "Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador",
+     "instruction": "The Total row represents the entire purchase, so its numerator is not zero. It is 25.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_deixa_total_vazio_ou_zero"
+    },
+    {
+     "id": "scaffold_misc_total_como_fracao_unidade__step_4",
+     "type": "scaffold",
+     "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+     "instruction": "The Total row is not the shortage row. The whole purchase contains 25 planks, so the Total numerator is 25.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_total_como_fracao_unidade"
+    },
+    {
+     "id": "scaffold_misc_confunde_x_com_div_ao_escalar__step_5",
+     "type": "scaffold",
+     "description": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied.",
+     "instruction": "Dividing 25 would make it smaller. To reach 100, the denominator must be multiplied.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_x_com_div_ao_escalar"
+    },
+    {
+     "id": "scaffold_misc_calcula_fator_sobre_base_errada__step_6",
+     "type": "scaffold",
+     "description": "Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado",
+     "instruction": "The factor must be based on the denominator 25, not the numerator 30. Since 25 × 4 = 100, the factor is 4.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_calcula_fator_sobre_base_errada"
+    },
+    {
+     "id": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_6",
+     "type": "scaffold",
+     "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+     "instruction": "The scale factor is determined by the denominator changing to 100. Use 100 ÷ 25, which gives 4.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "id": "scaffold_misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+     "type": "scaffold",
+     "description": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase.",
+     "instruction": "The denominator still needs to increase from 25 to 100. Multiplication, not division, produces that increase.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_mesma_operacao_para_todas_linhas_sem_pensar"
+    },
+    {
+     "id": "scaffold_misc_calcula_fator_sobre_base_errada__step_8",
+     "type": "scaffold",
+     "description": "Aluno calcula fator corretamente como 100/30 ≈ 3.33, mas baseado no denominador errado",
+     "instruction": "Part 2 also uses the original denominator 25. The factor that changes 25 to 100 is 4.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_calcula_fator_sobre_base_errada"
+    },
+    {
+     "id": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_8",
+     "type": "scaffold",
+     "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+     "instruction": "The scale factor comes from the denominator, not the numerator. Calculate 100 ÷ 25 to get 4.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "id": "scaffold_misc_confunde_x_com_div_ao_escalar__step_9",
+     "type": "scaffold",
+     "description": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication.",
+     "instruction": "Division would reduce 25 instead of increasing it to 100. The Total denominator needs multiplication.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_confunde_x_com_div_ao_escalar"
+    },
+    {
+     "id": "scaffold_misc_fator_escala_invertido",
+     "type": "scaffold",
+     "description": "Aluno usa o fator correto (4), mas com a operação errada (÷), gerando inconsistência lógica",
+     "instruction": "The factor must increase 25 to 100. Multiplying by 0.25 would make the number smaller, while multiplying by 4 gives 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_escala_invertido"
+    },
+    {
+     "id": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_10",
+     "type": "scaffold",
+     "description": "Aluno divide 100 pelo numerador em vez do denominador para obter o fator",
+     "instruction": "Write the calculation as 100 ÷ 25. Its numerical result, the scale factor, is 4.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_fator_do_numerador_instead_denom"
+    },
+    {
+     "id": "scaffold_misc_total_como_fracao_unidade__step_11",
+     "type": "scaffold",
+     "description": "Aluno interpreta o total como uma fração unitária (inteiro = 100%) e preenche numerador e denominador iguais",
+     "instruction": "The number 25 is the original count, not the percentage of the whole. The entire purchase represents 100%.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_total_como_fracao_unidade"
+    },
+    {
+     "id": "scaffold_misc_deixa_total_vazio_ou_zero__step_11",
+     "type": "scaffold",
+     "description": "Aluno acha que a linha 'Total' não tem uma 'parte' associada e coloca 0 no numerador",
+     "instruction": "The Total row represents the complete purchase, so it cannot be 0%. The whole is 100%.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_deixa_total_vazio_ou_zero"
+    }
+   ],
+   "edges": [
+    {
+     "from": "scaffold_misc_confunde_x_com_div_ao_escalar__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "scaffold_misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "scaffold_misc_confunde_x_com_div_ao_escalar__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "skip_if_mastered(identify-percent, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "correct"
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "correct"
+    },
+    {
+     "from": "step_11",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_total_como_fracao_unidade__step_1",
+     "condition": "misconception(misc_total_como_fracao_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_total_como_fracao_unidade__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_usa_necessario_como_todo_em_part2__step_1",
+     "condition": "misconception(misc_usa_necessario_como_todo_em_part2)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_necessario_como_todo_em_part2__step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_confunde_part1_com_part2_numeradores__step_2",
+     "condition": "misconception(misc_confunde_part1_com_part2_numeradores)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_confunde_part1_com_part2_numeradores__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_usa_necessario_como_todo_em_part2__step_2",
+     "condition": "misconception(misc_usa_necessario_como_todo_em_part2)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_necessario_como_todo_em_part2__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_confunde_part1_com_part2_numeradores__step_3",
+     "condition": "misconception(misc_confunde_part1_com_part2_numeradores)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_confunde_part1_com_part2_numeradores__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_usa_necessario_como_todo_em_part2__step_3",
+     "condition": "misconception(misc_usa_necessario_como_todo_em_part2)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_necessario_como_todo_em_part2__step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_deixa_total_vazio_ou_zero__step_4",
+     "condition": "misconception(misc_deixa_total_vazio_ou_zero)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_deixa_total_vazio_ou_zero__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_total_como_fracao_unidade__step_4",
+     "condition": "misconception(misc_total_como_fracao_unidade)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_total_como_fracao_unidade__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_confunde_x_com_div_ao_escalar__step_5",
+     "condition": "misconception(misc_confunde_x_com_div_ao_escalar)",
+     "priority": 2
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_calcula_fator_sobre_base_errada__step_6",
+     "condition": "misconception(misc_calcula_fator_sobre_base_errada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_calcula_fator_sobre_base_errada__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_6",
+     "condition": "misconception(misc_usa_fator_do_numerador_instead_denom)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_usa_mesma_operacao_para_todas_linhas_sem_pensar",
+     "condition": "misconception(misc_usa_mesma_operacao_para_todas_linhas_sem_pensar)",
+     "priority": 2
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_calcula_fator_sobre_base_errada__step_8",
+     "condition": "misconception(misc_calcula_fator_sobre_base_errada)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_calcula_fator_sobre_base_errada__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_8",
+     "condition": "misconception(misc_usa_fator_do_numerador_instead_denom)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_confunde_x_com_div_ao_escalar__step_9",
+     "condition": "misconception(misc_confunde_x_com_div_ao_escalar)",
+     "priority": 2
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_fator_escala_invertido",
+     "condition": "misconception(misc_fator_escala_invertido)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_fator_escala_invertido",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_10",
+     "condition": "misconception(misc_usa_fator_do_numerador_instead_denom)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_usa_fator_do_numerador_instead_denom__step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_misc_total_como_fracao_unidade__step_11",
+     "condition": "misconception(misc_total_como_fracao_unidade)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_total_como_fracao_unidade__step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_misc_deixa_total_vazio_ou_zero__step_11",
+     "condition": "misconception(misc_deixa_total_vazio_ou_zero)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_deixa_total_vazio_ou_zero__step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_generic_step_10",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_generic_step_11",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}

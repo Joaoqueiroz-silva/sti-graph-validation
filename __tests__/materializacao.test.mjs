@@ -246,3 +246,17 @@ describe("gate — sensibilidade 4 (sufixo de porcentagem), a priori para o 8.12
     expect(verificarProblemaFixo(envA, {}, g2, { constantesDeDominio: true, equivalenciaCanonica: true, numerosMistos: true, sufixoPercentual: true }).aprovado).toBe(false);
   });
 });
+
+describe("gate por ENUNCIADO — obediência lida do statement, não dos valores derivados", () => {
+  it("valores calculados (0,5; 100) não reprovam se o enunciado está limpo", () => {
+    const envA = { problem: "Das 5000 vendas na primeira hora, a loja vendeu 25.", correctAnswer: "0.5" };
+    // o agente escreve valores DERIVADOS nos passos (fator 50, resultado 0,5, base 100)
+    const g = { passos: [{ valor: "5000" }, { valor: "25" }, { valor: "50" }, { valor: "100" }, { valor: "0.5" }] };
+    const porValores = verificarProblemaFixo(envA, { statement: "Das 5000 vendas na primeira hora, a loja vendeu 25." }, g, { constantesDeDominio: true, equivalenciaCanonica: true });
+    expect(porValores.aprovado).toBe(false); // gate conservador reprova o cálculo
+    expect(porValores.numerosEstranhosNoEnunciado).toEqual([]); // mas o ENUNCIADO está limpo
+    // enunciado inventado continua sendo pego
+    const inventado = verificarProblemaFixo(envA, { statement: "Lúcia colheu 7 maçãs de 9." }, g, { constantesDeDominio: true });
+    expect(inventado.numerosEstranhosNoEnunciado.length).toBeGreaterThan(0);
+  });
+});

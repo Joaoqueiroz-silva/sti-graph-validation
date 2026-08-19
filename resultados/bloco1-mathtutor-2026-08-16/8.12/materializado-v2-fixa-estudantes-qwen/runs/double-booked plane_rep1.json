@@ -1,0 +1,3095 @@
+{
+ "id": "double-booked plane",
+ "correctAnswer": "1.5",
+ "audit": {
+  "ok": true,
+  "stepCount": 11
+ },
+ "f1": 0,
+ "conceptual": 0,
+ "precision": 0,
+ "recall": 0,
+ "functionalAgreement": 0.125,
+ "functionalKappa": -0.436,
+ "missing": [
+  "100",
+  "120",
+  "150",
+  "*"
+ ],
+ "extra": [
+  "5/6",
+  "80",
+  "270"
+ ],
+ "robotMisconceptions": [
+  "150/180",
+  "80",
+  "270"
+ ],
+ "exercicio": "double-booked plane",
+ "replica": 1,
+ "geradoEm": "2026-08-18T21:06:44.605Z",
+ "promptSha256": "33e7840bc9553e12ea8d5a5b028decae137f618ef86e7a4d88d7572b734a30d2",
+ "modelos": {
+  "perfil": "custo-beneficio",
+  "porAgente": {
+   "dominio": "openai/gpt-5.6-luna",
+   "materializacao": "openai/gpt-5.6-luna",
+   "estudantes": "qwen/qwen3-max",
+   "revisao": "google/gemini-3.1-flash-lite",
+   "checagem": "google/gemini-3.1-flash-lite"
+  },
+  "temperatura": 0.7,
+  "temperaturasProducao": {
+   "agent3a_advanced": 0.2,
+   "agent3b_atrisk": 0.7,
+   "agent3c_average": 0.4
+  },
+  "provedor": "openrouter",
+  "resolvidoEm": "2026-08-18T20:10:37.936Z"
+ },
+ "custo": {
+  "tokensEntrada": 10261,
+  "tokensSaida": 9504,
+  "usd": 0.04506918
+ },
+ "auditoria": {
+  "ok": true,
+  "passos": 11
+ },
+ "grafo": {
+  "passos": [
+   {
+    "indice": 1,
+    "acao": "Ler e interpretar o enunciado",
+    "kc": "Enter-given-quantities",
+    "valor": "Valores identificados: capacidade = {A} = 150; reservas Part 1 = {B} = 180; reservas Part 2 = {C} = 225"
+   },
+   {
+    "indice": 2,
+    "acao": "Preencher razão original da linha Total",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original linha Total: numerador = {A}, denominador = {A}"
+   },
+   {
+    "indice": 3,
+    "acao": "Preencher operações e fator de escala para linha Total",
+    "kc": "Indentify-operation-needed",
+    "valor": "Operação linha Total: ÷, ÷; fator: 1.5, 1.5"
+   },
+   {
+    "indice": 4,
+    "acao": "Calcular resultado linha Total",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado linha Total: 100/100 → porcentagem = 100"
+   },
+   {
+    "indice": 5,
+    "acao": "Preencher razão original linha Part 1",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original Part 1: numerador = {B}, denominador = {A}"
+   },
+   {
+    "indice": 6,
+    "acao": "Identificar operação e fator de escala para Part 1",
+    "kc": "Identify-scale-factor",
+    "valor": "Operação Part 1: ÷, ÷; fator: 1.5, 1.5"
+   },
+   {
+    "indice": 7,
+    "acao": "Calcular resultado linha Part 1",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado Part 1: 120/100 → porcentagem = 120"
+   },
+   {
+    "indice": 8,
+    "acao": "Preencher razão original linha Part 2",
+    "kc": "Enter-given-quantities",
+    "valor": "Razão original Part 2: numerador = {C}, denominador = {A}"
+   },
+   {
+    "indice": 9,
+    "acao": "Identificar operação e fator de escala para Part 2",
+    "kc": "Identify-scale-factor",
+    "valor": "Operação Part 2: ÷, ÷; fator: 1.5, 1.5"
+   },
+   {
+    "indice": 10,
+    "acao": "Calcular resultado linha Part 2",
+    "kc": "Apply-scale-factor-to-ratio",
+    "valor": "Resultado Part 2: 150/100 → porcentagem = 150"
+   },
+   {
+    "indice": 11,
+    "acao": "Verificar coerência e finalizar",
+    "kc": "identify-percent",
+    "valor": "Tabela completa com valores corretos"
+   }
+  ],
+  "erros": [
+   {
+    "valor": "150/180",
+    "passo": 1,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar linguagem clara: 'quantos por cento das cadeiras foram vendidas?' → vendidas / total",
+    "buggyRule": "Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador",
+    "misconceptionId": "misc_inverte_razao_parte_todo"
+   },
+   {
+    "valor": "80",
+    "passo": 4,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Usar cálculo exato com frações: 150/180 = 5/6 ≈ 83.33%, ou usar calculadora com casas decimais suficientes",
+    "buggyRule": "",
+    "misconceptionId": "misc_arredonda_prematuramente"
+   },
+   {
+    "valor": "270",
+    "passo": 5,
+    "componente": "",
+    "acao": "",
+    "devolutiva": "Praticar divisão por decimais usando frações equivalentes: 1.5 = 3/2, então dividir por 3/2 é multiplicar por 2/3",
+    "buggyRule": "Interpretar divisão por 1.5 como 'somar metade do numerador ao próprio numerador': resultado = {numerator} + ({numerator}/2)",
+    "misconceptionId": "misc_divide_by_decimal_as_add_half"
+   }
+  ],
+  "dicas": [
+   {
+    "passo": 2,
+    "nivel": 1,
+    "texto": "Boa observação! Quando queremos saber quanto uma quantidade representa de outra em porcentagem, qual número vai no numerador e qual no denominador? Pense: estamos comparando com a capacidade total — ela é nossa referência!"
+   },
+   {
+    "passo": 2,
+    "nivel": 2,
+    "texto": "Você está no caminho certo! Escreva a razão como (número de reservas) / (capacidade do avião). Isso mostra quantas vezes as reservas cobrem a capacidade."
+   },
+   {
+    "passo": 2,
+    "nivel": 3,
+    "texto": "Quase lá! A capacidade do avião (150) é o todo, então deve estar no denominador. As reservas (180 ou 225) vão no numerador. Confirme se sua fração reflete isso."
+   },
+   {
+    "passo": 2,
+    "nivel": 4,
+    "texto": "Muito bem! Para Part 1, coloque 180 no numerador e 150 no denominador. Isso representa 'reservas em relação à capacidade'. Faça o mesmo para Part 2 com 225 e 150."
+   },
+   {
+    "passo": 3,
+    "nivel": 1,
+    "texto": "Para encontrar porcentagem, queremos uma razão equivalente com denominador 100. Que operação nos ajuda a mudar o denominador sem alterar o valor da fração?"
+   },
+   {
+    "passo": 3,
+    "nivel": 2,
+    "texto": "Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador atual (150) para chegar a 100. Depois, aplique a mesma operação ao numerador."
+   },
+   {
+    "passo": 3,
+    "nivel": 3,
+    "texto": "Dica: 150 ÷ ? = 100. O número que você procura é 1.5. Então divida ambos os termos da razão por 1.5. Use ÷ nos seletores e 1.5 nos fatores."
+   },
+   {
+    "passo": 3,
+    "nivel": 4,
+    "texto": "Você está quase! Pense: 150 ÷ 1.5 = 100. Então, para manter a razão equivalente, faça 180 ÷ 1.5 também. Selecione '÷' para numerador e denominador, e digite 1.5 nos dois campos de fator."
+   },
+   {
+    "passo": 4,
+    "nivel": 1,
+    "texto": "Se o avião comporta 150 pessoas e vendemos 180, isso é mais que 100%. Quantos por cento a mais? Lembre-se: 150 = 100%, então 15 = 10%..."
+   },
+   {
+    "passo": 4,
+    "nivel": 2,
+    "texto": "Use o fator de escala que você encontrou: divida o numerador original (180) pelo mesmo número que usou no denominador (1.5). Isso dá o novo numerador, que já é a porcentagem."
+   },
+   {
+    "passo": 4,
+    "nivel": 3,
+    "texto": "Você sabe que 150 → 100%, então cada 15 passageiros = 10%. 180 é 150 + 30, ou seja, 100% + 20% = 120%. Confira se seu cálculo bate com isso."
+   },
+   {
+    "passo": 4,
+    "nivel": 4,
+    "texto": "Muito bom! 180 ÷ 1.5: pense que dividir por 1.5 é o mesmo que multiplicar por 2 e dividir por 3. 180 × 2 = 360, 360 ÷ 3 = 120. Digite 120 no campo da porcentagem."
+   },
+   {
+    "passo": 5,
+    "nivel": 1,
+    "texto": "Se 150 passageiros = 100%, quanto é 225? É mais que o dobro? Menos? Pense em múltiplos de 150."
+   },
+   {
+    "passo": 5,
+    "nivel": 2,
+    "texto": "Use o mesmo fator de escala da Parte 1! Divida 225 pelo mesmo número que transformou 150 em 100. Isso dará diretamente a porcentagem."
+   },
+   {
+    "passo": 5,
+    "nivel": 3,
+    "texto": "Dica: 225 é 1.5 vezes 150. Então, se 150 = 100%, 225 = 150%. Confirme calculando 225 ÷ 1.5."
+   },
+   {
+    "passo": 5,
+    "nivel": 4,
+    "texto": "Você está quase! 225 ÷ 1.5: faça 225 × 2 = 450, depois 450 ÷ 3 = 150. Digite 150 no campo da porcentagem da Parte 2."
+   },
+   {
+    "passo": 6,
+    "nivel": 1,
+    "texto": "A linha 'Total' representa a capacidade total do avião. Que porcentagem da capacidade é a própria capacidade? Pense: se o avião está cheio, isso é 100%?"
+   },
+   {
+    "passo": 6,
+    "nivel": 2,
+    "texto": "Na linha 'Total', use a razão entre a capacidade e ela mesma: 150/150. Depois, aplique o mesmo fator de escala usado nas outras linhas para obter 100%."
+   },
+   {
+    "passo": 6,
+    "nivel": 3,
+    "texto": "Sim! A linha 'Total' é 150/150. Use ÷1.5 em ambos os termos: 150 ÷ 1.5 = 100. Isso confirma que a escala está correta."
+   },
+   {
+    "passo": 6,
+    "nivel": 4,
+    "texto": "Perfeito! Coloque 150 no numerador e denominador da linha Total. Use ÷ e 1.5 como fator. O resultado será 100 — exatamente o que esperamos para 100%."
+   }
+  ]
+ },
+ "bruto": {
+  "respostaDoModelo": "[{\"agent\":\"agent3a_advanced\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"advanced\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler e interpretar o enunciado\\\",\\n          \\\"thinking\\\": \\\"A capacidade do avião é de 150 passageiros. No sábado, foram feitas 180 reservas; na terça, 225. Preciso calcular a porcentagem de reservas em relação à capacidade (150).\\\",\\n          \\\"result\\\": \\\"Valores identificados: capacidade = {A} = 150; reservas Part 1 = {B} = 180; reservas Part 2 = {C} = 225\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 6,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher razão original da linha Total\\\",\\n          \\\"thinking\\\": \\\"A linha 'Total' representa a base: 150 passageiros = 100%. Então a razão original é 150/150.\\\",\\n          \\\"result\\\": \\\"Razão original linha Total: numerador = {A}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Preencher operações e fator de escala para linha Total\\\",\\n          \\\"thinking\\\": \\\"Para transformar 150/150 em x/100, preciso dividir ambos por 1.5 (ou multiplicar por 2/3). Mas como 150 → 100, divido por 1.5. Operação: ÷ para numerador e denominador. Fator: 1.5.\\\",\\n          \\\"result\\\": \\\"Operação linha Total: ÷, ÷; fator: 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular resultado linha Total\\\",\\n          \\\"thinking\\\": \\\"150 ÷ 1.5 = 100, então a porcentagem é 100%.\\\",\\n          \\\"result\\\": \\\"Resultado linha Total: 100/100 → porcentagem = 100\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Preencher razão original linha Part 1\\\",\\n          \\\"thinking\\\": \\\"Part 1: 180 reservas sobre capacidade de 150 → razão = 180/150\\\",\\n          \\\"result\\\": \\\"Razão original Part 1: numerador = {B}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 1\\\",\\n          \\\"thinking\\\": \\\"Quero converter 180/150 em x/100. Como 150 → 100, divido por 1.5. Então aplico ÷1.5 ao denominador. Para manter equivalência, faço o mesmo no numerador: 180 ÷ 1.5 = 120.\\\",\\n          \\\"result\\\": \\\"Operação Part 1: ÷, ÷; fator: 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 7,\\n          \\\"action\\\": \\\"Calcular resultado linha Part 1\\\",\\n          \\\"thinking\\\": \\\"180 ÷ 1.5 = 120 → 120/100 = 120%\\\",\\n          \\\"result\\\": \\\"Resultado Part 1: 120/100 → porcentagem = 120\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 8,\\n          \\\"action\\\": \\\"Preencher razão original linha Part 2\\\",\\n          \\\"thinking\\\": \\\"Part 2: 225 reservas sobre 150 → razão = 225/150\\\",\\n          \\\"result\\\": \\\"Razão original Part 2: numerador = {C}, denominador = {A}\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 9,\\n          \\\"action\\\": \\\"Identificar operação e fator de escala para Part 2\\\",\\n          \\\"thinking\\\": \\\"Denominador 150 → 100: divido por 1.5. Aplico mesma operação ao numerador: 225 ÷ 1.5 = 150.\\\",\\n          \\\"result\\\": \\\"Operação Part 2: ÷, ÷; fator: 1.5, 1.5\\\",\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"timeEstimate\\\": 5,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 10,\\n          \\\"action\\\": \\\"Calcular resultado linha Part 2\\\",\\n          \\\"thinking\\\": \\\"225 ÷ 1.5 = 150 → 150/100 = 150%\\\",\\n          \\\"result\\\": \\\"Resultado Part 2: 150/100 → porcentagem = 150\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"timeEstimate\\\": 3,\\n          \\\"isCorrect\\\": true\\n        },\\n        {\\n          \\\"step\\\": 11,\\n          \\\"action\\\": \\\"Verificar coerência e finalizar\\\",\\n          \\\"thinking\\\": \\\"As porcentagens fazem sentido: 180 é 120% de 150; 225 é 150% de 150. Tudo consistente.\\\",\\n          \\\"result\\\": \\\"Tabela completa com valores corretos\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"timeEstimate\\\": 4,\\n          \\\"isCorrect\\\": true\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"{B}/{A} = 120%, {C}/{A} = 150%\\\",\\n      \\\"totalTime\\\": 44\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3b_atrisk\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"at_risk\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"attempts\\\": [\\n        {\\n          \\\"attemptNumber\\\": 1,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"A razão é reservas sobre capacidade, então 180 sobre 150.\\\",\\n              \\\"result\\\": \\\"Preencheu corretamente: numerador=180, denominador=150\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para transformar denominador em 100\\\",\\n              \\\"thinking\\\": \\\"Preciso chegar a 100 no denominador. 150 é maior que 100, então devo dividir.\\\",\\n              \\\"result\\\": \\\"Selecionou ÷ para o denominador\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"Se vou dividir 150 por algo para dar 100, então 150 ÷ x = 100 → x = 1.5\\\",\\n              \\\"result\\\": \\\"Digitou 1.5 no fator de escala do denominador\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar mesma operação e fator ao numerador\\\",\\n              \\\"thinking\\\": \\\"Se dividi o denominador por 1.5, devo dividir o numerador também por 1.5.\\\",\\n              \\\"result\\\": \\\"Selecionou ÷ para o numerador e digitou 1.5 no fator\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 5,\\n              \\\"action\\\": \\\"Calcular numerador equivalente (porcentagem)\\\",\\n              \\\"thinking\\\": \\\"180 ÷ 1.5... 180 ÷ 1 = 180, 180 ÷ 0.5 = 90, então 180 + 90 = 270?\\\",\\n              \\\"result\\\": \\\"Digitou 270 como numerador do resultado\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_divide_by_decimal_as_add_half\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"270\\\",\\n                \\\"description\\\": \\\"Aluno interpreta divisão por 1.5 como 'dividir por 1 e depois somar metade', resultando em 180 + 90 = 270\\\",\\n                \\\"mistakeLocation\\\": \\\"Ao calcular 180 ÷ 1.5, o aluno somou 180 com metade de 180 em vez de dividir corretamente\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que significa dividir por 1.5? É o mesmo que dividir por 1 e depois somar metade?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Boa tentativa! Você entendeu que precisamos usar o mesmo fator nos dois lados. Mas repare: dividir por 1.5 não é somar metade — vamos testar com um número menor, como 30 ÷ 1.5. Quanto dá?\\\",\\n                \\\"howToFix\\\": \\\"Praticar divisão por decimais usando frações equivalentes: 1.5 = 3/2, então dividir por 3/2 é multiplicar por 2/3\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"270\\\",\\n          \\\"wasCorrect\\\": false\\n        },\\n        {\\n          \\\"attemptNumber\\\": 2,\\n          \\\"solutionTrace\\\": [\\n            {\\n              \\\"step\\\": 1,\\n              \\\"action\\\": \\\"Preencher razão original da linha Part 1\\\",\\n              \\\"thinking\\\": \\\"Reservas são 180, capacidade 150, então razão é 150/180?\\\",\\n              \\\"result\\\": \\\"Inverteu: numerador=150, denominador=180\\\",\\n              \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_todo\\\",\\n                \\\"type\\\": \\\"conceptual_error\\\",\\n                \\\"wrongAnswer\\\": \\\"150/180\\\",\\n                \\\"description\\\": \\\"Aluno inverte a razão, colocando o todo no numerador e a parte no denominador\\\",\\n                \\\"mistakeLocation\\\": \\\"Na definição da razão original: confundiu qual valor representa a 'parte' (reservas) e qual é o 'todo' (capacidade)\\\",\\n                \\\"diagnosticQuestion\\\": \\\"O que estamos comparando com o total? O número de reservas ou a capacidade do avião?\\\",\\n                \\\"severity\\\": \\\"high\\\",\\n                \\\"feedback\\\": \\\"Você está pensando direito na ideia de comparação! Mas lembre-se: quando calculamos porcentagem de uso, o 'todo' (capacidade) vai no denominador, e o que foi usado (reservas) vai no numerador.\\\",\\n                \\\"howToFix\\\": \\\"Usar linguagem clara: 'quantos por cento das cadeiras foram vendidas?' → vendidas / total\\\"\\n              }\\n            },\\n            {\\n              \\\"step\\\": 2,\\n              \\\"action\\\": \\\"Escolher operação para denominador\\\",\\n              \\\"thinking\\\": \\\"Denominador é 180, quero 100, então divido.\\\",\\n              \\\"result\\\": \\\"Selecionou ÷\\\",\\n              \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 3,\\n              \\\"action\\\": \\\"Calcular fator de escala do denominador\\\",\\n              \\\"thinking\\\": \\\"180 ÷ x = 100 → x = 1.8\\\",\\n              \\\"result\\\": \\\"Digitou 1.8\\\",\\n              \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n              \\\"isCorrect\\\": true,\\n              \\\"error\\\": null\\n            },\\n            {\\n              \\\"step\\\": 4,\\n              \\\"action\\\": \\\"Aplicar ao numerador\\\",\\n              \\\"thinking\\\": \\\"Divido 150 por 1.8\\\",\\n              \\\"result\\\": \\\"Calculou mal: 150 ÷ 1.8 = 83.33... mas arredondou para 80\\\",\\n              \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n              \\\"isCorrect\\\": false,\\n              \\\"error\\\": {\\n                \\\"misconceptionId\\\": \\\"misc_arredonda_prematuramente\\\",\\n                \\\"type\\\": \\\"procedural_error\\\",\\n                \\\"wrongAnswer\\\": \\\"80\\\",\\n                \\\"description\\\": \\\"Aluno arredonda cedo demais ou estima mal a divisão por decimal\\\",\\n                \\\"mistakeLocation\\\": \\\"No cálculo final do numerador equivalente: estimou 150 ÷ 1.8 como 80 em vez de ~83.33\\\",\\n                \\\"diagnosticQuestion\\\": \\\"Se 1.8 × 80 = 144, isso chega perto de 150? Quanto falta?\\\",\\n                \\\"severity\\\": \\\"moderate\\\",\\n                \\\"feedback\\\": \\\"Você já está quase lá! Só cuidado com o cálculo final: 1.8 vezes 80 é 144, mas precisamos chegar a 150. Vamos ajustar?\\\",\\n                \\\"howToFix\\\": \\\"Usar cálculo exato com frações: 150/180 = 5/6 ≈ 83.33%, ou usar calculadora com casas decimais suficientes\\\"\\n              }\\n            }\\n          ],\\n          \\\"finalAnswer\\\": \\\"80\\\",\\n          \\\"wasCorrect\\\": false\\n        }\\n      ],\\n      \\\"stepDiagnostics\\\": [\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 1,\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_inverte_razao_parte_todo\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{capacity}/{reservations}\\\",\\n              \\\"buggyRule\\\": \\\"Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador\\\",\\n              \\\"description\\\": \\\"Aluno confunde parte e todo na razão, invertendo numerador e denominador\\\",\\n              \\\"mistakeLocation\\\": \\\"Ao definir a razão original: usou capacidade como numerador e reservas como denominador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Qual valor representa o 'todo' (100%)? Qual valor estamos comparando com esse todo?\\\",\\n              \\\"feedback\\\": \\\"Você identificou os números certos! Só precisa lembrar: a porcentagem mostra quanto da CAPACIDADE foi vendida, então as reservas vão em cima.\\\",\\n              \\\"howToFix\\\": \\\"Treinar com frases completas: 'X por cento do Y' → X/Y. Aqui: 'reservas por cento da capacidade' → reservas/capacidade\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_apenas_reservas_como_inteiro\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{reservations}\\\",\\n              \\\"buggyRule\\\": \\\"Ignorar a capacidade e responder apenas o número de reservas como se fosse a porcentagem\\\",\\n              \\\"description\\\": \\\"Aluno responde o número absoluto de reservas (ex: 180) como se fosse a porcentagem\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada da razão original: deixa denominador em branco ou coloca 1, ou ignora o conceito de razão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"180 reservas equivalem a 180%? Isso faz sentido se o avião só tem 150 lugares?\\\",\\n              \\\"feedback\\\": \\\"Você pegou o número certo de reservas! Mas porcentagem sempre compara com um total. Vamos lembrar: 100% = capacidade total = 150 lugares.\\\",\\n              \\\"howToFix\\\": \\\"Conectar porcentagem à ideia de 'por cada 100': se 150 = 100%, quanto é 180?\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 2,\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_sempre_multiplica_para_porcentagem\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"×\\\",\\n              \\\"buggyRule\\\": \\\"Sempre escolher multiplicação (×) para ambas as operações, independentemente do denominador\\\",\\n              \\\"description\\\": \\\"Aluno assume que para encontrar porcentagem sempre se multiplica, ignorando se o denominador é maior ou menor que 100\\\",\\n              \\\"mistakeLocation\\\": \\\"Na escolha da operação: selecionou × mesmo quando o denominador (150) é maior que 100\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se multiplicarmos 150 por algum número, vamos chegar a 100 ou a um número maior?\\\",\\n              \\\"feedback\\\": \\\"Boa ideia pensar em escalar! Mas se começamos com 150 e queremos chegar a 100 (menor), será que multiplicar ajuda?\\\",\\n              \\\"howToFix\\\": \\\"Comparar com exemplos simples: 200 → 100? Precisa dividir. 50 → 100? Precisa multiplicar.\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_operacao_diferente_numerador_denominador\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"÷ no denominador, × no numerador (ou vice-versa inconsistente)\\\",\\n              \\\"buggyRule\\\": \\\"Aplicar operações diferentes no numerador e denominador (ex: dividir denominador mas multiplicar numerador)\\\",\\n              \\\"description\\\": \\\"Aluno não mantém a equivalência da razão ao aplicar operações distintas\\\",\\n              \\\"mistakeLocation\\\": \\\"Na seleção das operações: escolheu ÷ para o denominador mas × para o numerador\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se você divide o denominador por 1.5 mas multiplica o numerador por 1.5, a nova fração ainda representa o mesmo valor?\\\",\\n              \\\"feedback\\\": \\\"Você está atento às operações! Mas lembre-se: para manter o mesmo valor, o que fazemos embaixo, fazemos em cima — mesma operação, mesmo fator.\\\",\\n              \\\"howToFix\\\": \\\"Usar analogia: 'se corto o bolo em mais pedaços (mudo denominador), preciso cortar cada pedaço igualmente (mesma mudança no numerador)'\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 3,\\n          \\\"kcUsed\\\": \\\"Identify-scale-factor\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_calcula_fator_como_diferenca\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{denominator} - 100\\\",\\n              \\\"buggyRule\\\": \\\"Calcular o fator de escala como a diferença entre o denominador e 100: fator = {denominator} - 100\\\",\\n              \\\"description\\\": \\\"Aluno usa subtração em vez de divisão para encontrar o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator de escala: fez 150 - 100 = 50 em vez de 150 ÷ 100 = 1.5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o fator fosse 50, 150 ÷ 50 daria 100? Quanto dá realmente?\\\",\\n              \\\"feedback\\\": \\\"Você notou que 150 e 100 estão relacionados! Mas o fator mostra quantas vezes maior ou menor, não a diferença. Vamos dividir em vez de subtrair?\\\",\\n              \\\"howToFix\\\": \\\"Reforçar: fator = valor original ÷ valor desejado (ou vice-versa, dependendo da operação)\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_fator_como_100_sobre_denominador\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"100/{denominator}\\\",\\n              \\\"buggyRule\\\": \\\"Definir o fator como 100 dividido pelo denominador: fator = 100 / {denominator}\\\",\\n              \\\"description\\\": \\\"Aluno inverte a divisão ao calcular o fator\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do fator: usou 100/150 ≈ 0.666 em vez de 150/100 = 1.5\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se aplicarmos 0.666 a 150, chegamos a 100? Vamos testar: 150 × 0.666 ≈ ?\\\",\\n              \\\"feedback\\\": \\\"Você está pensando na direção certa! Mas atenção: se vamos DIVIDIR o denominador para chegar a 100, o fator é quanto cabe de 100 em 150 — ou seja, 150 ÷ 100.\\\",\\n              \\\"howToFix\\\": \\\"Escrever a equação: {denominator} ÷ fator = 100 → fator = {denominator} ÷ 100\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 4,\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_divide_by_decimal_as_add_half\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} + ({numerator}/2)\\\",\\n              \\\"buggyRule\\\": \\\"Interpretar divisão por 1.5 como 'somar metade do numerador ao próprio numerador': resultado = {numerator} + ({numerator}/2)\\\",\\n              \\\"description\\\": \\\"Aluno confunde divisão por 1.5 com adição de 50%\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do novo numerador: fez 180 + 90 = 270 em vez de 180 ÷ 1.5 = 120\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Dividir por 1.5 aumenta ou diminui o número? 270 é maior ou menor que 180?\\\",\\n              \\\"feedback\\\": \\\"Boa observação de que 1.5 envolve metade! Mas dividir por um número maior que 1 sempre diminui o valor. Vamos revisar?\\\",\\n              \\\"howToFix\\\": \\\"Converter 1.5 para fração: 3/2. Dividir por 3/2 = multiplicar por 2/3 → 180 × 2/3 = 120\\\",\\n              \\\"severity\\\": \\\"high\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_multiplica_em_vez_de_dividir\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} * {scale_factor}\\\",\\n              \\\"buggyRule\\\": \\\"Apesar de ter escolhido ÷ na operação, aplica multiplicação no cálculo: novo numerador = {numerator} × {scale_factor}\\\",\\n              \\\"description\\\": \\\"Aluno seleciona a operação correta mas executa a oposta\\\",\\n              \\\"mistakeLocation\\\": \\\"Na execução do cálculo: embora tenha marcado ÷, multiplicou 180 × 1.5 = 270\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Você marcou 'dividir', mas calculou 180 × 1.5. Será que a operação e o cálculo combinam?\\\",\\n              \\\"feedback\\\": \\\"Você escolheu a operação certa na tela! Agora só alinhar o cálculo com ela: se escolhemos dividir, vamos dividir mesmo.\\\",\\n              \\\"howToFix\\\": \\\"Verificar consistência: olhar a operação selecionada antes de calcular\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_usa_fator_do_denominador_invertido\\\",\\n              \\\"type\\\": \\\"procedural_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{numerator} / (100/{denominator})\\\",\\n              \\\"buggyRule\\\": \\\"Usar o fator inverso no numerador: novo numerador = {numerator} ÷ (100 / {denominator}) = {numerator} × ({denominator}/100)\\\",\\n              \\\"description\\\": \\\"Aluno aplica o fator errado no numerador, usando o recíproco\\\",\\n              \\\"mistakeLocation\\\": \\\"No cálculo do numerador: usou fator = {denominator}/100 em vez de {denominator}/100 para divisão\\\",\\n              \\\"diagnosticQuestion\\\": \\\"Se o fator para o denominador foi 1.5 (150/100), qual deve ser o fator para o numerador?\\\",\\n              \\\"feedback\\\": \\\"Você está quase! Lembre-se: o mesmo fator que usamos no denominador (1.5) deve ser usado no numerador.\\\",\\n              \\\"howToFix\\\": \\\"Copiar o fator exato do denominador para o numerador\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"problemId\\\": \\\"double-booked plane\\\",\\n          \\\"step\\\": 5,\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"errors\\\": [\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_esquece_que_resultado_ja_e_porcentagem\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{percent_num}/100\\\",\\n              \\\"buggyRule\\\": \\\"Digitar a fração {percent_num}/100 no campo da porcentagem em vez de só o numerador\\\",\\n              \\\"description\\\": \\\"Aluno não entende que o campo já representa 'por 100', então digita uma fração\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do valor da porcentagem: digitou '120/100' ou '1.2' em vez de '120'\\\",\\n              \\\"diagnosticQuestion\\\": \\\"O campo já diz 'sobre 100'. Se você escrever 120/100, está dizendo 120/100 de 100%?\\\",\\n              \\\"feedback\\\": \\\"Você calculou o valor certo! Só lembre-se: o campo da porcentagem espera só o número que vai em cima de 100 — então 120, não 120/100.\\\",\\n              \\\"howToFix\\\": \\\"Ler o rótulo do campo: '___ %' → preencher só o número antes do símbolo %\\\",\\n              \\\"severity\\\": \\\"low\\\"\\n            },\\n            {\\n              \\\"misconceptionId\\\": \\\"misc_converte_para_decimal_errado\\\",\\n              \\\"type\\\": \\\"conceptual_error\\\",\\n              \\\"wrongAnswerPattern\\\": \\\"{percent_num}/100\\\",\\n              \\\"buggyRule\\\": \\\"Responder o valor decimal equivalente (ex: 1.2) em vez da porcentagem (120)\\\",\\n              \\\"description\\\": \\\"Aluno confunde porcentagem com decimal\\\",\\n              \\\"mistakeLocation\\\": \\\"Na entrada do valor final: digitou 1.2 em vez de 120\\\",\\n              \\\"diagnosticQuestion\\\": \\\"1.2 corresponde a 1.2% ou a 120%? Qual faz sentido para 180 reservas em 150 lugares?\\\",\\n              \\\"feedback\\\": \\\"Você fez a conta certa! Só atenção: porcentagem é o número sobre 100, então 1.2 = 120%. Aqui queremos 120, não 1.2.\\\",\\n              \\\"howToFix\\\": \\\"Lembrar: decimal × 100 = porcentagem. Se achou 1.2, multiplique por 100 para obter 120%\\\",\\n              \\\"severity\\\": \\\"moderate\\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"},{\"agent\":\"agent3c_average\",\"model\":\"qwen/qwen3-max\",\"content\":\"{\\n  \\\"studentProfile\\\": \\\"average\\\",\\n  \\\"solutions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"double-booked plane\\\",\\n      \\\"solutionTrace\\\": [\\n        {\\n          \\\"step\\\": 1,\\n          \\\"action\\\": \\\"Ler o enunciado e identificar dados\\\",\\n          \\\"thinking\\\": \\\"A capacidade do avião é 150 passageiros. No sábado, venderam 180 reservas. Na terça, 225. Preciso achar que porcentagem isso representa da capacidade total.\\\",\\n          \\\"result\\\": \\\"Entendi que preciso comparar as reservas com a capacidade (150) usando porcentagem.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": false,\\n          \\\"hintsNeeded\\\": []\\n        },\\n        {\\n          \\\"step\\\": 2,\\n          \\\"action\\\": \\\"Preencher razão original para Part 1: 180/150\\\",\\n          \\\"thinking\\\": \\\"A razão é reservas sobre capacidade, então 180 dividido por 150... mas será que é assim mesmo? Às vezes porcentagem é parte sobre total, mas aqui vendemos MAIS que o total...\\\",\\n          \\\"result\\\": \\\"Preenchi numerador = 180, denominador = 150 na linha Part 1.\\\",\\n          \\\"kcUsed\\\": \\\"Enter-given-quantities\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Boa observação! Quando queremos saber quanto uma quantidade representa de outra em porcentagem, qual número vai no numerador e qual no denominador? Pense: estamos comparando com a capacidade total — ela é nossa referência!\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Você está no caminho certo! Escreva a razão como (número de reservas) / (capacidade do avião). Isso mostra quantas vezes as reservas cobrem a capacidade.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Quase lá! A capacidade do avião (150) é o todo, então deve estar no denominador. As reservas (180 ou 225) vão no numerador. Confirme se sua fração reflete isso.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bem! Para Part 1, coloque 180 no numerador e 150 no denominador. Isso representa 'reservas em relação à capacidade'. Faça o mesmo para Part 2 com 225 e 150.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 3,\\n          \\\"action\\\": \\\"Decidir operação e fator de escala para transformar denominador em 100\\\",\\n          \\\"thinking\\\": \\\"Preciso transformar 150 em 100. Como faço isso? Divido por 1.5? Mas como aplico isso ao numerador também? Será multiplicação ou divisão?\\\",\\n          \\\"result\\\": \\\"Escolhi dividir numerador e denominador por 1.5, então operação = ÷, fator = 1.5.\\\",\\n          \\\"kcUsed\\\": \\\"Indentify-operation-needed\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Para encontrar porcentagem, queremos uma razão equivalente com denominador 100. Que operação nos ajuda a mudar o denominador sem alterar o valor da fração?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador atual (150) para chegar a 100. Depois, aplique a mesma operação ao numerador.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 150 ÷ ? = 100. O número que você procura é 1.5. Então divida ambos os termos da razão por 1.5. Use ÷ nos seletores e 1.5 nos fatores.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! Pense: 150 ÷ 1.5 = 100. Então, para manter a razão equivalente, faça 180 ÷ 1.5 também. Selecione '÷' para numerador e denominador, e digite 1.5 nos dois campos de fator.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 4,\\n          \\\"action\\\": \\\"Calcular porcentagem para Part 1: 180 ÷ 1.5 = 120\\\",\\n          \\\"thinking\\\": \\\"180 dividido por 1.5... hum, 1.5 é metade de 3, então 180 ÷ 3 = 60, vezes 2 é 120. Certo?\\\",\\n          \\\"result\\\": \\\"Resultado: 120%, então campo de porcentagem = 120.\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se o avião comporta 150 pessoas e vendemos 180, isso é mais que 100%. Quantos por cento a mais? Lembre-se: 150 = 100%, então 15 = 10%...\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Use o fator de escala que você encontrou: divida o numerador original (180) pelo mesmo número que usou no denominador (1.5). Isso dá o novo numerador, que já é a porcentagem.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Você sabe que 150 → 100%, então cada 15 passageiros = 10%. 180 é 150 + 30, ou seja, 100% + 20% = 120%. Confira se seu cálculo bate com isso.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Muito bom! 180 ÷ 1.5: pense que dividir por 1.5 é o mesmo que multiplicar por 2 e dividir por 3. 180 × 2 = 360, 360 ÷ 3 = 120. Digite 120 no campo da porcentagem.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 5,\\n          \\\"action\\\": \\\"Repetir processo para Part 2: 225/150 → ?%\\\",\\n          \\\"thinking\\\": \\\"Mesma lógica: 225 sobre 150. Denominador 150 vira 100 com ÷1.5, então 225 ÷ 1.5... será 150?\\\",\\n          \\\"result\\\": \\\"225 ÷ 1.5 = 150, então porcentagem = 150%.\\\",\\n          \\\"kcUsed\\\": \\\"Apply-scale-factor-to-ratio\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"Se 150 passageiros = 100%, quanto é 225? É mais que o dobro? Menos? Pense em múltiplos de 150.\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Use o mesmo fator de escala da Parte 1! Divida 225 pelo mesmo número que transformou 150 em 100. Isso dará diretamente a porcentagem.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Dica: 225 é 1.5 vezes 150. Então, se 150 = 100%, 225 = 150%. Confirme calculando 225 ÷ 1.5.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Você está quase! 225 ÷ 1.5: faça 225 × 2 = 450, depois 450 ÷ 3 = 150. Digite 150 no campo da porcentagem da Parte 2.\\\"\\n            }\\n          ]\\n        },\\n        {\\n          \\\"step\\\": 6,\\n          \\\"action\\\": \\\"Preencher linha 'Total'\\\",\\n          \\\"thinking\\\": \\\"O que é a linha 'Total'? Será 150/150? Isso daria 100%. Mas o enunciado não pede isso... talvez seja só para referência?\\\",\\n          \\\"result\\\": \\\"Preenchi razão original como 150/150, operação ÷, fator 1.5, resultado 100.\\\",\\n          \\\"kcUsed\\\": \\\"identify-percent\\\",\\n          \\\"isCorrect\\\": true,\\n          \\\"hesitation\\\": true,\\n          \\\"hintsNeeded\\\": [\\n            {\\n              \\\"level\\\": 1,\\n              \\\"type\\\": \\\"conceptual\\\",\\n              \\\"message\\\": \\\"A linha 'Total' representa a capacidade total do avião. Que porcentagem da capacidade é a própria capacidade? Pense: se o avião está cheio, isso é 100%?\\\"\\n            },\\n            {\\n              \\\"level\\\": 2,\\n              \\\"type\\\": \\\"procedural\\\",\\n              \\\"message\\\": \\\"Na linha 'Total', use a razão entre a capacidade e ela mesma: 150/150. Depois, aplique o mesmo fator de escala usado nas outras linhas para obter 100%.\\\"\\n            },\\n            {\\n              \\\"level\\\": 3,\\n              \\\"type\\\": \\\"specific\\\",\\n              \\\"message\\\": \\\"Sim! A linha 'Total' é 150/150. Use ÷1.5 em ambos os termos: 150 ÷ 1.5 = 100. Isso confirma que a escala está correta.\\\"\\n            },\\n            {\\n              \\\"level\\\": 4,\\n              \\\"type\\\": \\\"bottom_out\\\",\\n              \\\"message\\\": \\\"Perfeito! Coloque 150 no numerador e denominador da linha Total. Use ÷ e 1.5 como fator. O resultado será 100 — exatamente o que esperamos para 100%.\\\"\\n            }\\n          ]\\n        }\\n      ],\\n      \\\"finalAnswer\\\": \\\"Part 1: 120%, Part 2: 150%\\\",\\n      \\\"totalTime\\\": 180,\\n      \\\"alternativeRoutes\\\": [\\n        {\\n          \\\"description\\\": \\\"Calcular porcentagem usando regra de três em vez de fator de escala\\\",\\n          \\\"steps\\\": [\\\"Montar 150 → 100%, 180 → x%\\\", \\\"Resolver x = (180 × 100) / 150\\\"],\\n          \\\"efficiency\\\": \\\"medium\\\"\\n        },\\n        {\\n          \\\"description\\\": \\\"Converter fração em decimal primeiro (180/150 = 1.2), depois multiplicar por 100\\\",\\n          \\\"steps\\\": [\\\"Dividir 180 ÷ 150 = 1.2\\\", \\\"Multiplicar 1.2 × 100 = 120\\\"],\\n          \\\"efficiency\\\": \\\"high\\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\"}]",
+  "tracos": {
+   "advancedTrace": {
+    "studentProfile": "advanced",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler e interpretar o enunciado",
+        "thinking": "A capacidade do avião é de 150 passageiros. No sábado, foram feitas 180 reservas; na terça, 225. Preciso calcular a porcentagem de reservas em relação à capacidade (150).",
+        "result": "Valores identificados: capacidade = {A} = 150; reservas Part 1 = {B} = 180; reservas Part 2 = {C} = 225",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 6,
+        "isCorrect": true
+       },
+       {
+        "step": 2,
+        "action": "Preencher razão original da linha Total",
+        "thinking": "A linha 'Total' representa a base: 150 passageiros = 100%. Então a razão original é 150/150.",
+        "result": "Razão original linha Total: numerador = {A}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 4,
+        "isCorrect": true
+       },
+       {
+        "step": 3,
+        "action": "Preencher operações e fator de escala para linha Total",
+        "thinking": "Para transformar 150/150 em x/100, preciso dividir ambos por 1.5 (ou multiplicar por 2/3). Mas como 150 → 100, divido por 1.5. Operação: ÷ para numerador e denominador. Fator: 1.5.",
+        "result": "Operação linha Total: ÷, ÷; fator: 1.5, 1.5",
+        "kcUsed": "Indentify-operation-needed",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 4,
+        "action": "Calcular resultado linha Total",
+        "thinking": "150 ÷ 1.5 = 100, então a porcentagem é 100%.",
+        "result": "Resultado linha Total: 100/100 → porcentagem = 100",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 5,
+        "action": "Preencher razão original linha Part 1",
+        "thinking": "Part 1: 180 reservas sobre capacidade de 150 → razão = 180/150",
+        "result": "Razão original Part 1: numerador = {B}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 6,
+        "action": "Identificar operação e fator de escala para Part 1",
+        "thinking": "Quero converter 180/150 em x/100. Como 150 → 100, divido por 1.5. Então aplico ÷1.5 ao denominador. Para manter equivalência, faço o mesmo no numerador: 180 ÷ 1.5 = 120.",
+        "result": "Operação Part 1: ÷, ÷; fator: 1.5, 1.5",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 7,
+        "action": "Calcular resultado linha Part 1",
+        "thinking": "180 ÷ 1.5 = 120 → 120/100 = 120%",
+        "result": "Resultado Part 1: 120/100 → porcentagem = 120",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 8,
+        "action": "Preencher razão original linha Part 2",
+        "thinking": "Part 2: 225 reservas sobre 150 → razão = 225/150",
+        "result": "Razão original Part 2: numerador = {C}, denominador = {A}",
+        "kcUsed": "Enter-given-quantities",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 9,
+        "action": "Identificar operação e fator de escala para Part 2",
+        "thinking": "Denominador 150 → 100: divido por 1.5. Aplico mesma operação ao numerador: 225 ÷ 1.5 = 150.",
+        "result": "Operação Part 2: ÷, ÷; fator: 1.5, 1.5",
+        "kcUsed": "Identify-scale-factor",
+        "timeEstimate": 5,
+        "isCorrect": true
+       },
+       {
+        "step": 10,
+        "action": "Calcular resultado linha Part 2",
+        "thinking": "225 ÷ 1.5 = 150 → 150/100 = 150%",
+        "result": "Resultado Part 2: 150/100 → porcentagem = 150",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "timeEstimate": 3,
+        "isCorrect": true
+       },
+       {
+        "step": 11,
+        "action": "Verificar coerência e finalizar",
+        "thinking": "As porcentagens fazem sentido: 180 é 120% de 150; 225 é 150% de 150. Tudo consistente.",
+        "result": "Tabela completa com valores corretos",
+        "kcUsed": "identify-percent",
+        "timeEstimate": 4,
+        "isCorrect": true
+       }
+      ],
+      "finalAnswer": "{B}/{A} = 120%, {C}/{A} = 150%",
+      "totalTime": 44
+     }
+    ]
+   },
+   "atRiskTrace": {
+    "studentProfile": "at_risk",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "attempts": [
+       {
+        "attemptNumber": 1,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Part 1",
+          "thinking": "A razão é reservas sobre capacidade, então 180 sobre 150.",
+          "result": "Preencheu corretamente: numerador=180, denominador=150",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para transformar denominador em 100",
+          "thinking": "Preciso chegar a 100 no denominador. 150 é maior que 100, então devo dividir.",
+          "result": "Selecionou ÷ para o denominador",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "Se vou dividir 150 por algo para dar 100, então 150 ÷ x = 100 → x = 1.5",
+          "result": "Digitou 1.5 no fator de escala do denominador",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar mesma operação e fator ao numerador",
+          "thinking": "Se dividi o denominador por 1.5, devo dividir o numerador também por 1.5.",
+          "result": "Selecionou ÷ para o numerador e digitou 1.5 no fator",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 5,
+          "action": "Calcular numerador equivalente (porcentagem)",
+          "thinking": "180 ÷ 1.5... 180 ÷ 1 = 180, 180 ÷ 0.5 = 90, então 180 + 90 = 270?",
+          "result": "Digitou 270 como numerador do resultado",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_divide_by_decimal_as_add_half",
+           "type": "procedural_error",
+           "wrongAnswer": "270",
+           "description": "Aluno interpreta divisão por 1.5 como 'dividir por 1 e depois somar metade', resultando em 180 + 90 = 270",
+           "mistakeLocation": "Ao calcular 180 ÷ 1.5, o aluno somou 180 com metade de 180 em vez de dividir corretamente",
+           "diagnosticQuestion": "O que significa dividir por 1.5? É o mesmo que dividir por 1 e depois somar metade?",
+           "severity": "high",
+           "feedback": "Boa tentativa! Você entendeu que precisamos usar o mesmo fator nos dois lados. Mas repare: dividir por 1.5 não é somar metade — vamos testar com um número menor, como 30 ÷ 1.5. Quanto dá?",
+           "howToFix": "Praticar divisão por decimais usando frações equivalentes: 1.5 = 3/2, então dividir por 3/2 é multiplicar por 2/3"
+          }
+         }
+        ],
+        "finalAnswer": "270",
+        "wasCorrect": false
+       },
+       {
+        "attemptNumber": 2,
+        "solutionTrace": [
+         {
+          "step": 1,
+          "action": "Preencher razão original da linha Part 1",
+          "thinking": "Reservas são 180, capacidade 150, então razão é 150/180?",
+          "result": "Inverteu: numerador=150, denominador=180",
+          "kcUsed": "Enter-given-quantities",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_inverte_razao_parte_todo",
+           "type": "conceptual_error",
+           "wrongAnswer": "150/180",
+           "description": "Aluno inverte a razão, colocando o todo no numerador e a parte no denominador",
+           "mistakeLocation": "Na definição da razão original: confundiu qual valor representa a 'parte' (reservas) e qual é o 'todo' (capacidade)",
+           "diagnosticQuestion": "O que estamos comparando com o total? O número de reservas ou a capacidade do avião?",
+           "severity": "high",
+           "feedback": "Você está pensando direito na ideia de comparação! Mas lembre-se: quando calculamos porcentagem de uso, o 'todo' (capacidade) vai no denominador, e o que foi usado (reservas) vai no numerador.",
+           "howToFix": "Usar linguagem clara: 'quantos por cento das cadeiras foram vendidas?' → vendidas / total"
+          }
+         },
+         {
+          "step": 2,
+          "action": "Escolher operação para denominador",
+          "thinking": "Denominador é 180, quero 100, então divido.",
+          "result": "Selecionou ÷",
+          "kcUsed": "Indentify-operation-needed",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 3,
+          "action": "Calcular fator de escala do denominador",
+          "thinking": "180 ÷ x = 100 → x = 1.8",
+          "result": "Digitou 1.8",
+          "kcUsed": "Identify-scale-factor",
+          "isCorrect": true,
+          "error": null
+         },
+         {
+          "step": 4,
+          "action": "Aplicar ao numerador",
+          "thinking": "Divido 150 por 1.8",
+          "result": "Calculou mal: 150 ÷ 1.8 = 83.33... mas arredondou para 80",
+          "kcUsed": "Apply-scale-factor-to-ratio",
+          "isCorrect": false,
+          "error": {
+           "misconceptionId": "misc_arredonda_prematuramente",
+           "type": "procedural_error",
+           "wrongAnswer": "80",
+           "description": "Aluno arredonda cedo demais ou estima mal a divisão por decimal",
+           "mistakeLocation": "No cálculo final do numerador equivalente: estimou 150 ÷ 1.8 como 80 em vez de ~83.33",
+           "diagnosticQuestion": "Se 1.8 × 80 = 144, isso chega perto de 150? Quanto falta?",
+           "severity": "moderate",
+           "feedback": "Você já está quase lá! Só cuidado com o cálculo final: 1.8 vezes 80 é 144, mas precisamos chegar a 150. Vamos ajustar?",
+           "howToFix": "Usar cálculo exato com frações: 150/180 = 5/6 ≈ 83.33%, ou usar calculadora com casas decimais suficientes"
+          }
+         }
+        ],
+        "finalAnswer": "80",
+        "wasCorrect": false
+       }
+      ],
+      "stepDiagnostics": [
+       {
+        "problemId": "double-booked plane",
+        "step": 1,
+        "kcUsed": "Enter-given-quantities",
+        "errors": [
+         {
+          "misconceptionId": "misc_inverte_razao_parte_todo",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{capacity}/{reservations}",
+          "buggyRule": "Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador",
+          "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+          "mistakeLocation": "Ao definir a razão original: usou capacidade como numerador e reservas como denominador",
+          "diagnosticQuestion": "Qual valor representa o 'todo' (100%)? Qual valor estamos comparando com esse todo?",
+          "feedback": "Você identificou os números certos! Só precisa lembrar: a porcentagem mostra quanto da CAPACIDADE foi vendida, então as reservas vão em cima.",
+          "howToFix": "Treinar com frases completas: 'X por cento do Y' → X/Y. Aqui: 'reservas por cento da capacidade' → reservas/capacidade",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_usa_apenas_reservas_como_inteiro",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{reservations}",
+          "buggyRule": "Ignorar a capacidade e responder apenas o número de reservas como se fosse a porcentagem",
+          "description": "Aluno responde o número absoluto de reservas (ex: 180) como se fosse a porcentagem",
+          "mistakeLocation": "Na entrada da razão original: deixa denominador em branco ou coloca 1, ou ignora o conceito de razão",
+          "diagnosticQuestion": "180 reservas equivalem a 180%? Isso faz sentido se o avião só tem 150 lugares?",
+          "feedback": "Você pegou o número certo de reservas! Mas porcentagem sempre compara com um total. Vamos lembrar: 100% = capacidade total = 150 lugares.",
+          "howToFix": "Conectar porcentagem à ideia de 'por cada 100': se 150 = 100%, quanto é 180?",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": 2,
+        "kcUsed": "Indentify-operation-needed",
+        "errors": [
+         {
+          "misconceptionId": "misc_sempre_multiplica_para_porcentagem",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "×",
+          "buggyRule": "Sempre escolher multiplicação (×) para ambas as operações, independentemente do denominador",
+          "description": "Aluno assume que para encontrar porcentagem sempre se multiplica, ignorando se o denominador é maior ou menor que 100",
+          "mistakeLocation": "Na escolha da operação: selecionou × mesmo quando o denominador (150) é maior que 100",
+          "diagnosticQuestion": "Se multiplicarmos 150 por algum número, vamos chegar a 100 ou a um número maior?",
+          "feedback": "Boa ideia pensar em escalar! Mas se começamos com 150 e queremos chegar a 100 (menor), será que multiplicar ajuda?",
+          "howToFix": "Comparar com exemplos simples: 200 → 100? Precisa dividir. 50 → 100? Precisa multiplicar.",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_operacao_diferente_numerador_denominador",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "÷ no denominador, × no numerador (ou vice-versa inconsistente)",
+          "buggyRule": "Aplicar operações diferentes no numerador e denominador (ex: dividir denominador mas multiplicar numerador)",
+          "description": "Aluno não mantém a equivalência da razão ao aplicar operações distintas",
+          "mistakeLocation": "Na seleção das operações: escolheu ÷ para o denominador mas × para o numerador",
+          "diagnosticQuestion": "Se você divide o denominador por 1.5 mas multiplica o numerador por 1.5, a nova fração ainda representa o mesmo valor?",
+          "feedback": "Você está atento às operações! Mas lembre-se: para manter o mesmo valor, o que fazemos embaixo, fazemos em cima — mesma operação, mesmo fator.",
+          "howToFix": "Usar analogia: 'se corto o bolo em mais pedaços (mudo denominador), preciso cortar cada pedaço igualmente (mesma mudança no numerador)'",
+          "severity": "high"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": 3,
+        "kcUsed": "Identify-scale-factor",
+        "errors": [
+         {
+          "misconceptionId": "misc_calcula_fator_como_diferenca",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{denominator} - 100",
+          "buggyRule": "Calcular o fator de escala como a diferença entre o denominador e 100: fator = {denominator} - 100",
+          "description": "Aluno usa subtração em vez de divisão para encontrar o fator",
+          "mistakeLocation": "No cálculo do fator de escala: fez 150 - 100 = 50 em vez de 150 ÷ 100 = 1.5",
+          "diagnosticQuestion": "Se o fator fosse 50, 150 ÷ 50 daria 100? Quanto dá realmente?",
+          "feedback": "Você notou que 150 e 100 estão relacionados! Mas o fator mostra quantas vezes maior ou menor, não a diferença. Vamos dividir em vez de subtrair?",
+          "howToFix": "Reforçar: fator = valor original ÷ valor desejado (ou vice-versa, dependendo da operação)",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_fator_como_100_sobre_denominador",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "100/{denominator}",
+          "buggyRule": "Definir o fator como 100 dividido pelo denominador: fator = 100 / {denominator}",
+          "description": "Aluno inverte a divisão ao calcular o fator",
+          "mistakeLocation": "No cálculo do fator: usou 100/150 ≈ 0.666 em vez de 150/100 = 1.5",
+          "diagnosticQuestion": "Se aplicarmos 0.666 a 150, chegamos a 100? Vamos testar: 150 × 0.666 ≈ ?",
+          "feedback": "Você está pensando na direção certa! Mas atenção: se vamos DIVIDIR o denominador para chegar a 100, o fator é quanto cabe de 100 em 150 — ou seja, 150 ÷ 100.",
+          "howToFix": "Escrever a equação: {denominator} ÷ fator = 100 → fator = {denominator} ÷ 100",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": 4,
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "errors": [
+         {
+          "misconceptionId": "misc_divide_by_decimal_as_add_half",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} + ({numerator}/2)",
+          "buggyRule": "Interpretar divisão por 1.5 como 'somar metade do numerador ao próprio numerador': resultado = {numerator} + ({numerator}/2)",
+          "description": "Aluno confunde divisão por 1.5 com adição de 50%",
+          "mistakeLocation": "No cálculo do novo numerador: fez 180 + 90 = 270 em vez de 180 ÷ 1.5 = 120",
+          "diagnosticQuestion": "Dividir por 1.5 aumenta ou diminui o número? 270 é maior ou menor que 180?",
+          "feedback": "Boa observação de que 1.5 envolve metade! Mas dividir por um número maior que 1 sempre diminui o valor. Vamos revisar?",
+          "howToFix": "Converter 1.5 para fração: 3/2. Dividir por 3/2 = multiplicar por 2/3 → 180 × 2/3 = 120",
+          "severity": "high"
+         },
+         {
+          "misconceptionId": "misc_multiplica_em_vez_de_dividir",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} * {scale_factor}",
+          "buggyRule": "Apesar de ter escolhido ÷ na operação, aplica multiplicação no cálculo: novo numerador = {numerator} × {scale_factor}",
+          "description": "Aluno seleciona a operação correta mas executa a oposta",
+          "mistakeLocation": "Na execução do cálculo: embora tenha marcado ÷, multiplicou 180 × 1.5 = 270",
+          "diagnosticQuestion": "Você marcou 'dividir', mas calculou 180 × 1.5. Será que a operação e o cálculo combinam?",
+          "feedback": "Você escolheu a operação certa na tela! Agora só alinhar o cálculo com ela: se escolhemos dividir, vamos dividir mesmo.",
+          "howToFix": "Verificar consistência: olhar a operação selecionada antes de calcular",
+          "severity": "moderate"
+         },
+         {
+          "misconceptionId": "misc_usa_fator_do_denominador_invertido",
+          "type": "procedural_error",
+          "wrongAnswerPattern": "{numerator} / (100/{denominator})",
+          "buggyRule": "Usar o fator inverso no numerador: novo numerador = {numerator} ÷ (100 / {denominator}) = {numerator} × ({denominator}/100)",
+          "description": "Aluno aplica o fator errado no numerador, usando o recíproco",
+          "mistakeLocation": "No cálculo do numerador: usou fator = {denominator}/100 em vez de {denominator}/100 para divisão",
+          "diagnosticQuestion": "Se o fator para o denominador foi 1.5 (150/100), qual deve ser o fator para o numerador?",
+          "feedback": "Você está quase! Lembre-se: o mesmo fator que usamos no denominador (1.5) deve ser usado no numerador.",
+          "howToFix": "Copiar o fator exato do denominador para o numerador",
+          "severity": "moderate"
+         }
+        ]
+       },
+       {
+        "problemId": "double-booked plane",
+        "step": 5,
+        "kcUsed": "identify-percent",
+        "errors": [
+         {
+          "misconceptionId": "misc_esquece_que_resultado_ja_e_porcentagem",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{percent_num}/100",
+          "buggyRule": "Digitar a fração {percent_num}/100 no campo da porcentagem em vez de só o numerador",
+          "description": "Aluno não entende que o campo já representa 'por 100', então digita uma fração",
+          "mistakeLocation": "Na entrada do valor da porcentagem: digitou '120/100' ou '1.2' em vez de '120'",
+          "diagnosticQuestion": "O campo já diz 'sobre 100'. Se você escrever 120/100, está dizendo 120/100 de 100%?",
+          "feedback": "Você calculou o valor certo! Só lembre-se: o campo da porcentagem espera só o número que vai em cima de 100 — então 120, não 120/100.",
+          "howToFix": "Ler o rótulo do campo: '___ %' → preencher só o número antes do símbolo %",
+          "severity": "low"
+         },
+         {
+          "misconceptionId": "misc_converte_para_decimal_errado",
+          "type": "conceptual_error",
+          "wrongAnswerPattern": "{percent_num}/100",
+          "buggyRule": "Responder o valor decimal equivalente (ex: 1.2) em vez da porcentagem (120)",
+          "description": "Aluno confunde porcentagem com decimal",
+          "mistakeLocation": "Na entrada do valor final: digitou 1.2 em vez de 120",
+          "diagnosticQuestion": "1.2 corresponde a 1.2% ou a 120%? Qual faz sentido para 180 reservas em 150 lugares?",
+          "feedback": "Você fez a conta certa! Só atenção: porcentagem é o número sobre 100, então 1.2 = 120%. Aqui queremos 120, não 1.2.",
+          "howToFix": "Lembrar: decimal × 100 = porcentagem. Se achou 1.2, multiplique por 100 para obter 120%",
+          "severity": "moderate"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "averageTrace": {
+    "studentProfile": "average",
+    "solutions": [
+     {
+      "problemId": "double-booked plane",
+      "solutionTrace": [
+       {
+        "step": 1,
+        "action": "Ler o enunciado e identificar dados",
+        "thinking": "A capacidade do avião é 150 passageiros. No sábado, venderam 180 reservas. Na terça, 225. Preciso achar que porcentagem isso representa da capacidade total.",
+        "result": "Entendi que preciso comparar as reservas com a capacidade (150) usando porcentagem.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": false,
+        "hintsNeeded": []
+       },
+       {
+        "step": 2,
+        "action": "Preencher razão original para Part 1: 180/150",
+        "thinking": "A razão é reservas sobre capacidade, então 180 dividido por 150... mas será que é assim mesmo? Às vezes porcentagem é parte sobre total, mas aqui vendemos MAIS que o total...",
+        "result": "Preenchi numerador = 180, denominador = 150 na linha Part 1.",
+        "kcUsed": "Enter-given-quantities",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Boa observação! Quando queremos saber quanto uma quantidade representa de outra em porcentagem, qual número vai no numerador e qual no denominador? Pense: estamos comparando com a capacidade total — ela é nossa referência!"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Você está no caminho certo! Escreva a razão como (número de reservas) / (capacidade do avião). Isso mostra quantas vezes as reservas cobrem a capacidade."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Quase lá! A capacidade do avião (150) é o todo, então deve estar no denominador. As reservas (180 ou 225) vão no numerador. Confirme se sua fração reflete isso."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bem! Para Part 1, coloque 180 no numerador e 150 no denominador. Isso representa 'reservas em relação à capacidade'. Faça o mesmo para Part 2 com 225 e 150."
+         }
+        ]
+       },
+       {
+        "step": 3,
+        "action": "Decidir operação e fator de escala para transformar denominador em 100",
+        "thinking": "Preciso transformar 150 em 100. Como faço isso? Divido por 1.5? Mas como aplico isso ao numerador também? Será multiplicação ou divisão?",
+        "result": "Escolhi dividir numerador e denominador por 1.5, então operação = ÷, fator = 1.5.",
+        "kcUsed": "Indentify-operation-needed",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Para encontrar porcentagem, queremos uma razão equivalente com denominador 100. Que operação nos ajuda a mudar o denominador sem alterar o valor da fração?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Primeiro, descubra por quanto você precisa dividir (ou multiplicar) o denominador atual (150) para chegar a 100. Depois, aplique a mesma operação ao numerador."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 150 ÷ ? = 100. O número que você procura é 1.5. Então divida ambos os termos da razão por 1.5. Use ÷ nos seletores e 1.5 nos fatores."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! Pense: 150 ÷ 1.5 = 100. Então, para manter a razão equivalente, faça 180 ÷ 1.5 também. Selecione '÷' para numerador e denominador, e digite 1.5 nos dois campos de fator."
+         }
+        ]
+       },
+       {
+        "step": 4,
+        "action": "Calcular porcentagem para Part 1: 180 ÷ 1.5 = 120",
+        "thinking": "180 dividido por 1.5... hum, 1.5 é metade de 3, então 180 ÷ 3 = 60, vezes 2 é 120. Certo?",
+        "result": "Resultado: 120%, então campo de porcentagem = 120.",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se o avião comporta 150 pessoas e vendemos 180, isso é mais que 100%. Quantos por cento a mais? Lembre-se: 150 = 100%, então 15 = 10%..."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Use o fator de escala que você encontrou: divida o numerador original (180) pelo mesmo número que usou no denominador (1.5). Isso dá o novo numerador, que já é a porcentagem."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Você sabe que 150 → 100%, então cada 15 passageiros = 10%. 180 é 150 + 30, ou seja, 100% + 20% = 120%. Confira se seu cálculo bate com isso."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Muito bom! 180 ÷ 1.5: pense que dividir por 1.5 é o mesmo que multiplicar por 2 e dividir por 3. 180 × 2 = 360, 360 ÷ 3 = 120. Digite 120 no campo da porcentagem."
+         }
+        ]
+       },
+       {
+        "step": 5,
+        "action": "Repetir processo para Part 2: 225/150 → ?%",
+        "thinking": "Mesma lógica: 225 sobre 150. Denominador 150 vira 100 com ÷1.5, então 225 ÷ 1.5... será 150?",
+        "result": "225 ÷ 1.5 = 150, então porcentagem = 150%.",
+        "kcUsed": "Apply-scale-factor-to-ratio",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "Se 150 passageiros = 100%, quanto é 225? É mais que o dobro? Menos? Pense em múltiplos de 150."
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Use o mesmo fator de escala da Parte 1! Divida 225 pelo mesmo número que transformou 150 em 100. Isso dará diretamente a porcentagem."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Dica: 225 é 1.5 vezes 150. Então, se 150 = 100%, 225 = 150%. Confirme calculando 225 ÷ 1.5."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Você está quase! 225 ÷ 1.5: faça 225 × 2 = 450, depois 450 ÷ 3 = 150. Digite 150 no campo da porcentagem da Parte 2."
+         }
+        ]
+       },
+       {
+        "step": 6,
+        "action": "Preencher linha 'Total'",
+        "thinking": "O que é a linha 'Total'? Será 150/150? Isso daria 100%. Mas o enunciado não pede isso... talvez seja só para referência?",
+        "result": "Preenchi razão original como 150/150, operação ÷, fator 1.5, resultado 100.",
+        "kcUsed": "identify-percent",
+        "isCorrect": true,
+        "hesitation": true,
+        "hintsNeeded": [
+         {
+          "level": 1,
+          "type": "conceptual",
+          "message": "A linha 'Total' representa a capacidade total do avião. Que porcentagem da capacidade é a própria capacidade? Pense: se o avião está cheio, isso é 100%?"
+         },
+         {
+          "level": 2,
+          "type": "procedural",
+          "message": "Na linha 'Total', use a razão entre a capacidade e ela mesma: 150/150. Depois, aplique o mesmo fator de escala usado nas outras linhas para obter 100%."
+         },
+         {
+          "level": 3,
+          "type": "specific",
+          "message": "Sim! A linha 'Total' é 150/150. Use ÷1.5 em ambos os termos: 150 ÷ 1.5 = 100. Isso confirma que a escala está correta."
+         },
+         {
+          "level": 4,
+          "type": "bottom_out",
+          "message": "Perfeito! Coloque 150 no numerador e denominador da linha Total. Use ÷ e 1.5 como fator. O resultado será 100 — exatamente o que esperamos para 100%."
+         }
+        ]
+       }
+      ],
+      "finalAnswer": "Part 1: 120%, Part 2: 150%",
+      "totalTime": 180,
+      "alternativeRoutes": [
+       {
+        "description": "Calcular porcentagem usando regra de três em vez de fator de escala",
+        "steps": [
+         "Montar 150 → 100%, 180 → x%",
+         "Resolver x = (180 × 100) / 150"
+        ],
+        "efficiency": "medium"
+       },
+       {
+        "description": "Converter fração em decimal primeiro (180/150 = 1.2), depois multiplicar por 100",
+        "steps": [
+         "Dividir 180 ÷ 150 = 1.2",
+         "Multiplicar 1.2 × 100 = 120"
+        ],
+        "efficiency": "high"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "fluxo": "plataforma",
+ "fidelidadeEstagio": {
+  "errosDoModelo": 3,
+  "errosEspecificos": 3,
+  "descartadosPorTemplate": 0,
+  "errosNoGrafo": 3
+ },
+ "topologia": {
+  "regime": "livre",
+  "passosGeradosPeloAgente": 11,
+  "passosQueProducaoAplicaria": 4,
+  "tetoDinamicoProducao": 4
+ },
+ "interfaceFixa": true,
+ "dataset": "factors-scaling-8.12",
+ "interfaceCtat": {
+  "descricao": "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado com as partes da tarefa e, abaixo, uma TABELA de razões com três linhas — Total, Part 1 e Part 2 — e, em cada linha, quatro grupos de células: (1) a razão ORIGINAL (numerador e denominador, dois campos); (2) a coluna \"Operation\": dois seletores em que o aluno escolhe × ou ÷ (um para o numerador, um para o denominador); (3) a coluna \"Scale Factor\": dois campos com o fator aplicado ao numerador e ao denominador; (4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
+  "tabela": {
+   "linhas": [
+    "Total",
+    "Part 1",
+    "Part 2"
+   ],
+   "colunas": [
+    "razão original",
+    "Operation (× ou ÷)",
+    "Scale Factor",
+    "resultado sobre 100"
+   ]
+  },
+  "caixaFracaoExibida": false,
+  "caixaNumeroMisto": false,
+  "componentes": [
+   {
+    "id": "totalorigdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: denominador da razão original"
+   },
+   {
+    "id": "totalpercentareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: valor da porcentagem"
+   },
+   {
+    "id": "part1orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador da razão original"
+   },
+   {
+    "id": "part1percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: valor da porcentagem"
+   },
+   {
+    "id": "part2orignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador da razão original"
+   },
+   {
+    "id": "totalorignumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador da razão original"
+   },
+   {
+    "id": "done",
+    "tipo": "button",
+    "papel": "botão Done (concluir o problema)"
+   },
+   {
+    "id": "part2percentareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: valor da porcentagem"
+   },
+   {
+    "id": "part1origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: denominador da razão original"
+   },
+   {
+    "id": "part2origdenomareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: denominador da razão original"
+   },
+   {
+    "id": "totalnumscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do numerador"
+   },
+   {
+    "id": "totalpercentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part1numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do numerador"
+   },
+   {
+    "id": "part1percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2numscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do numerador"
+   },
+   {
+    "id": "part2percentnumareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: numerador do resultado (a porcentagem), com denominador 100"
+   },
+   {
+    "id": "part2operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part2operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 2: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "totaloperatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part2denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 2: fator de escala do denominador"
+   },
+   {
+    "id": "part1operatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "part1operatornumpulldownmenu",
+    "tipo": "text",
+    "papel": "linha Part 1: operação aplicada ao numerador (× ou ÷)"
+   },
+   {
+    "id": "part1denomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Part 1: fator de escala do denominador"
+   },
+   {
+    "id": "totaloperatordenompulldownmenu",
+    "tipo": "text",
+    "papel": "linha Total: operação aplicada ao denominador (× ou ÷)"
+   },
+   {
+    "id": "totaldenomscalefactorareainput",
+    "tipo": "numeric",
+    "papel": "linha Total: fator de escala do denominador"
+   }
+  ]
+ },
+ "materializado": {
+  "grafo": {
+   "passos": [
+    {
+     "indice": 1,
+     "acao": "Enter the plane capacity as the denominator of the Total ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "150"
+    },
+    {
+     "indice": 2,
+     "acao": "Enter the numerator of the Total ratio.",
+     "kc": "Enter-given-quantities",
+     "valor": "150"
+    },
+    {
+     "indice": 3,
+     "acao": "Enter the scale factor needed to change 150 into 100.",
+     "kc": "Indentify-operation-needed",
+     "valor": "1.5"
+    },
+    {
+     "indice": 4,
+     "acao": "Enter the Total percentage numerator after scaling the ratio to a denominator of 100.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "100"
+    },
+    {
+     "indice": 5,
+     "acao": "Enter Saturday's reservations as the Part 1 numerator.",
+     "kc": "Enter-given-quantities",
+     "valor": "180"
+    },
+    {
+     "indice": 6,
+     "acao": "Select the operation that changes 150 into 100 in Part 1.",
+     "kc": "Identify-scale-factor",
+     "valor": "÷"
+    },
+    {
+     "indice": 7,
+     "acao": "Enter the scaled Part 1 percentage numerator.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "120"
+    },
+    {
+     "indice": 8,
+     "acao": "Enter Tuesday's reservations as the Part 2 numerator.",
+     "kc": "Enter-given-quantities",
+     "valor": "225"
+    },
+    {
+     "indice": 9,
+     "acao": "Select the operation that changes 150 into 100 in Part 2.",
+     "kc": "Identify-scale-factor",
+     "valor": "÷"
+    },
+    {
+     "indice": 10,
+     "acao": "Enter the scaled Part 2 percentage numerator.",
+     "kc": "Apply-scale-factor-to-ratio",
+     "valor": "150"
+    },
+    {
+     "indice": 11,
+     "acao": "Click Done after checking that the completed ratios are coherent.",
+     "kc": "identify-percent",
+     "valor": "ok"
+    }
+   ],
+   "erros": [
+    {
+     "valor": "180",
+     "passo": 1,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered Saturday's reservations instead of the plane's capacity. The Total denominator must represent all 150 seats.",
+     "buggyRule": "Ignorar a capacidade e responder apenas o número de reservas como se fosse a porcentagem",
+     "misconceptionId": "misc_usa_apenas_reservas_como_inteiro"
+    },
+    {
+     "valor": "180",
+     "passo": 2,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "The Total row is not the Saturday row. Use the complete capacity, 150, for both parts of the Total ratio.",
+     "buggyRule": "Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador",
+     "misconceptionId": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "valor": "50",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You found the difference between 150 and 100, but a scale factor describes division or multiplication. Use the factor from 150 ÷ 100.",
+     "buggyRule": "Calcular o fator de escala como a diferença entre o denominador e 100: fator = {denominator} - 100",
+     "misconceptionId": "misc_calcula_fator_como_diferenca"
+    },
+    {
+     "valor": "0.6667",
+     "passo": 3,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You reversed the division. To change 150 into 100 by division, use 150 ÷ 100, not 100 ÷ 150.",
+     "buggyRule": "Definir o fator como 100 dividido pelo denominador: fator = 100 / {denominator}",
+     "misconceptionId": "misc_fator_como_100_sobre_denominador"
+    },
+    {
+     "valor": "225",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Adding half would increase 150 to 225, but dividing by 1.5 must decrease the value. Recalculate 150 ÷ 1.5.",
+     "buggyRule": "Interpretar divisão por 1.5 como 'somar metade do numerador ao próprio numerador': resultado = {numerator} + ({numerator}/2)",
+     "misconceptionId": "misc_divide_by_decimal_as_add_half"
+    },
+    {
+     "valor": "80",
+     "passo": 4,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "That estimate is too low for the exact calculation. Use the scale factor precisely so the Total numerator becomes 100.",
+     "buggyRule": "",
+     "misconceptionId": "misc_arredonda_prematuramente"
+    },
+    {
+     "valor": "150",
+     "passo": 5,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the capacity in the numerator. For Part 1, the numerator is the number of Saturday reservations: 180.",
+     "buggyRule": "Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador",
+     "misconceptionId": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "valor": "×",
+     "passo": 6,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150.",
+     "buggyRule": "Sempre escolher multiplicação (×) para ambas as operações, independentemente do denominador",
+     "misconceptionId": "misc_sempre_multiplica_para_porcentagem"
+    },
+    {
+     "valor": "270",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You multiplied 180 by 1.5, but the selected operation is division. Calculate 180 ÷ 1.5 instead.",
+     "buggyRule": "Apesar de ter escolhido ÷ na operação, aplica multiplicação no cálculo: novo numerador = {numerator} × {scale_factor}",
+     "misconceptionId": "misc_multiplica_em_vez_de_dividir"
+    },
+    {
+     "valor": "80",
+     "passo": 7,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "That estimate does not match the exact scaling of 180 by 1.5. Keep enough precision to obtain the correct Part 1 numerator.",
+     "buggyRule": "",
+     "misconceptionId": "misc_arredonda_prematuramente"
+    },
+    {
+     "valor": "150",
+     "passo": 8,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You entered the plane capacity instead of Tuesday's reservations. The Part 2 numerator is 225.",
+     "buggyRule": "Inverter a razão: colocar a capacidade do avião ({capacity}) no numerador e o número de reservas ({reservations}) no denominador",
+     "misconceptionId": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "valor": "×",
+     "passo": 9,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator.",
+     "buggyRule": "Sempre escolher multiplicação (×) para ambas as operações, independentemente do denominador",
+     "misconceptionId": "misc_sempre_multiplica_para_porcentagem"
+    },
+    {
+     "valor": "337.5",
+     "passo": 10,
+     "componente": "",
+     "acao": "",
+     "devolutiva": "You multiplied 225 by 1.5, but the operation is division. Calculate 225 ÷ 1.5 to scale the ratio correctly.",
+     "buggyRule": "Apesar de ter escolhido ÷ na operação, aplica multiplicação no cálculo: novo numerador = {numerator} × {scale_factor}",
+     "misconceptionId": "misc_multiplica_em_vez_de_dividir"
+    }
+   ],
+   "dicas": [
+    {
+     "passo": 1,
+     "nivel": 1,
+     "texto": "Which quantity represents all available seats on the plane?"
+    },
+    {
+     "passo": 1,
+     "nivel": 2,
+     "texto": "Use the plane's carrying capacity as the denominator of the Total ratio."
+    },
+    {
+     "passo": 1,
+     "nivel": 3,
+     "texto": "Find the capacity stated before the Saturday and Tuesday reservations."
+    },
+    {
+     "passo": 1,
+     "nivel": 4,
+     "texto": "Type the number of passengers the plane can carry in the Total denominator cell."
+    },
+    {
+     "passo": 2,
+     "nivel": 1,
+     "texto": "What quantity is being represented by the complete Total row?"
+    },
+    {
+     "passo": 2,
+     "nivel": 2,
+     "texto": "For the complete capacity ratio, place the whole quantity in the numerator."
+    },
+    {
+     "passo": 2,
+     "nivel": 3,
+     "texto": "The Total row represents every seat that the plane can carry."
+    },
+    {
+     "passo": 2,
+     "nivel": 4,
+     "texto": "Enter the same capacity value used for the Total denominator."
+    },
+    {
+     "passo": 3,
+     "nivel": 1,
+     "texto": "Are you changing 150 to a smaller or larger denominator?"
+    },
+    {
+     "passo": 3,
+     "nivel": 2,
+     "texto": "Find the factor by dividing the original denominator by the target denominator."
+    },
+    {
+     "passo": 3,
+     "nivel": 3,
+     "texto": "The calculation is 150 divided by 100."
+    },
+    {
+     "passo": 3,
+     "nivel": 4,
+     "texto": "Enter the factor that makes dividing 150 produce the target denominator 100."
+    },
+    {
+     "passo": 4,
+     "nivel": 1,
+     "texto": "The Total row represents the entire plane capacity. What percentage represents the whole?"
+    },
+    {
+     "passo": 4,
+     "nivel": 2,
+     "texto": "Apply the same division by 1.5 to the numerator that was applied to the denominator."
+    },
+    {
+     "passo": 4,
+     "nivel": 3,
+     "texto": "Calculate 150 divided by 1.5."
+    },
+    {
+     "passo": 4,
+     "nivel": 4,
+     "texto": "Type the numerator that belongs over the printed denominator ... after the division."
+    },
+    {
+     "passo": 5,
+     "nivel": 1,
+     "texto": "Which number describes the seats sold in Part 1?"
+    },
+    {
+     "passo": 5,
+     "nivel": 2,
+     "texto": "Place the number of reservations in the numerator and the capacity in the denominator."
+    },
+    {
+     "passo": 5,
+     "nivel": 3,
+     "texto": "Look at the Saturday sentence for the number of reservations."
+    },
+    {
+     "passo": 5,
+     "nivel": 4,
+     "texto": "Type the Saturday reservation count in the Part 1 numerator cell."
+    },
+    {
+     "passo": 6,
+     "nivel": 1,
+     "texto": "Does the denominator need to become smaller or larger?"
+    },
+    {
+     "passo": 6,
+     "nivel": 2,
+     "texto": "Choose division when the original denominator is reduced to the target denominator."
+    },
+    {
+     "passo": 6,
+     "nivel": 3,
+     "texto": "Compare 150 with 100 before choosing the operation."
+    },
+    {
+     "passo": 6,
+     "nivel": 4,
+     "texto": "Select the symbol for dividing 150 by the scale factor."
+    },
+    {
+     "passo": 7,
+     "nivel": 1,
+     "texto": "The same scale factor must preserve the value of the Part 1 ratio."
+    },
+    {
+     "passo": 7,
+     "nivel": 2,
+     "texto": "Divide the Part 1 numerator by the same factor used for the denominator."
+    },
+    {
+     "passo": 7,
+     "nivel": 3,
+     "texto": "Calculate 180 divided by 1.5."
+    },
+    {
+     "passo": 7,
+     "nivel": 4,
+     "texto": "Type the number produced when the Saturday reservation count is divided by 1.5."
+    },
+    {
+     "passo": 8,
+     "nivel": 1,
+     "texto": "Which number describes the reservations made on Tuesday?"
+    },
+    {
+     "passo": 8,
+     "nivel": 2,
+     "texto": "Use the reservation count for the numerator and the plane capacity for the denominator."
+    },
+    {
+     "passo": 8,
+     "nivel": 3,
+     "texto": "Read the Tuesday sentence carefully to identify its reservation count."
+    },
+    {
+     "passo": 8,
+     "nivel": 4,
+     "texto": "Type the Tuesday reservation count in the Part 2 numerator cell."
+    },
+    {
+     "passo": 9,
+     "nivel": 1,
+     "texto": "What must happen to 150 to reach the printed denominator 100?"
+    },
+    {
+     "passo": 9,
+     "nivel": 2,
+     "texto": "Use division when scaling a quantity down to a smaller value."
+    },
+    {
+     "passo": 9,
+     "nivel": 3,
+     "texto": "Multiplying 150 would move away from 100 rather than toward it."
+    },
+    {
+     "passo": 9,
+     "nivel": 4,
+     "texto": "Select the division symbol for the Part 2 denominator."
+    },
+    {
+     "passo": 10,
+     "nivel": 1,
+     "texto": "Apply the same scale factor to both parts of the Part 2 ratio."
+    },
+    {
+     "passo": 10,
+     "nivel": 2,
+     "texto": "Divide the Tuesday reservation count by the denominator scale factor."
+    },
+    {
+     "passo": 10,
+     "nivel": 3,
+     "texto": "Calculate 225 divided by 1.5."
+    },
+    {
+     "passo": 10,
+     "nivel": 4,
+     "texto": "Type the result of dividing the Tuesday reservations by 1.5."
+    },
+    {
+     "passo": 11,
+     "nivel": 1,
+     "texto": "Compare each reservation count with the capacity of 150 seats."
+    },
+    {
+     "passo": 11,
+     "nivel": 2,
+     "texto": "Check that every equivalent ratio has denominator 100 and that both parts use the same scale factor."
+    },
+    {
+     "passo": 11,
+     "nivel": 3,
+     "texto": "Verify that the Tuesday result is greater than the Total row because 225 is greater than 150."
+    },
+    {
+     "passo": 11,
+     "nivel": 4,
+     "texto": "Review the completed cells, then click Done to submit the table."
+    }
+   ]
+  },
+  "problemaFixo": {
+   "aprovado": false,
+   "contemResposta": true,
+   "valoresEstranhos": [
+    "100→100",
+    "120→120"
+   ],
+   "numerosEstranhosNoEnunciado": [],
+   "valores": [
+    "150",
+    "150",
+    "1.5",
+    "100",
+    "180",
+    "÷",
+    "120",
+    "225",
+    "÷",
+    "150",
+    "ok"
+   ]
+  },
+  "exercicio": {
+   "id": 1,
+   "statement": "A Cheapo Airlines' plane can carry 150 passengers.<br><br>Part 1) On Saturday the airline double-booked a number of seats, making 180 reservations. What percentage of the plane's seats did the airline sell ?<br><br>Part 2) On Tuesday, Cheapo Airlines repeated its shameful behavior and took 225 reservations. What percentage of the plane's seats were sold?\nPart 1) On Saturday the airline double-booked a number of seats, making 180 reservations. What percentage of the plane's seats did the airline sell ?<br>Part 2) On Tuesday, Cheapo Airlines repeated its shameful behavior and took 225 reservations . What percentage of the plane's seats were sold?",
+   "steps": [
+    {
+     "id": "step_1",
+     "instruction": "Enter the plane capacity as the denominator of the Total ratio.",
+     "expectedAnswer": "150",
+     "renderAs": "totalorigdenomareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_2",
+     "instruction": "Enter the numerator of the Total ratio.",
+     "expectedAnswer": "150",
+     "renderAs": "totalorignumareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_3",
+     "instruction": "Enter the scale factor needed to change 150 into 100.",
+     "expectedAnswer": "1.5",
+     "renderAs": "totaldenomscalefactorareainput",
+     "kc": "Indentify-operation-needed",
+     "nOptions": 0
+    },
+    {
+     "id": "step_4",
+     "instruction": "Enter the Total percentage numerator after scaling the ratio to a denominator of 100.",
+     "expectedAnswer": "100",
+     "renderAs": "totalpercentnumareainput",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_5",
+     "instruction": "Enter Saturday's reservations as the Part 1 numerator.",
+     "expectedAnswer": "180",
+     "renderAs": "part1orignumareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_6",
+     "instruction": "Select the operation that changes 150 into 100 in Part 1.",
+     "expectedAnswer": "÷",
+     "renderAs": "part1operatordenompulldownmenu",
+     "kc": "Identify-scale-factor",
+     "nOptions": 2
+    },
+    {
+     "id": "step_7",
+     "instruction": "Enter the scaled Part 1 percentage numerator.",
+     "expectedAnswer": "120",
+     "renderAs": "part1percentnumareainput",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_8",
+     "instruction": "Enter Tuesday's reservations as the Part 2 numerator.",
+     "expectedAnswer": "225",
+     "renderAs": "part2orignumareainput",
+     "kc": "Enter-given-quantities",
+     "nOptions": 0
+    },
+    {
+     "id": "step_9",
+     "instruction": "Select the operation that changes 150 into 100 in Part 2.",
+     "expectedAnswer": "÷",
+     "renderAs": "part2operatordenompulldownmenu",
+     "kc": "Identify-scale-factor",
+     "nOptions": 2
+    },
+    {
+     "id": "step_10",
+     "instruction": "Enter the scaled Part 2 percentage numerator.",
+     "expectedAnswer": "150",
+     "renderAs": "part2percentnumareainput",
+     "kc": "Apply-scale-factor-to-ratio",
+     "nOptions": 0
+    },
+    {
+     "id": "step_11",
+     "instruction": "Click Done after checking that the completed ratios are coherent.",
+     "expectedAnswer": "ok",
+     "renderAs": "done",
+     "kc": "identify-percent",
+     "nOptions": 0
+    }
+   ]
+  },
+  "telemetria": {
+   "elapsedMs": 53770,
+   "exerciciosGerados": 1,
+   "passosGenericos": 11,
+   "passosMaterializados": 11,
+   "dicasMaterializadas": 44,
+   "interfaceFixa": true
+  },
+  "behaviorGraph": {
+   "nodes": [
+    {
+     "id": "start",
+     "type": "start",
+     "description": "Inicio do exercicio",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "goal",
+     "type": "goal",
+     "description": "Exercicio completo",
+     "instruction": null,
+     "expectedInput": null,
+     "knowledgeComponents": [],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": []
+    },
+    {
+     "id": "step_1",
+     "type": "step",
+     "description": "Enter the plane capacity as the denominator of the Total ratio.",
+     "instruction": "Enter the plane capacity as the denominator of the Total ratio.",
+     "expectedInput": {
+      "value": "150",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "150"
+      ],
+      "renderAs": "totalorigdenomareainput",
+      "componentId": "totalorigdenomareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Which quantity represents all available seats on the plane?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the plane's carrying capacity as the denominator of the Total ratio."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Find the capacity stated before the Saturday and Tuesday reservations."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the number of passengers the plane can carry in the Total denominator cell."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_usa_apenas_reservas_como_inteiro",
+       "wrongAnswer": "180",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno responde o número absoluto de reservas (ex: 180) como se fosse a porcentagem",
+       "feedback": "You entered Saturday's reservations instead of the plane's capacity. The Total denominator must represent all 150 seats.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_usa_apenas_reservas_como_inteiro",
+      "scaffold_generic_step_1"
+     ]
+    },
+    {
+     "id": "step_2",
+     "type": "step",
+     "description": "Enter the numerator of the Total ratio.",
+     "instruction": "Enter the numerator of the Total ratio.",
+     "expectedInput": {
+      "value": "150",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "150"
+      ],
+      "renderAs": "totalorignumareainput",
+      "componentId": "totalorignumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What quantity is being represented by the complete Total row?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "For the complete capacity ratio, place the whole quantity in the numerator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The Total row represents every seat that the plane can carry."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the same capacity value used for the Total denominator."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_todo",
+       "wrongAnswer": "180",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+       "feedback": "The Total row is not the Saturday row. Use the complete capacity, 150, for both parts of the Total ratio.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_todo__step_2",
+      "scaffold_generic_step_2"
+     ]
+    },
+    {
+     "id": "step_3",
+     "type": "step",
+     "description": "Enter the scale factor needed to change 150 into 100.",
+     "instruction": "Enter the scale factor needed to change 150 into 100.",
+     "expectedInput": {
+      "value": "1.5",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "1.5"
+      ],
+      "renderAs": "totaldenomscalefactorareainput",
+      "componentId": "totaldenomscalefactorareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Are you changing 150 to a smaller or larger denominator?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Find the factor by dividing the original denominator by the target denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "The calculation is 150 divided by 100."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Enter the factor that makes dividing 150 produce the target denominator 100."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_calcula_fator_como_diferenca",
+       "wrongAnswer": "50",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno usa subtração em vez de divisão para encontrar o fator",
+       "feedback": "You found the difference between 150 and 100, but a scale factor describes division or multiplication. Use the factor from 150 ÷ 100.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_fator_como_100_sobre_denominador",
+       "wrongAnswer": "0.6667",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno inverte a divisão ao calcular o fator",
+       "feedback": "You reversed the division. To change 150 into 100 by division, use 150 ÷ 100, not 100 ÷ 150.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_calcula_fator_como_diferenca",
+      "scaffold_misc_fator_como_100_sobre_denominador",
+      "scaffold_generic_step_3"
+     ]
+    },
+    {
+     "id": "step_4",
+     "type": "step",
+     "description": "Enter the Total percentage numerator after scaling the ratio to a denominator of 100.",
+     "instruction": "Enter the Total percentage numerator after scaling the ratio to a denominator of 100.",
+     "expectedInput": {
+      "value": "100",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "100"
+      ],
+      "renderAs": "totalpercentnumareainput",
+      "componentId": "totalpercentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The Total row represents the entire plane capacity. What percentage represents the whole?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Apply the same division by 1.5 to the numerator that was applied to the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Calculate 150 divided by 1.5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the numerator that belongs over the printed denominator ... after the division."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_divide_by_decimal_as_add_half",
+       "wrongAnswer": "225",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno confunde divisão por 1.5 com adição de 50%",
+       "feedback": "Adding half would increase 150 to 225, but dividing by 1.5 must decrease the value. Recalculate 150 ÷ 1.5.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_arredonda_prematuramente",
+       "wrongAnswer": "80",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno arredonda cedo demais ou estima mal a divisão por decimal",
+       "feedback": "That estimate is too low for the exact calculation. Use the scale factor precisely so the Total numerator becomes 100.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_divide_by_decimal_as_add_half",
+      "scaffold_misc_arredonda_prematuramente__step_4",
+      "scaffold_generic_step_4"
+     ]
+    },
+    {
+     "id": "step_5",
+     "type": "step",
+     "description": "Enter Saturday's reservations as the Part 1 numerator.",
+     "instruction": "Enter Saturday's reservations as the Part 1 numerator.",
+     "expectedInput": {
+      "value": "180",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "180"
+      ],
+      "renderAs": "part1orignumareainput",
+      "componentId": "part1orignumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Which number describes the seats sold in Part 1?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Place the number of reservations in the numerator and the capacity in the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Look at the Saturday sentence for the number of reservations."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the Saturday reservation count in the Part 1 numerator cell."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_todo",
+       "wrongAnswer": "150",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+       "feedback": "You entered the capacity in the numerator. For Part 1, the numerator is the number of Saturday reservations: 180.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_todo__step_5",
+      "scaffold_generic_step_5"
+     ]
+    },
+    {
+     "id": "step_6",
+     "type": "step",
+     "description": "Select the operation that changes 150 into 100 in Part 1.",
+     "instruction": "Select the operation that changes 150 into 100 in Part 1.",
+     "expectedInput": {
+      "value": "÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷"
+      ],
+      "renderAs": "part1operatordenompulldownmenu",
+      "componentId": "part1operatordenompulldownmenu",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": true
+        },
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": false,
+         "misconceptionId": "misc_sempre_multiplica_para_porcentagem",
+         "misconceptionType": "conceptual_error",
+         "feedback": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150."
+        }
+       ]
+      }
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Does the denominator need to become smaller or larger?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Choose division when the original denominator is reduced to the target denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Compare 150 with 100 before choosing the operation."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select the symbol for dividing 150 by the scale factor."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_sempre_multiplica_para_porcentagem",
+       "wrongAnswer": "×",
+       "misconceptionType": "conceptual_error",
+       "description": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150.",
+       "feedback": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_sempre_multiplica_para_porcentagem__step_6",
+      "scaffold_generic_step_6"
+     ]
+    },
+    {
+     "id": "step_7",
+     "type": "step",
+     "description": "Enter the scaled Part 1 percentage numerator.",
+     "instruction": "Enter the scaled Part 1 percentage numerator.",
+     "expectedInput": {
+      "value": "120",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "120"
+      ],
+      "renderAs": "part1percentnumareainput",
+      "componentId": "part1percentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "The same scale factor must preserve the value of the Part 1 ratio."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the Part 1 numerator by the same factor used for the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Calculate 180 divided by 1.5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the number produced when the Saturday reservation count is divided by 1.5."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_multiplica_em_vez_de_dividir",
+       "wrongAnswer": "270",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno seleciona a operação correta mas executa a oposta",
+       "feedback": "You multiplied 180 by 1.5, but the selected operation is division. Calculate 180 ÷ 1.5 instead.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      },
+      {
+       "id": "misc_arredonda_prematuramente",
+       "wrongAnswer": "80",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno arredonda cedo demais ou estima mal a divisão por decimal",
+       "feedback": "That estimate does not match the exact scaling of 180 by 1.5. Keep enough precision to obtain the correct Part 1 numerator.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_multiplica_em_vez_de_dividir__step_7",
+      "scaffold_misc_arredonda_prematuramente__step_7",
+      "scaffold_generic_step_7"
+     ]
+    },
+    {
+     "id": "step_8",
+     "type": "step",
+     "description": "Enter Tuesday's reservations as the Part 2 numerator.",
+     "instruction": "Enter Tuesday's reservations as the Part 2 numerator.",
+     "expectedInput": {
+      "value": "225",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "225"
+      ],
+      "renderAs": "part2orignumareainput",
+      "componentId": "part2orignumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Which number describes the reservations made on Tuesday?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use the reservation count for the numerator and the plane capacity for the denominator."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Read the Tuesday sentence carefully to identify its reservation count."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the Tuesday reservation count in the Part 2 numerator cell."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_inverte_razao_parte_todo",
+       "wrongAnswer": "150",
+       "misconceptionType": "conceptual_error",
+       "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+       "feedback": "You entered the plane capacity instead of Tuesday's reservations. The Part 2 numerator is 225.",
+       "severity": "high",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_inverte_razao_parte_todo__step_8",
+      "scaffold_generic_step_8"
+     ]
+    },
+    {
+     "id": "step_9",
+     "type": "step",
+     "description": "Select the operation that changes 150 into 100 in Part 2.",
+     "instruction": "Select the operation that changes 150 into 100 in Part 2.",
+     "expectedInput": {
+      "value": "÷",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "÷"
+      ],
+      "renderAs": "part2operatordenompulldownmenu",
+      "componentId": "part2operatordenompulldownmenu",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": {
+       "options": [
+        {
+         "value": "÷",
+         "label": "÷",
+         "isCorrect": true
+        },
+        {
+         "value": "×",
+         "label": "×",
+         "isCorrect": false,
+         "misconceptionId": "misc_sempre_multiplica_para_porcentagem",
+         "misconceptionType": "conceptual_error",
+         "feedback": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator."
+        }
+       ]
+      }
+     },
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "What must happen to 150 to reach the printed denominator 100?"
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Use division when scaling a quantity down to a smaller value."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Multiplying 150 would move away from 100 rather than toward it."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Select the division symbol for the Part 2 denominator."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_sempre_multiplica_para_porcentagem",
+       "wrongAnswer": "×",
+       "misconceptionType": "conceptual_error",
+       "description": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator.",
+       "feedback": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator.",
+       "severity": "moderate",
+       "matcher": "exact"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_sempre_multiplica_para_porcentagem__step_9",
+      "scaffold_generic_step_9"
+     ]
+    },
+    {
+     "id": "step_10",
+     "type": "step",
+     "description": "Enter the scaled Part 2 percentage numerator.",
+     "instruction": "Enter the scaled Part 2 percentage numerator.",
+     "expectedInput": {
+      "value": "150",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "150"
+      ],
+      "renderAs": "part2percentnumareainput",
+      "componentId": "part2percentnumareainput",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Apply the same scale factor to both parts of the Part 2 ratio."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Divide the Tuesday reservation count by the denominator scale factor."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Calculate 225 divided by 1.5."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Type the result of dividing the Tuesday reservations by 1.5."
+      }
+     ],
+     "misconceptions": [
+      {
+       "id": "misc_multiplica_em_vez_de_dividir",
+       "wrongAnswer": "337.5",
+       "misconceptionType": "procedural_error",
+       "description": "Aluno seleciona a operação correta mas executa a oposta",
+       "feedback": "You multiplied 225 by 1.5, but the operation is division. Calculate 225 ÷ 1.5 to scale the ratio correctly.",
+       "severity": "moderate",
+       "matcher": "exact",
+       "source": "agent6_worker_behavior_misconceptions"
+      }
+     ],
+     "scaffoldNodes": [
+      "scaffold_misc_multiplica_em_vez_de_dividir__step_10",
+      "scaffold_generic_step_10"
+     ]
+    },
+    {
+     "id": "step_11",
+     "type": "step",
+     "description": "Click Done after checking that the completed ratios are coherent.",
+     "instruction": "Click Done after checking that the completed ratios are coherent.",
+     "expectedInput": {
+      "value": "ok",
+      "validator": "exact",
+      "tolerance": null,
+      "pattern": null,
+      "acceptableVariations": [
+       "ok"
+      ],
+      "renderAs": "done",
+      "componentId": "done",
+      "componentProps": null,
+      "config": null,
+      "interactionMode": null,
+      "contractVersion": null,
+      "visualConfig": null
+     },
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [
+      {
+       "level": 1,
+       "type": "conceptual",
+       "message": "Compare each reservation count with the capacity of 150 seats."
+      },
+      {
+       "level": 2,
+       "type": "procedural",
+       "message": "Check that every equivalent ratio has denominator 100 and that both parts use the same scale factor."
+      },
+      {
+       "level": 3,
+       "type": "specific",
+       "message": "Verify that the Tuesday result is greater than the Total row because 225 is greater than 150."
+      },
+      {
+       "level": 4,
+       "type": "bottom_out",
+       "message": "Review the completed cells, then click Done to submit the table."
+      }
+     ],
+     "misconceptions": [],
+     "scaffoldNodes": [
+      "scaffold_generic_step_11"
+     ]
+    },
+    {
+     "id": "scaffold_generic_step_1",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_2",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_3",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_4",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_5",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_6",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_7",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_8",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_9",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_10",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_generic_step_11",
+     "type": "scaffold",
+     "description": "Remediação geral após dificuldade repetida",
+     "instruction": "Vamos retomar este passo. Identifique o conceito principal, divida o raciocínio em partes menores e tente novamente.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "identify-percent"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "generic_struggle"
+    },
+    {
+     "id": "scaffold_misc_usa_apenas_reservas_como_inteiro",
+     "type": "scaffold",
+     "description": "Aluno responde o número absoluto de reservas (ex: 180) como se fosse a porcentagem",
+     "instruction": "You entered Saturday's reservations instead of the plane's capacity. The Total denominator must represent all 150 seats.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_usa_apenas_reservas_como_inteiro"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_todo__step_2",
+     "type": "scaffold",
+     "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+     "instruction": "The Total row is not the Saturday row. Use the complete capacity, 150, for both parts of the Total ratio.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "id": "scaffold_misc_calcula_fator_como_diferenca",
+     "type": "scaffold",
+     "description": "Aluno usa subtração em vez de divisão para encontrar o fator",
+     "instruction": "You found the difference between 150 and 100, but a scale factor describes division or multiplication. Use the factor from 150 ÷ 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_calcula_fator_como_diferenca"
+    },
+    {
+     "id": "scaffold_misc_fator_como_100_sobre_denominador",
+     "type": "scaffold",
+     "description": "Aluno inverte a divisão ao calcular o fator",
+     "instruction": "You reversed the division. To change 150 into 100 by division, use 150 ÷ 100, not 100 ÷ 150.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Indentify-operation-needed"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_fator_como_100_sobre_denominador"
+    },
+    {
+     "id": "scaffold_misc_divide_by_decimal_as_add_half",
+     "type": "scaffold",
+     "description": "Aluno confunde divisão por 1.5 com adição de 50%",
+     "instruction": "Adding half would increase 150 to 225, but dividing by 1.5 must decrease the value. Recalculate 150 ÷ 1.5.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_divide_by_decimal_as_add_half"
+    },
+    {
+     "id": "scaffold_misc_arredonda_prematuramente__step_4",
+     "type": "scaffold",
+     "description": "Aluno arredonda cedo demais ou estima mal a divisão por decimal",
+     "instruction": "That estimate is too low for the exact calculation. Use the scale factor precisely so the Total numerator becomes 100.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_arredonda_prematuramente"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_todo__step_5",
+     "type": "scaffold",
+     "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+     "instruction": "You entered the capacity in the numerator. For Part 1, the numerator is the number of Saturday reservations: 180.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "id": "scaffold_misc_sempre_multiplica_para_porcentagem__step_6",
+     "type": "scaffold",
+     "description": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150.",
+     "instruction": "Multiplication would make 150 larger, but the target denominator is 100. Choose division to reduce 150.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_sempre_multiplica_para_porcentagem"
+    },
+    {
+     "id": "scaffold_misc_multiplica_em_vez_de_dividir__step_7",
+     "type": "scaffold",
+     "description": "Aluno seleciona a operação correta mas executa a oposta",
+     "instruction": "You multiplied 180 by 1.5, but the selected operation is division. Calculate 180 ÷ 1.5 instead.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_multiplica_em_vez_de_dividir"
+    },
+    {
+     "id": "scaffold_misc_arredonda_prematuramente__step_7",
+     "type": "scaffold",
+     "description": "Aluno arredonda cedo demais ou estima mal a divisão por decimal",
+     "instruction": "That estimate does not match the exact scaling of 180 by 1.5. Keep enough precision to obtain the correct Part 1 numerator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_arredonda_prematuramente"
+    },
+    {
+     "id": "scaffold_misc_inverte_razao_parte_todo__step_8",
+     "type": "scaffold",
+     "description": "Aluno confunde parte e todo na razão, invertendo numerador e denominador",
+     "instruction": "You entered the plane capacity instead of Tuesday's reservations. The Part 2 numerator is 225.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Enter-given-quantities"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_inverte_razao_parte_todo"
+    },
+    {
+     "id": "scaffold_misc_sempre_multiplica_para_porcentagem__step_9",
+     "type": "scaffold",
+     "description": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator.",
+     "instruction": "Multiplication would increase 150, while the target is 100. Use division to reduce the denominator.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Identify-scale-factor"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_sempre_multiplica_para_porcentagem"
+    },
+    {
+     "id": "scaffold_misc_multiplica_em_vez_de_dividir__step_10",
+     "type": "scaffold",
+     "description": "Aluno seleciona a operação correta mas executa a oposta",
+     "instruction": "You multiplied 225 by 1.5, but the operation is division. Calculate 225 ÷ 1.5 to scale the ratio correctly.",
+     "expectedInput": null,
+     "knowledgeComponents": [
+      "Apply-scale-factor-to-ratio"
+     ],
+     "hints": [],
+     "misconceptions": [],
+     "scaffoldNodes": [],
+     "targetMisconception": "misc_multiplica_em_vez_de_dividir"
+    }
+   ],
+   "edges": [
+    {
+     "from": "scaffold_misc_sempre_multiplica_para_porcentagem__step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "scaffold_misc_sempre_multiplica_para_porcentagem__step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "skip_if_mastered(Indentify-operation-needed, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "skip_if_mastered(Enter-given-quantities, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "skip_if_mastered(Identify-scale-factor, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "skip_if_mastered(Apply-scale-factor-to-ratio, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "skip_if_mastered(identify-percent, 0.85)",
+     "priority": 0
+    },
+    {
+     "from": "start",
+     "to": "step_1",
+     "condition": "default"
+    },
+    {
+     "from": "step_1",
+     "to": "step_2",
+     "condition": "correct"
+    },
+    {
+     "from": "step_2",
+     "to": "step_3",
+     "condition": "correct"
+    },
+    {
+     "from": "step_3",
+     "to": "step_4",
+     "condition": "correct"
+    },
+    {
+     "from": "step_4",
+     "to": "step_5",
+     "condition": "correct"
+    },
+    {
+     "from": "step_5",
+     "to": "step_6",
+     "condition": "correct"
+    },
+    {
+     "from": "step_6",
+     "to": "step_7",
+     "condition": "correct"
+    },
+    {
+     "from": "step_7",
+     "to": "step_8",
+     "condition": "correct"
+    },
+    {
+     "from": "step_8",
+     "to": "step_9",
+     "condition": "correct"
+    },
+    {
+     "from": "step_9",
+     "to": "step_10",
+     "condition": "correct"
+    },
+    {
+     "from": "step_10",
+     "to": "step_11",
+     "condition": "correct"
+    },
+    {
+     "from": "step_11",
+     "to": "goal",
+     "condition": "correct"
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_misc_usa_apenas_reservas_como_inteiro",
+     "condition": "misconception(misc_usa_apenas_reservas_como_inteiro)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_usa_apenas_reservas_como_inteiro",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_misc_inverte_razao_parte_todo__step_2",
+     "condition": "misconception(misc_inverte_razao_parte_todo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_todo__step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_calcula_fator_como_diferenca",
+     "condition": "misconception(misc_calcula_fator_como_diferenca)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_calcula_fator_como_diferenca",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_misc_fator_como_100_sobre_denominador",
+     "condition": "misconception(misc_fator_como_100_sobre_denominador)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_fator_como_100_sobre_denominador",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_divide_by_decimal_as_add_half",
+     "condition": "misconception(misc_divide_by_decimal_as_add_half)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_divide_by_decimal_as_add_half",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_misc_arredonda_prematuramente__step_4",
+     "condition": "misconception(misc_arredonda_prematuramente)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_arredonda_prematuramente__step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_misc_inverte_razao_parte_todo__step_5",
+     "condition": "misconception(misc_inverte_razao_parte_todo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_todo__step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_misc_sempre_multiplica_para_porcentagem__step_6",
+     "condition": "misconception(misc_sempre_multiplica_para_porcentagem)",
+     "priority": 2
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_multiplica_em_vez_de_dividir__step_7",
+     "condition": "misconception(misc_multiplica_em_vez_de_dividir)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_multiplica_em_vez_de_dividir__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_misc_arredonda_prematuramente__step_7",
+     "condition": "misconception(misc_arredonda_prematuramente)",
+     "priority": 3
+    },
+    {
+     "from": "scaffold_misc_arredonda_prematuramente__step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_misc_inverte_razao_parte_todo__step_8",
+     "condition": "misconception(misc_inverte_razao_parte_todo)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_inverte_razao_parte_todo__step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_misc_sempre_multiplica_para_porcentagem__step_9",
+     "condition": "misconception(misc_sempre_multiplica_para_porcentagem)",
+     "priority": 2
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_misc_multiplica_em_vez_de_dividir__step_10",
+     "condition": "misconception(misc_multiplica_em_vez_de_dividir)",
+     "priority": 2
+    },
+    {
+     "from": "scaffold_misc_multiplica_em_vez_de_dividir__step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_1",
+     "to": "scaffold_generic_step_1",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_1",
+     "to": "step_1",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_2",
+     "to": "scaffold_generic_step_2",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_2",
+     "to": "step_2",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_3",
+     "to": "scaffold_generic_step_3",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_3",
+     "to": "step_3",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_4",
+     "to": "scaffold_generic_step_4",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_4",
+     "to": "step_4",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_5",
+     "to": "scaffold_generic_step_5",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_5",
+     "to": "step_5",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_6",
+     "to": "scaffold_generic_step_6",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_6",
+     "to": "step_6",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_7",
+     "to": "scaffold_generic_step_7",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_7",
+     "to": "step_7",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_8",
+     "to": "scaffold_generic_step_8",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_8",
+     "to": "step_8",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_9",
+     "to": "scaffold_generic_step_9",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_9",
+     "to": "step_9",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_10",
+     "to": "scaffold_generic_step_10",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_10",
+     "to": "step_10",
+     "condition": "correct",
+     "priority": 1
+    },
+    {
+     "from": "step_11",
+     "to": "scaffold_generic_step_11",
+     "condition": "struggles",
+     "priority": 10
+    },
+    {
+     "from": "scaffold_generic_step_11",
+     "to": "step_11",
+     "condition": "correct",
+     "priority": 1
+    }
+   ]
+  },
+  "modelos": {
+   "materializacao": "openai/gpt-5.6-luna",
+   "perfil": "custo-beneficio"
+  },
+  "espelho": "5263488327ca4b87f971f0c283084ee1fd9eeb05"
+ }
+}
