@@ -177,3 +177,48 @@ Nenhuma métrica de dica pode ser lida como "os agentes erraram" sem essa nota.
 - Custo estimado antes de cada lote e registrado no log.
 - Resultados vão para `resultados/juizo-2026-08-19/`, com o item a item
   preservado para auditoria e para o desempate humano amostral.
+
+---
+
+## Emenda 1 (19/08, antes de qualquer execução do juiz de estados)
+
+A Parte 1 declarava que a precisão de **estados** continuaria estrutural, "porque
+a rubrica de passo de decomposição aceitável não existe e não será improvisada
+aqui". Com a instrução do autor de validar tudo, a rubrica passa a existir — e
+fica declarada **antes** de rodar, como todo o resto.
+
+**Pergunta ao juiz** (cega à origem): "num tutor passo a passo deste problema,
+este valor é alvo legítimo de algum passo?" Categorias: `alvo_legitimo`,
+`erro_de_aluno`, `fora_de_contexto`, `irrelevante`.
+
+**Objeto.** Valores dos passos do grafo materializado, deduplicados por valor
+canônico, união das réplicas, por exercício × braço. **Extra** = valor que não
+está entre os estados de valor do caminho do especialista. Volume medido antes
+de julgar: **577 estados extras únicos**, contra **1.614 estados do
+especialista**; 2.979 itens no total.
+
+**Controles — e por que NÃO há controle "valor de outro problema".** Um valor que
+não está no enunciado nem no caminho do especialista é estruturalmente idêntico
+ao objeto de estudo (o passo intermediário legítimo que o especialista não
+modelou). Esse controle rejeitaria exatamente o que se quer medir. Os controles
+usados são:
+
+| Origem | Papel | Juiz calibrado deve |
+|---|---|---|
+| `especialista` (passos do `.brd`) | positivo | aceitar |
+| `distrator-erro-do-especialista` (até 3 `wrongAnswer` do próprio `.brd`) | negativo | rejeitar — são valores que o aluno produz por ENGANO, não alvos de passo |
+| `distrator-absurdo` (valor fora de escala, ×1000+7) | negativo | rejeitar |
+
+**LIMITAÇÃO DECLARADA:** o controle negativo deste juiz é **mais fraco** que o do
+juiz de misconceptions, pela razão acima. O `distrator-erro-do-especialista`
+pode, em casos raros, coincidir com um intermediário legítimo; isso empurra a
+taxa de rejeição para baixo e torna o gate **mais** difícil de passar, não mais
+fácil. Fica reportada a taxa de rejeição separada por tipo de distrator.
+
+**Gates:** os mesmos — especialista ≥ 0,80 E rejeição dos distratores ≥ 0,80.
+Falhando, "descalibrado" e sem veredito.
+
+**Uso do resultado:** `precisaoJulgada = (estados casados + extras julgados
+válidos) / candidatos`, e o **F1 julgado** = média harmônica entre a cobertura
+(recall, inalterada) e essa precisão. O F1 estrutural continua reportado ao
+lado, como piso.
