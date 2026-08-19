@@ -109,6 +109,7 @@ export function descreverInterface(envelopeA, params) {
   if (tipo === "mathtutor-6.18") return descreverInterface618(envelopeA, params);
   if (tipo === "mathtutor-6.20") return descreverInterface620(envelopeA, params);
   if (tipo === "mathtutor-8.12") return descreverInterface812(envelopeA, params);
+  if (tipo === "mathtutor-7.12") return descreverInterface712(envelopeA, params);
   const p = params || lerParametrosInterface(envelopeA.id);
   const componentes = (envelopeA.components || []).map((c) => ({
     id: c.id,
@@ -362,6 +363,62 @@ export function descreverInterface812(envelopeA) {
       "(4) o RESULTADO: um campo para o numerador da razão equivalente, cujo denominador já vem impresso como 100 (isto é, a porcentagem), e um campo para o valor da porcentagem. " +
       "Botão Hint; botão Done. Cada célula preenchida é um passo do aluno; a tabela inteira tem 24 células a completar.",
     tabela: { linhas: ["Total", "Part 1", "Part 2"], colunas: ["razão original", "Operation (× ou ÷)", "Scale Factor", "resultado sobre 100"] },
+    caixaFracaoExibida: false,
+    caixaNumeroMisto: false,
+    componentes,
+  };
+}
+
+
+// ── Mathtutor 7.12 "Conversion Factors" (2026-08-19) ─────────────────────────
+// Fonte: `_interface/7.12.html` e o ESTADO INICIAL do .brd. A tela é uma tabela
+// de conversão de DUAS linhas (uma por grandeza), com os rótulos vindos do
+// próprio problema ("They sell" / "You want"; nomes das grandezas). Lista
+// branca: rótulos de linha/coluna e a unidade da resposta. Os VALORES da razão
+// dada estão no ENUNCIADO (envelope A), não aqui.
+const PAPEL_712 = Object.freeze({
+  OV1: "linha 1: valor da razão dada (a que o problema informa)",
+  OV2: "linha 2: valor da razão dada (a outra grandeza)",
+  SO1: "linha 1: operação a aplicar (× ou ÷)",
+  SO2: "linha 2: operação a aplicar (× ou ÷)",
+  SF1: "linha 1: fator de conversão",
+  SF2: "linha 2: fator de conversão",
+  CV1: "linha 1: valor convertido (o que se quer)",
+  CV2: "linha 2: valor convertido",
+  A3: "campo da resposta final, que completa a frase do enunciado",
+  done: "botão Done (concluir o problema)",
+  _root: "(controle interno do tutor: configuração do problema; não é da tela)",
+});
+export function lerParametrosInterface712(exercicioId, raiz = ".") {
+  const p = path.join(dirDataset("conversion-factors-7.12", raiz), "problems", exercicioId, "interface-params.json");
+  const msgs = fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")).mensagens || [] : [];
+  const val = (sel) => (msgs.find((m) => m.selection === sel && m.action === "UpdateTextArea") || {}).input ?? "";
+  return {
+    rotuloDe: val("from"),
+    rotuloPara: val("to"),
+    grandeza1: val("item1"),
+    grandeza2: val("item2"),
+    unidade: val("final_unit"),
+  };
+}
+export function descreverInterface712(envelopeA, params) {
+  const p = params || lerParametrosInterface712(envelopeA.id);
+  const componentes = (envelopeA.components || [])
+    .filter((c) => c.id !== "_root" && c.id !== "No_Selection")
+    .map((c) => ({ id: c.id, tipo: c.type, papel: PAPEL_712[c.id] || c.label || c.id }));
+  return {
+    descricao:
+      "Interface FIXA do tutor (a mesma tela para todos os problemas): enunciado e, abaixo, uma TABELA de conversão com DUAS LINHAS, uma por grandeza" +
+      (p.grandeza1 && p.grandeza2 ? ` (aqui "${p.grandeza1}" e "${p.grandeza2}")` : "") +
+      ". As colunas são: " +
+      `(1) a razão DADA, rotulada "${p.rotuloDe || "o que se tem"}" — um campo por linha; ` +
+      "(2) a OPERAÇÃO: um seletor por linha em que o aluno escolhe × ou ÷; " +
+      "(3) o FATOR de conversão: um campo por linha; " +
+      `(4) a razão CONVERTIDA, rotulada "${p.rotuloPara || "o que se quer"}" — um campo por linha. ` +
+      "Abaixo da tabela, um campo em que o aluno escreve a RESPOSTA FINAL, completando a frase do enunciado" +
+      (p.unidade ? ` (a unidade "${String(p.unidade).trim()}" já aparece impressa)` : "") +
+      ". Botão Hint; botão Done. Cada célula preenchida é um passo do aluno.",
+    tabela: { linhas: 2, colunas: ["razão dada", "operação (× ou ÷)", "fator", "razão convertida"] },
     caixaFracaoExibida: false,
     caixaNumeroMisto: false,
     componentes,

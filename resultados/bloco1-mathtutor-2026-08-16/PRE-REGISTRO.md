@@ -172,3 +172,27 @@ enquanto o especialista trata cada célula como um passo. Critério de parada
 pré-registrado (0 menções à interface, ou gate 0/2) NÃO acionado → coleta
 autorizada. A expectativa declarada é de cobertura baixa; o valor do corpus é
 justamente medir o LIMITE do método em tarefas de granularidade fina.
+
+## Adendo 7.12 — último corpus do bloco (19/08)
+
+**Enunciado declarado**: `statement` + `final_statement` (a frase que a resposta
+completa). Rótulos da tabela (`from`, `to`, `item1`, `item2`, `SO`, `SF`) e a
+unidade (`final_unit`) ficam fora do enunciado e entram na descrição da tela.
+
+**Interface** (`descreverInterface712`): tabela de conversão de DUAS linhas (uma
+por grandeza), com colunas razão dada → operação (× ou ÷) → fator → razão
+convertida, mais o campo da resposta final. Os valores da razão estão no
+ENUNCIADO, não na descrição.
+
+**Nova exclusão declarada (regra geral, aplicada a todos os corpora)**: aresta
+cuja seleção é a RAIZ do documento (`_root`) ou vazia não age sobre componente
+algum da tela — é configuração do problema, não passo do aluno. No 7.12 é o
+`_root/inverseProb` (18/18 problemas); nos outros cinco corpora a regra não
+marca nada. Travada por teste. Referência do 7.12: **9 estados de valor** e 6
+erros por problema — granularidade intermediária entre as frações (3–5) e o
+8.12 (24).
+
+**Piloto** (2 × 1, custo-beneficio, produção 5263488): gate por enunciado
+**2/2**; gate por valores 0/2, pelo mesmo motivo do 8.12 (fatores e resultados
+são valores CALCULADOS, não transcritos); cobertura 0,500, sem ordem 0,722,
+caminho íntegro 0. Critério de parada não acionado → coleta autorizada.

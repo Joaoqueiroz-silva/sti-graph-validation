@@ -76,7 +76,7 @@ export function carregarReferencia(raiz = ".") {
         // ButtonPressed executado pelo TUTOR). Sem Actor → aluno.
         ator: String(prox.actor || ""),
         variante,
-        sistema: ehAcaoDeSistema(acao) || /^tutor/i.test(String(prox.actor || "")) || variante,
+        sistema: ehAcaoDeSistema(acao, prox.sai?.selection) || /^tutor/i.test(String(prox.actor || "")) || variante,
         mecanico: ehMecanico(bruto),
         dicas: (prox.hints || []).length,
       });
@@ -119,8 +119,15 @@ export function carregarReferencia(raiz = ".") {
  * Ações de ALUNO: UpdateTextField, Update, addPoint/AddPoint, UpdateComboBox,
  * ButtonPressed, UpdateTextArea (quando o ator é o aluno)…
  */
-export function ehAcaoDeSistema(acao) {
+export function ehAcaoDeSistema(acao, selecao = "") {
   const a = String(acao ?? "").trim();
+  const sel = String(selecao ?? "").trim();
+  // CONFIGURAÇÃO DO PROBLEMA (2026-08-19, ao preparar o 7.12): aresta cuja
+  // seleção é a RAIZ do documento (`_root`) ou vazia não age sobre nenhum
+  // componente da tela — é ajuste do próprio problema (7.12: `inverseProb`,
+  // que escolhe o sentido da conversão), não um passo do aluno. Ocorre em
+  // 18/18 problemas do 7.12 e em NENHUM dos outros cinco corpora.
+  if (sel === "_root" || sel === "") return true;
   // UpdateTextArea NÃO entra: em alguns tutores (8.12) é entrada de texto do aluno.
   return /^set(_|[A-Z]|visible$|display$|dsiplay$)/i.test(a) || /^no_action$/i.test(a);
 }

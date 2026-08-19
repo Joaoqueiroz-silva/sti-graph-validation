@@ -210,3 +210,32 @@ describe("interface 8.12 — descrição estrutural da tabela, sem valores do pr
     }
   });
 });
+
+// ── corpus 7.12 (2026-08-19): tabela de conversão de 2 linhas ──
+describe("interface 7.12 — rótulos da tabela entram; valores da razão ficam no enunciado", () => {
+  const DS = "datasets/conversion-factors-7.12";
+  const ids = fs.existsSync(`${DS}/problems`) ? fs.readdirSync(`${DS}/problems`) : [];
+  it("dataset com 18 problemas; enunciado de statement + final_statement", () => {
+    expect(ids.length).toBe(18);
+    const decl = JSON.parse(fs.readFileSync("cases/ctat-7.12/_interface/campos-enunciado.json", "utf8"));
+    expect(decl.campos).toContain("final_statement");
+  });
+  it("a descrição não traz valores de resposta do caminho nem dicas/feedback, e omite o _root", async () => {
+    const prev = process.env.STI_DATASET;
+    process.env.STI_DATASET = "conversion-factors-7.12";
+    try {
+      const { descreverInterface712, textoRequisitoInterface } = await import("../interface-ctat.js");
+      for (const id of ids) {
+        const A = JSON.parse(fs.readFileSync(`${DS}/problems/${id}/envelope-a.json`, "utf8"));
+        const B = JSON.parse(fs.readFileSync(`${DS}/problems/${id}/envelope-b.json`, "utf8"));
+        const d = descreverInterface712(A);
+        const texto = JSON.stringify(d) + textoRequisitoInterface(d);
+        expect(texto).not.toContain("_root");
+        for (const h of (B.hintsPerCorrectStep || []).flat()) if (String(h).length > 15) expect(texto.includes(String(h))).toBe(false);
+        for (const m of B.misconceptions || []) if (m.feedback && String(m.feedback).length > 15) expect(texto.includes(String(m.feedback))).toBe(false);
+      }
+    } finally {
+      if (prev === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = prev;
+    }
+  });
+});

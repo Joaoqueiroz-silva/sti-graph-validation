@@ -297,3 +297,22 @@ describe("IC de métrica saturada não tem largura zero (auditoria 2026-08-18)",
     expect(ic.bca[1]).toBeGreaterThan(0);
   });
 });
+
+describe("configuração do problema (_root) fora dos estados de valor — 2026-08-19", () => {
+  it("no 7.12 o `_root/inverseProb` sai do caminho; os outros corpora não têm nenhum", async () => {
+    const { carregarReferencia, ehAcaoDeSistema } = await import("../analysis/validacao-v2/lib.mjs");
+    expect(ehAcaoDeSistema("inverseProb", "_root")).toBe(true);
+    expect(ehAcaoDeSistema("UpdateTextField", "OV1")).toBe(false);
+    const antes = process.env.STI_DATASET;
+    try {
+      process.env.STI_DATASET = "conversion-factors-7.12";
+      const REF = carregarReferencia(".");
+      const comRoot = Object.values(REF).filter((r) => r.caminho.some((c) => c.selecao === "_root" && !c.sistema));
+      expect(comRoot.length).toBe(0); // nenhum _root conta como estado de valor
+      const ns = [...new Set(Object.values(REF).map((r) => r.caminho.filter((c) => !c.sistema && !c.mecanico).length))];
+      expect(ns).toEqual([9]); // 10 − 1 (_root) estados de valor
+    } finally {
+      if (antes === undefined) delete process.env.STI_DATASET; else process.env.STI_DATASET = antes;
+    }
+  });
+});
