@@ -33,7 +33,7 @@ problema do CTAT em todos os casos.
 Consequência metodológica, aplicada a TODO o experimento: a obediência passa a
 ser lida pelo **enunciado** que o agent 6 escreveu — a evidência direta de "usou
 o problema do CTAT ou inventou outro?". Por esse critério a aprovação é
-**100 % nos 615 grafos dos 5 corpora**, e o consolidado deixa de ter recorte
+**100 % nos 630 grafos dos 5 corpora**, e o consolidado deixa de ter recorte
 (usa todos os grafos). Os gates por valor seguem publicados como sensibilidade.
 
 ## 2. Régua de estados (todos os 57 grafos por braço)

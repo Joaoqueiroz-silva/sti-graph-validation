@@ -94,7 +94,7 @@ acionabilidade **alta** (2,86), com escalonamento **no chão** (0,45). Embaralha
 não muda o conteúdo, só a ordem — e o juiz derrubou exatamente a dimensão da
 ordem, sem saber que aquilo era um controle. Um carimbo não faria isso.
 
-**GATE: APROVADO** (estrangeiro cai 1,47 ponto abaixo dos reais, contra margem
+**GATE: APROVADO** (estrangeiro cai 1,46 ponto abaixo dos reais, contra margem
 pré-declarada de 0,5; embaralhado abaixo do ordenado).
 
 ### 2.2 Resultado (1.254 escadas reais)

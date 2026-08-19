@@ -292,7 +292,7 @@ explicada pelo grau em que a interface impõe a sequência (6.18/6.20 alto,
 ## 14. Adendo 2026-08-19 — BLOCO 1 FECHADO (5 corpora) e auditoria incorporada
 
 **Estado do experimento.** 5 corpora públicos do Mathtutor (6.17, 6.19, 6.18,
-6.20, 8.12), **105 problemas de especialista**, **615 grafos de agente**
+6.20, 8.12), **105 problemas de especialista**, **630 grafos de agente**
 coletados e materializados com os agentes espelhados da produção **5263488**,
 0 falhas. Custo total do bloco ≈ US$ 22.
 
@@ -302,7 +302,7 @@ enunciado aprova 100 %; BCa 95 % em cluster de exercício):
 | braço | cobertura em ordem | sem ordem | caminho íntegro | erros no estado certo |
 |---|---|---|---|---|
 | flash-lite | 0,702 [0,684; 0,719] | 0,820 | 0,337 [0,286; 0,387] | 0,272 (4 corpora) |
-| qwen | 0,786 [0,771; 0,800] | 0,895 | 0,495 [0,444; 0,543] | 0,562 (4 corpora) |
+| qwen | 0,786 [0,771; 0,800] | 0,895 | 0,495 [0,444; 0,543] | 0,506 [0,464; 0,547] (4 corpora) |
 
 **Mas a leitura primária mudou** (auditoria de 18/08): a cobertura é recall puro
 e um grafo "papagaio" atinge 0,12–0,56 dela. As colunas obrigatórias passam a
@@ -328,3 +328,19 @@ linha de base e F1; tabela contrafactual da régua (`contrafactual-*.json`);
 rótulo post hoc datado das quatro redefinições do denominador; gate por
 enunciado × por valores; envelope A derivado do `.brd`; ausência de banda
 humano–humano; multiplicidade descritiva; `maxTokens` do adaptador.
+
+## Correções de alinhamento — 19/08/2026
+
+Documentação interna alinhada aos arquivos de dados vigentes, cada valor
+confirmado no arquivo de origem antes da edição:
+
+| o que | de | para | fonte confirmada |
+|---|---|---|---|
+| total de grafos do consolidado | 615 | **630** | `EXPERIMENTO-CONSOLIDADO-2026-08/consolidado.json` (72+72+69+69+60+60+57+57+57+57) |
+| pool qwen, erros no estado certo | 0,562 | **0,506 [0,464; 0,547]** | idem, `agregado["estudantes-qwen"].errosNoEstadoCerto.pool` |
+| 6.20 flash-lite, gate estrito | 56/57 | **57/57** | `6.20/materializado-v3-fixa-custo-beneficio.analise.json`, `gate.estrito.aprovados` |
+| 6.20 qwen, sens. 1 / 2 / 3 | 51 / 52 / 52 | **52 / 53 / 53** | `6.20/materializado-v3-fixa-estudantes-qwen.analise.json` |
+| queda do controle estrangeiro (dicas) | 1,47 | **1,46** | `juizo-2026-08-19/juiz-dicas-z-ai-glm-4-5.json` (1,9676 − 0,5048) |
+
+**O artigo v0.5 de 19/08/2026 é a referência dos valores vigentes.** Onde este
+guia e o artigo divergirem, vale o arquivo de dados citado na coluna "fonte".

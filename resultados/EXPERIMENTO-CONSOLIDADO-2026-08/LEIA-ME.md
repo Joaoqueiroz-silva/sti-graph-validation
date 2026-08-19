@@ -40,7 +40,7 @@ Para o artigo: `docs/GUIA-DO-ARTIGO.md` (§8–§9) e
 - Todos os 5 corpora re-materializados com o espelho **5263488** (registro de
   componentes completo). Pastas `materializado-v3-*`; v2/v1 preservadas para a
   comparação de versão (`comparacao-espelho-v3-vs-v2-*.json`).
-- Recorte: **gate por enunciado**, 100 % nos 615 grafos → a tabela usa TODOS os
+- Recorte: **gate por enunciado**, 100 % nos 630 grafos → a tabela usa TODOS os
   grafos, sem exclusão.
 - Métricas complementares obrigatórias, por corpus e braço:
   `linha-de-base-v3-*.json` (base de acaso, cobertura ajustada, precisão, F1) e

@@ -63,7 +63,7 @@ tamanho, feito só com os números do enunciado) com **cobertura ajustada**
 exercício; agregação entre corpora por bootstrap estratificado.
 
 **Obediência.** Um gate objetivo verifica se o agent 6 usou o problema do CTAT,
-lendo o **enunciado** que ele escreveu: aprovação de **100 % nos 615 grafos**.
+lendo o **enunciado** que ele escreveu: aprovação de **100 % nos 630 grafos**.
 Não há recorte — todas as análises usam todos os grafos. Gates alternativos (por
 valores dos passos, com quatro níveis de sensibilidade) são reportados como
 análise de robustez.

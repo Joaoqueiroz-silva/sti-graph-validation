@@ -19,7 +19,7 @@ limitação** e do que foi **refutado** — para ir junto ao artigo.
 | A7 | O Δ pareado **entre braços** (desfecho declarado em JUSTIFICATIVA-REPLICAS) nunca era calculado: a comparação era lida da sobreposição de ICs marginais. | `comparacao-bracos.json` por corpus. | Ver tabela C: "qwen melhor em tudo" **não se sustenta** no 6.19. |
 | A8 | Nenhuma tabela mostrava o efeito das redefinições do denominador. | `contrafactual-regua.mjs`: os mesmos grafos sob 4 definições encaixadas (R0 ingênua → R3 vigente). | Ver tabela D. |
 
-## B. Linha de base de acaso, precisão e F1 — VERSÃO FINAL (v3, 5 corpora, 615 grafos)
+## B. Linha de base de acaso, precisão e F1 — VERSÃO FINAL (v3, 5 corpora, 630 grafos)
 
 Números vigentes, com os agentes espelhados da produção **5263488** (registro de
 componentes completo) e recorte = gate por enunciado (100 %, sem exclusão):
@@ -146,14 +146,14 @@ corpora**. Arquivos: `contrafactual-*.json` por corpus e braço.
 
 ## G. Fechamento (19/08/2026) — o que mudou depois da auditoria
 
-1. **Espelho corrigido e uniformizado**: todos os 5 corpora (615 grafos) usam os
+1. **Espelho corrigido e uniformizado**: todos os 5 corpora (630 grafos) usam os
    agentes da produção **5263488**, com o registro de componentes completo. O
    efeito da correção foi medido e é desprezível (tabela A6).
 2. **Gate de obediência refeito**: o gate por valores reprovava a *resolução* em
    corpora com cálculo intermediário (0/57 no 8.12/qwen, com 57/57 dos
    enunciados limpos). O critério vigente é o **enunciado** escrito pelo agent 6
    — evidência direta de "usou o problema do CTAT?" —, com **100 % de aprovação
-   nos 615 grafos dos 5 corpora**. Consequência: **o consolidado deixa de ter
+   nos 630 grafos dos 5 corpora**. Consequência: **o consolidado deixa de ter
    recorte** e usa todos os grafos; some a objeção de "recorte escolhido depois
    de olhar os dados". Os gates por valor viram análise de sensibilidade.
 3. **Métrica principal passa a ser reportada em quatro colunas**: cobertura

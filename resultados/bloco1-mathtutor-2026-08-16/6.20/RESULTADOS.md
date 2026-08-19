@@ -18,8 +18,8 @@ Pré-registro e adendo (enunciado declarado, interface, variantes, piloto):
 
 | Braço | estrito | sens. 1 | sens. 2 | sens. 3 |
 |---|---|---|---|---|
-| flash-lite | 56/57 = **98 %** | 56/57 | 57/57 | **57/57 = 100 %** |
-| qwen | 50/57 = 88 % | 51/57 | 52/57 | **52/57 = 91 %** |
+| flash-lite | 57/57 = **100 %** | 57/57 | 57/57 | **57/57 = 100 %** |
+| qwen | 50/57 = 88 % | 52/57 | 53/57 | **53/57 = 93 %** |
 
 ## 2. Régua de estados — grafo MATERIALIZADO (recorte sens. 3)
 
@@ -61,3 +61,10 @@ avaliáveis quando as alternativas fazem parte da tela.
 3. Gate de 98 % no flash-lite: o enunciado declarado (com var1/var2/question)
    fixa os dois denominadores e praticamente elimina invenção de números.
 4. Os agentes seguem mais longos que a referência (6,1 e 8,1 estados contra 5).
+
+> **Atualização 19/08/2026 — tabela de gates alinhada à análise vigente.** Os
+> valores acima foram corrigidos contra `materializado-v3-fixa-*.analise.json`
+> (espelho de produção 5263488): flash-lite passa a 57/57 no gate estrito (era
+> 56/57) e o qwen a 52/57 na sensibilidade 1 e 53/57 nas sensibilidades 2 e 3.
+> A tabela anterior vinha da análise v2 e ficou defasada quando o espelho foi
+> corrigido.
