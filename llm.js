@@ -152,6 +152,15 @@ async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 
         ],
         temperature,
         max_tokens: maxTokens,
+        // 2026-08-19: modelos de raciocínio (GLM, DeepSeek-R) emitem centenas a
+        // milhares de tokens de raciocínio mesmo para devolver um JSON de uma
+        // linha — no juiz cego dos extras foram 1.721 tokens de SAÍDA por
+        // veredito, US$ 0,00402 por chamada e ~30 s de latência. Com
+        // STI_SEM_RACIOCINIO=1 o corpo pede `effort: none, exclude: true`, a
+        // mesma forma já usada pelo painel de juízes do protocolo C4
+        // (production-fidelity/campaign4-judge-runner.mjs:830). Vale só para
+        // quem opta pelo env: nenhum caminho congelado muda de comportamento.
+        ...(process.env.STI_SEM_RACIOCINIO === "1" ? { reasoning: { effort: "none", exclude: true } } : {}),
       }),
     });
     if (!res.ok) {

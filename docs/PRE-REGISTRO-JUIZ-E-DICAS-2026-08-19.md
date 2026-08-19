@@ -222,3 +222,58 @@ Falhando, "descalibrado" e sem veredito.
 válidos) / candidatos`, e o **F1 julgado** = média harmônica entre a cobertura
 (recall, inalterada) e essa precisão. O F1 estrutural continua reportado ao
 lado, como piso.
+
+---
+
+## Emenda 2 (19/08, antes de qualquer veredito) — raciocínio desligado e painel de dois juízes
+
+Duas mudanças **operacionais**, declaradas antes de ver qualquer resultado. Os
+gates, as rubricas, os controles e o objeto não mudam.
+
+### 2.1 Raciocínio desligado no juiz (`STI_SEM_RACIOCINIO=1`)
+
+O `z-ai/glm-4.5` emitia tokens de raciocínio para devolver um JSON de uma linha.
+Medido na mesma pergunta, mesmo veredito:
+
+| | entrada | saída | custo/chamada | latência |
+|---|---|---|---|---|
+| com raciocínio | 313 | 3.514 | US$ 0,00792 | 53,7 s |
+| sem raciocínio | 313 | 69 | US$ 0,00034 | 6,5 s |
+
+23× mais barato, 8× mais rápido. A forma usada (`reasoning: {effort:"none",
+exclude:true}`) é a mesma já empregada pelo painel de juízes do protocolo C4
+(`production-fidelity/campaign4-judge-runner.mjs:830`). É **opt-in por variável
+de ambiente**: nenhum caminho congelado do repositório muda de comportamento.
+
+O gate de calibração (0,80 / 0,80) continua sendo o teste empírico de validade:
+se o juiz sem raciocínio não distinguir especialista de distrator, ele é
+reprovado e não produz número — como o DeepSeek foi em 14/08.
+
+### 2.2 Painel de dois juízes
+
+Com o custo nesse patamar, repete-se o desenho de painel de 14/08:
+
+| Papel | Modelo | US$/M entrada · saída | Justificativa |
+|---|---|---|---|
+| primário | `z-ai/glm-4.5` | 0,60 · 2,20 | cross-family a OpenAI (materializador), Google e Qwen (alunos); é o pré-registrado |
+| segundo | `deepseek/deepseek-v4-flash` | 0,083 · 0,165 | cross-family; 13× mais barato. **REPROVOU o gate em 14/08** — entra como réplica dessa checagem, nunca como veredito por decreto |
+
+**Regra de veredito (pré-declarada):** publica-se o resultado do juiz que passar
+o gate. Se os dois passarem, o veredito é o do **primário** e o segundo entra
+como concordância (kappa) e sensibilidade. Se o primário reprovar, não há
+veredito — a lacuna fica declarada, mesmo que o segundo passe. A ordem de
+prioridade está fixada aqui, antes de qualquer número, justamente para que a
+escolha não seja feita olhando o resultado.
+
+**Modelos descartados, com o motivo:**
+- `google/gemini-3.6-flash` (0,75 · 3,75): mesma família do braço de alunos
+  flash-lite — auto-avaliação. É o erro que já custou 904 escadas descartadas hoje.
+- `openai/gpt-5.6-luna` (0,20 · 1,20): é o modelo que MATERIALIZA os grafos.
+- `x-ai/grok-4.6` (2,00 · 6,00): cross-family e válido, mas ~3× o custo do
+  primário na saída, sem ganho de desenho.
+
+**Nota de preço:** a tabela congelada do repositório (`exec-manifest.js`,
+congelada em 13/07) traz o `deepseek-v4-flash` a 0,14 · 0,28, acima do preço
+corrente de 0,083 · 0,165. A tabela **não é atualizada de propósito** — o custo
+reportado no artigo tem de ser reprodutível byte a byte a partir do manifesto.
+O custo registrado sai, portanto, conservador (para cima).

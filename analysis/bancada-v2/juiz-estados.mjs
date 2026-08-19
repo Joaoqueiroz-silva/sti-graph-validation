@@ -190,7 +190,7 @@ if (ehMain) {
       });
       feitos++;
       console.log(`  [${feitos}/${plano.length}] ${p.corpus}/${p.braco}/${p.ex}: ${p.extras.length} extras, ${extrasValidos} válidos | precisão ${linhas.at(-1).precisaoEstrutural.toFixed(2)} → ${linhas.at(-1).precisaoJulgada.toFixed(2)}`);
-      fs.writeFileSync(path.join(saidaDir, "juiz-estados-parcial.json"), JSON.stringify({ linhas, julgados }, null, 1));
+      fs.writeFileSync(path.join(saidaDir, `juiz-estados-parcial-${(process.env.JUDGE_MODEL || "z-ai/glm-4.5").replace(/[/.]/g, "-")}.json`), JSON.stringify({ linhas, julgados }, null, 1));
     }
   };
   await Promise.all(Array.from({ length: 3 }, trabalhador));
@@ -201,7 +201,8 @@ if (ehMain) {
     const sel = linhas.filter((l) => l.corpus === c.chave && l.braco === b);
     if (sel.length) porCelula[`${c.chave}/${b}`] = consolidarEstados(sel, julgados.filter((j) => j.corpus === c.chave && j.braco === b));
   }
-  fs.writeFileSync(path.join(saidaDir, "juiz-estados.json"), JSON.stringify({
+  const sufixo = (process.env.JUDGE_MODEL || "z-ai/glm-4.5").replace(/[/.]/g, "-");
+  fs.writeFileSync(path.join(saidaDir, `juiz-estados-${sufixo}.json`), JSON.stringify({
     gerado: new Date().toISOString(), juiz: process.env.JUDGE_MODEL || "z-ai/glm-4.5",
     preRegistro: "docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md",
     geral, porCelula, porExercicio: linhas, falhas: { n: falhas.length, itens: falhas.slice(0, 50) },

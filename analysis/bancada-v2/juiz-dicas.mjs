@@ -210,7 +210,7 @@ if (ehMain) {
     delete r.problema;
     if (++feitos % 25 === 0) {
       console.log(`  [${feitos}/${lote.length}]`);
-      fs.writeFileSync(path.join(saidaDir, "juiz-dicas-parcial.json"), JSON.stringify(brutosAteAqui, null, 1));
+      fs.writeFileSync(path.join(saidaDir, `juiz-dicas-parcial-${(process.env.JUDGE_MODEL || "z-ai/glm-4.5").replace(/[/.]/g, "-")}.json`), JSON.stringify(brutosAteAqui, null, 1));
     }
     brutosAteAqui.push(r);
     return r;
@@ -218,7 +218,8 @@ if (ehMain) {
   const { ok: julgados, falhas, taxaFalha } = separarFalhas(brutos);
   console.log(`  itens sem veredito (falha de rede esgotada): ${falhas.length} (${(taxaFalha * 100).toFixed(2)}%)`);
   const R = { ...consolidarDicas(julgados), falhas: { n: falhas.length, taxa: taxaFalha } };
-  fs.writeFileSync(path.join(saidaDir, "juiz-dicas.json"), JSON.stringify({
+  const sufixo = (process.env.JUDGE_MODEL || "z-ai/glm-4.5").replace(/[/.]/g, "-");
+  fs.writeFileSync(path.join(saidaDir, `juiz-dicas-${sufixo}.json`), JSON.stringify({
     gerado: new Date().toISOString(), juiz: process.env.JUDGE_MODEL || "z-ai/glm-4.5",
     preRegistro: "docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md", ...R, julgamentos: julgados,
   }, null, 1));
