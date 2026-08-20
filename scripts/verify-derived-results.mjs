@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Recalcula os três consolidadores, dez tabelas de controle/precisão e cinco
- * comparações pareadas entre braços, todos determinísticos, e exige igualdade
- * semântica com os JSONs versionados. O carimbo `gerado` é deliberadamente
- * ignorado; qualquer diferença em amostra, estimativa, intervalo ou metadado
- * metodológico reprova o gate.
+ * Recalcula os três consolidadores, dez tabelas de controle/precisão, cinco
+ * comparações pareadas entre braços e oito contrafactuais R0–R3, todos
+ * determinísticos, e exige igualdade semântica com os JSONs versionados. O
+ * carimbo `gerado` é deliberadamente ignorado; qualquer diferença em amostra,
+ * estimativa, intervalo ou metadado metodológico reprova o gate.
  */
 
 import fs from "node:fs";
@@ -17,6 +17,7 @@ import { consolidarSimetrico } from "../analysis/bancada-v2/consolidar-simetrico
 import { compararRodadas } from "../analysis/bancada-v2/comparar-rodadas.mjs";
 import { analisarLinhaDeBase } from "../analysis/bancada-v2/linha-de-base.mjs";
 import { BRACOS, CORPORA_JUIZ } from "../analysis/bancada-v2/juiz-extras-materializado.mjs";
+import { analisarContrafactual } from "../analysis/bancada-v2/contrafactual-regua.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, "..");
@@ -62,6 +63,21 @@ for (const corpus of CORPORA_JUIZ) {
       calcular: () => {
         process.env.STI_DATASET = corpus.dataset;
         return analisarLinhaDeBase({ raiz: REPO, dir, usarReguaSimetrica: true });
+      },
+    });
+  }
+}
+
+const CORPORA_CONTRAFACTUAL = new Set(["6.17", "6.19", "6.18", "6.20"]);
+for (const corpus of CORPORA_JUIZ.filter((c) => CORPORA_CONTRAFACTUAL.has(c.chave))) {
+  for (const braco of BRACOS) {
+    const dirMat = `${corpus.pasta}/materializado-v3-fixa-${braco}`;
+    casos.push({
+      nome: `contrafactual R0–R3 · ${corpus.chave} · ${braco}`,
+      arquivo: `${corpus.pasta}/contrafactual-v3-fixa-${braco}.json`,
+      calcular: () => {
+        process.env.STI_DATASET = corpus.dataset;
+        return analisarContrafactual({ raiz: REPO, dirMat });
       },
     });
   }

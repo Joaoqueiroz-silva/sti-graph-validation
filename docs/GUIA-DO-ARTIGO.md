@@ -330,7 +330,7 @@ flash-lite 0,630 [0,615; 0,646] e qwen 0,609 [0,596; 0,623].
    global por F1.
 
 **Seções obrigatórias de método/limitação** (todas com fonte no repositório):
-controle determinístico, cobertura ajustada e F1; tabela contrafactual da régua (`contrafactual-*.json`);
+controle determinístico, cobertura ajustada e F1; tabela contrafactual da régua (`contrafactual-v3-fixa-*.json`);
 rótulo post hoc datado das quatro redefinições do denominador; gate por
 enunciado × por valores; envelope A derivado do `.brd`; ausência de banda
 humano–humano; multiplicidade descritiva; `maxTokens` do adaptador.

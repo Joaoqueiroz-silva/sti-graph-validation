@@ -48,6 +48,8 @@ Para o artigo: `docs/GUIA-DO-ARTIGO.md` (§8–§9) e
   `linha-de-base-v3-*.json` (régua simétrica vigente; controle determinístico
   pareado por ocorrências comparáveis, cobertura ajustada e precisão/F1 com
   TP=LCS 1:1) e
-  `contrafactual-*.json` (o efeito de cada redefinição da régua).
+  `contrafactual-v3-*.json` (o efeito de cada redefinição da régua sobre os
+  grafos vigentes). Os `contrafactual-v2-*.json` são preservados como histórico
+  e identificam explicitamente a fonte v2 no campo `dir`.
 - Comparação entre braços pareada: `comparacao-bracos.json` por corpus.
 - Achados, correções e limitações: `docs/AUDITORIA-CIENTIFICA-2026-08-18.md`.

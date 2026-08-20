@@ -94,24 +94,33 @@ o IC de cobertura cruza zero. No 6.19, o caminho íntegro é menor para o qwen.
 Erros no estado certo favorecem o qwen nos quatro corpora avaliáveis, com
 efeito grande em 6.17/6.19/6.20 e pequeno no 8.12.
 
-## D. Contrafactual da régua — o que cada exclusão moveu (mesmos grafos)
+## D. Contrafactual v3 da régua — o que cada exclusão moveu (mesmos grafos)
 
-Cobertura / caminho íntegro sob definições encaixadas do estado de valor:
+Cada célula mostra **nRef médio; recall; contenção integral do caminho**. Quando
+o número de estados varia entre problemas, a amplitude aparece entre colchetes.
+São os grafos `materializado-v3-fixa-*`; os ICs BCa e as 516 linhas de origem
+ficam nos JSONs versionados.
 
 | corpus · braço | R0 tudo | R1 +mecânicas | R2 +ações do tutor | **R3 +variante (VIGENTE)** |
 |---|---|---|---|---|
-| 6.17 · flash-lite | 0,452 / 0,000 | — | — | 0,781 / 0,139 |
-| 6.17 · qwen | 0,605 / 0,000 | 0,706 / 0,014 | 0,938 / 0,750 | 0,938 / 0,750 |
-| 6.19 · flash-lite | 0,306 / 0,000 | — | — | 0,707 / 0,101 |
-| 6.18 · qwen | 0,382 / 0,000 | — | — | 1,000 / 1,000 |
-| 6.20 · qwen | 0,599 / 0,000 | — | — | 0,947 / 0,737 |
+| 6.17 · flash-lite | 7,0; 0,452; 0,000 | 6,0; 0,528; 0,000 | 4,0; 0,778; 0,125 | 4,0; 0,778; 0,125 |
+| 6.17 · qwen | 7,0; 0,599; 0,000 | 6,0; 0,699; 0,014 | 4,0; 0,941; 0,764 | 4,0; 0,941; 0,764 |
+| 6.19 · flash-lite | 10,0; 0,309; 0,000 | 6,3 [6–8]; 0,490; 0,000 | 4,3 [4–6]; 0,725; 0,145 | 4,3 [4–6]; 0,725; 0,145 |
+| 6.19 · qwen | 10,0; 0,310; 0,000 | 6,3 [6–8]; 0,493; 0,000 | 4,3 [4–6]; 0,728; 0,072 | 4,3 [4–6]; 0,728; 0,072 |
+| 6.18 · flash-lite | 11,0; 0,332; 0,000 | 10,0; 0,365; 0,000 | 4,0; 0,721; 0,000 | 3,0; 0,961; 0,883 |
+| 6.18 · qwen | 11,0; 0,383; 0,000 | 10,0; 0,422; 0,000 | 4,0; 0,742; 0,000 | 3,0; 0,989; 0,967 |
+| 6.20 · flash-lite | 8,0; 0,575; 0,000 | 7,0; 0,657; 0,000 | 5,0; 0,919; 0,596 | 5,0; 0,919; 0,596 |
+| 6.20 · qwen | 8,0; 0,592; 0,000 | 7,0; 0,677; 0,000 | 5,0; 0,933; 0,667 | 5,0; 0,933; 0,667 |
 
-(estados de referência por problema: R0 7–11 → R3 3–5.) A maior parte do efeito
-vem de **R1→R2** (excluir arestas que o `<Actor>` do `.brd` atribui ao TUTOR, e
-não ao aluno). A justificativa é conceitual e verificável no próprio arquivo —
-o aluno não executa `set_maximum` nem `setDisplay` —, mas a magnitude precisa
-estar publicada: **sob a régua ingênua, o caminho íntegro é 0,000 em todos os
-corpora**. Arquivos: `contrafactual-*.json` por corpus e braço.
+A maior parte do efeito vem de **R1→R2** (excluir arestas que o `<Actor>` do
+`.brd` atribui ao TUTOR, e não ao aluno). No 6.18 há ainda um salto específico
+de R2→R3, pois o seletor de variante `shield` deixa de contar como estado. A
+justificativa é conceitual e verificável no próprio arquivo — o aluno não
+executa `set_maximum` nem `setDisplay` —, mas a magnitude precisa estar
+publicada: **sob R0, a contenção integral é 0,000 nas oito células**. Fontes
+vigentes: `contrafactual-v3-fixa-*.json`; os arquivos
+`contrafactual-v2-fixa-*.json` foram apenas renomeados e permanecem como trilha
+histórica explícita.
 
 ## E. Declarações obrigatórias no artigo (limitações)
 

@@ -1,23 +1,35 @@
-# Validação de grafos de comportamento gerados por agentes de IA
+# Agentes de IA na autoria de tutores inteligentes
 
-Repositório de dados, código e resultados do artigo **Sistemas tutores
-inteligentes agênticos** (revisão científica v0.6). A pergunta empírica foi
-delimitada após auditoria: **qual é a concordância entre as sequências
-canonizadas de valores produzidas pelo pipeline e as sequências extraídas do
-caminho correto de casos CTAT?** O desfecho primário não mede equivalência do
-grafo completo.
+Repositório v0.7 de código, registros experimentais e materiais de
+reprodutibilidade do artigo **Sistemas tutores inteligentes agênticos**. O
+estudo retrospectivo e exploratório pergunta: **qual é a concordância entre as
+sequências canonizadas de valores produzidas pelo pipeline e as sequências
+extraídas do caminho correto de casos CTAT?** Em termos simples, a análise mede
+quanto do caminho de respostas intermediárias reaparece, na ordem esperada,
+nos artefatos gerados. Ela não mede equivalência do grafo completo, qualidade
+pedagógica ou aprendizagem.
 
-O manuscrito vigente está em
+Os artefatos do manuscrito disponíveis nesta árvore estão em
 [`artigo/artigo1-aits-v0.6-revisado.pdf`](artigo/artigo1-aits-v0.6-revisado.pdf)
 e [`artigo/artigo1-aits-v0.6-revisado.docx`](artigo/artigo1-aits-v0.6-revisado.docx).
-O PDF v0.5 permanece apenas como histórico. Cada número publicado na v0.6 tem
+O PDF v0.5 permanece apenas como histórico. Cada número publicado tem
 arquivo de origem: o Apêndice A mapeia as fontes S1 a S33, e a tabela **Onde
 está cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma. A
 versão corrigida da análise que ancora o manuscrito é o commit
 `1a1cf7169a4ef9c6c45163499a5c22ddbaf220a0`.
 
-**Escala:** 5 conjuntos de casos CTAT · 105 problemas de referência ·
-630 grafos de agente · 0 falhas de coleta · custo total ≈ US$ 22.
+**Escala materializada:** 6 conjuntos CTAT · 123 problemas. **Análise
+principal:** 5 conjuntos · 105 problemas de referência · 2 configurações ·
+3 réplicas · 630 grafos de agente · 0 falhas de coleta · custo marginal das
+chamadas ≈ US$ 22. O conjunto 7.12, com 18 problemas, foi materializado e
+preservado, mas ficou fora da análise principal.
+
+> [!CAUTION]
+> A presença técnica do corpus neste repositório não concede licença para
+> reutilizá-lo. A MIT cobre somente o código original. Leia
+> [`DATA-LICENSE.md`](DATA-LICENSE.md) e
+> [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) antes de copiar ou
+> redistribuir qualquer material CTAT/Mathtutor.
 
 ---
 
@@ -97,16 +109,16 @@ quando `--reference-summary <arquivo>` é informado explicitamente.
 
 | Pasta | O que é |
 |---|---|
-| `artigo/` | Manuscrito v0.6 em DOCX/PDF e PDF v0.5 preservado como histórico |
-| `datasets/` | Os 5 corpora: `expert.brd` de cada problema, envelope A (o que os agentes veem) e envelope B (o gabarito, que eles nunca veem) |
+| `artigo/` | Manuscrito em DOCX/PDF e PDF v0.5 preservado como histórico; licença editorial separada da MIT |
+| `datasets/` | Seis conjuntos materializados: `expert.brd`, envelope A e envelope B; cinco conjuntos entram na análise principal e 7.12 fica fora dela |
 | `resultados/` | Os grafos coletados e as análises, uma pasta por rodada |
 | `analysis/bancada-v2/` | A régua de comparação e as análises que geram as tabelas |
 | `analysis/validacao-v2/` | A leitura do `.brd` e a carga da referência |
 | `producao/` | Espelho byte a byte dos agentes que geraram os grafos, com manifesto SHA-256 |
 | `docs/` | Pré-registros, auditoria, guia metodológico e catálogo dos pacotes |
-| `__tests__/` | 537 testes: régua, multiplicidade, coerência algébrica, invariantes, preflight de recoleta, anti-vazamento e simetria |
+| `__tests__/` | 540 testes: régua, multiplicidade, coerência algébrica, contrafactual R0–R3, invariantes, preflight de recoleta, anti-vazamento e simetria |
 | `scripts/` | Coleta, materialização e verificação do espelho |
-| `cases/`, `battery/`, `protocol/`, `production-fidelity/`, `config/`, `answer-key/` | Fixtures e protocolos da suíte de testes — **não são resultados do artigo** |
+| `cases/`, `battery/`, `protocol/`, `production-fidelity/`, `config/`, `answer-key/` | Fontes de referência, derivados, fixtures e protocolos; não confundir com resultados nem com código MIT |
 
 ### Os módulos na raiz, por papel
 
@@ -160,8 +172,21 @@ calibração pré-declarado e, pela regra, não houve terceira tentativa.
 
 ## Licença e proveniência
 
-Código sob [`LICENSE`](LICENSE); dados sob [`DATA-LICENSE.md`](DATA-LICENSE.md).
-A origem dos pacotes públicos do Mathtutor está em
+O código original está sob [`LICENSE`](LICENSE) MIT. Essa licença **não** cobre
+automaticamente BRDs, interfaces, enunciados, imagens, gabaritos, derivados,
+registros que reproduzam conteúdo externo nem o manuscrito. O estado dos
+direitos está em [`DATA-LICENSE.md`](DATA-LICENSE.md), e o inventário de fontes,
+restrições e caminhos está em
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). Nenhum desses avisos cria
+uma sublicença para materiais CTAT/Mathtutor.
+
+O pedido bilíngue de autorização explícita está pronto em
+[`docs/PEDIDO-AUTORIZACAO-CMU.md`](docs/PEDIDO-AUTORIZACAO-CMU.md). Enquanto não
+houver resposta escrita do titular, acesso sem login e presença no histórico
+Git não devem ser interpretados como abertura, consentimento ou direito de
+redistribuição.
+
+A origem dos pacotes Mathtutor tecnicamente acessíveis está em
 [`docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md`](docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md)
 e a proveniência do corpus em [`PROVENANCE.md`](PROVENANCE.md).
 
@@ -169,7 +194,7 @@ Material das rodadas exploratórias que o artigo não usa foi removido da árvor
 19 e 20/08/2026 e **permanece integralmente no histórico git** — nenhuma
 reescrita de histórico foi feita.
 
-O manifesto da árvore publicável atual é
-[`protocol/MANIFEST-v0.6.sha256`](protocol/MANIFEST-v0.6.sha256); `npm run
+O manifesto da árvore auditada v0.7 é
+[`protocol/MANIFEST-v0.7.sha256`](protocol/MANIFEST-v0.7.sha256); `npm run
 manifest:verify` exige hashes e cobertura exatos. Os manifestos `v6.0` e `v7.0`
 em `protocol/frozen/` são exclusivamente históricos.
