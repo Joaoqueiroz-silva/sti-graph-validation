@@ -24,10 +24,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { carregarReferencia, intervalo, fmt } from "../validacao-v2/lib.mjs";
-import { casarEstados, canonizarValor } from "./comparar-caminho.mjs";
-import { problemsDirRelativo } from "../../dataset-config.js";
+import { casarEstados } from "./comparar-caminho.mjs";
 
-const NIVEIS = [
+export const NIVEIS = [
   { id: "R0", nome: "tudo (sem exclusão)", filtro: () => true },
   { id: "R1", nome: "+ mecânicas fora", filtro: (c) => !c.mecanico },
   { id: "R2", nome: "+ ações do tutor fora", filtro: (c) => !c.mecanico && !(c.sistema && !c.variante) },
@@ -54,10 +53,10 @@ export function pontuarSobFiltro(grafo, refEx, filtro) {
 
 export function contrafactual(dirMat, raiz = ".") {
   const REF = carregarReferencia(raiz);
-  const DS = problemsDirRelativo();
+  const runs = path.join(path.isAbsolute(dirMat) ? dirMat : path.join(raiz, dirMat), "runs");
   const linhas = [];
-  for (const f of fs.readdirSync(path.join(dirMat, "runs")).filter((x) => x.endsWith(".json")).sort()) {
-    const r = JSON.parse(fs.readFileSync(path.join(dirMat, "runs", f), "utf8"));
+  for (const f of fs.readdirSync(runs).filter((x) => x.endsWith(".json")).sort()) {
+    const r = JSON.parse(fs.readFileSync(path.join(runs, f), "utf8"));
     const ex = r.exercicio ?? r.id;
     const grafo = r.materializado?.grafo || r.grafo;
     if (!REF[ex] || !grafo) continue;
@@ -73,21 +72,61 @@ export function contrafactual(dirMat, raiz = ".") {
   return linhas;
 }
 
+/** Resume os registros com a mesma unidade/reamostragem das demais tabelas. */
+export function resumirContrafactual(linhas) {
+  return Object.fromEntries(NIVEIS.map((nivel) => {
+    const nrefs = linhas.map((linha) => linha[`nref_${nivel.id}`]).filter(Number.isFinite);
+    return [nivel.id, {
+      n: linhas.length,
+      exercicios: new Set(linhas.map((linha) => linha.ex)).size,
+      nRef: {
+        media: nrefs.length ? nrefs.reduce((s, x) => s + x, 0) / nrefs.length : null,
+        minimo: nrefs.length ? Math.min(...nrefs) : null,
+        maximo: nrefs.length ? Math.max(...nrefs) : null,
+      },
+      recall: intervalo(linhas, `cob_${nivel.id}`),
+      contencao: intervalo(linhas, `int_${nivel.id}`),
+    }];
+  }));
+}
+
+/** Artefato determinístico completo, sem o carimbo de geração. */
+export function analisarContrafactual({ dirMat, raiz = "." }) {
+  const linhas = contrafactual(dirMat, raiz);
+  const versao = path.basename(dirMat).match(/^materializado-(v\d+)-/)?.[1] ?? "não identificada";
+  return {
+    metodologia: {
+      unidade: "registro (grafo materializado)",
+      intervalo: "BCa 95% em cluster de exercício, 10000 reamostragens, seed 42",
+      recall: "comprimento da LCS 1:1 / estados de referência admitidos no nível",
+      contencao: "1 quando todos os estados admitidos no nível aparecem em ordem; 0 caso contrário",
+      nRef: "número de estados de referência admitidos no nível (média e amplitude entre registros)",
+      niveis: Object.fromEntries(NIVEIS.map((n) => [n.id, n.nome])),
+    },
+    fonte: { dir: dirMat, versaoMaterializacao: versao },
+    niveis: NIVEIS.map((n) => n.id),
+    linhas,
+    agregado: resumirContrafactual(linhas),
+  };
+}
+
 const ehMain = process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname;
 if (ehMain) {
   const argv = process.argv.slice(2);
   const opt = (k, d) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
   const dir = opt("--mat", null);
   if (!dir) { console.error("uso: --mat <dir materializado> [--json out]"); process.exit(2); }
-  const linhas = contrafactual(dir);
+  const R = analisarContrafactual({ dirMat: dir });
+  const { linhas, agregado } = R;
   console.log(`CONTRAFACTUAL DA RÉGUA — ${path.basename(dir)} — ${linhas.length} grafos`);
-  console.log("nível                                    estados/ref   cobertura                 caminho íntegro");
+  console.log("nível                                    nRef média [min–máx]   recall                    contenção do caminho");
   for (const n of NIVEIS) {
-    const nref = (linhas.reduce((s, l) => s + l[`nref_${n.id}`], 0) / linhas.length).toFixed(1);
+    const a = agregado[n.id];
+    const nref = `${a.nRef.media.toFixed(1)} [${a.nRef.minimo}–${a.nRef.maximo}]`;
     console.log(
-      `  ${n.id} ${n.nome.padEnd(36)} ${nref.padStart(5)}   ${fmt(intervalo(linhas, `cob_${n.id}`)).padEnd(26)} ${fmt(intervalo(linhas, `int_${n.id}`))}`
+      `  ${n.id} ${n.nome.padEnd(36)} ${nref.padStart(18)}   ${fmt(a.recall).padEnd(26)} ${fmt(a.contencao)}`
     );
   }
   const out = opt("--json", null);
-  if (out) fs.writeFileSync(out, JSON.stringify({ gerado: new Date().toISOString(), dir, niveis: NIVEIS.map((n) => n.id), linhas }, null, 1));
+  if (out) fs.writeFileSync(out, JSON.stringify({ gerado: new Date().toISOString(), ...R }, null, 1));
 }

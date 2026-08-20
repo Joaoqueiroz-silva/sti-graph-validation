@@ -118,6 +118,13 @@ function main() {
     if (buffer.includes(0)) continue;
     const text = buffer.toString("utf8");
 
+    // Launchers are meant to be executable by a third party. A hard-coded VPS
+    // home in a shell script is therefore a reproducibility and safety defect,
+    // even when the same path is legitimate historical metadata inside logs.
+    if (extension === ".sh" && /\/root\//.test(text)) {
+      findings.push({ relative, detail: "launcher shell contém caminho /root/ não portável" });
+    }
+
     const secretPatterns = [
       { name: "chave OpenRouter", regex: /\bsk-or-v1-[A-Za-z0-9_-]{16,}\b/g },
       { name: "chave de API", regex: /\bsk-(?!or-v1-)[A-Za-z0-9_-]{20,}\b/g },

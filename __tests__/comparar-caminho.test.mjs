@@ -193,6 +193,17 @@ describe("casarEstados — subsequência ordenada MÁXIMA (LCS), não gulosa", (
     expect(p.coberturaSemOrdem).toBeCloseTo(5 / 6); // 3/5,3,5,5,3/5 presentes; "1" ausente
     expect(p.caminhoIntegro).toBe(0);
   });
+  it("cobertura sem ordem preserva multiplicidade: uma ocorrência não cobre três repetições", () => {
+    const repetido = {
+      steps: ["5", "5", "5"].map((answer, i) => ({ key: answer, answer, order: i + 1 })),
+      hintsPerCorrectStep: [[], [], []],
+    };
+    const umCinco = [{ indice: 1, acao: "", kc: "k", valor: "5" }];
+    const p = pontuarCaminho({ exercicio: "x", grafo: { passos: umCinco, erros: [], dicas: [] } }, repetido, []);
+    expect(p.coberturaSemOrdem).toBeCloseTo(1 / 3);
+    expect(p.nEstadosCasados).toBe(1);
+    expect(p.nEstadosComparaveisAgente).toBe(1);
+  });
 });
 
 describe("caminhoDeReferencia — sentinelas de interface não são estados de valor", () => {

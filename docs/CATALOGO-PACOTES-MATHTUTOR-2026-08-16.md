@@ -3,10 +3,13 @@
 **Fonte:** `https://mathtutor.web.cmu.edu/tutors/packages/<pacote>/` — servido sem
 login: `package.xml` (manifesto: nome, enunciado, `.brd`, interface e KCs de cada
 problema), `FinalBRDs/*.brd` (grafo do especialista), `HTML/*.html` (interface),
-`Assets/`. O corpus `frac-numberline-6.17` usado até aqui é o pacote **6.17 HTML**
-desta mesma fonte. Autoria: equipe do projeto Mathtutor/CTAT (CMU; Aleven,
-McLaren, Sewall — IEEE TLT 2009), example-tracing por demonstração; não há
-metadado de autor individual nos arquivos.
+`Assets/`. O conjunto local `frac-numberline-6.17` remete à unidade **6.17
+HTML**, mas é uma adaptação EducaOFF e não coincide byte a byte com os
+`FinalBRDs` atualmente servidos; veja `PROVENANCE.md`. Os outros quatro
+conjuntos do artigo foram ligados aos pacotes remotos por amostras de hash.
+Autoria dos pacotes: equipe do projeto Mathtutor/CTAT (CMU; Aleven, McLaren,
+Sewall — IEEE TLT 2009), example-tracing por demonstração; não há metadado de
+autor individual nos arquivos.
 
 **Cópia local (VPS):** `/root/ctat-pacotes-mathtutor/<pacote>/` — 54 pacotes,
 **710 grafos** (.brd), 97 MB, baixados em 15–16/08/2026 (um arquivo por

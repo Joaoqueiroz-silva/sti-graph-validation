@@ -41,12 +41,12 @@ describe("precisaoJulgadaEstados", () => {
     const p = precisaoJulgadaEstados(passos(["-1", "x"]), refEx, () => false);
     expect(p).toBe(0);
   });
-  it("deduplica os estados do agente antes de pontuar", () => {
+  it("preserva multiplicidade e usa o mesmo TP=LCS da cobertura", () => {
     const p = precisaoJulgadaEstados(passos(["3/5", "3/5", "3/5", "9"]), refEx, () => false);
-    expect(p).toBe(0.5); // {3/5, 9}: um casa, outro não
+    expect(p).toBe(0.25); // uma ocorrência casa; duas repetições e 9 são FP
   });
-  it("grafo sem estado comparável devolve N/A, não zero", () => {
-    expect(precisaoJulgadaEstados([], refEx, () => false)).toBeNull();
+  it("grafo sem estado comparável recebe zero; referência sem alvo é N/A", () => {
+    expect(precisaoJulgadaEstados([], refEx, () => false)).toBe(0);
     expect(precisaoJulgadaEstados(passos(["3/5"]), { caminho: [] }, () => false)).toBeNull();
   });
 });

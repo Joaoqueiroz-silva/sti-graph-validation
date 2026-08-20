@@ -1,6 +1,6 @@
 /**
  * analysis/reproduce-lib.mjs - biblioteca comum dos caminhos de reprodução da
- * Campanha 5 como benchmark (reproduce:verify e reproduce:collect).
+ * agregador legado da Campanha 5, reutilizado por reproduce:collect.
  *
  * Tudo aqui é OFFLINE e determinístico. Três responsabilidades:
  *

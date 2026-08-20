@@ -23,7 +23,7 @@ repositório é o [`README.md`](../README.md) da raiz.
 | [PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md](PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md) | Protocolo da validação com alunos simulados |
 | [PLANO-FIDELIDADE-PRODUCAO-2026-08.md](PLANO-FIDELIDADE-PRODUCAO-2026-08.md) | O plano do espelho byte a byte da produção |
 
-## Histórico do instrumento — NÃO é o método do artigo v0.5
+## Histórico do instrumento — NÃO é o método corrigido do artigo v0.7
 
 Documentos de versões anteriores do instrumento. Cada um traz banner no topo
 dizendo isso, e vários citam rodadas removidas da árvore (preservadas no

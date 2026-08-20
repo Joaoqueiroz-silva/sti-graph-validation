@@ -175,13 +175,25 @@ possível, mas muda o estimando. Fica como trabalho declarado.
 
 ---
 
-## 4. Régua de estados: REPARO DE SIMETRIA (substitui o juiz de estados)
+## 4. Régua de estados: CORREÇÃO 1:1 E REPARO DE SIMETRIA
 
 O juiz de estados foi **interrompido e não será retomado**. O motivo não é
 custo: é que a pergunta que ele arbitraria estava mal posta, porque boa parte do
 "resíduo" era artefato da régua.
 
 ### 4.1 O defeito
+
+A auditoria de 20/08 encontrou primeiro um erro mais básico: a precisão
+deduplicava os valores com `Set`, enquanto a cobertura usava uma LCS 1:1. Assim,
+uma única ocorrência podia justificar repetições e o F1 combinava numeradores
+incompatíveis. A correção vigente preserva multiplicidade e usa o **mesmo
+TP = comprimento da LCS** no recall e na precisão; o denominador da precisão é
+o número de ocorrências comparáveis do agente. Se o agente não produz nenhuma
+ocorrência comparável diante de uma referência não vazia, precisão e F1 valem
+zero. A cobertura sem ordem passou, analogamente, a usar interseção de
+multiconjuntos 1:1.
+
+Depois dessa correção, permaneceu o defeito de simetria:
 
 O `.brd` grava o clique em Done como `done | ButtonPressed | "-1"`, e
 `ehMecanico` já o retirava do lado do **especialista**. O agente escreve o mesmo
@@ -207,14 +219,21 @@ saem **idênticos**.
 | | régua congelada | régua simétrica |
 |---|---|---|
 | cobertura de estados | 0,7439 [0,7299; 0,7569] | **idêntica** |
-| linha de base (papagaio) | 0,3962 [0,3640; 0,4298] | **idêntica** |
-| cobertura ajustada | 0,5931 [0,5548; 0,6277] | **idêntica** |
-| **precisão de estados** | 0,7173 [0,6977; 0,7362] | **0,8205 [0,8038; 0,8363]** |
-| **F1 de estados** | 0,7081 [0,6932; 0,7228] | **0,7620 [0,7476; 0,7764]** |
+| controle (papagaio) | 0,3962 [0,3640; 0,4298] | **0,3847 [0,3553; 0,4152]** |
+| cobertura ajustada | 0,5931 [0,5548; 0,6277] | **0,6088 [0,5744; 0,6405]** |
+| **precisão de estados** | 0,5269 [0,5152; 0,5389] | **0,5901 [0,5768; 0,6038]** |
+| **F1 de estados** | 0,5811 [0,5705; 0,5915] | **0,6198 [0,6088; 0,6307]** |
 
-ICs sem sobreposição nas duas que mudam. Por corpus × braço, ver
-`consolidado-simetrico.json`. O 8.12 quase não se move (F1 0,1914→0,1932 e
-0,4268→0,4349): lá o gargalo é **recall** — 24 campos do especialista contra ~8
+Neutralizar tokens de conclusão reduz também a capacidade comparável do
+papagaio; por isso controle e cobertura ajustada mudam ligeiramente, enquanto
+a cobertura observada permanece idêntica. Os ICs de precisão e F1 não se
+sobrepõem entre réguas. Por corpus × braço, ver
+`consolidado-simetrico.json`. Na régua simétrica corrigida, o flash-lite tem
+precisão 0,6326 [0,6103; 0,6551] e F1 0,6303 [0,6148; 0,6456]; o Qwen,
+precisão 0,5477 [0,5322; 0,5639] e F1 0,6093 [0,5960; 0,6229]. Os ICs de F1
+se sobrepõem, portanto esses dados não demonstram superioridade entre braços.
+O 8.12 quase não se move (F1 0,1421→0,1437 e 0,3965→0,4022): lá o gargalo é
+**recall** — 24 campos do especialista contra ~8
 passos do agente — e nenhum reparo de precisão toca nisso.
 
 ### 4.4 Uma regra REJEITADA pelo próprio teste (fica registrada)

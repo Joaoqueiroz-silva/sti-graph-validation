@@ -2,7 +2,7 @@
 
 > **DOCUMENTO HISTÓRICO.** Registro de um protocolo congelado de julho de 2026.
 > Cita rodadas, scripts e manifestos removidos da árvore em 19-20/08/2026 e
-> preservados no histórico git. **Não descreve o experimento do artigo v0.5** —
+> preservados no histórico git. **Não descreve o experimento corrigido do artigo v0.6** —
 > para esse, ver o [README](../../README.md) da raiz.
 
 Data: 15 de julho de 2026. Status: registrada depois da execucao v5 e de

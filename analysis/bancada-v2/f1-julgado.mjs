@@ -16,7 +16,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { canonizarValor } from "./comparar-caminho.mjs";
+import { canonizarValor, caminhoDeReferencia, casarEstados } from "./comparar-caminho.mjs";
 import { carregarReferencia, media, prng } from "../validacao-v2/lib.mjs";
 import { pontuarComBase } from "./linha-de-base.mjs";
 import { problemsDirRelativo } from "../../dataset-config.js";
@@ -40,14 +40,23 @@ export function veredictoDeEstados(juizJson) {
 
 /** Precisão de estados com o veredito do juiz aplicado aos extras. */
 export function precisaoJulgadaEstados(passosAgente, refEx, ehValido) {
-  const alvo = new Set((refEx?.caminho || []).filter((c) => !c.sistema && !c.mecanico && c.valor).map((c) => c.valor));
-  const doAgente = [...new Set((passosAgente || []).map((p) => canonizarValor(p.valor)).filter(Boolean))];
-  if (!doAgente.length || !alvo.size) return null;
-  const bons = doAgente.filter((v) => alvo.has(v) || ehValido(v)).length;
-  return bons / doAgente.length;
+  const refCaminho = caminhoDeReferencia(null, refEx);
+  const avaliaveis = refCaminho.filter((r) => r.comResposta && r.estado).length;
+  const comparaveis = (passosAgente || [])
+    .map((p, idx) => ({ idx, valor: canonizarValor(p.valor) }))
+    .filter((p) => p.valor);
+  if (!avaliaveis) return null;
+  if (!comparaveis.length) return 0;
+  const casamento = casarEstados(refCaminho, passosAgente || []);
+  const indicesCasados = new Set(
+    casamento.filter((c) => c.avaliavel && c.agenteIdx !== null).map((c) => c.agenteIdx)
+  );
+  const tpEstrutural = indicesCasados.size;
+  const extrasValidos = comparaveis.filter((p) => !indicesCasados.has(p.idx) && ehValido(p.valor)).length;
+  return (tpEstrutural + extrasValidos) / comparaveis.length;
 }
 
-const harmonica = (r, p) => (p != null && r + p > 0 ? (2 * r * p) / (r + p) : null);
+const harmonica = (r, p) => (p == null ? null : r + p > 0 ? (2 * r * p) / (r + p) : 0);
 
 function intervaloEstratificado(linhas, { seed = 42, B = 10000 } = {}) {
   const porCorpus = {};

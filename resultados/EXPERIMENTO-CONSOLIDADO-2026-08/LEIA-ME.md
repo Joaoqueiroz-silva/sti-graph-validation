@@ -11,9 +11,11 @@ todos sob o MESMO desenho vigente:
   agent 6 + agent 7 (materialização), problema fixo com gate objetivo;
 - régua de estados do orientador: caminho de referência lido do `.brd`
   (estado de valor = aresta do **aluno** — `<Actor>` — com entrada não
-  mecânica), subsequência ordenada exata (LCS), cobertura sem ordem, caminho
-  íntegro, erros e dicas no estado certo, extras; unidade = grafo; BCa em
-  cluster de exercício; 3 réplicas justificadas por decomposição de variância;
+  mecânica), subsequência ordenada exata (LCS), cobertura sem ordem por
+  interseção de multiconjuntos 1:1, caminho
+  íntegro, erros e dicas no estado certo, extras; unidade = grafo; IC por
+  bootstrap em cluster de exercício (BCa por corpus; percentílico no agregado);
+  3 réplicas justificadas por decomposição de variância;
 - agentes espelhados byte a byte da PRODUÇÃO em execução (commit 5263488,
   `producao/COMMIT-FONTE.txt` + `ESPELHO.sha256`; verificável com
   `node scripts/espelhar-producao.mjs --fonte <repo> --verify`);
@@ -43,7 +45,11 @@ Para o artigo: `docs/GUIA-DO-ARTIGO.md` (§8–§9) e
 - Recorte: **gate por enunciado**, 100 % nos 630 grafos → a tabela usa TODOS os
   grafos, sem exclusão.
 - Métricas complementares obrigatórias, por corpus e braço:
-  `linha-de-base-v3-*.json` (base de acaso, cobertura ajustada, precisão, F1) e
-  `contrafactual-*.json` (o efeito de cada redefinição da régua).
+  `linha-de-base-v3-*.json` (régua simétrica vigente; controle determinístico
+  pareado por ocorrências comparáveis, cobertura ajustada e precisão/F1 com
+  TP=LCS 1:1) e
+  `contrafactual-v3-*.json` (o efeito de cada redefinição da régua sobre os
+  grafos vigentes). Os `contrafactual-v2-*.json` são preservados como histórico
+  e identificam explicitamente a fonte v2 no campo `dir`.
 - Comparação entre braços pareada: `comparacao-bracos.json` por corpus.
 - Achados, correções e limitações: `docs/AUDITORIA-CIENTIFICA-2026-08-18.md`.

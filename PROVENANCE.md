@@ -12,6 +12,20 @@ Gerado por `analysis/build-provenance.mjs` em 2026-07-12. Regra: nenhum exercíc
 
 **Situação não resolvida:** nome, formação, instituição, data de autoria e licença de redistribuição dos BRDs ainda não foram comprovados documentalmente. Os arquivos já constam no histórico público do repositório, fato que não regulariza sua licença.
 
+**O conjunto local 6.17 não é uma cópia byte a byte do pacote remoto.** A
+auditoria de 20/08/2026 comparou, entre outros arquivos, `00bubble`: o arquivo
+local `cases/ctat-6.17/00bubble/expert.brd` tem SHA-256
+`351a81770249530a300cf1119883d5ee0041b3ffc699726cabe21e952e87f027`,
+16 nós, 16 arestas e 8 transições corretas. O `FinalBRDs/00bubble.brd` servido
+naquele dia em
+`https://mathtutor.web.cmu.edu/tutors/packages/6.17%20HTML/FinalBRDs/00bubble.brd`
+tem SHA-256
+`bc7a481794d7d5d2168c0ea93a23304895ce068a251e3ec6cea0b65af1e83274`,
+13 nós, 13 arestas e 5 transições corretas. Há também diferenças de idioma e
+estrutura. Portanto, “6.17” designa aqui um conjunto local adaptado que remete
+à mesma unidade curricular, não identidade com o arquivo remoto. A cadeia de
+transformação anterior ao depósito ainda precisa ser documentada pelo autor.
+
 | Exercício | SHA-256 (12) | Estados | Trans. corretas | Trans. buggy | Misc. (conc.+mec.) | Dicas | KCs declarados | KCs usados em transições |
 |---|---|---|---|---|---|---|---|---|
 | 00bubble | `351a81770249` | 16 | 8 | 8 | 4+4 | 25 | 5 | 4 |
