@@ -209,6 +209,8 @@ export async function extractGraphForgeConfig(state) {
       index: item.step || steps.length + 1,
       kc: item.kcUsed || kcs[0]?.id || "kc_default",
       action: item.action || "",
+      interactionFamily: item.interactionFamily || "",
+      targetRole: item.targetRole || "",
       result: item.result || "",
     });
   }
@@ -521,6 +523,9 @@ export function graphForge(config) {
 
     const node = createNode("step_" + (i + 1), "step", {
       description: step.action || "Passo " + (i + 1),
+      action: step.action || "",
+      interactionFamily: step.interactionFamily || null,
+      targetRole: step.targetRole || null,
       instruction: null,
       expectedInput: {
         value: null,

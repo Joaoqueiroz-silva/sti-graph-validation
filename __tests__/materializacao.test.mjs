@@ -62,6 +62,7 @@ vi.mock("../llm.js", async (importOriginal) => {
 });
 
 import { materializarRegistro } from "../materializar-registro.js";
+import { INPUT_POLICY_SOMENTE_ENUNCIADO } from "../input-policy.js";
 import { pontuarCaminho, caminhoDeReferencia } from "../analysis/bancada-v2/comparar-caminho.mjs";
 import { _resetModelosResolvidos } from "../producao/agents/pipeline-core.js";
 
@@ -155,6 +156,70 @@ describe("materialização — agent 6 + agent 7 portados", () => {
     // dicas do worker do agent 6 chegam ao grafo materializado, ancoradas no passo (1 por passo no mock)
     expect(out.grafoMaterializado.dicas.map((d) => d.passo)).toEqual([1, 2, 3]);
     expect(out.telemetria.dicasMaterializadas).toBe(3);
+  });
+
+  it("somente-enunciado-v1 remove gabarito, KCs, componentes e metadados do estado do agent 6", async () => {
+    _resetModelosResolvidos({ argv: [], env: {} });
+    calls.list.length = 0;
+    const envelopeEstrito = {
+      id: "ID_CTAT_MATERIALIZACAO_SECRETO",
+      problem: "Resolva somente o enunciado fornecido ao materializador.",
+      correctAnswer: "GABARITO_CTAT_MATERIALIZACAO_SECRETO",
+      difficulty: "DIFICULDADE_CTAT_MATERIALIZACAO_SECRETA",
+      profile: "PERFIL_CTAT_MATERIALIZACAO_SECRETO",
+      components: [{ id: "COMPONENTE_CTAT_MATERIALIZACAO_SECRETO" }],
+      knowledgeComponents: [
+        { id: "KC_CTAT_MATERIALIZACAO_SECRETO", name: "NOME_KC_MATERIALIZACAO_SECRETO" },
+      ],
+      metadata: { sourceFile: "ARQUIVO_CTAT_MATERIALIZACAO_SECRETO.brd" },
+    };
+
+    const registroEstrito = JSON.parse(
+      JSON.stringify(registro())
+        .replaceAll("IdenDenominator", "KC_TRACE_CTAT_SECRETO_A")
+        .replaceAll("FindValueNumLine", "KC_TRACE_CTAT_SECRETO_B")
+    );
+    const out = await materializarRegistro(registroEstrito, envelopeEstrito, {
+      inputPolicy: INPUT_POLICY_SOMENTE_ENUNCIADO,
+    });
+
+    const promptPlanner = calls.list.find((c) => c.agent === "agent6_planner").user;
+    expect(promptPlanner).toContain(envelopeEstrito.problem);
+    for (const segredo of [
+      envelopeEstrito.id,
+      envelopeEstrito.correctAnswer,
+      envelopeEstrito.difficulty,
+      envelopeEstrito.profile,
+      envelopeEstrito.components[0].id,
+      envelopeEstrito.knowledgeComponents[0].id,
+      envelopeEstrito.knowledgeComponents[0].name,
+      envelopeEstrito.metadata.sourceFile,
+      "KC_TRACE_CTAT_SECRETO_A",
+      "KC_TRACE_CTAT_SECRETO_B",
+    ]) {
+      expect(promptPlanner).not.toContain(segredo);
+    }
+    expect(out.politicaInput).toMatchObject({
+      id: INPUT_POLICY_SOMENTE_ENUNCIADO,
+      materializacao: {
+        politica: INPUT_POLICY_SOMENTE_ENUNCIADO,
+        etapa: "materializacao",
+        chavesRestritas: [],
+      },
+    });
+    expect(out.politicaInput.materializacao.sha256).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("rejeita materialização estrita com interface fixa antes do planner", async () => {
+    _resetModelosResolvidos({ argv: [], env: {} });
+    calls.list.length = 0;
+    await expect(
+      materializarRegistro(registro(), envelopeA, {
+        interfaceFixa: true,
+        inputPolicy: INPUT_POLICY_SOMENTE_ENUNCIADO,
+      })
+    ).rejects.toThrow(/incompatível com interface fixa/i);
+    expect(calls.list).toHaveLength(0);
   });
 
   it("a régua de estados casa o grafo MATERIALIZADO com o especialista (o que o estágio 3 não permitia)", async () => {

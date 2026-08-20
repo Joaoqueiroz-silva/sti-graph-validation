@@ -1,0 +1,77 @@
+{
+  "schema": "sti.holdout-cleanroom-v08/1:neutral-envelope-b",
+  "meta": {
+    "source": "clean-room-deterministic",
+    "problem": "O arquivo fotográfico anunciou uma redução de 40% no preço de um kit que custava R$ 200. Calcule, em reais, o valor da redução e o novo preço do kit.",
+    "family": "porcentagem",
+    "license": "CC0-1.0"
+  },
+  "steps": [
+    {
+      "key": "80",
+      "answer": "80",
+      "kc": "porcentagem_de_quantidade",
+      "order": 1,
+      "component": "valor_da_reducao",
+      "selection": "valor_da_reducao",
+      "targetRole": "valor_da_reducao",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "interactionFamily": "input_value"
+    },
+    {
+      "key": "120",
+      "answer": "120",
+      "kc": "subtracao_monetaria",
+      "order": 2,
+      "component": "preco_final",
+      "selection": "preco_final",
+      "targetRole": "preco_final",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "interactionFamily": "input_value"
+    }
+  ],
+  "misconceptions": [
+    {
+      "key": "40",
+      "wrongAnswer": "40",
+      "stepKey": "80",
+      "stepOrder": 1,
+      "component": "valor_da_reducao",
+      "selection": "valor_da_reducao",
+      "targetRole": "valor_da_reducao",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "misconceptionId": "valor_da_reducao-confunde_percentual_com_valor",
+      "feedback": "O percentual não é automaticamente um valor em reais; calcule essa fração do preço original.",
+      "mechanical": false
+    },
+    {
+      "key": "280",
+      "wrongAnswer": "280",
+      "stepKey": "120",
+      "stepOrder": 2,
+      "component": "preco_final",
+      "selection": "preco_final",
+      "targetRole": "preco_final",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "misconceptionId": "preco_final-soma_desconto",
+      "feedback": "Uma redução deve ser subtraída do preço original, não adicionada.",
+      "mechanical": false
+    }
+  ],
+  "hintsPerCorrectStep": [
+    [
+      "Transforme a porcentagem em uma parte do preço original.",
+      "Calcule 40 de cada 100 sobre 200.",
+      "A redução vale R$ 80."
+    ],
+    [
+      "Retire do preço original o valor já calculado.",
+      "Subtraia 80 de 200.",
+      "O novo preço é R$ 120."
+    ]
+  ]
+}

@@ -18,6 +18,8 @@ import {
   budget,
   assertBudget,
   budgetLimitUsd,
+  budgetDir,
+  budgetReserveUsd,
   BudgetExceededError,
   runsDir,
 } from "../exec-manifest.js";
@@ -45,6 +47,8 @@ beforeEach(() => {
   vi.stubEnv("STI_RUNS_DIR", tmp);
   vi.stubEnv("STI_RUN_ID", "run-teste");
   vi.stubEnv("STI_BUDGET_USD", ""); // vazio → parseFloat NaN → default 50 (isola do shell)
+  vi.stubEnv("STI_BUDGET_DIR", "");
+  vi.stubEnv("STI_BUDGET_RESERVE_USD", "");
   vi.stubEnv("OPENROUTER_API_KEY", "sk-fake-para-teste"); // nunca usada: fetch é mock
 });
 
@@ -69,6 +73,29 @@ describe("sha256 e tabela de preços", () => {
   it("PRICES está congelada (não dá para adulterar preço em runtime)", () => {
     expect(Object.isFrozen(PRICES)).toBe(true);
     expect(Object.isFrozen(PRICES["z-ai/glm-5.2"])).toBe(true);
+  });
+});
+
+describe("ledger global separado e reserva pré-chamada", () => {
+  it("STI_BUDGET_DIR centraliza budget.json sem deslocar manifests", () => {
+    const global = fs.mkdtempSync(path.join(os.tmpdir(), "exec-global-budget-"));
+    vi.stubEnv("STI_BUDGET_DIR", global);
+    try {
+      recordCall({ model: "google/gemini-3.1-flash-lite", tokensIn: 1000, tokensOut: 1000 });
+      expect(budgetDir()).toBe(global);
+      expect(fs.existsSync(path.join(global, "budget.json"))).toBe(true);
+      expect(fs.existsSync(path.join(tmp, "manifests", "run-teste.jsonl"))).toBe(true);
+    } finally {
+      fs.rmSync(global, { recursive: true, force: true });
+    }
+  });
+
+  it("reserva bloqueia antes da chamada quando não cabe no teto", () => {
+    vi.stubEnv("STI_BUDGET_USD", "1");
+    vi.stubEnv("STI_BUDGET_RESERVE_USD", "0.2");
+    fs.writeFileSync(path.join(tmp, "budget.json"), JSON.stringify({ totalUsd: 0.81, calls: 1 }));
+    expect(budgetReserveUsd()).toBe(0.2);
+    expect(() => assertBudget()).toThrow(/Reserva conservadora/);
   });
 });
 
@@ -262,6 +289,21 @@ describe("(e) telemetria quebrada NUNCA derruba a chamada", () => {
     fs.writeFileSync(blocker, "arquivo");
     vi.stubEnv("STI_RUNS_DIR", path.join(blocker, "runs"));
     expect(() => recordCall({ model: "google/gemini-3.5-flash", tokensIn: 1, tokensOut: 1 })).toThrow();
+  });
+
+  it("STI_MANIFEST_STRICT=1 falha fechado e não tenta segunda chamada", async () => {
+    const blocker = path.join(tmp, "bloqueio-strict");
+    fs.writeFileSync(blocker, "arquivo");
+    vi.stubEnv("STI_RUNS_DIR", path.join(blocker, "runs"));
+    vi.stubEnv("STI_MANIFEST_STRICT", "1");
+    const fetchMock = vi.fn(async () => okResponse("não pode ficar sem recibo"));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const llm = createLLM({ model: "google/gemini-3.5-flash", temperature: 0.2, maxTokens: 10 });
+    await expect(callLLM(llm, "S", "U", { runId: "run-teste" })).rejects.toMatchObject({
+      name: "ManifestPersistenceError",
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
 

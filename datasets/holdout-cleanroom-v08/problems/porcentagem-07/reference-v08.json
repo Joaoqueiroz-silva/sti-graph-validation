@@ -1,0 +1,87 @@
+{
+  "schema": "sti.holdout-cleanroom-v08/1",
+  "id": "porcentagem-07",
+  "family": "porcentagem",
+  "license": "CC0-1.0",
+  "generatedBy": "scripts/gerar-holdout-cleanroom-v08.mjs",
+  "seed": 8042026,
+  "parameters": {
+    "percent": 40,
+    "price": 200
+  },
+  "correctAnswer": "120",
+  "correctPath": [
+    {
+      "id": "s1-valor_da_reducao",
+      "order": 1,
+      "componentSemantic": "valor_da_reducao",
+      "targetRole": "valor_da_reducao",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "interactionFamily": "input_value",
+      "value": "80",
+      "knowledgeComponent": "porcentagem_de_quantidade",
+      "hints": [
+        {
+          "level": 1,
+          "type": "progressive",
+          "text": "Transforme a porcentagem em uma parte do preço original."
+        },
+        {
+          "level": 2,
+          "type": "progressive",
+          "text": "Calcule 40 de cada 100 sobre 200."
+        },
+        {
+          "level": 3,
+          "type": "bottom_out",
+          "text": "A redução vale R$ 80."
+        }
+      ],
+      "predictableErrors": [
+        {
+          "id": "valor_da_reducao-confunde_percentual_com_valor",
+          "wrongValue": "40",
+          "misconception": "confunde_percentual_com_valor",
+          "feedback": "O percentual não é automaticamente um valor em reais; calcule essa fração do preço original."
+        }
+      ]
+    },
+    {
+      "id": "s2-preco_final",
+      "order": 2,
+      "componentSemantic": "preco_final",
+      "targetRole": "preco_final",
+      "action": "UpdateTextField",
+      "actionFamily": "entrada_texto_numero",
+      "interactionFamily": "input_value",
+      "value": "120",
+      "knowledgeComponent": "subtracao_monetaria",
+      "hints": [
+        {
+          "level": 1,
+          "type": "progressive",
+          "text": "Retire do preço original o valor já calculado."
+        },
+        {
+          "level": 2,
+          "type": "progressive",
+          "text": "Subtraia 80 de 200."
+        },
+        {
+          "level": 3,
+          "type": "bottom_out",
+          "text": "O novo preço é R$ 120."
+        }
+      ],
+      "predictableErrors": [
+        {
+          "id": "preco_final-soma_desconto",
+          "wrongValue": "280",
+          "misconception": "soma_desconto",
+          "feedback": "Uma redução deve ser subtraída do preço original, não adicionada."
+        }
+      ]
+    }
+  ]
+}

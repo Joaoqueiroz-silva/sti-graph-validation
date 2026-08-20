@@ -5,6 +5,10 @@
 **Escopo imediato:** análises sem participantes humanos  
 **Estatuto:** reanálise exploratória dos 630 grafos existentes; plano prospectivo separado para qualquer nova coleta
 
+> Emenda vinculada: `EMENDA-V0.8-01-ANCORAGEM-E-COLETA-2026-08-20.md`.
+> Ela remove qualquer resolução por texto livre e fecha o desenho prospectivo;
+> a reanálise existente permanece exploratória.
+
 ## 1. Por que este documento existe
 
 Este protocolo transforma as orientações da última reunião com o orientador em regras executáveis e auditáveis. Ele foi escrito antes da geração dos novos artefatos derivados da v0.8, mas depois de os dados originais terem sido observados. Por isso, nenhuma análise dos 630 grafos existentes será apresentada como confirmatória.

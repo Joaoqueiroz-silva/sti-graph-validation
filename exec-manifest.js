@@ -14,7 +14,11 @@
  * Env:
  *   STI_RUN_ID      identificador da corrida (default "adhoc")
  *   STI_RUNS_DIR    redireciona a pasta runs/ (default: runs/ na raiz do repo; testes usam tmpdir)
+ *   STI_BUDGET_DIR  redireciona APENAS o ledger global de orçamento; quando
+ *                   ausente, o ledger continua em STI_RUNS_DIR (compatível)
  *   STI_BUDGET_USD  limite de gasto em USD (default 50)
+ *   STI_BUDGET_RESERVE_USD reserva conservadora exigida antes de iniciar cada
+ *                   chamada; evita cruzar o teto por causa da chamada em voo
  */
 
 import fs from "node:fs";
@@ -74,7 +78,17 @@ export function runsDir() {
   return d != null && d !== "" ? d : path.join(MODULE_DIR, "runs");
 }
 
-const budgetFile = () => path.join(runsDir(), "budget.json");
+/**
+ * Diretório do ledger de orçamento. Separá-lo dos manifests permite que um
+ * experimento em várias células mantenha UM teto global sem misturar os JSONL
+ * de cada célula. A ausência de STI_BUDGET_DIR preserva o contrato histórico.
+ */
+export function budgetDir() {
+  const d = process.env.STI_BUDGET_DIR;
+  return d != null && d !== "" ? d : runsDir();
+}
+
+const budgetFile = () => path.join(budgetDir(), "budget.json");
 
 /** SHA-256 hexadecimal de um texto (hash de prompts/envelopes para auditoria sem vazar conteúdo). */
 export function sha256(texto) {
@@ -94,6 +108,12 @@ export function costOf(model, tokensIn, tokensOut) {
 export function budgetLimitUsd() {
   const v = parseFloat(process.env.STI_BUDGET_USD);
   return Number.isFinite(v) ? v : 50;
+}
+
+/** Reserva conservadora por chamada, usada só quando explicitamente ativada. */
+export function budgetReserveUsd() {
+  const v = parseFloat(process.env.STI_BUDGET_RESERVE_USD);
+  return Number.isFinite(v) && v > 0 ? v : 0;
 }
 
 /**
@@ -118,16 +138,24 @@ export function budget(addUsd = null) {
     b.totalUsd += addUsd;
     b.calls += 1;
     b.updatedAt = new Date().toISOString();
-    fs.mkdirSync(runsDir(), { recursive: true });
+    fs.mkdirSync(budgetDir(), { recursive: true });
     fs.writeFileSync(budgetFile(), JSON.stringify(b, null, 2) + "\n");
   }
   return b;
 }
 
 /** Trava de orçamento: lança BudgetExceededError se o gasto acumulado já atingiu o limite. */
-export function assertBudget(limitUsd = budgetLimitUsd()) {
+export function assertBudget(limitUsd = budgetLimitUsd(), reserveUsd = budgetReserveUsd()) {
   const b = budget();
-  if (b.totalUsd >= limitUsd) throw new BudgetExceededError(b.totalUsd, limitUsd);
+  const reserva = Number.isFinite(reserveUsd) && reserveUsd > 0 ? reserveUsd : 0;
+  if (b.totalUsd >= limitUsd || b.totalUsd + reserva > limitUsd) {
+    const erro = new BudgetExceededError(b.totalUsd, limitUsd);
+    if (reserva > 0) {
+      erro.reserveUsd = reserva;
+      erro.message += ` Reserva conservadora por chamada: US$ ${reserva.toFixed(4)}.`;
+    }
+    throw erro;
+  }
   return b;
 }
 
@@ -156,6 +184,7 @@ export function recordCall(entry = {}) {
     temperature: entry.temperature ?? null,
     promptSha256: entry.promptSha256 ?? null,
     envelopeSha256: entry.envelopeSha256 ?? null,
+    reasoning: entry.reasoning ?? null,
     attempt: entry.attempt ?? 1,
     fallbackUsed: entry.fallbackUsed === true,
     status: entry.status || "ok",

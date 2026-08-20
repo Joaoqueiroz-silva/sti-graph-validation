@@ -106,6 +106,7 @@ export function pontuarComBase(run, envelopeA, envelopeB, refEx) {
     // Se precisão e recall são ambos zero, F1 é zero (não N/A). Excluir
     // esses registros do pool infla a média justamente nos piores grafos.
     f1Estados: prec == null ? null : rec + prec > 0 ? (2 * rec * prec) / (rec + prec) : 0,
+    nEstadosRef: obs.nEstadosRef,
     nEstadosAgente: obs.nEstadosAgente,
     nEstadosComparaveisAgente: obs.nEstadosComparaveisAgente,
     nEstadosCasados: obs.nEstadosCasados,

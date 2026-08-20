@@ -40,6 +40,15 @@ import { normalizeEducaoff } from "./schema.js";
 import { injectStepAnswers } from "./author-graph.js";
 import { descreverInterface } from "./interface-ctat.js";
 import { configDataset } from "./dataset-config.js";
+import {
+  INPUT_POLICY_SOMENTE_ENUNCIADO,
+  auditarInputAgentes,
+  auditarSaidaAgentes,
+  projetarEnvelopeParaAgentes,
+  resolverInputPolicy,
+  sanitizarEstadoParaAgentes,
+  validarCompatibilidadeInputPolicy,
+} from "./input-policy.js";
 
 /**
  * Constantes do corpus, CONGELADAS no pré-registro da rodada
@@ -52,11 +61,31 @@ export const CORPUS_STATE = Object.freeze({ ...configDataset().corpusState });
 
 /**
  * Monta o `state` que o pipeline-v8 entrega aos agents3 — a partir do envelope
- * A, como o desenho do experimento exige: mesmo problema, mesmo enunciado,
- * mesmos KCs do pacote CTAT. `agent2_seed` não roda (o problema é fixo por
- * premissa); o problema do exercício É a semente.
+ * A, como o desenho do experimento exige. No default histórico entram problema,
+ * gabarito e KCs; em `somente-enunciado-v1` entra apenas o texto, com o mínimo
+ * estado operacional neutro. `agent2_seed` não roda: o problema É a semente.
  */
-export function buildStateFromEnvelopeA(envelopeA, { exerciseId, interfaceFixa = false } = {}) {
+export function buildStateFromEnvelopeA(
+  envelopeA,
+  { exerciseId, interfaceFixa = false, inputPolicy } = {}
+) {
+  const politica = validarCompatibilidadeInputPolicy(
+    resolverInputPolicy(inputPolicy),
+    { interfaceFixa }
+  );
+  if (politica === INPUT_POLICY_SOMENTE_ENUNCIADO) {
+    const entrada = projetarEnvelopeParaAgentes(envelopeA, politica);
+    return sanitizarEstadoParaAgentes(
+      {
+        seedProblems: [{ problemId: 1, statement: entrada.problem }],
+        inputPolicyId: politica,
+        sessionId: null,
+        numProblems: 1,
+        description: "",
+      },
+      politica
+    );
+  }
   // Braço "interface fixa" (rodada 4, 2026-08-15): a interface do CTAT entra
   // no problema-semente — os agents 3 serializam seedProblems inteiro no
   // prompt (JSON.stringify), então o campo `interface` é visto sem editar
@@ -64,6 +93,7 @@ export function buildStateFromEnvelopeA(envelopeA, { exerciseId, interfaceFixa =
   const interfaceCtat = interfaceFixa ? descreverInterface({ ...envelopeA, id: envelopeA.id || exerciseId }) : null;
   return {
     ...CORPUS_STATE,
+    inputPolicyId: politica,
     difficulty: envelopeA.difficulty || "medium",
     interfaceSpec: { profile: envelopeA.profile || "reader" },
     seedProblems: [
@@ -195,6 +225,8 @@ function configPassosLivres(stateFull, configProducao) {
     index: item.step || i + 1,
     kc: item.kcUsed || kcs[0]?.id || "kc_default",
     action: item.action || "",
+    interactionFamily: item.interactionFamily || "",
+    targetRole: item.targetRole || "",
     result: item.result || "",
   }));
   if (steps.length <= (configProducao.steps || []).length) return configProducao; // nada a liberar
@@ -250,11 +282,24 @@ function configPassosLivres(stateFull, configProducao) {
  * opts.passosLivres: ver configPassosLivres.
  */
 export async function authorFluxoPlataforma(envelopeA, opts = {}) {
-  const state = buildStateFromEnvelopeA(envelopeA, opts);
+  const politica = validarCompatibilidadeInputPolicy(
+    resolverInputPolicy(opts.inputPolicy),
+    { interfaceFixa: opts.interfaceFixa === true }
+  );
+  const state = buildStateFromEnvelopeA(envelopeA, { ...opts, inputPolicy: politica });
+  const auditoriaInput = auditarInputAgentes(state, {
+    politica,
+    etapa: "geracao",
+  });
 
   const { advancedTrace } = await agent3a_advancedStudent(state);
   const { atRiskTrace } = await agent3b_atRiskStudent(state);
   const { averageTrace } = await agent3c_averageStudent(state);
+
+  const auditoriaSaida = auditarSaidaAgentes(
+    { advancedTrace, atRiskTrace, averageTrace },
+    { politica, etapa: "geracao" }
+  );
 
   const stateFull = { ...state, advancedTrace, atRiskTrace, averageTrace };
   const configProducao = await extractGraphForgeConfig(stateFull);
@@ -278,6 +323,8 @@ export async function authorFluxoPlataforma(envelopeA, opts = {}) {
     correctPath: (config.steps || []).map((s) => ({
       kc: s.kc,
       action: s.action,
+      interactionFamily: s.interactionFamily || null,
+      targetRole: s.targetRole || null,
       result: s.result,
     })),
     misconceptions: flattenStepDiagnostics(atRiskTrace),
@@ -298,5 +345,6 @@ export async function authorFluxoPlataforma(envelopeA, opts = {}) {
     },
     interfaceFixa,
     interfaceCtat: state.seedProblems?.[0]?.interface ?? null,
+    politicaInput: { id: politica, geracao: auditoriaInput, saidaGeracao: auditoriaSaida },
   };
 }

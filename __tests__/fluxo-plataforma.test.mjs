@@ -34,6 +34,8 @@ const RESPOSTAS = vi.hoisted(() => ({
           {
             step: 1,
             action: "Identificar o denominador",
+            interactionFamily: "input_value",
+            targetRole: "denominador",
             thinking: "O pão foi dividido para 5 pessoas",
             result: "5",
             kcUsed: "IdenDenominator",
@@ -43,6 +45,8 @@ const RESPOSTAS = vi.hoisted(() => ({
           {
             step: 2,
             action: "Marcar 1/5 na reta",
+            interactionFamily: "mark_position",
+            targetRole: "ponto_reta_numerica",
             thinking: "Divido a reta em 5 partes e marco a primeira",
             result: "1/5",
             kcUsed: "FindValueNumLine",
@@ -173,12 +177,28 @@ vi.mock("../llm.js", async (importOriginal) => {
     createLLM: (cfg = {}) => ({ cfg }),
     callLLM: vi.fn(async (llm, system, user, meta) => {
       calls.list.push({ model: llm?.cfg?.model, system, user, meta });
-      return RESPOSTAS[meta.agent] ?? "{}";
+      const resposta = RESPOSTAS[meta.agent] ?? "{}";
+      if (!system.includes("REGIME SOMENTE-ENUNCIADO")) return resposta;
+      const concreto = JSON.parse(resposta);
+      const limpar = (valor) => {
+        if (Array.isArray(valor)) return valor.map(limpar);
+        if (valor && typeof valor === "object") {
+          return Object.fromEntries(Object.entries(valor).map(([k, v]) => [
+            k,
+            k === "problemId" ? 1 : limpar(v),
+          ]));
+        }
+        return typeof valor === "string"
+          ? valor.replace(/\{[A-Za-z][A-Za-z0-9_.:-]*\}/g, "1")
+          : valor;
+      };
+      return JSON.stringify(limpar(concreto));
     }),
   };
 });
 
 import { authorFluxoPlataforma, buildStateFromEnvelopeA } from "../simulate-fluxo-plataforma.js";
+import { INPUT_POLICY_SOMENTE_ENUNCIADO } from "../input-policy.js";
 import { _resetModelosResolvidos } from "../producao/agents/pipeline-core.js";
 import { buildRunRecord, validarRegistro } from "../scripts/registro-run-v2.mjs";
 
@@ -237,6 +257,74 @@ describe("fluxo-plataforma — state e resolução de modelos", () => {
     expect(b.system).toContain("buggyRule");
     expect(b.meta.hardTimeoutMs).toBe(150_000); // fan-out por problema, contrato de produção
   });
+
+  it("somente-enunciado-v1 entrega aos três agentes apenas o texto, sem segredos CTAT", async () => {
+    const estrito = {
+      id: "ID_CTAT_SUPER_SECRETO",
+      problem: "Resolva este enunciado sem consultar um gabarito externo.",
+      correctAnswer: "RESPOSTA_CTAT_SUPER_SECRETA",
+      difficulty: "DIFICULDADE_CTAT_SUPER_SECRETA",
+      profile: "PERFIL_CTAT_SUPER_SECRETO",
+      components: [{ id: "COMPONENTE_CTAT_SUPER_SECRETO" }],
+      knowledgeComponents: [
+        { id: "KC_CTAT_SUPER_SECRETO", name: "NOME_KC_CTAT_SUPER_SECRETO" },
+      ],
+      metadata: { sourceFile: "ARQUIVO_CTAT_SUPER_SECRETO.brd" },
+    };
+
+    const robot = await authorFluxoPlataforma(estrito, {
+      exerciseId: estrito.id,
+      inputPolicy: INPUT_POLICY_SOMENTE_ENUNCIADO,
+    });
+
+    expect(calls.list.map((c) => c.meta.agent)).toEqual([
+      "agent3a_advanced",
+      "agent3b_atrisk",
+      "agent3c_average",
+    ]);
+    const prompts = calls.list.map((c) => `${c.system}\n${c.user}`).join("\n");
+    expect(prompts).toContain(estrito.problem);
+    expect(prompts).toContain("VALORES CONCRETOS");
+    expect(prompts).toContain("não use placeholders");
+    for (const segredo of [
+      estrito.id,
+      estrito.correctAnswer,
+      estrito.difficulty,
+      estrito.profile,
+      estrito.components[0].id,
+      estrito.knowledgeComponents[0].id,
+      estrito.knowledgeComponents[0].name,
+      estrito.metadata.sourceFile,
+    ]) {
+      expect(prompts).not.toContain(segredo);
+    }
+    expect(robot.politicaInput).toMatchObject({
+      id: INPUT_POLICY_SOMENTE_ENUNCIADO,
+      geracao: {
+        politica: INPUT_POLICY_SOMENTE_ENUNCIADO,
+        etapa: "geracao",
+        chavesRestritas: [],
+      },
+      saidaGeracao: {
+        politica: INPUT_POLICY_SOMENTE_ENUNCIADO,
+        placeholders: [],
+        problemIdsInvalidos: [],
+        violacoes: [],
+      },
+    });
+    expect(robot.politicaInput.geracao.sha256).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("rejeita somente-enunciado-v1 + interface fixa antes de chamar qualquer agente", async () => {
+    await expect(
+      authorFluxoPlataforma(envelopeA, {
+        exerciseId: envelopeA.id,
+        interfaceFixa: true,
+        inputPolicy: INPUT_POLICY_SOMENTE_ENUNCIADO,
+      })
+    ).rejects.toThrow(/incompatível com interface fixa/i);
+    expect(calls.list).toHaveLength(0);
+  });
 });
 
 describe("fluxo-plataforma — traces → extractGraphForgeConfig → graphForge", () => {
@@ -245,6 +333,14 @@ describe("fluxo-plataforma — traces → extractGraphForgeConfig → graphForge
 
     const stepNodes = robot.graph.nodes.filter((n) => n.type === "step");
     expect(stepNodes.length).toBeGreaterThan(0);
+    expect(stepNodes[0]).toMatchObject({
+      interactionFamily: "input_value",
+      targetRole: "denominador",
+    });
+    expect(stepNodes[1]).toMatchObject({
+      interactionFamily: "mark_position",
+      targetRole: "ponto_reta_numerica",
+    });
     const miscsNoGrafo = stepNodes.flatMap((n) => n.misconceptions || []);
     expect(miscsNoGrafo.map((m) => m.id)).toContain("misc_whole_number_confusion");
     // o graphForge de produção descarta wrongAnswer com template não resolvido

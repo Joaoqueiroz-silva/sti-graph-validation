@@ -38,6 +38,11 @@
  *          --out DIR  --reference-summary summary.json --allow-model-override
  *          --perfil <nome>          troca TODOS os modelos (config/modelos.json)
  *          --modelo <agente>=<id>   troca UM agente (repetível)
+ *          --input-policy <id>      historico-v1 (default) | somente-enunciado-v1
+ *          --problem-ids a,b,c      subconjunto explícito (ordem canônica)
+ *          --resume                 retoma sem repetir runs concluídos
+ *          --fail-fast              para na primeira falha
+ *          --retry-orphans          autoriza repetir run pago sem JSON final
  *          --plano                  só imprime o plano/custo/mapa resolvido e sai
  *
  * CONFIGURAÇÃO DE MODELOS (port 2026-08, docs/CONFIGURACAO-MODELOS.md):
@@ -64,14 +69,20 @@ import {
 } from "../analysis/reproduce-lib.mjs";
 import { resolverModelos, AGENTES } from "../config/resolver-modelos.js";
 import { buildRunRecord, validarRegistro } from "./registro-run-v2.mjs";
-import { sha256 } from "../exec-manifest.js";
+import { PRICES, sha256 } from "../exec-manifest.js";
+import {
+  INPUT_POLICY_SOMENTE_ENUNCIADO,
+  auditarInputAgentes,
+  projetarEnvelopeParaAgentes,
+  resolverInputPolicy,
+  validarCompatibilidadeInputPolicy,
+} from "../input-policy.js";
+import { resolverPoliticaReasoning } from "../reasoning-policy.js";
 
 const FINAL_MODEL = "qwen/qwen3-max";
-// TETO conservador por run (uma chamada qwen3-max, prompt com inventário
-// reconstruído + saída sem teto de misconceptions). A chamada de certificação
-// de 2026-07-20 usou 1796 tokens de entrada e 2078 de saída, cerca de
-// US$ 0,015; o teto cobre respostas longas. O custo real fica no manifesto.
-const EST_USD_PER_RUN = 0.05;
+// Fallback de reserva para modelos sem preço congelado. Nos três modelos v0.8,
+// a reserva é calculada por preço × limites máximos de tokens logo abaixo.
+const EST_USD_PER_CALL_FALLBACK = 0.3;
 const line = "=".repeat(74);
 
 function parseArgs(argv) {
@@ -88,6 +99,11 @@ function parseArgs(argv) {
     fluxo: "campanha5",
     passosLivres: false,
     interfaceFixa: false,
+    inputPolicy: null,
+    problemIds: null,
+    resume: false,
+    failFast: false,
+    retryOrphans: false,
     referenceSummary: null,
   };
   for (let i = 0; i < argv.length; i++) {
@@ -104,7 +120,25 @@ function parseArgs(argv) {
     else if (a === "--fluxo") out.fluxo = argv[++i];
     else if (a === "--passos-livres") out.passosLivres = true;
     else if (a === "--interface-fixa") out.interfaceFixa = true;
-    else if (a === "--reference-summary") out.referenceSummary = argv[++i];
+    else if (a === "--problem-ids") {
+      const valor = argv[++i];
+      if (!valor || valor.startsWith("--")) {
+        console.error("--problem-ids exige uma lista separada por vírgulas");
+        process.exit(1);
+      }
+      out.problemIds = [...new Set(valor.split(",").map((x) => x.trim()).filter(Boolean))].sort();
+    }
+    else if (a === "--resume") out.resume = true;
+    else if (a === "--fail-fast") out.failFast = true;
+    else if (a === "--retry-orphans") out.retryOrphans = true;
+    else if (a === "--input-policy") {
+      const valor = argv[++i];
+      if (!valor || valor.startsWith("--")) {
+        console.error("--input-policy exige historico-v1 ou somente-enunciado-v1");
+        process.exit(1);
+      }
+      out.inputPolicy = valor;
+    } else if (a === "--reference-summary") out.referenceSummary = argv[++i];
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
@@ -126,14 +160,25 @@ function parseArgs(argv) {
     console.error("--replicas deve estar entre 1 e 10");
     process.exit(1);
   }
+  if (out.problemIds && (out.problemIds.length < 1 || out.problemIds.length > 24)) {
+    console.error("--problem-ids deve selecionar entre 1 e 24 problemas");
+    process.exit(1);
+  }
+  if (out.retryOrphans && !out.resume) {
+    console.error("--retry-orphans só pode ser usado junto com --resume");
+    process.exit(1);
+  }
   return out;
 }
 
-function freshOutDir(base) {
+function resolveOutDir(base, resume = false) {
   const stamp = new Date().toISOString().slice(0, 10);
   let dir = base ? path.resolve(process.cwd(), base) : path.join(REPO, "resultados", `reproducao-${stamp}`);
   if (base) {
-    if (fs.existsSync(dir) && (!fs.statSync(dir).isDirectory() || fs.readdirSync(dir).length)) {
+    if (fs.existsSync(dir) && !fs.statSync(dir).isDirectory()) {
+      throw new Error(`--out deve apontar para um diretório: ${dir}`);
+    }
+    if (!resume && fs.existsSync(dir) && fs.readdirSync(dir).length) {
       throw new Error(`--out deve apontar para diretório novo ou vazio; recusando sobrescrever ${dir}`);
     }
     return dir;
@@ -143,8 +188,22 @@ function freshOutDir(base) {
   return dir;
 }
 
+function writeJsonAtomic(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const tmp = `${file}.tmp-${process.pid}`;
+  fs.writeFileSync(tmp, JSON.stringify(value, null, 1) + "\n");
+  fs.renameSync(tmp, file);
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  const interfaceFixaAtiva =
+    args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1";
+  const inputPolicy = validarCompatibilidadeInputPolicy(
+    resolverInputPolicy(args.inputPolicy),
+    { interfaceFixa: interfaceFixaAtiva }
+  );
+  const reasoningPolicy = resolverPoliticaReasoning().record;
 
   // ── resolução de modelos por perfil (docs/CONFIGURACAO-MODELOS.md) ───────
   // --perfil/--modelo (e PERFIL_MODELOS/MODELO_<AGENTE> no ambiente) engajam a
@@ -300,13 +359,18 @@ async function main() {
           provedor: "openrouter",
           resolvidoEm: resolucao.resolvidoEm,
         };
+  blocoModelos.reasoning = reasoningPolicy;
 
   // ── plano e aviso de custo ANTES de começar ──────────────────────────────
-  const problemIds = fs
+  const availableProblemIds = fs
     .readdirSync(path.join(DATASET_DIR, "problems"))
     .filter((d) => fs.existsSync(path.join(DATASET_DIR, "problems", d, "envelope-a.json")))
-    .sort()
-    .slice(0, args.problems);
+    .sort();
+  const problemIds = args.problemIds || availableProblemIds.slice(0, args.problems);
+  const unknownProblemIds = problemIds.filter((id) => !availableProblemIds.includes(id));
+  if (unknownProblemIds.length) {
+    throw new Error(`--problem-ids contém problema(s) ausente(s) no corpus: ${unknownProblemIds.join(", ")}`);
+  }
   if (!problemIds.length) {
     throw new Error(`nenhum problema com envelope-a encontrado em ${path.join(DATASET_DIR, "problems")}`);
   }
@@ -320,7 +384,7 @@ async function main() {
       readJson(arquivo); // valida também a sintaxe JSON
     }
   }
-  const outDir = freshOutDir(args.out);
+  const outDir = resolveOutDir(args.out, args.resume);
   const referencePath = args.referenceSummary ? path.resolve(process.cwd(), args.referenceSummary) : null;
   let deposited = null;
   if (referencePath) {
@@ -333,6 +397,7 @@ async function main() {
   const totalRuns = problemIds.length * args.replicas;
   const chamadasPorRun = args.fluxo === "plataforma" ? 3 : 1;
   console.log(`\n${line}\nPLANO DA COLETA`);
+  console.log(`  política de input: ${inputPolicy}`);
   console.log(
     `  ${problemIds.length} problema(s) x ${args.replicas} réplica(s) = ${totalRuns} run(s); ` +
       (args.fluxo === "plataforma"
@@ -340,11 +405,15 @@ async function main() {
         : `1 chamada de LLM por run no caminho default`)
   );
   if (!args.adapter) {
-    const est = totalRuns * EST_USD_PER_RUN * chamadasPorRun;
+    const price = PRICES[resolved.model];
+    const est =
+      args.fluxo === "plataforma" && price
+        ? totalRuns * ((150000 / 1e6) * price.input + ((16000 + 24000 + 16000) / 1e6) * price.output)
+        : totalRuns * EST_USD_PER_CALL_FALLBACK * chamadasPorRun;
     console.log(
-      `  CUSTO ESTIMADO (teto conservador): até ~US$ ${est.toFixed(2)} ` +
-        `(teto de US$ ${EST_USD_PER_RUN.toFixed(2)}/run; a chamada típica custa cerca de um ` +
-        `terço disso; o custo real por chamada fica no manifesto)`
+      `  RESERVA CONSERVADORA DA CÉLULA: até US$ ${est.toFixed(2)} ` +
+        `(limites máximos de saída + teto conservador de entrada; ` +
+        `o custo esperado é menor e o usage real fica no manifesto)`
     );
     console.log(`  trava de orçamento: STI_BUDGET_USD=${process.env.STI_BUDGET_USD || "50 (default)"}`);
     if (args.plano) {
@@ -372,14 +441,43 @@ async function main() {
   }
   console.log(line);
 
-  // ── saída datada + manifesto de chamadas dentro dela ─────────────────────
-  fs.mkdirSync(path.join(outDir, "runs"), { recursive: true });
-  const runId = `reproducao-${new Date().toISOString().replace(/[:.]/g, "-")}`;
-  if (!args.adapter) {
-    process.env.STI_RUNS_DIR = outDir; // manifesto: <out>/manifests/<runId>.jsonl
-    process.env.STI_RUN_ID = runId;
+  // ── plano estável + saída/manifestos ─────────────────────────────────────
+  // Este arquivo é escrito ANTES da primeira chamada. Em retomadas, a
+  // comparação byte a byte impede misturar corpus, modelo, política ou regime.
+  const collectionPlan = {
+    schema: "sti-collection-cell-v1",
+    dataset: process.env.STI_DATASET || "frac-numberline-6.17",
+    problemIds,
+    replicas: args.replicas,
+    fluxo: args.fluxo,
+    passosLivres: args.passosLivres || process.env.STI_PASSOS_LIVRES === "1",
+    interfaceFixa: interfaceFixaAtiva,
+    inputPolicy,
+    model: args.adapter ? `adaptador:${adapterSha}` : resolved.model,
+    temperatures:
+      args.fluxo === "plataforma"
+        ? { agent3a_advanced: 0.2, agent3b_atrisk: 0.7, agent3c_average: 0.4 }
+        : { default: resolved?.temperature ?? null },
+    reasoning: reasoningPolicy,
+  };
+  const collectionPlanText = JSON.stringify(collectionPlan, null, 1) + "\n";
+  const collectionPlanHash = sha256(collectionPlanText);
+  const collectionPlanPath = path.join(outDir, "collection-plan.json");
+  if (fs.existsSync(collectionPlanPath)) {
+    if (fs.readFileSync(collectionPlanPath, "utf8") !== collectionPlanText) {
+      throw new Error(`--resume recusado: collection-plan.json não corresponde ao plano solicitado em ${outDir}`);
+    }
+  } else if (args.resume && fs.existsSync(outDir) && fs.readdirSync(outDir).length) {
+    throw new Error(`--resume recusado: diretório não vazio sem collection-plan.json: ${outDir}`);
   }
-  console.log(`Saída: ${outDir}\n`);
+  fs.mkdirSync(path.join(outDir, "runs"), { recursive: true });
+  if (!fs.existsSync(collectionPlanPath)) fs.writeFileSync(collectionPlanPath, collectionPlanText);
+  const runId = `coleta-${collectionPlanHash.slice(0, 16)}`;
+  if (!args.adapter) {
+    process.env.STI_RUNS_DIR = outDir;
+  }
+  console.log(`Saída: ${outDir}`);
+  console.log(`Política de input: ${inputPolicy}\n`);
 
   // ── fatos renderizados por problema (mesma fonte do braço final) ─────────
   // multi-corpus (2026-08-16): a tabela de mass production só existe no 6.17
@@ -404,16 +502,25 @@ async function main() {
   // adaptador) e respostaDoModelo (retorno bruto do adaptador) para o registro.
   const makeAdapterSimulate = (sink = {}) => async (iface, opts = {}) => {
     const inventory = buildInterfaceInventory(iface, { renderedFacts: opts.renderedFacts });
-    const adapterInput = {
-      envelopeA: iface,
-      renderedFacts: opts.renderedFacts ?? null,
-      interfaceInventory: { ...inventory, texto: formatInterfaceInventory(inventory) },
-    };
+    const adapterInput = inputPolicy === INPUT_POLICY_SOMENTE_ENUNCIADO
+      ? { envelopeA: iface }
+      : {
+          envelopeA: iface,
+          renderedFacts: opts.renderedFacts ?? null,
+          interfaceInventory: { ...inventory, texto: formatInterfaceInventory(inventory) },
+        };
     const leaks = findLeaksInRobotInput(adapterInput);
     if (leaks.length) {
       throw new Error(`input do adaptador REPROVADO no gate anti-vazamento: ${leaks.join(", ")}`);
     }
     sink.promptSha256 = sha256(JSON.stringify(adapterInput));
+    sink.politicaInput = {
+      id: inputPolicy,
+      geracao: auditarInputAgentes(adapterInput, {
+        politica: inputPolicy,
+        etapa: "geracao",
+      }),
+    };
     const raw = (await adapter(adapterInput)) || {};
     sink.respostaDoModelo = JSON.stringify(raw);
     const allowed = new Set();
@@ -439,15 +546,18 @@ async function main() {
   // Manifesto por run (contrato v2, bloco custo): o JSONL é append-only e a
   // coleta é sequencial — as linhas novas entre o antes e o depois de um run
   // são as chamadas DAQUELE run.
-  const manifestPath = path.join(outDir, "manifests", `${runId}.jsonl`);
-  const lerManifesto = () =>
-    fs.existsSync(manifestPath)
+  const runIdFor = (tag) => `${runId}-${String(tag).replace(/[^A-Za-z0-9._-]/g, "-")}`;
+  const manifestPathFor = (tag) => path.join(outDir, "manifests", `${runIdFor(tag)}.jsonl`);
+  const lerManifesto = (tag) => {
+    const manifestPath = manifestPathFor(tag);
+    return fs.existsSync(manifestPath)
       ? fs
           .readFileSync(manifestPath, "utf8")
           .split("\n")
           .filter(Boolean)
           .map((l) => JSON.parse(l))
       : [];
+  };
 
   const failures = [];
   let done = 0;
@@ -455,23 +565,59 @@ async function main() {
     const problemDir = path.join(DATASET_DIR, "problems", id);
     const envelopeA = readJson(path.join(problemDir, "envelope-a.json"));
     const renderedFacts = renderedFactsFor(id);
+    const envelopeAgentes = projetarEnvelopeParaAgentes(envelopeA, inputPolicy);
+    const renderedFactsAgentes =
+      inputPolicy === INPUT_POLICY_SOMENTE_ENUNCIADO ? undefined : renderedFacts;
+    const inputGeracao = renderedFactsAgentes === undefined
+      ? { envelopeA: envelopeAgentes }
+      : { envelopeA: envelopeAgentes, renderedFacts: renderedFactsAgentes ?? null };
     // Gate anti-vazamento também no caminho default (defesa em profundidade;
     // o mesmo input flui para o prompt do simulador).
-    const leaks = findLeaksInRobotInput({ envelopeA, renderedFacts: renderedFacts ?? null });
+    const leaks = findLeaksInRobotInput(inputGeracao);
     if (leaks.length) {
       console.error(`✗ ${id}: envelope-a reprovado no gate anti-vazamento: ${leaks.join(", ")}`);
       process.exit(1);
     }
     for (let rep = 1; rep <= args.replicas; rep++) {
       const tag = `${id}_rep${rep}`;
+      const runFile = path.join(outDir, "runs", `${tag}.json`);
+      if (fs.existsSync(runFile)) {
+        const existente = readJson(runFile);
+        const faltando = args.adapter ? [] : validarRegistro(existente);
+        const modeloExistente = existente?.modelos?.porAgente?.estudantes;
+        if (
+          existente.exercicio !== id ||
+          Number(existente.replica) !== rep ||
+          existente?.politicaInput?.id !== inputPolicy ||
+          (!args.adapter && modeloExistente !== resolved.model) ||
+          faltando.length
+        ) {
+          throw new Error(
+            `--resume recusado: run existente incompatível/corrompido ${runFile}` +
+              (faltando.length ? ` (falta ${faltando.join(", ")})` : "")
+          );
+        }
+        done++;
+        console.log(`[${done}/${totalRuns}] ${tag}  ↷ já concluído; nenhuma chamada repetida`);
+        continue;
+      }
+      const chamadasOrfas = args.adapter ? [] : lerManifesto(tag);
+      if (chamadasOrfas.length && !args.retryOrphans) {
+        throw new Error(
+          `retomada segura bloqueou ${tag}: há ${chamadasOrfas.length} recibo(s) de chamada, ` +
+            `mas não há run final. Inspecione ${manifestPathFor(tag)}; só repita conscientemente ` +
+            `com --resume --retry-orphans.`
+        );
+      }
       try {
-        const chamadasAntes = args.adapter ? 0 : lerManifesto().length;
+        if (!args.adapter) process.env.STI_RUN_ID = runIdFor(tag);
+        const chamadasAntes = args.adapter ? 0 : lerManifesto(tag).length;
         const sink = {}; // bruto/hash do caminho adaptador OU captureRaw do default
         let robot;
         if (args.adapter) {
           const simulate = makeAdapterSimulate(sink);
-          const traces = await simulate(envelopeA, { renderedFacts });
-          const graph = authorGraphForInterface(envelopeA, traces);
+          const traces = await simulate(envelopeAgentes, { renderedFacts: renderedFactsAgentes });
+          const graph = authorGraphForInterface(envelopeAgentes, traces);
           robot = { graph, neutral: normalizeEducaoff(graph, { source: "robo" }), traces };
         } else if (args.fluxo === "plataforma") {
           // Fluxo da plataforma: 3 chamadas (3a/3b/3c). O sink de bruto vem do
@@ -480,24 +626,32 @@ async function main() {
           const raws = [];
           llmMod.setRawSink((r) => raws.push(r));
           try {
-            robot = await authorFluxoPlataforma(envelopeA, {
+            robot = await authorFluxoPlataforma(envelopeAgentes, {
               exerciseId: id,
               passosLivres: args.passosLivres || process.env.STI_PASSOS_LIVRES === "1",
-              interfaceFixa: args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1",
+              interfaceFixa: interfaceFixaAtiva,
+              inputPolicy,
             });
           } finally {
             llmMod.setRawSink(null);
           }
           sink.respostaDoModelo = JSON.stringify(raws);
         } else {
-          robot = await authorFromEnvelopeA(envelopeA, {
-            renderedFacts,
+          sink.politicaInput = {
+            id: inputPolicy,
+            geracao: auditarInputAgentes(inputGeracao, {
+              politica: inputPolicy,
+              etapa: "geracao",
+            }),
+          };
+          robot = await authorFromEnvelopeA(envelopeAgentes, {
+            renderedFacts: renderedFactsAgentes,
             captureRaw: (raw) => {
               sink.respostaDoModelo = raw;
             },
           });
         }
-        const chamadas = args.adapter ? [] : lerManifesto().slice(chamadasAntes);
+        const chamadas = args.adapter ? [] : lerManifesto(tag).slice(chamadasAntes);
         if (args.fluxo === "plataforma" && !sink.promptSha256) {
           // promptSha256 do registro = o da chamada do 3b (é o prompt que
           // produz os erros — o objeto da métrica); as três ficam no manifesto.
@@ -527,8 +681,37 @@ async function main() {
           respostaDoModelo: sink.respostaDoModelo ?? null,
           promptSha256: sink.promptSha256 ?? null,
         });
+        run.politicaInput = robot.politicaInput || sink.politicaInput || {
+          id: inputPolicy,
+          geracao: auditarInputAgentes(inputGeracao, {
+            politica: inputPolicy,
+            etapa: "geracao",
+          }),
+        };
         if (args.fluxo === "plataforma") {
           run.fluxo = "plataforma";
+          // Preserva o artefato GraphForge anterior aos agentes 6/7. O grafo
+          // neutral `grafo` continua existindo para compatibilidade, mas não
+          // contém targetRole/família de interação e, portanto, não permite o
+          // contraste SAI pareado exigido pelo holdout confirmatório.
+          run.bruto.behaviorGraph = {
+            nodes: (robot.graph?.nodes || []).map((node) => ({
+              id: node.id,
+              type: node.type,
+              description: node.description,
+              instruction: node.instruction,
+              action: node.action ?? null,
+              interactionFamily: node.interactionFamily ?? null,
+              targetRole: node.targetRole ?? null,
+              expectedInput: node.expectedInput ?? null,
+              knowledgeComponents: node.knowledgeComponents ?? [],
+              hints: node.hints ?? [],
+              misconceptions: node.misconceptions ?? [],
+              scaffoldNodes: node.scaffoldNodes ?? [],
+              targetMisconception: node.targetMisconception,
+            })),
+            edges: robot.graph?.edges || [],
+          };
           // Gate do piloto: quantos erros específicos do 3b o graphForge
           // descartou por template não resolvido ({A}/{B}) — na plataforma
           // eles seriam concretizados na materialização; taxa alta = bancada
@@ -552,7 +735,7 @@ async function main() {
             throw new Error(`registro incompleto (contrato v2): falta ${faltando.join(", ")}`);
           }
         }
-        fs.writeFileSync(path.join(outDir, "runs", `${tag}.json`), JSON.stringify(run, null, 1));
+        writeJsonAtomic(runFile, run);
         done++;
         console.log(
           `[${done}/${totalRuns}] ${tag}  f1=${fmt3(run.f1)} conceptual=${fmt3(run.conceptual)} ` +
@@ -561,12 +744,12 @@ async function main() {
       } catch (e) {
         failures.push({ run: tag, error: e.message });
         console.error(`[${done}/${totalRuns}] ${tag}  ✗ FALHOU: ${e.message}`);
-        if (done === 0 && failures.length === 1 && !args.adapter) {
+        if (args.failFast || (done === 0 && failures.length === 1 && !args.adapter)) {
           console.error(
-            "\nA PRIMEIRA chamada falhou: interrompendo antes de acumular custo. " +
-              "Verifique a chave/modelo acima (nenhum fallback de modelo foi tentado)."
+            "\nColeta interrompida no primeiro erro da célula. A retomada nunca repete " +
+              "recibos órfãos sem autorização explícita."
           );
-          process.exit(1);
+          throw e;
         }
       }
     }
@@ -575,15 +758,13 @@ async function main() {
   // ── auditoria do manifesto: nenhum modelo diferente do resolvido ─────────
   let manifestNote = "adaptador externo: manifesto de chamadas fica a cargo do adaptador";
   if (!args.adapter) {
-    const manifestPath = path.join(outDir, "manifests", `${runId}.jsonl`);
-    let calls = [];
-    if (fs.existsSync(manifestPath)) {
-      calls = fs
-        .readFileSync(manifestPath, "utf8")
-        .split("\n")
-        .filter(Boolean)
-        .map((l) => JSON.parse(l));
-    }
+    const manifestDir = path.join(outDir, "manifests");
+    const manifestFiles = fs.existsSync(manifestDir)
+      ? fs.readdirSync(manifestDir).filter((f) => f.endsWith(".jsonl")).sort()
+      : [];
+    const calls = manifestFiles.flatMap((f) =>
+      fs.readFileSync(path.join(manifestDir, f), "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l))
+    );
     const wrongModel = calls.filter((c) => c.model !== resolved.model);
     if (wrongModel.length) {
       console.error(
@@ -597,7 +778,7 @@ async function main() {
     const tokensOut = calls.reduce((s, c) => s + (c.tokensOut || 0), 0);
     manifestNote =
       `${calls.length} chamada(s), todas em ${resolved.model}; ` +
-      `tokens in/out = ${tokensIn}/${tokensOut}; manifesto: manifests/${runId}.jsonl`;
+      `tokens in/out = ${tokensIn}/${tokensOut}; ${manifestFiles.length} manifesto(s) por run em manifests/`;
     console.log(`\n✓ manifesto auditado: ${manifestNote}`);
   }
 
@@ -632,6 +813,7 @@ async function main() {
         fluxo: args.fluxo,
         topologia: args.fluxo === "plataforma" ? (args.passosLivres || process.env.STI_PASSOS_LIVRES === "1" ? "livre" : "producao") : null,
         interfaceFixa: args.fluxo === "plataforma" ? (args.interfaceFixa || process.env.STI_INTERFACE_FIXA === "1") : null,
+        inputPolicy,
         dataset: process.env.STI_DATASET || "frac-numberline-6.17",
         modelos: blocoModelos,
         resolucaoModelos: { engajada: modoPerfil, origem: modoPerfil ? resolucao.origem : null },

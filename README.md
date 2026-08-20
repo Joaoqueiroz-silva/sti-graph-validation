@@ -90,6 +90,21 @@ Para uma cadeia multicorpus portável, defina um destino novo, por exemplo
 escrevem sobre os resultados depositados. Uma comparação externa só é feita
 quando `--reference-summary <arquivo>` é informado explicitamente.
 
+**Experimento prospectivo v0.8.** O orquestrador novo fica em modo plano por
+padrão e não faz chamadas nem cria saída. Ele congela 5 corpora × 3 modelos ×
+2 políticas de entrada × 10 réplicas, com os estágios bruto e materializado
+pareados:
+
+```bash
+npm run experiment:v08
+```
+
+O orçamento esperado é ~US$ 216,40; o teto operacional recomendado é US$ 250.
+A execução paga exige três confirmações explícitas (`--executar`,
+`--budget-usd` e `--out`), ledger global, worktree limpa e manifesto idêntico
+na retomada. Veja comandos, composição do custo e travas em
+[`docs/EXPERIMENTO-ORIENTADOR-V08.md`](docs/EXPERIMENTO-ORIENTADOR-V08.md).
+
 ---
 
 ## Onde está cada afirmação do artigo
@@ -102,6 +117,7 @@ quando `--reference-summary <arquivo>` é informado explicitamente.
 | o que foi decidido **antes** de ver os dados | os pré-registros: [rodada 4](resultados/rodada4-interface-fixa-2026-08-15/PRE-REGISTRO.md) · [bloco 1](resultados/bloco1-mathtutor-2026-08-16/PRE-REGISTRO.md) · [juízo](docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md) |
 | por que cada decisão de régua foi tomada | [`docs/GUIA-DO-ARTIGO.md`](docs/GUIA-DO-ARTIGO.md) §§6–14 |
 | a régua em código, com testes | [`analysis/bancada-v2/comparar-caminho.mjs`](analysis/bancada-v2/comparar-caminho.mjs) + [`analysis/validacao-v2/lib.mjs`](analysis/validacao-v2/lib.mjs) |
+| o plano prospectivo v0.8, orçamento e retomada | [`docs/EXPERIMENTO-ORIENTADOR-V08.md`](docs/EXPERIMENTO-ORIENTADOR-V08.md) |
 
 ---
 

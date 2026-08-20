@@ -38,7 +38,8 @@
 
 import fs from "node:fs";
 import { logger } from "./logger.js";
-import { recordCall, assertBudget, sha256 } from "./exec-manifest.js";
+import { recordCall, assertBudget, budgetReserveUsd, costOf, sha256 } from "./exec-manifest.js";
+import { resolverPoliticaReasoning } from "./reasoning-policy.js";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
@@ -141,6 +142,7 @@ async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 
   try {
     const key = process.env.OPENROUTER_API_KEY;
     if (!key) throw new Error("Defina OPENROUTER_API_KEY no arquivo .env (copie o .env.example).");
+    const reasoning = resolverPoliticaReasoning();
     const res = await fetch(OPENROUTER_URL, {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
@@ -161,7 +163,7 @@ async function openrouter(model, system, user, { temperature = 0.3, maxTokens = 
         // (a mesma forma usada pelo painel de juízes do protocolo C4, cujo
         // runner saiu da árvore em 19/08 e está no histórico git). Vale só para
         // quem opta pelo env: nenhum caminho congelado muda de comportamento.
-        ...(process.env.STI_SEM_RACIOCINIO === "1" ? { reasoning: { effort: "none", exclude: true } } : {}),
+        ...(reasoning.request ? { reasoning: reasoning.request } : {}),
       }),
     });
     if (!res.ok) {
@@ -208,6 +210,13 @@ function safeRecord(entry) {
     recordCall(entry);
   } catch (err) {
     logger.warn({ err: err.message }, "falha ao gravar o manifesto de execução (telemetria ignorada)");
+    // Campanhas pagas multicélula optam por fail-closed: se recibo/ledger não
+    // puder ser persistido, interrompe sem tentar outro modelo/chamada. O
+    // comportamento histórico fail-open permanece como default.
+    if (process.env.STI_MANIFEST_STRICT === "1") {
+      err.name = "ManifestPersistenceError";
+      throw err;
+    }
   }
 }
 
@@ -220,15 +229,23 @@ function safeRecord(entry) {
  */
 export async function callLLM(llm, system, user, meta = {}) {
   const cfg = llm?.cfg || getAgentConfig();
+  const reasoning = resolverPoliticaReasoning();
   const base = {
     runId: meta.runId,
     exerciseId: meta.exerciseId ?? null,
     agentKey: meta.agent ?? cfg.key ?? null,
     promptSha256: sha256(String(system ?? "") + String(user ?? "")),
     envelopeSha256: meta.envelopeSha256 ?? null,
+    reasoning: reasoning.record,
   };
   const attempt = async (model, temperature, opts, n, fallbackUsed) => {
-    assertBudget(); // trava dura: para ANTES de gastar (limite via STI_BUDGET_USD, default 50)
+    // Reserva dinâmica: bytes do prompt são limite superior conservador de
+    // tokens de texto, e maxTokens limita a saída pedida à API. A campanha
+    // pode ainda impor um piso maior via STI_BUDGET_RESERVE_USD.
+    const maxInputTokens = Buffer.byteLength(String(system ?? "") + String(user ?? ""), "utf8");
+    const dynamicReserve = costOf(model, maxInputTokens, Number(opts?.maxTokens) || 16000);
+    const reserve = Math.max(budgetReserveUsd(), Number.isFinite(dynamicReserve) ? dynamicReserve : 0);
+    assertBudget(undefined, reserve); // trava dura ANTES de gastar
     try {
       const out = await openrouter(model, system, user, { ...opts, images: meta.images });
       safeRecord({
@@ -273,7 +290,9 @@ export async function callLLM(llm, system, user, meta = {}) {
   try {
     return await attempt(cfg.model, cfg.temperature, cfg, 1, false);
   } catch (err) {
-    if (err && err.name === "BudgetExceededError") throw err; // orçamento estourado: sem fallback
+    if (err && ["BudgetExceededError", "ManifestPersistenceError"].includes(err.name)) {
+      throw err; // orçamento/recibo: sem nova chamada nem fallback
+    }
     logger.warn(
       { agent: meta.agent, model: cfg.model, err: err.message },
       "chamada primária falhou; tentando o fallback"

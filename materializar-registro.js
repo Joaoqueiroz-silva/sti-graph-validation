@@ -33,6 +33,14 @@ import { buildStateFromEnvelopeA } from "./simulate-fluxo-plataforma.js";
 import { montarGrafo } from "./scripts/registro-run-v2.mjs";
 import { descreverInterface, textoRequisitoInterface } from "./interface-ctat.js";
 import { canonAnswer } from "./schema.js";
+import {
+  INPUT_POLICY_SOMENTE_ENUNCIADO,
+  auditarInputAgentes,
+  auditarSaidaAgentes,
+  resolverInputPolicy,
+  sanitizarEstadoParaAgentes,
+  validarCompatibilidadeInputPolicy,
+} from "./input-policy.js";
 
 /**
  * GATE de problema fixo — prova objetiva de que o agent 6 usou o problema do
@@ -122,6 +130,8 @@ async function genericGraphFromTraces(state, tracos, passosNoRegistro) {
       index: item.step || i + 1,
       kc: item.kcUsed || config.kcs?.[0]?.id || "kc_default",
       action: item.action || "",
+      interactionFamily: item.interactionFamily || "",
+      targetRole: item.targetRole || "",
       result: item.result || "",
     }));
     return graphForge({
@@ -143,35 +153,52 @@ export async function materializarRegistro(registro, envelopeA, opts = {}) {
   if (!tracos.advancedTrace || !tracos.atRiskTrace) {
     throw new Error("registro sem bruto.tracos completos (advancedTrace/atRiskTrace) — não materializável");
   }
+  const interfaceFixa = opts.interfaceFixa === true || registro.interfaceFixa === true;
+  const politica = validarCompatibilidadeInputPolicy(
+    resolverInputPolicy(opts.inputPolicy ?? registro.politicaInput?.id),
+    { interfaceFixa }
+  );
   const state = buildStateFromEnvelopeA(envelopeA, {
     exerciseId: registro.exercicio ?? registro.id,
-    interfaceFixa: opts.interfaceFixa === true || registro.interfaceFixa === true,
+    interfaceFixa,
+    inputPolicy: politica,
   });
   const genericGraph = await genericGraphFromTraces(state, tracos, (registro.grafo?.passos || []).length);
   const misconceptionCatalog = buildMisconceptionCatalog(tracos.atRiskTrace);
 
   // Braço "interface fixa" (rodada 4): registro coletado com --interface-fixa
   // (ou opts.interfaceFixa) → a interface do CTAT também entra no requisito.
-  const interfaceFixa = opts.interfaceFixa === true || registro.interfaceFixa === true;
   const interfaceCtat = interfaceFixa ? registro.interfaceCtat || descreverInterface({ ...envelopeA, id: envelopeA.id || registro.exercicio }) : null;
+  const somenteEnunciado = politica === INPUT_POLICY_SOMENTE_ENUNCIADO;
   const requisitoProblemaFixo =
     opts.fixarProblema === false
       ? ""
-      : `Use EXATAMENTE este problema, sem alterar história, quantidades nem a resposta:
+      : somenteEnunciado
+        ? `Use EXATAMENTE este enunciado, sem acrescentar gabarito, interface ou metadados externos:
+"${String(envelopeA.problem || "").trim()}"
+Não crie outro cenário nem outras quantidades. Resolva o problema a partir somente do texto acima.`
+        : `Use EXATAMENTE este problema, sem alterar história, quantidades nem a resposta:
 "${String(envelopeA.problem || "").trim()}"
 Resposta correta final do problema: ${String(envelopeA.correctAnswer ?? "").trim()}.
 Não crie outro cenário nem outros números. Todos os passos e respostas esperadas devem usar os valores deste enunciado.` +
         (interfaceCtat ? `\n\n${textoRequisitoInterface(interfaceCtat)}` : "");
 
-  const state6 = {
-    ...state,
-    ...tracos,
-    genericGraph,
-    misconceptionCatalog,
-    numProblems: opts.numProblems ?? 1,
-    seedProblems: state.seedProblems,
-    description: requisitoProblemaFixo,
-  };
+  const state6 = sanitizarEstadoParaAgentes(
+    {
+      ...state,
+      ...tracos,
+      genericGraph,
+      misconceptionCatalog,
+      numProblems: opts.numProblems ?? 1,
+      seedProblems: state.seedProblems,
+      description: requisitoProblemaFixo,
+    },
+    politica
+  );
+  const auditoriaInput = auditarInputAgentes(state6, {
+    politica,
+    etapa: "materializacao",
+  });
   const t0 = Date.now();
   // opts.agentes: injeção de implementações alternativas do agent 6/7 (só para
   // testes de equivalência entre versões de produção; o padrão é o espelho).
@@ -183,6 +210,10 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
   const exercicio = (out7.exercises || [])[0] || null;
   const graph = exercicio?.behaviorGraph || null;
   if (!graph) throw new Error("agent 7 não produziu behaviorGraph");
+  const auditoriaSaida = auditarSaidaAgentes(
+    { exercises, behaviorGraph: graph },
+    { politica, etapa: "materializacao" }
+  );
 
   // Erros e dicas do grafo MATERIALIZADO vêm do próprio behaviorGraph do
   // agent 7: os nós "step" carregam `misconceptions[]` (opções erradas do
@@ -230,6 +261,13 @@ Não crie outro cenário nem outros números. Todos os passos e respostas espera
       passosMaterializados: stepNodes.length,
       dicasMaterializadas: traces.hints.length,
       interfaceFixa,
+    },
+    politicaInput: {
+      id: politica,
+      geracao: registro.politicaInput?.geracao ?? null,
+      saidaGeracao: registro.politicaInput?.saidaGeracao ?? null,
+      materializacao: auditoriaInput,
+      saidaMaterializacao: auditoriaSaida,
     },
   };
 }

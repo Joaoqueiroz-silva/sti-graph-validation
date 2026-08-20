@@ -17,6 +17,142 @@ import { normalizeStepDiagnostics } from "../diagnostics/step-error-catalog.js";
 import { taxonomyChecklistBlock } from "../diagnostics/error-taxonomy.js";
 import { logger } from "../../lib/logger.js";
 
+const INPUT_POLICY_SOMENTE_ENUNCIADO = "somente-enunciado-v1";
+const ehSomenteEnunciado = (state) => state?.inputPolicyId === INPUT_POLICY_SOMENTE_ENUNCIADO;
+
+const FAMILIAS_INTERACAO_PROMPT =
+  "input_value | select_option | mark_position | press_button | unknown";
+
+function contextoUsuario(state) {
+  if (ehSomenteEnunciado(state)) return "";
+  return `Disciplina: ${state.discipline} | Topico: ${state.topic} | ` +
+    `Dificuldade: ${state.difficulty} | Idade: ${state.ageGroup || "?"}\n\n`;
+}
+
+function blocoKcsUsuario(state, titulo = "KNOWLEDGE COMPONENTS") {
+  if (ehSomenteEnunciado(state)) return "";
+  const linhas = (state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("\n");
+  return `\n=== ${titulo} ===\n${linhas}\n`;
+}
+
+export function promptEstritoAgente3a() {
+  return `Voce e um aluno avancado simulado. Resolva cada problema corretamente e registre uma sequencia completa de estados observaveis.
+
+REGIME SOMENTE-ENUNCIADO — REGRA DE MAIOR PRIORIDADE:
+- o texto do problema e a unica informacao especifica da tarefa;
+- calcule todos os VALORES CONCRETOS diretamente do enunciado;
+- não use placeholders como {A}, {B}, {C}, "resultado" ou "valor esperado";
+- nao presuma gabarito, interface, componente CTAT ou KC externo;
+- "thinking" deve ser apenas um resumo curto da operacao observavel, nunca raciocinio interno extenso;
+- cada passo recebe interactionFamily de: ${FAMILIAS_INTERACAO_PROMPT}; use unknown quando o enunciado nao determinar a forma de interacao;
+- targetRole e um slug sem espacos que descreve semanticamente o alvo, sem inventar um id de interface;
+- use problemId exatamente como recebido e retorne JSON puro.
+
+Schema:
+{
+  "studentProfile":"advanced",
+  "solutions":[{
+    "problemId":1,
+    "solutionTrace":[{
+      "step":1,
+      "action":"acao concreta e curta",
+      "interactionFamily":"input_value|select_option|mark_position|press_button|unknown",
+      "targetRole":"papel_semantico_do_alvo",
+      "thinking":"resumo observavel e curto",
+      "result":"valor concreto calculado",
+      "kcUsed":"kc_inferido_descritivo",
+      "timeEstimate":5,
+      "isCorrect":true
+    }],
+    "finalAnswer":"resposta concreta calculada",
+    "totalTime":15
+  }]
+}`;
+}
+
+export function promptEstritoAgente3b(taxonomyBlock = "") {
+  return `Voce e um aluno com dificuldades simulado. A partir somente do enunciado, resolva o problema e enumere erros distintos e mecanicamente plausiveis em cada estado.
+
+REGIME SOMENTE-ENUNCIADO — REGRA DE MAIOR PRIORIDADE:
+- produza VALORES CONCRETOS calculados a partir dos numeros do enunciado;
+- não use placeholders como {A}, {B}, {C}, sufixos _num/_den ou referencias ao gabarito;
+- nao presuma resposta, interface, componente CTAT ou KC externo;
+- cada wrongAnswer e wrongAnswerPattern deve ser uma resposta concreta que um aluno poderia emitir;
+- buggyRule descreve como obter essa resposta a partir dos dados do enunciado;
+- gere pelo menos dois erros por estado apenas quando existirem causas realmente distintas;
+- feedback e pergunta diagnostica nao revelam a resposta final;
+- use ids ASCII descritivos e problemId exatamente como recebido;
+- retorne JSON puro, com attempts e stepDiagnostics.
+
+Taxonomia geral de eliciacao, independente da referencia:
+${taxonomyBlock}
+
+Schema minimo:
+{
+  "studentProfile":"at_risk",
+  "solutions":[{
+    "problemId":1,
+    "attempts":[{
+      "attemptNumber":1,
+      "solutionTrace":[{
+        "step":1,"action":"acao concreta","result":"resposta errada concreta",
+        "kcUsed":"kc_inferido_descritivo","isCorrect":false,
+        "error":{
+          "misconceptionId":"misc_causa_descritiva","type":"conceptual_error",
+          "wrongAnswer":"resposta errada concreta","description":"causa",
+          "mistakeLocation":"estado e operacao","diagnosticQuestion":"pergunta sem resposta",
+          "severity":"moderate","feedback":"orientacao sem resposta","howToFix":"procedimento"
+        }
+      }],"finalAnswer":"resposta errada concreta","wasCorrect":false
+    }],
+    "stepDiagnostics":[{
+      "problemId":1,"step":1,"kcUsed":"kc_inferido_descritivo",
+      "errors":[{
+        "misconceptionId":"misc_causa_descritiva","type":"conceptual_error",
+        "wrongAnswerPattern":"resposta errada concreta","buggyRule":"regra mecanica com dados do enunciado",
+        "description":"causa","mistakeLocation":"estado e operacao",
+        "diagnosticQuestion":"pergunta sem resposta","feedback":"orientacao sem resposta",
+        "howToFix":"procedimento","severity":"moderate"
+      }]
+    }]
+  }]
+}`;
+}
+
+export function promptEstritoAgente3c() {
+  return `Voce e um aluno mediano simulado. Resolva corretamente a partir somente do enunciado, marque hesitacoes plausiveis e escreva quatro niveis progressivos de dica.
+
+REGIME SOMENTE-ENUNCIADO — REGRA DE MAIOR PRIORIDADE:
+- calcule os estados e o resultado com VALORES CONCRETOS do enunciado;
+- não use placeholders como {A}, {B}, {C}, "valor esperado" ou referencias ao gabarito;
+- nao presuma interface, componente CTAT ou KC externo;
+- as dicas podem usar dados fornecidos no enunciado, mas nunca revelam a resposta final calculada;
+- cada passo recebe interactionFamily de: ${FAMILIAS_INTERACAO_PROMPT}; use unknown quando necessario;
+- targetRole e um slug sem espacos que descreve semanticamente o alvo;
+- use problemId exatamente como recebido e retorne JSON puro.
+
+Schema:
+{
+  "studentProfile":"average",
+  "solutions":[{
+    "problemId":1,
+    "solutionTrace":[{
+      "step":1,"action":"acao concreta","interactionFamily":"unknown",
+      "targetRole":"papel_semantico_do_alvo","thinking":"resumo observavel curto",
+      "result":"valor concreto calculado","kcUsed":"kc_inferido_descritivo",
+      "isCorrect":true,"hesitation":true,
+      "hintsNeeded":[
+        {"level":1,"type":"conceptual","message":"pergunta conceitual"},
+        {"level":2,"type":"procedural","message":"procedimento"},
+        {"level":3,"type":"specific","message":"pista forte sem resposta"},
+        {"level":4,"type":"bottom_out","message":"ultimo passo sem revelar a resposta"}
+      ]
+    }],
+    "finalAnswer":"resposta concreta calculada","totalTime":45,"alternativeRoutes":[]
+  }]
+}`;
+}
+
 export async function agent3a_advancedStudent(state) {
   const cfg = getAgentConfig("agent3a_advanced");
   logger.debug(
@@ -28,7 +164,7 @@ export async function agent3a_advancedStudent(state) {
 
   const seedProblems = JSON.stringify(state.seedProblems || [], null, 2);
 
-  const systemPrompt = `Voce e um ALUNO AVANCADO simulado resolvendo problemas educacionais.
+  const systemPromptHistorico = `Voce e um ALUNO AVANCADO simulado resolvendo problemas educacionais.
 Voce e excepcional: resolve tudo CORRETAMENTE, sem erros, sem hesitacoes.
 
 Seu papel e gerar a TRACE DE SOLUCAO IDEAL — o caminho perfeito que todo aluno deveria seguir.
@@ -67,14 +203,13 @@ Retorne JSON puro:
     }
   ]
 }`;
+  const systemPrompt = ehSomenteEnunciado(state)
+    ? promptEstritoAgente3a()
+    : systemPromptHistorico;
 
-  const userMessage = `Disciplina: ${state.discipline} | Topico: ${state.topic} | Dificuldade: ${state.difficulty} | Idade: ${state.ageGroup || "?"}
-
-=== PROBLEMAS PARA RESOLVER ===
+  const userMessage = `${contextoUsuario(state)}=== PROBLEMAS PARA RESOLVER ===
 ${seedProblems}
-
-=== KNOWLEDGE COMPONENTS DISPONIVEIS ===
-${(state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("\n")}
+${blocoKcsUsuario(state, "KNOWLEDGE COMPONENTS DISPONIVEIS")}
 
 Resolva TODOS os problemas com perfeicao. Gere traces detalhadas.`;
 
@@ -176,7 +311,7 @@ export async function agent3b_atRiskStudent(state) {
   // `groundedWrongAnswerPct` do quality-gate, com braço de controle pareado por
   // tópico, e mais de 3 gerações por braço.
 
-  const systemPrompt = `Voce e um ALUNO COM DIFICULDADES simulado resolvendo problemas educacionais.
+  const systemPromptHistorico = `Voce e um ALUNO COM DIFICULDADES simulado resolvendo problemas educacionais.
 Voce comete ERROS REALISTAS baseados em misconceptions educacionais documentadas.
 
 Seu papel e gerar traces que mostrem COMO alunos reais erram, para que o sistema possa detectar e remediar esses erros.
@@ -321,6 +456,9 @@ Repare que TODOS os wrongAnswerPattern do exemplo sao expressoes dos DADOS
 ({A_num}, {B_den}, max(...)) — nenhum deles e o gabarito mexido. Esse e o
 formato. Se voce escrever algo como "gabarito + 1" ou "gabarito / 2", voce saiu
 do que aluno faz e entrou no que e facil de inventar.`;
+  const systemPrompt = ehSomenteEnunciado(state)
+    ? promptEstritoAgente3b(taxonomyBlock)
+    : systemPromptHistorico;
 
   // 2026-07-19 (fan-out por problema): a produção por passo SEM teto não cabe
   // de forma confiável numa ÚNICA resposta — no E2E o JSON de 4 problemas
@@ -336,13 +474,9 @@ do que aluno faz e entrou no que e facil de inventar.`;
   const lotes = seedList.length > 0 ? seedList.map((p) => [p]) : [[]];
   const solutionsPorLote = await Promise.all(
     lotes.map(async (lote, idx) => {
-      const userMessage = `Disciplina: ${state.discipline} | Topico: ${state.topic} | Dificuldade: ${state.difficulty} | Idade: ${state.ageGroup || "?"}
-
-=== PROBLEMA PARA RESOLVER (ERRANDO!) ===
+      const userMessage = `${contextoUsuario(state)}=== PROBLEMA PARA RESOLVER (ERRANDO!) ===
 ${JSON.stringify(lote, null, 2)}
-
-=== KNOWLEDGE COMPONENTS ===
-${kcList}
+${ehSomenteEnunciado(state) ? "" : `\n=== KNOWLEDGE COMPONENTS ===\n${kcList}\n`}
 
 Resolva ERRANDO de formas REALISTAS e DIVERSAS. Cada tentativa deve ter um erro DIFERENTE.
 E preencha stepDiagnostics com TODOS os erros plausiveis de CADA passo (minimo 2 por passo quando existirem, sem maximo).
@@ -419,7 +553,7 @@ export async function agent3c_averageStudent(state) {
 
   const seedProblems = JSON.stringify(state.seedProblems || [], null, 2);
 
-  const systemPrompt = `Voce e um ALUNO MEDIANO simulado resolvendo problemas educacionais.
+  const systemPromptHistorico = `Voce e um ALUNO MEDIANO simulado resolvendo problemas educacionais.
 Voce CONSEGUE resolver corretamente, mas HESITA em pontos-chave e precisa de DICAS para prosseguir.
 
 Seu papel e identificar exatamente ONDE alunos medianos ficam perdidos e que tipo de dica os ajudaria.
@@ -475,14 +609,13 @@ Retorne JSON puro:
     }
   ]
 }`;
+  const systemPrompt = ehSomenteEnunciado(state)
+    ? promptEstritoAgente3c()
+    : systemPromptHistorico;
 
-  const userMessage = `Disciplina: ${state.discipline} | Topico: ${state.topic} | Dificuldade: ${state.difficulty} | Idade: ${state.ageGroup || "?"}
-
-=== PROBLEMAS PARA RESOLVER (COM HESITACOES) ===
+  const userMessage = `${contextoUsuario(state)}=== PROBLEMAS PARA RESOLVER (COM HESITACOES) ===
 ${seedProblems}
-
-=== KNOWLEDGE COMPONENTS ===
-${(state.knowledgeComponents || []).map((kc) => `- ${kc.id}: ${kc.name}`).join("\n")}
+${blocoKcsUsuario(state)}
 
 Resolva CORRETAMENTE mas marque ONDE voce hesitaria e que dicas seriam necessarias.`;
 

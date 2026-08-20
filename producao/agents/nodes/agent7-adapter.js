@@ -99,6 +99,13 @@ export function buildConcreteGraphWithGraphForge(exercise, state = {}) {
       index: index + 1,
       kc: step.kc || kcs[0]?.id || "kc_default",
       action: step.instruction || `Passo ${index + 1}`,
+      interactionFamily:
+        step.interactionFamily ||
+        step.interactionIntent?.action ||
+        step.interactionMode ||
+        step.renderAs ||
+        "",
+      targetRole: step.targetRole || step.cell?.target || step.cell?.role || "",
       result: step.expectedAnswer ?? "",
     })),
     misconceptions,

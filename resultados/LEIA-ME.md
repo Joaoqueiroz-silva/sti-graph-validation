@@ -13,6 +13,7 @@ testes. O ponto de entrada do repositório é o [`README.md`](../README.md) da r
 | [`bloco1-mathtutor-2026-08-16/`](bloco1-mathtutor-2026-08-16/) | Corpora 6.18, 6.19, 6.20 e 8.12, um subdiretório por corpus; e `7.12/`, preparado e congelado fora de todas as tabelas |
 | [`EXPERIMENTO-CONSOLIDADO-2026-08/`](EXPERIMENTO-CONSOLIDADO-2026-08/) | Os 5 corpora sob a mesma régua: a tabela-mestra e os agregados por braço |
 | [`juizo-2026-08-19/`](juizo-2026-08-19/) | Comparação de dicas (régua determinística e juiz cego), reparo de simetria da régua de estados e os incidentes de execução; `reprovados-no-gate/` guarda os juízes que falharam a calibração e `descartado/` o que foi descartado por contaminação |
+| [`orientador-v08/`](orientador-v08/) | Prova offline separada para os 630 grafos finais gerados e os 105 grafos CTAT de referência: execução local sem LLM/rede, hashes de determinismo e inventário de recursos ausentes/não acionados |
 
 ## Referência e fixtures
 
