@@ -109,7 +109,7 @@ a escada do CTAT termina entregando o valor e a do agente é proibida de fazê-l
 por gate de produção — a pergunta viraria um referendo sobre essa política.
 
 **Juiz:** `z-ai/glm-4.5`, cross-family a OpenAI (que materializa os grafos),
-Google e Qwen (que geram os alunos simulados). Temperatura 0,1.
+Google e Qwen (que geram os alunos simulados). Temperatura 0,1 (`llm.js`, `agent9_review`; não consta nos arquivos de resultado).
 
 **Dimensões (0–3):** `especificidade` (fala DESTE problema e DESTE passo, não
 conselho genérico), `escalonamento` (cada nível acrescenta informação em vez de
@@ -231,7 +231,12 @@ cego — a detecta.
 estados usei os `wrongAnswer` do `.brd` como controle negativo, assumindo "valor
 que o aluno erra" = "não é alvo de passo". Falso em problema multi-passo: o
 mesmo valor é erro num passo e intermediário legítimo noutro. O juiz aceitou
-69 % — corretamente — e o gate o reprovaria por isso.
+**35,3 %** desses itens (204 de 578) — corretamente —, e a rejeição total de
+distratores ficou em 0,741, abaixo do gate de 0,80. Fonte:
+`resultados/juizo-2026-08-19/reprovados-no-gate/juiz-estados-z-ai-glm-4-5.json`,
+`geral.calibracao.porDistrator`. (Correção de 19/08: uma versão anterior deste
+prompt dizia "69 %", número lido de uma execução PARCIAL e não do lote completo;
+ver F8 em `artigo/lista-de-conferencia-v0.5.md`.)
 
 **A conclusão que junta os dois:** juiz LLM só é confiável se **os dois lados**
 forem medidos e se **ambos os controles** forem válidos.
