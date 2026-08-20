@@ -67,7 +67,7 @@ determinística, sem chamadas de LLM.
 **Confounder declarado:** o braço 6 troca prompt E modelo ao mesmo tempo
 (`qwen/qwen3-max` era a recomendação pré-existente de `tiers.js` no repositório
 EducaOFF); o efeito modelo×prompt não está isolado. Detalhes em
-[PROTOCOLO-CAMPANHA-5.md](PROTOCOLO-CAMPANHA-5.md) §5.
+PROTOCOLO-CAMPANHA-5.md §5.
 
 ## Campanhas históricas
 

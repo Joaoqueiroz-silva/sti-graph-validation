@@ -142,7 +142,7 @@ O contrato (função assíncrona
 `{ correctPath, misconceptions, hints }` no schema do pacote), a regra de ouro
 (o adaptador jamais vê o envelope-b) e o gate programático
 (`findLeaksInRobotInput` sobre o input exato do adaptador) estão documentados
-em [benchmark/ADAPTADOR.md](../benchmark/ADAPTADOR.md). O adaptador de exemplo
+em benchmark/ADAPTADOR.md. O adaptador de exemplo
 é offline e determinístico, útil para testar o harness sem custo.
 
 ## Variação estatística esperada

@@ -1,203 +1,123 @@
-# Validação técnica em camadas da autoria de grafos de comportamento
+# Validação de grafos de comportamento gerados por agentes de IA
 
-[![CI offline](https://github.com/Joaoqueiroz-silva/sti-graph-validation/actions/workflows/ci.yml/badge.svg)](https://github.com/Joaoqueiroz-silva/sti-graph-validation/actions/workflows/ci.yml)
+Repositório de dados, código e resultados do artigo **Agentic Intelligent Tutoring
+Systems** (v0.5). Ele responde a uma pergunta: **quando agentes de IA recebem o
+mesmo problema e a mesma interface que um autor humano do CTAT, quanto do grafo
+de comportamento do especialista eles reconstroem?**
 
-Repositório reprodutível do estudo sobre a validação técnica dos grafos de comportamento autorados com os agentes 3a, 3b e 3c da rota legada da **EducaOFF / STI Unplugged**. O trabalho acompanha as evidências desde o conteúdo proposto até o grafo montado e separa quatro objetos que não devem ser confundidos:
+O manuscrito está em [`artigo/artigo1-aits-v0.5.md`](artigo/artigo1-aits-v0.5.md).
+Cada número dele tem arquivo de origem aqui, mapeado em
+[`artigo/lista-de-conferencia-v0.5.md`](artigo/lista-de-conferencia-v0.5.md).
 
-1. conteúdo bruto produzido pelos agentes de LLM;
-2. informação preservada ou perdida no transporte;
-3. estrutura montada deterministicamente pelo GraphForge;
-4. concordância com grafos CTAT de referência.
+**Escala:** 5 corpora públicos do Mathtutor · 105 problemas de especialista ·
+630 grafos de agente · 0 falhas de coleta · custo total ≈ US$ 22.
 
-> **Experimento vigente: validação de 2026-08-14** (seções abaixo). Os manuscritos v6.0/v7.0 e as Campanhas 1–5 são o desenvolvimento histórico do instrumento — preservados, verificados a cada commit e nunca combinados com as estimativas novas.
+---
 
-## Experimento vigente — validação 2026-08-14
+## Reproduzir em três comandos
 
-A validação atual usa os **agentes de produção portados byte a byte** (espelho em `producao/`, commit-fonte em `producao/COMMIT-FONTE.txt`), modelo configurável por agente e o registro completo por execução ([contrato v2](docs/CONTRATO-RUN-V2.md)). Duas trilhas complementares:
-
-**1. Com referência CTAT — a bancada justa (v2).** Comparação com o grafo do especialista sob regras pré-declaradas: pareamento por valor canônico + posição relativa, conjunto candidato de produto, precision@k, cobertura mútua com equivalência TOST e precisão julgada por juízes LLM cegos com gate de calibração. Resultados-chave: cobertura justa de 0,501 no melhor braço; primeiro braço estatisticamente **equivalente** ao especialista (TOST); precisão julgada 0,65–0,75.
-
-**1b. Com referência CTAT — comparação por ESTADO/CAMINHO (orientador, rodadas 3–4).** Os agentes de produção completos (alunos simulados → GraphForge → materialização agent 6/7) recebem **o mesmo insumo do especialista** — problema, resposta, KCs e, na rodada 4, a interface do CTAT — e o grafo materializado é comparado estado a estado (valores canonizados, subsequência ordenada exata/LCS e sem ordem, erros e dicas ancorados no estado casado). Resultados-chave (rodada 4, `resultados/rodada4-interface-fixa-2026-08-15/`): 84–86 % dos estados de valor do especialista presentes (52–70 % na ordem exata); 30–64 % dos erros do especialista previstos no mesmo estado; caminho íntegro em ordem ≈0; efeito pareado da interface +0,25/+0,38 em erros no estado certo.
-
-**2. Sem referência CTAT — a partir dos dados dos estudantes.** Censo intrínseco dos 868 grafos publicados + validade preditiva contra 476 erros reais (antecipação no passo exato: 34,6%, na faixa histórica dos catálogos de especialistas) + protocolo prospectivo pré-registrado e experimento causal de ablação. Desenho completo: [docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md](docs/PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md).
-
-Navegação para a escrita do artigo:
-
-- **[docs/GUIA-DO-ARTIGO.md](docs/GUIA-DO-ARTIGO.md)** — cada seção do manuscrito → fontes primárias, números e figuras;
-- **[docs/DOSSIE-VALIDACAO-2026-08-14.html](docs/DOSSIE-VALIDACAO-2026-08-14.html)** — a metodologia ensinada (estatísticas, figuras, referencial teórico comentado);
-- **[resultados/LEIA-ME.md](resultados/LEIA-ME.md)** — índice vigente × histórico de todas as pastas de resultados;
-- reprodução: `npm test` · `npm run verify:offline` · comandos por estudo no `RESULTADOS.md` de cada pasta vigente.
-
-## Manuscritos (histórico preservado)
-
-Manuscrito v7.0 (experimento final da Campanha 5: previsão teórica offline e medição da
-configuração final do simulador de alunos):
-
-- [PDF do artigo v7.0](docs/manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.pdf)
-- [fonte LaTeX v7.0](docs/manuscript/v7.0/artigo-validacao-agentes-comportamentais-v7.0.tex)
-- [reprodução como benchmark](docs/REPRODUCAO-V7.md)
-
-Manuscrito v6.0 (estudo integrado das Campanhas 1 a 4):
-
-- [PDF do artigo v6.0](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.pdf)
-- [fonte LaTeX](docs/manuscript/v6.0/artigo-validacao-agentes-comportamentais-v6.0.tex)
-- [instruções de compilação](docs/manuscript/v6.0/README.md)
-- [reprodução e trilha de evidências](docs/REPRODUCAO-V6.md)
-- [registro de modelos e custos](docs/MODELOS-E-CUSTOS.md)
-- [proveniência e licença do corpus](PROVENANCE.md)
-
-Os relatórios anteriores permanecem como material histórico. Eles não substituem os manuscritos.
-
-## O que o estudo pode e não pode concluir
-
-O estudo permite:
-
-- medir diretamente propriedades observáveis das saídas dos agentes;
-- localizar perdas entre saída bruta, configuração, grafo genérico e manifesto de slots;
-- verificar invariantes estruturais implementadas e determinismo nos casos testados;
-- medir concordância com a referência CTAT sob denominadores declarados;
-- auditar falhas, custos, modelos, hashes e emendas.
-
-O estudo **não** demonstra:
-
-- equivalência dos agentes a especialistas humanos;
-- que os BRDs constituem verdade pedagógica universal;
-- eficácia de aprendizagem com estudantes;
-- correção pedagógica completa do tutor final;
-- equivalência entre modelos de LLM;
-- melhoria longitudinal entre campanhas com desenhos diferentes.
-
-## Desenho em quatro campanhas
-
-| Campanha | Objeto executado | Papel na v6.0 | Limite principal |
-| --- | --- | --- | --- |
-| C1 | bancada integrada adaptada | piloto do instrumento | retenção histórica incompleta e juiz único |
-| C2 | bancada adaptada com quatro famílias geradoras | robustez exploratória | ausência de teste de equivalência e mudança de juiz |
-| C3 | subsistema integrado e executor analítico | evidência histórica secundária | bancada diferente da implantação e reconstrução parcial de `R_bug` |
-| C4 | agentes 3a/3b/3c, transporte e GraphForge congelados | avaliação principal | um domínio, seis chamadas agrupadas por réplica e ausência de validação humana |
-
-Os mesmos 24 exercícios aparecem nas campanhas; isso não cria 96 exercícios independentes.
-
-## Resultados centrais da Campanha 4
-
-Desenho: 24 exercícios, três réplicas, seis estados de quatro problemas por réplica. Foram planejadas 18 unidades estado–réplica; 17 ficaram completas e uma falha foi mantida no estimando ITT, sem repetição, reparo ou imputação.
-
-| Camada | Resultado principal | Interpretação permitida |
-| --- | --- | --- |
-| agente 3a | recall concreto ordenado `0,000`; resposta final exata `0,111` [0,028; 0,222] | o contrato produz templates genéricos, incompatíveis com reprodução concreta direta |
-| agente 3b | recall por valor `0,176` [0,113; 0,242] | baixa recuperação do catálogo concreto da referência; estado/SAI não é estimável |
-| agente 3c, capacidade forçada | sucesso estrito `0,278` [0,167; 0,403] | completude formal não implica progressão pedagógica; houve vazamento literal |
-| transporte 3a | 272 itens brutos → 60 preservados (`22,1%`) | truncamento global descartou 212 itens |
-| transporte 3b | 136 → 117 (`86,0%`) | campos e identidade de problema não são integralmente preservados |
-| transporte 3c | 328 → 272 (`82,9%`) no braço de capacidade | o braço operacional pulou o 3c em 17/17 estados completos |
-| GraphForge | 34/34 pares de reexecução idênticos | determinismo observado, não validade pedagógica |
-
-Fonte canônica: [`campaign4-final-analysis-v2.1.json`](resultados/campanha4-2026-07-15/campaign4-final-analysis-v2.1.json).
-
-### Juízo de qualidade sustentado pelos dados
-
-Os resultados não sustentam classificar os grafos produzidos pelo fluxo auditado como completos e prontos para uso autônomo. A qualidade é heterogênea: as saídas são geralmente processáveis e a montagem é reprodutível, mas o caminho correto concreto, a cobertura e localização dos ramos buggy, a segurança e o uso das dicas e a rastreabilidade apresentam fragilidades essenciais. O papel empiricamente defensável desta versão é o de **gerador assistivo de rascunhos**, com gates automáticos e revisão humana antes da implantação.
-
-Esse juízo não significa que todo conteúdo gerado seja pedagogicamente errado. Ele se restringe ao domínio, ao modelo, à rota legada e à versão auditados; adequação pedagógica e eficácia com estudantes permanecem não estimáveis sem evidência humana externa.
-
-O gerador final foi `google/gemini-3.5-flash`. O painel auxiliar final usou `z-ai/glm-5.2`, `qwen/qwen3.7-plus` e `deepseek/deepseek-v4-pro`. O painel teve forte efeito teto e dez de quinze dimensões sem variação suficiente para estimar concordância corrigida pelo acaso; por isso ele é evidência auxiliar, não validação pedagógica.
-
-## Evidência histórica resumida
-
-- C1: cobertura conceitual histórica `0,376` [0,309; 0,442].
-- C2: nenhuma diferença primária de cobertura foi detectada entre os quatro geradores; isso não prova equivalência.
-- C3: `R_bug=0,054` [0,016; 0,095], reconstruído a partir do agregado ancorável retido; `R_ok=0`; cobertura por valor `0,243` [0,163; 0,324].
-- C3 estrutural: zero violações duras e 62 sinais moles em 648 grafos.
-- Os braços DOM/screenshot e o antigo painel C3 são documentados, mas não sustentam conclusões principais.
-
-## Verificação totalmente offline
-
-Requisitos: Node.js 20.19 ou posterior (a integração contínua usa 22.12). Verificar os resultados publicados não exige chave de API e não gera custo.
+Nenhum deles exige chave de API: todas as análises consomem dados já coletados.
 
 ```bash
-git clone https://github.com/Joaoqueiroz-silva/sti-graph-validation.git
-cd sti-graph-validation
-npm ci
-npm run verify:offline
+npm install
+npm test                                          # 526 testes: a régua, os invariantes, a simetria
+node analysis/bancada-v2/consolidar-corpora.mjs   # a tabela-mestra do artigo
 ```
 
-O comando executa a suíte determinística, valida o relatório histórico, confronta o artigo v6.0 com os JSONs derivados, verifica privacidade, links e hashes do depósito.
-
-Comandos analíticos individuais:
+Demais tabelas:
 
 ```bash
-npm run c3:reanalyze
-npm run c4:aggregate
-npm run c4:sensitivity
-npm run c4:judge:correct
-npm run article:validate
+node analysis/bancada-v2/linha-de-base.mjs        # linha de base de acaso, precisão, F1
+node analysis/bancada-v2/regua-simetrica.mjs      # o reparo de simetria (Tabela 2)
+node analysis/bancada-v2/contrafactual-regua.mjs  # efeito de cada exclusão da régua (Tabela 3)
+node analysis/bancada-v2/comparar-dicas.mjs       # comparação de dicas (Tabela 5)
+node scripts/espelhar-producao.mjs --verify       # espelho da produção: 85 arquivos hasheados
 ```
 
-Consulte [docs/REPRODUCAO-V6.md](docs/REPRODUCAO-V6.md) antes de regenerar derivados, pois alguns arquivos registram correções e sensibilidades pós-hoc que precisam conservar essa classificação.
+**Recoletar os grafos do zero** (exige `OPENROUTER_API_KEY` e custa dinheiro):
+`scripts/reproduce-collect.mjs` e as cadeias em `scripts/cadeia-*.sh`.
 
-## Reproduzir como benchmark
+---
 
-O experimento final do manuscrito v7.0 (Campanha 5) é reproduzível como benchmark em três comandos:
+## Onde está cada afirmação do artigo
 
-```bash
-npm ci
-npm run reproduce:verify                 # offline e grátis: recomputa agregados, previsão, artigo e hashes
-npm run reproduce:collect -- --yes       # pago (entre US$ 1 e US$ 4): re-coleta 24 x 3 na configuração final exata
-```
+| Se você quer conferir… | Comece por |
+|---|---|
+| os resultados principais, por corpus e agregados | [`resultados/EXPERIMENTO-CONSOLIDADO-2026-08/RESULTADOS.md`](resultados/EXPERIMENTO-CONSOLIDADO-2026-08/RESULTADOS.md) |
+| se a metodologia resiste a crítica | [`docs/AUDITORIA-CIENTIFICA-2026-08-18.md`](docs/AUDITORIA-CIENTIFICA-2026-08-18.md) |
+| a comparação de dicas e os juízes cegos | [`resultados/juizo-2026-08-19/RESULTADOS.md`](resultados/juizo-2026-08-19/RESULTADOS.md) |
+| o que foi decidido **antes** de ver os dados | os pré-registros: [rodada 4](resultados/rodada4-interface-fixa-2026-08-15/PRE-REGISTRO.md) · [bloco 1](resultados/bloco1-mathtutor-2026-08-16/PRE-REGISTRO.md) · [juízo](docs/PRE-REGISTRO-JUIZ-E-DICAS-2026-08-19.md) |
+| por que cada decisão de régua foi tomada | [`docs/GUIA-DO-ARTIGO.md`](docs/GUIA-DO-ARTIGO.md) §§6–14 |
+| a régua em código, com testes | [`analysis/bancada-v2/comparar-caminho.mjs`](analysis/bancada-v2/comparar-caminho.mjs) + [`analysis/validacao-v2/lib.mjs`](analysis/validacao-v2/lib.mjs) |
 
-`reproduce:verify` valida o clone inteiro sem chave nem rede. `reproduce:collect` chama
-`qwen/qwen3-max` na configuração final, salva os runs no formato do depósito em um diretório
-datado e imprime a comparação com o braço final: o critério de replicação é a sobreposição dos
-IC95% por cluster, não a igualdade pontual (o simulador é estocástico). Qualquer outro simulador
-pode ser pontuado na mesma régua com `--adapter` (contrato e trava anti-vazamento em
-[benchmark/ADAPTADOR.md](benchmark/ADAPTADOR.md); exemplo offline gratuito em
-`benchmark/adapter-exemplo.mjs`). Detalhes, custos e limites: [docs/REPRODUCAO-V7.md](docs/REPRODUCAO-V7.md).
+---
 
-## Chamadas pagas
+## Estrutura
 
-Nenhuma chamada paga é necessária para conferir o artigo. Os runners reais permanecem no repositório para auditoria, mas não fazem parte de `verify:offline` nem da integração contínua.
+| Pasta | O que é |
+|---|---|
+| `artigo/` | O manuscrito, a conferência número a número e as alterações da última rodada |
+| `datasets/` | Os 5 corpora: `expert.brd` de cada problema, envelope A (o que os agentes veem) e envelope B (o gabarito, que eles nunca veem) |
+| `resultados/` | Os grafos coletados e as análises, uma pasta por rodada |
+| `analysis/bancada-v2/` | A régua de comparação e as análises que geram as tabelas |
+| `analysis/validacao-v2/` | A leitura do `.brd` e a carga da referência |
+| `producao/` | Espelho byte a byte dos agentes que geraram os grafos, com manifesto SHA-256 |
+| `docs/` | Pré-registros, auditoria, guia metodológico e catálogo dos pacotes |
+| `__tests__/` | 526 testes: régua, invariantes, anti-vazamento e simetria |
+| `scripts/` | Coleta, materialização e verificação do espelho |
+| `cases/`, `battery/`, `protocol/`, `production-fidelity/`, `config/`, `answer-key/` | Fixtures e protocolos da suíte de testes — **não são resultados do artigo** |
 
-Para uma nova execução deliberada, é necessário criar `.env` a partir de `.env.example`, definir limite financeiro e usar os preflights correspondentes. Não reutilize os comandos históricos como se fossem uma réplica da C4: os protocolos, entradas e modelos de juiz são diferentes.
+### Os módulos na raiz, por papel
 
-Custos contabilizados da execução retida:
+Ficam na raiz porque a suíte e as análises os importam por caminho relativo.
 
-- geração C4: US$ 1,9539885;
-- painel auxiliar final C4: US$ 1,243231545;
-- C3 histórica: US$ 16,71870027;
-- custos C1/C2 aparecem apenas como aproximações narrativas, pois não há manifesto de chamadas suficiente para reconciliação independente.
+| Papel | Módulos |
+|---|---|
+| **Leitura do CTAT** | `parse-ctat-brd.js` · `ingest-ctat-html.js` · `ctat-json-to-html.js` · `interface-ctat.js` · `interface-input.js` · `interface-inventory.js` · `interface-reconstruction.js` |
+| **Contrato e esquema** | `schema.js` · `schema-v2.js` · `neutral-v1-to-v2.js` · `dataset-config.js` |
+| **Autoria e montagem do grafo** | `graphforge.js` · `author-graph.js` · `author-from-ctat.js` · `materializar-registro.js` · `materialize-dataset.mjs` |
+| **Alunos simulados** | `agents3-students.js` · `simulate-students.js` · `simulate-students-real.js` · `simulate-fluxo-plataforma.js` |
+| **Métricas e juízes** | `metrics.js` · `metrics-agent3.mjs` · `stats.js` · `functional-equivalence.js` · `graph-hallucination.js` · `judge-misconceptions.js` · `run-judge-panel.mjs` |
+| **Traço e conformidade** | `trace-executor.js` · `trace-answer.js` · `trace-conformance.js` · `step-error-catalog.js` · `misconceptions-db.js` |
+| **Infraestrutura** | `llm.js` (chamadas e fallback) · `exec-manifest.js` (custo por chamada e trava de orçamento) · `logger.js` |
 
-## Estrutura do repositório
+### As rodadas em `resultados/`
 
-```text
-analysis/                              reanálises, agregações e validadores
-answer-key/                            gabarito independente e sua proveniência
-battery/                               bateria congelada da Campanha 3
-cases/ e datasets/                     corpus CTAT e envelopes históricos
-docs/manuscript/v6.0/                  artigo atual em PDF e LaTeX
-production-fidelity/                   fixtures, métricas e runners da Campanha 4
-protocol/frozen/                       congelamentos das Campanhas 1–3 e manifesto v6
-protocol/production-freeze-2026-07-15/ imagem, planos e emendas da Campanha 4
-resultados/                             artefatos retidos das quatro campanhas
-__tests__/                              testes determinísticos e de propriedades
-```
+| Pasta | Papel |
+|---|---|
+| `rodada4-interface-fixa-2026-08-15/` | Corpus 6.17 **com** a interface do CTAT entregue aos agentes |
+| `rodada3-passos-livres-2026-08-15/` | O mesmo corpus **sem** a interface — o contraste que mede o efeito dela |
+| `bloco1-mathtutor-2026-08-16/` | Corpora 6.18, 6.19, 6.20, 8.12 (e 7.12, congelado fora da análise) |
+| `EXPERIMENTO-CONSOLIDADO-2026-08/` | Os 5 corpora sob a mesma régua: a tabela-mestra |
+| `juizo-2026-08-19/` | Dicas, juízes cegos e o reparo de simetria; `reprovados-no-gate/` guarda os juízes que falharam a calibração |
+| `bancada-v2-2026-08-14/` | A rodada de juízo anterior, sobre outro objeto — citada no artigo apenas como referência |
 
-Os arquivos de prontidão de chave e saldos da conta foram deliberadamente excluídos do depósito público. Eles não alteram resultados científicos. Permanecem os custos por chamada, tokens, modelos, falhas e totais necessários à auditoria.
+---
 
-## Proveniência, referência e licença
+## Como ler os números com honestidade
 
-Os BRDs são tratados como **grafos CTAT de referência de autor único**, não como padrão-ouro pedagógico universal. O repositório preserva hashes e contagens por exercício, mas nome, credenciais detalhadas, instituição, data de autoria e licença de redistribuição continuam pendentes de documentação independente.
+Três coisas que o artigo declara e que valem para quem for conferir:
 
-A licença MIT cobre o código original deste repositório. Ela não deve ser interpretada automaticamente como licença do corpus CTAT; veja [DATA-LICENSE.md](DATA-LICENSE.md).
+**Cobertura nunca aparece sozinha.** Um grafo "papagaio", que só repete os números
+do enunciado, já atinge 12% a 56% de cobertura conforme o corpus. Por isso toda
+cobertura vem acompanhada de linha de base, cobertura ajustada, precisão ou F1.
 
-## Citação
+**As decisões pós-dados estão rotuladas como tais**, e a Tabela 3 mostra o efeito
+de cada exclusão da régua sobre o resultado.
 
-Use os metadados de [`CITATION.cff`](CITATION.cff). Enquanto o artigo não possuir DOI ou referência editorial, cite a versão do repositório e registre o commit ou release utilizado.
+**O que ficou sem resposta está dito.** A validade pedagógica dos erros que os
+agentes criam a mais não tem veredito: dois juízes cegos reprovaram o gate de
+calibração pré-declarado e, pela regra, não houve terceira tentativa.
 
-## Versionamento científico
+---
 
-- `legacy-campaigns-2026-07`: congelamento das Campanhas 1–2;
-- v3.x: relatório histórico centrado nas Campanhas 1–3;
-- v6.0: manuscrito integrado, com C4 principal e C1–3 históricas;
-- uma futura release `v6.0.0` deverá apontar para o commit aceito após esta auditoria.
+## Licença e proveniência
 
-Emendas, falhas e análises invalidadas não são apagadas. Mudanças futuras devem preservar a cronologia e atualizar o manifesto SHA-256.
+Código sob [`LICENSE`](LICENSE); dados sob [`DATA-LICENSE.md`](DATA-LICENSE.md).
+A origem dos pacotes públicos do Mathtutor está em
+[`docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md`](docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md)
+e a proveniência do corpus em [`PROVENANCE.md`](PROVENANCE.md).
+
+Material das rodadas exploratórias que o artigo não usa foi removido da árvore em
+19 e 20/08/2026 e **permanece integralmente no histórico git** — nenhuma
+reescrita de histórico foi feita.
