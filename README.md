@@ -1,7 +1,7 @@
 # Agentes de IA na autoria de tutores inteligentes
 
 Repositório v0.7 de código, registros experimentais e materiais de
-reprodutibilidade do artigo **Sistemas tutores inteligentes agênticos**. O
+reprodutibilidade do artigo **Agentes de IA na autoria de tutores inteligentes**. O
 estudo retrospectivo e exploratório pergunta: **qual é a concordância entre as
 sequências canonizadas de valores produzidas pelo pipeline e as sequências
 extraídas do caminho correto de casos CTAT?** Em termos simples, a análise mede
@@ -9,14 +9,14 @@ quanto do caminho de respostas intermediárias reaparece, na ordem esperada,
 nos artefatos gerados. Ela não mede equivalência do grafo completo, qualidade
 pedagógica ou aprendizagem.
 
-Os artefatos do manuscrito disponíveis nesta árvore estão em
-[`artigo/artigo1-aits-v0.6-revisado.pdf`](artigo/artigo1-aits-v0.6-revisado.pdf)
-e [`artigo/artigo1-aits-v0.6-revisado.docx`](artigo/artigo1-aits-v0.6-revisado.docx).
-O PDF v0.5 permanece apenas como histórico. Cada número publicado tem
+Os artefatos vigentes do manuscrito estão em
+[`artigo/artigo1-aits-v0.7-revisado.pdf`](artigo/artigo1-aits-v0.7-revisado.pdf)
+e [`artigo/artigo1-aits-v0.7-revisado.docx`](artigo/artigo1-aits-v0.7-revisado.docx).
+As versões v0.5 e v0.6 permanecem apenas como histórico. Cada número publicado tem
 arquivo de origem: o Apêndice A mapeia as fontes S1 a S33, e a tabela **Onde
 está cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma. A
 versão corrigida da análise que ancora o manuscrito é o commit
-`1a1cf7169a4ef9c6c45163499a5c22ddbaf220a0`.
+`f33ea51080c2e2191a191b1484181068f52b5e44`.
 
 **Escala materializada:** 6 conjuntos CTAT · 123 problemas. **Análise
 principal:** 5 conjuntos · 105 problemas de referência · 2 configurações ·

@@ -1,13 +1,13 @@
 # Plano de análise e histórico de decisões — Validação dos Grafos de Comportamento (CTAT × EducaOFF)
 
 
-> **Nota de 20/08/2026.** As menções a manuscritos v6.0 e v7.0 neste documento são históricas: aquelas versões saíram da árvore em 19-20/08/2026 e estão no histórico git. O manuscrito vigente é a revisão científica v0.6, em `artigo/`.
+> **Nota de 20/08/2026.** As menções a manuscritos v6.0 e v7.0 neste documento são históricas: aquelas versões saíram da árvore em 19-20/08/2026 e estão no histórico git. O manuscrito vigente é a revisão científica v0.7, em `artigo/`.
 
 > [!IMPORTANT]
 > **REGISTRO HISTÓRICO, NÃO PRÉ-REGISTRO CONFIRMATÓRIO.** Este arquivo preserva o plano e as
 > emendas na ordem em que foram documentados; emendas posteriores substituem afirmações anteriores
 > quando houver conflito. Todas as campanhas automatizadas aqui descritas são exploratórias. A
-> síntese científica vigente está no manuscrito v0.6, e o procedimento
+> síntese científica vigente está no manuscrito v0.7, e o procedimento
 > para arquivar estes materiais sem retroagir seu estatuto está em
 > [DEPOSITO-OSF.md](DEPOSITO-OSF.md).
 
