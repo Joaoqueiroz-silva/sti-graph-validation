@@ -1,16 +1,22 @@
 # Validação de grafos de comportamento gerados por agentes de IA
 
-Repositório de dados, código e resultados do artigo **Agentic Intelligent Tutoring
-Systems** (v0.5). Ele responde a uma pergunta: **quando agentes de IA recebem o
-mesmo problema e a mesma interface que um autor humano do CTAT, quanto do grafo
-de comportamento do especialista eles reconstroem?**
+Repositório de dados, código e resultados do artigo **Sistemas tutores
+inteligentes agênticos** (revisão científica v0.6). A pergunta empírica foi
+delimitada após auditoria: **qual é a concordância entre as sequências
+canonizadas de valores produzidas pelo pipeline e as sequências extraídas do
+caminho correto de casos CTAT?** O desfecho primário não mede equivalência do
+grafo completo.
 
-O manuscrito é o PDF [`artigo/artigo1-aits-v0.5.pdf`](artigo/artigo1-aits-v0.5.pdf),
-com as figuras embutidas. Cada número publicado nele tem arquivo de origem neste repositório: o
-Apêndice A do próprio artigo mapeia as fontes S1 a S33, e a tabela **Onde está
-cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma.
+O manuscrito vigente está em
+[`artigo/artigo1-aits-v0.6-revisado.pdf`](artigo/artigo1-aits-v0.6-revisado.pdf)
+e [`artigo/artigo1-aits-v0.6-revisado.docx`](artigo/artigo1-aits-v0.6-revisado.docx).
+O PDF v0.5 permanece apenas como histórico. Cada número publicado na v0.6 tem
+arquivo de origem: o Apêndice A mapeia as fontes S1 a S33, e a tabela **Onde
+está cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma. A
+versão corrigida da análise que ancora o manuscrito é o commit
+`1a1cf7169a4ef9c6c45163499a5c22ddbaf220a0`.
 
-**Escala:** 5 corpora públicos do Mathtutor · 105 problemas de especialista ·
+**Escala:** 5 conjuntos de casos CTAT · 105 problemas de referência ·
 630 grafos de agente · 0 falhas de coleta · custo total ≈ US$ 22.
 
 ---
@@ -91,7 +97,7 @@ quando `--reference-summary <arquivo>` é informado explicitamente.
 
 | Pasta | O que é |
 |---|---|
-| `artigo/` | O manuscrito em PDF — a versão oficial, com as figuras embutidas |
+| `artigo/` | Manuscrito v0.6 em DOCX/PDF e PDF v0.5 preservado como histórico |
 | `datasets/` | Os 5 corpora: `expert.brd` de cada problema, envelope A (o que os agentes veem) e envelope B (o gabarito, que eles nunca veem) |
 | `resultados/` | Os grafos coletados e as análises, uma pasta por rodada |
 | `analysis/bancada-v2/` | A régua de comparação e as análises que geram as tabelas |
@@ -164,6 +170,6 @@ Material das rodadas exploratórias que o artigo não usa foi removido da árvor
 reescrita de histórico foi feita.
 
 O manifesto da árvore publicável atual é
-[`protocol/MANIFEST-v0.5.sha256`](protocol/MANIFEST-v0.5.sha256); `npm run
+[`protocol/MANIFEST-v0.6.sha256`](protocol/MANIFEST-v0.6.sha256); `npm run
 manifest:verify` exige hashes e cobertura exatos. Os manifestos `v6.0` e `v7.0`
 em `protocol/frozen/` são exclusivamente históricos.

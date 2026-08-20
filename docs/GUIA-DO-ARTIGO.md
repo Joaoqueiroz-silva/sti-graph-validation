@@ -348,5 +348,5 @@ confirmado no arquivo de origem antes da edição:
 | 6.20 qwen, sens. 1 / 2 / 3 | 51 / 52 / 52 | **52 / 53 / 53** | `6.20/materializado-v3-fixa-estudantes-qwen.analise.json` |
 | queda do controle estrangeiro (dicas) | 1,47 | **1,46** | `juizo-2026-08-19/juiz-dicas-z-ai-glm-4-5.json` (1,9676 − 0,5048) |
 
-**O artigo v0.5 de 19/08/2026 é a referência dos valores vigentes.** Onde este
+**O artigo v0.6 de 20/08/2026 é a referência dos valores vigentes.** Onde este
 guia e o artigo divergirem, vale o arquivo de dados citado na coluna "fonte".

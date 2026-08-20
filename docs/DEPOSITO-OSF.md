@@ -1,7 +1,7 @@
 # Depósito retrospectivo e transparente no OSF
 
 
-> **Nota de 20/08/2026.** As menções a manuscritos v6.0 e v7.0 neste documento são históricas: aquelas versões saíram da árvore em 19-20/08/2026 e estão no histórico git. O manuscrito vigente é o v0.5, em `artigo/`.
+> **Nota de 20/08/2026.** As menções a manuscritos v6.0 e v7.0 neste documento são históricas: aquelas versões saíram da árvore em 19-20/08/2026 e estão no histórico git. O manuscrito vigente é a revisão científica v0.6, em `artigo/`.
 
 ## Estatuto do depósito
 
@@ -33,7 +33,7 @@ projeto privado com metadados honestos é preferível a uma publicação prematu
 O depósito deve apontar para uma única versão científica e conservar a separação entre evidência
 principal e histórica:
 
-- manuscrito v6.0 em PDF e LaTeX (`docs/manuscript/v6.0/` *(removido da árvore em 19-20/08/2026; no histórico git)*);
+- manuscrito v0.6 em DOCX e PDF (`artigo/`); as versões v6.0/v7.0 anteriores permanecem apenas no histórico git;
 - `docs/VERSOES.md` e este mapa de estatuto científico;
 - `docs/PRE-REGISTRO.md`, rotulado como plano e histórico retrospectivamente documentado;
 - protocolos, emendas e manifestos da Campanha 4 em

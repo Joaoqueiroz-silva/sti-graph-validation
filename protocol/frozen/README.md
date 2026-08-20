@@ -2,7 +2,7 @@
 
 > **DOCUMENTO HISTÓRICO.** Registro de um protocolo congelado de julho de 2026.
 > Cita rodadas, scripts e manifestos removidos da árvore em 19-20/08/2026 e
-> preservados no histórico git. **Não descreve o experimento do artigo v0.5** —
+> preservados no histórico git. **Não descreve o experimento corrigido do artigo v0.6** —
 > para esse, ver o [README](../../README.md) da raiz.
 
 A tag anotada `legacy-campaigns-2026-07` aponta para o commit
@@ -65,11 +65,11 @@ do pacote:
   commit do merge do PR #1, no mesmo espírito da verificação do legado acima.
 - [`MANIFEST-v7.0.sha256`](MANIFEST-v7.0.sha256) é igualmente **histórico**. A
   árvore e os scripts que ele descrevia foram reduzidos em 19–20/08/2026; por
-  isso ele contém caminhos hoje ausentes e não pode funcionar como gate da v0.5.
+  isso ele contém caminhos hoje ausentes e não pode funcionar como gate da v0.6.
   Ele é preservado sem regravação para não falsificar a trilha cronológica.
 
 O manifesto vivo da versão publicável atual fica fora desta pasta congelada:
-[`../MANIFEST-v0.5.sha256`](../MANIFEST-v0.5.sha256). `npm run manifest:verify`
+[`../MANIFEST-v0.6.sha256`](../MANIFEST-v0.6.sha256). `npm run manifest:verify`
 confere hashes e cobertura exata; `npm run manifest:write` só deve ser usado
 depois de revisar mudanças intencionais.
 

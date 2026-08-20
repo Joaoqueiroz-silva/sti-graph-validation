@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Manifesto de integridade da versão publicável atual (v0.5).
+ * Manifesto de integridade da versão publicável atual (v0.6).
  *
  * Cobre exatamente os arquivos vistos pelo Git, incluindo arquivos ainda não
  * adicionados durante `--write`, e exclui apenas o próprio manifesto para
@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, "..");
-const MANIFEST_REL = "protocol/MANIFEST-v0.5.sha256";
+const MANIFEST_REL = "protocol/MANIFEST-v0.6.sha256";
 const MANIFEST = path.join(REPO, MANIFEST_REL);
 const WRITE = process.argv.includes("--write");
 
