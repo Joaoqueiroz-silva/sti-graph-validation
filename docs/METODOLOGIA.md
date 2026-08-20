@@ -1,5 +1,11 @@
 # Metodologia de Validação de Grafos de Comportamento Gerados por Pipeline Multiagente
 
+> **DOCUMENTO HISTÓRICO.** Descreve o instrumento numa versão anterior ao
+> experimento do artigo v0.5, e cita rodadas e arquivos que foram removidos da
+> árvore em 19-20/08/2026 (preservados no histórico git). **Não é o método do
+> artigo vigente** — para esse, ver o [README](../README.md) da raiz,
+> `docs/AUDITORIA-CIENTIFICA-2026-08-18.md` e os pré-registros.
+
 > [!WARNING]
 > **HISTÓRICO / SUPERADO.** Este é um rascunho de planejamento de 2026-06-03. Ele mistura
 > propostas, estudos futuros e caminhos de um monorepo externo; portanto, não demonstra que todos

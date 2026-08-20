@@ -1,5 +1,11 @@
 # Reprodução e benchmark da versão 7.0
 
+> **DOCUMENTO HISTÓRICO.** Descreve o instrumento numa versão anterior ao
+> experimento do artigo v0.5, e cita rodadas e arquivos que foram removidos da
+> árvore em 19-20/08/2026 (preservados no histórico git). **Não é o método do
+> artigo vigente** — para esse, ver o [README](../README.md) da raiz,
+> `docs/AUDITORIA-CIENTIFICA-2026-08-18.md` e os pré-registros.
+
 O manuscrito v7.0 relata SOMENTE o experimento final da Campanha 5 (2026-07-19):
 a previsão teórica offline e a medição da configuração final do simulador de
 alunos contra os envelopes CTAT. Este documento diz como qualquer pesquisador,

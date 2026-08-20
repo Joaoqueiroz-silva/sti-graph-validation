@@ -1,50 +1,47 @@
-# Índice dos resultados — o que é vigente e o que é histórico
+# Índice dos resultados
 
-Regra do repositório: **nenhuma campanha é apagada** (dados depositados,
-ancorados por hash e lidos pelos verificadores). Este índice diz o papel de
-cada pasta para quem vai escrever ou revisar o artigo novo.
+Uma pasta por rodada. As do experimento do artigo estão marcadas como
+**vigentes**; as demais ficam por serem referência citada ou fixture da suíte de
+testes. O ponto de entrada do repositório é o [`README.md`](../README.md) da raiz.
 
-## VIGENTES — a validação de 2026-08-14 (usar como resultados primários)
+## Vigentes — o experimento do artigo (5 corpora, 105 problemas, 630 grafos)
 
 | Pasta | O que contém |
 |---|---|
-| `comparacao-modelos-2026-08-14/` | Rodada 1: 3 braços 24×3 com contrato v2 (grafo preservado); réplica 7/7 da C5; pré-registro próprio |
-| `comparacao-fluxo-2026-08-14/` | Rodada 2: fluxo-plataforma (agents 3a/3b/3c de produção); o achado estágio ≠ produto (Δ −0,481) |
-| `bancada-v2-2026-08-14/` | Comparação JUSTA com o especialista (posição relativa, produto, precision@k, TOST) + precisão julgada pelo painel de juízes com gate |
-| `avaliacao-plataforma-2026-08-14/` | Censo intrínseco dos 868 grafos publicados no EducaOFF (sem CTAT); linha do tempo abr→ago |
-| `validacao-preditiva-2026-08-14/` | Validade preditiva contra 476 erros REAIS de alunos (sem CTAT); antecipação 34,6% |
-| `rodada3-passos-livres-2026-08-15/` | Rodada 3: regime passos-livres (agentes geram 4,8–5,4 passos vs corte de 4) + comparação por ESTADO/CAMINHO do orientador (cru, mínima e MATERIALIZADO com agent 6/7 de produção — adendo em RESULTADOS.md) |
-| `EXPERIMENTO-CONSOLIDADO-2026-08/` | **Tabela-mestra**: todos os corpora (6.17 rodada 4 + bloco 1 do Mathtutor) sob a mesma régua; regerada por `consolidar-corpora.mjs` |
-| `bloco1-mathtutor-2026-08-16/` | Corpora públicos do Mathtutor (6.19, 6.18, 6.20, 8.12, 7.12): pré-registro, pilotos, coleta, materialização, análises por corpus |
-| `rodada4-interface-fixa-2026-08-15/` | Rodada 4: os agentes recebem também a INTERFACE do CTAT (mesmo insumo do especialista); coleta + materialização + Δ pareado contra a rodada 3 — o experimento vigente para a métrica de estados |
+| [`rodada4-interface-fixa-2026-08-15/`](rodada4-interface-fixa-2026-08-15/) | Corpus 6.17 (24 problemas) **com** a interface do CTAT entregue aos agentes; traz também as comparações pareadas de interface e de versão do espelho |
+| [`rodada3-passos-livres-2026-08-15/`](rodada3-passos-livres-2026-08-15/) | O mesmo corpus **sem** a interface — o braço de contraste que mede o efeito dela |
+| [`bloco1-mathtutor-2026-08-16/`](bloco1-mathtutor-2026-08-16/) | Corpora 6.18, 6.19, 6.20 e 8.12, um subdiretório por corpus; e `7.12/`, preparado e congelado fora de todas as tabelas |
+| [`EXPERIMENTO-CONSOLIDADO-2026-08/`](EXPERIMENTO-CONSOLIDADO-2026-08/) | Os 5 corpora sob a mesma régua: a tabela-mestra e os agregados por braço |
+| [`juizo-2026-08-19/`](juizo-2026-08-19/) | Comparação de dicas (régua determinística e juiz cego), reparo de simetria da régua de estados e os incidentes de execução; `reprovados-no-gate/` guarda os juízes que falharam a calibração e `descartado/` o que foi descartado por contaminação |
 
-Cada pasta vigente tem `RESULTADOS.md` (síntese e leitura), runs completos,
-manifestos de chamada e, quando aplicável, `DECLARACAO-PRE-REGISTRO.md`.
-
-## HISTÓRICOS — desenvolvimento do instrumento e dados depositados (contexto)
+## Referência e fixtures
 
 | Pasta | Papel |
 |---|---|
-| `campanha-2026-07-02/`, `campanha-2026-07-08-multimodelo/` | Primeiras campanhas; desenvolvimento do instrumento |
-| `campanha3-2026-07-13/` | Campanha 3 (ablação de flags); congelada por manifesto próprio |
-| `campanha4-2026-07-15/` | Campanha 4 — pipeline de produção da época; base do manuscrito v6.0 |
-| `campanha5-2026-07-19/` | Campanha 5 — base do manuscrito v7.0; a réplica de 2026-08-14 validou o instrumento novo contra ela |
-| `bancada-juizes-2026-07-10/`, `saturation-curve-*.json` | Estudos auxiliares históricos |
+| [`bancada-v2-2026-08-14/`](bancada-v2-2026-08-14/) | A rodada de juízo anterior, sobre **outro objeto** (grafos crus do estágio 3, um corpus, antes da interface fixa). O artigo a cita apenas como referência, nunca como resultado deste experimento |
+| [`avaliacao-plataforma-2026-08-14/`](avaliacao-plataforma-2026-08-14/) · [`validacao-preditiva-2026-08-14/`](validacao-preditiva-2026-08-14/) | Análises de apoio, citadas no histórico metodológico de `docs/GUIA-DO-ARTIGO.md` |
+| [`campanha3-2026-07-13/`](campanha3-2026-07-13/) | Fixture lida pela suíte de testes — não é resultado do artigo |
 
-Por que ficam: os verificadores (`verify:offline`) recomputam esses números a
-cada commit; os manuscritos v6/v7 os citam; e a CONTRADIÇÃO entre C4 (0,20) e
-C5 (0,90) é parte do resultado novo — a rodada 2 explicou-a com comparação
-pareada (estágio × produto). Apagar histórico quebraria a reprodutibilidade e
-empobreceria o artigo.
+## Como cada pasta de rodada é organizada
 
-## Organização para a banca (19/08/2026)
+Dentro de uma rodada vigente você encontra, por braço (`custo-beneficio` =
+flash-lite; `estudantes-qwen`):
 
-As pastas vigentes, usadas pelo artigo, são `rodada3-passos-livres-2026-08-15/`,
-`rodada4-interface-fixa-2026-08-15/`, `bloco1-mathtutor-2026-08-16/`,
-`EXPERIMENTO-CONSOLIDADO-2026-08/`, `juizo-2026-08-19/` e
-`bancada-v2-2026-08-14/`; `campanha3-2026-07-13/` fica por ser fixture da suíte
-de testes.
+| Arquivo | O que é |
+|---|---|
+| `materializado-v3-fixa-<braço>/runs/*.json` | Um registro por exercício × réplica: o grafo do agente, o traço e a materialização |
+| `materializado-v3-fixa-<braço>.analise.json` | As métricas da régua por registro, os gates e os agregados |
+| `linha-de-base-v3-fixa-<braço>.json` | Linha de base de acaso, cobertura ajustada, precisão e F1 |
+| `contrafactual-fixa-<braço>.json` | Os mesmos grafos sob as definições R0 a R3 da régua |
+| `comparacao-bracos.json` | A diferença pareada qwen − flash-lite, mesmo exercício × réplica |
+| `RESULTADOS.md` | A leitura daquele corpus, com custos e gates |
+| `PRE-REGISTRO.md` | O que foi decidido **antes** de ver os dados, com as emendas datadas |
 
-O restante do material histórico foi removido da árvore em 19/08/2026 e
-permanece integralmente no histórico git — ver `README-BANCA.md` na raiz para o
-mapa completo, a ordem de leitura e os comandos de reprodução.
+`v3` é a versão vigente do espelho de produção; `v1` e `v2` ficam para a
+comparação de versão descrita no artigo.
+
+## Material histórico
+
+Rodadas exploratórias que o artigo não usa foram removidas da árvore em 19 e
+20/08/2026 e **permanecem no histórico git** — nenhuma reescrita foi feita, e
+qualquer commit anterior recupera o conteúdo íntegro.

@@ -1,5 +1,11 @@
 # Validação de qualidade de grafos: o que a metodologia atual mede e o que falta
 
+> **DOCUMENTO HISTÓRICO.** Descreve o instrumento numa versão anterior ao
+> experimento do artigo v0.5, e cita rodadas e arquivos que foram removidos da
+> árvore em 19-20/08/2026 (preservados no histórico git). **Não é o método do
+> artigo vigente** — para esse, ver o [README](../README.md) da raiz,
+> `docs/AUDITORIA-CIENTIFICA-2026-08-18.md` e os pré-registros.
+
 **Data:** 2026-08-12 · **Escopo:** auditoria da comparação usada nas campanhas 1 a 5,
 com medições novas sobre os dados já depositados.
 

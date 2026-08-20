@@ -1,5 +1,11 @@
 # Dicionário formal de métricas — protocolo v2 (gate G7)
 
+> **DOCUMENTO HISTÓRICO.** Descreve o instrumento numa versão anterior ao
+> experimento do artigo v0.5, e cita rodadas e arquivos que foram removidos da
+> árvore em 19-20/08/2026 (preservados no histórico git). **Não é o método do
+> artigo vigente** — para esse, ver o [README](../README.md) da raiz,
+> `docs/AUDITORIA-CIENTIFICA-2026-08-18.md` e os pré-registros.
+
 Congelado em 2026-07-13 (Onda 2), ANTES de qualquer execução da campanha 3.
 Este documento define cada estimando com fórmula, denominador, unidade e
 agregação. Nenhuma métrica nova pode ser adicionada à campanha 3 depois da

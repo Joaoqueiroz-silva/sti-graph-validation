@@ -14,18 +14,29 @@ repositório é o [`README.md`](../README.md) da raiz.
 | [JUSTIFICATIVA-REPLICAS.md](JUSTIFICATIVA-REPLICAS.md) | Por que 3 réplicas, pela decomposição de variância |
 | [PRE-REGISTRO.md](PRE-REGISTRO.md) | Pré-registro do instrumento |
 
-## Metodologia e protocolo
+## Metodologia do experimento vigente
 
 | Arquivo | O que é |
 |---|---|
-| [METODOLOGIA.md](METODOLOGIA.md) · [METODOLOGIA-DETALHADA.md](METODOLOGIA-DETALHADA.md) | O pipeline e o algoritmo de extração, com diagramas |
-| [METRICAS-V2.md](METRICAS-V2.md) | Definição das métricas |
-| [GRAFO-CONHECIMENTO-VS-COMPORTAMENTO.md](GRAFO-CONHECIMENTO-VS-COMPORTAMENTO.md) | A distinção conceitual que o artigo usa |
-| [EXTRACAO-ENUNCIADO-INTERFACE.md](EXTRACAO-ENUNCIADO-INTERFACE.md) | Como enunciado e interface são extraídos do pacote |
+| [EXTRACAO-ENUNCIADO-INTERFACE.md](EXTRACAO-ENUNCIADO-INTERFACE.md) | Como enunciado e interface são extraídos do pacote CTAT e entregues aos agentes |
 | [SELECAO-DO-JUIZ.md](SELECAO-DO-JUIZ.md) | Critérios de seleção do juiz cego |
-| [VALIDACAO-QUALIDADE-GRAFOS-V2.md](VALIDACAO-QUALIDADE-GRAFOS-V2.md) | A validação de qualidade dos grafos |
 | [PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md](PROTOCOLO-VALIDACAO-ALUNOS-2026-08.md) | Protocolo da validação com alunos simulados |
 | [PLANO-FIDELIDADE-PRODUCAO-2026-08.md](PLANO-FIDELIDADE-PRODUCAO-2026-08.md) | O plano do espelho byte a byte da produção |
+
+## Histórico do instrumento — NÃO é o método do artigo v0.5
+
+Documentos de versões anteriores do instrumento. Cada um traz banner no topo
+dizendo isso, e vários citam rodadas removidas da árvore (preservadas no
+histórico git). Ficam por documentarem como a régua chegou à forma atual.
+
+| Arquivo | O que é |
+|---|---|
+| [METODOLOGIA.md](METODOLOGIA.md) · [METODOLOGIA-DETALHADA.md](METODOLOGIA-DETALHADA.md) | O pipeline e o algoritmo de extração numa versão anterior, com diagramas |
+| [METRICAS-V2.md](METRICAS-V2.md) | Definição das métricas da geração v2 do instrumento |
+| [GRAFO-CONHECIMENTO-VS-COMPORTAMENTO.md](GRAFO-CONHECIMENTO-VS-COMPORTAMENTO.md) | A distinção conceitual, escrita para o manuscrito anterior |
+| [VALIDACAO-QUALIDADE-GRAFOS-V2.md](VALIDACAO-QUALIDADE-GRAFOS-V2.md) | A validação de qualidade da geração v2 |
+| [REPRODUCAO-V7.md](REPRODUCAO-V7.md) | Guia de reprodução do pacote v7.0 — **a reprodução vigente está no [README](../README.md) da raiz** |
+| [VERSOES.md](VERSOES.md) | Histórico de versões do instrumento |
 
 ## Infraestrutura e execução
 
@@ -33,7 +44,6 @@ repositório é o [`README.md`](../README.md) da raiz.
 |---|---|
 | [CONFIGURACAO-MODELOS.md](CONFIGURACAO-MODELOS.md) · [MODELOS-E-CUSTOS.md](MODELOS-E-CUSTOS.md) | Modelos por agente, preços congelados e custo por rodada |
 | [CONTRATO-RUN-V2.md](CONTRATO-RUN-V2.md) · [CONTRATO-RUN-ETAPAS.md](CONTRATO-RUN-ETAPAS.md) | O formato do registro de execução |
-| [REPRODUCAO-V7.md](REPRODUCAO-V7.md) | Guia de reprodução do instrumento |
 | [PLANO-PORT-AGENTES-2026-08.md](PLANO-PORT-AGENTES-2026-08.md) | O port dos agentes de produção |
 | [DEPOSITO-OSF.md](DEPOSITO-OSF.md) | Plano de depósito público |
 | [VERSOES.md](VERSOES.md) | Histórico de versões do instrumento |

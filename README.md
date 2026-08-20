@@ -25,15 +25,35 @@ npm test                                          # 526 testes: a régua, os inv
 node analysis/bancada-v2/consolidar-corpora.mjs   # a tabela-mestra do artigo
 ```
 
-Demais tabelas:
+**As demais tabelas** saem dos consolidadores, que também rodam sem argumento:
 
 ```bash
-node analysis/bancada-v2/linha-de-base.mjs        # linha de base de acaso, precisão, F1
-node analysis/bancada-v2/regua-simetrica.mjs      # o reparo de simetria (Tabela 2)
-node analysis/bancada-v2/contrafactual-regua.mjs  # efeito de cada exclusão da régua (Tabela 3)
-node analysis/bancada-v2/comparar-dicas.mjs       # comparação de dicas (Tabela 5)
-node scripts/espelhar-producao.mjs --verify       # espelho da produção: 85 arquivos hasheados
+node analysis/bancada-v2/consolidar-simetrico.mjs  # Tabela 2: precisão e F1, régua congelada x simétrica
+node analysis/bancada-v2/consolidar-dicas.mjs      # Tabela 5: comparação de dicas, pool por braço
+node scripts/espelhar-producao.mjs --verify        # espelho da produção: 85 arquivos hasheados
 ```
+
+**As análises por corpus** exigem `--mat <diretório materializado>`. Elas alimentam
+os consolidadores acima; use-as para conferir uma célula específica das tabelas:
+
+```bash
+DIR=resultados/rodada4-interface-fixa-2026-08-15/materializado-v3-fixa-estudantes-qwen
+
+node analysis/bancada-v2/linha-de-base.mjs       --mat $DIR   # linha de base, precisão e F1 daquele corpus x braço
+node analysis/bancada-v2/contrafactual-regua.mjs --mat $DIR   # Tabela 3: efeito de cada exclusão da régua
+node analysis/bancada-v2/comparar-dicas.mjs      --mat $DIR   # dicas daquele corpus x braço
+node analysis/bancada-v2/analisar-materializado.mjs --mat $DIR  # métricas da régua e gates
+```
+
+Os diretórios materializados seguem o padrão
+`resultados/<rodada>/materializado-v3-fixa-<braço>`, com `<braço>` em
+`custo-beneficio` (flash-lite) ou `estudantes-qwen`; no bloco 1 há um nível a
+mais para o corpus (`.../bloco1-mathtutor-2026-08-16/6.18/materializado-v3-fixa-...`).
+A versão `v3` é a vigente — `v1` e `v2` ficam para a comparação de versão do espelho.
+
+> `analysis/bancada-v2/regua-simetrica.mjs` e `comparar-caminho.mjs` são
+> **bibliotecas**, não comandos: contêm a régua que os scripts acima importam.
+> Rodá-los diretamente não produz saída.
 
 **Recoletar os grafos do zero** (exige `OPENROUTER_API_KEY` e custa dinheiro):
 `scripts/reproduce-collect.mjs` e as cadeias em `scripts/cadeia-*.sh`.
