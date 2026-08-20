@@ -236,7 +236,7 @@ distratores ficou em 0,741, abaixo do gate de 0,80. Fonte:
 `resultados/juizo-2026-08-19/reprovados-no-gate/juiz-estados-z-ai-glm-4-5.json`,
 `geral.calibracao.porDistrator`. (Correção de 19/08: uma versão anterior deste
 prompt dizia "69 %", número lido de uma execução PARCIAL e não do lote completo;
-ver F8 em `artigo/lista-de-conferencia-v0.5.md`.)
+ver F8 em `artigo/lista-de-conferencia-v0.5.md` *(não versionada: o repositório mantém só o PDF do manuscrito em `artigo/`)*.)
 
 **A conclusão que junta os dois:** juiz LLM só é confiável se **os dois lados**
 forem medidos e se **ambos os controles** forem válidos.

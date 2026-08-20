@@ -62,7 +62,9 @@ export function checkLocalLinks({ root = REPO } = {}) {
     // Um caminho seguido da marcação de remoção é ausência DECLARADA no próprio
     // texto — o leitor é avisado ali mesmo de que o arquivo saiu da árvore e
     // está no histórico git. Conta à parte, não como quebra.
-    const MARCA_REMOVIDO = /^\s*\*?\(removido/;
+    // Formas aceitas de AUSÊNCIA DECLARADA logo após a citação. A ideia é que o
+    // leitor seja avisado ali mesmo; a palavra exata não importa, a declaração sim.
+    const MARCA_REMOVIDO = /^\s*\*?\((removido|n[ãa]o versionad|fora do reposit[óo]rio|no hist[óo]rico git)/i;
     const prosa = [...body.matchAll(/`([^`\n]+)`/g)]
       .filter((m) => {
         if (MARCA_REMOVIDO.test(body.slice(m.index + m[0].length, m.index + m[0].length + 20))) {
