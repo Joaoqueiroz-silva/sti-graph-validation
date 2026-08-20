@@ -5,8 +5,8 @@ Systems** (v0.5). Ele responde a uma pergunta: **quando agentes de IA recebem o
 mesmo problema e a mesma interface que um autor humano do CTAT, quanto do grafo
 de comportamento do especialista eles reconstroem?**
 
-O manuscrito é o PDF `artigo1-aits-v0.5.pdf`, em `artigo/`, com as figuras
-embutidas. Cada número publicado nele tem arquivo de origem neste repositório: o
+O manuscrito é o PDF [`artigo/artigo1-aits-v0.5.pdf`](artigo/artigo1-aits-v0.5.pdf),
+com as figuras embutidas. Cada número publicado nele tem arquivo de origem neste repositório: o
 Apêndice A do próprio artigo mapeia as fontes S1 a S33, e a tabela **Onde está
 cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma.
 
@@ -80,7 +80,7 @@ A versão `v3` é a vigente — `v1` e `v2` ficam para a comparação de versão
 
 | Pasta | O que é |
 |---|---|
-| `artigo/` | O manuscrito em PDF (versão oficial, com figuras) |
+| `artigo/` | O manuscrito em PDF — a versão oficial, com as figuras embutidas |
 | `datasets/` | Os 5 corpora: `expert.brd` de cada problema, envelope A (o que os agentes veem) e envelope B (o gabarito, que eles nunca veem) |
 | `resultados/` | Os grafos coletados e as análises, uma pasta por rodada |
 | `analysis/bancada-v2/` | A régua de comparação e as análises que geram as tabelas |
