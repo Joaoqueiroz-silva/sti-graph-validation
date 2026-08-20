@@ -16,7 +16,7 @@ As versões v0.5 e v0.6 permanecem apenas como histórico. Cada número publicad
 arquivo de origem: o Apêndice A mapeia as fontes S1 a S33, e a tabela **Onde
 está cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma. A
 versão corrigida da análise que ancora o manuscrito é o commit
-`f33ea51080c2e2191a191b1484181068f52b5e44`.
+`f33ea5154e0f7f3851ee079acf51932381e0c0a8`.
 
 **Escala materializada:** 6 conjuntos CTAT · 123 problemas. **Análise
 principal:** 5 conjuntos · 105 problemas de referência · 2 configurações ·
