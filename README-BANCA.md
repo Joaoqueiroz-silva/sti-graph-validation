@@ -85,6 +85,21 @@ citado por documento.
 Nada foi apagado do histórico: `git log --diff-filter=D --name-only` lista o que
 saiu, e qualquer commit anterior a este recupera o conteúdo íntegro.
 
+## Terceira passada (19/08/2026): só o experimento
+
+Removidos por não pertencerem a este experimento nem à sua reprodução: os
+protocolos e o relatório das campanhas de julho; as versões antigas do
+manuscrito (`docs/manuscript/v6.0` e `v7.0`) e o guia de reprodução do v6; o
+dossiê e a investigação de kappa daquelas rodadas; as instruções internas de
+trabalho e os dois prompts de redação já superados; a bancada de juízes de
+10/07; e as pastas `samples/` e `benchmark/`, que nenhum código lê. Os scripts
+de raiz `run-judge.mjs`, `models.mjs` e `aggregate-campaign.mjs` saíram com os
+seus alvos de `npm run`. O teste `report-consistency` e o seu validador saíram
+junto com o relatório que validavam, pelo mesmo critério do bloco 1.
+
+**Nenhuma fonte S1 a S33 foi tocada** — a presença das 33 é verificada a cada
+passada. A suíte fica em 49 arquivos e 526 testes.
+
 ## Duas observações de proveniência
 
 `scripts/reproduce-collect.mjs` — o script que coletou os 630 grafos — cita em
