@@ -1,5 +1,13 @@
 # Proveniência do corpus (gate G3)
 
+> **COBERTURA DESTE DOCUMENTO.** Ele detalha a proveniência do corpus 6.17
+> (24 problemas), o primeiro do estudo. A origem dos **105 problemas dos 5
+> corpora** do artigo está em
+> [`docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md`](docs/CATALOGO-PACOTES-MATHTUTOR-2026-08-16.md),
+> que cataloga os 54 pacotes públicos do Mathtutor e os 710 grafos disponíveis.
+> A segunda metade deste arquivo descreve uma campanha removida da árvore em
+> 19-20/08/2026 e preservada no histórico git.
+
 Gerado por `analysis/build-provenance.mjs` em 2026-07-12. Regra: nenhum exercício entra em campanha sem linha aqui; campos PENDENTE bloqueiam a alegação de "especialista identificado" no artigo (usar "grafo CTAT de referência de autor único"). A licença MIT do código não cobre automaticamente estes arquivos; consulte `DATA-LICENSE.md`.
 
 **Situação não resolvida:** nome, formação, instituição, data de autoria e licença de redistribuição dos BRDs ainda não foram comprovados documentalmente. Os arquivos já constam no histórico público do repositório, fato que não regulariza sua licença.
@@ -41,6 +49,6 @@ A Campanha 5 usou o MESMO corpus congelado acima (nenhum exercício novo entrou;
 
 - `resultados/campanha5-2026-07-19/<braço>/runs/*.json` — 72 runs por braço (6 braços), saída do comparador sobre os pares robô×especialista; contêm respostas erradas propostas pelo robô e chaves de faltas/extras derivadas dos BRDs.
 - `resultados/campanha5-2026-07-19/<braço>/summary.json` — agregados com bootstrap por cluster (10k, seed 42).
-- `resultados/campanha5-2026-07-19/previsao-teorica/` — previsão determinística ANTERIOR à medição do braço 6: `reconstruir_interface.py` e `fatos-reconstruidos.json` (reconstrução da interface renderizada a partir de `massproduction.txt` + template — deriva SOMENTE do que aluno/especialista viam na tela), `previsao-cobertura.json` (análise de cobertura), `previsao-recheck.mjs`/`previsao-recheck.json` (verificação independente contra o inventário implementado; os envelopes B entram apenas como diagnóstico pós-hoc, nunca em prompt/inventário).
+- `resultados/campanha5-2026-07-19/previsao-teorica/` *(removido da árvore em 19-20/08/2026; no histórico git)* — previsão determinística ANTERIOR à medição do braço 6: `reconstruir_interface.py` e `fatos-reconstruidos.json` (reconstrução da interface renderizada a partir de `massproduction.txt` + template — deriva SOMENTE do que aluno/especialista viam na tela), `previsao-cobertura.json` (análise de cobertura), `previsao-recheck.mjs`/`previsao-recheck.json` (verificação independente contra o inventário implementado; os envelopes B entram apenas como diagnóstico pós-hoc, nunca em prompt/inventário).
 
 Regra de proveniência mantida: os parâmetros `mfNum`, `badCount` e `doubleDiv` da tabela mass-production materializam apenas nas buggy edges dos BRDs (gabarito) e foram BANIDOS dos fatos de interface reconstruídos — a proibição está travada por teste (`__tests__/interface-reconstruction.test.mjs`). Ver docs/PROTOCOLO-CAMPANHA-5.md.

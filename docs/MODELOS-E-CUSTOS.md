@@ -61,7 +61,7 @@ Total aproximado da campanha: **~US$ 24**. Estes valores são narrativos: os
 journals por chamada da C5 não foram consolidados neste pacote, então — pela
 mesma regra aplicada a C1/C2 abaixo — não devem ser apresentados como totais
 contábeis exatos. A previsão teórica do braço 6
-(`resultados/campanha5-2026-07-19/previsao-teorica/`) custou US$ 0,00: é 100%
+(`resultados/campanha5-2026-07-19/previsao-teorica/` *(removido da árvore em 19-20/08/2026; no histórico git)*) custou US$ 0,00: é 100%
 determinística, sem chamadas de LLM.
 
 **Confounder declarado:** o braço 6 troca prompt E modelo ao mesmo tempo
@@ -78,4 +78,4 @@ PROTOCOLO-CAMPANHA-5.md §5.
   reconciliação independente e não devem ser apresentados como totais exatos.
 
 Conferir esses valores não requer chamada paga. Os journals em
-`resultados/campanha4-2026-07-15/` e a análise principal são as fontes canônicas.
+`resultados/campanha4-2026-07-15/` *(removido da árvore em 19-20/08/2026; no histórico git)* e a análise principal são as fontes canônicas.

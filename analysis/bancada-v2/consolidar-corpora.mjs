@@ -137,10 +137,17 @@ export function consolidar(raiz = ".") {
 
 const ehMain = process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].split("/").pop());
 if (ehMain) {
+  // 2026-08-20: por padrão este comando é SÓ LEITURA. Ele é o primeiro que o
+  // README manda rodar, e antes reescrevia dois arquivos versionados — só o
+  // carimbo de data mudava, mas quem seguisse o guia via `git status` sujo e
+  // ficava sem saber se tinha quebrado algo. Use `--escrever` para regravar.
+  const escrever = process.argv.includes("--escrever");
   const R = consolidar(".");
   const out = "resultados/EXPERIMENTO-CONSOLIDADO-2026-08";
-  fs.mkdirSync(out, { recursive: true });
-  fs.writeFileSync(path.join(out, "consolidado.json"), JSON.stringify(R, null, 1));
+  if (escrever) {
+    fs.mkdirSync(out, { recursive: true });
+    fs.writeFileSync(path.join(out, "consolidado.json"), JSON.stringify(R, null, 1));
+  }
   const f3 = (x) => (Number.isFinite(x) ? x.toFixed(3) : "—");
   const ic = (m) =>
     m.estimativa === null || m.estimativa === undefined
@@ -154,6 +161,12 @@ if (ehMain) {
   md += `\n## Agregado por braço (pool de todos os grafos aprovados; bootstrap estratificado por corpus, cluster = exercício, 10k, seed 42; percentil)\n\n| braço | métrica | pool [IC 95 %] | n grafos | média entre corpora | amplitude entre corpora | corpora |\n|---|---|---|---|---|---|---|\n`;
   for (const [braco, ms] of Object.entries(R.agregado)) for (const [m, v] of Object.entries(ms)) md += `| ${BRACOS[braco]} | ${m} | ${f3(v.pool.estimativa)} [${f3(v.pool.percentil[0])}; ${f3(v.pool.percentil[1])}] | ${v.pool.n} | ${f3(v.mediaEntreCorpora)} | ${v.amplitudeEntreCorpora ? v.amplitudeEntreCorpora.map(f3).join(" – ") : "—"} | ${v.nCorpora} |\n`;
   md += `\nFontes primárias: \`materializado-*.analise.json\` de cada pasta listada em \`CORPORA\` (consolidar-corpora.mjs). Corpora ainda não concluídos não aparecem; a tabela é regenerada a cada corpus fechado.\n`;
-  fs.writeFileSync(path.join(out, "RESULTADOS.md"), md);
+  if (escrever) fs.writeFileSync(path.join(out, "RESULTADOS.md"), md);
   console.log(md);
+  if (!escrever) {
+    console.log(
+      "\n(somente leitura: os arquivos em resultados/EXPERIMENTO-CONSOLIDADO-2026-08/ não foram tocados." +
+        " Para regravá-los, rode com --escrever.)"
+    );
+  }
 }

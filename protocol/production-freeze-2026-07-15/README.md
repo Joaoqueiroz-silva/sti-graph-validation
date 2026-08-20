@@ -1,5 +1,10 @@
 # Congelamento da implantação auditada (2026-07-15)
 
+> **DOCUMENTO HISTÓRICO.** Registro de um protocolo congelado de julho de 2026.
+> Cita rodadas, scripts e manifestos removidos da árvore em 19-20/08/2026 e
+> preservados no histórico git. **Não descreve o experimento do artigo v0.5** —
+> para esse, ver o [README](../../README.md) da raiz.
+
 Este diretório registra a identidade observada, em auditoria somente leitura, do
 subsistema legado de autoria comportamental implantado na EducaOFF.
 

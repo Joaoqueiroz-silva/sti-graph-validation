@@ -120,4 +120,4 @@ amostral. Temperatura 0,1; rubrica fixa.
 | C | o componente diagnóstico CAUSA aprendizagem melhor que apoio genérico |
 | Juízes | validade pedagógica dos erros previstos, com calibração verificável |
 
-Referencial completo comentado: `docs/DOSSIE-VALIDACAO-2026-08-14.html` (Parte IX).
+Referencial completo comentado: `docs/DOSSIE-VALIDACAO-2026-08-14.html` *(removido da árvore em 19-20/08/2026; no histórico git)* (Parte IX).

@@ -88,8 +88,15 @@ if (ehMain) {
       console.log(`    ${campo.padEnd(18)} especialista ${ic(e).padEnd(28)} agente ${ic(a)}`);
     }
   }
+  // somente leitura por padrão (2026-08-20): este comando está no README e
+  // não deve sujar a árvore de quem só quer conferir. Use --escrever.
+  const escrever = process.argv.includes("--escrever");
   const out = "resultados/juizo-2026-08-19/dicas-consolidado.json";
-  fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, JSON.stringify(R, null, 1));
-  console.log(`\n  salvo em ${out}`);
+  if (escrever) {
+    fs.mkdirSync(path.dirname(out), { recursive: true });
+    fs.writeFileSync(out, JSON.stringify(R, null, 1));
+    console.log(`\n  salvo em ${out}`);
+  } else {
+    console.log(`\n  (somente leitura: ${out} não foi tocado. Para regravar, rode com --escrever.)`);
+  }
 }

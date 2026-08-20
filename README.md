@@ -25,6 +25,9 @@ npm test                                          # 526 testes: a régua, os inv
 node analysis/bancada-v2/consolidar-corpora.mjs   # a tabela-mestra do artigo
 ```
 
+Os comandos de análise são **somente leitura**: não alteram nada no repositório.
+Para regravar um arquivo de resultado, use `--escrever`.
+
 **As demais tabelas** saem dos consolidadores, que também rodam sem argumento:
 
 ```bash

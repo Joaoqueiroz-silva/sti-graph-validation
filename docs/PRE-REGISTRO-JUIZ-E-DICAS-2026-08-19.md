@@ -242,7 +242,7 @@ Medido na mesma pergunta, mesmo veredito:
 
 23× mais barato, 8× mais rápido. A forma usada (`reasoning: {effort:"none",
 exclude:true}`) é a mesma já empregada pelo painel de juízes do protocolo C4
-(`production-fidelity/campaign4-judge-runner.mjs:830`). É **opt-in por variável
+(`production-fidelity/campaign4-judge-runner.mjs:830` *(removido da árvore em 19-20/08/2026; no histórico git)*). É **opt-in por variável
 de ambiente**: nenhum caminho congelado do repositório muda de comportamento.
 
 O gate de calibração (0,80 / 0,80) continua sendo o teste empírico de validade:

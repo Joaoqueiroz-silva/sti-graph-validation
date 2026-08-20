@@ -41,6 +41,6 @@ mérito do agente está na parcimônia, não na cobertura.
 
 ## Verificação
 
-Rodado contra `resultados/campanha5-2026-07-19/6-final-megabrain/runs`, o
+Rodado contra `resultados/campanha5-2026-07-19/6-final-megabrain/runs` *(removido da árvore em 19-20/08/2026; no histórico git)*, o
 nível 1 reproduz cobertura 0,9079, precisão 0,4043, F1 0,5521 e Jaccard 0,3862 —
 os mesmos valores dos artefatos depositados.

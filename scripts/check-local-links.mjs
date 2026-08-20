@@ -45,9 +45,37 @@ const ehFiguraExterna = (arquivoRelativo, alvo) =>
 export function checkLocalLinks({ root = REPO } = {}) {
   const broken = [];
   const externasDeclaradas = [];
+  const caminhosEmProsa = [];
+  const historicosDeclarados = [];
+  const removidosDeclarados = [];
   let links = 0;
   for (const file of walk(root)) {
     const body = fs.readFileSync(file, "utf8");
+    // SEGUNDO PASSE (2026-08-20): caminhos citados em PROSA, entre crases, fora
+    // de sintaxe de link. A limpeza de 19-20/08 deixou dezenas deles apontando
+    // para material removido, e o passe de links era cego a isso — um examinador
+    // seguindo o texto batia no vazio sem que nenhum verificador acusasse.
+    // Só conta o que PARECE caminho de arquivo do repositório: tem barra e
+    // extensão conhecida, ou é um diretório sob uma raiz conhecida.
+    const RAIZES = /^(resultados|docs|analysis|scripts|datasets|producao|artigo|cases|battery|protocol|production-fidelity|config|__tests__|runs)\//;
+    const EXT = /\.(md|json|mjs|js|html|brd|png|svg|txt|sha256|jsonl|csv|cff|yml)$/;
+    // Um caminho seguido da marcação de remoção é ausência DECLARADA no próprio
+    // texto — o leitor é avisado ali mesmo de que o arquivo saiu da árvore e
+    // está no histórico git. Conta à parte, não como quebra.
+    const MARCA_REMOVIDO = /^\s*\*?\(removido/;
+    const prosa = [...body.matchAll(/`([^`\n]+)`/g)]
+      .filter((m) => {
+        if (MARCA_REMOVIDO.test(body.slice(m.index + m[0].length, m.index + m[0].length + 20))) {
+          removidosDeclarados.push({ file: path.relative(root, file), target: m[1].trim() });
+          return false;
+        }
+        return true;
+      })
+      .map((m) => m[1].trim())
+      .filter((t) => t.includes("/") && !isExternal(t) && !t.includes(" "))
+      .map((t) => t.replace(/[.,;:)]+$/, ""))
+      .filter((t) => RAIZES.test(t) || EXT.test(t));
+
     const candidates = [
       ...body.matchAll(/!?\[[^\]]*\]\(([^)]+)\)/g),
       ...body.matchAll(/<(?:a|img)\b[^>]*(?:href|src)=["']([^"']+)["'][^>]*>/gi),
@@ -69,6 +97,35 @@ export function checkLocalLinks({ root = REPO } = {}) {
         });
       }
     }
+    for (const alvo of prosa) {
+      // tira âncora, barra final e sufixo de LINHA (`arquivo.js:556`,
+      // `arquivo.js:1353-1357`), que é citação legítima, não caminho quebrado.
+      const limpo = alvo
+        .replace(/#.*$/, "")
+        .replace(/:\d+([-\u2013]\d+)?$/, "") // sufixo de linha, com hífen ou travessão
+        .replace(/\/$/, "");
+      if (!limpo) continue;
+      // reticências marcam caminho abreviado pelo autor: não é verificável
+      if (limpo.includes("...")) continue;
+      const abs = limpo.startsWith("/")
+        ? path.resolve(root, limpo.slice(1))
+        : (fs.existsSync(path.resolve(root, limpo)) ? path.resolve(root, limpo) : path.resolve(path.dirname(file), limpo));
+      if (fs.existsSync(abs)) continue;
+      // caminho com curinga ou placeholder não é verificável
+      if (/[*<>{}]/.test(limpo)) continue;
+      // Só cobra caminho cuja PRIMEIRA pasta existe neste repositório. Um
+      // `backend/agents/...` ou `frontend/src/...` é citação do sistema de
+      // produção (espelhado em producao/), não caminho local quebrado.
+      const primeira = limpo.split("/")[0];
+      if (primeira === ".." || primeira === ".") continue; // caminho relativo a outro projeto
+      if (!fs.existsSync(path.resolve(root, primeira))) continue;
+      // Documento que se declara HISTÓRICO no topo avisa o leitor, em texto, que
+      // cita material removido da árvore (preservado no histórico git). A
+      // ausência é esperada e fica CONTADA à parte, nunca somada a zero.
+      if (body.includes("DOCUMENTO HISTÓRICO")) { historicosDeclarados.push({ file: path.relative(root, file), target: alvo }); continue; }
+      const rel = path.relative(root, file);
+      caminhosEmProsa.push({ file: rel, target: alvo });
+    }
   }
   if (broken.length) {
     throw new Error(
@@ -82,6 +139,10 @@ export function checkLocalLinks({ root = REPO } = {}) {
     markdownLinksChecked: links,
     filesChecked: walk(root).length,
     externasDeclaradas: externasDeclaradas.length,
+    caminhosEmProsaQuebrados: caminhosEmProsa.length,
+    historicosDeclarados: historicosDeclarados.length,
+    removidosDeclarados: removidosDeclarados.length,
+    prosa: caminhosEmProsa,
   };
 }
 

@@ -1,5 +1,8 @@
 # Plano de análise e histórico de decisões — Validação dos Grafos de Comportamento (CTAT × EducaOFF)
 
+
+> **Nota de 20/08/2026.** As menções a manuscritos v6.0 e v7.0 neste documento são históricas: aquelas versões saíram da árvore em 19-20/08/2026 e estão no histórico git. O manuscrito vigente é o v0.5, em `artigo/`.
+
 > [!IMPORTANT]
 > **REGISTRO HISTÓRICO, NÃO PRÉ-REGISTRO CONFIRMATÓRIO.** Este arquivo preserva o plano e as
 > emendas na ordem em que foram documentados; emendas posteriores substituem afirmações anteriores
@@ -252,7 +255,7 @@ Bancada de 2026-07-10 (45 itens estratificados, semente 77): κ de Cohen par a
 par entre Mistral Large, Mistral Medium e Qwen3.7-plus entre 0,644 e 0,700
 (concordância substancial), com taxas de aprovação de 67 a 69%. A escolha do
 juiz por latência/custo não introduz viés de veredito detectável na amostra.
-Dados em `resultados/bancada-juizes-2026-07-10/` no repositório.
+Dados em `resultados/bancada-juizes-2026-07-10/` *(removido da árvore em 19-20/08/2026; no histórico git)* no repositório.
 
 ---
 
@@ -307,7 +310,7 @@ O pooling de Wilson sobre julgamentos repetidos fica depreciado para esses grupo
 
 ### E3.5 Fonte única dos números públicos
 
-Todos os números do relatório passam a ser gerados por `analysis/reanalyze.mjs`
+Todos os números do relatório passam a ser gerados por `analysis/reanalyze.mjs` *(removido da árvore em 19-20/08/2026; no histórico git)*
 a partir dos dados brutos congelados (gate G2: nenhuma transcrição manual).
 A reconciliação formal dos números da v2.1 está em `analysis/derived/TABELAS.md`;
 o total "47%" da Tabela 7 da v2.1 **não é reproduzível** de nenhuma definição

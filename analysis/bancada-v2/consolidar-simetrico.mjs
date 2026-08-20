@@ -112,7 +112,14 @@ if (ehMain) {
     const igual = a && b && Math.abs(a.estimativa - b.estimativa) < 1e-12;
     console.log(`  ${campo.padEnd(20)} congelada ${ic(a).padEnd(30)} simétrica ${ic(b)}${igual ? "   (idênticas)" : ""}`);
   }
+  // somente leitura por padrão (2026-08-20): este comando está no README e
+  // não deve sujar a árvore de quem só quer conferir. Use --escrever.
+  const escrever = process.argv.includes("--escrever");
   const out = "resultados/juizo-2026-08-19/consolidado-simetrico.json";
-  fs.writeFileSync(out, JSON.stringify(R, null, 1));
-  console.log(`\n  salvo em ${out}`);
+  if (escrever) {
+    fs.writeFileSync(out, JSON.stringify(R, null, 1));
+    console.log(`\n  salvo em ${out}`);
+  } else {
+    console.log(`\n  (somente leitura: ${out} não foi tocado. Para regravar, rode com --escrever.)`);
+  }
 }

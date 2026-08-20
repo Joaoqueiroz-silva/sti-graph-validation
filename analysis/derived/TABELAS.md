@@ -1,6 +1,6 @@
 # Tabelas geradas — reanálise de 2026-07-12
 
-Fonte: dados brutos da tag `legacy-campaigns-2026-07`. Unidade = exercício (n=24; réplicas agregadas por média). Testes pareados por permutação exata de troca de sinais; Holm por família. Gerado por `analysis/reanalyze.mjs` — NÃO editar à mão.
+Fonte: dados brutos da tag `legacy-campaigns-2026-07`. Unidade = exercício (n=24; réplicas agregadas por média). Testes pareados por permutação exata de troca de sinais; Holm por família. Gerado por `analysis/reanalyze.mjs` *(removido da árvore em 19-20/08/2026; no histórico git)* — NÃO editar à mão.
 
 ## Sumário campanha 1 (agentes reais, 3 réplicas)
 

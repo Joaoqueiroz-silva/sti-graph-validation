@@ -8,7 +8,7 @@ listado como VIGENTE é histórico preservado (ver `resultados/LEIA-ME.md`).
 
 | Subseção sugerida | Fonte |
 |---|---|
-| Arquitetura de validade (3 fontes) | `docs/DOSSIE-VALIDACAO-2026-08-14.html` Parte I; `docs/VALIDACAO-QUALIDADE-GRAFOS-V2.md` |
+| Arquitetura de validade (3 fontes) | `docs/DOSSIE-VALIDACAO-2026-08-14.html` *(removido da árvore em 19-20/08/2026; no histórico git)* Parte I; `docs/VALIDACAO-QUALIDADE-GRAFOS-V2.md` |
 | Instrumentação (port byte a byte, modelos por agente) | `docs/PLANO-PORT-AGENTES-2026-08.md`, `docs/CONFIGURACAO-MODELOS.md`, `producao/COMMIT-FONTE.txt` |
 | Registro de execução (o que cada run grava) | `docs/CONTRATO-RUN-V2.md` (+ `docs/CONTRATO-RUN-ETAPAS.md` para a extensão por etapa) |
 | Corpus e quarentena A/B | `PROVENANCE.md`, `docs/EXTRACAO-ENUNCIADO-INTERFACE.md` |
@@ -22,9 +22,9 @@ listado como VIGENTE é histórico preservado (ver `resultados/LEIA-ME.md`).
 
 | Resultado | Valor | Fonte primária |
 |---|---|---|
-| Réplica da C5 (validação do instrumento) | 7/7 ICs sobrepostos | `resultados/comparacao-modelos-2026-08-14/log-campanha5-final.txt` |
+| Réplica da C5 (validação do instrumento) | 7/7 ICs sobrepostos | `resultados/comparacao-modelos-2026-08-14/log-campanha5-final.txt` *(removido da árvore em 19-20/08/2026; no histórico git)* |
 | Efeito do modelo (bancada, pareado) | qwen +0,275; turbo +0,362 | `.../comparacao-cobertura.json` |
-| Efeito do fluxo (estágio × produto) | −0,481, perde 24/24 | `resultados/comparacao-fluxo-2026-08-14/comparacao-efeito-fluxo-cobertura.json` |
+| Efeito do fluxo (estágio × produto) | −0,481, perde 24/24 | `resultados/comparacao-fluxo-2026-08-14/comparacao-efeito-fluxo-cobertura.json` *(removido da árvore em 19-20/08/2026; no histórico git)* |
 | Cobertura JUSTA (valor+posição) | qwen 0,501 [0,432; 0,555] | `resultados/bancada-v2-2026-08-14/r1-campanha5-final.json` |
 | Equivalência TOST flash-lite × especialista | Δ −0,038 IC90 [−0,073; −0,007] | `resultados/bancada-v2-2026-08-14/r1-custo-beneficio.json` |
 | Precisão julgada | 0,75 / 0,68 / 0,65 | `resultados/bancada-v2-2026-08-14/juiz-r1-*.json` + `RESULTADOS.md` (adendo) |
@@ -38,7 +38,7 @@ Comandos de recomputação estão no fim de cada `RESULTADOS.md`.
 
 ## 3. Figuras prontas
 
-O dossiê (`docs/DOSSIE-VALIDACAO-2026-08-14.html`) contém as 7 figuras
+O dossiê (`docs/DOSSIE-VALIDACAO-2026-08-14.html` *(removido da árvore em 19-20/08/2026; no histórico git)*) contém as 7 figuras
 (arquitetura, quarentena, injustiças→antídotos, leitura do TOST, apostas,
 jornada das réguas, desenho causal) em SVG tema-claro/escuro — copiáveis para
 o manuscrito.
@@ -173,7 +173,7 @@ introduzidos pelo modo "caderno/worksheet". **agents3-students, graphforge,
 misconceptions-db e diagnostics são idênticos** — os alunos simulados e o grafo
 genérico não mudaram.
 
-Teste de equivalência offline (`__tests__/equivalencia-producao-caderno.test.mjs`,
+Teste de equivalência offline (`__tests__/equivalencia-producao-caderno.test.mjs` *(removido da árvore em 19-20/08/2026; no histórico git)*,
 LLM mockado, registros do piloto 6.19, modo padrão — não worksheet):
 - planner do agent 6: system e user prompts **idênticos**;
 - worker do agent 6: user prompt idêntico; **system prompt diferente** — a

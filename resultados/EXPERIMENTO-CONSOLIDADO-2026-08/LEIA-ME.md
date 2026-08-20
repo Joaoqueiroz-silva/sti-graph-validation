@@ -32,7 +32,7 @@ interface) ficam como história do instrumento e como comparação pareada
 (`rodada4-…/comparacao-r4-vs-r3-*.json`).
 
 Para o artigo: `docs/GUIA-DO-ARTIGO.md` (§8–§9) e
-`docs/PROMPT-ATUALIZAR-ARTIGO-2026-08-16.md` apontam para estes arquivos.
+`docs/PROMPT-ATUALIZAR-ARTIGO-2026-08-16.md` *(removido da árvore em 19-20/08/2026; no histórico git)* apontam para estes arquivos.
 
 
 ## Atualização de 19/08/2026 (pós-auditoria)

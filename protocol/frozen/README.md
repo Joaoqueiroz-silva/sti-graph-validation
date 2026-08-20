@@ -1,5 +1,10 @@
 # Congelamento legado G0 (2026-07-12)
 
+> **DOCUMENTO HISTÓRICO.** Registro de um protocolo congelado de julho de 2026.
+> Cita rodadas, scripts e manifestos removidos da árvore em 19-20/08/2026 e
+> preservados no histórico git. **Não descreve o experimento do artigo v0.5** —
+> para esse, ver o [README](../../README.md) da raiz.
+
 A tag anotada `legacy-campaigns-2026-07` aponta para o commit
 `84601b3dd719aa1dc05908e55b03a595ee838e35`, estado histórico das Campanhas 1 e 2
 considerado na versão 2.1 do relatório. Não mova nem recrie essa tag.
