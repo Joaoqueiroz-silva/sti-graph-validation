@@ -5,9 +5,10 @@ Systems** (v0.5). Ele responde a uma pergunta: **quando agentes de IA recebem o
 mesmo problema e a mesma interface que um autor humano do CTAT, quanto do grafo
 de comportamento do especialista eles reconstroem?**
 
-O manuscrito está em [`artigo/artigo1-aits-v0.5.md`](artigo/artigo1-aits-v0.5.md).
-Cada número dele tem arquivo de origem aqui, mapeado em
-[`artigo/lista-de-conferencia-v0.5.md`](artigo/lista-de-conferencia-v0.5.md).
+O manuscrito é o PDF `artigo1-aits-v0.5.pdf`, em `artigo/`, com as figuras
+embutidas. Cada número publicado nele tem arquivo de origem neste repositório: o
+Apêndice A do próprio artigo mapeia as fontes S1 a S33, e a tabela **Onde está
+cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma.
 
 **Escala:** 5 corpora públicos do Mathtutor · 105 problemas de especialista ·
 630 grafos de agente · 0 falhas de coleta · custo total ≈ US$ 22.
@@ -56,7 +57,7 @@ node scripts/espelhar-producao.mjs --verify       # espelho da produção: 85 ar
 
 | Pasta | O que é |
 |---|---|
-| `artigo/` | O manuscrito, a conferência número a número e as alterações da última rodada |
+| `artigo/` | O manuscrito em PDF (versão oficial, com figuras) |
 | `datasets/` | Os 5 corpora: `expert.brd` de cada problema, envelope A (o que os agentes veem) e envelope B (o gabarito, que eles nunca veem) |
 | `resultados/` | Os grafos coletados e as análises, uma pasta por rodada |
 | `analysis/bancada-v2/` | A régua de comparação e as análises que geram as tabelas |
