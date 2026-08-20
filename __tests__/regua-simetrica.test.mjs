@@ -82,7 +82,7 @@ describe("a regra de PROSA foi REJEITADA — este teste impede que ela volte", (
   });
 });
 
-describe("INVARIANTE — o reparo só pode mover a família da precisão", () => {
+describe("INVARIANTE — o reparo preserva os desfechos observados", () => {
   // amostra determinística: 3 primeiros registros de cada corpus × braço
   const casos = [];
   for (const [rotulo, ds, pasta] of CORPORA) {

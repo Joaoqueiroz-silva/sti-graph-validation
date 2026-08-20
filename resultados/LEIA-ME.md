@@ -31,7 +31,7 @@ flash-lite; `estudantes-qwen`):
 |---|---|
 | `materializado-v3-fixa-<braço>/runs/*.json` | Um registro por exercício × réplica: o grafo do agente, o traço e a materialização |
 | `materializado-v3-fixa-<braço>.analise.json` | As métricas da régua por registro, os gates e os agregados |
-| `linha-de-base-v3-fixa-<braço>.json` | Linha de base de acaso, cobertura ajustada, precisão e F1 |
+| `linha-de-base-v3-fixa-<braço>.json` | Régua simétrica vigente: controle pareado por ocorrências comparáveis, cobertura ajustada, precisão e F1 com TP=LCS 1:1 |
 | `contrafactual-fixa-<braço>.json` | Os mesmos grafos sob as definições R0 a R3 da régua |
 | `comparacao-bracos.json` | A diferença pareada qwen − flash-lite, mesmo exercício × réplica |
 | `RESULTADOS.md` | A leitura daquele corpus, com custos e gates |

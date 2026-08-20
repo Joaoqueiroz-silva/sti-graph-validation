@@ -10,7 +10,7 @@ limitação** e do que foi **refutado** — para ir junto ao artigo.
 
 | # | Achado | Correção | Efeito nos resultados |
 |---|---|---|---|
-| A1 | **A cobertura é recall puro**: nada penaliza gerar estados a mais. Um grafo "papagaio", que só repete os números do enunciado, atinge 0,52 de cobertura no 6.17 sem conhecer a decomposição. | `analysis/bancada-v2/linha-de-base.mjs`: linha de base de acaso por registro, **cobertura ajustada** (obs−base)/(1−base), **precisão de estados** e **F1**. | Nova leitura obrigatória (tabela B). O caminho íntegro é imune (base ≈0). |
+| A1 | **A cobertura é recall puro**: nada penaliza gerar estados a mais. Um controle determinístico "papagaio", que só repete os números do enunciado, atinge 0,52 de cobertura no 6.17 sem conhecer a decomposição. | `analysis/bancada-v2/linha-de-base.mjs`: controle negativo por registro, **cobertura ajustada** (obs−controle)/(1−controle), **precisão de estados** e **F1**. | Nova leitura obrigatória (tabela B). O caminho íntegro quase não é atingido pelo controle (base ≈0). |
 | A2 | IC de largura ZERO quando a métrica satura (`[1,000; 1,000]`), declarando certeza que k exercícios não sustentam. | `lib.mjs: intervalo` detecta saturação e reporta Clopper-Pearson unilateral por **cluster**. | 6.18 qwen passa de `[1;1]` para **1,000 [0,832; 1,000]**. |
 | A3 | `comparar-rodadas.mjs` subtraía métricas N/A sem guarda (`null − 0,5 = −0,5` em JS) → efeito fabricado. | Guarda de N/A, igual à do irmão. | Nenhum número publicado estava corrompido; o 6.18 agora reporta N/A corretamente. |
 | A4 | `dpEntreReplicas` promediava DPs em vez de agrupar variâncias (subestima o ruído). | DP agrupado por graus de liberdade: √(Σ SSᵢ / Σ (nᵢ−1)). | DP sobe ~3 %; não muda nenhuma inferência. |
@@ -19,33 +19,39 @@ limitação** e do que foi **refutado** — para ir junto ao artigo.
 | A7 | O Δ pareado **entre braços** (desfecho declarado em JUSTIFICATIVA-REPLICAS) nunca era calculado: a comparação era lida da sobreposição de ICs marginais. | `comparacao-bracos.json` por corpus. | Ver tabela C: "qwen melhor em tudo" **não se sustenta** no 6.19. |
 | A8 | Nenhuma tabela mostrava o efeito das redefinições do denominador. | `contrafactual-regua.mjs`: os mesmos grafos sob 4 definições encaixadas (R0 ingênua → R3 vigente). | Ver tabela D. |
 
-## B. Linha de base de acaso, precisão e F1 — VERSÃO FINAL (v3, 5 corpora, 630 grafos)
+## B. Controle determinístico, precisão e F1 — VERSÃO CORRIGIDA (v3, 5 corpora, 630 grafos)
 
 Números vigentes, com os agentes espelhados da produção **5263488** (registro de
 componentes completo) e recorte = gate por enunciado (100 %, sem exclusão):
 
-| corpus · braço | cobertura | base (papagaio) | **ajustada** | precisão | **F1** | íntegro obs/base |
+| corpus · braço | cobertura | controle (papagaio) | **ajustada** | precisão | **F1** | íntegro obs/controle |
 |---|---|---|---|---|---|---|
-| 6.17 · flash-lite | 0,778 | 0,524 | 0,424 | 0,866 | 0,813 | 0,125 / 0,056 |
-| 6.17 · qwen | 0,941 | 0,563 | **0,858** | 0,790 | 0,852 | 0,764 / 0,167 |
-| 6.19 · flash-lite | 0,725 | 0,380 | 0,480 | 0,779 | 0,738 | 0,145 / 0,000 |
-| 6.19 · qwen | 0,728 | 0,406 | 0,463 | 0,740 | 0,726 | 0,072 / 0,000 |
-| 6.18 · flash-lite | 0,961 | 0,417 | 0,933 | 0,619 | 0,748 | 0,883 / 0,000 |
-| 6.18 · qwen | 0,989 | 0,417 | **0,975** | 0,546 | 0,700 | 0,967 / 0,000 |
-| 6.20 · flash-lite | 0,919 | 0,421 | 0,860 | 0,803 | 0,855 | 0,596 / 0,000 |
-| 6.20 · qwen | 0,933 | 0,442 | 0,877 | 0,748 | 0,827 | 0,667 / 0,000 |
-| 8.12 · flash-lite | 0,087 | 0,123 | **−0,042** | 0,449 | 0,191 | 0,000 / 0,000 |
-| 8.12 · qwen | 0,300 | 0,192 | 0,134 | 0,772 | 0,427 | 0,000 / 0,000 |
+| 6.17 · flash-lite | 0,778 | 0,500 | 0,462 | 0,607 | 0,680 | 0,125 / 0,014 |
+| 6.17 · qwen | 0,941 | 0,535 | **0,871** | 0,651 | 0,761 | 0,764 / 0,083 |
+| 6.19 · flash-lite | 0,725 | 0,359 | 0,531 | 0,662 | 0,684 | 0,145 / 0,000 |
+| 6.19 · qwen | 0,728 | 0,406 | 0,463 | 0,413 | 0,522 | 0,072 / 0,000 |
+| 6.18 · flash-lite | 0,961 | 0,417 | 0,933 | 0,592 | 0,731 | 0,883 / 0,000 |
+| 6.18 · qwen | 0,989 | 0,417 | **0,975** | 0,415 | 0,581 | 0,967 / 0,000 |
+| 6.20 · flash-lite | 0,919 | 0,411 | 0,860 | 0,853 | 0,883 | 0,596 / 0,000 |
+| 6.20 · qwen | 0,933 | 0,442 | 0,877 | 0,643 | 0,761 | 0,667 / 0,000 |
+| 8.12 · flash-lite | 0,087 | 0,103 | **−0,019** | 0,452 | 0,144 | 0,000 / 0,000 |
+| 8.12 · qwen | 0,300 | 0,186 | 0,139 | 0,624 | 0,402 | 0,000 / 0,000 |
 
 **O caso que justifica a métrica**: no 8.12, o flash-lite tem cobertura ajustada
-**negativa** — fica ABAIXO do grafo papagaio. Sem linha de base, "0,087 de
-cobertura" leria como resultado positivo pequeno; com ela, o veredito correto é
-*indistinguível do acaso* (na verdade, pior). Nenhuma conclusão do experimento
-pode ser lida sem esta coluna.
+**negativa** — fica abaixo do controle papagaio. Sem a coluna de controle,
+"0,087 de cobertura" pareceria apenas um resultado positivo pequeno. Como o
+papagaio é determinístico, essa comparação **não** é um teste de acaso e não
+autoriza dizer "indistinguível do acaso"; ela mostra somente que o agente não
+superou esse controle negativo específico.
 
-### Tabela anterior (v2, 4 corpora) — preservada para rastreabilidade
+Precisão e F1 acima usam a régua simétrica corrigida em 20/08: o verdadeiro
+positivo é sempre a LCS 1:1, repetições preservam multiplicidade e o denominador
+da precisão contém todas as ocorrências comparáveis do agente. Os valores
+anteriores deduplicavam estados com `Set` e estavam inflados.
 
-| corpus · braço | cobertura obs. | **base (papagaio)** | **ajustada** | **precisão** | **F1** | íntegro obs./base |
+### Tabela anterior (v2, 4 corpora) — registro histórico, não usar em inferências
+
+| corpus · braço | cobertura obs. | **base (papagaio)** | **ajustada** | **precisão antiga (inválida)** | **F1 antigo (inválido)** | íntegro obs./base |
 |---|---|---|---|---|---|---|
 | 6.17 · flash-lite | 0,781 | 0,521 | 0,439 | 0,832 | 0,800 | 0,139 / 0,056 |
 | 6.17 · qwen | 0,938 | 0,563 | **0,856** | 0,828 | 0,868 | 0,750 / 0,167 |
@@ -56,31 +62,37 @@ pode ser lida sem esta coluna.
 | 6.20 · flash-lite | 0,926 | 0,421 | 0,874 | 0,808 | 0,861 | 0,632 / 0,000 |
 | 6.20 · qwen | 0,947 | 0,442 | 0,901 | 0,761 | 0,840 | 0,737 / 0,000 |
 
-Leituras que isto impõe ao artigo:
-1. **A cobertura bruta superestima**: 38–56 % dela é atingível sem decompor. A
-   métrica a reportar como principal passa a ser a **ajustada** (0,44–1,00) ou
-   o **F1** (0,71–0,87), com a bruta ao lado.
-2. **O caminho íntegro é a métrica robusta**: a base é 0,000 em 3 dos 4 corpora
-   (0,056–0,167 no 6.17). Um agente que o atinge não pode tê-lo feito por acaso.
-3. **A precisão revela o custo da verbosidade**: o qwen no 6.18 tem cobertura
-   1,000 e precisão 0,551 — metade dos estados que ele cria não existe na
-   referência. O F1 o coloca **abaixo** do flash-lite no 6.18 (0,707 vs 0,737),
-   invertendo a leitura que a cobertura sozinha sugeria.
+Os números de precisão/F1 desta tabela v2 foram produzidos pelo método com
+deduplicação por `Set`; são mantidos apenas para explicar documentos e commits
+antigos e **não são comparáveis** aos valores corrigidos da tabela vigente.
+
+Leituras que a tabela vigente impõe ao artigo:
+1. **A cobertura bruta precisa do controle ao lado**: o papagaio alcança
+   0,103–0,535 conforme a célula. Reportar cobertura, controle, ajustada e F1,
+   sem interpretar o controle determinístico como distribuição de acaso.
+2. **O caminho íntegro é mais resistente ao controle**: a base é 0,000 em
+   quatro corpora e 0,014–0,083 no 6.17.
+3. **A precisão revela o custo da verbosidade**: com a régua simétrica, o F1 do
+   qwen fica abaixo do flash-lite no 6.19 (0,522 vs 0,684), 6.18 (0,581 vs
+   0,731) e 6.20 (0,761 vs 0,883). No agregado por braço, os ICs de F1 se
+   sobrepõem: flash-lite 0,630 [0,615; 0,646] e qwen 0,609 [0,596; 0,623]; não
+   há base para declarar superioridade global de um braço por F1.
 
 ## C. Δ pareado ENTRE BRAÇOS (qwen − flash-lite; mesmo exercício × réplica)
 
 | corpus | cobertura | sem ordem | caminho íntegro | erros no estado certo |
 |---|---|---|---|---|
-| 6.17 | +0,156 [0,108; 0,194] | +0,021 [0,000; 0,052] | **+0,611 [0,417; 0,750]** | +0,377 [0,292; 0,455] |
-| 6.19 | +0,023 [−0,016; 0,088] | −0,012 [−0,054; 0,029] | −0,014 [−0,130; 0,101] | +0,295 [0,184; 0,413] |
-| 6.18 | +0,061 [0,028; 0,094] | +0,044 [0,017; 0,078] | +0,183 [0,083; 0,283] | N/A |
-| 6.20 | +0,021 [0,007; 0,039] | +0,021 [0,007; 0,039] | +0,105 [0,035; 0,193] | +0,327 [0,219; 0,428] |
+| 6.17 | +0,163 [0,115; 0,198] | +0,010 [−0,007; 0,035] | **+0,639 [0,444; 0,764]** | +0,330 [0,250; 0,409] |
+| 6.19 | +0,004 [−0,025; 0,043] | −0,027 [−0,059; 0,004] | **−0,072 [−0,159; −0,003]** | +0,251 [0,135; 0,357] |
+| 6.18 | +0,028 [−0,011; 0,067] | +0,022 [−0,011; 0,061] | +0,083 [−0,033; 0,200] | N/A |
+| 6.20 | +0,014 [−0,018; 0,039] | +0,014 [−0,018; 0,039] | +0,070 [−0,088; 0,193] | +0,292 [0,192; 0,387] |
+| 8.12 | +0,213 [0,188; 0,241] | +0,281 [0,254; 0,308] | 0,000 [0,000; 0,176] | +0,033 [0,017; 0,061] |
 
-**Correção de afirmação anterior**: "o braço qwen é melhor em tudo" vale para o
-6.17; nos demais o ganho estrutural é pequeno (+0,02 a +0,06) e no **6.19 a
-cobertura e o caminho íntegro NÃO diferem** (ICs cruzam zero, com o qwen
-nominalmente pior no íntegro). O que se sustenta em todos os corpora avaliáveis
-é a vantagem em **erros no estado certo** (+0,30 a +0,38).
+**Correção de afirmação anterior**: "o braço qwen é melhor em tudo" não é
+sustentável. Há ganho claro de cobertura no 6.17 e 8.12; no 6.19, 6.18 e 6.20
+o IC de cobertura cruza zero. No 6.19, o caminho íntegro é menor para o qwen.
+Erros no estado certo favorecem o qwen nos quatro corpora avaliáveis, com
+efeito grande em 6.17/6.19/6.20 e pequeno no 8.12.
 
 ## D. Contrafactual da régua — o que cada exclusão moveu (mesmos grafos)
 
@@ -157,11 +169,12 @@ corpora**. Arquivos: `contrafactual-*.json` por corpus e braço.
    recorte** e usa todos os grafos; some a objeção de "recorte escolhido depois
    de olhar os dados". Os gates por valor viram análise de sensibilidade.
 3. **Métrica principal passa a ser reportada em quatro colunas**: cobertura
-   bruta, linha de base, **ajustada** e **F1** (com precisão). O caminho íntegro
+   bruta, controle determinístico, **ajustada** e **F1** (com precisão). O caminho íntegro
    permanece a métrica mais robusta (base ≈0 em 4 dos 5 corpora).
-4. **Correção de afirmação**: "o braço qwen é melhor em tudo" vale para o 6.17 e
-   o 8.12; no 6.19 os ICs cruzam zero e, pelo **F1**, o qwen fica ABAIXO do
-   flash-lite em 6.18 (0,700 vs 0,748) e 6.20 (0,827 vs 0,855) — porque paga a
-   cobertura com perda de precisão. A afirmação sustentável é: *o braço com
-   alunos mais fortes cobre mais estados e acerta mais erros no estado certo, ao
-   custo de precisão; o balanço (F1) depende do corpus.*
+4. **Correção de afirmação**: "o braço qwen é melhor em tudo" não se sustenta.
+   Pelo **F1** corrigido, o qwen fica abaixo do flash-lite em 6.19 (0,522 vs
+   0,684), 6.18 (0,581 vs 0,731) e 6.20 (0,761 vs 0,883), e os ICs agregados de
+   F1 por braço se sobrepõem. A afirmação sustentável é: *o braço com alunos
+   mais fortes cobre mais estados em alguns corpora e acerta mais erros no
+   estado certo nos quatro corpora avaliáveis, ao custo de precisão; o balanço
+   (F1) é heterogêneo e não demonstra superioridade global.*

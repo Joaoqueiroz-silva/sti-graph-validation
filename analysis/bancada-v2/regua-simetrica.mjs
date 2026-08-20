@@ -35,10 +35,11 @@
  * passo continua ocupando a sua posição, some do casamento (canonAnswer vazio
  * nunca casa) e some do denominador da precisão (`.filter(Boolean)`).
  *
- * INVARIANTE, verificado por teste: o reparo pode mover APENAS a família da
- * precisão (precisaoEstados, f1Estados, e as contagens descritivas de estados
- * a mais). cobertura em ordem, cobertura sem ordem, caminho íntegro, erros no
- * estado certo e dicas no estado certo têm de sair IDÊNTICOS.
+ * INVARIANTE, verificado por teste: cobertura em ordem, cobertura sem ordem,
+ * caminho íntegro observado, erros no estado certo e dicas no estado certo têm
+ * de sair IDÊNTICOS. Precisão/F1 se movem; como o controle papagaio é pareado
+ * ao número de ocorrências comparáveis, sua cobertura e a cobertura ajustada
+ * também podem se mover.
  */
 import { ehValorUtilizavel } from "../validacao-v2/lib.mjs";
 

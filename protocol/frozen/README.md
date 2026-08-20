@@ -51,7 +51,7 @@ O comando deve confirmar os 219 caminhos. Uma ausência ou divergência é falha
 não deve ser corrigida alterando a tag; investigue o clone, o manifesto ou a procedência do
 arquivo.
 
-## Manifestos por versão do pacote (v6.0 congelado, v7.0 vivo)
+## Manifestos históricos v6.0 e v7.0
 
 Além do congelamento legado, este diretório guarda os manifestos de integridade POR VERSÃO
 do pacote:
@@ -63,10 +63,15 @@ do pacote:
   2026-07-20; `npm run manifest:v6:verify` contra a árvore ATUAL falha por desenho (a árvore
   não é mais a v6) — para auditar a v6.0, verifique-o contra um checkout descartável do
   commit do merge do PR #1, no mesmo espírito da verificação do legado acima.
-- `MANIFEST-v7.0.sha256` é o manifesto **vivo** da versão atual, mantido por
-  `npm run manifest:v7:write` (`scripts/verify-manifest-v7.mjs`) e verificado pelo gate
-  `manifest:v7:verify` dentro de `npm run verify:offline`. Ele cobre todo arquivo do
-  depósito visto pelo git, inclusive os 432 runs brutos da Campanha 5.
+- [`MANIFEST-v7.0.sha256`](MANIFEST-v7.0.sha256) é igualmente **histórico**. A
+  árvore e os scripts que ele descrevia foram reduzidos em 19–20/08/2026; por
+  isso ele contém caminhos hoje ausentes e não pode funcionar como gate da v0.5.
+  Ele é preservado sem regravação para não falsificar a trilha cronológica.
+
+O manifesto vivo da versão publicável atual fica fora desta pasta congelada:
+[`../MANIFEST-v0.5.sha256`](../MANIFEST-v0.5.sha256). `npm run manifest:verify`
+confere hashes e cobertura exata; `npm run manifest:write` só deve ser usado
+depois de revisar mudanças intencionais.
 
 ## Relação com a versão atual
 

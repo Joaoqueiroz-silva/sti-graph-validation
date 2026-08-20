@@ -297,20 +297,24 @@ coletados e materializados com os agentes espelhados da produção **5263488**,
 0 falhas. Custo total do bloco ≈ US$ 22.
 
 **Números para o artigo** (grafo materializado; todos os grafos — o gate por
-enunciado aprova 100 %; BCa 95 % em cluster de exercício):
+enunciado aprova 100 %; IC 95 % por bootstrap percentílico, estratificado por
+corpus e em cluster de exercício):
 
 | braço | cobertura em ordem | sem ordem | caminho íntegro | erros no estado certo |
 |---|---|---|---|---|
-| flash-lite | 0,702 [0,684; 0,719] | 0,820 | 0,337 [0,286; 0,387] | 0,272 (4 corpora) |
-| qwen | 0,786 [0,771; 0,800] | 0,895 | 0,495 [0,444; 0,543] | 0,506 [0,464; 0,547] (4 corpora) |
+| flash-lite | 0,702 [0,684; 0,719] | 0,777 [0,757; 0,796] | 0,337 [0,286; 0,387] | 0,272 [0,239; 0,307] (4 corpora) |
+| qwen | 0,786 [0,771; 0,800] | 0,831 [0,816; 0,845] | 0,495 [0,444; 0,543] | 0,506 [0,464; 0,547] (4 corpora) |
 
-**Mas a leitura primária mudou** (auditoria de 18/08): a cobertura é recall puro
-e um grafo "papagaio" atinge 0,12–0,56 dela. As colunas obrigatórias passam a
-ser **cobertura ajustada** ((obs−base)/(1−base)) e **F1** (com precisão) — ver
+**Mas a leitura primária mudou** (auditoria de 18/08, corrigida em 20/08): a
+cobertura é recall puro e um controle determinístico "papagaio" atinge
+0,10–0,53. As colunas obrigatórias passam a ser **cobertura ajustada**
+((obs−controle)/(1−controle)) e **F1** (com precisão) — ver
 `docs/AUDITORIA-CIENTIFICA-2026-08-18.md` §B, que traz a tabela completa por
 corpus. Fatos que só aparecem com elas: (i) no 8.12 o flash-lite fica **abaixo
-do papagaio** (ajustada −0,042); (ii) pelo F1, o qwen fica **abaixo** do
-flash-lite em 6.18 e 6.20, porque paga cobertura com precisão.
+do papagaio** (ajustada −0,019; isso não é um teste de acaso); (ii) pelo F1
+corrigido, o qwen fica **abaixo** do flash-lite em 6.19, 6.18 e 6.20, porque
+paga cobertura com precisão. No agregado, os ICs de F1 por braço se sobrepõem:
+flash-lite 0,630 [0,615; 0,646] e qwen 0,609 [0,596; 0,623].
 
 **Estrutura da tese empírica, em três níveis:**
 1. *Insumo* — dar ao agente o mesmo que o especialista teve (problema +
@@ -320,11 +324,13 @@ flash-lite em 6.18 e 6.20, porque paga cobertura com precisão.
    número de estados do especialista: 3–5 estados (6.18, 6.20) → cobertura
    0,92–0,99 e caminho íntegro 0,60–0,97; 24 estados (8.12) → 0,09–0,30 e
    caminho íntegro 0. É a fronteira do método.
-3. *Modelo dos alunos simulados* — o braço mais forte cobre mais e acerta mais
-   erros no estado certo, ao custo de precisão; o balanço depende do corpus.
+3. *Modelo dos alunos simulados* — o braço mais forte cobre mais em alguns
+   corpora e acerta mais erros no estado certo nos quatro corpora avaliáveis,
+   ao custo de precisão; o balanço é heterogêneo e não demonstra superioridade
+   global por F1.
 
 **Seções obrigatórias de método/limitação** (todas com fonte no repositório):
-linha de base e F1; tabela contrafactual da régua (`contrafactual-*.json`);
+controle determinístico, cobertura ajustada e F1; tabela contrafactual da régua (`contrafactual-*.json`);
 rótulo post hoc datado das quatro redefinições do denominador; gate por
 enunciado × por valores; envelope A derivado do `.brd`; ausência de banda
 humano–humano; multiplicidade descritiva; `maxTokens` do adaptador.

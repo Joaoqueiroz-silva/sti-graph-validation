@@ -16,6 +16,9 @@
  * MÉTRICAS (todas por registro; agregadas por exercício e por grafo):
  *  - coberturaEstados: estados da referência encontrados no grafo do agente NA
  *    MESMA ORDEM (subsequência ordenada; extras entre eles são permitidos);
+ *  - coberturaSemOrdem: interseção de multiconjuntos entre os estados da
+ *    referência e do agente. Cada ocorrência do agente só pode cobrir uma
+ *    ocorrência da referência (repetições não são reutilizadas);
  *  - caminhoIntegro: 1 se TODOS os estados da referência estão presentes em
  *    ordem (o caminho de referência é subcaminho do grafo do agente);
  *  - errosNoEstadoCerto: erros do especialista cujo valor aparece no grafo do
@@ -93,8 +96,8 @@ export function caminhoDeReferencia(envelopeB, refEx = null) {
   // valor = ação de ALUNO (não de sistema: setDisplay, set_maximum, No_Action…)
   // com entrada não mecânica. O envelope B (sem ação) fica como fallback.
   if (refEx && Array.isArray(refEx.caminho) && refEx.caminho.length) {
-    return refEx.caminho.map((c) => ({
-      ordem: c.ordem,
+    return refEx.caminho.map((c, i) => ({
+      ordem: Number.isInteger(c.ordem) ? c.ordem : i + 1,
       estado: c.valor,
       comResposta: !c.mecanico && !c.sistema,
       dicas: c.dicas || 0,
@@ -165,6 +168,32 @@ export function casarEstados(refCaminho, passosAgente, { materializar = false } 
   });
 }
 
+/**
+ * Conta o casamento máximo SEM ORDEM como interseção de multiconjuntos.
+ *
+ * Esta função é deliberadamente 1:1: se a referência contém [5, 5, 5] e o
+ * agente produz [5], há um único casamento, não três. A implementação
+ * anterior usava `Set` e reutilizava a mesma ocorrência do agente, inflando a
+ * cobertura de corpora com valores repetidos.
+ */
+export function contarEstadosSemOrdem(refCaminho, passosAgente, { materializar = false } = {}) {
+  const disponiveis = new Map();
+  for (const p of passosAgente || []) {
+    const valor = canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor);
+    if (valor) disponiveis.set(valor, (disponiveis.get(valor) || 0) + 1);
+  }
+  let casados = 0;
+  for (const r of refCaminho || []) {
+    if (!r.comResposta || !r.estado) continue;
+    const restantes = disponiveis.get(r.estado) || 0;
+    if (!restantes) continue;
+    casados++;
+    if (restantes === 1) disponiveis.delete(r.estado);
+    else disponiveis.set(r.estado, restantes - 1);
+  }
+  return casados;
+}
+
 /** Pontua UM registro (contrato v2) contra a referência (envelope B + itens de erro). */
 export function pontuarCaminho(run, envelopeB, refItens, { materializar = false } = {}) {
   // refItens: array de itens de erro (legado) OU o objeto REF[ex] { items, caminho } (multi-corpus)
@@ -178,14 +207,10 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
   ).length;
   const avaliaveis = cas.filter((c) => c.avaliavel);
   const casados = avaliaveis.filter((c) => c.agenteIdx !== null);
-  // cobertura SEM ORDEM (secundária, declarada 2026-08-15): o estado existe no
-  // grafo do agente, em qualquer posição. Separa "falta o estado" de "o estado
-  // está, mas noutra ordem" — a decisão de exigir a ordem do especialista é
-  // metodológica (do orientador); as duas leituras são reportadas.
-  const estadosAgenteSet = new Set(
-    passos.map((p) => canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor)).filter(Boolean)
-  );
-  const presentesSemOrdem = avaliaveis.filter((c) => estadosAgenteSet.has(c.ref.estado)).length;
+  // Cobertura SEM ORDEM: casamento 1:1 por multiplicidade. A ordem é ignorada,
+  // mas uma ocorrência do agente nunca pode explicar duas ocorrências da
+  // referência.
+  const presentesSemOrdem = contarEstadosSemOrdem(refCaminho, passos, { materializar });
 
   // Erros do especialista: valor + estado (passo da referência, 0-based na lib).
   // 2026-08-18: erro cuja aresta sai de um estado FORA do caminho de referência
@@ -236,11 +261,10 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
   ).length;
 
   // extras por tipo (o que o agente cria além do previsto)
-  const estadosRefSet = new Set(refCaminho.filter((r) => r.comResposta).map((r) => r.estado));
-  const estadosExtras = passos.filter((p) => {
-    const v = canonizarValor(materializar ? materializarRotulo(p.valor) : p.valor);
-    return v && !estadosRefSet.has(v);
-  }).length;
+  // Um estado comparável do agente que não entrou no mesmo casamento LCS usado
+  // pelo recall é um falso positivo estrutural. Isso preserva multiplicidade e
+  // ordem também na contagem descritiva de extras.
+  const estadosExtras = Math.max(0, rotulosConcretos - casados.length);
   const valoresRefErros = new Set(errosRef.map((e) => e.valor));
   const errosExtras = errosAgente.filter((e) => e.valor && !valoresRefErros.has(e.valor)).length;
   const dicasExtras = [...dicasAgentePorPasso.entries()].filter(([passo]) => {
@@ -255,6 +279,8 @@ export function pontuarCaminho(run, envelopeB, refItens, { materializar = false 
     replica: run.replica ?? null,
     nEstadosRef: avaliaveis.length,
     nEstadosAgente: passos.length,
+    nEstadosComparaveisAgente: rotulosConcretos,
+    nEstadosCasados: casados.length,
     rotulosConcretos, // quantos estados do agente têm valor comparável (declara a taxa de recuperação)
     coberturaEstados: avaliaveis.length ? casados.length / avaliaveis.length : 0,
     coberturaSemOrdem: avaliaveis.length ? presentesSemOrdem / avaliaveis.length : 0,

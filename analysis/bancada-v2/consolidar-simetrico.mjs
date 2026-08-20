@@ -7,8 +7,10 @@
  * exercício — o mesmo estimador do resto do experimento.
  *
  * Por construção (garantido por teste em __tests__/regua-simetrica.test.mjs)
- * cobertura, cobertura sem ordem, caminho íntegro, erros e dicas no estado
- * certo são IDÊNTICOS nas duas leituras. Só a família da precisão se move.
+ * cobertura observada, cobertura sem ordem, caminho íntegro observado, erros
+ * e dicas no estado certo são IDÊNTICOS nas duas leituras. Precisão/F1 e o
+ * controle papagaio pareado por capacidade comparável (logo, a cobertura
+ * ajustada) podem se mover.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -42,6 +44,7 @@ function intervaloEstratificado(linhas, { seed = 42, B = 10000 } = {}) {
 export function consolidarSimetrico(raiz = ".") {
   const tabela = [];
   const pool = { congelada: {}, simetrica: {} };
+  const poolPorBraco = {};
   let neutralizados = 0, passosTotais = 0;
   for (const c of CORPORA_JUIZ) {
     process.env.STI_DATASET = c.dataset;
@@ -69,6 +72,7 @@ export function consolidarSimetrico(raiz = ".") {
           for (const campo of CAMPOS) {
             if (v[campo] === null || v[campo] === undefined || !Number.isFinite(v[campo])) continue;
             ((pool[k][campo] ||= [])).push({ corpus: c.chave, ex, v: v[campo] });
+            ((((poolPorBraco[braco] ||= {})[k] ||= {})[campo] ||= [])).push({ corpus: c.chave, ex, v: v[campo] });
           }
         }
       }
@@ -79,6 +83,10 @@ export function consolidarSimetrico(raiz = ".") {
       tabela.push({
         corpus: c.chave, braco, n: linhas.congelada.length,
         cobertura: est("congelada", "coberturaEstados"),
+        baseCoberturaCongelada: est("congelada", "baseCobertura"),
+        baseCoberturaSimetrica: est("simetrica", "baseCobertura"),
+        coberturaAjustadaCongelada: est("congelada", "coberturaAjustada"),
+        coberturaAjustadaSimetrica: est("simetrica", "coberturaAjustada"),
         precisaoCongelada: est("congelada", "precisaoEstados"),
         precisaoSimetrica: est("simetrica", "precisaoEstados"),
         f1Congelado: est("congelada", "f1Estados"),
@@ -90,10 +98,27 @@ export function consolidarSimetrico(raiz = ".") {
   for (const [k, campos] of Object.entries(pool)) {
     agregado[k] = Object.fromEntries(Object.entries(campos).map(([campo, ls]) => [campo, intervaloEstratificado(ls)]));
   }
+  const agregadoPorBraco = {};
+  for (const [braco, reguas] of Object.entries(poolPorBraco)) {
+    agregadoPorBraco[braco] = {};
+    for (const [regua, campos] of Object.entries(reguas)) {
+      agregadoPorBraco[braco][regua] = Object.fromEntries(
+        Object.entries(campos).map(([campo, ls]) => [campo, intervaloEstratificado(ls)])
+      );
+    }
+  }
   return {
     gerado: new Date().toISOString(),
+    metodologia: {
+      unidade: "registro (grafo gerado)",
+      verdadeiroPositivo: "comprimento da LCS 1:1 entre estados de valor da referência e passos comparáveis do agente",
+      precisao: "TP / ocorrências comparáveis do agente (multiplicidade preservada; zero quando o agente não produz ocorrência comparável)",
+      cobertura: "TP / ocorrências avaliáveis da referência",
+      f1: "média harmônica da precisão e cobertura do mesmo registro; zero quando ambas são zero",
+      intervalo: "bootstrap percentílico estratificado por corpus, cluster de exercício, 10000 reamostragens, seed 42",
+    },
     reparo: { passosNeutralizados: neutralizados, passosTotais, taxa: neutralizados / passosTotais },
-    tabela, agregado,
+    tabela, agregado, agregadoPorBraco,
   };
 }
 
@@ -102,15 +127,22 @@ if (ehMain) {
   const R = consolidarSimetrico(".");
   const f = (x) => (x === null || x === undefined ? " N/A " : x.toFixed(4));
   console.log(`\nREPARO: ${R.reparo.passosNeutralizados} de ${R.reparo.passosTotais} passos neutralizados (${(100 * R.reparo.taxa).toFixed(1)}%)\n`);
-  console.log("corpus | braço          |  cobertura | precisão cong.→sim. |    F1 cong.→sim.");
+  console.log("corpus | braço          | cobertura | controle cong.→sim. | ajustada cong.→sim. | precisão cong.→sim. | F1 cong.→sim.");
   for (const l of R.tabela)
-    console.log(`${l.corpus}   | ${l.braco.padEnd(14)} |  ${f(l.cobertura)}  |  ${f(l.precisaoCongelada)} → ${f(l.precisaoSimetrica)}  |  ${f(l.f1Congelado)} → ${f(l.f1Simetrico)}`);
+    console.log(`${l.corpus}   | ${l.braco.padEnd(14)} | ${f(l.cobertura)} | ${f(l.baseCoberturaCongelada)} → ${f(l.baseCoberturaSimetrica)} | ${f(l.coberturaAjustadaCongelada)} → ${f(l.coberturaAjustadaSimetrica)} | ${f(l.precisaoCongelada)} → ${f(l.precisaoSimetrica)} | ${f(l.f1Congelado)} → ${f(l.f1Simetrico)}`);
   console.log("\nAGREGADO (pool, bootstrap percentílico estratificado, cluster = exercício)");
   for (const campo of CAMPOS) {
     const a = R.agregado.congelada[campo], b = R.agregado.simetrica[campo];
     const ic = (x) => (x ? `${x.estimativa.toFixed(4)} [${x.ic[0].toFixed(4)}; ${x.ic[1].toFixed(4)}]` : "N/A");
     const igual = a && b && Math.abs(a.estimativa - b.estimativa) < 1e-12;
     console.log(`  ${campo.padEnd(20)} congelada ${ic(a).padEnd(30)} simétrica ${ic(b)}${igual ? "   (idênticas)" : ""}`);
+  }
+  console.log("\nPOR BRAÇO (régua simétrica)");
+  for (const braco of BRACOS) {
+    const a = R.agregadoPorBraco[braco]?.simetrica;
+    if (!a) continue;
+    const ic = (x) => (x ? `${x.estimativa.toFixed(4)} [${x.ic[0].toFixed(4)}; ${x.ic[1].toFixed(4)}]` : "N/A");
+    console.log(`  ${braco.padEnd(20)} precisão ${ic(a.precisaoEstados)} | F1 ${ic(a.f1Estados)}`);
   }
   // somente leitura por padrão (2026-08-20): este comando está no README e
   // não deve sujar a árvore de quem só quer conferir. Use --escrever.

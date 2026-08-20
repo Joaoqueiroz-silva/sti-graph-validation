@@ -1,5 +1,13 @@
 # Prompt para reescrever o artigo com os resultados de 19/08/2026
 
+> **SUPERADO EM 20/08/2026. NÃO EXECUTAR.** A Parte 1 abaixo usa a antiga
+> precisão deduplicada por `Set` e, portanto, traz precisão/F1 inflados. A
+> fonte vigente é `resultados/juizo-2026-08-19/RESULTADOS.md`: régua simétrica
+> corrigida, precisão 0,5901 [0,5768; 0,6038] e F1 0,6198
+> [0,6088; 0,6307]. A afirmação histórica abaixo de que controle/ajustada não
+> mudavam também foi superada: na régua simétrica eles são 0,3847 e 0,6088,
+> respectivamente. Este arquivo permanece apenas como trilha cronológica.
+
 Cole isto no Claude, com o repositório `sti-graph-validation` e o arquivo do
 artigo em mãos.
 

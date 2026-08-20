@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * scripts/reproduce-collect.mjs - RE-COLETA paga do experimento final da
- * Campanha 5 como benchmark (npm run reproduce:collect). Este é o ÚNICO
- * caminho de reprodução que gera custo; reproduce:verify é grátis e offline.
+ * experimento com chamadas novas (npm run reproduce:collect). Este é o ÚNICO
+ * caminho de reprodução que gera custo; verify:offline é grátis e offline.
  *
  * O que ele faz, na mesma régua do experimento depositado:
  *   1. lê o dataset congelado datasets/frac-numberline-6.17 (24 problemas);
@@ -13,9 +13,9 @@
  *   3. compara com o envelope-b (compareGraphs + functionalEquivalence,
  *      intocados) e grava cada run no MESMO formato flat de
  *      resultados/campanha5-2026-07-19/<braço>/runs/;
- *   4. agrega com bootstrap por cluster (10k, seed 42) e imprime a comparação
- *      com o summary.json depositado do braço final, métrica a métrica, com o
- *      critério de replicação: os ICs por cluster se sobrepõem?
+ *   4. agrega com bootstrap por cluster (10k, seed 42). Uma comparação com
+ *      outro summary é opcional via --reference-summary; sem essa flag, o
+ *      coletor não depende de artefatos históricos removidos da árvore.
  *
  * SEM FALLBACK SILENCIOSO DE MODELO: o fallback de emergência do cliente LLM é
  * fixado no MESMO modelo resolvido (retry, nunca troca de modelo) e, ao final,
@@ -29,14 +29,13 @@
  * { correctPath, misconceptions, hints } no schema do pacote. O harness aplica
  * findLeaksInRobotInput sobre o input entregue ao adaptador (envelope-b JAMAIS
  * entra) e os mesmos filtros pós-parse do simulador default. Ver
- * benchmark/ADAPTADOR.md.
+ * O caminho informado deve existir e exportar `simulate` (ou `default`).
  *
  * Uso:
  *   npm run reproduce:collect -- --yes                     (24 x 3, ~US$ 4)
  *   npm run reproduce:collect -- --problems 1 --replicas 1 --yes   (smoke)
- *   npm run reproduce:collect -- --adapter benchmark/adapter-exemplo.mjs
  *   Flags: --problems N  --replicas R  --yes  --adapter caminho.mjs
- *          --out DIR  --allow-model-override
+ *          --out DIR  --reference-summary summary.json --allow-model-override
  *          --perfil <nome>          troca TODOS os modelos (config/modelos.json)
  *          --modelo <agente>=<id>   troca UM agente (repetível)
  *          --plano                  só imprime o plano/custo/mapa resolvido e sai
@@ -57,7 +56,6 @@ import { pathToFileURL } from "node:url";
 import {
   REPO,
   DATASET_DIR,
-  FINAL_ARM_DIR,
   readJson,
   readRuns,
   aggregateRuns,
@@ -90,6 +88,7 @@ function parseArgs(argv) {
     fluxo: "campanha5",
     passosLivres: false,
     interfaceFixa: false,
+    referenceSummary: null,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -105,6 +104,7 @@ function parseArgs(argv) {
     else if (a === "--fluxo") out.fluxo = argv[++i];
     else if (a === "--passos-livres") out.passosLivres = true;
     else if (a === "--interface-fixa") out.interfaceFixa = true;
+    else if (a === "--reference-summary") out.referenceSummary = argv[++i];
     else {
       console.error(`Flag desconhecida: ${a}`);
       process.exit(1);
@@ -131,8 +131,13 @@ function parseArgs(argv) {
 
 function freshOutDir(base) {
   const stamp = new Date().toISOString().slice(0, 10);
-  let dir = base || path.join(REPO, "resultados", `reproducao-${stamp}`);
-  if (base) return dir;
+  let dir = base ? path.resolve(process.cwd(), base) : path.join(REPO, "resultados", `reproducao-${stamp}`);
+  if (base) {
+    if (fs.existsSync(dir) && (!fs.statSync(dir).isDirectory() || fs.readdirSync(dir).length)) {
+      throw new Error(`--out deve apontar para diretório novo ou vazio; recusando sobrescrever ${dir}`);
+    }
+    return dir;
+  }
   let n = 2;
   while (fs.existsSync(dir)) dir = path.join(REPO, "resultados", `reproducao-${stamp}-${n++}`);
   return dir;
@@ -204,7 +209,7 @@ async function main() {
     const mod = await import(pathToFileURL(adapterPath).href);
     adapter = mod.simulate || mod.default;
     if (typeof adapter !== "function") {
-      console.error("O adaptador deve exportar uma função `simulate` (ou default). Ver benchmark/ADAPTADOR.md.");
+      console.error("O adaptador deve exportar uma função assíncrona `simulate` (ou default).");
       process.exit(1);
     }
     const crypto = await import("node:crypto");
@@ -249,7 +254,7 @@ async function main() {
     if (!process.env.OPENROUTER_API_KEY && !args.plano) {
       console.error(
         "\nERRO: OPENROUTER_API_KEY ausente. Copie .env.example para .env e preencha a chave " +
-          "(https://openrouter.ai/keys). reproduce:verify continua disponível sem chave e sem custo."
+          "(https://openrouter.ai/keys). npm run verify:offline continua disponível sem chave e sem custo."
       );
       process.exit(1);
     }
@@ -302,6 +307,29 @@ async function main() {
     .filter((d) => fs.existsSync(path.join(DATASET_DIR, "problems", d, "envelope-a.json")))
     .sort()
     .slice(0, args.problems);
+  if (!problemIds.length) {
+    throw new Error(`nenhum problema com envelope-a encontrado em ${path.join(DATASET_DIR, "problems")}`);
+  }
+  // PREFLIGHT COMPLETO antes de qualquer chamada paga. Envelope B e arquivos
+  // de saída são usados apenas depois da resposta da API; verificá-los aqui
+  // evita gastar e descobrir uma dependência local ausente somente no final.
+  for (const id of problemIds) {
+    for (const nome of ["envelope-a.json", "envelope-b.json"]) {
+      const arquivo = path.join(DATASET_DIR, "problems", id, nome);
+      if (!fs.existsSync(arquivo)) throw new Error(`preflight: dependência ausente ${arquivo}`);
+      readJson(arquivo); // valida também a sintaxe JSON
+    }
+  }
+  const outDir = freshOutDir(args.out);
+  const referencePath = args.referenceSummary ? path.resolve(process.cwd(), args.referenceSummary) : null;
+  let deposited = null;
+  if (referencePath) {
+    if (!fs.existsSync(referencePath)) throw new Error(`preflight: --reference-summary ausente: ${referencePath}`);
+    deposited = readJson(referencePath);
+    if (!deposited?.metrics || typeof deposited.metrics !== "object") {
+      throw new Error(`preflight: --reference-summary não contém objeto metrics: ${referencePath}`);
+    }
+  }
   const totalRuns = problemIds.length * args.replicas;
   const chamadasPorRun = args.fluxo === "plataforma" ? 3 : 1;
   console.log(`\n${line}\nPLANO DA COLETA`);
@@ -345,7 +373,6 @@ async function main() {
   console.log(line);
 
   // ── saída datada + manifesto de chamadas dentro dela ─────────────────────
-  const outDir = freshOutDir(args.out);
   fs.mkdirSync(path.join(outDir, "runs"), { recursive: true });
   const runId = `reproducao-${new Date().toISOString().replace(/[:.]/g, "-")}`;
   if (!args.adapter) {
@@ -574,14 +601,13 @@ async function main() {
     console.log(`\n✓ manifesto auditado: ${manifestNote}`);
   }
 
-  // ── agregação + comparação com o depositado ──────────────────────────────
+  // ── agregação + comparação opcional com referência ──────────────────────
   const runs = readRuns(path.join(outDir, "runs"));
   if (!runs.length) {
     console.error("\nNenhum run coletado com sucesso; nada a agregar.");
     process.exit(1);
   }
   const metrics = aggregateRuns(runs);
-  const deposited = readJson(path.join(FINAL_ARM_DIR, "summary.json"));
   const summary = {
     arm: path.basename(outDir),
     description: args.adapter
@@ -614,20 +640,15 @@ async function main() {
         runsOk: runs.length,
         falhas: failures,
         manifesto: manifestNote,
-        referencia: "resultados/campanha5-2026-07-19/6-final-megabrain/summary.json",
+        referencia: referencePath ? path.relative(REPO, referencePath) : null,
       },
       null,
       1
     )
   );
 
-  console.log(`\n${line}\nCOMPARAÇÃO COM O DEPOSITADO (braço 6-final-megabrain, 24 x 3)`);
-  console.log(
-    "critério de replicação (LLM estocástico): sobreposição dos IC95% por cluster, não igualdade pontual"
-  );
-  console.log(line);
   const LABELS = {
-    recallMisconceptionsConceptual: "completude conceitual (primária)*",
+    recallMisconceptionsConceptual: "completude conceitual",
     conceptual: "F1 conceitual",
     recall: "completude estrita",
     precision: "precisão",
@@ -635,32 +656,33 @@ async function main() {
     functionalAgreement: "concordância funcional bruta",
     functionalKappa: "kappa funcional (registro)",
   };
-  let overlaps = 0;
-  const comparable = Object.keys(LABELS);
-  for (const key of comparable) {
-    const a = metrics[key];
-    const d = deposited.metrics[key];
-    const ok = ciOverlap(a, d);
-    if (ok) overlaps++;
-    console.log(
-      ` ${(ok ? "✓" : "✗").padEnd(1)} ${LABELS[key].padEnd(34)} nova ${fmt3(a.mean)} [${fmt3(a.lower)}; ${fmt3(a.upper)}]` +
-        `  vs depositada ${fmt3(d.mean)} [${fmt3(d.lower)}; ${fmt3(d.upper)}]  ${ok ? "ICs se sobrepõem" : "SEM sobreposição"}`
-    );
+  if (deposited) {
+    console.log(`\n${line}\nCOMPARAÇÃO COM ${referencePath}`);
+    console.log("critério descritivo para LLM estocástico: sobreposição dos IC95% por cluster, não igualdade pontual");
+    console.log(line);
+    let overlaps = 0;
+    const comparable = Object.keys(LABELS).filter((key) => deposited.metrics[key]);
+    for (const key of comparable) {
+      const a = metrics[key];
+      const d = deposited.metrics[key];
+      const ok = ciOverlap(a, d);
+      if (ok) overlaps++;
+      console.log(
+        ` ${(ok ? "✓" : "✗").padEnd(1)} ${LABELS[key].padEnd(34)} nova ${fmt3(a.mean)} [${fmt3(a.lower)}; ${fmt3(a.upper)}]` +
+          `  vs referência ${fmt3(d.mean)} [${fmt3(d.lower)}; ${fmt3(d.upper)}]  ${ok ? "ICs se sobrepõem" : "SEM sobreposição"}`
+      );
+    }
+    console.log(line);
+    console.log(`${overlaps}/${comparable.length} métricas comparáveis com sobreposição de IC.`);
+  } else {
+    console.log("\nSem --reference-summary: summary novo calculado; nenhuma comparação histórica foi presumida.");
   }
-  console.log(line);
-  console.log(
-    "* na coluna nova, a completude conceitual é a reconstrução por chaves canônicas do pacote;"
-  );
-  console.log(
-    "  na depositada, o valor preservado da coleta (a reconstrução fica até 0,006 abaixo dele; ver docs/REPRODUCAO-V7.md)."
-  );
   if (runs.length < 72) {
     console.log(
       `nota: n=${runs.length} run(s) (${problemIds.length} problema(s) x ${args.replicas}); ` +
         "com menos de 24 problemas x 3 réplicas a comparação é ILUSTRATIVA, não uma replicação."
     );
   }
-  console.log(`\n${overlaps}/${comparable.length} métricas com sobreposição de IC.`);
   if (failures.length) {
     console.error(`\n✗ ${failures.length} run(s) falharam (listados em meta.json).`);
     process.exit(1);

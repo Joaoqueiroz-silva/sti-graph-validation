@@ -15,7 +15,12 @@
   "scripts": {
     "test": "vitest run",
     "links:check": "node scripts/check-local-links.mjs",
-    "verify:offline": "npm test && npm run links:check",
+    "results:verify": "node scripts/verify-derived-results.mjs",
+    "mirror:verify": "node scripts/espelhar-producao.mjs --verify",
+    "artifacts:check": "node scripts/check-public-artifacts.mjs",
+    "manifest:verify": "node scripts/verify-current-manifest.mjs",
+    "manifest:write": "node scripts/verify-current-manifest.mjs --write",
+    "verify:offline": "npm test && npm run links:check && npm run results:verify && npm run mirror:verify && npm run artifacts:check && npm run manifest:verify",
     "reproduce:collect": "node -r dotenv/config scripts/reproduce-collect.mjs",
     "c3:reanalyze": "node analysis/reanalyze-c3.mjs",
     "materialize": "node materialize-dataset.mjs cases/ctat-6.17 --name frac-numberline-6.17",

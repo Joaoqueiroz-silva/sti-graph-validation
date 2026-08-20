@@ -20,9 +20,9 @@ cada afirmação do artigo**, mais abaixo, aponta o caminho de cada uma.
 Nenhum deles exige chave de API: todas as análises consomem dados já coletados.
 
 ```bash
-npm install
-npm test                                          # 526 testes: a régua, os invariantes, a simetria
-node analysis/bancada-v2/consolidar-corpora.mjs   # a tabela-mestra do artigo
+npm ci
+npm run verify:offline                            # testes + resultados + hashes + privacidade
+node analysis/bancada-v2/consolidar-corpora.mjs   # imprime a tabela-mestra sem alterar arquivos
 ```
 
 Os comandos de análise são **somente leitura**: não alteram nada no repositório.
@@ -31,7 +31,7 @@ Para regravar um arquivo de resultado, use `--escrever`.
 **As demais tabelas** saem dos consolidadores, que também rodam sem argumento:
 
 ```bash
-node analysis/bancada-v2/consolidar-simetrico.mjs  # Tabela 2: precisão e F1, régua congelada x simétrica
+node analysis/bancada-v2/consolidar-simetrico.mjs  # precisão/F1 1:1, régua congelada x simétrica
 node analysis/bancada-v2/consolidar-dicas.mjs      # Tabela 5: comparação de dicas, pool por braço
 node scripts/espelhar-producao.mjs --verify        # espelho da produção: 85 arquivos hasheados
 ```
@@ -42,7 +42,7 @@ os consolidadores acima; use-as para conferir uma célula específica das tabela
 ```bash
 DIR=resultados/rodada4-interface-fixa-2026-08-15/materializado-v3-fixa-estudantes-qwen
 
-node analysis/bancada-v2/linha-de-base.mjs       --mat $DIR   # linha de base, precisão e F1 daquele corpus x braço
+node analysis/bancada-v2/linha-de-base.mjs       --mat $DIR   # controle, precisão e F1; régua simétrica por padrão
 node analysis/bancada-v2/contrafactual-regua.mjs --mat $DIR   # Tabela 3: efeito de cada exclusão da régua
 node analysis/bancada-v2/comparar-dicas.mjs      --mat $DIR   # dicas daquele corpus x braço
 node analysis/bancada-v2/analisar-materializado.mjs --mat $DIR  # métricas da régua e gates
@@ -58,8 +58,19 @@ A versão `v3` é a vigente — `v1` e `v2` ficam para a comparação de versão
 > **bibliotecas**, não comandos: contêm a régua que os scripts acima importam.
 > Rodá-los diretamente não produz saída.
 
-**Recoletar os grafos do zero** (exige `OPENROUTER_API_KEY` e custa dinheiro):
-`scripts/reproduce-collect.mjs` e as cadeias em `scripts/cadeia-*.sh`.
+**Recoletar os grafos do zero** exige `OPENROUTER_API_KEY`, custa dinheiro e
+sempre grava em diretório novo. O preflight valida envelopes A/B, JSONs,
+referência opcional e saída antes da primeira chamada:
+
+```bash
+npm run reproduce:collect -- --plano --problems 1 --replicas 1
+npm run reproduce:collect -- --problems 1 --replicas 1 --yes --out /tmp/sti-smoke
+```
+
+Para uma cadeia multicorpus portável, defina um destino novo, por exemplo
+`STI_RECOLLECT_ROOT=/tmp/sti-recoleta scripts/cadeia-812.sh`. Os scripts não
+escrevem sobre os resultados depositados. Uma comparação externa só é feita
+quando `--reference-summary <arquivo>` é informado explicitamente.
 
 ---
 
@@ -87,7 +98,7 @@ A versão `v3` é a vigente — `v1` e `v2` ficam para a comparação de versão
 | `analysis/validacao-v2/` | A leitura do `.brd` e a carga da referência |
 | `producao/` | Espelho byte a byte dos agentes que geraram os grafos, com manifesto SHA-256 |
 | `docs/` | Pré-registros, auditoria, guia metodológico e catálogo dos pacotes |
-| `__tests__/` | 526 testes: régua, invariantes, anti-vazamento e simetria |
+| `__tests__/` | 537 testes: régua, multiplicidade, coerência algébrica, invariantes, preflight de recoleta, anti-vazamento e simetria |
 | `scripts/` | Coleta, materialização e verificação do espelho |
 | `cases/`, `battery/`, `protocol/`, `production-fidelity/`, `config/`, `answer-key/` | Fixtures e protocolos da suíte de testes — **não são resultados do artigo** |
 
@@ -122,9 +133,15 @@ Ficam na raiz porque a suíte e as análises os importam por caminho relativo.
 
 Três coisas que o artigo declara e que valem para quem for conferir:
 
-**Cobertura nunca aparece sozinha.** Um grafo "papagaio", que só repete os números
-do enunciado, já atinge 12% a 56% de cobertura conforme o corpus. Por isso toda
+**Cobertura nunca aparece sozinha.** O controle determinístico "papagaio", que
+só repete os números do enunciado, com a mesma quantidade de ocorrências
+comparáveis do agente, atinge 10% a 54% de cobertura conforme a célula. Por isso toda
 cobertura vem acompanhada de linha de base, cobertura ajustada, precisão ou F1.
+
+**Precisão e cobertura compartilham o mesmo numerador.** O TP é a LCS 1:1;
+repetições mantêm multiplicidade, e a cobertura sem ordem é a interseção de
+multiconjuntos. Isso impede reutilizar uma única ocorrência para justificar
+vários estados da referência.
 
 **As decisões pós-dados estão rotuladas como tais**, e a Tabela 3 mostra o efeito
 de cada exclusão da régua sobre o resultado.
@@ -145,3 +162,8 @@ e a proveniência do corpus em [`PROVENANCE.md`](PROVENANCE.md).
 Material das rodadas exploratórias que o artigo não usa foi removido da árvore em
 19 e 20/08/2026 e **permanece integralmente no histórico git** — nenhuma
 reescrita de histórico foi feita.
+
+O manifesto da árvore publicável atual é
+[`protocol/MANIFEST-v0.5.sha256`](protocol/MANIFEST-v0.5.sha256); `npm run
+manifest:verify` exige hashes e cobertura exatos. Os manifestos `v6.0` e `v7.0`
+em `protocol/frozen/` são exclusivamente históricos.
