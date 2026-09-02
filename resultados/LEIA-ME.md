@@ -12,6 +12,7 @@ testes. O ponto de entrada do repositório é o [`README.md`](../README.md) da r
 | [`rodada3-passos-livres-2026-08-15/`](rodada3-passos-livres-2026-08-15/) | O mesmo corpus **sem** a interface — o braço de contraste que mede o efeito dela |
 | [`bloco1-mathtutor-2026-08-16/`](bloco1-mathtutor-2026-08-16/) | Corpora 6.18, 6.19, 6.20 e 8.12, um subdiretório por corpus; e `7.12/`, preparado e congelado fora de todas as tabelas |
 | [`EXPERIMENTO-CONSOLIDADO-2026-08/`](EXPERIMENTO-CONSOLIDADO-2026-08/) | Os 5 corpora sob a mesma régua: a tabela-mestra e os agregados por braço |
+| [`nove-corpora-2026-08-24/`](nove-corpora-2026-08-24/) | Campanha de 24/08 nos nove corpora instalados: 16 braços, 106 problemas distintos, três réplicas cada. Traz o efeito pareado da tela por corpus, o contraste entre modelo pequeno e modelo forte, e as duas anomalias com causa investigada (6.17 e 7.12) |
 | [`juizo-2026-08-19/`](juizo-2026-08-19/) | Comparação de dicas (régua determinística e juiz cego), reparo de simetria da régua de estados e os incidentes de execução; `reprovados-no-gate/` guarda os juízes que falharam a calibração e `descartado/` o que foi descartado por contaminação |
 
 ## Referência e fixtures
